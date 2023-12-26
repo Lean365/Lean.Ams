@@ -1,0 +1,16 @@
+{
+  "pnotice": {
+    "notice": "公告",
+    "noticeId": "ID",
+    "noticeTitle": "公告標題",
+    "noticeType": "類型",
+    "noticeContent": "內容",
+    "isState": "狀態",
+    "createBy": "建立者",
+    "createTime": "建立日期",
+    "UpdateBy": "修改者",
+    "UpdateTime": "修改日期",
+    "remark": "備註",
+    "noticeSend": "通知發送成功"
+  }
+}

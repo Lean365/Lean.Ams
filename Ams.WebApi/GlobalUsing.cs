@@ -1,0 +1,11 @@
+﻿global using Ams.Common;
+global using Microsoft.AspNetCore.Authorization;
+global using Ams.Infrastructure;
+global using Ams.Infrastructure.Attribute;
+global using Ams.Infrastructure.Enums;
+global using Ams.Infrastructure.Model;
+global using Mapster;
+global using Ams.Infrastructure.Extensions;
+global using Ams.Infrastructure.Controllers;
+global using Ams.Kernel.Middleware;
+global using Ams.Kernel.Services;

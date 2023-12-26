@@ -1,0 +1,16 @@
+{
+  "pnotice": {
+    "notice": "Notice",
+    "noticeId": "ID",
+    "noticeTitle": "Title",
+    "noticeType": "Type",
+    "noticeContent": "Content",
+    "isState": "State",
+    "createBy": "Creator",
+    "createTime": "Creationdate",
+    "UpdateBy": "Modifier",
+    "UpdateTime": "Modificationdate",
+    "remark": "Remarks",
+    "noticeSend": "Notification sent successfully"
+  }
+}

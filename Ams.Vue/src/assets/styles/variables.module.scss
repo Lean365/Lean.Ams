@@ -1,0 +1,67 @@
+// base color
+$blue: #324157;
+$light-blue: #3a71a8;
+$red: #c03639;
+$pink: #e65d6e;
+$green: #30b08f;
+$tiffany: #4ab7bd;
+$yellow: #fec171;
+$panGreen: #30b08f;
+
+// 默认菜单主题风格
+:root {
+  --base-text-color-rgba: rgba(0, 0, 0, 0.85);
+  --base-menu-background: #fff;
+  --base-sidebar-width: 220px;
+  // 左侧菜单宽度
+  --el-aside-width: 220px;
+  //底部高度
+  --base-footer-height: 30px;
+  --base-tags-height: 34px;
+  --base-header-height: 50px;
+  //登录框宽度
+  --base-login-width: 360px;
+
+  // 侧边栏图标大小
+  --el-menu-icon-width: 14px;
+}
+
+/***侧边栏深色配置***/
+[data-theme='theme-dark'] {
+  --base-menu-background: #324157;
+  --base-logo-title-color: #ffffff;
+  // // el-ement ui 设置
+  // --el-fill-color-blank: #304156;
+  --el-text-color-primary: #e5eaf3;
+  --el-menu-text-color: var(--el-text-color-primary);
+}
+// 黑色主题
+html.dark {
+  /* custom dark bg color */
+  // --el-bg-color: #141414;
+  --base-color-white: #ffffff;
+  --base-text-color-rgba: #ffffff;
+  --base-menu-background: #000;
+
+  // vxe-table黑色样式
+  --vxe-font-color: #98989e;
+  --vxe-primary-color: #2c7ecf;
+  --vxe-icon-background-color: #98989e;
+  --vxe-table-font-color: #98989e;
+  --vxe-table-resizable-color: #95969a;
+  --vxe-table-header-background-color: #28282a;
+  --vxe-table-body-background-color: #151518;
+  --vxe-table-background-color: #4a5663;
+  --vxe-table-border-width: 1px;
+  --vxe-table-border-color: #37373a;
+
+  .current-row {
+    color: #e65d6e;
+  }
+}
+html.cafe {
+  filter: sepia(0.9) hue-rotate(315deg) brightness(0.9);
+}
+html.contrast {
+  filter: contrast(2);
+}

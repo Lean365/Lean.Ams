@@ -1,0 +1,16 @@
+{
+  "pnotice": {
+    "notice": "お知らせ",
+    "noticeId": "ID",
+    "noticeTitle": "タイトル",
+    "noticeType": "タイプ",
+    "noticeContent": "コンテンツ",
+    "isState": "状態",
+    "createBy": "作成者",
+    "createTime": "作成日",
+    "UpdateBy": "モディファイア",
+    "UpdateTime": "更新日",
+    "remark": "備考",
+    "noticeSend": "お知らせが送信されました"
+  }
+}

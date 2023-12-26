@@ -1,0 +1,16 @@
+{
+  "pabout": {
+    "account": "アカウント",
+    "password": "パスワード",
+    "captcha": "認証コード",
+    "btnLogin": "ログイン",
+    "rememberMe": "パスワードを記憶する",
+    "loginSuccess": "ログイン成功",
+    "loginTimeOut": "ログインステータスが期限切れの場合は再ログインしてください",
+    "reLogin": "再ログイン",
+    "invalidSession": "無効なセッションまたはセッションが期限切れになっている場合は再ログインしてください。",
+    "otherLoginWay": "その他のログイン方法",
+    "register": "今すぐ登録",
+    "forgotPwd": "パスワードを忘れる"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "ponline": {
+    "forceLogoutAll": "すべて終了",
+    "viewSwitchGrid": "グリッド",
+    "viewSwitchCard": "カード",
+    "reFresh": "リフレッシュ",
+    "userName": "ユーザー名",
+    "sessiOnnumber": "セッション番号",
+    "userIP": "IPアドレス",
+    "loginLocation": "場所",
+    "operatingSystem": "OS",
+    "LoginBrowser": "ブラウザ",
+    "LoginDevice": "デバイス",
+    "loginTime": "時刻",
+    "OnlineDuration": "オンライン期間:",
+    "TimeUnit": "分",
+    "Notice": "お知らせ",
+    "forceLogout": "終了",
+    "LoginPlatform": "ログインプラットフォーム",
+    "notificationContent": "内容を入力してください",
+    "send": "送信",
+    "cancel": "キャンセル",
+    "empty": "メッセージの内容を空にすることはできません",
+    "forceReason": "強制撤回の理由を入力してください",
+    "forceExit": "確認意志 '",
+    "user": "' ユーザー終了?",
+    "deleteMessage": "削除に成功しました",
+    "mesgTips": "to '",
+    "mesguserTips": "' メッセージを送る",
+    "forceSuccess": "ForceSuccess"
+  }
+}

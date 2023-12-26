@@ -1,0 +1,106 @@
+using Microsoft.AspNetCore.Mvc;
+using Ams.Kernel.Filters;
+using Ams.Infrastructure.WebExtensions;
+using Ams.Kernel.Model.Routine;
+using Ams.Kernel.Model.Dto.Routine;
+using Ams.Kernel.Services.IService.Routine;
+//创建时间：2023-11-12
+namespace Ams.WebApi.Controllers.Routine
+{
+    /// <summary>
+    /// 邮件模板
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
+    /// </summary>
+    [Verify]
+    [Route("routine/emailtpl")]
+    [ApiExplorerSettings(GroupName = "routine")]
+    public class EmailTplController : BaseController
+    {
+        /// <summary>
+        /// 邮件模板接口
+        /// </summary>
+        private readonly IEmailTplService _EmailTplService;
+
+        public EmailTplController(IEmailTplService EmailTplService)
+        {
+            _EmailTplService = EmailTplService;
+        }
+
+        /// <summary>
+        /// 查询邮件模板列表
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        [HttpGet("list")]
+        [ActionPermissionFilter(Permission = "routine:emailtpl:list")]
+        public IActionResult QueryEmailTpl([FromQuery] EmailTplQueryDto parm)
+        {
+            var response = _EmailTplService.GetList(parm);
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 查询邮件模板详情
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpGet("{Id}")]
+        public IActionResult GetEmailTpl(int Id)
+        {
+            var response = _EmailTplService.GetInfo(Id);
+
+            var info = response.Adapt<EmailTpl>();
+            return SUCCESS(info);
+        }
+
+        /// <summary>
+        /// 添加邮件模板
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ActionPermissionFilter(Permission = "routine:emailtpl:add")]
+        [Log(Title = "邮件模板", BusinessType = BusinessType.INSERT)]
+        public IActionResult AddEmailTpl([FromBody] EmailTplDto parm)
+        {
+            var modal = parm.Adapt<EmailTpl>().ToCreate(HttpContext);
+
+            var response = _EmailTplService.AddEmailTpl(modal);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 更新邮件模板
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut]
+        [ActionPermissionFilter(Permission = "routine:emailtpl:edit")]
+        [Log(Title = "邮件模板", BusinessType = BusinessType.UPDATE)]
+        public IActionResult UpdateEmailTpl([FromBody] EmailTplDto parm)
+        {
+            var modal = parm.Adapt<EmailTpl>().ToUpdate(HttpContext);
+            var response = _EmailTplService.UpdateEmailTpl(modal);
+
+            return ToResponse(response);
+        }
+
+        /// <summary>
+        /// 删除邮件模板
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete("{ids}")]
+        [ActionPermissionFilter(Permission = "routine:emailtpl:delete")]
+        [Log(Title = "邮件模板", BusinessType = BusinessType.DELETE)]
+        public IActionResult DeleteEmailTpl(string ids)
+        {
+            int[] idsArr = Tools.SpitIntArrary(ids);
+            if (idsArr.Length <= 0) { return ToResponse(ApiResult.Error($"删除失败Id 不能为空")); }
+
+            var response = _EmailTplService.Delete(idsArr);
+
+            return ToResponse(response);
+        }
+    }
+}
