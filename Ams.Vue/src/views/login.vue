@@ -17,7 +17,8 @@
 
       <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form" v-show="loginType == 1">
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username" type="text" auto-complete="off" :placeholder="$t('plogin.account')">
+          <el-input v-model="loginForm.username" type="text" auto-complete="off" :placeholder="$t('plogin.account')"
+            @input="limitUpperCase($event)">
             <template #prefix>
               <svg-icon name="user" class="input-icon" />
             </template>
@@ -129,6 +130,14 @@
       visitorId = result.visitorId
       userStore.setClientId(visitorId)
     })
+
+  function limitUpperCase(value) {
+    if (value) {
+
+      loginForm.username = value.toUpperCase();
+      console.log(value.toUpperCase())
+    }
+  }
   function handleLogin() {
     proxy.$refs.loginRef.validate((valid) => {
       if (valid) {

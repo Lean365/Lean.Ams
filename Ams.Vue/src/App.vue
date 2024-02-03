@@ -8,7 +8,7 @@
   import useAppStore from './store/modules/app'
   import { ElConfigProvider } from 'element-plus'
   import zhCn from 'element-plus/dist/locale/zh-cn' // 简体
-  import ZhTw from 'element-plus/dist/locale/zh-tw' //繁體
+  import zhTw from 'element-plus/dist/locale/zh-tw' //繁體
   import en from 'element-plus/dist/locale/en' // English
   import ja from 'element-plus/dist/locale/ja' // 日本語
 
