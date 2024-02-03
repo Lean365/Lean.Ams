@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item label="状态" prop="isState">
         <el-select v-model="queryParams.isState" placeholder="字典状态" clearable>
-          <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
+          <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="parseInt(dict.dictLabel)"
             :value="dict.dictValue" />
         </el-select>
       </el-form-item>
@@ -93,9 +93,9 @@
 
     <!-- 添加或修改参数配置对话框 -->
     <el-dialog :title="title" v-model="open" draggable width="500px" append-to-body>
-      <el-form ref="formRef" :model="form" :rules="rules" label-width="90px">
+      <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-form-item label="字典名称" prop="dictName">
-          <el-input v-model="form.dictName" placeholder="请输入字典名称" />
+          <el-input v-model="form.dictName" placeholder="请输入字典名称" @input="assginRemark($event)" />
         </el-form-item>
         <el-form-item label="字典类型" prop="dictType">
           <template #label>
@@ -108,11 +108,12 @@
               字典类型
             </span>
           </template>
-          <el-input v-model="form.dictType" placeholder="请输入字典类型" />
+          <el-input v-model="form.dictType" placeholder="请输入字典类型" @input="assginRemark($event)" />
         </el-form-item>
         <el-form-item label="字典状态" prop="isState">
           <el-radio-group v-model="form.isState">
-            <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictValue">{{ dict.dictLabel
+            <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :label="parseInt(dict.dictValue)">{{
+              dict.dictLabel
               }}</el-radio>
           </el-radio-group>
         </el-form-item>
@@ -121,9 +122,6 @@
             <el-radio v-for="dict in typeOptions" :key="dict.dictValue" :label="dict.dictValue">{{ dict.dictLabel
               }}</el-radio>
           </el-radio-group>
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
         </el-form-item>
         <el-form-item label="自定义sql" prop="customSql">
           <template #label>
@@ -140,6 +138,10 @@
           </template>
           <el-input v-model="form.customSql" type="textarea" placeholder="请输入sql语句"></el-input>
         </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+        </el-form-item>
+
       </el-form>
       <template #footer>
         <el-button text @click="cancel">{{ $t('btn.cancel') }}</el-button>
@@ -154,7 +156,7 @@
 </template>
 
 <script setup name="dict">
-  import dictData from '@/views/components/dictData'
+  import dictData from '@/views/components/dictData/index'
   import { listType, getType, delType, addType, updateType, exportType } from '@/api/system/dict/type'
 
   const { proxy } = getCurrentInstance()
@@ -201,7 +203,7 @@
       pageSize: 10,
       dictName: undefined,
       dictType: undefined,
-      status: undefined
+      isState: undefined
     }
   })
   const { rules, form, queryParams } = toRefs(state)
@@ -221,17 +223,23 @@
     open.value = false
     reset()
   }
+
   // 表单重置
   function reset() {
     form.value = {
       dictId: undefined,
       dictName: undefined,
       dictType: undefined,
-      isState: '0',
+      isState: 0,
       type: 'N',
       remark: undefined
     }
     proxy.resetForm('formRef')
+  }
+
+  //赋值
+  function assginRemark(val) {
+    form.value.remark = form.value.dictName + '(' + form.value.dictType + ')'
   }
   /** 搜索按钮操作 */
   function handleQuery() {

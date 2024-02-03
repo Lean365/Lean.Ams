@@ -34,7 +34,7 @@ namespace Ams.WebApi.Controllers.System
         [HttpGet("list")]
         public IActionResult List([FromQuery] SysDeptQueryDto dept)
         {
-            return SUCCESS(DeptService.GetSysDepts(dept), TIME_FORMAT_FULL);
+            return SUCCESS(DeptService.GetSysDepts(dept), TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>

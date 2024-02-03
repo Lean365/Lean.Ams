@@ -41,11 +41,11 @@ namespace Ams.WebApi.Controllers.Routine
         [HttpGet("queryNotice")]
         public IActionResult QueryNotice([FromQuery] NoticesQueryDto parm)
         {
-            var predicate = Expressionable.Create<RoutineNotices>();
+            var predicate = Expressionable.Create<Notices>();
 
             predicate = predicate.And(m => m.IsState == 0);
             var response = _NoticesService.GetPages(predicate.ToExpression(), parm);
-            return SUCCESS(response);
+            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Ams.WebApi.Controllers.Routine
         [ActionPermissionFilter(Permission = "routine:notices:list")]
         public IActionResult QueryNotices([FromQuery] NoticesQueryDto parm)
         {
-            PagedInfo<RoutineNotices> response = _NoticesService.GetPageList(parm);
+            PagedInfo<Notices> response = _NoticesService.GetPageList(parm);
             return SUCCESS(response);
         }
 
@@ -82,7 +82,7 @@ namespace Ams.WebApi.Controllers.Routine
         [Log(Title = "发布通告", BusinessType = BusinessType.INSERT)]
         public IActionResult AddNotices([FromBody] NoticesDto parm)
         {
-            var modal = parm.Adapt<RoutineNotices>().ToCreate(HttpContext);
+            var modal = parm.Adapt<Notices>().ToCreate(HttpContext);
 
             int result = _NoticesService.Insert(modal, it => new
             {
@@ -90,6 +90,7 @@ namespace Ams.WebApi.Controllers.Routine
                 it.NoticeType,
                 it.NoticeContent,
                 it.IsState,
+                it.NoticeFileurl,
                 it.Remark,
                 it.Create_by,
                 it.Create_time
@@ -107,13 +108,14 @@ namespace Ams.WebApi.Controllers.Routine
         [Log(Title = "修改公告", BusinessType = BusinessType.UPDATE)]
         public IActionResult UpdateNotices([FromBody] NoticesDto parm)
         {
-            var model = parm.Adapt<RoutineNotices>().ToUpdate(HttpContext);
+            var model = parm.Adapt<Notices>().ToUpdate(HttpContext);
             model.Update_by = HttpContext.GetName();
-            var response = _NoticesService.Update(w => w.NoticeId == model.NoticeId, it => new RoutineNotices()
+            var response = _NoticesService.Update(w => w.NoticeId == model.NoticeId, it => new Notices()
             {
                 NoticeTitle = model.NoticeTitle,
                 NoticeType = model.NoticeType,
                 NoticeContent = model.NoticeContent,
+                NoticeFileurl = model.NoticeFileurl,
                 IsState = model.IsState,
                 Remark = model.Remark,
                 Update_by = HttpContext.GetName(),

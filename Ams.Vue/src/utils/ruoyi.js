@@ -273,7 +273,7 @@ export function praseStrZero(str) {
  * @param {*} obj
  * @returns
  */
-export function isEmpty(obj) {
+export function strIsNullOrEmpty(obj) {
   if (typeof obj == 'undefined' || obj == null || obj === '') {
     return true
   } else {

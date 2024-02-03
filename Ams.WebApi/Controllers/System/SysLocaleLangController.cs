@@ -7,7 +7,7 @@ using Ams.Infrastructure.CustomException;
 using Ams.Kernel.Model.System;
 using Ams.Kernel.Services.IService.System;
 using Ams.Infrastructure.WebExtensions;
-using Ams.Model.Accounting;
+
 namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
@@ -37,17 +37,21 @@ namespace Ams.WebApi.Controllers.System
         [ActionPermissionFilter(Permission = "system:lang:list")]
         public IActionResult QuerySysLocaleLang([FromQuery] SysLocaleLangQueryDto parm)
         {
+
+
             if (parm.ShowMode == 2)
             {
                 PagedInfo<dynamic> pagedInfo = new()
                 {
+                    TotalNum = 6000,
+                    TotalPage=300,
                     Result = _SysLocaleLangService.GetListToPivot(parm)
-                };
+            };
 
-                return SUCCESS(pagedInfo);
+                return SUCCESS(pagedInfo, TIME_FORMAT_YYYMMDD);
             }
 
-            return SUCCESS(_SysLocaleLangService.GetList(parm));
+            return SUCCESS(_SysLocaleLangService.GetList(parm), TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -166,8 +170,8 @@ namespace Ams.WebApi.Controllers.System
             parm.PageSize = 10000;
             var list = _SysLocaleLangService.GetListToPivot(parm);
 
-            string sFileName = ExportExcel(list, "SysLocaleLang", "多语言配置");
-            return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
+            string sFileName = ExportExcel(list, "LocaleLang", "多语言配置", "export/system");
+            return SUCCESS(new { path = "/export/system/" + sFileName, fileName = sFileName });
         }
 
         /// <summary>

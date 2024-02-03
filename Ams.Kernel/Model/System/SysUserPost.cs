@@ -5,7 +5,7 @@ namespace Ams.Kernel.Model.System
     /// <summary>
     /// 用户岗位
     /// </summary>
-    [SugarTable("sys_user_post", "用户与岗位关联表")]
+    [SugarTable("sys_user_post", "用户岗位")]
     [Tenant("0")]
     public class SysUserPost : SysBase
     {

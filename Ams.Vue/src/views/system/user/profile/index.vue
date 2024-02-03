@@ -57,7 +57,7 @@
             <el-tab-pane :label="$t('user.changePwd')" name="resetPwd">
               <resetPwd />
             </el-tab-pane>
-            <el-tab-pane :label="$t('menu.operLog')" name="log">
+            <el-tab-pane :label="$t('menu.monitorOperLog')" name="log">
               <operLog></operLog>
             </el-tab-pane>
           </el-tabs>
@@ -68,55 +68,55 @@
 </template>
 
 <script setup name="Profile">
-import userAvatar from './userAvatar'
-import userInfo from './userInfo'
-import resetPwd from './resetPwd'
-import operLog from './operLog.vue'
-import { getUserProfile } from '@/api/system/user'
+  import userAvatar from './userAvatar'
+  import userInfo from './userInfo'
+  import resetPwd from './resetPwd'
+  import operLog from './operLog.vue'
+  import { getUserProfile } from '@/api/system/user'
 
-const activeTab = ref('userinfo')
-const state = reactive({
-  user: {},
-  roles: [],
-  roleGroup: {},
-  postGroup: {}
-})
-
-function getUser() {
-  getUserProfile().then((response) => {
-    state.user = response.data.user
-    state.roles = response.data.roles
-    state.roleGroup = response.data.roleGroup
-    state.postGroup = response.data.postGroup
+  const activeTab = ref('userinfo')
+  const state = reactive({
+    user: {},
+    roles: [],
+    roleGroup: {},
+    postGroup: {}
   })
-}
 
-getUser()
+  function getUser() {
+    getUserProfile().then((response) => {
+      state.user = response.data.user
+      state.roles = response.data.roles
+      state.roleGroup = response.data.roleGroup
+      state.postGroup = response.data.postGroup
+    })
+  }
+
+  getUser()
 </script>
 
 <style scoped>
-.list-group-striped > .list-group-item {
-  border-left: 0;
-  border-right: 0;
-  border-radius: 0;
-  padding-left: 0;
-  padding-right: 0;
-}
+  .list-group-striped>.list-group-item {
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
 
-.list-group {
-  padding-left: 0px;
-  list-style: none;
-}
+  .list-group {
+    padding-left: 0px;
+    list-style: none;
+  }
 
-.list-group-item {
-  border-bottom: 1px solid #e7eaec;
-  border-top: 1px solid #e7eaec;
-  margin-bottom: -1px;
-  padding: 11px 0px;
-  font-size: 13px;
-}
+  .list-group-item {
+    border-bottom: 1px solid #e7eaec;
+    border-top: 1px solid #e7eaec;
+    margin-bottom: -1px;
+    padding: 11px 0px;
+    font-size: 13px;
+  }
 
-.pull-right {
-  float: right !important;
-}
+  .pull-right {
+    float: right !important;
+  }
 </style>

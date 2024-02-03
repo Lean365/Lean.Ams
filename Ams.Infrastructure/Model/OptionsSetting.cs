@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using System;
 namespace Ams.Infrastructure.Model
 {
     /// <summary>
@@ -124,5 +124,6 @@ namespace Ams.Infrastructure.Model
         public string[] Float { get; set; }
         public string[] Decimal { get; set; }
         public string[] Bool { get; set; }
+        public Guid uniqueidentifier { get; set; }
     }
 }

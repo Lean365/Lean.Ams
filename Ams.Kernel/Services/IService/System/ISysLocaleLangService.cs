@@ -7,7 +7,7 @@ namespace Ams.Kernel.Services.IService.System
     /// <summary>
     /// 多语言配置service接口
     ///
-    /// @author zr
+    /// @author Lean365(Davis.Cheng)
     /// @date 2022-05-06
     /// </summary>
     public interface ISysLocaleLangService : IBaseService<SysLocaleLang>

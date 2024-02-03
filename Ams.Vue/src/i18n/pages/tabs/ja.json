@@ -12,6 +12,10 @@
     "contact": "連絡先",
     "purchase": "購買",
     "warehouse": "在庫",
-    "accounting": "会計"
+    "accounting": "会計",
+    "depreciation": "減価償却",
+    "stocktaking": "棚卸",
+    "sale": "銷售",
+    "production": "生產"
   }
 }

@@ -6,7 +6,7 @@ namespace Ams.Kernel.Model.Monitor
     /// <summary>
     /// 任务日志
     /// </summary>
-    [SugarTable("log_tasks", "任务日志表")]
+    [SugarTable("log_tasks", "任务日志")]
     [Tenant("0")]
     public class LogTasks : SysBase
     {

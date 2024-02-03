@@ -3,7 +3,7 @@
     /// <summary>
     /// 邮件发送记录
     /// </summary>
-    [SugarTable("routine_email")]
+    [SugarTable("routine_email", "邮件记录")]
     public class Email : SysBase
     {
         [JsonConverter(typeof(ValueToStringConverter))]
@@ -27,10 +27,7 @@
         /// </summary>
         [SugarColumn(ColumnDataType = StaticConfig.CodeFirst_BigString)]
         public string EmailContent { get; set; }
-        /// <summary>
-        /// 发送时间
-        /// </summary>
-        public DateTime AddTime { get; set; } = DateTime.Now;
+
         /// <summary>
         /// 是否已发送
         /// </summary>
@@ -46,6 +43,6 @@
         /// <summary>
         /// 发送时间
         /// </summary>
-        public DateTime SendTime { get; set; }
+        public DateTime SendTime { get; set; } = DateTime.Now;
     }
 }

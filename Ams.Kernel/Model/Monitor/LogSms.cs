@@ -3,7 +3,7 @@
     /// <summary>
     /// 短信验证码记录
     /// </summary>
-    [SugarTable("log_sms")]
+    [SugarTable("log_sms", "短信记录")]
     public class LogSms:SysBase
     {
         [JsonConverter(typeof(ValueToStringConverter))]

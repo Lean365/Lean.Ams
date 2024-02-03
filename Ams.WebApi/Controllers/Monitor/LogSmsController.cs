@@ -37,7 +37,7 @@ namespace Ams.WebApi.Controllers.Monitor
         public IActionResult QueryLogSms([FromQuery] LogSmsQueryDto parm)
         {
             var response = _LogSmsService.GetList(parm);
-            return SUCCESS(response);
+            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Ams.WebApi.Controllers.Monitor
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "短信验证码记录", "短信验证码记录");
+            var result = ExportExcelMini(list, "短信验证码记录", "短信验证码记录", "/export/log/");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

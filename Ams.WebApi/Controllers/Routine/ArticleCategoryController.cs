@@ -37,7 +37,7 @@ namespace Ams.WebApi.Controllers.Routine
         public IActionResult QueryArticleCategory([FromQuery] ArticleCategoryQueryDto parm)
         {
             var response = _ArticleCategoryService.GetList(parm);
-            return SUCCESS(response);
+            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Ams.WebApi.Controllers.Routine
         [Log(Title = "文章目录", BusinessType = BusinessType.INSERT)]
         public IActionResult AddArticleCategory([FromBody] ArticleCategoryDto parm)
         {
-            var modal = parm.Adapt<RoutineArticleCategory>().ToCreate(HttpContext);
+            var modal = parm.Adapt<ArticleCategory>().ToCreate(HttpContext);
             var response = _ArticleCategoryService.AddArticleCategory(modal);
 
             return ToResponse(response);
@@ -93,8 +93,8 @@ namespace Ams.WebApi.Controllers.Routine
         [Log(Title = "文章目录", BusinessType = BusinessType.UPDATE)]
         public IActionResult UpdateArticleCategory([FromBody] ArticleCategoryDto parm)
         {
-            var modal = parm.Adapt<RoutineArticleCategory>().ToUpdate(HttpContext);
-            var response = _ArticleCategoryService.Update(w => w.CategoryId == modal.CategoryId, it => new RoutineArticleCategory()
+            var modal = parm.Adapt<ArticleCategory>().ToUpdate(HttpContext);
+            var response = _ArticleCategoryService.Update(w => w.CategoryId == modal.CategoryId, it => new ArticleCategory()
             {
                 Name = modal.Name,
                 ParentId = modal.ParentId,
@@ -132,8 +132,8 @@ namespace Ams.WebApi.Controllers.Routine
             parm.PageSize = 10000;
             var list = _ArticleCategoryService.GetList(parm).Result;
 
-            string sFileName = ExportExcel(list, "ArticleCategory", "文章目录");
-            return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
+            string sFileName = ExportExcel(list, "ArticleCategory", "文章目录", "export/routine");
+            return SUCCESS(new { path = "/export/routine/" + sFileName, fileName = sFileName });
         }
 
         /// <summary>

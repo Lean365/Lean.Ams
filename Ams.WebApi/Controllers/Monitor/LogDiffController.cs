@@ -38,7 +38,7 @@ namespace Ams.WebApi.Controllers.Monitor
         public IActionResult QueryLogDiff([FromQuery] LogDiffQueryDto parm)
         {
             var response = _LogDiffService.GetList(parm);
-            return SUCCESS(response);
+            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Ams.WebApi.Controllers.Monitor
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "审计日志", "审计日志");
+            var result = ExportExcelMini(list, "审计日志", "审计日志", "/export/log/");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

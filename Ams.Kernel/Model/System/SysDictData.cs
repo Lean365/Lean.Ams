@@ -6,7 +6,7 @@ namespace Ams.Kernel.Model.System
     /// 字典数据表
     /// </summary>
     [Tenant("0")]
-    [SugarTable("sys_dict_data", "字典数据表")]
+    [SugarTable("sys_dict_data", "字典数据")]
     public class SysDictData : SysBase
     {
         /// <summary>
@@ -57,5 +57,7 @@ namespace Ams.Kernel.Model.System
         /// 多语言翻译key值
         /// </summary>
         public string LangKey { get; set; } = string.Empty;
+
+
     }
 }

@@ -20,6 +20,7 @@ namespace Ams.Infrastructure.Controllers
     public class BaseController : ControllerBase
     {
         public static string TIME_FORMAT_FULL = "yyyy-MM-dd HH:mm:ss";
+        public static string TIME_FORMAT_YYYMMDD = "yyyy-MM-dd";
 
         /// <summary>
         /// 返回成功封装
@@ -153,9 +154,9 @@ namespace Ams.Infrastructure.Controllers
         /// <param name="list"></param>
         /// <param name="sheetName"></param>
         /// <param name="fileName"></param>
-        protected string ExportExcel<T>(List<T> list, string sheetName, string fileName)
+        protected string ExportExcel<T>(List<T> list, string sheetName, string fileName, string savePath)
         {
-            return ExportExcelMini(list, sheetName, fileName).Item1;
+            return ExportExcelMini(list, sheetName, fileName, savePath).Item1;
         }
 
         /// <summary>
@@ -166,11 +167,11 @@ namespace Ams.Infrastructure.Controllers
         /// <param name="sheetName"></param>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        protected (string, string) ExportExcelMini<T>(List<T> list, string sheetName, string fileName)
+        protected (string, string) ExportExcelMini<T>(List<T> list, string sheetName, string fileName, string savePath)
         {
             IWebHostEnvironment webHostEnvironment = (IWebHostEnvironment)App.ServiceProvider.GetService(typeof(IWebHostEnvironment));
-            string sFileName = $"{fileName}{DateTime.Now:MM-dd-HHmmss}.xlsx";
-            string fullPath = Path.Combine(webHostEnvironment.WebRootPath, "export", sFileName);
+            string sFileName = $"{fileName}_{DateTime.Now:yyyy-MM-dd-HHmmss}.xlsx";
+            string fullPath = Path.Combine(webHostEnvironment.WebRootPath, savePath, sFileName);
 
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
@@ -187,11 +188,11 @@ namespace Ams.Infrastructure.Controllers
         protected (string, string) ExportExcelMini(Dictionary<string, object> sheets, string fileName)
         {
             IWebHostEnvironment webHostEnvironment = (IWebHostEnvironment)App.ServiceProvider.GetService(typeof(IWebHostEnvironment));
-            string sFileName = $"{fileName}{DateTime.Now:MM-dd-HHmmss}.xlsx";
+            string sFileName = $"{fileName}_{DateTime.Now:yyyy-MM-dd-HHmmss}.xlsx";
             string fullPath = Path.Combine(webHostEnvironment.WebRootPath, "export", sFileName);
 
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
-
+            
             MiniExcel.SaveAs(fullPath, sheets);
             return (sFileName, fullPath);
         }

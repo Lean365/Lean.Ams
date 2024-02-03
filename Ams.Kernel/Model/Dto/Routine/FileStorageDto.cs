@@ -68,8 +68,8 @@ namespace Ams.Kernel.Model.Dto.Routine
     }
     public class FileStorageQueryDto : PagerInfo
     {
-        public DateTime? BeginCreate_time { get; set; }
-        public DateTime? EndCreate_time { get; set; }
+        public DateTime? BeginTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public int? StoreType { get; set; }
         public long? FileId { get; set; }
     }

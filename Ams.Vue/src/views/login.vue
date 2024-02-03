@@ -1,5 +1,6 @@
 <template>
-  <starBackground></starBackground>
+  <star />
+
   <div class="login-wrap">
     <div class="login">
       <h3 class="title">{{ defaultSettings.title }}</h3>
@@ -80,7 +81,9 @@
   import Cookies from 'js-cookie'
   import { encrypt, decrypt } from '@/utils/jsencrypt'
   import defaultSettings from '@/settings'
-  import starBackground from '@/views/components/starBackground.vue'
+  import star from '@/views/components/backGround/starBackground.vue'
+  import waterfall from '@/views/components/backGround/waterfallBackground.vue'
+  import three from '@/views/components/backGround/three.vue'
   import LangSelect from '@/components/LangSelect/index.vue'
   import useUserStore from '@/store/modules/user'
   import QRCode from 'qrcodejs2-fixes'

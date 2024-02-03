@@ -42,7 +42,7 @@ namespace Ams.WebApi.Controllers.Routine
         public IActionResult QueryEmail([FromQuery] EmailQueryDto parm)
         {
             var response = _EmailService.GetList(parm);
-            return SUCCESS(response);
+            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Ams.WebApi.Controllers.Routine
             {
                 result = mailHelper.SendMail(toUsers, sendEmailVo.Subject, sendEmailVo.Content, sendEmailVo.FileUrl, sendEmailVo.HtmlContent);
             }
-            _EmailService.AddEmail(new Email() { EmailContent = sendEmailVo.HtmlContent, Subject = sendEmailVo.Subject, ToEmails = sendEmailVo.ToUser, AddTime = DateTime.Now, FromEmail = OptionsSetting.MailOptions.FromEmail, IsSend = sendEmailVo.IsSend ? 1 : 0, SendResult = result });
+            _EmailService.AddEmail(new Email() { EmailContent = sendEmailVo.HtmlContent, Subject = sendEmailVo.Subject, ToEmails = sendEmailVo.ToUser, Create_time = DateTime.Now, FromEmail = OptionsSetting.MailOptions.FromEmail, IsSend = sendEmailVo.IsSend ? 1 : 0, SendResult = result });
             //logger.Info($"发送邮件{JsonConvert.SerializeObject(sendEmailVo)}, 结果{result}");
 
             return SUCCESS(result);

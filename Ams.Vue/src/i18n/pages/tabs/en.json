@@ -11,7 +11,11 @@
     "bank": "Bank",
     "contact": "Contact",
     "purchase": "Purchasing",
-    "warehouse": "Inventory",
-    "accounting": "Accounting"
+    "warehouse": "Storage",
+    "accounting": "Accounting",
+    "depreciation": "Depreciation",
+    "stocktaking": "Stocktaking",
+    "sale": "Sales",
+    "production": "Production"
   }
 }

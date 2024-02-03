@@ -47,7 +47,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = UserService.SelectUserList(user, pager);
 
-            return SUCCESS(list);
+            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -96,6 +96,7 @@ namespace Ams.WebApi.Controllers.System
             }
 
             user.Password = NETCore.Encrypt.EncryptProvider.Md5(user.Password);
+
 
             return SUCCESS(UserService.InsertUser(user));
         }
@@ -211,7 +212,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = UserService.SelectUserList(user, new PagerInfo(1, 10000));
 
-            var result = ExportExcelMini(list.Result, "user", "用户列表");
+            var result = ExportExcelMini(list.Result, "user", "用户列表", "/export/system/");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

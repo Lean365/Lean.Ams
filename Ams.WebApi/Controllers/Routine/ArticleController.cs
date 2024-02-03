@@ -58,13 +58,27 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
+        /// 前台查询文章列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("hotList")]
+        [AllowAnonymous]
+        public IActionResult QueryHot([FromQuery] ArticleQueryDto parm)
+        {
+            var response = _ArticleService.GetHotList(parm);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
         /// 查询最新文章列表
         /// </summary>
         /// <returns></returns>
         [HttpGet("newList")]
+        [AllowAnonymous]
         public IActionResult QueryNew()
         {
-            var predicate = Expressionable.Create<RoutineArticle>();
+            var predicate = Expressionable.Create<Article>();
             predicate = predicate.And(m => m.IsState == 1);
             predicate = predicate.And(m => m.IsPublic == 1);
 
@@ -111,8 +125,9 @@ namespace Ams.WebApi.Controllers.Routine
         [Log(Title = "发布文章", BusinessType = BusinessType.INSERT)]
         public IActionResult Create([FromBody] ArticleDto parm)
         {
-            var addModel = parm.Adapt<RoutineArticle>().ToCreate(context: HttpContext);
+            var addModel = parm.Adapt<Article>().ToCreate(context: HttpContext);
             addModel.AuthorName = HttpContext.GetName();
+            addModel.UserId = HttpContext.GetUId();
 
             return SUCCESS(_ArticleService.InsertReturnIdentity(addModel));
         }
@@ -127,8 +142,36 @@ namespace Ams.WebApi.Controllers.Routine
         public IActionResult Update([FromBody] ArticleDto parm)
         {
             parm.AuthorName = HttpContext.GetName();
-            var modal = parm.Adapt<RoutineArticle>().ToUpdate(HttpContext);
+            var modal = parm.Adapt<Article>().ToUpdate(HttpContext);
             var response = _ArticleService.UpdateArticle(modal);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 置顶
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("top")]
+        [ActionPermissionFilter(Permission = "routine:article:update")]
+        [Log(Title = "置顶文章", BusinessType = BusinessType.UPDATE)]
+        public IActionResult Top([FromBody] Article parm)
+        {
+            var response = _ArticleService.TopArticle(parm);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 是否公开
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("changePublic")]
+        [ActionPermissionFilter(Permission = "routine:article:update")]
+        [Log(Title = "是否公开", BusinessType = BusinessType.UPDATE)]
+        public IActionResult ChangePublic([FromBody] Article parm)
+        {
+            var response = _ArticleService.ChangeArticlePublic(parm);
 
             return SUCCESS(response);
         }

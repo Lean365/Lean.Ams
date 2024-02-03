@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Options;
 using SqlSugar;
 using Ams.Kernel.Filters;
-using Ams.Generator;
-using Ams.Generator.Model;
-using Ams.Generator.Service;
+using Ams.CodeGenerator;
+using Ams.CodeGenerator.Model;
+using Ams.CodeGenerator.Service;
 using Ams.Model;
 using Ams.Kernel.Model.System.Generate;
 using Ams.Infrastructure.CustomException;
@@ -13,6 +13,7 @@ using Ams.Infrastructure.WebExtensions;
 using Ams.Kernel.Model.Dto.System;
 using Ams.Kernel.Services.IService.System;
 using Ams.Kernel.Services.IService.Generate;
+using System.Data;
 namespace Ams.WebApi.Controllers.Generate
 {
     /// <summary>
@@ -158,6 +159,7 @@ namespace Ams.WebApi.Controllers.Generate
             int result = 0;
             foreach (var table in dto.Tables)
             {
+
                 List<OracleSeq> seqs = new();
                 InitTableDto initTableDto = new()
                 {
@@ -265,7 +267,7 @@ namespace Ams.WebApi.Controllers.Generate
             dto.DbType = OptionsSetting.CodeGenDbConfig.DbType;
             dto.GenTable = GenTableService.GetGenTableInfo(dto.TableId);
             //生成压缩包
-            string zipReturnFileName = $"ZrAdmin.NET-{dto.GenTable.TableName}-{DateTime.Now:MMddHHmmss}.zip";
+            string zipReturnFileName = $"Lean365.Ams-{dto.GenTable.TableName}-{DateTime.Now:MMddHHmmss}.zip";
 
             //生成代码到指定文件夹
             CodeGeneratorTool.Generate(dto);

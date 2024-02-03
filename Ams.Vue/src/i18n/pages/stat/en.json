@@ -1,0 +1,16 @@
+{
+  "Pstat": {
+    "MonthOph": "OPH Monthly Report",
+    "MonthLineOph": "OPH Monthly Report - Team",
+    "MonthModelOph": "OPH Monthly Report - Model",
+    "MonthTime": "Monthly workertime",
+    "MonthDef": "Monthly Defective",
+    "MonthEc": "Monthly designchanges",
+    "MonthSales": "Monthly Sales",
+    "YearOph": "OPH Annual Report",
+    "YearLineOph": "OPH Annual Report - Team",
+    "YearModelOph": "OPH Annual Report - Models",
+    "YearEc": "Annual design change",
+    "YearSales": "Annual Sales"
+  }
+}

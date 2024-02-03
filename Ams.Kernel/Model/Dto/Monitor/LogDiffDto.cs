@@ -47,7 +47,7 @@ namespace Ams.Kernel.Model.Dto.Monitor
         public string UserName { get; set; }
 
         [ExcelColumn(Name = "记录时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        public DateTime? AddTime { get; set; }
+        public DateTime? ExecTime { get; set; }
 
         [ExcelColumn(Name = "数据库配置id")]
         public string ConfigId { get; set; }

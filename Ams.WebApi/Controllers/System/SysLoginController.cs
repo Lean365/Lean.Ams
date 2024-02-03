@@ -77,7 +77,7 @@ namespace Ams.WebApi.Controllers.System
 
             TokenModel loginUser = new(user.Adapt<TokenModel>(), roles.Adapt<List<Roles>>());
             CacheService.SetUserPerms(GlobalConstant.UserPermKEY + user.UserId, permissions);
-            return SUCCESS(JwtUtil.GenerateJwtToken(JwtUtil.AddClaims(loginUser)));
+            return SUCCESS(JwtUtil.GenerateJwtToken(JwtUtil.AddClaims(loginUser)), TIME_FORMAT_FULL);
         }
 
         /// <summary>

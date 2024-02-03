@@ -11,6 +11,14 @@ export function listUser(query) {
   })
 }
 
+export function listUseAll(query) {
+  return request({
+    url: '/system/user/list',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询用户详细
 export function getUser(userId) {
   return request({
@@ -69,10 +77,10 @@ export function resetUserPwd(userId, password) {
 }
 
 // 用户状态修改
-export function changeUserStatus(userId, status) {
+export function changeUserStatus(userId, isState) {
   const data = {
     userId,
-    status
+    isState
   }
   return request({
     url: '/system/user/changeStatus',

@@ -58,4 +58,14 @@ namespace Ams.Kernel.Model.Monitor
         [SugarColumn(IsIgnore = true)]
         public DateTime? EndTime { get; set; }
     }
+    public class StatiLogLoginDto
+    {
+        /// <summary>
+        /// 去重数据
+        /// </summary>
+        public int DeRepeatNum { get; set; }
+        public int Num { get; set; }
+        public DateTime Date { get; set; }
+        public string WeekName { get; set; }
+    }
 }

@@ -8,6 +8,7 @@ using Ams.Common;
 using Ams.Kernel.Model.System;
 using Ams.Infrastructure.Apps;
 using Ams.Kernel.Model.Monitor;
+using NETCore.Encrypt;
 namespace Ams.Kernel.SqlSugar
 {
     public static class SqlsugarSetup
@@ -21,20 +22,29 @@ namespace Ams.Kernel.SqlSugar
         /// <param name="environment"></param>
         public static void AddDb(this IServiceCollection services, IWebHostEnvironment environment)
         {
+            var desKey = EncryptProvider.CreateDesKey();
+            var aesKey = EncryptProvider.CreateAesKey();
+            //aesKey.Key = desKey;
             var options = App.OptionsSetting;
             List<DbConfigs> dbConfigs = options.DbConfigs;
-
+            string dbcon, gendbcon;
             var iocList = new List<IocConfig>();
             foreach (var item in dbConfigs)
             {
+                dbcon = NETCore.Encrypt.EncryptProvider.AESEncrypt("Data Source=fs03;User ID=sa;Password=Tac26901333.;Initial Catalog=Ams_Deb; Connect Timeout =300", "yDbwFBmFsTD53MsxSYrUislnMZ1jsWNi");
+                gendbcon = NETCore.Encrypt.EncryptProvider.AESEncrypt("Data Source=fs03;User ID=sa;Password=Tac26901333.;Initial Catalog={dbName}; Connect Timeout =300", "yDbwFBmFsTD53MsxSYrUislnMZ1jsWNi");
+                //asede = NETCore.Encrypt.EncryptProvider.AESDecrypt(aesen, "yDbwFBmFsTD53MsxSYrUislnMZ1jsWNi");
                 iocList.Add(new IocConfig()
                 {
                     ConfigId = item.ConfigId,
-                    ConnectionString = item.Conn,
+                    ConnectionString = EncryptProvider.AESDecrypt(item.Conn, "yDbwFBmFsTD53MsxSYrUislnMZ1jsWNi"),
+
                     DbType = (IocDbType)item.DbType,
                     IsAutoCloseConnection = item.IsAutoCloseConnection
                 });
             }
+
+
             SugarIocServices.AddSqlSugar(iocList);
             ICacheService cache = new SqlSugarCache();
             SugarIocServices.ConfigurationSugar(db =>
@@ -130,7 +140,7 @@ namespace Ams.Kernel.SqlSugar
                         Sql = sql,
                         TableName = item.TableName,
                         UserName = name,
-                        AddTime = DateTime.Now,
+                        ExecTime = DateTime.Now,
                         ConfigId = configId
                     };
                     if (editAfterData != null)
@@ -216,7 +226,7 @@ namespace Ams.Kernel.SqlSugar
                     //方法名
                     var FirstMethodName = db.Ado.SqlStackTrace.FirstMethodName;
                     var logInfo = $"Sql执行超时，用时{db.Ado.SqlExecutionTime.TotalSeconds}秒【{sql}】,fileName={fileName},line={fileLine},methodName={FirstMethodName}";
-                    WxNoticeHelper.SendMsg("Sql请求时间过长",logInfo);
+                    WxNoticeHelper.SendMsg("Sql请求时间过长", logInfo);
                     logger.Warn(logInfo);
                 }
             };

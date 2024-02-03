@@ -28,6 +28,7 @@ namespace Ams.WebApi.Controllers.Routine
             _FileStorageService = FileStorageService;
         }
 
+
         /// <summary>
         /// 查询文件存储列表
         /// </summary>
@@ -39,13 +40,13 @@ namespace Ams.WebApi.Controllers.Routine
         {
             var predicate = Expressionable.Create<FileStorage>();
 
-            predicate = predicate.AndIF(parm.BeginCreate_time != null, it => it.Create_time >= parm.BeginCreate_time);
-            predicate = predicate.AndIF(parm.EndCreate_time != null, it => it.Create_time <= parm.EndCreate_time);
+            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, it => it.Create_time <= parm.EndTime);
             predicate = predicate.AndIF(parm.StoreType != null, m => m.StoreType == parm.StoreType);
             predicate = predicate.AndIF(parm.FileId != null, m => m.Id == parm.FileId);
 
             var response = _FileStorageService.GetPages(predicate.ToExpression(), parm, x => x.Id, OrderByType.Desc);
-            return SUCCESS(response);
+            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -94,8 +95,8 @@ namespace Ams.WebApi.Controllers.Routine
         {
             var list = _FileStorageService.GetAll();
 
-            string sFileName = ExportExcel(list, "Files", "文件存储");
-            return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
+            string sFileName = ExportExcel(list, "Files", "文件存储", "export/routine");
+            return SUCCESS(new { path = "/export/routine/" + sFileName, fileName = sFileName });
         }
     }
 }

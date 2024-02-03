@@ -38,6 +38,9 @@ export default defineConfig(({ mode, command }) => {
       devSourcemap: true //开发模式时启用
     },
     base: env.VITE_APP_ROUTER_PREFIX,
+    optimizeDeps: {
+      include: ['/vform3-builds/']  //此处路径必须跟main.js中import路径完全一致！
+    },
     // 打包配置
     build: {
       sourcemap: command === 'build' ? false : 'inline',
@@ -56,7 +59,7 @@ export default defineConfig(({ mode, command }) => {
     server: {
       port: 8887,
       host: true,
-      open: true,
+      open: false,
       proxy: {
         // https://cn.vitejs.dev/config/#server-proxy
         '/dev-api': {

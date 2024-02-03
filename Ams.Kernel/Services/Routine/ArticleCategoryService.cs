@@ -11,17 +11,17 @@ namespace Ams.Kernel.Services.Routine
     /// 文章目录Service业务层处理
     /// </summary>
     [AppService(ServiceType = typeof(IArticleCategoryService), ServiceLifetime = LifeTime.Transient)]
-    public class ArticleCategoryService : BaseService<RoutineArticleCategory>, IArticleCategoryService
+    public class ArticleCategoryService : BaseService<ArticleCategory>, IArticleCategoryService
     {
         /// <summary>
         /// 查询文章目录列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<RoutineArticleCategory> GetList(ArticleCategoryQueryDto parm)
+        public PagedInfo<ArticleCategory> GetList(ArticleCategoryQueryDto parm)
         {
             //开始拼装查询条件
-            var predicate = Expressionable.Create<RoutineArticleCategory>();
+            var predicate = Expressionable.Create<ArticleCategory>();
 
             //搜索条件查询语法参考Sqlsugar
             var response = Queryable()
@@ -36,10 +36,10 @@ namespace Ams.Kernel.Services.Routine
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public List<RoutineArticleCategory> GetTreeList(ArticleCategoryQueryDto parm)
+        public List<ArticleCategory> GetTreeList(ArticleCategoryQueryDto parm)
         {
             //开始拼装查询条件
-            var predicate = Expressionable.Create<RoutineArticleCategory>();
+            var predicate = Expressionable.Create<ArticleCategory>();
 
             //搜索条件查询语法参考Sqlsugar
 
@@ -54,7 +54,7 @@ namespace Ams.Kernel.Services.Routine
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public int AddArticleCategory(RoutineArticleCategory parm)
+        public int AddArticleCategory(ArticleCategory parm)
         {
             var response = Insert(parm, it => new
             {

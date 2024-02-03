@@ -340,7 +340,7 @@ namespace Ams.Kernel.Services.System
         /// <param name="userIP"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public void UpdateLoginInfo(string userIP, long userId)
+        public void UpdateLogLogin(string userIP, long userId)
         {
             Update(new SysUser() { LoginIP = userIP, LoginDate = DateTime.Now, UserId = userId }, it => new { it.LoginIP, it.LoginDate });
         }

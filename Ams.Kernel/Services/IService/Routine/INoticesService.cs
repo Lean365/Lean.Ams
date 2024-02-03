@@ -7,13 +7,13 @@ namespace Ams.Kernel.Services.IService.Routine
     /// <summary>
     /// 通知公告表service接口
     ///
-    /// @author zr
+    /// @author Lean365(Davis.Cheng)
     /// @date 2021-12-15
     /// </summary>
-    public interface INoticesService : IBaseService<RoutineNotices>
+    public interface INoticesService : IBaseService<Notices>
     {
-        List<RoutineNotices> GetNoticess();
+        List<Notices> GetNoticess();
 
-        PagedInfo<RoutineNotices> GetPageList(NoticesQueryDto parm);
+        PagedInfo<Notices> GetPageList(NoticesQueryDto parm);
     }
 }

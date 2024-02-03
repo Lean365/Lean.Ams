@@ -37,8 +37,12 @@ namespace Ams.WebApi.Extensions
             {
                 c.SwaggerEndpoint("system/swagger.json", "系统管理");
                 c.SwaggerEndpoint("routine/swagger.json", "日常办公");
+                c.SwaggerEndpoint("accounting/swagger.json", "会计核算");
+                c.SwaggerEndpoint("logistics/swagger.json", "后勤管理");
+                c.SwaggerEndpoint("stat/swagger.json", "统计报表");
                 c.SwaggerEndpoint("monitor/swagger.json", "日志监控");
-                c.SwaggerEndpoint("v1/swagger.json", "business");
+               
+                c.SwaggerEndpoint("v1/swagger.json", "其它业务");
                 c.DocExpansion(DocExpansion.None); //->修改界面打开时自动折叠
             });
         }
@@ -52,30 +56,51 @@ namespace Ams.WebApi.Extensions
             {
                 c.SwaggerDoc("system", new OpenApiInfo
                 {
-                    Title = "ZrAdmin.NET Api",
+                    Title = "Lean365.Ams Api",
                     Version = "v1",
                     Description = "系统管理",
-                    Contact = new OpenApiContact { Name = "ZRAdmin doc", Url = new Uri("https://www.izhaorui.cn/doc") }
+                    Contact = new OpenApiContact { Name = "Lean365 doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("routine", new OpenApiInfo
                 {
-                    Title = "ZrAdmin.NET Api",
+                    Title = "Lean365.Ams Api",
                     Version = "v1",
                     Description = "日常办公",
-                    Contact = new OpenApiContact { Name = "ZRAdmin doc", Url = new Uri("https://www.izhaorui.cn/doc") }
+                    Contact = new OpenApiContact { Name = "Lean365 doc", Url = new Uri("https://leansoft365.github.io/") }
+                });
+                c.SwaggerDoc("accounting", new OpenApiInfo
+                {
+                    Title = "Lean365.Ams Api",
+                    Version = "v1",
+                    Description = "会计核算",
+                    Contact = new OpenApiContact { Name = "Lean365 doc", Url = new Uri("https://leansoft365.github.io/") }
+                });
+                c.SwaggerDoc("logistics", new OpenApiInfo
+                {
+                    Title = "Lean365.Ams Api",
+                    Version = "v1",
+                    Description = "后勤管理",
+                    Contact = new OpenApiContact { Name = "Lean365 doc", Url = new Uri("https://leansoft365.github.io/") }
+                });
+                c.SwaggerDoc("stat", new OpenApiInfo
+                {
+                    Title = "Lean365.Ams Api",
+                    Version = "v1",
+                    Description = "统计报表",
+                    Contact = new OpenApiContact { Name = "Lean365 doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("monitor", new OpenApiInfo
                 {
-                    Title = "ZrAdmin.NET Api",
+                    Title = "Lean365.Ams Api",
                     Version = "v1",
                     Description = "日志监控",
-                    Contact = new OpenApiContact { Name = "ZRAdmin doc", Url = new Uri("https://www.izhaorui.cn/doc") }
+                    Contact = new OpenApiContact { Name = "Lean365 doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "ZrAdmin.NET Api",
+                    Title = "Lean365.Ams Api",
                     Version = "v1",
-                    Description = "",
+                    Description = "其它业务",
                 });
                 try
                 {
@@ -86,7 +111,7 @@ namespace Ams.WebApi.Extensions
                     c.IncludeXmlComments(Path.Combine(baseDir, "Ams.Kernel.xml"), true);
                     c.IncludeXmlComments(Path.Combine(baseDir, "Ams.Service.xml"), true);
                     c.IncludeXmlComments(Path.Combine(baseDir, "Ams.WebApi.xml"), true);
-
+                    c.IncludeXmlComments(Path.Combine(baseDir, "Ams.Report.xml"), true);
                     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                     var xmlPath = Path.Combine(baseDir, xmlFile);
                     c.IncludeXmlComments(xmlPath);

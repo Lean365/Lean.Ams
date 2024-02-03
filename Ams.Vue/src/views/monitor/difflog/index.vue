@@ -1,6 +1,6 @@
 <!--
- * @Descripttion: (数据差异日志/SqlDiffLog)
- * @Author: (zz)
+ * @Descripttion: (差异日志/DiffLog)
+ * @Author: (Lean365)
  * @Date: (2023-08-17)
 -->
 <template>
@@ -317,7 +317,7 @@
         type: 'warning'
       })
       .then(async () => {
-        await proxy.downFile('/monitor/difflog/export', { ...queryParams })
+        await proxy.downFile('/monitor/SqlDiffLog/export', { ...queryParams })
       })
   }
   function highlightedCode(code) {

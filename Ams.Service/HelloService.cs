@@ -13,7 +13,7 @@ namespace Ams.Service
     /// 注意：下面的AppService不要漏了
     /// </summary>
     [AppService(ServiceType = typeof(IHelloService), ServiceLifetime = LifeTime.Transient)]
-    public class HelloService : BaseService<RoutineArticleCategory>, IHelloService
+    public class HelloService : BaseService<ArticleCategory>, IHelloService
     {
         /// <summary>
         /// 引用User服务

@@ -30,7 +30,7 @@ namespace Ams.Kernel.Model.Dto.Routine
 
         public string EmailContent { get; set; }
 
-        public DateTime? AddTime { get; set; }
+        public DateTime? SendTime { get; set; }
         /// <summary>
         /// 是否已发送
         /// </summary>

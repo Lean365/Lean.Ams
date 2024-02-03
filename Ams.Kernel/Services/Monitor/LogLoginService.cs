@@ -13,6 +13,7 @@ using Ams.Kernel.Services.IService.System;
 using Ams.Infrastructure.Extensions;
 using Ams.Kernel.Model.Monitor;
 using Ams.Kernel.Services.IService.Monitor;
+using Ams.Common;
 namespace Ams.Kernel.Services.Monitor
 {
     /// <summary>
@@ -55,20 +56,20 @@ namespace Ams.Kernel.Services.Monitor
             if (user == null || user.UserId <= 0)
             {
                 loglogin.Msg = "用户名或密码错误";
-                AddLoginInfo(loglogin);
+                AddLogLogin(loglogin);
                 throw new CustomizeException(ResultCode.LOGIN_ERROR, loglogin.Msg, false);
             }
             if (user.IsState == 1)
             {
                 loglogin.Msg = "该用户已禁用";
-                AddLoginInfo(loglogin);
+                AddLogLogin(loglogin);
                 throw new CustomizeException(ResultCode.LOGIN_ERROR, loglogin.Msg, false);
             }
 
             loglogin.IsState = 0;
             loglogin.Msg = "登录成功";
-            AddLoginInfo(loglogin);
-            SysUserService.UpdateLoginInfo(loginBody.LoginIP, user.UserId);
+            AddLogLogin(loglogin);
+            SysUserService.UpdateLogLogin(loginBody.LoginIP, user.UserId);
             return user;
         }
         /// <summary>
@@ -92,34 +93,34 @@ namespace Ams.Kernel.Services.Monitor
             if (user.IsState == 1)
             {
                 loglogin.Msg = "该用户已禁用";
-                AddLoginInfo(loglogin);
+                AddLogLogin(loglogin);
                 throw new CustomizeException(ResultCode.LOGIN_ERROR, loglogin.Msg, false);
             }
 
             loglogin.IsState = 0;
             loglogin.Msg = "登录成功";
-            AddLoginInfo(loglogin);
-            SysUserService.UpdateLoginInfo(loginBody.LoginIP, user.UserId);
+            AddLogLogin(loglogin);
+            SysUserService.UpdateLogLogin(loginBody.LoginIP, user.UserId);
             return user;
         }
         /// <summary>
         /// 查询登录日志
         /// </summary>
-        /// <param name="logininfoDto"></param>
+        /// <param name="LogLoginDto"></param>
         /// <param name="pager">分页</param>
         /// <returns></returns>
-        public PagedInfo<LogLogin> GetLoginLog(LogLogin logininfoDto, PagerInfo pager)
+        public PagedInfo<LogLogin> GetLoginLog(LogLogin LogLoginDto, PagerInfo pager)
         {
-            //logininfoDto.BeginTime = DateTimeHelper.GetBeginTime(logininfoDto.BeginTime, -1);
-            //logininfoDto.EndTime = DateTimeHelper.GetBeginTime(logininfoDto.EndTime, 1);
+            //LogLoginDto.BeginTime = DateTimeHelper.GetBeginTime(LogLoginDto.BeginTime, -1);
+            //LogLoginDto.EndTime = DateTimeHelper.GetBeginTime(LogLoginDto.EndTime, 1);
 
             var exp = Expressionable.Create<LogLogin>();
 
-            exp.AndIF(logininfoDto.BeginTime == null, it => it.LoginTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            exp.AndIF(logininfoDto.BeginTime != null, it => it.LoginTime >= logininfoDto.BeginTime && it.LoginTime <= logininfoDto.EndTime);
-            exp.AndIF(logininfoDto.Ipaddr.IfNotEmpty(), f => f.Ipaddr == logininfoDto.Ipaddr);
-            exp.AndIF(logininfoDto.UserName.IfNotEmpty(), f => f.UserName.Contains(logininfoDto.UserName));
-            exp.AndIF(logininfoDto.IsState.ToString().IfNotEmpty(), f => f.IsState == logininfoDto.IsState);
+            //exp.AndIF(LogLoginDto.BeginTime == null, it => it.LoginTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            exp.AndIF(LogLoginDto.BeginTime != null, it => it.LoginTime >= LogLoginDto.BeginTime && it.LoginTime <= LogLoginDto.EndTime);
+            exp.AndIF(LogLoginDto.Ipaddr.IfNotEmpty(), f => f.Ipaddr == LogLoginDto.Ipaddr);
+            exp.AndIF(LogLoginDto.UserName.IfNotEmpty(), f => f.UserName.Contains(LogLoginDto.UserName));
+            exp.AndIF(LogLoginDto.IsState.ToString().IfNotEmpty(), f => f.IsState == LogLoginDto.IsState);
             var query = Queryable().Where(exp.ToExpression())
             .OrderBy(it => it.InfoId, OrderByType.Desc);
 
@@ -131,7 +132,7 @@ namespace Ams.Kernel.Services.Monitor
         /// </summary>
         /// <param name="LogLogin"></param>
         /// <returns></returns>
-        public void AddLoginInfo(LogLogin LogLogin)
+        public void AddLogLogin(LogLogin LogLogin)
         {
             Insert(LogLogin);
         }
@@ -139,7 +140,7 @@ namespace Ams.Kernel.Services.Monitor
         /// <summary>
         /// 清空登录日志
         /// </summary>
-        public void TruncateLogininfo()
+        public void TruncateLogLogin()
         {
             Truncate();
         }
@@ -149,11 +150,15 @@ namespace Ams.Kernel.Services.Monitor
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public int DeletelogloginByIds(long[] ids)
+        public int DeleteLogLoginByIds(long[] ids)
         {
             return Delete(ids);
         }
-
+        /// <summary>
+        /// 锁定用户
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <exception cref="CustomizeException"></exception>
         public void CheckLockUser(string userName)
         {
             var lockTimeStamp = CacheService.GetLockUser(userName);
@@ -164,6 +169,38 @@ namespace Ams.Kernel.Services.Monitor
             {
                 throw new CustomizeException(ResultCode.LOGIN_ERROR, $"你的账号已被锁,剩余{Math.Round(ts.TotalMinutes, 0)}分钟");
             }
+        }
+        /// <summary>
+        /// 查询登录日志统计
+        /// </summary>
+        /// <returns></returns>
+        public List<StatiLogLoginDto> GetStatiLogLogin()
+        {
+            var time = DateTime.Now;
+
+            //如果是查询当月那么 time就是 DateTime.Now
+            var days = (time.AddMonths(1) - time).Days;//获取当月天数
+            var dayArray = Enumerable.Range(1, days).Select(it => Convert.ToDateTime(time.ToString("yyyy-MM-" + it))).ToList();//转成时间数组
+
+            var queryableLeft = Context.Reportable(dayArray)
+                .ToQueryable<DateTime>();
+
+            var queryableRight = Context.Queryable<LogLogin>();
+            var list = Context.Queryable(queryableLeft, queryableRight, JoinType.Left, (x1, x2)
+                 => x2.LoginTime.ToString("yyyy-MM-dd") == x1.ColumnName.ToString("yyyy-MM-dd"))
+                .GroupBy((x1, x2) => x1.ColumnName)
+                .Where((x1, x2) => x1.ColumnName >= DateTime.Now.AddDays(-7) && x1.ColumnName <= DateTime.Now)
+                .Select((x1, x2) => new StatiLogLoginDto()
+                {
+                    DeRepeatNum = SqlFunc.AggregateDistinctCount(x2.Ipaddr),
+                    Num = SqlFunc.AggregateCount(x2.InfoId),
+                    Date = x1.ColumnName,
+                })
+                .Mapper(it =>
+                {
+                    it.WeekName = Tools.GetWeekByDate(it.Date);//相当于ToList循环赋值
+                }).ToList();
+            return list;
         }
 
     }

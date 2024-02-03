@@ -104,6 +104,8 @@
       </el-table-column>
     </el-table>
 
+    <pagination v-if="queryParams.showMode == 1" :total="total" v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize" @pagination="getList" />
     <!-- 行列显示 -->
     <el-table v-if="queryParams.showMode == 2" :data="dataList" v-loading="loading" ref="table" border
       highlight-current-row @sort-change="sortChange" @selection-change="handleSelectionChange" height="670">
@@ -129,8 +131,8 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-if="queryParams.showMode == 1" :total="total" v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize" @pagination="getList" />
+    <!-- <pagination v-if="queryParams.showMode == 2" :total="total" v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize" @pagination="getList" /> -->
 
     <!-- 添加或修改多语言配置对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" width="550px">
@@ -186,7 +188,7 @@
     getLocaleLangByKey,
     delLocaleLangByKey
   } from '@/api/system/localelang.js'
-  import { isEmpty } from '@/utils/ruoyi.js'
+  import { strIsNullOrEmpty } from '@/utils/ruoyi.js'
   import importData from '@/components/ImportData'
   const { proxy } = getCurrentInstance()
   // 选中id数组数组
@@ -379,7 +381,7 @@
   function submitForm() {
     const formValid = ref(true)
     form.value.langList.forEach((item) => {
-      if (isEmpty(item.langName)) {
+      if (strIsNullOrEmpty(item.langName)) {
         formValid.value = false
       }
     })

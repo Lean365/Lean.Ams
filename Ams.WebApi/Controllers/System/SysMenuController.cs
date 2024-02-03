@@ -40,7 +40,7 @@ namespace Ams.WebApi.Controllers.System
         public IActionResult TreeMenuList([FromQuery] MenuQueryDto menu)
         {
             long userId = HttpContext.GetUId();
-            return SUCCESS(sysMenuService.SelectTreeMenuList(menu, userId), "yyyy-MM-dd HH:mm:ss");
+            return SUCCESS(sysMenuService.SelectTreeMenuList(menu, userId), TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>

@@ -39,7 +39,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = sysRoleService.SelectRoleList(role, pager);
 
-            return SUCCESS(list, TIME_FORMAT_FULL);
+            return SUCCESS(list,TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var info = sysRoleService.SelectRoleById(roleId);
 
-            return SUCCESS(info, TIME_FORMAT_FULL);
+            return SUCCESS(info, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -176,8 +176,8 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = sysRoleService.SelectRoleAll();
 
-            string sFileName = ExportExcel(list, "sysrole", "角色");
-            return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
+            string sFileName = ExportExcel(list, "role", "角色", "export/system");
+            return SUCCESS(new { path = "/export/system/" + sFileName, fileName = sFileName });
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace Ams.WebApi.Controllers.System
 
             var list = sysMenuService.SelectRoleMenuListByRole(dto, roleId);
 
-            var result = ExportExcelMini(list, roleId.ToString(), "角色菜单");
+            var result = ExportExcelMini(list, roleId.ToString(), "角色菜单","/export/system/");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

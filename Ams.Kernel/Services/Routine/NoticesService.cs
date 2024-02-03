@@ -7,13 +7,13 @@ using Ams.Kernel.Services.IService.Routine;
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
-    /// 通知公告表Service业务层处理
-    ///
-    /// @author zr
+    /// 通知公告表
+    /// Service业务层处理
+    /// @author Lean365(Davis.Cheng)
     /// @date 2021-12-15
     /// </summary>
     [AppService(ServiceType = typeof(INoticesService), ServiceLifetime = LifeTime.Transient)]
-    public class NoticesService : BaseService<RoutineNotices>, INoticesService
+    public class NoticesService : BaseService<Notices>, INoticesService
     {
         #region 业务逻辑代码
 
@@ -21,9 +21,9 @@ namespace Ams.Kernel.Services.Routine
         /// 查询系统通知
         /// </summary>
         /// <returns></returns>
-        public List<RoutineNotices> GetNoticess()
+        public List<Notices> GetNoticess()
         {
-            var predicate = Expressionable.Create<RoutineNotices>();
+            var predicate = Expressionable.Create<Notices>();
 
             predicate = predicate.And(m => m.IsState == 0);
             return Queryable()
@@ -32,14 +32,14 @@ namespace Ams.Kernel.Services.Routine
                 .ToList();
         }
 
-        public PagedInfo<RoutineNotices> GetPageList(NoticesQueryDto parm)
+        public PagedInfo<Notices> GetPageList(NoticesQueryDto parm)
         {
-            var predicate = Expressionable.Create<RoutineNotices>();
+            var predicate = Expressionable.Create<Notices>();
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.NoticeTitle), m => m.NoticeTitle.Contains(parm.NoticeTitle));
             predicate = predicate.AndIF(parm.NoticeType != null, m => m.NoticeType == parm.NoticeType);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.CreateBy), m => m.Create_by.Contains(parm.CreateBy) || m.Update_by.Contains(parm.CreateBy));
-            predicate = predicate.AndIF(parm.IsState.ToString()!= null, m => m.IsState == parm.IsState);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.CreateBy), m => m.Create_by.Contains(parm.CreateBy));
+            //predicate = predicate.AndIF(parm.IsState.ToString()!= null, m => m.IsState == parm.IsState);
             var response = GetPages(predicate.ToExpression(), parm);
             return response;
         }

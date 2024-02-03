@@ -8,6 +8,7 @@ namespace Ams.WebApi.Controllers
     /// 微信公众号
     /// </summary>
     [Route("[controller]/[action]")]
+    [ApiExplorerSettings(GroupName = "system")]
     [AllowAnonymous]
     public class WxOpenController : BaseController
     {

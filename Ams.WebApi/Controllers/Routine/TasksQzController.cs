@@ -41,7 +41,7 @@ namespace Ams.WebApi.Controllers.Routine
         public IActionResult ListTask([FromQuery] TasksQzQueryDto parm)
         {
             var response = _tasksQzService.SelectTaskList(parm);
-            return SUCCESS(response, TIME_FORMAT_FULL);
+            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -263,8 +263,8 @@ namespace Ams.WebApi.Controllers.Routine
         {
             var list = _tasksQzService.GetAll();
 
-            string sFileName = ExportExcel(list, "monitorjob", "定时任务");
-            return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
+            string sFileName = ExportExcel(list, "tasks", "定时任务", "export/routine");
+            return SUCCESS(new { path = "/export/routine/" + sFileName, fileName = sFileName });
         }
     }
 }

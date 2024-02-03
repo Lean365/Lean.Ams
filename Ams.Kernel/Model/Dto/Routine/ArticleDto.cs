@@ -9,6 +9,10 @@ namespace Ams.Kernel.Model.Dto.Routine
         public long? UserId { get; set; }
         public int IsState { get; set; }
         public string Title { get; set; }
+        public string AbstractText { get; set; }
+        public int? IsPublic { get; set; }
+        public int? IsTop { get; set; }
+        public int? CategoryId { get; set; }
         public DateTime? BeginTime { get; set; }
         public DateTime? EndTime { get; set; }
     }
@@ -33,7 +37,7 @@ namespace Ams.Kernel.Model.Dto.Routine
 
         public string Tags { get; set; }
 
-        public int? Hits { get; set; }
+        public int Hits { get; set; }
 
         public int? CategoryId { get; set; }
 
@@ -45,8 +49,10 @@ namespace Ams.Kernel.Model.Dto.Routine
 
         public string CoverUrl { get; set; }
 
-        public RoutineArticleCategory ArticleCategoryNav { get; set; }
+        public ArticleCategory ArticleCategoryNav { get; set; }
         public string[] TagList { get; set; }
-        public int IsPublic { get; set; }
+        public int IsPublic { get; set; } = 1;
+        public string AbstractText { get; set; }
+        public int IsTop { get; set; }
     }
 }

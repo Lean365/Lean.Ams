@@ -10,7 +10,7 @@ namespace Ams.Kernel.Services.System
     /// <summary>
     /// 多语言配置Service业务层处理
     ///
-    /// @author zr
+    /// @author Lean365(Davis.Cheng)
     /// @date 2022-05-06
     /// </summary>
     [AppService(ServiceType = typeof(ISysLocaleLangService), ServiceLifetime = LifeTime.Transient)]

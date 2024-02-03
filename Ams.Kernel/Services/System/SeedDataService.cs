@@ -192,7 +192,7 @@ namespace Ams.Kernel.Services.System
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public (string, object, object) InitArticleCategoryData(List<RoutineArticleCategory> data)
+        public (string, object, object) InitArticleCategoryData(List<ArticleCategory> data)
         {
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
@@ -287,7 +287,7 @@ namespace Ams.Kernel.Services.System
             var result10 = InitDeptData(sysDept);
             result.Add(result10.Item1);
 
-            var sysArticleCategory = MiniExcel.Query<RoutineArticleCategory>(path, sheetName: "article_category").ToList();
+            var sysArticleCategory = MiniExcel.Query<ArticleCategory>(path, sheetName: "article_category").ToList();
             var result11 = InitArticleCategoryData(sysArticleCategory);
             result.Add(result11.Item1);
 

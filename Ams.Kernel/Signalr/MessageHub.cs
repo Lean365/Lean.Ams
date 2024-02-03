@@ -11,6 +11,7 @@ using Ams.Infrastructure.WebExtensions;
 using Ams.Kernel.Model.Dto.System;
 using Ams.Kernel.Services.IService.System;
 using Ams.Kernel.Services.IService.Routine;
+using Ams.Kernel.Signalr;
 namespace Ams.Kernel.Signalr
 {
     /// <summary>

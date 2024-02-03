@@ -3,7 +3,7 @@
     /// <summary>
     /// 部门表
     /// </summary>
-    [SugarTable("sys_dept", "部门配置表")]
+    [SugarTable("sys_dept", "部门信息")]
     [Tenant("0")]
     public class SysDept : SysBase
     {

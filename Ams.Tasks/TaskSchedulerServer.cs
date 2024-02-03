@@ -58,7 +58,7 @@ namespace Ams.Tasks
                 //{ "quartz.jobStore.driverDelegateType", "Quartz.Impl.AdoJobStore.MySQLDelegate, Quartz"},
                 //{ "quartz.jobStore.useProperties", "true"},
                 //{ "quartz.jobStore.dataSource", "myDS" },
-                //{ "quartz.dataSource.myDS.connectionString", @"server=xxx.xxx.xxx.xxx;port=3306;database=Admin;uid=zrry;pwd=********;Charset=utf8;"},
+                //{ "quartz.dataSource.myDS.connectionString", @"server=xxx.xxx.xxx.xxx;port=3306;database=Admin;uid=Lean365(Davis.Cheng)ry;pwd=********;Charset=utf8;"},
                 //{ "quartz.dataSource.myDS.provider", "MySql" },
             };
 

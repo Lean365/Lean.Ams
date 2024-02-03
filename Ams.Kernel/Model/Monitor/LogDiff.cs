@@ -42,7 +42,7 @@
         /// 操作用户名
         /// </summary>
         public string UserName { get; set; }
-        public DateTime AddTime { get; set; }
+        public DateTime ExecTime { get; set; }
         /// <summary>
         /// 数据库配置id
         /// </summary>

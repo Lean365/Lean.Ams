@@ -6,7 +6,12 @@ namespace Ams.Kernel.Services.IService.Routine
     public interface IFileStorageService : IBaseService<FileStorage>
     {
         Task<long> InsertFile(FileStorage file);
-
+        /// <summary>
+        /// 校验输入项目唯一性
+        /// </summary>
+        /// <param name="enterString"></param>
+        /// <returns></returns>
+        public string CheckEntryUnique(string enterString);
         /// <summary>
         /// 上传文件
         /// </summary>

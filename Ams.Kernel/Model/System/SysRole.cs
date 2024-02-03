@@ -5,7 +5,7 @@ namespace Ams.Kernel.Model.System
     /// <summary>
     /// 角色表 sys_role
     /// </summary>
-    [SugarTable("sys_role", "角色表")]
+    [SugarTable("sys_role", "角色信息")]
     [Tenant("0")]
     public class SysRole : SysBase
     {

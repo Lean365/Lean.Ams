@@ -4,10 +4,10 @@ using Ams.Kernel.Model.Routine;
 
 namespace Ams.Kernel.Services.IService.Routine
 {
-    public interface IArticleCategoryService : IBaseService<RoutineArticleCategory>
+    public interface IArticleCategoryService : IBaseService<ArticleCategory>
     {
-        PagedInfo<RoutineArticleCategory> GetList(ArticleCategoryQueryDto parm);
-        List<RoutineArticleCategory> GetTreeList(ArticleCategoryQueryDto parm);
-        int AddArticleCategory(RoutineArticleCategory parm);
+        PagedInfo<ArticleCategory> GetList(ArticleCategoryQueryDto parm);
+        List<ArticleCategory> GetTreeList(ArticleCategoryQueryDto parm);
+        int AddArticleCategory(ArticleCategory parm);
     }
 }

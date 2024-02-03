@@ -36,7 +36,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = SysDictService.SelectDictTypeList(dict, pagerInfo);
 
-            return SUCCESS(list, TIME_FORMAT_FULL);
+            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -117,8 +117,8 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = SysDictService.GetAll();
 
-            string sFileName = ExportExcel(list, "sysdictType", "字典");
-            return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
+            string sFileName = ExportExcel(list, "DictType", "字典", "export/system");
+            return SUCCESS(new { path = "/export/system/" + sFileName, fileName = sFileName });
         }
     }
 }

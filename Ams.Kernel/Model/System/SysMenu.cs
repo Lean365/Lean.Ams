@@ -6,7 +6,7 @@ namespace Ams.Kernel.Model.System
     /// <summary>
     /// Sys_menu表
     /// </summary>
-    [SugarTable("sys_menu", "系统菜单表")]
+    [SugarTable("sys_menu", "菜单信息")]
     [Tenant("0")]
     public class SysMenu : SysBase
     {

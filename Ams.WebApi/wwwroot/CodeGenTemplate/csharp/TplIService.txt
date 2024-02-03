@@ -18,6 +18,7 @@ namespace ${options.IServicsNamespace}.${options.SubNamespace}.I${options.SubNam
         /// <param name="parm"></param>
         /// <returns></returns>
         PagedInfo<${replaceDto.ModelTypeName}Dto> GetList(${replaceDto.ModelTypeName}QueryDto parm);
+
         /// <summary>
         /// 详情
         /// </summary>
@@ -40,12 +41,14 @@ $if(genTable.TplCategory == "tree")
         /// <returns></returns>
         List<${replaceDto.ModelTypeName}> GetTreeList(${replaceDto.ModelTypeName}QueryDto parm);
 $end
+
         /// <summary>
         /// 添加
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         ${replaceDto.ModelTypeName} Add${replaceDto.ModelTypeName}(${replaceDto.ModelTypeName} parm);
+
         /// <summary>
         /// 修改
         /// </summary>
@@ -56,8 +59,7 @@ $if(replaceDto.ShowBtnTruncate)
         /// <summary>
         /// 清空
         /// </summary>
-        /// 
-        /// <returns></returns>
+        /// <returns></returns>    
         bool Truncate${replaceDto.ModelTypeName}();
 $end
 

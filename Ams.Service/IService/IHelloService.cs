@@ -5,7 +5,7 @@ namespace Ams.Service.IService
     /// <summary>
     /// Hello接口
     /// </summary>
-    public interface IHelloService : IBaseService<RoutineArticleCategory>
+    public interface IHelloService : IBaseService<ArticleCategory>
     {
         /// <summary>
         /// 

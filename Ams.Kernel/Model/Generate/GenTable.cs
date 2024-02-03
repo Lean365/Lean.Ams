@@ -3,7 +3,7 @@
     /// <summary>
     /// 代码生成表
     /// </summary>
-    [SugarTable("gen_table", "代码生成表")]
+    [SugarTable("gen_table", "代码生成")]
     [Tenant("0")]
     public class GenTable : SysBase
     {

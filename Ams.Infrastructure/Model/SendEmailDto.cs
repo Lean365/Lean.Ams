@@ -22,7 +22,7 @@ namespace Ams.Infrastructure.Model
         /// 是否发送给自己
         /// </summary>
         public bool SendMe { get; set; }
-        public DateTime AddTime { get; set; }
+        public DateTime SendTime { get; set; }
         /// <summary>
         /// 是否发送
         /// </summary>

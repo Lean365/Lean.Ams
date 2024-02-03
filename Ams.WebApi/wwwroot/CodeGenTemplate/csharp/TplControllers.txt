@@ -44,7 +44,7 @@ namespace ${options.ApiControllerNamespace}.Controllers
         public IActionResult Query${replaceDto.ModelTypeName}([FromQuery] ${replaceDto.ModelTypeName}QueryDto parm)
         {
             var response = _${replaceDto.ModelTypeName}Service.GetList(parm);
-            return SUCCESS(response);
+            return SUCCESS(response,TIME_FORMAT_YYYMMDD);
         }
 
 $if(genTable.TplCategory == "tree")
@@ -88,9 +88,9 @@ $if(replaceDto.ShowBtnAdd)
         public IActionResult Add${replaceDto.ModelTypeName}([FromBody] ${replaceDto.ModelTypeName}Dto parm)
         {
             var modal = parm.Adapt<${replaceDto.ModelTypeName}>().ToCreate(HttpContext);
-           // 校验输入项目唯一性
-
-            if (UserConstants.NOT_UNIQUE.Equals(_${replaceDto.ModelTypeName}Service.CheckEntryUnique(parm.${replaceDto.PKName}.ToString())))
+           
+            // 校验输入项目唯一性
+            if (UserConstants.NOT_UNIQUE.Equals(_${ replaceDto.ModelTypeName}Service.CheckEntryUnique(parm.${ replaceDto.PKName}.ToString())))
             {
                 return ToResponse(ApiResult.Error($"新增(New)${genTable.FunctionName} '{parm.${replaceDto.PKName}}'失败(failed)，输入的(The entered)${genTable.FunctionName}已存在(already exists)"));
             }
@@ -135,8 +135,7 @@ $if(replaceDto.ShowBtnDelete || replaceDto.ShowBtnMultiDel)
 $end
 $if(replaceDto.ShowBtnExport)
         /// <summary>
-        /// 导出
-        /// ${genTable.FunctionName}
+        /// 导出${genTable.FunctionName}
         /// </summary>
         /// <returns></returns>
         [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
@@ -151,7 +150,7 @@ $if(replaceDto.ShowBtnExport)
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "${genTable.FunctionName}", "${genTable.FunctionName}");
+            var result = ExportExcelMini(list, "${genTable.FunctionName}", "${genTable.FunctionName}","export/${genTable.ModuleName}");
             return ExportExcel(result.Item2, result.Item1);
         }
 
@@ -176,8 +175,7 @@ $if(replaceDto.ShowBtnTruncate)
 $end
 $if(replaceDto.ShowBtnImport)
         /// <summary>
-        /// 依模板导入
-        /// ${genTable.FunctionName}
+        /// 导入${genTable.FunctionName}
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
@@ -196,8 +194,7 @@ $if(replaceDto.ShowBtnImport)
         }
 
         /// <summary>
-        /// ${genTable.FunctionName}
-        /// 导入模板下载
+        /// ${genTable.FunctionName}导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
@@ -205,7 +202,7 @@ $if(replaceDto.ShowBtnImport)
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<${replaceDto.ModelTypeName}Dto>() { }, "${replaceDto.ModelTypeName}");
+            var result = DownloadImportTemplate(new List<${replaceDto.ModelTypeName}Dto>() { }, "${replaceDto.ModelTypeName}Tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

@@ -60,7 +60,7 @@
 </template>
 
 <script setup name="register">
-  import starBackground from '@/views/components/starBackground.vue'
+  import starBackground from '@/views/components/backGround/starBackground.vue'
   import { getCodeImg, register } from '@/api/system/login'
   import defaultSettings from '@/settings'
   import { ElMessageBox } from 'element-plus'

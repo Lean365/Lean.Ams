@@ -12,6 +12,10 @@
     "contact": "聯繫",
     "purchase": "採購",
     "warehouse": "庫存",
-    "accounting": "會計"
+    "accounting": "會計",
+    "depreciation": "折舊",
+    "stocktaking": "盤點",
+    "sale": "Sales",
+    "production": "Production"
   }
 }

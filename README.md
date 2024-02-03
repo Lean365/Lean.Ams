@@ -1,5 +1,5 @@
 **中文** | [English](./README.en.md)
-<h2 align="center">💥Lean365.LPS通用中小制造企业的生产看板💥</h2>
+<h2 align="center">💥Lean.Ams通用中小制造企业的生产看板💥</h2>
 <h4 align="center">👉.Net7+Vue3.x+Element plus前后端分离的快速发开框架👈</h4>  
 <div align=center>
 <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Vue/src/assets/logo/Jit.png" width=128" height="128" />
@@ -46,7 +46,7 @@
 | 仓库        | Gitee                                             | Github                                         |
 | ----------- | ------------------------------------------------- | ---------------------------------------------- |
 | Laplace.Net | [下载](https://gitee.com/leansoft365/Lean.Ams)  | [下载](https://github.com/Lean365/Lean.Ams)  |
-| Lean365.LPS | [克隆](https://gitee.com/leansoft365/Lean365.LPS) | [克隆](https://github.com/Lean365/Lean365.LPS) |
+| Lean.Ams | [克隆](https://gitee.com/leansoft365/Lean.Ams) | [克隆](https://github.com/Lean365/Lean.Ams) |
 
 
 ## 🍅 前端
@@ -140,44 +140,44 @@
 
 <table>
     <tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/1.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/2.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/1.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/2.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/3.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/4.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/3.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/4.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/5.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/6.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/5.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/6.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/7.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/8.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/7.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/8.png"/></td>
     </tr>	
 	<tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/9.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/10.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/9.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/10.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/11.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/12.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/11.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/12.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/13.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/14.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/13.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/14.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/15.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/16.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/15.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/16.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/17.png"/></td>
-		    <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/18.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/17.png"/></td>
+		    <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/18.png"/></td>
     </tr>
 	<tr>
-		<td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/19.png"/></td>
-		<td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/20.png"/></td>
+		<td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/19.png"/></td>
+		<td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/20.png"/></td>
 	</tr>
 </table>
 
@@ -202,7 +202,7 @@
 
 ## 🎀捐赠
 如果你觉得这个项目帮助到了你，你可以帮作者买一杯果汁表示鼓励 🍹 
-<img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/pay.jpg"/>
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/pay.jpg"/>
 
 
 ## 💡Browsers support
@@ -270,15 +270,15 @@ FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memor
    下载URL重写模块[urlrewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
    下载代理模块[Application Request Routing](https://www.iis.net/downloads/microsoft/application-request-routing)
    配置示例
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/iis1.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/iis2.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/iis3.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/iis4.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/iis5.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/iis6.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/iis7.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/iis8.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Lps.Docs/images/iis9.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis1.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis2.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis3.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis4.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis5.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis6.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis7.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis8.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis9.png"/>
 
 ## 🔑License
 [MIT](https://github.com/Lean365/Lean.Ams/blob/master/LICENSE)

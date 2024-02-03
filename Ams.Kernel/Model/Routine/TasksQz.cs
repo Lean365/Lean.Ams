@@ -7,7 +7,7 @@ namespace Ams.Kernel.Model.Routine
     ///<summary>
     ///计划任务
     ///</summary>
-    [SugarTable("routine_tasks", "计划任务表")]
+    [SugarTable("routine_tasks", "计划任务")]
     [Tenant("0")]
     public class TasksQz : SysBase
     {

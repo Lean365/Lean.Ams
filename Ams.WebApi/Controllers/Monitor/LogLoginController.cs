@@ -38,41 +38,41 @@ namespace Ams.WebApi.Controllers.Monitor
         {
             var list = LogLoginService.GetLoginLog(LogLoginDto, pagerInfo);
 
-            return SUCCESS(list);
+            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
         /// 清空登录日志
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "清空登录日志", BusinessType= BusinessType.CLEAN)]
+        [Log(Title = "清空登录日志", BusinessType = BusinessType.CLEAN)]
         [ActionPermissionFilter(Permission = "monitor:loglogin:truncate")]
         [HttpDelete("clean")]
-        public IActionResult CleanLoginInfo()
+        public IActionResult CleanLogList()
         {
             if (!HttpContextExtension.IsAdmin(HttpContext))
             {
                 return ToResponse(ApiResult.Error("操作失败"));
             }
-            LogLoginService.TruncateLogininfo();
+            LogLoginService.TruncateLogLogin();
             return SUCCESS(1);
         }
 
         /// <summary>
         /// </summary>
-        /// <param name="infoIds"></param>
+        /// <param name="ids"></param>
         /// <returns></returns>
         [Log(Title = "删除登录日志", BusinessType = BusinessType.DELETE)]
         [HttpDelete("{infoIds}")]
         [ActionPermissionFilter(Permission = "monitor:loglogin:delete")]
-        public IActionResult Remove(string infoIds)
+        public IActionResult Remove(string ids)
         {
             if (!HttpContextExtension.IsAdmin(HttpContext))
             {
                 return ToResponse(ApiResult.Error("操作失败"));
             }
-            long[] infoIdss = Tools.SpitLongArrary(infoIds);
-            return SUCCESS(LogLoginService.DeletelogloginByIds(infoIdss));
+            long[] idArr = Tools.SpitLongArrary(ids);
+            return SUCCESS(LogLoginService.DeleteLogLoginByIds(idArr));
         }
 
         /// <summary>
@@ -82,18 +82,32 @@ namespace Ams.WebApi.Controllers.Monitor
         [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "登录日志导出")]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "monitor:loglogin:export")]
-        public IActionResult Export([FromQuery] LogLogin logininfoDto)
+        public IActionResult Export([FromQuery] LogLogin LogLoginDto)
         {
-            logininfoDto.BeginTime = DateTimeHelper.GetBeginTime(logininfoDto.BeginTime, -1);
-            logininfoDto.EndTime = DateTimeHelper.GetBeginTime(logininfoDto.EndTime, 1);
+            LogLoginDto.BeginTime = DateTimeHelper.GetBeginTime(LogLoginDto.BeginTime, -1);
+            LogLoginDto.EndTime = DateTimeHelper.GetBeginTime(LogLoginDto.EndTime, 1);
             var exp = Expressionable.Create<LogLogin>()
-                .And(it => it.LoginTime >= logininfoDto.BeginTime && it.LoginTime <= logininfoDto.EndTime);
+                .And(it => it.LoginTime >= LogLoginDto.BeginTime && it.LoginTime <= LogLoginDto.EndTime);
 
             var list = LogLoginService.Queryable().Where(exp.ToExpression())
                 .ToList();
 
-            string sFileName = ExportExcel(list, "loginlog", "登录日志");
-            return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
+            string sFileName = ExportExcel(list, "LogLogin", "登录日志", "export/log");
+            return SUCCESS(new { path = "/export/log/" + sFileName, fileName = sFileName });
+        }
+
+        /// <summary>
+        /// 查询登录日志统计
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("statiLogLogin")]
+        [ActionPermissionFilter(Permission = "monitor:loglogin:list")]
+        public IActionResult QueryStatiLogLogin()
+        {
+            var list = LogLoginService.GetStatiLogLogin();
+            var categories = list.Select(x => x.Date.ToString("dd日")).ToList();
+            var numList = list.Select(x => x.Num).ToList();
+            return SUCCESS(new { categories, numList });
         }
     }
 }

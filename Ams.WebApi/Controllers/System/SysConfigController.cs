@@ -44,7 +44,7 @@ namespace Ams.WebApi.Controllers.System
 
             var response = _SysConfigService.GetPages(predicate.ToExpression(), parm);
 
-            return SUCCESS(response);
+            return SUCCESS(response,TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>

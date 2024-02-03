@@ -5,7 +5,7 @@ namespace Ams.Kernel.Model.System
     /// <summary>
     /// 用户表
     /// </summary>
-    [SugarTable("sys_user", "用户表")]
+    [SugarTable("sys_user", "用户信息")]
     [Tenant("0")]
     public class SysUser : SysBase
     {

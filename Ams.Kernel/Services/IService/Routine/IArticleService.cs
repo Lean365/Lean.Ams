@@ -1,10 +1,11 @@
 ﻿using Ams.Model;
 using Ams.Kernel.Model.Dto.Routine;
 using Ams.Kernel.Model.Routine;
+using static Ams.Kernel.Model.Routine.Article;
 
 namespace Ams.Kernel.Services.IService.Routine
 {
-    public interface IArticleService : IBaseService<RoutineArticle>
+    public interface IArticleService : IBaseService<Article>
     {
         PagedInfo<ArticleDto> GetList(ArticleQueryDto parm);
         PagedInfo<ArticleDto> GetMyList(ArticleQueryDto parm);
@@ -13,6 +14,9 @@ namespace Ams.Kernel.Services.IService.Routine
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public int UpdateArticle(RoutineArticle model);
+        public int UpdateArticle(Article model);
+        PagedInfo<ArticleDto> GetHotList(ArticleQueryDto parm);
+        int TopArticle(Article model);
+        int ChangeArticlePublic(Article model);
     }
 }

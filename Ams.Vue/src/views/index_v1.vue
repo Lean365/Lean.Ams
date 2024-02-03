@@ -3,10 +3,12 @@
     <!-- 用户信息 -->
     <el-row :gutter="15">
       <el-col :md="24" :lg="18" :xl="24" class="mb10">
-        <el-card shadow="hover">
+        <el-card shadow="hover" style="height: 100%">
           <div class="user-item">
             <div class="user-item-left">
-              <el-avatar :size="60" shape="circle" :src="userInfo.avatar" />
+              <el-avatar :size="60" shape="circle" :src="userInfo.avatar">
+                <img src="/src/assets/images/avatar.webp" />
+              </el-avatar>
             </div>
 
             <div class="user-item-right">

@@ -2,7 +2,7 @@
 
 namespace Ams.Kernel.Model.System
 {
-    [SugarTable("sys_post", "岗位表")]
+    [SugarTable("sys_post", "岗位信息")]
     [Tenant("0")]
     public class SysPost : SysBase
     {

@@ -5,7 +5,7 @@ using System;
 namespace Ams.Kernel.Model.Routine
 {
     [Tenant("0")]
-    [SugarTable("routine_files", "文件存储表")]
+    [SugarTable("routine_files", "文件存储")]
     public class FileStorage : SysBase
     {
         /// <summary>
@@ -42,14 +42,6 @@ namespace Ams.Kernel.Model.Routine
         /// 文件扩展名
         /// </summary>
         public string FileExt { get; set; }
-        /// <summary>
-        /// 创建人
-        /// </summary>
-        public string Create_by { get; set; }
-        /// <summary>
-        /// 上传时间
-        /// </summary>
-        public DateTime? Create_time { get; set; }
         /// <summary>
         /// 存储类型
         /// </summary>

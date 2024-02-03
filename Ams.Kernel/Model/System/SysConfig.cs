@@ -8,7 +8,7 @@ namespace Ams.Kernel.Model.System
     /// @author mr.zhao
     /// @date 2021-09-29
     /// </summary>
-    [SugarTable("sys_config", "配置表")]
+    [SugarTable("sys_config", "参数配置")]
     [Tenant("0")]
     public class SysConfig : SysBase
     {

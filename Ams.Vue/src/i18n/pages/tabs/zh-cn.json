@@ -12,6 +12,10 @@
     "contact": "联系",
     "purchase": "采购",
     "warehouse": "库存",
-    "accounting": "会计"
+    "accounting": "会计",
+    "depreciation": "折旧信息",
+    "stocktaking": "盘点信息",
+    "sale": "销售",
+    "production": "生产"
   }
 }

@@ -25,9 +25,9 @@ namespace Ams.Kernel.Services.Monitor
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.TableName), it => it.TableName == parm.TableName);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DiffType), it => it.DiffType == parm.DiffType);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.UserName), it => it.UserName == parm.UserName);
-            predicate = predicate.AndIF(parm.BeginTime == null, it => it.AddTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.AddTime >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, it => it.AddTime <= parm.EndTime);
+            //predicate = predicate.AndIF(parm.BeginTime == null, it => it.AddTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginTime != null, it => it.ExecTime >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, it => it.ExecTime <= parm.EndTime);
             var response = Queryable()
                 //.OrderBy("PId desc")
                 .Where(predicate.ToExpression())

@@ -5,7 +5,7 @@ namespace Ams.Kernel.Model.System
     /// <summary>
     /// 用户角色关联表 用户N-1 角色
     /// </summary>
-    [SugarTable("sys_user_role", "用户和角色关联表")]
+    [SugarTable("sys_user_role", "用户角色")]
     [Tenant("0")]
     public class SysUserRole : SysBase
     {

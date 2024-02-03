@@ -111,6 +111,7 @@ namespace Ams.Kernel.Services.Generate
             table.Create_time = DateTime.Now;
             //导入前删除现有表
             //DeleteGenTableByIds(new long[] { table.TableId });
+
             DeleteGenTableByTbName(table.TableName);
 
             return Insertable(table).IgnoreColumns(ignoreNullColumn: true).ExecuteReturnIdentity();

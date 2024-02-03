@@ -7,7 +7,7 @@ namespace Ams.Kernel.Model.System.Generate
     /// <summary>
     /// 代码生成表字段
     /// </summary>
-    [SugarTable("gen_table_column", "代码生成表字段")]
+    [SugarTable("gen_table_column", "生成字段")]
     [Tenant("0")]
     public class GenTableColumn : SysBase
     {
@@ -151,7 +151,7 @@ namespace Ams.Kernel.Model.System.Generate
         {
             get
             {
-                return ((IsPk) && !IsRequired) ? " :disabled=\"true\"" : "";
+                return ((IsPk) || !(IsEdit) && !IsRequired) ? " :disabled=\"true\"" : "";
             }
         }
 

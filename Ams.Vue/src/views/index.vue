@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <!-- <noticeBar :dataList="noticeList"> </noticeBar> -->
     <div>
       <el-card>
         <template #header>
@@ -40,6 +40,7 @@
       <el-col :xs="24" :sm="24" :lg="24">
         <div class="chart-wrapper">
           <line-chart :chart-data="lineChartData" :key="dataType" />
+          <CurrentMonth />
         </div>
       </el-col>
     </el-row>
@@ -55,13 +56,13 @@
   import PieChart from './dashboard/PieChart'
   import BarChart from './dashboard/BarChart'
   import WordCloudChat from './dashboard/WordCloud.vue'
-
+  import CurrentMonth from '/src/views/dashboard/CurrentMonthOutputChart.vue'
   import dayjs from 'dayjs'
-
+  // import noticeBar from '@/components/NoticeBar/index'
   import useUserStore from '@/store/modules/user'
   import useSocketStore from '@/store/modules/socket'
   import { useRouter } from 'vue-router';
-
+  // const noticeList = ref(['官网地址：http://www.izhaorui.cn', 'ZRAdmin.NET后台管理系统'])
   const { proxy } = getCurrentInstance()
   const userInfo = computed(() => {
     return useUserStore().userInfo
@@ -190,15 +191,15 @@
       expectedData: [100, 120, 161, 134, 105, 160, 165],
       actualData: [120, 82, 91, 154, 162, 140, 145]
     },
-    users: {
+    production: {
       expectedData: [200, 192, 120, 144, 160, 130, 140],
       actualData: [180, 160, 151, 106, 145, 150, 130]
     },
-    purchases: {
+    Shipment: {
       expectedData: [80, 100, 121, 104, 105, 90, 100],
       actualData: [120, 90, 100, 138, 142, 130, 130]
     },
-    shoppings: {
+    stockAmount: {
       expectedData: [130, 140, 141, 142, 145, 150, 160],
       actualData: [120, 82, 91, 154, 162, 140, 130]
     },

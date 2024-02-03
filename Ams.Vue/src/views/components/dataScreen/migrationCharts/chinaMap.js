@@ -1,6 +1,7 @@
 export const geoJson = {
   type: 'FeatureCollection',
   features: [
+
     {
       type: 'Feature',
       id: 'xin_jiang',
@@ -3038,6 +3039,7 @@ export const geoJson = {
           ]
         ]
       }
-    }
+    },
+
   ]
 }

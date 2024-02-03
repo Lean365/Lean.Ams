@@ -36,7 +36,7 @@ namespace Ams.WebApi.Controllers.System
             predicate = predicate.AndIF(post.IsState.ToString().IfNotEmpty(), it => it.IsState == post.IsState);
             var list = PostService.GetPages(predicate.ToExpression(), pagerInfo, s => new { s.PostSort });
 
-            return SUCCESS(list);
+            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = PostService.GetAll();
 
-            var result = ExportExcelMini(list, "post", "岗位列表");
+            var result = ExportExcelMini(list, "post", "岗位列表", "/export/system/");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

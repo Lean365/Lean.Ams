@@ -12,6 +12,11 @@ import Cn from './lang/zh-cn.json'
 import Tw from './lang/zh-tw.json'
 import Ja from './lang/ja.json'
 import En from './lang/en.json'
+//vue-table
+import vxeTableCn from 'vxe-table/lib/locale/lang/zh-CN'
+import vxeTableTw from 'vxe-table/lib/locale/lang/zh-TW'
+import vxeTableJa from 'vxe-table/lib/locale/lang/ja-JP'
+import vxeTableEn from 'vxe-table/lib/locale/lang/en-US'
 
 //登录页面
 import pageAboutCn from './pages/about/zh-cn.json'
@@ -86,6 +91,12 @@ import pageRoleCn from './pages/role/zh-cn.json'
 import pageRoleTw from './pages/role/zh-tw.json'
 import pageRoleJa from './pages/role/ja.json'
 import pageRoleEn from './pages/role/en.json'
+
+//统计页面
+import pageStatCn from './pages/stat/zh-cn.json'
+import pageStatTw from './pages/stat/zh-tw.json'
+import pageStatJa from './pages/stat/ja.json'
+import pageStatEn from './pages/stat/en.json'
 //Tabs标签页面
 import pageTabsCn from './pages/tabs/zh-cn.json'
 import pageTabsTw from './pages/tabs/zh-tw.json'
@@ -117,6 +128,7 @@ const i18n = createI18n({
   messages: {
     'zh-cn': {
       ...Cn,
+      ...vxeTableCn,
       ...pageAboutCn,
       ...pageConfigCn,
       ...pageDeptCn,
@@ -131,6 +143,7 @@ const i18n = createI18n({
       ...pageOnlineCn,
       ...pagePostCn,
       ...pageRoleCn,
+      ...pageStatCn,
       ...pageTabsCn,
       ...pageUploadCn,
       ...pageUserCn,
@@ -139,6 +152,7 @@ const i18n = createI18n({
     },
     'zh-tw': {
       ...Tw,
+      ...vxeTableTw,
       ...pageAboutTw,
       ...pageConfigTw,
       ...pageDeptTw,
@@ -153,6 +167,7 @@ const i18n = createI18n({
       ...pageOnlineTw,
       ...pagePostTw,
       ...pageRoleTw,
+      ...pageStatTw,
       ...pageTabsTw,
       ...pageUploadTw,
       ...pageUserTw,
@@ -160,6 +175,7 @@ const i18n = createI18n({
     },
     'ja': {
       ...Ja,
+      ...vxeTableJa,
       ...pageAboutJa,
       ...pageConfigJa,
       ...pageDeptJa,
@@ -174,6 +190,7 @@ const i18n = createI18n({
       ...pageOnlineJa,
       ...pagePostJa,
       ...pageRoleJa,
+      ...pageStatJa,
       ...pageTabsJa,
       ...pageUploadJa,
       ...pageUserJa,
@@ -181,6 +198,7 @@ const i18n = createI18n({
     },
     en: {
       ...En,
+      ...vxeTableEn,
       ...pageAboutEn,
       ...pageConfigEn,
       ...pageDeptEn,
@@ -195,6 +213,7 @@ const i18n = createI18n({
       ...pageOnlineEn,
       ...pagePostEn,
       ...pageRoleEn,
+      ...pageStatEn,
       ...pageTabsEn,
       ...pageUploadEn,
       ...pageUserEn,

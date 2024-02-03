@@ -5,7 +5,7 @@ namespace Ams.Kernel.Model.System
     /// <summary>
     /// 字典类型表
     /// </summary>
-    [SugarTable("sys_dict_type", "字典类型表")]
+    [SugarTable("sys_dict_type", "字典类型")]
     [SugarIndex("index_dict_type", nameof(DictType), OrderByType.Asc, true)]
     [Tenant("0")]
     public class SysDictType : SysBase

@@ -43,7 +43,7 @@ namespace Ams.WebApi.Controllers.System
                 list.Result.AddRange(result);
                 list.TotalNum += result.Count;
             }
-            return SUCCESS(list);
+            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -75,6 +75,7 @@ namespace Ams.WebApi.Controllers.System
                 SysDictDataDto vo = new()
                 {
                     DictType = dic.DictType,
+                    //Remark=dic.Remark,
                     ColumnName = dic.ColumnName,
                     List = list.FindAll(f => f.DictType == dic.DictType)
                 };

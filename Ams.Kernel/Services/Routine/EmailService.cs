@@ -24,9 +24,9 @@ namespace Ams.Kernel.Services.Routine
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FromEmail), it => it.FromEmail == parm.FromEmail);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Subject), it => it.Subject.Contains(parm.Subject));
-            predicate = predicate.AndIF(parm.BeginTime == null, it => it.AddTime >= DateTime.Now.AddDays(-7).ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.AddTime >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, it => it.AddTime <= parm.EndTime);
+            predicate = predicate.AndIF(parm.BeginTime == null, it => it.Create_time >= DateTime.Now.AddDays(-7).ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, it => it.Create_time <= parm.EndTime);
             var response = Queryable()
                 .Where(predicate.ToExpression())
                 .ToPage<Email, EmailDto>(parm);

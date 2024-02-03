@@ -35,7 +35,7 @@ namespace Ams.WebApi.Controllers.Monitor
             LogOper.OperName = !HttpContextExtension.IsAdmin(HttpContext) ? HttpContextExtension.GetName(HttpContext) : LogOper.OperName;
             var list = LogOperService.SelectOperLogList(LogOper);
 
-            return SUCCESS(list);
+            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Monitor
         {
             LogOper.PageSize = 100000;
             var list = LogOperService.SelectOperLogList(LogOper);
-            var result = ExportExcelMini(list.Result, "操作日志", "操作日志");
+            var result = ExportExcelMini(list.Result, "操作日志", "操作日志", "/export/log/");
             return ExportExcel(result.Item2, result.Item1);
         }
 

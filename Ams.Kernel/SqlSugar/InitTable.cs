@@ -31,10 +31,11 @@ namespace Ams.Kernel.SqlSugar
             db.CodeFirst.InitTables(typeof(SysPost));
             db.CodeFirst.InitTables(typeof(FileStorage));
             db.CodeFirst.InitTables(typeof(SysConfig));
-            db.CodeFirst.InitTables(typeof(RoutineNotices));
+            db.CodeFirst.InitTables(typeof(Notices));
             db.CodeFirst.InitTables(typeof(LogLogin));
             db.CodeFirst.InitTables(typeof(LogOper));
             db.CodeFirst.InitTables(typeof(SysMenu));
+            //db.CodeFirst.InitTables(typeof(SysRegion));
             db.CodeFirst.InitTables(typeof(SysRoleMenu));
             db.CodeFirst.InitTables(typeof(SysRoleDept));
             db.CodeFirst.InitTables(typeof(SysUserRole));
@@ -44,8 +45,8 @@ namespace Ams.Kernel.SqlSugar
             db.CodeFirst.InitTables(typeof(SysLocaleLang));
             db.CodeFirst.InitTables(typeof(GenTable));
             db.CodeFirst.InitTables(typeof(GenTableColumn));
-            db.CodeFirst.InitTables(typeof(RoutineArticle));
-            db.CodeFirst.InitTables(typeof(RoutineArticleCategory));
+            db.CodeFirst.InitTables(typeof(Article));
+            db.CodeFirst.InitTables(typeof(ArticleCategory));
             db.CodeFirst.InitTables(typeof(SysDictData));
             db.CodeFirst.InitTables(typeof(SysDictType));
             db.CodeFirst.InitTables(typeof(LogDiff));

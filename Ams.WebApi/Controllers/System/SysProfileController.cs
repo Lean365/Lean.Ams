@@ -55,7 +55,7 @@ namespace Ams.WebApi.Controllers.System
             var deptInfo = DeptService.GetFirst(f => f.DeptId == user.DeptId);
             user.DeptName = deptInfo?.DeptName ?? "-";
 
-            return SUCCESS(new { user, roles, postGroup }, TIME_FORMAT_FULL);
+            return SUCCESS(new { user, roles, postGroup }, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>

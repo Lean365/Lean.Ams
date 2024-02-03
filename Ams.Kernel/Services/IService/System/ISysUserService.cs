@@ -80,6 +80,6 @@ namespace Ams.Kernel.Services.IService.System
 
         SysUser Login(LoginBodyDto user);
 
-        void UpdateLoginInfo(string userIP, long userId);
+        void UpdateLogLogin(string userIP, long userId);
     }
 }

@@ -36,7 +36,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = SysUserRoleService.GetSysUsersByRoleId(roleUserQueryDto);
 
-            return SUCCESS(list, TIME_FORMAT_FULL);
+            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>

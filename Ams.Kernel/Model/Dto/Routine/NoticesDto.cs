@@ -12,6 +12,7 @@ namespace Ams.Kernel.Model.Dto.Routine
         public string NoticeTitle { get; set; }
         public int NoticeType { get; set; }
         public string NoticeContent { get; set; }
+        public string NoticeFileurl { get; set; }
         public int IsState { get; set; }
         public string Remark { get; set; }
     }

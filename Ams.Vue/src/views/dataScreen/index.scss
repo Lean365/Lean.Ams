@@ -71,13 +71,13 @@
         height: 109px;
       }
       .item-icon1 {
-        background: url('@/assets/images/charts/center-inner1.png') no-repeat center 43%;
+        background: url('@/assets/images/charts/Factory.png') no-repeat center 43%;
       }
       .item-icon2 {
-        background: url('@/assets/images/charts/center-inner1.png') no-repeat center 43%;
+        background: url('@/assets/images/charts/Factory.png') no-repeat center 43%;
       }
       .item-icon3 {
-        background: url('@/assets/images/charts/center-inner1.png') no-repeat center 43%;
+        background: url('@/assets/images/charts/Factory.png') no-repeat center 43%;
       }
       .item-right {
         margin-left: 20px;
@@ -142,8 +142,10 @@
       position: relative;
       .migration {
         width: 100%;
-        height: 900px;
+        height: 100%;
         position: absolute;
+	top: 100px;
+
       }
     }
     .right {

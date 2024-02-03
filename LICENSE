@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2021 zrry
+Copyright (c) 2020 Lean365 Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,17 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+MIT许可
+版权所有(c) Lean365 Inc.
+
+只要满足以下条件，许可被赋予任何( 获得本软件拷贝及相关文档的 ) 人 ，这些人可以免费地、
+没有限制地处理本软件 ( 包括随意地使用、拷贝、合并、发布、分发、再许可、卖拷贝，以及再
+授权其他人 ( 那些被装配了本软件的 ) 做上面说的这些事 ) 。
+ 
+以上版权声明和许可声明都必须包含 ( 在所有的本软件的完整拷贝或者实质性成分中 ) 。
+ 
+本软件是AS IS的( 不提供任何保证， ( 不管是显式的还是隐式的，包括但不限于适销性保证、
+适用性保证、非侵权性保证 ) ) ，在任何情况下， ( 对于任何的权益追索、损失赔偿或者任
+何追责 ) ，作者或者版权所有人都不会负责。( 无论这些追责产生自合同、侵权，还是直接
+或间接来自于本软件以及与本软件使用或经营有关的情形 )

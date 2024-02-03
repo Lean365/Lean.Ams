@@ -47,7 +47,7 @@ namespace Ams.WebApi.Controllers.Monitor
 
             var response = LogTasksQzService.GetPages(predicate.ToExpression(), pager, m => m.Create_time, OrderByType.Desc);
 
-            return SUCCESS(response, TIME_FORMAT_FULL);
+            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -91,8 +91,8 @@ namespace Ams.WebApi.Controllers.Monitor
         {
             var list = LogTasksQzService.GetAll();
 
-            string sFileName = ExportExcel(list, "jobLog", "定时任务日志");
-            return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
+            string sFileName = ExportExcel(list, "LogTasks", "定时任务日志", "export/log");
+            return SUCCESS(new { path = "/export/log/" + sFileName, fileName = sFileName });
         }
     }
 }

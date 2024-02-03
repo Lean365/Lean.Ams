@@ -38,7 +38,7 @@ namespace Ams.WebApi.Controllers.Routine
         public IActionResult QueryEmailTpl([FromQuery] EmailTplQueryDto parm)
         {
             var response = _EmailTplService.GetList(parm);
-            return SUCCESS(response);
+            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>

@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace Ams.Kernel.Model.Monitor
 {
-    [SugarTable("log_oper", "操作日志表")]
+    [SugarTable("log_oper", "操作日志")]
     [Tenant("0")]
     public class LogOper : SysBase
     {
