@@ -43,15 +43,15 @@
 
 <script setup name="statisticsec">
   import {
-    GetQuerySfid,
-    GetCountMonthOutput, GetCountMonthLineOutput, GetCountMonthModelOutput,
-    GetCountMonthEc, GetCountMonthDefective, GetCountMonthLaborhours,
-    GetCountMonthIncoming, GetCountMonthOutgoing, GetCountMonthSales,
-    GetCountMonthAreaSales, GetCountMonthRegionSales,
-    GetCountYearOutput, GetCountYearLineOutput, GetCountYearModelOutput,
-    GetCountYearEc, GetCountYearDefective, GetCountYearLaborhours,
-    GetCountYearIncoming, GetCountYearOutgoing, GetCountYearSales,
-    GetCountYearAreaSales, GetCountYearRegionSales
+    getQuerySfid,
+    getCountMonthOutput, getCountMonthLineOutput, getCountMonthModelOutput,
+    getCountMonthEc, getCountMonthDefective, getCountMonthLaborhours,
+    getCountMonthIncoming, getCountMonthOutgoing, getCountMonthSales,
+    getCountMonthAreaSales, getCountMonthRegionSales,
+    getCountYearOutput, getCountYearLineOutput, getCountYearModelOutput,
+    getCountYearEc, getCountYearDefective, getCountYearLaborhours,
+    getCountYearIncoming, getCountYearOutgoing, getCountYearSales,
+    getCountYearAreaSales, getCountYearRegionSales
   }
     from '@/api/statistics/output.js'
   const { proxy } = getCurrentInstance()
@@ -81,7 +81,7 @@
   function getList() {
     proxy.addDateRange(queryParams, dateRangePomMfgDate.value, 'PomMfgDate');
     loading.value = true
-    GetCountMonthEc(queryParams).then(res => {
+    getCountMonthEc(queryParams).then(res => {
       const { code, data } = res
       if (code == 200) {
         console.log(data)

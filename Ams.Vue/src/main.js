@@ -6,7 +6,7 @@ import VForm3 from 'vform3-builds'  //引入VForm 3库
 import 'vform3-builds/dist/designer.style.css'  //引入VForm3样式
 import 'dayjs/locale/zh-cn'
 import '@/assets/styles/index.scss' // global css
-
+import CountUp from 'vue-countup-v3'
 import App from './App'
 import router from './router'
 import directive from './directive' // directive
@@ -82,7 +82,7 @@ vxetb(app)
 app.use(pinia)
   .use(router)
   .use(plugins)
-
+  .use(CountUp)
   //.use(pinyin.setOptions({ checkPolyphone: false, charCase: 0 }))
   .use(ElementPlus, {})
   .use(VForm3)  //全局注册VForm3(同时注册了v-form-designe、v-form-render等组件)
