@@ -122,7 +122,7 @@
   import CountUp from 'vue-countup-v3'
   import useSocketStore from '@/store/modules/socket';
   import {
-    GetMonthlyProductionQty
+    getMonthlyProductionQty
   }
     from '@/api/statistics/output.js'
 
@@ -154,7 +154,7 @@
   const monthQty = ref(0);
   function getMonthlyProductionQtyList() {
     return new Promise((resolve, reject) => {
-      GetMonthlyProductionQty()
+      getMonthlyProductionQty()
         .then((res) => {
           //
           const { code, data } = res

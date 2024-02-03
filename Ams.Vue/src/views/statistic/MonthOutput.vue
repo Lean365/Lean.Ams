@@ -43,7 +43,7 @@
 <script setup name="monthoutput">
   import * as echarts from 'echarts'
   import {
-    GetCountMonthOutput, GetExportMonthOutput
+    getCountMonthOutput, getExportMonthOutput
   }
     from '@/api/statistics/output.js'
   const { proxy } = getCurrentInstance()
@@ -96,7 +96,7 @@
   function getList() {
     proxy.addDateRange(queryParams, dateRangePomMfgDate.value, 'PomMfgDate');
     loading.value = true
-    GetCountMonthOutput(queryParams).then(res => {
+    getCountMonthOutput(queryParams).then(res => {
       const { code, data } = res
       if (code == 200) {
         console.log(data)
@@ -155,7 +155,7 @@
         type: 'warning'
       })
       .then(function () {
-        return GetExportMonthOutput(queryParams)
+        return getExportMonthOutput(queryParams)
       })
       .then((response) => {
         proxy.download(response.data.path)

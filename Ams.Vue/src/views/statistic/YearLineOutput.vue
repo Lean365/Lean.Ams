@@ -46,7 +46,7 @@
 
 <script setup name="yearoutput">
   import {
-    GetCountYearOutput, GetExportYearOutput
+    getCountYearOutput, getExportYearOutput
   }
     from '@/api/statistics/output.js'
   const { proxy } = getCurrentInstance()
@@ -76,7 +76,7 @@
   function getList() {
     proxy.addDateRange(queryParams, dateRangePomMfgDate.value, 'PomMfgDate');
     loading.value = true
-    GetCountYearOutput(queryParams).then(res => {
+    getCountYearOutput(queryParams).then(res => {
       const { code, data } = res
       if (code == 200) {
         console.log(data)
@@ -133,7 +133,7 @@
         type: 'warning'
       })
       .then(function () {
-        return GetExportYearOutput(queryParams)
+        return getExportYearOutput(queryParams)
       })
       .then((response) => {
         proxy.download(response.data.path)

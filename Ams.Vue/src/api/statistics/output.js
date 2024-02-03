@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 //获取最大ID
-export function GetQuerySfid(query) {
+export function getQuerySfid(query) {
   return request({
     url: 'stat/output/MaxSfid',
     method: 'get',
@@ -17,7 +17,7 @@ export function getMonthlyProductionQty(query) {
   })
 }
 //按月统计OPH
-export function GetCountMonthOutput(query) {
+export function getCountMonthOutput(query) {
   return request({
     url: 'stat/output/CountMonthOutput',
     method: 'get',
@@ -25,7 +25,7 @@ export function GetCountMonthOutput(query) {
   })
 }
 //月度OPH导出
-export function GetExportMonthOutput(query) {
+export function getExportMonthOutput(query) {
   return request({
     url: 'stat/output/ExportMonthOutput',
     method: 'get',
@@ -33,7 +33,7 @@ export function GetExportMonthOutput(query) {
   })
 }
 //按月,班组统计OPH
-export function GetCountMonthLineOutput(query) {
+export function getCountMonthLineOutput(query) {
   return request({
     url: 'stat/output/CountMonthLineOutput',
     method: 'get',
@@ -41,7 +41,7 @@ export function GetCountMonthLineOutput(query) {
   })
 }
 //按月,班组统计OPH
-export function GetCountMonthLineOutputBar(query) {
+export function getCountMonthLineOutputBar(query) {
   return request({
     url: 'stat/output/CountMonthLineOutputBar',
     method: 'get',
@@ -50,7 +50,7 @@ export function GetCountMonthLineOutputBar(query) {
 }
 
 //当月,班组统计OPH
-export function GetCountCurrentMonthBar(query) {
+export function getCountCurrentMonthBar(query) {
   return request({
     url: 'stat/output/CountCurrentMonthOutputBar',
     method: 'get',
@@ -58,7 +58,7 @@ export function GetCountCurrentMonthBar(query) {
   })
 }
 //月度OPH导出班组
-export function GetExportMonthLineOutput(query) {
+export function getExportMonthLineOutput(query) {
   return request({
     url: 'stat/output/ExportMonthLineOutputList',
     method: 'get',
@@ -66,7 +66,7 @@ export function GetExportMonthLineOutput(query) {
   })
 }
 //按月，机种统计OPH
-export function GetCountMonthModelOutput(query) {
+export function getCountMonthModelOutput(query) {
   return request({
     url: 'stat/output/CountMonthModelOutput',
     method: 'get',
@@ -74,7 +74,7 @@ export function GetCountMonthModelOutput(query) {
   })
 }
 //月度OPH导出机种
-export function GetExportMonthModelOutput(query) {
+export function getExportMonthModelOutput(query) {
   return request({
     url: 'stat/output/ExportMonthModelOutputList',
     method: 'get',
@@ -82,7 +82,7 @@ export function GetExportMonthModelOutput(query) {
   })
 }
 //按月统计EC
-export function GetCountMonthEc(query) {
+export function getCountMonthEc(query) {
   return request({
     url: 'stat/output/CountMonthEc',
     method: 'get',
@@ -90,7 +90,7 @@ export function GetCountMonthEc(query) {
   })
 }
 //按月统计OPH不良
-export function GetCountMonthDefective(query) {
+export function getCountMonthDefective(query) {
   return request({
     url: 'stat/output/CountMonthDefective',
     method: 'get',
@@ -98,7 +98,7 @@ export function GetCountMonthDefective(query) {
   })
 }
 //按月统计OPH工数
-export function GetCountMonthLaborhours(query) {
+export function getCountMonthLaborhours(query) {
   return request({
     url: 'stat/output/CountMonthLaborhours',
     method: 'get',
@@ -106,7 +106,7 @@ export function GetCountMonthLaborhours(query) {
   })
 }
 //按月统计IQC进货
-export function GetCountMonthIncoming(query) {
+export function getCountMonthIncoming(query) {
   return request({
     url: 'stat/output/CountMonthIncoming',
     method: 'get',
@@ -114,7 +114,7 @@ export function GetCountMonthIncoming(query) {
   })
 }
 //按月统计QA出货
-export function GetCountMonthOutgoing(query) {
+export function getCountMonthOutgoing(query) {
   return request({
     url: 'stat/output/CountMonthOutgoing',
     method: 'get',
@@ -122,7 +122,7 @@ export function GetCountMonthOutgoing(query) {
   })
 }
 //按月统计销售
-export function GetCountMonthSales(query) {
+export function getCountMonthSales(query) {
   return request({
     url: 'stat/output/CountMonthSales',
     method: 'get',
@@ -130,7 +130,7 @@ export function GetCountMonthSales(query) {
   })
 }
 //按月,国家统计销售
-export function GetCountMonthAreaSales(query) {
+export function getCountMonthAreaSales(query) {
   return request({
     url: 'stat/output/CountMonthAreaSales',
     method: 'get',
@@ -138,7 +138,7 @@ export function GetCountMonthAreaSales(query) {
   })
 }
 //按月,仕向统计销售
-export function GetCountMonthRegionSales(query) {
+export function getCountMonthRegionSales(query) {
   return request({
     url: 'stat/output/CountMonthRegionSales',
     method: 'get',
@@ -146,7 +146,7 @@ export function GetCountMonthRegionSales(query) {
   })
 }
 //按年统计OPH
-export function GetCountYearOutput(query) {
+export function getCountYearOutput(query) {
   return request({
     url: 'stat/output/CountYearOutput',
     method: 'get',
@@ -154,7 +154,7 @@ export function GetCountYearOutput(query) {
   })
 }
 //按年导出OPH
-export function GetExportYearOutput(query) {
+export function getExportYearOutput(query) {
   return request({
     url: 'stat/output/ExportYearOutput',
     method: 'get',
@@ -162,7 +162,7 @@ export function GetExportYearOutput(query) {
   })
 }
 //按年班组统计OPH
-export function GetCountYearLineOutput(query) {
+export function getCountYearLineOutput(query) {
   return request({
     url: 'stat/output/CountYearLineOutput',
     method: 'get',
@@ -170,7 +170,7 @@ export function GetCountYearLineOutput(query) {
   })
 }
 //按年班组导出OPH
-export function GetExportYearLineOutput(query) {
+export function getExportYearLineOutput(query) {
   return request({
     url: 'stat/output/ExportYearLineOutput',
     method: 'get',
@@ -179,7 +179,7 @@ export function GetExportYearLineOutput(query) {
 }
 
 //按年，机种统计OPH
-export function GetCountYearModelOutput(query) {
+export function getCountYearModelOutput(query) {
   return request({
     url: 'stat/output/CountYearModelOutput',
     method: 'get',
@@ -187,7 +187,7 @@ export function GetCountYearModelOutput(query) {
   })
 }
 //按年，机种导出OPH
-export function GetExportYearModelOutput(query) {
+export function getExportYearModelOutput(query) {
   return request({
     url: 'stat/output/ExportYearModelOutput',
     method: 'get',
@@ -195,7 +195,7 @@ export function GetExportYearModelOutput(query) {
   })
 }
 //按年统计EC
-export function GetCountYearEc(query) {
+export function getCountYearEc(query) {
   return request({
     url: 'stat/output/CountYearEc',
     method: 'get',
@@ -203,7 +203,7 @@ export function GetCountYearEc(query) {
   })
 }
 //按年统计OPH不良
-export function GetCountYearDefective(query) {
+export function getCountYearDefective(query) {
   return request({
     url: 'stat/output/CountYearDefective',
     method: 'get',
@@ -211,7 +211,7 @@ export function GetCountYearDefective(query) {
   })
 }
 //按年统计OPH工数
-export function GetCountYearLaborhours(query) {
+export function getCountYearLaborhours(query) {
   return request({
     url: 'stat/output/CountYearLaborhours',
     method: 'get',
@@ -219,7 +219,7 @@ export function GetCountYearLaborhours(query) {
   })
 }
 //按年统计IQC进货
-export function GetCountYearIncoming(query) {
+export function getCountYearIncoming(query) {
   return request({
     url: 'stat/output/CountYearIncoming',
     method: 'get',
@@ -227,7 +227,7 @@ export function GetCountYearIncoming(query) {
   })
 }
 //按年统计QA出货
-export function GetCountYearOutgoing(query) {
+export function getCountYearOutgoing(query) {
   return request({
     url: 'stat/output/CountYearOutgoing',
     method: 'get',
@@ -235,7 +235,7 @@ export function GetCountYearOutgoing(query) {
   })
 }
 //按年统计销售
-export function GetCountYearSales(query) {
+export function getCountYearSales(query) {
   return request({
     url: 'stat/output/CountYearSales',
     method: 'get',
@@ -243,7 +243,7 @@ export function GetCountYearSales(query) {
   })
 }
 //按年,国家统计销售
-export function GetCountYearAreaSales(query) {
+export function getCountYearAreaSales(query) {
   return request({
     url: 'stat/output/CountYearAreaSales',
     method: 'get',
@@ -251,7 +251,7 @@ export function GetCountYearAreaSales(query) {
   })
 }
 //按年,仕向统计销售
-export function GetCountYearRegionSales(query) {
+export function getCountYearRegionSales(query) {
   return request({
     url: 'stat/output/CountYearRegionSales',
     method: 'get',

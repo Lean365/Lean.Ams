@@ -67,7 +67,7 @@
 
 <script setup name="monthmodeloutput">
   import {
-    GetCountMonthModelOutput, GetExportMonthModelOutput
+    getCountMonthModelOutput, getExportMonthModelOutput
   }
     from '@/api/statistics/output.js'
   const { proxy } = getCurrentInstance()
@@ -125,7 +125,7 @@
   function getList() {
     proxy.addDateRange(queryParams, dateRangePomMfgDate.value, 'PomMfgDate');
     loading.value = true
-    GetCountMonthModelOutput(queryParams).then(res => {
+    getCountMonthModelOutput(queryParams).then(res => {
       const { code, data } = res
       if (code == 200) {
         console.log(data)
@@ -182,7 +182,7 @@
         type: 'warning'
       })
       .then(function () {
-        return GetExportMonthModelOutput(queryParams)
+        return getxportMonthModelOutput(queryParams)
       })
       .then((response) => {
         proxy.download(response.data.path)

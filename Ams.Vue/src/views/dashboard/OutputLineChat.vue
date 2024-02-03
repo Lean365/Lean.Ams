@@ -9,7 +9,7 @@
   import * as echarts from 'echarts'
 
   import {
-    GetCountMonthLineOutput, GetExportMonthOutput
+    getCountMonthLineOutput, getExportMonthOutput
   }
     from '@/api/statistics/output.js'
   const { proxy } = getCurrentInstance()
@@ -34,7 +34,7 @@
 
   const getBarList = () => {
 
-    GetCountMonthLineOutput(queryParams).then(response => {
+    getCountMonthLineOutput(queryParams).then(response => {
       MapList = response.data;
       console.log("柱状图数据：" + MapList);         // 确认数据有获取到
       let obj = eval(MapList);
