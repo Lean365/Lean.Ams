@@ -6,7 +6,7 @@ namespace ${options.ModelsNamespace}.${options.SubNamespace}
 {
     /// <summary>
     /// ${genTable.FunctionName}
-    /// 数据实体
+    /// 数据实体对象
     /// @Author: ${replaceDto.Author}(Davis.Cheng)
     /// @Date: (${replaceDto.CreateTime})
     /// </summary>

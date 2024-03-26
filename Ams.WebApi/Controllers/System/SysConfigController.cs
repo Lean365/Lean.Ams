@@ -1,15 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-using SqlSugar;
-using Ams.Kernel.Filters;
-using Ams.Kernel.Model.System;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Services.IService.System;
 namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
-    /// 参数配置Controller
+    /// 参数配置
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Verify]
     [Route("system/config")]
@@ -44,7 +39,7 @@ namespace Ams.WebApi.Controllers.System
 
             var response = _SysConfigService.GetPages(predicate.ToExpression(), parm);
 
-            return SUCCESS(response,TIME_FORMAT_YYYMMDD);
+            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>

@@ -1,9 +1,15 @@
-﻿using Ams.Model;
-using Ams.Kernel.Model.Dto.System;
+﻿using Ams.Kernel.Model.Dto.System;
 using Ams.Kernel.Model.System;
+using Ams.Model;
 
 namespace Ams.Kernel.Services.IService.System
 {
+    /// <summary>
+    /// 系统用户
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public interface ISysUserService : IBaseService<SysUser>
     {
         public PagedInfo<SysUser> SelectUserList(SysUserQueryDto user, PagerInfo pager);
@@ -68,7 +74,9 @@ namespace Ams.Kernel.Services.IService.System
         /// <param name="dto"></param>
         /// <returns></returns>
         SysUser Register(RegisterDto dto);
+
         void CheckUserAllowed(SysUser user);
+
         void CheckUserDataScope(long userid, long loginUserId);
 
         /// <summary>

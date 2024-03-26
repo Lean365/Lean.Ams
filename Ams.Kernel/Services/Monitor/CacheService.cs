@@ -1,12 +1,20 @@
-﻿using Ams.Common;
-using Ams.Infrastructure.Cache;
+﻿using Ams.Infrastructure.Cache;
+
 namespace Ams.Kernel.Services.Monitor
 {
+    /// <summary>
+    /// 缓存服务
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class CacheService
     {
-        private readonly static string CK_verifyScan = "verifyScan_";
-        private readonly static string CK_phoneSmsCode = "phone_sms_code_";
+        private static readonly string CK_verifyScan = "verifyScan_";
+        private static readonly string CK_phoneSmsCode = "phone_sms_code_";
+
         #region 用户权限 缓存
+
         public static List<string> GetUserPerms(string key)
         {
             return (List<string>)CacheHelper.GetCache(key);
@@ -18,12 +26,14 @@ namespace Ams.Kernel.Services.Monitor
             CacheHelper.SetCache(key, data);
             //RedisServer.Cache.Set(key, data);
         }
+
         public static void RemoveUserPerms(string key)
         {
             CacheHelper.Remove(key);
             //RedisServer.Cache.Del(key);
         }
-        #endregion
+
+        #endregion 用户权限 缓存
 
         public static object SetScanLogin(string key, Dictionary<string, object> val)
         {
@@ -31,11 +41,13 @@ namespace Ams.Kernel.Services.Monitor
 
             return CacheHelper.SetCache(ck, val, 1);
         }
+
         public static object GetScanLogin(string key)
         {
             var ck = CK_verifyScan + key;
             return CacheHelper.Get(ck);
         }
+
         public static void RemoveScanLogin(string key)
         {
             var ck = CK_verifyScan + key;
@@ -66,6 +78,7 @@ namespace Ams.Kernel.Services.Monitor
 
             return CacheHelper.SetCache(ck, val, 10);
         }
+
         public static bool CheckPhoneCode(string key, string val)
         {
             var ck = CK_phoneSmsCode + key;

@@ -1,10 +1,11 @@
-﻿using MiniExcelLibs.Attributes;
-using SqlSugar;
-using System;
-using System.ComponentModel;
-
-namespace Ams.Kernel.Model.Monitor
+﻿namespace Ams.Kernel.Model.Monitor
 {
+    /// <summary>
+    /// 操作日志
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/25 13:57:42)
+    /// <summary>
     [SugarTable("log_oper", "操作日志")]
     [Tenant("0")]
     public class LogOper : SysBase
@@ -14,6 +15,7 @@ namespace Ams.Kernel.Model.Monitor
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long OperId { get; set; }
+
         /// <summary>
         /// 操作模块
         /// </summary>
@@ -96,10 +98,12 @@ namespace Ams.Kernel.Model.Monitor
         /// 操作时间
         /// </summary>
         public DateTime? OperTime { get; set; }
+
         /// <summary>
         /// 操作用时
         /// </summary>
         public long Elapsed { get; set; }
+
         public string DeptName { get; set; }
     }
 }

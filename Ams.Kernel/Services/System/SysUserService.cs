@@ -1,20 +1,24 @@
-using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using IPTools.Core;
 using System.Collections;
 using Ams.Common;
-using Ams.Model;
-using Ams.Kernel.Model.System;
-using Ams.Repository;
+using Ams.Infrastructure;
+using Ams.Infrastructure.Attribute;
 using Ams.Infrastructure.CustomException;
-using Ams.Kernel.Model.Dto.System;
 using Ams.Kernel.Model;
+using Ams.Kernel.Model.Dto.System;
+using Ams.Kernel.Model.System;
 using Ams.Kernel.Services.IService.System;
+using Ams.Model;
+using Ams.Repository;
+using IPTools.Core;
+
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
     /// 系统用户
-    /// </summary>
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ISysUserService), ServiceLifetime = LifeTime.Transient)]
     public class SysUserService : BaseService<SysUser>, ISysUserService
     {
@@ -196,10 +200,15 @@ namespace Ams.Kernel.Services.System
         {
             CheckUserAllowed(new SysUser() { UserId = userid });
             //删除用户与角色关联
-            UserRoleService.DeleteUserRoleByUserId((int)userid);
-            // 删除用户与岗位关联
-            UserPostService.Delete(userid);
-            return Update(new SysUser() { UserId = userid, IsDeleted = 2 }, it => new { it.IsDeleted }, f => f.UserId == userid);
+            bool result = UseTran2(() =>
+            {
+                //删除用户与角色关联
+                UserRoleService.DeleteUserRoleByUserId((int)userid);
+                // 删除用户与岗位关联
+                UserPostService.Delete(userid);
+                Update(new SysUser() { UserId = userid, IsDeleted = 2 }, it => new { it.IsDeleted }, f => f.UserId == userid);
+            });
+            return result ? 1 : 0;
         }
 
         /// <summary>
@@ -256,7 +265,7 @@ namespace Ams.Kernel.Services.System
         /// <param name="user"></param>
         public void CheckUserAllowed(SysUser user)
         {
-            if (user.IsAdmin())
+            if (user.IsAdmin)
             {
                 throw new CustomizeException("不允许操作超级管理员角色");
             }
@@ -269,12 +278,12 @@ namespace Ams.Kernel.Services.System
         /// <param name="loginUserId"></param>
         public void CheckUserDataScope(long userid, long loginUserId)
         {
-            if (!SysUser.IsAdmin(loginUserId))
-            {
-                SysUser user = new SysUser() { UserId = userid };
+            //if (!SysUser.IsAdmin(loginUserId))
+            //{
+            //    SysUser user = new SysUser() { UserId = userid };
 
-                //TODO 判断用户是否有数据权限
-            }
+            //    //TODO 判断用户是否有数据权限
+            //}
         }
 
         /// <summary>
@@ -308,10 +317,10 @@ namespace Ams.Kernel.Services.System
                                x.IgnoreList.Count,
                                x.DeleteList.Count,
                                x.TotalList.Count);
-            //输出统计                      
+            //输出统计
             Console.WriteLine(msg);
 
-            //输出错误信息               
+            //输出错误信息
             foreach (var item in x.ErrorList)
             {
                 Console.WriteLine("userName为" + item.Item.UserName + " : " + item.StorageMessage);

@@ -5,8 +5,11 @@ using Ams.Kernel.Services.IService.System;
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 参数配置Service业务层处理
-    /// </summary>
+    /// 参数配置
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ISysConfigService), ServiceLifetime = LifeTime.Transient)]
     public class SysConfigService : BaseService<SysConfig>, ISysConfigService
     {
@@ -17,6 +20,6 @@ namespace Ams.Kernel.Services.System
             return Queryable().First(f => f.ConfigKey == key);
         }
 
-        #endregion
+        #endregion 业务逻辑代码
     }
 }

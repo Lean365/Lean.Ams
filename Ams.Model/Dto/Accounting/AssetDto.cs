@@ -5,10 +5,29 @@ namespace Ams.Model.Dto
     /// 固定资产
     /// 查询对象
     /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 11:12:08)
+    /// @Date: (2024/3/18 16:31:28)
     /// </summary>
     public class AssetQueryDto : PagerInfo 
     {
+        public string FaCorp { get; set; }
+        public string FaDept { get; set; }
+        public string FaClassCode { get; set; }
+        public string FaAssetNo { get; set; }
+        public string FaCostCenter { get; set; }
+        public string FaAssetShortName { get; set; }
+        public string FaAssetFullName { get; set; }
+        public string FaAssetUnit { get; set; }
+        public int? FaAssetMana { get; set; }
+        public string FaAssetCcy { get; set; }
+        public DateTime? BeginFaCapitalizedDate { get; set; }
+        public DateTime? EndFaCapitalizedDate { get; set; }
+        public DateTime? BeginFaScrapDate { get; set; }
+        public DateTime? EndFaScrapDate { get; set; }
+        public int? FaAssetStop { get; set; }
+        public int? FaEntity { get; set; }
+        public int? FaHaveorNot { get; set; }
+        public DateTime? BeginFaCheckedDate { get; set; }
+        public DateTime? EndFaCheckedDate { get; set; }
     }
 
     /// <summary>
@@ -109,7 +128,7 @@ namespace Ams.Model.Dto
         [Required(ErrorMessage = "使用年限不能为空")]
         [ExcelColumn(Name = "使用年限")]
         [ExcelColumnName("使用年限")]
-        public decimal FaAssetUesd { get; set; }
+        public decimal FaAssetUsed { get; set; }
 
         [Required(ErrorMessage = "是否停用不能为空")]
         [ExcelColumn(Name = "是否停用")]
@@ -212,5 +231,32 @@ namespace Ams.Model.Dto
 
 
 
+        [ExcelIgnore]
+        [ExcelColumn(Name = "公司")]
+        public string FaCorpLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "使用部门")]
+        public string FaDeptLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "资产类别")]
+        public string FaClassCodeLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "成本中心")]
+        public string FaCostCenterLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "单位")]
+        public string FaAssetUnitLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "管理区分")]
+        public string FaAssetManaLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "币种")]
+        public string FaAssetCcyLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "是否停用")]
+        public string FaAssetStopLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "资产形态")]
+        public string FaEntityLabel { get; set; }
     }
 }

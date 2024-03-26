@@ -1,15 +1,24 @@
 ﻿namespace Ams.Kernel.Model.Dto.System
 {
+    /// <summary>
+    /// 消息管理
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class ChatMessageDto
     {
         public ChatUserDto FromUser { get; set; }
         public bool Self { get; set; }
+
         [SugarColumn(IsPrimaryKey = true)]
         public string ChatId { get; set; }
+
         /// <summary>
         /// 0、文本 1、图片 2、文件 3、语音 4、视频
         /// </summary>
         public int MsgType { get; set; }
+
         public string StoredKey { get; set; }
         public long UserId { get; set; }
         public long ToUserId { get; set; }
@@ -18,10 +27,17 @@
         /// 消息内容，如果type=1/2/3/4，此属性表示文件的URL地址
         /// </summary>
         public string Message { get; set; }
+
         public long ChatTime { get; set; }
         public int Online { get; set; }
     }
 
+    /// <summary>
+    /// 消息管理
+    /// 查询对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class ChatUserDto
     {
         public string UserName { get; set; }

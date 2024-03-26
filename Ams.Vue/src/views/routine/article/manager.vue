@@ -17,8 +17,8 @@
           clearable v-model="queryParams.categoryId" />
       </el-form-item>
 
-      <el-form-item prop="status">
-        <el-radio-group v-model="queryParams.status" @change="handleQuery()">
+      <el-form-item prop="isState">
+        <el-radio-group v-model="queryParams.isState" @change="handleQuery()">
           <el-radio-button label="">全部</el-radio-button>
           <el-radio-button v-for="item in statusOptions" :key="item.dictValue" :label="item.dictValue">
             {{ item.dictLabel }}
@@ -73,9 +73,9 @@
       <el-table-column prop="tags" label="标签" width="100" :show-overflow-tooltip="true"> </el-table-column>
       <el-table-column prop="hits" label="点击量" width="80" align="center"> </el-table-column>
       <el-table-column prop="abstractText" label="摘要" :show-overflow-tooltip="true"> </el-table-column>
-      <el-table-column sortable prop="status" align="center" label="状态" width="90">
+      <el-table-column sortable prop="isState" align="center" label="状态" width="90">
         <template #default="scope">
-          <el-tag :type="scope.row.status == '2' ? 'danger' : 'success'">{{ scope.row.status == '2' ? '草稿' : '已发布' }}
+          <el-tag :type="scope.row.isState == '2' ? 'danger' : 'success'">{{ scope.row.isState == '2' ? '草稿' : '已发布' }}
           </el-tag>
         </template>
       </el-table-column>

@@ -20,7 +20,7 @@ namespace ${options.ApiControllerNamespace}.Controllers
     /// @Date: (${replaceDto.CreateTime})
     /// </summary>
     [Verify]
-    [Route("${genTable.ModuleName}/${genTable.BusinessName}")]
+    [Route("${genTable.ModuleName}/${genTable.BusinessName}", Name = "${genTable.functionName}")]
     [ApiExplorerSettings(GroupName = "${genTable.ModuleName}")]
     public class ${replaceDto.ModelTypeName}Controller : BaseController
     {
@@ -194,7 +194,8 @@ $if(replaceDto.ShowBtnImport)
         }
 
         /// <summary>
-        /// ${genTable.FunctionName}导入模板下载
+        /// ${genTable.FunctionName}
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]

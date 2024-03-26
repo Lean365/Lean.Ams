@@ -1,26 +1,33 @@
 ﻿namespace Ams.Kernel.Model.Monitor
 {
     /// <summary>
-    /// 短信验证码记录
-    /// </summary>
+    /// 短信记录
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/25 13:57:42)
+    ///<summary>
     [SugarTable("log_sms", "短信记录")]
-    public class LogSms:SysBase
+    public class LogSms : SysBase
     {
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true)]
         public long Id { get; set; }
+
         /// <summary>
         /// 短信验证码
         /// </summary>
         public string SmsCode { get; set; }
+
         /// <summary>
         /// 用户id
         /// </summary>
         public long Userid { get; set; }
+
         /// <summary>
         /// 手机号
         /// </summary>
         public long PhoneNum { get; set; }
+
         /// <summary>
         /// 短信内容
         /// </summary>
@@ -30,10 +37,12 @@
         /// 用户IP
         /// </summary>
         public string UserIP { get; set; }
+
         /// <summary>
         /// 地理位置
         /// </summary>
         public string Location { get; set; }
+
         /// <summary>
         /// 1、登录 2、注册 3、找回密码
         /// </summary>

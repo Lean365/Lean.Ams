@@ -1,9 +1,10 @@
-﻿using SqlSugar;
-
-namespace Ams.Kernel.Model.System
+﻿namespace Ams.Kernel.Model.System
 {
     /// <summary>
-    /// 角色表 sys_role
+    /// 角色信息
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/25 13:57:42)
     /// </summary>
     [SugarTable("sys_role", "角色信息")]
     [Tenant("0")]
@@ -44,38 +45,45 @@ namespace Ams.Kernel.Model.System
         /// </summary>
         [SugarColumn(DefaultValue = "0")]
         public int IsDeleted { get; set; }
+
         /// <summary>
         /// 数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限））
         /// </summary>
         [SugarColumn(DefaultValue = "1")]
         public int DataScope { get; set; }
+
         /// <summary>
         /// 菜单树选择项是否关联显示
         /// </summary>
         [SugarColumn(ColumnName = "menu_check_strictly")]
         public bool MenuCheckStrictly { get; set; } = true;
+
         /// <summary>
         /// 部门树选择项是否关联显示
         /// </summary>
         [SugarColumn(ColumnName = "dept_check_strictly")]
         public bool DeptCheckStrictly { get; set; } = true;
+
         /// <summary>
         /// 菜单组
         /// </summary>
         [SugarColumn(IsIgnore = true)]
         public long[] MenuIds { get; set; }
+
         /// <summary>
         /// 部门组（数据权限）
         /// </summary>
         [SugarColumn(IsIgnore = true)]
         public long[] DeptIds { get; set; }
+
         /// <summary>
         /// 用户个数
         /// </summary>
         [SugarColumn(IsIgnore = true)]
         public int UserNum { get; set; }
 
-        public SysRole() { }
+        public SysRole()
+        { }
 
         public SysRole(long roleId)
         {

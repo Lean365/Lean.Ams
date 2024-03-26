@@ -1,16 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Ams.Kernel.Filters;
-using Ams.Kernel.Model.System;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Dto.System;
-
-using Ams.Kernel.Model;
-using Ams.Kernel.Services.IService.System;
-namespace Ams.WebApi.Controllers.System
+﻿namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
     /// 系统菜单
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Verify]
     [Route("/system/menu")]
@@ -85,7 +79,7 @@ namespace Ams.WebApi.Controllers.System
         /// 加载对应角色菜单列表树
         /// </summary>
         /// <param name="roleId"></param>
-        /// <returns></returns>        
+        /// <returns></returns>
         [HttpGet("roleMenuTreeselect/{roleId}")]
         public IActionResult RoleMenuTreeselect(int roleId)
         {
@@ -120,7 +114,8 @@ namespace Ams.WebApi.Controllers.System
                 .NameMatchingStrategy(NameMatchingStrategy.IgnoreCase);//忽略字段名称的大小写;//忽略除以上配置的所有字段
 
             var modal = menuDto.Adapt<SysMenu>(config).ToUpdate(HttpContext);
-            if (UserConstants.YES_FRAME.Equals(modal.IsFrame) && !modal.Path.StartsWith("http"))
+            //if (UserConstants.YES_FRAME.Equals(modal.IsFrame) && !modal.Path.StartsWith("http"))
+            if (UserConstants.YES_FRAME.Equals(modal.IsFrame) && (!modal.Path.StartsWith("http") && !modal.Path.StartsWith("/link")))
             {
                 return ToResponse(ApiResult.Error($"修改菜单'{modal.MenuName}'失败，地址必须以http(s)://开头"));
             }

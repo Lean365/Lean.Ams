@@ -1,8 +1,14 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Ams.Model;
+
 namespace Ams.Kernel.Model.Dto.Routine
 {
+    /// <summary>
+    /// 计划任务
+    /// 查询对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// </summary>
     public class TasksQzQueryDto : PagerInfo
     {
         /// <summary>
@@ -10,24 +16,34 @@ namespace Ams.Kernel.Model.Dto.Routine
         /// </summary>
         [Display(Name = "查询字符串")]
         public string QueryText { get; set; }
+
         public int? TaskType { get; set; }
         public int? TriggerType { get; set; }
         public int? IsStart { get; set; }
     }
+
+    /// <summary>
+    /// 计划任务
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class TasksQzDto
     {
-
     }
+
     /// <summary>
+    /// 计划任务
     /// 添加任务
-    /// </summary>
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class TasksQzCreateDto
     {
         /// <summary>
         /// 任务id
         /// </summary>
         [Display(Name = "任务id")]
-        //[Required(ErrorMessage = "任务不能为空")]
         public string ID { get; set; }
 
         /// <summary>
@@ -97,11 +113,14 @@ namespace Ams.Kernel.Model.Dto.Routine
         /// </summary>
         [Display(Name = "传入参数")]
         public string JobParams { get; set; }
+
         public string ApiUrl { get; set; }
+
         /// <summary>
         /// 1、程序集任务 2、apiUrl任务 3、SQL语句
         /// </summary>
         public int TaskType { get; set; }
+
         /// <summary>
         /// SQL文本
         /// </summary>

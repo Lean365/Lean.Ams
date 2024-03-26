@@ -1,18 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-using MiniExcelLibs;
-using SqlSugar;
-using Ams.Kernel.Filters;
-using Ams.Model;
-using Ams.Kernel.Model.System;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Model;
-using Ams.Kernel.Services.IService.System;
 namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
     /// 用户管理
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Verify]
     [Route("system/user")]
@@ -96,7 +88,6 @@ namespace Ams.WebApi.Controllers.System
             }
 
             user.Password = NETCore.Encrypt.EncryptProvider.Md5(user.Password);
-
 
             return SUCCESS(UserService.InsertUser(user));
         }

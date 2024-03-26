@@ -1,7 +1,11 @@
-﻿using MiniExcelLibs.Attributes;
-
-namespace Ams.Kernel.Model
+﻿namespace Ams.Kernel.Model
 {
+    /// <summary>
+    /// 标准字段
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/25 13:57:42)
+    /// </summary>
     //[EpplusTable(PrintHeaders = true, AutofitColumns = true, AutoCalculate = true, ShowTotal = true)]
     public class SysBase
     {
@@ -10,6 +14,7 @@ namespace Ams.Kernel.Model
         /// </summary>
         [SugarColumn(Length = 500)]
         public string Remark { get; set; }
+
         /// <summary>
         /// 创建人
         /// </summary>
@@ -43,6 +48,5 @@ namespace Ams.Kernel.Model
         [JsonProperty(propertyName: "UpdateTime")]
         [ExcelIgnore]
         public DateTime? Update_time { get; set; }
-
     }
 }

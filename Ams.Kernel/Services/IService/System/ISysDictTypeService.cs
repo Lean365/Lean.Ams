@@ -1,14 +1,18 @@
-﻿using Ams.Model;
-using Ams.Kernel.Model.System;
+﻿using Ams.Kernel.Model.System;
+using Ams.Model;
 
 namespace Ams.Kernel.Services.IService.System
 {
     /// <summary>
-    /// 
-    /// </summary>
-    public interface ISysDictService
+    /// 字典类型
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
+    public interface ISysDictTypeService
     {
         public List<SysDictType> GetAll();
+
         public PagedInfo<SysDictType> SelectDictTypeList(SysDictType dictType, PagerInfo pager);
 
         /// <summary>

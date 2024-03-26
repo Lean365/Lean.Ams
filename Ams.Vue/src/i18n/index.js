@@ -17,7 +17,12 @@ import vxeTableCn from 'vxe-table/lib/locale/lang/zh-CN'
 import vxeTableTw from 'vxe-table/lib/locale/lang/zh-TW'
 import vxeTableJa from 'vxe-table/lib/locale/lang/ja-JP'
 import vxeTableEn from 'vxe-table/lib/locale/lang/en-US'
+//工具栏
 
+import pageRightbarCn from './pages/rightbar/zh-cn.json'
+import pageRightbarTw from './pages/rightbar/zh-tw.json'
+import pageRightbarJa from './pages/rightbar/ja.json'
+import pageRightbarEn from './pages/rightbar/en.json'
 //登录页面
 import pageAboutCn from './pages/about/zh-cn.json'
 import pageAboutTw from './pages/about/zh-tw.json'
@@ -142,6 +147,7 @@ const i18n = createI18n({
       ...pageNoticeCn,
       ...pageOnlineCn,
       ...pagePostCn,
+      ...pageRightbarCn,
       ...pageRoleCn,
       ...pageStatCn,
       ...pageTabsCn,
@@ -166,6 +172,7 @@ const i18n = createI18n({
       ...pageNoticeTw,
       ...pageOnlineTw,
       ...pagePostTw,
+      ...pageRightbarTw,
       ...pageRoleTw,
       ...pageStatTw,
       ...pageTabsTw,
@@ -189,6 +196,7 @@ const i18n = createI18n({
       ...pageNoticeJa,
       ...pageOnlineJa,
       ...pagePostJa,
+      ...pageRightbarJa,
       ...pageRoleJa,
       ...pageStatJa,
       ...pageTabsJa,
@@ -212,6 +220,7 @@ const i18n = createI18n({
       ...pageNoticeEn,
       ...pageOnlineEn,
       ...pagePostEn,
+      ...pageRightbarEn,
       ...pageRoleEn,
       ...pageStatEn,
       ...pageTabsEn,

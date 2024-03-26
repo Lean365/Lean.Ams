@@ -15,7 +15,7 @@ namespace Ams.WebApi.Controllers
     /// 固定资产
     /// API控制器
     /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 11:12:08)
+    /// @Date: (2024/3/18 16:31:28)
     /// </summary>
     [Verify]
     [Route("accounting/Asset")]

@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Ams.Kernel.Filters;
-using Ams.Infrastructure.CustomException;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Services.IService.System;
-
-namespace Ams.WebApi.Controllers.System
+﻿namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
     /// 用户角色管理
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Verify]
     [Route("system/userRole")]

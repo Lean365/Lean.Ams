@@ -1,13 +1,11 @@
-﻿using Newtonsoft.Json;
-using SqlSugar;
-using System;
-using System.Collections.Generic;
-
-namespace Ams.Kernel.Model.Routine
+﻿namespace Ams.Kernel.Model.Routine
 {
     /// <summary>
     /// 文章目录
-    /// </summary>
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/25 13:57:42)
+    /// <summary>
     [SugarTable("routine_article_category", "文章目录")]
     [Tenant("0")]
     public class ArticleCategory : SysBase
@@ -20,6 +18,7 @@ namespace Ams.Kernel.Model.Routine
 
         [SugarColumn(ColumnDescription = "目录名", Length = 20, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string Name { get; set; }
+
         public int? ParentId { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

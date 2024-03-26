@@ -1,17 +1,18 @@
 ﻿using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Model.Dto.Routine;
+using Ams.Kernel.Model.Routine;
+using Ams.Kernel.Services.IService.Routine;
 using Ams.Model;
 using Ams.Repository;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Model.Dto.Routine;
-using Ams.Kernel.Services.IService.Routine;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
     /// 文章管理
-    /// API控制器
-    /// </summary>
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(IArticleService), ServiceLifetime = LifeTime.Transient)]
     public class ArticleService : BaseService<Article>, IArticleService
     {
@@ -89,16 +90,20 @@ namespace Ams.Kernel.Services.Routine
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Title), m => m.Title.Contains(parm.Title));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IsState.ToString()), m => m.IsState == parm.IsState);
-            predicate = predicate.AndIF(parm.BeginTime != null, m => m.CreateTime >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, m => m.CreateTime <= parm.EndTime);
+            predicate = predicate.AndIF(parm.BeginTime != null, m => m.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, m => m.Create_time <= parm.EndTime);
             predicate = predicate.And(m => m.UserId == parm.UserId);
-
+            predicate = predicate.AndIF(parm.ArticleType != null, m => m.ArticleType == parm.ArticleType);
             var response = Queryable()
-                .IgnoreColumns(x => new { x.Content })
+                //.IgnoreColumns(x => new { x.Content })
                 .Includes(x => x.ArticleCategoryNav)
                 .Where(predicate.ToExpression())
-                .ToPage<Article, ArticleDto>(parm);
-
+                //.ToPage<Article, ArticleDto>(parm);
+                .Select((x) => new ArticleDto()
+                {
+                    Content = x.ArticleType == 1 ? x.Content : string.Empty,
+                }, true)
+                .ToPage(parm);
             return response;
         }
 
@@ -115,7 +120,7 @@ namespace Ams.Kernel.Services.Routine
                 Content = model.Content,
                 IsState = model.IsState,
                 Tags = model.Tags,
-                UpdateTime = DateTime.Now,
+                Update_time = DateTime.Now,
                 CoverUrl = model.CoverUrl,
                 CategoryId = model.CategoryId,
                 FmtType = model.FmtType,

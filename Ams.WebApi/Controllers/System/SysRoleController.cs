@@ -1,17 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Ams.Kernel.Filters;
-using Ams.Model;
-using Ams.Kernel.Model.System;
-using Ams.Infrastructure.Helper;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Model;
-using Ams.Kernel.Services.IService.System;
-namespace Ams.WebApi.Controllers.System
+﻿namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
     /// 角色信息
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Verify]
     [Route("system/role")]
@@ -39,7 +32,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = sysRoleService.SelectRoleList(role, pager);
 
-            return SUCCESS(list,TIME_FORMAT_YYYMMDD);
+            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
         }
 
         /// <summary>
@@ -194,7 +187,7 @@ namespace Ams.WebApi.Controllers.System
 
             var list = sysMenuService.SelectRoleMenuListByRole(dto, roleId);
 
-            var result = ExportExcelMini(list, roleId.ToString(), "角色菜单","/export/system/");
+            var result = ExportExcelMini(list, roleId.ToString(), "角色菜单", "/export/system/");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

@@ -1,17 +1,22 @@
 ﻿using Ams.Infrastructure.Attribute;
-using Ams.Model;
+using Ams.Infrastructure.Helper;
 using Ams.Kernel.Model.System.Generate;
 using Ams.Kernel.Services.IService.Generate;
-using Ams.Infrastructure.Helper;
+using Ams.Model;
+
 namespace Ams.Kernel.Services.Generate
 {
     /// <summary>
-    /// 代码生成表
+    /// 代码生成
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
     /// </summary>
     [AppService(ServiceType = typeof(IGenTableService), ServiceLifetime = LifeTime.Transient)]
     public class GenTableService : BaseService<GenTable>, IGenTableService
     {
         private IGenTableColumnService GenTableColumnService;
+
         public GenTableService(IGenTableColumnService genTableColumnService)
         {
             GenTableColumnService = genTableColumnService;

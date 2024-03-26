@@ -1,29 +1,31 @@
-﻿using Ams.Infrastructure;
+﻿using System.Text.Encodings.Web;
+using Ams.Common;
 using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.CustomException;
 using Ams.Infrastructure.Model;
+using Ams.Infrastructure.WebExtensions;
+using Ams.Kernel.Model.Monitor;
+using Ams.Kernel.Services.IService.Monitor;
 using IPTools.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using NLog;
-using System.Text.Encodings.Web;
-using Ams.Common;
 using textJson = System.Text.Json;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Monitor;
-using Ams.Kernel.Services.IService.Monitor;
+
 namespace Ams.Kernel.Middleware
 {
     /// <summary>
     /// 全局异常处理中间件
     /// 调用 app.UseMiddlewareGlobalExceptionMiddleware>();
-    /// </summary>
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class GlobalExceptionMiddleware
     {
         private readonly RequestDelegate next;
         private readonly ILogOperService LogOperService;
 
-        static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public GlobalExceptionMiddleware(RequestDelegate next, ILogOperService LogOper)
         {

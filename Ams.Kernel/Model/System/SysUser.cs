@@ -1,9 +1,10 @@
-﻿using MiniExcelLibs.Attributes;
-
-namespace Ams.Kernel.Model.System
+﻿namespace Ams.Kernel.Model.System
 {
     /// <summary>
-    /// 用户表
+    /// 用户信息
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/25 13:57:42)
     /// </summary>
     [SugarTable("sys_user", "用户信息")]
     [Tenant("0")]
@@ -14,23 +15,28 @@ namespace Ams.Kernel.Model.System
         /// </summary>
         [SugarColumn(IsIdentity = true, IsPrimaryKey = true)]
         public long UserId { get; set; }
+
         /// <summary>
         /// 登录用户名
         /// </summary>
         [SugarColumn(Length = 30, ColumnDescription = "用户账号", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string UserName { get; set; }
+
         /// <summary>
         /// 用户昵称
         /// </summary>
         [SugarColumn(Length = 30, ColumnDescription = "用户昵称", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string NickName { get; set; }
+
         /// <summary>
         /// 用户类型（00系统用户）
         /// </summary>
         [SugarColumn(Length = 2, ColumnDescription = "用户类型（00系统用户）", DefaultValue = "00")]
         public string UserType { get; set; } = "00";
+
         //[SugarColumn(IsOnlyIgnoreInsert = true)]
         public string Avatar { get; set; }
+
         [SugarColumn(Length = 50, ColumnDescription = "用户邮箱")]
         public string Email { get; set; }
 
@@ -38,10 +44,12 @@ namespace Ams.Kernel.Model.System
         [ExcelIgnore]
         [SugarColumn(Length = 100, ColumnDescription = "密码", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string Password { get; set; }
+
         /// <summary>
         /// 手机号
         /// </summary>
         public string Phonenumber { get; set; }
+
         /// <summary>
         /// 用户性别（0男 1女 2未知）
         /// </summary>
@@ -78,16 +86,19 @@ namespace Ams.Kernel.Model.System
         /// </summary>
         [SugarColumn(DefaultValue = "0")]
         public long DeptId { get; set; }
+
         public string Province { get; set; }
         public string City { get; set; }
+
         #region 表额外字段
-        public bool IsAdmin()
+
+        [SugarColumn(IsIgnore = true)]
+        public bool IsAdmin
         {
-            return IsAdmin(UserId);
-        }
-        public static bool IsAdmin(long userId)
-        {
-            return 1 == userId;
+            get
+            {
+                return UserId == 1;
+            }
         }
 
         /// <summary>
@@ -97,12 +108,14 @@ namespace Ams.Kernel.Model.System
         //public int RoleNum { get; set; }
         [SugarColumn(IsIgnore = true)]
         public string DeptName { get; set; }
+
         /// <summary>
         /// 角色id集合
         /// </summary>
         [SugarColumn(IsIgnore = true)]
         [ExcelIgnore]
         public long[] RoleIds { get; set; }
+
         /// <summary>
         /// 岗位集合
         /// </summary>
@@ -113,6 +126,7 @@ namespace Ams.Kernel.Model.System
         [SugarColumn(IsIgnore = true)]
         [ExcelIgnore]
         public List<SysRole> Roles { get; set; }
+
         [SugarColumn(IsIgnore = true)]
         public string WelcomeMessage
         {
@@ -142,9 +156,10 @@ namespace Ams.Kernel.Model.System
                 }
             }
         }
+
         [SugarColumn(IsIgnore = true)]
         public string WelcomeContent { get; set; }
 
-        #endregion
+        #endregion 表额外字段
     }
 }

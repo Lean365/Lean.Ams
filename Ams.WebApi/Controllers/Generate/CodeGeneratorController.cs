@@ -1,23 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using SqlSugar;
-using Ams.Kernel.Filters;
-using Ams.CodeGenerator;
+﻿using Ams.CodeGenerator;
 using Ams.CodeGenerator.Model;
 using Ams.CodeGenerator.Service;
-using Ams.Model;
 using Ams.Kernel.Model.System.Generate;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.Helper;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Services.IService.System;
 using Ams.Kernel.Services.IService.Generate;
-using System.Data;
+using Microsoft.Extensions.Options;
+
 namespace Ams.WebApi.Controllers.Generate
 {
     /// <summary>
     /// 代码生成
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Verify]
     [Route("tool/gen")]
@@ -125,6 +119,7 @@ namespace Ams.WebApi.Controllers.Generate
 
             return SUCCESS(new { columns = tableColumns });
         }
+
         /// <summary>
         /// 删除代码生成
         /// </summary>
@@ -159,7 +154,6 @@ namespace Ams.WebApi.Controllers.Generate
             int result = 0;
             foreach (var table in dto.Tables)
             {
-
                 List<OracleSeq> seqs = new();
                 InitTableDto initTableDto = new()
                 {

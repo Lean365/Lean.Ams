@@ -1,14 +1,27 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Ams.Model;
+
 namespace Ams.Kernel.Model.Dto.System
 {
+    /// <summary>
+    /// 角色用户
+    /// 查询对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class RoleUserQueryDto : PagerInfo
     {
         public long RoleId { get; set; }
 
         public string UserName { get; set; }
     }
+
+    /// <summary>
+    /// 角色用户
+    /// 创建对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
 
     public class RoleUsersCreateDto
     {
@@ -20,7 +33,7 @@ namespace Ams.Kernel.Model.Dto.System
         public long RoleId { get; set; }
 
         /// <summary>
-        /// 用户编码 [1,2,3,4] 
+        /// 用户编码 [1,2,3,4]
         /// </summary>
         [Display(Name = "用户编码 [1,2,3,4]")]
         public List<long> UserIds { get; set; }

@@ -1,14 +1,14 @@
-﻿using Quartz.Spi;
-using SqlSugar;
+﻿using Ams.Tasks;
+using Quartz.Spi;
 using SqlSugar.IOC;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Model.System;
-using Ams.Tasks;
 
 namespace Ams.WebApi.Extensions
 {
     /// <summary>
-    /// 定时任务扩展方法
+    /// 定时任务
+    /// 扩展方法
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     public static class TasksExtension
     {

@@ -6,8 +6,11 @@ using Ams.Kernel.Services.IService.System;
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 角色权限
-    /// </summary>
+    /// 权限服务
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ISysPermissionService), ServiceLifetime = LifeTime.Transient)]
     public class SysPermissionService : ISysPermissionService
     {
@@ -31,7 +34,7 @@ namespace Ams.Kernel.Services.System
         {
             List<string> roles = new();
             // 管理员拥有所有权限
-            if (user.IsAdmin())
+            if (user.IsAdmin)
             {
                 roles.Add("admin");
             }
@@ -51,7 +54,7 @@ namespace Ams.Kernel.Services.System
         {
             List<string> perms = new();
             // 管理员拥有所有权限
-            if (user.IsAdmin() || GetRolePermission(user).Exists(f => f.Equals(GlobalConstant.AdminRole)))
+            if (user.IsAdmin || GetRolePermission(user).Exists(f => f.Equals(GlobalConstant.AdminRole)))
             {
                 perms.Add(GlobalConstant.AdminPerm);
             }

@@ -1,7 +1,13 @@
 ﻿using Ams.Kernel.Model.System.Generate;
-using Ams.Model;
+
 namespace Ams.Kernel.Model.Dto.System
 {
+    /// <summary>
+    /// 代码生成表对象
+    /// 查询对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// </summary>
     public class GenTableDto
     {
         public int TableId { get; set; }
@@ -18,15 +24,24 @@ namespace Ams.Kernel.Model.Dto.System
         public string FunctionAuthor { get; set; }
         public string GenType { get; set; }
         public string GenPath { get; set; }
+
         //public string PermissionPrefix { get; set; }
         public string Remark { get; set; }
+
         /// <summary>
         /// 额外参数
         /// </summary>
         public CodeOptions Params { get; set; }
+
         public List<GenTableColumnDto> Columns { get; set; }
     }
 
+    /// <summary>
+    /// 代码生成表字段对象
+    /// 查询对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// </summary>
     public class GenTableColumnDto
     {
         public int ColumnId { get; set; }
@@ -41,23 +56,29 @@ namespace Ams.Kernel.Model.Dto.System
         public bool IsSort { get; set; }
         public bool IsRequired { get; set; }
         public bool IsExport { get; set; }
+
         /// <summary>
         /// 显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）
         /// </summary>
         public string HtmlType { get; set; }
+
         /// <summary>
         /// 查询类型（等于、不等于、大于、小于、范围）
         /// </summary>
         public string QueryType { get; set; } = "EQ";
+
         public int Sort { get; set; }
+
         /// <summary>
         /// 字典类型
         /// </summary>
         public string DictType { get; set; }
+
         /// <summary>
         /// 备注
         /// </summary>
         public string Remark { get; set; }
+
         /// <summary>
         /// 自动填充类型
         /// </summary>

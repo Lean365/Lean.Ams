@@ -141,7 +141,9 @@
           </el-col>
           <el-col :lg="12" v-if="form.userId == undefined">
             <el-form-item :label="$t('puser.loginPwd')" prop="password">
-              <el-input v-model="form.password" :placeholder="$t('btn.enter')+$t('puser.loginPwd')" type="password" />
+
+              <el-input v-model="form.password" show-password :placeholder="$t('btn.enter')+$t('puser.loginPwd')"
+                type="password" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">

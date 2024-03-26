@@ -1,20 +1,14 @@
-﻿using Lazy.Captcha.Core;
-using Microsoft.AspNetCore.Mvc;
-using Ams.Kernel.Filters;
-using Ams.Infrastructure.Helper;
-using Ams.Kernel.Model.System;
-using Ams.Infrastructure.Apps;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Dto.System;
+﻿using Ams.Infrastructure.Apps;
 using Ams.Kernel.Services.Monitor;
-using Ams.Kernel.Services.IService.System;
-using Ams.Kernel.Services.IService.Monitor;
-using Ams.Kernel.Model.Monitor;
+using Lazy.Captcha.Core;
+
 namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
     /// 登录
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [ApiExplorerSettings(GroupName = "system")]
     public class SysLoginController : BaseController
@@ -47,7 +41,6 @@ namespace Ams.WebApi.Controllers.System
             this.LogSmsService = LogSmsService;
             roleService = sysRoleService;
         }
-
 
         /// <summary>
         /// 登录
@@ -90,7 +83,7 @@ namespace Ams.WebApi.Controllers.System
         {
             //Task.Run(async () =>
             //{
-            //    //注销登录的用户，相当于ASP.NET中的FormsAuthentication.SignOut  
+            //    //注销登录的用户，相当于ASP.NET中的FormsAuthentication.SignOut
             //    await HttpContext.SignOutAsync();
             //}).Wait();
             var userid = HttpContext.GetUId();
@@ -259,10 +252,11 @@ namespace Ams.WebApi.Controllers.System
             }
             return ToResponse(ResultCode.FAIL, "二维码已失效");
         }
-        #endregion
+
+        #endregion 二维码登录
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>

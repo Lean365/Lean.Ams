@@ -2,8 +2,7 @@
   <div class="user-info-head" @click="editCropper()">
     <!-- <img :src="options.img" title="点击上传头像" class="img-circle img-lg" /> -->
     <el-avatar shape="circle" :size="120" :src="options.img">
-      <img src="/src/assets/images/avatar.webp" />
-    </el-avatar>
+
   </div>
   <el-dialog :title="title" v-model="open" width="800px" append-to-body @opened="modalOpened" @close="closeDialog">
     <el-row>

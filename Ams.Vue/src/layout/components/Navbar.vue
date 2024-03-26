@@ -21,7 +21,7 @@
       <el-dropdown @command="handleCommand" class="right-menu-item avatar-container" trigger="hover">
         <span class="avatar-wrapper">
           <el-avatar :size="25" shape="circle" class="user-avatar" :src="userStore.avatar">
-            <img src="/src/assets/images/avatar.webp" />
+
           </el-avatar>
           <span class="name">{{ userStore.name }}</span>
           <el-icon>

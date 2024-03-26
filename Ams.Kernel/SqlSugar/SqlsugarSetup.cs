@@ -1,16 +1,22 @@
-﻿using Ams.Infrastructure;
+﻿using Ams.Common;
+using Ams.Infrastructure;
+using Ams.Infrastructure.Apps;
 using Ams.Infrastructure.Model;
+using Ams.Kernel.Model.Monitor;
+using Ams.Kernel.Model.System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SqlSugar.IOC;
-using Ams.Common;
-using Ams.Kernel.Model.System;
-using Ams.Infrastructure.Apps;
-using Ams.Kernel.Model.Monitor;
 using NETCore.Encrypt;
+using SqlSugar.IOC;
+
 namespace Ams.Kernel.SqlSugar
 {
+    /// <summary>
+    /// SqlSugar初始化
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public static class SqlsugarSetup
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -43,7 +49,6 @@ namespace Ams.Kernel.SqlSugar
                     IsAutoCloseConnection = item.IsAutoCloseConnection
                 });
             }
-
 
             SugarIocServices.AddSqlSugar(iocList);
             ICacheService cache = new SqlSugarCache();
@@ -125,7 +130,7 @@ namespace Ams.Kernel.SqlSugar
                 var parameter = it.Parameters;
                 var data = it.BusinessData;//这边会显示你传进来的对象
                 var time = it.Time;
-                var diffType = it.DiffType;//enum insert 、update and delete  
+                var diffType = it.DiffType;//enum insert 、update and delete
                 string name = App.UserName;
 
                 foreach (var item in editBeforeData)
@@ -184,7 +189,9 @@ namespace Ams.Kernel.SqlSugar
                             p.DataType = "char(1)";
                         }
                     }
+
                     #region 兼容Oracle
+
                     if (config.DbType == DbType.Oracle)
                     {
                         if (p.IsIdentity == true)
@@ -211,7 +218,8 @@ namespace Ams.Kernel.SqlSugar
                             }
                         }
                     }
-                    #endregion
+
+                    #endregion 兼容Oracle
                 }
             };
             db.GetConnectionScope(configId).Aop.OnLogExecuted = (sql, pars) =>

@@ -1,27 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Ams.WebApi.Extensions;
-using Ams.Kernel.Filters;
-using Ams.Model;
-using Ams.Kernel.Model.System;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Model;
-using Ams.Kernel.Services.IService.System;
-namespace Ams.WebApi.Controllers.System
+﻿namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
     /// 数据字典信息
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Verify]
     [Route("system/dict/type")]
     [ApiExplorerSettings(GroupName = "system")]
     public class SysDictTypeController : BaseController
     {
-        private readonly ISysDictService SysDictService;
+        private readonly ISysDictTypeService _SysDictTypeService;
 
-        public SysDictTypeController(ISysDictService sysDictService)
+        public SysDictTypeController(ISysDictTypeService SysDictTypeService)
         {
-            SysDictService = sysDictService;
+            _SysDictTypeService = SysDictTypeService;
         }
 
         /// <summary>
@@ -34,7 +28,7 @@ namespace Ams.WebApi.Controllers.System
         [HttpGet("list")]
         public IActionResult List([FromQuery] SysDictType dict, [FromQuery] PagerInfo pagerInfo)
         {
-            var list = SysDictService.SelectDictTypeList(dict, pagerInfo);
+            var list = _SysDictTypeService.SelectDictTypeList(dict, pagerInfo);
 
             return SUCCESS(list, TIME_FORMAT_YYYMMDD);
         }
@@ -48,7 +42,7 @@ namespace Ams.WebApi.Controllers.System
         [ActionPermissionFilter(Permission = "system:dict:query")]
         public IActionResult GetInfo(long dictId = 0)
         {
-            return SUCCESS(SysDictService.GetInfo(dictId));
+            return SUCCESS(_SysDictTypeService.GetInfo(dictId));
         }
 
         /// <summary>
@@ -62,13 +56,13 @@ namespace Ams.WebApi.Controllers.System
         public IActionResult Add([FromBody] SysDictTypeDto dto)
         {
             SysDictType dict = dto.Adapt<SysDictType>();
-            if (UserConstants.NOT_UNIQUE.Equals(SysDictService.CheckDictTypeUnique(dict)))
+            if (UserConstants.NOT_UNIQUE.Equals(_SysDictTypeService.CheckDictTypeUnique(dict)))
             {
                 return ToResponse(ApiResult.Error($"新增字典'{dict.DictName}'失败，字典类型已存在"));
             }
             dict.Create_by = HttpContext.GetName();
             dict.Create_time = DateTime.Now;
-            return SUCCESS(SysDictService.InsertDictType(dict));
+            return SUCCESS(_SysDictTypeService.InsertDictType(dict));
         }
 
         /// <summary>
@@ -83,13 +77,13 @@ namespace Ams.WebApi.Controllers.System
         public IActionResult Edit([FromBody] SysDictTypeDto dto)
         {
             SysDictType dict = dto.Adapt<SysDictType>();
-            if (UserConstants.NOT_UNIQUE.Equals(SysDictService.CheckDictTypeUnique(dict)))
+            if (UserConstants.NOT_UNIQUE.Equals(_SysDictTypeService.CheckDictTypeUnique(dict)))
             {
                 return ToResponse(ApiResult.Error($"修改字典'{dict.DictName}'失败，字典类型已存在"));
             }
             //设置添加人
             dict.Update_by = HttpContext.GetName();
-            return SUCCESS(SysDictService.UpdateDictType(dict));
+            return SUCCESS(_SysDictTypeService.UpdateDictType(dict));
         }
 
         /// <summary>
@@ -103,7 +97,7 @@ namespace Ams.WebApi.Controllers.System
         {
             long[] idss = Tools.SpitLongArrary(ids);
 
-            return SUCCESS(SysDictService.DeleteDictTypeByIds(idss));
+            return SUCCESS(_SysDictTypeService.DeleteDictTypeByIds(idss));
         }
 
         /// <summary>
@@ -115,7 +109,7 @@ namespace Ams.WebApi.Controllers.System
         [ActionPermissionFilter(Permission = "system:dict:export")]
         public IActionResult Export()
         {
-            var list = SysDictService.GetAll();
+            var list = _SysDictTypeService.GetAll();
 
             string sFileName = ExportExcel(list, "DictType", "字典", "export/system");
             return SUCCESS(new { path = "/export/system/" + sFileName, fileName = sFileName });

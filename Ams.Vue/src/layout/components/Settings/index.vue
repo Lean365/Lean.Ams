@@ -7,13 +7,17 @@
       <div class="item" @click="handleTheme('theme-dark')">
         <img src="@/assets/images/dark.svg" alt="dark" />
         <div v-if="sideTheme === 'theme-dark'" class="setting-drawer-block-checbox-selectIcon" style="display: block">
-          <el-icon><Check /></el-icon>
+          <el-icon>
+            <Check />
+          </el-icon>
         </div>
       </div>
       <div class="item" @click="handleTheme('theme-light')">
         <img src="@/assets/images/light.svg" alt="light" />
         <div v-if="sideTheme === 'theme-light'" class="setting-drawer-block-checbox-selectIcon" style="display: block">
-          <el-icon><Check /></el-icon>
+          <el-icon>
+            <Check />
+          </el-icon>
         </div>
       </div>
     </div>
@@ -96,252 +100,256 @@
 </template>
 
 <script setup>
-import 'element-plus/theme-chalk/index.css'
-import 'element-plus/theme-chalk/dark/css-vars.css'
-import { useColorMode } from '@vueuse/core'
-import { useDynamicTitle } from '@/utils/dynamicTitle'
-import { getLightColor } from '@/utils/index'
-import { getmark } from '@/utils/wartermark'
-import useAppStore from '@/store/modules/app'
-import useSettingsStore from '@/store/modules/settings'
-import usePermissionStore from '@/store/modules/permission'
-import useUserStore from '@/store/modules/user'
-const { proxy } = getCurrentInstance()
-const appStore = useAppStore()
-const settingsStore = useSettingsStore()
-const permissionStore = usePermissionStore()
-const showSettings = ref(false)
-const theme = ref(settingsStore.theme)
-const sideTheme = ref(settingsStore.sideTheme)
-const storeSettings = computed(() => settingsStore)
-const predefineColors = ref(['#409EFF', '#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#1e90ff', '#c71585'])
-const { setWatermark, removeWatermark } = getmark()
-// 可以手动更改当前值 model.value = 'cafe'
-const mode = useColorMode({
-  modes: {
-    // custom colors
-    contrast: 'dark contrast',
-    cafe: 'cafe',
-    auto: 'auto'
+  import 'element-plus/theme-chalk/index.css'
+  import 'element-plus/theme-chalk/dark/css-vars.css'
+  import { useColorMode } from '@vueuse/core'
+  import { useDynamicTitle } from '@/utils/dynamicTitle'
+  import { getLightColor } from '@/utils/index'
+  import { getmark } from '@/utils/wartermark'
+  import useAppStore from '@/store/modules/app'
+  import useSettingsStore from '@/store/modules/settings'
+  import usePermissionStore from '@/store/modules/permission'
+  import useUserStore from '@/store/modules/user'
+  const { proxy } = getCurrentInstance()
+  const appStore = useAppStore()
+  const settingsStore = useSettingsStore()
+  const permissionStore = usePermissionStore()
+  const showSettings = ref(false)
+  const theme = ref(settingsStore.theme)
+  const sideTheme = ref(settingsStore.sideTheme)
+  const storeSettings = computed(() => settingsStore)
+  const predefineColors = ref(['#409EFF', '#ff4500', '#ff8c00', '#00ced1', '#1e90ff', '#c71585'])
+  //const predefineColors = ref(['#409EFF', '#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#1e90ff', '#c71585'])
+  const { setWatermark, removeWatermark } = getmark()
+  // 可以手动更改当前值 model.value = 'cafe'
+  const mode = useColorMode({
+    modes: {
+      // custom colors
+      contrast: 'dark contrast',
+      cafe: 'cafe',
+      auto: 'auto'
+    }
+  })
+  /** 是否需要topnav */
+  const topNav = computed({
+    get: () => storeSettings.value.topNav,
+    set: (val) => {
+      settingsStore.changeSetting({ key: 'topNav', value: val })
+      if (!val) {
+        appStore.toggleSideBarHide(false)
+        permissionStore.setSidebarRouters(permissionStore.defaultRoutes)
+      }
+    }
+  })
+  /** 是否需要tagview */
+  const tagsView = computed({
+    get: () => storeSettings.value.tagsView,
+    set: (val) => {
+      settingsStore.changeSetting({ key: 'tagsView', value: val })
+    }
+  })
+  /**是否需要固定头部 */
+  const fixedHeader = computed({
+    get: () => storeSettings.value.fixedHeader,
+    set: (val) => {
+      settingsStore.changeSetting({ key: 'fixedHeader', value: val })
+    }
+  })
+  // 是否显示底部
+  const showFooter = computed({
+    get: () => storeSettings.value.showFooter,
+    set: (val) => {
+      settingsStore.changeSetting({ key: 'showFooter', value: val })
+    }
+  })
+  /**是否需要侧边栏的logo */
+  const sidebarLogo = computed({
+    get: () => storeSettings.value.sidebarLogo,
+    set: (val) => {
+      settingsStore.changeSetting({ key: 'sidebarLogo', value: val })
+    }
+  })
+  /**是否需要侧边栏的动态网页的title */
+  const dynamicTitle = computed({
+    get: () => storeSettings.value.dynamicTitle,
+    set: (val) => {
+      settingsStore.changeSetting({ key: 'dynamicTitle', value: val })
+      // 动态设置网页标题
+      useDynamicTitle()
+    }
+  })
+  /**是否显示水印 */
+  const showWatermark = computed({
+    get: () => storeSettings.value.showWatermark,
+    set: (val) => {
+      settingsStore.changeSetting({ key: 'showWatermark', value: val })
+      changeWatermark()
+    }
+  })
+
+  /**标签持久化 */
+  const tabsPersist = computed({
+    get: () => storeSettings.value.tagsViewPersist,
+    set: (val) => {
+      settingsStore.changeSetting({ key: 'tagsViewPersist', value: val })
+    }
+  })
+  const changeWatermark = () => {
+    storeSettings.value.showWatermark ? setWatermark(useUserStore().userInfo.userName) : removeWatermark()
   }
-})
-/** 是否需要topnav */
-const topNav = computed({
-  get: () => storeSettings.value.topNav,
-  set: (val) => {
-    settingsStore.changeSetting({ key: 'topNav', value: val })
-    if (!val) {
-      appStore.toggleSideBarHide(false)
-      permissionStore.setSidebarRouters(permissionStore.defaultRoutes)
+  // 开启水印
+  changeWatermark()
+  // 监控主题颜色
+  watch(
+    () => theme,
+    (val) => {
+      themeChange(val.value)
+    },
+    {
+      immediate: true
+    }
+  )
+  watch(
+    () => sideTheme,
+    (val) => {
+      const body = document.documentElement
+      body.setAttribute('data-theme', '')
+    },
+    {
+      immediate: true
+    }
+  )
+  watch(
+    () => mode,
+    (val) => {
+      settingsStore.changeSetting({ key: 'codeMode', value: val.value })
+      if (val.value === 'dark') {
+        handleTheme('')
+      }
+    },
+    {
+      immediate: true,
+      deep: true
+    }
+  )
+  /**
+   * 改变主题颜色
+   */
+  function themeChange(val) {
+    settingsStore.changeSetting({ key: 'theme', value: val })
+    theme.value = val
+    // 设置element-plus ui主题
+    document.documentElement.style.setProperty('--el-color-primary', val)
+
+    // 颜色变浅
+    for (let i = 1; i <= 9; i++) {
+      document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, `${getLightColor(val, i / 10)}`)
     }
   }
-})
-/** 是否需要tagview */
-const tagsView = computed({
-  get: () => storeSettings.value.tagsView,
-  set: (val) => {
-    settingsStore.changeSetting({ key: 'tagsView', value: val })
-  }
-})
-/**是否需要固定头部 */
-const fixedHeader = computed({
-  get: () => storeSettings.value.fixedHeader,
-  set: (val) => {
-    settingsStore.changeSetting({ key: 'fixedHeader', value: val })
-  }
-})
-// 是否显示底部
-const showFooter = computed({
-  get: () => storeSettings.value.showFooter,
-  set: (val) => {
-    settingsStore.changeSetting({ key: 'showFooter', value: val })
-  }
-})
-/**是否需要侧边栏的logo */
-const sidebarLogo = computed({
-  get: () => storeSettings.value.sidebarLogo,
-  set: (val) => {
-    settingsStore.changeSetting({ key: 'sidebarLogo', value: val })
-  }
-})
-/**是否需要侧边栏的动态网页的title */
-const dynamicTitle = computed({
-  get: () => storeSettings.value.dynamicTitle,
-  set: (val) => {
-    settingsStore.changeSetting({ key: 'dynamicTitle', value: val })
-    // 动态设置网页标题
-    useDynamicTitle()
-  }
-})
-/**是否显示水印 */
-const showWatermark = computed({
-  get: () => storeSettings.value.showWatermark,
-  set: (val) => {
-    settingsStore.changeSetting({ key: 'showWatermark', value: val })
-    changeWatermark()
-  }
-})
-
-/**标签持久化 */
-const tabsPersist = computed({
-  get: () => storeSettings.value.tagsViewPersist,
-  set: (val) => {
-    settingsStore.changeSetting({ key: 'tagsViewPersist', value: val })
-  }
-})
-const changeWatermark = () => {
-  storeSettings.value.showWatermark ? setWatermark(useUserStore().userInfo.userName) : removeWatermark()
-}
-// 开启水印
-changeWatermark()
-// 监控主题颜色
-watch(
-  () => theme,
-  (val) => {
-    themeChange(val.value)
-  },
-  {
-    immediate: true
-  }
-)
-watch(
-  () => sideTheme,
-  (val) => {
+  function handleTheme(val) {
+    settingsStore.changeSetting({ key: 'sideTheme', value: val })
+    sideTheme.value = val
     const body = document.documentElement
-    body.setAttribute('data-theme', '')
-  },
-  {
-    immediate: true
+    if (val == 'theme-black') body.setAttribute('data-theme', 'theme-black')
+    else body.removeAttribute('data-theme')
   }
-)
-watch(
-  () => mode,
-  (val) => {
-    settingsStore.changeSetting({ key: 'codeMode', value: val.value })
-    if (val.value === 'dark') {
-      handleTheme('')
+  function saveSetting() {
+    proxy.$modal.loading('正在保存到本地，请稍候...')
+    let layoutSetting = {
+      topNav: storeSettings.value.topNav,
+      tagsView: storeSettings.value.tagsView,
+      fixedHeader: storeSettings.value.fixedHeader,
+      sidebarLogo: storeSettings.value.sidebarLogo,
+      dynamicTitle: storeSettings.value.dynamicTitle,
+      sideTheme: storeSettings.value.sideTheme,
+      theme: storeSettings.value.theme,
+      showFooter: storeSettings.value.showFooter,
+      showWatermark: storeSettings.value.showWatermark,
+      tagsViewPersist: storeSettings.value.tagsViewPersist
     }
-  },
-  {
-    immediate: true,
-    deep: true
+    localStorage.setItem('layout-setting', JSON.stringify(layoutSetting))
+    setTimeout(proxy.$modal.closeLoading(), 100)
+    setTimeout('window.location.reload()', 200)
   }
-)
-/**
- * 改变主题颜色
- */
-function themeChange(val) {
-  settingsStore.changeSetting({ key: 'theme', value: val })
-  theme.value = val
-  // 设置element-plus ui主题
-  document.documentElement.style.setProperty('--el-color-primary', val)
+  function resetSetting() {
+    proxy.$modal.loading('正在清除设置缓存并刷新，请稍候...')
+    localStorage.removeItem('layout-setting')
+    setTimeout('window.location.reload()', 1000)
+  }
+  function openSetting() {
+    showSettings.value = true
+  }
 
-  // 颜色变浅
-  for (let i = 1; i <= 9; i++) {
-    document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, `${getLightColor(val, i / 10)}`)
-  }
-}
-function handleTheme(val) {
-  settingsStore.changeSetting({ key: 'sideTheme', value: val })
-  sideTheme.value = val
-  const body = document.documentElement
-  if (val == 'theme-black') body.setAttribute('data-theme', 'theme-black')
-  else body.removeAttribute('data-theme')
-}
-function saveSetting() {
-  proxy.$modal.loading('正在保存到本地，请稍候...')
-  let layoutSetting = {
-    topNav: storeSettings.value.topNav,
-    tagsView: storeSettings.value.tagsView,
-    fixedHeader: storeSettings.value.fixedHeader,
-    sidebarLogo: storeSettings.value.sidebarLogo,
-    dynamicTitle: storeSettings.value.dynamicTitle,
-    sideTheme: storeSettings.value.sideTheme,
-    theme: storeSettings.value.theme,
-    showFooter: storeSettings.value.showFooter,
-    showWatermark: storeSettings.value.showWatermark,
-    tagsViewPersist: storeSettings.value.tagsViewPersist
-  }
-  localStorage.setItem('layout-setting', JSON.stringify(layoutSetting))
-  setTimeout(proxy.$modal.closeLoading(), 100)
-  setTimeout('window.location.reload()', 200)
-}
-function resetSetting() {
-  proxy.$modal.loading('正在清除设置缓存并刷新，请稍候...')
-  localStorage.removeItem('layout-setting')
-  setTimeout('window.location.reload()', 1000)
-}
-function openSetting() {
-  showSettings.value = true
-}
-
-defineExpose({
-  openSetting
-})
+  defineExpose({
+    openSetting
+  })
 </script>
 
 <style lang="scss" scoped>
-.setting-drawer-title {
-  margin-bottom: 12px;
-  color: var(--base-text-color-rgba);
-  line-height: 22px;
-  font-weight: bold;
-  .drawer-title {
-    font-size: 14px;
-  }
-}
-.setting-drawer-block-checbox {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  .setting-drawer-title {
+    margin-bottom: 12px;
+    color: var(--base-text-color-rgba);
+    line-height: 22px;
+    font-weight: bold;
 
-  .item {
-    position: relative;
-    margin-right: 16px;
-    border-radius: 2px;
-    cursor: pointer;
-
-    img {
-      width: 48px;
-      height: 48px;
-    }
-
-    .setting-drawer-block-checbox-selectIcon {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-      padding-top: 15px;
-      padding-left: 24px;
-      color: #1890ff;
-      font-weight: 700;
+    .drawer-title {
       font-size: 14px;
     }
   }
-}
 
-.drawer-item {
-  color: var(--base-text-color-rgba);
-  padding: 12px 0;
-  font-size: 14px;
-
-  .comp-style {
-    float: right;
-    margin: -3px 8px 0px 0px;
-  }
-  .quick-color-wrap {
+  .setting-drawer-block-checbox {
     display: flex;
+    justify-content: flex-start;
     align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
 
-    span {
-      width: 15px;
-      height: 15px;
-      margin-right: 10px;
+    .item {
+      position: relative;
+      margin-right: 16px;
+      border-radius: 2px;
       cursor: pointer;
+
+      img {
+        width: 48px;
+        height: 48px;
+      }
+
+      .setting-drawer-block-checbox-selectIcon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        padding-top: 15px;
+        padding-left: 24px;
+        color: #1890ff;
+        font-weight: 700;
+        font-size: 14px;
+      }
     }
   }
-}
+
+  .drawer-item {
+    color: var(--base-text-color-rgba);
+    padding: 12px 0;
+    font-size: 14px;
+
+    .comp-style {
+      float: right;
+      margin: -3px 8px 0px 0px;
+    }
+
+    .quick-color-wrap {
+      display: flex;
+      align-items: center;
+
+      span {
+        width: 15px;
+        height: 15px;
+        margin-right: 10px;
+        cursor: pointer;
+      }
+    }
+  }
 </style>

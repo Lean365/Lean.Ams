@@ -1,18 +1,23 @@
-﻿using MiniExcelLibs.Attributes;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Ams.Model;
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace Ams.Kernel.Model.Dto.System
 {
+    /// <summary>
+    /// 菜单
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class MenuDto
     {
         //{"parentId":0,"menuName":"aaa","icon":"documentation","menuType":"M","orderNum":999,"visible":0,"status":0,"path":"aaa"}
         [Required(ErrorMessage = "菜单id不能为空")]
         [ExcelColumn(Name = "菜单id")]
         public int MenuId { get; set; }
+
         [ExcelColumn(Name = "菜单名")]
         public string MenuName { get; set; }
+
         /// <summary>
         /// 父菜单ID
         /// </summary>
@@ -41,6 +46,7 @@ namespace Ams.Kernel.Model.Dto.System
         [Required(ErrorMessage = "是否缓存不能为空")]
         [ExcelColumn(Name = "是否缓存")]
         public int IsCache { get; set; }
+
         /// <summary>
         /// 是否外链 1、是 0、否
         /// </summary>
@@ -74,13 +80,21 @@ namespace Ams.Kernel.Model.Dto.System
         /// 菜单图标
         /// </summary>
         public string Icon { get; set; } = string.Empty;
+
         /// <summary>
         /// 翻译key
         /// </summary>
         public string MenuNameKey { get; set; }
+
         public List<MenuDto> Children { get; set; } = new List<MenuDto>();
     }
 
+    /// <summary>
+    /// 菜单
+    /// 查询条件
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class MenuQueryDto
     {
         public string MenuName { get; set; }
@@ -88,6 +102,7 @@ namespace Ams.Kernel.Model.Dto.System
         public int IsState { get; set; }
         public string MenuTypeIds { get; set; } = string.Empty;
         public int? ParentId { get; set; }
+
         public string[] MenuTypeIdArr
         {
             get

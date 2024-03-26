@@ -1,10 +1,16 @@
-﻿using Ams.Model;
-using Ams.Kernel.Model.System;
-using Ams.Kernel.Model.Dto.System;
+﻿using Ams.Kernel.Model.Dto.System;
 using Ams.Kernel.Model.Monitor;
+using Ams.Kernel.Model.System;
+using Ams.Model;
 
 namespace Ams.Kernel.Services.IService.Monitor
 {
+    /// <summary>
+    /// 登录日志
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// </summary>
     public interface ILogLoginService : IBaseService<LogLogin>
     {
         /// <summary>
@@ -14,6 +20,7 @@ namespace Ams.Kernel.Services.IService.Monitor
         /// <param name="loglogin"></param>
         /// <returns></returns>
         public SysUser Login(LoginBodyDto loginBody, LogLogin loglogin);
+
         /// <summary>
         /// 手机号登录
         /// </summary>
@@ -22,6 +29,7 @@ namespace Ams.Kernel.Services.IService.Monitor
         /// <param name="user"></param>
         /// <returns></returns>
         SysUser PhoneLogin(PhoneLoginDto loginBody, LogLogin loglogin, SysUser user);
+
         /// <summary>
         /// 查询操作日志
         /// </summary>
@@ -48,6 +56,7 @@ namespace Ams.Kernel.Services.IService.Monitor
         /// <param name="ids"></param>
         /// <returns></returns>
         public int DeleteLogLoginByIds(long[] ids);
+
         /// <summary>
         /// 锁定用户
         /// </summary>

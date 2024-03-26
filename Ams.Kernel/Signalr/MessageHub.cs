@@ -1,29 +1,34 @@
-﻿using Ams.Infrastructure;
+﻿using System.Web;
+using Ams.Infrastructure;
+using Ams.Infrastructure.Apps;
+using Ams.Infrastructure.Helper;
 using Ams.Infrastructure.Model;
+using Ams.Infrastructure.WebExtensions;
+using Ams.Kernel.Model.Dto.System;
+using Ams.Kernel.Services.IService.Routine;
+using Ams.Kernel.Services.IService.System;
 using IPTools.Core;
 using Mapster;
 using Microsoft.AspNetCore.SignalR;
-using System.Web;
 using UAParser;
-using Ams.Infrastructure.Apps;
-using Ams.Infrastructure.Helper;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Services.IService.System;
-using Ams.Kernel.Services.IService.Routine;
-using Ams.Kernel.Signalr;
+
 namespace Ams.Kernel.Signalr
 {
     /// <summary>
-    /// msghub
-    /// </summary>
+    /// 消息中心
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class MessageHub : Hub
     {
         //创建用户集合，用于存储所有链接的用户数据
         public static readonly List<OnlineUsers> onlineClients = new();
+
         public static List<OnlineUsers> users = new();
+
         //private readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly INoticesService NoticesService;
+
         private readonly ISysUserService UserService;
 
         public MessageHub(INoticesService noticeService, ISysUserService userService)
@@ -62,7 +67,7 @@ namespace Ams.Kernel.Signalr
             var user = onlineClients.Any(u => u.ConnnectionId == Context.ConnectionId);
             var user2 = onlineClients.Any(u => u.Uuid == uuid);
 
-            //判断用户是否存在，否则添加集合!user2 && !user && 
+            //判断用户是否存在，否则添加集合!user2 && !user &&
             if (!user2 && !user && Context.User.Identity.IsAuthenticated)
             {
                 var ip_info = IpTool.Search(ip);
@@ -140,7 +145,7 @@ namespace Ams.Kernel.Signalr
             return base.OnDisconnectedAsync(exception);
         }
 
-        #endregion
+        #endregion 客户端连接
 
         /// <summary>
         /// 发送信息
@@ -190,6 +195,7 @@ namespace Ams.Kernel.Signalr
         {
             return onlineClients.Where(p => p.ConnnectionId == connId).FirstOrDefault();
         }
+
         private static OnlineUsers GetUserById(long userid)
         {
             return users.Where(f => f.Userid == userid).FirstOrDefault();

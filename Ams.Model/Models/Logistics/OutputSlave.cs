@@ -3,7 +3,7 @@ namespace Ams.Model.Logistics
 {
     /// <summary>
     /// oph从表
-    /// 数据实体
+    /// 数据实体对象
     /// @Author: Lean365(Davis.Cheng)
     /// @Date: (2024/1/22 11:22:39)
     /// </summary>
@@ -20,6 +20,7 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 父SFID 
         /// </summary>
+        [JsonConverter(typeof(ValueToStringConverter))]
         public long PosParentSfid { get; set; }
 
         /// <summary>

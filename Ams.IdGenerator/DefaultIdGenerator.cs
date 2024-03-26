@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -18,7 +17,6 @@ namespace Ams.IdGenerator
             get => _SnowWorker.GenAction;
             set => _SnowWorker.GenAction = value;
         }
-
 
         public DefaultIdGenerator(IdGeneratorOptions options)
         {
@@ -82,9 +80,11 @@ namespace Ams.IdGenerator
                 case 1:
                     _SnowWorker = new SnowWorkerM1(options);
                     break;
+
                 case 2:
                     _SnowWorker = new SnowWorkerM2(options);
                     break;
+
                 default:
                     _SnowWorker = new SnowWorkerM1(options);
                     break;
@@ -95,7 +95,6 @@ namespace Ams.IdGenerator
                 Thread.Sleep(500);
             }
         }
-
 
         public long NewLong()
         {

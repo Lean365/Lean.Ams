@@ -1,17 +1,25 @@
-﻿using Microsoft.AspNetCore.Http;
-using Ams.Kernel.Model.Routine;
+﻿using Ams.Kernel.Model.Routine;
+using Microsoft.AspNetCore.Http;
 
 namespace Ams.Kernel.Services.IService.Routine
 {
+    /// <summary>
+    /// 文件存储
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public interface IFileStorageService : IBaseService<FileStorage>
     {
         Task<long> InsertFile(FileStorage file);
+
         /// <summary>
         /// 校验输入项目唯一性
         /// </summary>
         /// <param name="enterString"></param>
         /// <returns></returns>
         public string CheckEntryUnique(string enterString);
+
         /// <summary>
         /// 上传文件
         /// </summary>
@@ -24,6 +32,7 @@ namespace Ams.Kernel.Services.IService.Routine
         Task<FileStorage> SaveFileToLocal(string rootPath, string fileName, string fileDir, string userName, IFormFile formFile);
 
         Task<FileStorage> SaveFileToAliyun(FileStorage file, IFormFile formFile);
+
         /// <summary>
         /// 按时间来创建文件夹
         /// </summary>

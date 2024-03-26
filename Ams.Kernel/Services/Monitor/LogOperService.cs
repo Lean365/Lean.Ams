@@ -1,15 +1,18 @@
 ﻿using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Model.Dto.Monitor;
+using Ams.Kernel.Model.Monitor;
+using Ams.Kernel.Services.IService.Monitor;
 using Ams.Model;
 using Ams.Repository;
-using Ams.Kernel.Model.Monitor;
-using Ams.Kernel.Model.Dto.Monitor;
-using Ams.Kernel.Services.IService.Monitor;
 
 namespace Ams.Kernel.Services.Monitor
 {
     /// <summary>
     /// 操作日志
-    /// </summary>
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ILogOperService), ServiceLifetime = LifeTime.Transient)]
     public class LogOperService : BaseService<LogOper>, ILogOperService
     {
@@ -19,7 +22,8 @@ namespace Ams.Kernel.Services.Monitor
         /// <param name="operLog">日志对象</param>
         public void InsertOperlog(LogOper operLog)
         {
-            if (operLog.OperParam.Length >= 1000)
+            if (operLog.OperParam != null && operLog.OperParam.Length >= 1000)
+            //if (operLog.OperParam.Length >= 1000)
             {
                 operLog.OperParam = operLog.OperParam[..1000];
             }
@@ -39,8 +43,8 @@ namespace Ams.Kernel.Services.Monitor
             exp.AndIF(sysOper.BeginTime != null, it => it.OperTime >= sysOper.BeginTime && it.OperTime <= sysOper.EndTime);
             exp.AndIF(sysOper.Title.IfNotEmpty(), it => it.Title.Contains(sysOper.Title));
             exp.AndIF(sysOper.OperName.IfNotEmpty(), it => it.OperName.Contains(sysOper.OperName));
-            exp.AndIF(sysOper.BusinessType != -1, it => it.BusinessType == sysOper.BusinessType);
-            exp.AndIF(sysOper.IsState != -1, it => it.IsState == sysOper.IsState);
+            exp.AndIF(sysOper.BusinessType.ToString() != null, it => it.BusinessType == sysOper.BusinessType);
+            exp.AndIF(sysOper.IsState.ToString() != null, it => it.IsState == sysOper.IsState);
             exp.AndIF(sysOper.OperParam != null, it => it.OperParam.Contains(sysOper.OperParam));
 
             return Queryable()

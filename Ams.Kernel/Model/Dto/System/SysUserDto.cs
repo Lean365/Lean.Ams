@@ -1,6 +1,10 @@
-﻿using Ams.Model;
-namespace Ams.Kernel.Model.Dto.System
+﻿namespace Ams.Kernel.Model.Dto.System
 {
+    /// <summary>
+    /// 用户信息
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
     public class SysUserDto
     {
         public long UserId { get; set; }
@@ -9,10 +13,12 @@ namespace Ams.Kernel.Model.Dto.System
         public string Email { get; set; }
         public string Remark { get; set; }
         public string Phonenumber { get; set; }
+
         /// <summary>
         /// 用户性别（0男 1女 2未知）
         /// </summary>
         public int Sex { get; set; }
+
         public string Password { get; set; }
 
         /// <summary>
@@ -29,16 +35,23 @@ namespace Ams.Kernel.Model.Dto.System
         /// 部门Id
         /// </summary>
         public long DeptId { get; set; }
+
         /// <summary>
         /// 角色id集合
         /// </summary>
         public long[] RoleIds { get; set; }
+
         /// <summary>
         /// 岗位集合
         /// </summary>
         public int[] PostIds { get; set; }
     }
 
+    /// <summary>
+    /// 用户信息
+    /// 查询对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
     public class SysUserQueryDto
     {
         public long? UserId { get; set; }
@@ -47,10 +60,12 @@ namespace Ams.Kernel.Model.Dto.System
         public string Email { get; set; }
         public string Remark { get; set; }
         public string Phonenumber { get; set; }
+
         /// <summary>
         /// 用户性别（0男 1女 2未知）
         /// </summary>
         public int Sex { get; set; }
+
         public DateTime? BeginTime { get; set; }
         public DateTime? EndTime { get; set; }
         public int IsState { get; set; }

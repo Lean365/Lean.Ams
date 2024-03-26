@@ -1,15 +1,18 @@
 using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Model.Dto.Monitor;
+using Ams.Kernel.Model.Monitor;
+using Ams.Kernel.Services.IService.Monitor;
 using Ams.Model;
 using Ams.Repository;
-using Ams.Kernel.Model.Monitor;
-using Ams.Kernel.Model.Dto.Monitor;
-using Ams.Kernel.Services.IService.Monitor;
 
 namespace Ams.Kernel.Services.Monitor
 {
     /// <summary>
-    /// 审计日志Service业务层处理
-    /// </summary>
+    /// 审计日志
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ILogDiffService), ServiceLifetime = LifeTime.Transient)]
     public class LogDiffService : BaseService<LogDiff>, ILogDiffService
     {
@@ -35,7 +38,6 @@ namespace Ams.Kernel.Services.Monitor
 
             return response;
         }
-
 
         /// <summary>
         /// 获取详情
@@ -83,6 +85,5 @@ namespace Ams.Kernel.Services.Monitor
             //return response;
             return Update(model, true);
         }
-
     }
 }

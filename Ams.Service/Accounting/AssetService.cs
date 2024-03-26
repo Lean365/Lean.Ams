@@ -14,7 +14,7 @@ namespace Ams.Service.Accounting
     /// 固定资产
     /// 业务层处理
     /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 11:12:08)
+    /// @Date: (2024/3/18 16:31:28)
     /// </summary>
     [AppService(ServiceType = typeof(IAssetService), ServiceLifetime = LifeTime.Transient)]
     public class AssetService : BaseService<Asset>, IAssetService
@@ -75,7 +75,6 @@ namespace Ams.Service.Accounting
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
-
         /// <summary>
         /// 修改固定资产
         /// </summary>
@@ -110,7 +109,7 @@ namespace Ams.Service.Accounting
                 .SplitError(x => x.Item.FaCapitalizedDate.IsEmpty(), "资本化日期不能为空")
                 .SplitError(x => x.Item.FaDepreciationValue.IsEmpty(), "折旧价值不能为空")
                 .SplitError(x => x.Item.FaLocale.IsEmpty(), "存放位置不能为空")
-                .SplitError(x => x.Item.FaAssetUesd.IsEmpty(), "使用年限不能为空")
+                .SplitError(x => x.Item.FaAssetUsed.IsEmpty(), "使用年限不能为空")
                 .SplitError(x => x.Item.FaAssetStop.IsEmpty(), "是否停用不能为空")
                 .SplitError(x => x.Item.FaEntity.IsEmpty(), "资产形态不能为空")
                 .SplitError(x => x.Item.FaHaveorNot.IsEmpty(), "资产存在否不能为空")
@@ -149,6 +148,15 @@ namespace Ams.Service.Accounting
                 .Where(predicate.ToExpression())
                 .Select((it) => new AssetDto()
                 {
+                    FaCorpLabel = it.FaCorp.GetConfigValue<Kernel.Model.System.SysDictData>("sys_crop_list"),
+                    FaDeptLabel = it.FaDept.GetConfigValue<Kernel.Model.System.SysDictData>("sql_dept_list"),
+                    FaClassCodeLabel = it.FaClassCode.GetConfigValue<Kernel.Model.System.SysDictData>("app_assets_type"),
+                    FaCostCenterLabel = it.FaCostCenter.GetConfigValue<Kernel.Model.System.SysDictData>("sql_prctr_list"),
+                    FaAssetUnitLabel = it.FaAssetUnit.GetConfigValue<Kernel.Model.System.SysDictData>("sys_unit_list"),
+                    FaAssetManaLabel = it.FaAssetMana.GetConfigValue<Kernel.Model.System.SysDictData>("app_assets_dist"),
+                    FaAssetCcyLabel = it.FaAssetCcy.GetConfigValue<Kernel.Model.System.SysDictData>("sys_ccy_type"),
+                    FaAssetStopLabel = it.FaAssetStop.GetConfigValue<Kernel.Model.System.SysDictData>("sys_is_status"),
+                    FaEntityLabel = it.FaEntity.GetConfigValue<Kernel.Model.System.SysDictData>("app_assets_pattern"),
                 }, true)
                 .ToPage(parm);
 
@@ -164,6 +172,28 @@ namespace Ams.Service.Accounting
         {
             var predicate = Expressionable.Create<Asset>();
 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaCorp), it => it.FaCorp == parm.FaCorp);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaDept), it => it.FaDept == parm.FaDept);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaClassCode), it => it.FaClassCode == parm.FaClassCode);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaAssetNo), it => it.FaAssetNo.Contains(parm.FaAssetNo));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaCostCenter), it => it.FaCostCenter == parm.FaCostCenter);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaAssetShortName), it => it.FaAssetShortName.Contains(parm.FaAssetShortName));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaAssetFullName), it => it.FaAssetFullName.Contains(parm.FaAssetFullName));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaAssetUnit), it => it.FaAssetUnit == parm.FaAssetUnit);
+            predicate = predicate.AndIF(parm.FaAssetMana != null, it => it.FaAssetMana == parm.FaAssetMana);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaAssetCcy), it => it.FaAssetCcy == parm.FaAssetCcy);
+            predicate = predicate.AndIF(parm.BeginFaCapitalizedDate == null, it => it.FaCapitalizedDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginFaCapitalizedDate != null, it => it.FaCapitalizedDate >= parm.BeginFaCapitalizedDate);
+            predicate = predicate.AndIF(parm.EndFaCapitalizedDate != null, it => it.FaCapitalizedDate <= parm.EndFaCapitalizedDate);
+            predicate = predicate.AndIF(parm.BeginFaScrapDate == null, it => it.FaScrapDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginFaScrapDate != null, it => it.FaScrapDate >= parm.BeginFaScrapDate);
+            predicate = predicate.AndIF(parm.EndFaScrapDate != null, it => it.FaScrapDate <= parm.EndFaScrapDate);
+            predicate = predicate.AndIF(parm.FaAssetStop != null, it => it.FaAssetStop == parm.FaAssetStop);
+            predicate = predicate.AndIF(parm.FaEntity != null, it => it.FaEntity == parm.FaEntity);
+            predicate = predicate.AndIF(parm.FaHaveorNot != null, it => it.FaHaveorNot == parm.FaHaveorNot);
+            predicate = predicate.AndIF(parm.BeginFaCheckedDate == null, it => it.FaCheckedDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginFaCheckedDate != null, it => it.FaCheckedDate >= parm.BeginFaCheckedDate);
+            predicate = predicate.AndIF(parm.EndFaCheckedDate != null, it => it.FaCheckedDate <= parm.EndFaCheckedDate);
             return predicate;
         }
     }

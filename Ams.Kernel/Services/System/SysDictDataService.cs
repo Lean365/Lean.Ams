@@ -1,15 +1,17 @@
 ﻿using Ams.Infrastructure.Attribute;
-using Ams.Common;
-using Ams.Model;
-using Ams.Kernel.Model.System;
 using Ams.Infrastructure.Cache;
+using Ams.Kernel.Model.System;
 using Ams.Kernel.Services.IService.System;
-using Microsoft.IdentityModel.Tokens;
+using Ams.Model;
+
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 字典数据类
-    /// </summary>
+    /// 数据字典
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ISysDictDataService), ServiceLifetime = LifeTime.Transient)]
     public class SysDictDataService : BaseService<SysDictData>, ISysDictDataService
     {
@@ -46,18 +48,20 @@ namespace Ams.Kernel.Services.System
 
             return list;
         }
+
         public List<SysDictData> SelectDictDataByTypes(string[] dictTypes)
         {
             string CK = $"SelectDictDataByTypes_{dictTypes}";
 
             var list = Queryable()
             .WithCache(CK, 60 * 30)
-            .Where(f => f.IsState ==0 && dictTypes.Contains(f.DictType))
+            .Where(f => f.IsState == 0 && dictTypes.Contains(f.DictType))
             .OrderBy(it => it.DictSort)
             .ToList();
 
             return list;
         }
+
         /// <summary>
         /// 根据字典数据ID查询信息
         /// </summary>

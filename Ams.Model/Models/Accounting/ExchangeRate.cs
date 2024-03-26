@@ -3,7 +3,7 @@ namespace Ams.Model.Accounting
 {
     /// <summary>
     /// 汇率表
-    /// 数据实体
+    /// 数据实体对象
     /// @Author: Lean365(Davis.Cheng)
     /// @Date: (2024/1/25 8:07:17)
     /// </summary>

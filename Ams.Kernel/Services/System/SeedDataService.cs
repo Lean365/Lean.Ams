@@ -1,14 +1,17 @@
-﻿using MiniExcelLibs;
-using SqlSugar.IOC;
-using Ams.Common;
+﻿using Ams.Common;
 using Ams.Kernel.Model.Routine;
 using Ams.Kernel.Model.System;
+using MiniExcelLibs;
+using SqlSugar.IOC;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 种子数据处理
-    /// </summary>
+    /// 种子数据
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class SeedDataService
     {
         /// <summary>
@@ -57,6 +60,7 @@ namespace Ams.Kernel.Services.System
             string msg = $"[菜单数据] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
+
         /// <summary>
         /// 角色菜单数据
         /// </summary>
@@ -74,6 +78,7 @@ namespace Ams.Kernel.Services.System
             string msg = $"[角色菜单] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
+
         /// <summary>
         /// 初始化部门数据
         /// </summary>

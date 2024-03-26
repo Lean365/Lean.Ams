@@ -6,7 +6,10 @@ namespace Ams.Kernel.Services.System
 {
     /// <summary>
     /// 用户岗位
-    /// </summary>
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ISysUserPostService), ServiceLifetime = LifeTime.Transient)]
     public class SysUserPostService : BaseService<SysUserPost>, ISysUserPostService
     {

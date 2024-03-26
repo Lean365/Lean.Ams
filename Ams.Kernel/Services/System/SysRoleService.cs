@@ -1,24 +1,29 @@
+using System.Collections;
 using Ams.Infrastructure;
 using Ams.Infrastructure.Attribute;
-using System.Collections;
-using Ams.Model;
-using Ams.Kernel.Model.System;
-using Ams.Repository;
 using Ams.Infrastructure.CustomException;
-using Ams.Kernel.Model.Dto.System;
 using Ams.Kernel.Model;
+using Ams.Kernel.Model.Dto.System;
+using Ams.Kernel.Model.System;
 using Ams.Kernel.Services.IService.System;
+using Ams.Model;
+using Ams.Repository;
+
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 角色
-    /// </summary>
+    /// 系统角色
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ISysRoleService), ServiceLifetime = LifeTime.Transient)]
     public class SysRoleService : BaseService<SysRole>, ISysRoleService
     {
         private ISysUserRoleService SysUserRoleService;
         private ISysDeptService DeptService;
         private ISysRoleMenuService RoleMenuService;
+
         public SysRoleService(
             ISysUserRoleService sysUserRoleService,
             ISysDeptService deptService,
@@ -204,7 +209,6 @@ namespace Ams.Kernel.Services.System
 
         #region Service
 
-
         /// <summary>
         /// 批量新增角色菜单信息
         /// </summary>
@@ -331,7 +335,8 @@ namespace Ams.Kernel.Services.System
             var list = SelectUserRoleListByUserId(userId);
             return list.Select(x => x.RoleName).ToList();
         }
-        #endregion
+
+        #endregion Service
 
         /// <summary>
         /// 修改保存角色信息

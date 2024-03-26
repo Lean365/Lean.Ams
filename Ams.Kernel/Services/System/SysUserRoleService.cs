@@ -1,15 +1,18 @@
 ﻿using Ams.Infrastructure.Attribute;
-using Ams.Model;
-using Ams.Kernel.Model.System;
-using Ams.Repository;
 using Ams.Kernel.Model.Dto.System;
+using Ams.Kernel.Model.System;
 using Ams.Kernel.Services.IService.System;
+using Ams.Model;
+using Ams.Repository;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
     /// 用户角色
-    /// </summary>
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ISysUserRoleService), ServiceLifetime = LifeTime.Transient)]
     public class SysUserRoleService : BaseService<SysUserRole>, ISysUserRoleService
     {

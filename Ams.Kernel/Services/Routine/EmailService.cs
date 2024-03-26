@@ -1,15 +1,18 @@
 using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Model.Dto.Routine;
+using Ams.Kernel.Model.Routine;
+using Ams.Kernel.Services.IService.Routine;
 using Ams.Model;
 using Ams.Repository;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Model.Dto.Routine;
-using Ams.Kernel.Services.IService.Routine;
 
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
-    /// 邮件发送记录Service业务层处理
-    /// </summary>
+    /// 邮件记录
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(IEmailService), ServiceLifetime = LifeTime.Transient)]
     public class EmailService : BaseService<Email>, IEmailService
     {
@@ -33,7 +36,6 @@ namespace Ams.Kernel.Services.Routine
 
             return response;
         }
-
 
         /// <summary>
         /// 获取详情

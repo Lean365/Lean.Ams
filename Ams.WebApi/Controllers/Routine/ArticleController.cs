@@ -6,6 +6,7 @@ using Ams.Infrastructure.WebExtensions;
 using Ams.Kernel.Model.Routine;
 using Ams.Kernel.Model.Dto.Routine;
 using Ams.Kernel.Services.IService.Routine;
+
 namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
@@ -23,6 +24,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// 文章接口
         /// </summary>
         private readonly IArticleService _ArticleService;
+
         private readonly IArticleCategoryService _ArticleCategoryService;
 
         public ArticleController(IArticleService ArticleService, IArticleCategoryService articleCategoryService)
@@ -86,7 +88,7 @@ namespace Ams.WebApi.Controllers.Routine
                 .Where(predicate.ToExpression())
                 .Includes(x => x.ArticleCategoryNav) //填充子对象
                 .Take(10)
-                .OrderBy(f => f.UpdateTime, OrderByType.Desc).ToList();
+                .OrderBy(f => f.Update_time, OrderByType.Desc).ToList();
 
             return SUCCESS(response);
         }

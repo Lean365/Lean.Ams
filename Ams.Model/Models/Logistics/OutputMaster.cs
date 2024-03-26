@@ -4,7 +4,7 @@ namespace Ams.Model.Logistics
 {
     /// <summary>
     /// oph主表
-    /// 数据实体
+    /// 数据实体对象
     /// @Author: Lean365(Davis.Cheng)
     /// @Date: (2024/1/22 11:16:45)
     /// </summary>

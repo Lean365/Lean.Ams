@@ -1,22 +1,28 @@
-﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
+﻿using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.CustomException;
 using Ams.Infrastructure.Model;
+using Ams.Infrastructure.WebExtensions;
+using Ams.Kernel.Model.Monitor;
+using Ams.Kernel.Services.IService.Monitor;
 using IPTools.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NLog;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Monitor;
-using Ams.Kernel.Services.IService.Monitor;
+
 namespace Ams.Kernel.Filters
 {
+    /// <summary>
+    /// 全局操作日志记录
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class GlobalActionMonitor : ActionFilterAttribute
     {
-        static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly ILogOperService OperLogService;
+
         public GlobalActionMonitor(ILogOperService operLogService)
         {
             OperLogService = operLogService;
@@ -48,7 +54,7 @@ namespace Ams.Kernel.Filters
             {
                 logger.Info($"请求参数错误,{msg}");
                 ApiResult response = new((int)ResultCode.PARAM_ERROR, msg);
-                
+
                 context.Result = new JsonResult(response);
             }
             return base.OnActionExecutionAsync(context, next);
@@ -61,11 +67,11 @@ namespace Ams.Kernel.Filters
         public override void OnResultExecuted(ResultExecutedContext context)
         {
             if (context.ActionDescriptor is not ControllerActionDescriptor controllerActionDescriptor) return;
-
+            int statusCode = context.HttpContext.Response.StatusCode;
             //获得注解信息
             LogAttribute logAttribute = GetLogAttribute(controllerActionDescriptor);
-            if (logAttribute == null) return;
-
+            //if (logAttribute == null) return;
+            if (logAttribute == null && statusCode != 403) return;
             try
             {
                 string method = context.HttpContext.Request.Method.ToUpper();
@@ -111,8 +117,14 @@ namespace Ams.Kernel.Filters
                     LogOper.BusinessType = (int)logAttribute.BusinessType;
                     LogOper.OperParam = logAttribute.IsSaveRequestData ? LogOper.OperParam : "";
                     LogOper.JsonResult = logAttribute.IsSaveResponseData ? LogOper.JsonResult : "";
+                    //LogOper.OperParam = logAttribute.IsSaveRequestData ? sysOperLog.OperParam : "";
+                    //LogOper.JsonResult = logAttribute.IsSaveResponseData ? sysOperLog.JsonResult : "";
                 }
-
+                if (statusCode == 403)
+                {
+                    LogOper.IsState = 1;
+                    LogOper.ErrorMsg = "无权限访问";
+                }
                 LogEventInfo ei = new(NLog.LogLevel.Info, "GlobalActionMonitor", "");
 
                 ei.Properties["jsonResult"] = !HttpMethods.IsGet(method) ? jsonResult : "";

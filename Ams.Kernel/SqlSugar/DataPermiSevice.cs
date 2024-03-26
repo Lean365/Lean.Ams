@@ -1,9 +1,15 @@
 ﻿using Ams.Infrastructure;
-using SqlSugar.IOC;
-using Ams.Kernel.SqlSugar;
 using Ams.Infrastructure.Apps;
+using Ams.Kernel.SqlSugar;
+using SqlSugar.IOC;
+
 namespace Ams.Kernel
 {
+    /// <summary>
+    /// 数据权限服务
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class DataPermiSevice
     {
         /// <summary>
@@ -32,7 +38,6 @@ namespace Ams.Kernel
                 }
                 else if (DataPermiEnum.DEPT_CHILD.Equals(dataScope))//本部门及以下数据
                 {
-
                 }
                 else if (DataPermiEnum.SELF.Equals(dataScope))//仅本人数据
                 {

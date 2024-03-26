@@ -1,20 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Ams.Kernel.Filters;
+﻿using Ams.Kernel.Services.System;
 using Ams.Service.IService;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Services.System;
-using Ams.Kernel.Services.IService.Routine;
+using Microsoft.Extensions.Options;
+
 namespace Ams.WebApi.Controllers
 {
     /// <summary>
     /// 公共模块
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Route("[controller]/[action]")]
     [ApiExplorerSettings(GroupName = "system")]
-    //[Produces("application/json")]
     public class CommonController : BaseController
     {
         private OptionsSetting OptionsSetting;
@@ -116,8 +113,10 @@ namespace Ams.WebApi.Controllers
                     }
                     file = await FileStorageService.SaveFileToLocal(savePath, uploadDto.FileName, uploadDto.FileDir, HttpContext.GetName(), formFile);
                     break;
+
                 case StoreType.REMOTE:
                     break;
+
                 case StoreType.ALIYUN:
                     int AlimaxContentLength = OptionsSetting.ALIYUN_OSS.MaxSize;
                     if (OptionsSetting.ALIYUN_OSS.REGIONID.IsEmpty())
@@ -137,10 +136,13 @@ namespace Ams.WebApi.Controllers
 
                     if (file.Id <= 0) { return ToResponse(ApiResult.Error("阿里云连接失败")); }
                     break;
+
                 case StoreType.TENCENT:
                     break;
+
                 case StoreType.QINIU:
                     break;
+
                 default:
                     break;
             }
@@ -152,7 +154,7 @@ namespace Ams.WebApi.Controllers
             });
         }
 
-        #endregion
+        #endregion 上传
 
         /// <summary>
         /// 下载文件
@@ -220,14 +222,17 @@ namespace Ams.WebApi.Controllers
         /// 自定文件名
         /// </summary>
         public string? FileName { get; set; }
+
         /// <summary>
         /// 存储目录
         /// </summary>
         public string? FileDir { get; set; }
+
         /// <summary>
         /// 文件名生成类型 1 原文件名 2 自定义 3 自动生成
         /// </summary>
         public int FileNameType { get; set; }
+
         public IFormFile? File { get; set; }
     }
 }

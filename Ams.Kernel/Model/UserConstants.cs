@@ -1,5 +1,8 @@
 ﻿namespace Ams.Kernel.Model
 {
+    /// <summary>
+    /// 用户常量
+    /// </summary>
     public class UserConstants
     {
         /// <summary>
@@ -96,6 +99,7 @@
         /// 校验返回结果码
         /// </summary>
         public static string UNIQUE = "0";
+
         public static string NOT_UNIQUE = "1";
 
         /// <summary>
@@ -107,6 +111,7 @@
         /// https请求
         /// </summary>
         public static string HTTPS = "https://";
+
         /// <summary>
         /// www主域
         /// </summary>

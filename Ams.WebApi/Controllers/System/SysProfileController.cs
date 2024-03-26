@@ -1,16 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-using Ams.Kernel.Filters;
-using Ams.Kernel.Model.System;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Services.IService.System;
-using Ams.Kernel.Services.IService.Routine;
 namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
     /// 个人中心
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Verify]
     [Route("system/user/profile")]

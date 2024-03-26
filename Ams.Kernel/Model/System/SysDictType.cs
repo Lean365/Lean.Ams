@@ -1,9 +1,10 @@
-﻿using SqlSugar;
-
-namespace Ams.Kernel.Model.System
+﻿namespace Ams.Kernel.Model.System
 {
     /// <summary>
-    /// 字典类型表
+    /// 字典类型
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/25 13:57:42)
     /// </summary>
     [SugarTable("sys_dict_type", "字典类型")]
     [SugarIndex("index_dict_type", nameof(DictType), OrderByType.Asc, true)]
@@ -15,26 +16,31 @@ namespace Ams.Kernel.Model.System
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long DictId { get; set; }
+
         /// <summary>
         /// 字典名称
         /// </summary>
         [SugarColumn(Length = 100, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string DictName { get; set; }
+
         /// <summary>
         /// 字典类型
         /// </summary>
         [SugarColumn(Length = 100, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string DictType { get; set; }
+
         /// <summary>
         /// 状态 0、正常 1、停用
         /// </summary>
-        [SugarColumn( DefaultValue = "0")]
+        [SugarColumn(DefaultValue = "0")]
         public int IsState { get; set; }
+
         /// <summary>
         /// 系统内置 Y是 N否
         /// </summary>
         [SugarColumn(Length = 1, DefaultValue = "N")]
         public string Type { get; set; }
+
         /// <summary>
         /// 自定义sql
         /// </summary>

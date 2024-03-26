@@ -1,24 +1,51 @@
-﻿using Ams.Infrastructure;
+﻿using Ams.Common;
 using Ams.Infrastructure.Attribute;
-using Ams.Common;
+using Ams.Infrastructure.CustomException;
+using Ams.Kernel.Model;
+using Ams.Kernel.Model.Dto.System;
 using Ams.Kernel.Model.System;
 using Ams.Kernel.Model.System.Vo;
-using Ams.Infrastructure.CustomException;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Model;
 using Ams.Kernel.Services.IService.System;
+
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
     /// 部门管理
-    /// </summary>
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ISysDeptService), ServiceLifetime = LifeTime.Transient)]
     public class SysDeptService : BaseService<SysDept>, ISysDeptService
     {
         public ISysRoleDeptService RoleDeptRepository;
+
         public SysDeptService(ISysRoleDeptService roleDeptRepository)
         {
             RoleDeptRepository = roleDeptRepository;
+        }
+
+        /// <summary>
+        /// 查询部门管理数据
+        /// </summary>
+        /// <param name="dept"></param>
+        /// <returns></returns>
+        public List<SysDeptDto> GetList(SysDeptQueryDto dept)
+        {
+            var predicate = Expressionable.Create<SysDept>();
+            predicate = predicate.And(it => it.IsDeleted == 0);
+            predicate = predicate.AndIF(dept.DeptName.IfNotEmpty(), it => it.DeptName.Contains(dept.DeptName));
+            predicate = predicate.AndIF(dept.IsState != null, it => it.IsState == dept.IsState);
+
+            var response = Queryable()
+                .Where(predicate.ToExpression())
+                .Select((it) => new SysDeptDto()
+                {
+                    UserNum = SqlFunc.Subqueryable<SysUser>().Where(f => f.DeptId == it.DeptId).Count()
+                }, true)
+                .ToList();
+
+            return response;
         }
 
         /// <summary>
@@ -33,8 +60,8 @@ namespace Ams.Kernel.Services.System
             predicate = predicate.AndIF(dept.DeptName.IfNotEmpty(), it => it.DeptName.Contains(dept.DeptName));
             predicate = predicate.AndIF(dept.IsState != null, it => it.IsState == dept.IsState);
 
-            var response = GetList(predicate.ToExpression());
-
+            //var response = GetList(predicate.ToExpression());
+            var response = Queryable().Where(predicate.ToExpression()).ToList();
             return response;
         }
 
@@ -212,6 +239,7 @@ namespace Ams.Kernel.Services.System
                 }
             }
         }
+
         /// <summary>
         /// 递归获取子菜单
         /// </summary>
@@ -276,7 +304,8 @@ namespace Ams.Kernel.Services.System
             }
             return rows;
         }
-        #endregion
+
+        #endregion 角色部门
     }
 
     /// <summary>

@@ -2,12 +2,12 @@
   <div class="home">
     <!-- 用户信息 -->
     <el-row :gutter="15">
-      <el-col :md="24" :lg="18" :xl="24" class="mb10">
+      <el-col :lg="12" class="mb10">
         <el-card shadow="hover" style="height: 100%">
           <div class="user-item">
             <div class="user-item-left">
               <el-avatar :size="60" shape="circle" :src="userInfo.avatar">
-                <img src="/src/assets/images/avatar.webp" />
+
               </el-avatar>
             </div>
 
@@ -27,8 +27,8 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :lg="6" class="mb10">
-        <el-card style="height: 100%">
+      <el-col :lg="12" class="mb10">
+        <el-card shadow="hover" style="height: 100%">
           <div class="text-information mb10">{{ $t('layout.localTimeZone') }}:CST UTC+8({{timezone}})
           </div>
           <div class="text-warning mb10">{{ $t('layout.nowLoginTime') }}:{{nowTime}}

@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Web;
-using Ams.Infrastructure.Helper;
-using Ams.Infrastructure.CustomException;
+﻿using System.Web;
+
 namespace Ams.WebApi.Controllers
 {
     /// <summary>
     /// 微信公众号
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Route("[controller]/[action]")]
     [ApiExplorerSettings(GroupName = "system")]
@@ -36,6 +37,5 @@ namespace Ams.WebApi.Controllers
 
             return SUCCESS(new { appId, signature, noncestr, timestamp, url });
         }
-
     }
 }

@@ -2,6 +2,12 @@
 
 namespace Ams.Kernel.Model.Dto.System
 {
+    /// <summary>
+    /// 用户注册
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class RegisterDto
     {
         /// <summary>
@@ -15,8 +21,10 @@ namespace Ams.Kernel.Model.Dto.System
         /// </summary>
         [Required(ErrorMessage = "密码不能为空")]
         public string Password { get; set; }
+
         [Required(ErrorMessage = "确认密码不能为空")]
         public string ConfirmPassword { get; set; }
+
         /// <summary>
         /// 验证码
         /// </summary>
@@ -26,10 +34,12 @@ namespace Ams.Kernel.Model.Dto.System
         /// 唯一标识
         /// </summary>
         public string Uuid { get; set; } = "";
+
         /// <summary>
         /// 头像
         /// </summary>
         public string Photo { get; set; }
+
         public string UserIP { get; set; }
     }
 }

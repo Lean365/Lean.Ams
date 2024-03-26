@@ -4,22 +4,22 @@ using Ams.Kernel.Model.System;
 using Ams.Kernel.Services.IService.System;
 using Ams.Model;
 using Ams.Repository;
-using Microsoft.AspNetCore.Http;
+
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 多语言配置Service业务层处理
-    ///
-    /// @author Lean365(Davis.Cheng)
-    /// @date 2022-05-06
-    /// </summary>
+    /// 数据字典
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ISysLocaleLangService), ServiceLifetime = LifeTime.Transient)]
     public class SysLocaleLangService : BaseService<SysLocaleLang>, ISysLocaleLangService
     {
         #region 业务逻辑代码
 
         /// <summary>
-        /// 查询多语言配置列表
+        /// 查询本地语言列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -73,7 +73,7 @@ namespace Ams.Kernel.Services.System
             {
                 langs.Add(new SysLocaleLang()
                 {
-                    Create_by= parm.Create_by,
+                    Create_by = parm.Create_by,
                     Create_time = DateTime.Now,
                     Update_by = parm.Update_by,
                     Update_time = DateTime.Now,
@@ -118,7 +118,7 @@ namespace Ams.Kernel.Services.System
 
             string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";
 
-            //输出错误信息               
+            //输出错误信息
             foreach (var item in x.ErrorList)
             {
                 Console.WriteLine("错误" + item.StorageMessage);
@@ -130,6 +130,7 @@ namespace Ams.Kernel.Services.System
 
             return (msg, x.ErrorList, x.IgnoreList);
         }
-        #endregion
+
+        #endregion 业务逻辑代码
     }
 }

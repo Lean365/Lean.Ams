@@ -1,12 +1,12 @@
-using Newtonsoft.Json;
-using SqlSugar;
-using System;
 using System.ComponentModel;
 
 namespace Ams.Kernel.Model.System
 {
     /// <summary>
-    /// 多语言配置，数据实体对象
+    /// 本地语言
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/25 13:57:42)
     /// </summary>
     [Tenant("0")]
     [SugarTable("sys_locale_lang", "本地语言")]
@@ -39,7 +39,5 @@ namespace Ams.Kernel.Model.System
         [DisplayName("名称")]
         [SugarColumn(ColumnName = "lang_name", Length = 2000, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string LangName { get; set; }
-
-
     }
 }

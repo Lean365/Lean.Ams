@@ -3,7 +3,7 @@ namespace Ams.Model.Accounting
 {
     /// <summary>
     /// 利润中心
-    /// 数据实体
+    /// 数据实体对象
     /// @Author: Lean365(Davis.Cheng)
     /// @Date: (2024/1/24 17:18:00)
     /// </summary>

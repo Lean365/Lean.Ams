@@ -1,17 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SqlSugar;
-using Ams.Kernel.Filters;
-using Ams.Model;
-using Ams.Kernel.Model.System;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model;
-using Ams.Kernel.Services.IService.System;
-using Ams.Infrastructure.Extensions;
+﻿using Ams.Repository;
+
 namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
     /// 岗位管理
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Verify]
     [Route("system/post")]
@@ -19,6 +14,7 @@ namespace Ams.WebApi.Controllers.System
     public class SysPostController : BaseController
     {
         private readonly ISysPostService PostService;
+
         public SysPostController(ISysPostService postService)
         {
             PostService = postService;
@@ -30,13 +26,22 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpGet("list")]
         [ActionPermissionFilter(Permission = "system:post:list")]
-        public IActionResult List([FromQuery] SysPost post, [FromQuery] PagerInfo pagerInfo)
+        public IActionResult List([FromQuery] SysPostQueryDto dto)
         {
             var predicate = Expressionable.Create<SysPost>();
-            predicate = predicate.AndIF(post.IsState.ToString().IfNotEmpty(), it => it.IsState == post.IsState);
-            var list = PostService.GetPages(predicate.ToExpression(), pagerInfo, s => new { s.PostSort });
+            predicate = predicate.AndIF(dto.IsState.ToString().IfNotEmpty(), it => it.IsState == dto.IsState);
+            predicate = predicate.AndIF(dto.PostName.IfNotEmpty(), it => it.PostName.Contains(dto.PostName));
+            predicate = predicate.AndIF(dto.PostCode.IfNotEmpty(), it => it.PostCode.Contains(dto.PostCode));
 
-            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
+            var list = PostService.Queryable()
+             .Where(predicate.ToExpression())
+                .Select((it) => new SysPostDto
+                {
+                    UserNum = SqlFunc.Subqueryable<SysUserPost>().Where(f => f.PostId == it.PostId).Sum(f => f.UserId)
+                }, true)
+                .ToPage(dto);
+
+            return SUCCESS(list);
         }
 
         /// <summary>

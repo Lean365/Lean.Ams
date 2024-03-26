@@ -1,24 +1,26 @@
-﻿using Ams.Infrastructure;
+﻿using Ams.Common;
 using Ams.Infrastructure.Attribute;
-using Microsoft.AspNetCore.Http;
-using UAParser;
-using Ams.Model;
-using Ams.Kernel.Model.System;
-using Ams.Repository;
 using Ams.Infrastructure.CustomException;
 using Ams.Infrastructure.Helper;
 using Ams.Infrastructure.WebExtensions;
 using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Services.IService.System;
-using Ams.Infrastructure.Extensions;
 using Ams.Kernel.Model.Monitor;
+using Ams.Kernel.Model.System;
 using Ams.Kernel.Services.IService.Monitor;
-using Ams.Common;
+using Ams.Kernel.Services.IService.System;
+using Ams.Model;
+using Ams.Repository;
+using Microsoft.AspNetCore.Http;
+using UAParser;
+
 namespace Ams.Kernel.Services.Monitor
 {
     /// <summary>
-    /// 登录
-    /// </summary>
+    /// 登录日志
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ILogLoginService), ServiceLifetime = LifeTime.Transient)]
     public class LogLoginService : BaseService<LogLogin>, ILogLoginService
     {
@@ -72,6 +74,7 @@ namespace Ams.Kernel.Services.Monitor
             SysUserService.UpdateLogLogin(loginBody.LoginIP, user.UserId);
             return user;
         }
+
         /// <summary>
         /// 登录验证
         /// </summary>
@@ -103,6 +106,7 @@ namespace Ams.Kernel.Services.Monitor
             SysUserService.UpdateLogLogin(loginBody.LoginIP, user.UserId);
             return user;
         }
+
         /// <summary>
         /// 查询登录日志
         /// </summary>
@@ -154,6 +158,7 @@ namespace Ams.Kernel.Services.Monitor
         {
             return Delete(ids);
         }
+
         /// <summary>
         /// 锁定用户
         /// </summary>
@@ -170,6 +175,7 @@ namespace Ams.Kernel.Services.Monitor
                 throw new CustomizeException(ResultCode.LOGIN_ERROR, $"你的账号已被锁,剩余{Math.Round(ts.TotalMinutes, 0)}分钟");
             }
         }
+
         /// <summary>
         /// 查询登录日志统计
         /// </summary>
@@ -202,6 +208,5 @@ namespace Ams.Kernel.Services.Monitor
                 }).ToList();
             return list;
         }
-
     }
 }

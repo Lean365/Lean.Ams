@@ -49,12 +49,15 @@ $end
         /// <returns></returns>
         ${replaceDto.ModelTypeName} Add${replaceDto.ModelTypeName}(${replaceDto.ModelTypeName} parm);
 
+$if(replaceDto.ShowBtnEdit)
         /// <summary>
         /// 修改
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         int Update${replaceDto.ModelTypeName}(${replaceDto.ModelTypeName} parm);
+$end
+
 $if(replaceDto.ShowBtnTruncate)
         /// <summary>
         /// 清空

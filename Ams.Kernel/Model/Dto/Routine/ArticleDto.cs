@@ -1,9 +1,15 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Ams.Kernel.Model.Routine;
 using Ams.Model;
+
 namespace Ams.Kernel.Model.Dto.Routine
 {
+    /// <summary>
+    /// 文章管理
+    /// 查询对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// </summary>
     public class ArticleQueryDto : PagerInfo
     {
         public long? UserId { get; set; }
@@ -15,17 +21,23 @@ namespace Ams.Kernel.Model.Dto.Routine
         public int? CategoryId { get; set; }
         public DateTime? BeginTime { get; set; }
         public DateTime? EndTime { get; set; }
+        public int? ArticleType { get; set; }
     }
 
     /// <summary>
+    /// 文章管理
     /// 输入输出对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
     /// </summary>
-    public class ArticleDto
+    public class ArticleDto : SysBase
     {
         [Required(ErrorMessage = "Cid不能为空")]
         public int Cid { get; set; }
+
         [Required(ErrorMessage = "文章标题不能为空")]
         public string Title { get; set; }
+
         [Required(ErrorMessage = "文章内容不能为空")]
         public string Content { get; set; }
 
@@ -41,10 +53,6 @@ namespace Ams.Kernel.Model.Dto.Routine
 
         public int? CategoryId { get; set; }
 
-        public DateTime? CreateTime { get; set; }
-
-        public DateTime? UpdateTime { get; set; }
-
         public string AuthorName { get; set; }
 
         public string CoverUrl { get; set; }
@@ -54,5 +62,6 @@ namespace Ams.Kernel.Model.Dto.Routine
         public int IsPublic { get; set; } = 1;
         public string AbstractText { get; set; }
         public int IsTop { get; set; }
+        public int? ArticleType { get; set; }
     }
 }

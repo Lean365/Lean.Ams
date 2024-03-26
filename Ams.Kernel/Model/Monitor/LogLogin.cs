@@ -1,10 +1,10 @@
-﻿using SqlSugar;
-using System;
-
-namespace Ams.Kernel.Model.Monitor
+﻿namespace Ams.Kernel.Model.Monitor
 {
     /// <summary>
-    /// sys_loglogin 表
+    /// 登录日志
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/25 13:57:42)
     /// </summary>
     [SugarTable("log_login", "登录日志")]
     [Tenant("0")]
@@ -53,17 +53,21 @@ namespace Ams.Kernel.Model.Monitor
         /// 访问时间
         /// </summary>
         public DateTime LoginTime { get; set; } = DateTime.Now;
+
         [SugarColumn(IsIgnore = true)]
         public DateTime? BeginTime { get; set; }
+
         [SugarColumn(IsIgnore = true)]
         public DateTime? EndTime { get; set; }
     }
+
     public class StatiLogLoginDto
     {
         /// <summary>
         /// 去重数据
         /// </summary>
         public int DeRepeatNum { get; set; }
+
         public int Num { get; set; }
         public DateTime Date { get; set; }
         public string WeekName { get; set; }

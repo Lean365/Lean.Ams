@@ -1,36 +1,39 @@
-﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.Enums;
-using Ams.Infrastructure.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using System.Net;
+﻿using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using Ams.Common;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Services.IService.System;
-using Ams.Kernel.Services.IService.Routine;
+using Ams.Infrastructure;
+using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.Enums;
+using Ams.Infrastructure.Model;
 using Ams.Kernel.Model;
+using Ams.Kernel.Model.Routine;
+using Ams.Kernel.Services.IService.Routine;
+using Ams.Kernel.Services.IService.System;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
-    /// 文件管理
-    /// Service业务层处理
-    /// @author Lean365(Davis.Cheng)
-    /// @date 2021-12-15
-    /// </summary>
+    /// 文件存储
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(IFileStorageService), ServiceLifetime = LifeTime.Transient)]
     public class FileStorageService : BaseService<FileStorage>, IFileStorageService
     {
         private string domainUrl = AppSettings.GetConfig("ALIYUN_OSS:domainUrl");
         private readonly ISysConfigService SysConfigService;
         private OptionsSetting OptionsSetting;
+
         public FileStorageService(ISysConfigService sysConfigService, IOptions<OptionsSetting> options)
         {
             SysConfigService = sysConfigService;
             OptionsSetting = options.Value;
         }
+
         /// <summary>
         /// 校验输入项目唯一性
         /// </summary>
@@ -45,6 +48,7 @@ namespace Ams.Kernel.Services.Routine
             }
             return UserConstants.UNIQUE;
         }
+
         /// <summary>
         /// 存储本地
         /// </summary>
@@ -56,7 +60,6 @@ namespace Ams.Kernel.Services.Routine
         /// <returns></returns>
         public async Task<FileStorage> SaveFileToLocal(string rootPath, string fileName, string fileDir, string userName, IFormFile formFile)
         {
-
             string fileExt = Path.GetExtension(formFile.FileName);
             fileName = (fileName.IsEmpty() ? HashFileName() : fileName) + fileExt;
 
@@ -127,7 +130,7 @@ namespace Ams.Kernel.Services.Routine
         public string GetdirPath(string storePath = "", bool byTimeStore = true)
         {
             DateTime date = DateTime.Now;
-            string timeDir = "uploads/"+ date.ToString("yyyy/MMdd");
+            string timeDir = "uploads/" + date.ToString("yyyy/MMdd");
 
             if (!string.IsNullOrEmpty(storePath))
             {
@@ -135,7 +138,7 @@ namespace Ams.Kernel.Services.Routine
             }
             return timeDir;
         }
-        
+
         /// <summary>
         /// 哈希文件名算法
         /// </summary>
@@ -149,6 +152,7 @@ namespace Ams.Kernel.Services.Routine
             }
             return BitConverter.ToString(MD5.HashData(Encoding.Default.GetBytes(str)), 4, 8).Replace("-", "");
         }
+
         /// <summary>
         /// 添加文件使用雪花ID
         /// </summary>

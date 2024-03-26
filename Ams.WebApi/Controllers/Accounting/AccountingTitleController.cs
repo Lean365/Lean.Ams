@@ -1,14 +1,3 @@
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Filters;
-using Microsoft.AspNetCore.Mvc;
-using Ams.Kernel.Model;
-using Ams.Model.Dto;
-using Ams.Model.Accounting;
-using Ams.Service.Accounting.IAccountingService;
-using MiniExcelLibs;
-
-
 namespace Ams.WebApi.Controllers
 {
     /// <summary>
@@ -18,8 +7,8 @@ namespace Ams.WebApi.Controllers
     /// @Date: (2024/1/22 10:55:14)
     /// </summary>
     [Verify]
-    [Route("accounting/AccountingTitle")]
-    [ApiExplorerSettings(GroupName = "accounting")]
+    [Route("accounting/AccountingTitle", Name = "会计科目")]
+    [ApiExplorerSettings(GroupName = "accounting", IgnoreApi = false)]
     public class AccountingTitleController : BaseController
     {
         /// <summary>
@@ -42,9 +31,8 @@ namespace Ams.WebApi.Controllers
         public IActionResult QueryAccountingTitle([FromQuery] AccountingTitleQueryDto parm)
         {
             var response = _AccountingTitleService.GetList(parm);
-            return SUCCESS(response,TIME_FORMAT_YYYMMDD);
+            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
         }
-
 
         /// <summary>
         /// 查询会计科目详情
@@ -56,7 +44,7 @@ namespace Ams.WebApi.Controllers
         public IActionResult GetAccountingTitle(long FatSFID)
         {
             var response = _AccountingTitleService.GetInfo(FatSFID);
-            
+
             var info = response.Adapt<AccountingTitleDto>();
             return SUCCESS(info);
         }
@@ -71,7 +59,7 @@ namespace Ams.WebApi.Controllers
         public IActionResult AddAccountingTitle([FromBody] AccountingTitleDto parm)
         {
             var modal = parm.Adapt<AccountingTitle>().ToCreate(HttpContext);
-           
+
             // 校验输入项目唯一性
             if (UserConstants.NOT_UNIQUE.Equals(_AccountingTitleService.CheckEntryUnique(parm.FatSFID.ToString())))
             {
@@ -104,7 +92,7 @@ namespace Ams.WebApi.Controllers
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "fico:accountingtitle:delete")]
         [Log(Title = "会计科目", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteAccountingTitle([FromRoute]string ids)
+        public IActionResult DeleteAccountingTitle([FromRoute] string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -127,7 +115,7 @@ namespace Ams.WebApi.Controllers
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "会计科目", "会计科目","export/accounting");
+            var result = ExportExcelMini(list, "会计科目", "会计科目", "export/accounting");
             return ExportExcel(result.Item2, result.Item1);
         }
 
@@ -151,7 +139,8 @@ namespace Ams.WebApi.Controllers
         }
 
         /// <summary>
-        /// 会计科目导入模板下载
+        /// 会计科目
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
@@ -162,6 +151,5 @@ namespace Ams.WebApi.Controllers
             var result = DownloadImportTemplate(new List<AccountingTitleDto>() { }, "AccountingTitleTpl");
             return ExportExcel(result.Item2, result.Item1);
         }
-
     }
 }

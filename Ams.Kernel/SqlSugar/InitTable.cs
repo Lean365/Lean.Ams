@@ -1,14 +1,16 @@
-﻿using SqlSugar.IOC;
-using Ams.Kernel.Model.Monitor;
+﻿using Ams.Kernel.Model.Monitor;
 using Ams.Kernel.Model.Routine;
 using Ams.Kernel.Model.System;
 using Ams.Kernel.Model.System.Generate;
+using SqlSugar.IOC;
 
 namespace Ams.Kernel.SqlSugar
 {
     /// <summary>
     /// 初始化表
-    /// </summary>
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class InitTable
     {
         /// <summary>
@@ -17,8 +19,8 @@ namespace Ams.Kernel.SqlSugar
         public static void InitDb()
         {
             var db = DbScoped.SugarScope;
-            //建库：如果不存在创建数据库存在不会重复创建 
-            db.DbMaintenance.CreateDatabase();// 注意 ：Oracle和个别国产库需不支持该方法，需要手动建库 
+            //建库：如果不存在创建数据库存在不会重复创建
+            db.DbMaintenance.CreateDatabase();// 注意 ：Oracle和个别国产库需不支持该方法，需要手动建库
 
             //var baseType = typeof(SysBase);
             //var entityes = AssemblyUtils.GetAllTypes().Where(p => !p.IsAbstract && p != baseType && p.GetCustomAttribute<SugarTable>() != null).ToArray();

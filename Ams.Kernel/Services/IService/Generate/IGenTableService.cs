@@ -1,8 +1,14 @@
-﻿using Ams.Model;
-using Ams.Kernel.Model.System.Generate;
+﻿using Ams.Kernel.Model.System.Generate;
+using Ams.Model;
 
 namespace Ams.Kernel.Services.IService.Generate
 {
+    /// <summary>
+    /// 代码生成
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// </summary>
     public interface IGenTableService : IBaseService<GenTable>
     {
         List<GenTable> SelectDbTableListByNamess(string[] tableNames);
@@ -10,22 +16,38 @@ namespace Ams.Kernel.Services.IService.Generate
         int ImportGenTable(GenTable tables);
 
         int DeleteGenTableByIds(long[] tableIds);
+
         int DeleteGenTableByTbName(string tableName);
+
         PagedInfo<GenTable> GetGenTables(GenTable genTable, PagerInfo pagerInfo);
+
         GenTable GetGenTableInfo(long tableId);
+
         bool SynchDb(long tableId, GenTable genTable, List<GenTableColumn> genTableColumns);
+
         List<GenTable> GetGenTableAll();
+
         int UpdateGenTable(GenTable genTable);
     }
 
+    /// <summary>
+    /// 代码生成表
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// </summary>
     public interface IGenTableColumnService : IBaseService<GenTableColumn>
     {
         int InsertGenTableColumn(List<GenTableColumn> tableColumn);
 
         int DeleteGenTableColumn(long tableId);
+
         int DeleteGenTableColumn(long[] tableIds);
+
         int DeleteGenTableColumnByTableName(string tableName);
+
         List<GenTableColumn> GenTableColumns(long tableId);
+
         int UpdateGenTableColumn(List<GenTableColumn> tableColumn);
     }
 }

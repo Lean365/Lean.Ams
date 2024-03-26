@@ -1,15 +1,20 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Reflection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Reflection;
 
 namespace Ams.WebApi.Extensions
 {
+    /// <summary>
+    /// Swagger扩展
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
+    /// </summary>
     public static class SwaggerExtension
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="app"></param>
         public static void UseSwagger(this IApplicationBuilder app)
@@ -41,7 +46,7 @@ namespace Ams.WebApi.Extensions
                 c.SwaggerEndpoint("logistics/swagger.json", "后勤管理");
                 c.SwaggerEndpoint("stat/swagger.json", "统计报表");
                 c.SwaggerEndpoint("monitor/swagger.json", "日志监控");
-               
+
                 c.SwaggerEndpoint("v1/swagger.json", "其它业务");
                 c.DocExpansion(DocExpansion.None); //->修改界面打开时自动折叠
             });

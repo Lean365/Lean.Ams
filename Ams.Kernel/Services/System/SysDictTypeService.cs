@@ -1,25 +1,28 @@
-﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using Ams.Model;
-using Ams.Kernel.Model.System;
+﻿using Ams.Infrastructure.Attribute;
 using Ams.Infrastructure.CustomException;
 using Ams.Kernel.Model;
+using Ams.Kernel.Model.System;
 using Ams.Kernel.Services.IService.System;
-using Microsoft.IdentityModel.Tokens;
+using Ams.Model;
+
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
     /// 字典类型
-    /// </summary>
-    [AppService(ServiceType = typeof(ISysDictService), ServiceLifetime = LifeTime.Transient)]
-    public class SysDictService : BaseService<SysDictType>, ISysDictService
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
+    [AppService(ServiceType = typeof(ISysDictTypeService), ServiceLifetime = LifeTime.Transient)]
+    public class SysDictTypeService : BaseService<SysDictType>, ISysDictTypeService
     {
         private ISysDictDataService DictDataService;
 
-        public SysDictService(ISysDictDataService dictDataRepository)
+        public SysDictTypeService(ISysDictDataService dictDataRepository)
         {
             DictDataService = dictDataRepository;
         }
+
         public List<SysDictType> GetAll()
         {
             return Queryable().ToList();

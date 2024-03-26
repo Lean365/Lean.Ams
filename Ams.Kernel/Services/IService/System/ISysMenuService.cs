@@ -5,15 +5,24 @@ using Ams.Kernel.Model.System.Vo;
 
 namespace Ams.Kernel.Services.IService.System
 {
+    /// <summary>
+    /// 系统菜单
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public interface ISysMenuService : IBaseService<SysMenu>
     {
         //List<SysMenu> SelectMenuList(long userId);
 
         List<SysMenu> SelectMenuList(MenuQueryDto menu, long userId);
+
         List<SysMenu> SelectTreeMenuList(MenuQueryDto menu, long userId);
 
         SysMenu GetMenuByMenuId(int menuId);
+
         List<SysMenu> GetMenusByMenuId(int menuId, long userId);
+
         long AddMenu(SysMenu menu);
 
         long EditMenu(SysMenu menu);
@@ -39,7 +48,9 @@ namespace Ams.Kernel.Services.IService.System
         List<TreeSelectVo> BuildMenuTreeSelect(List<SysMenu> menus);
 
         void AddSysMenu(GenTable genTableInfo, string permPrefix, bool showEdit, bool showExport, bool showImport);
+
         List<SysMenu> SelectTreeMenuListByRoles(MenuQueryDto menu, List<long> roles);
+
         List<RoleMenuExportDto> SelectRoleMenuListByRole(MenuQueryDto menu, int roleId);
     }
 
@@ -49,6 +60,7 @@ namespace Ams.Kernel.Services.IService.System
     public interface ISysRoleMenuService : IBaseService<SysRoleMenu>
     {
         bool CheckMenuExistRole(long menuId);
+
         /// <summary>
         /// 根据角色获取菜单id
         /// </summary>

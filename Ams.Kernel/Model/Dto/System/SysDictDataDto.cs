@@ -1,8 +1,13 @@
-﻿using System.Collections.Generic;
-using Ams.Kernel.Model.System;
-using Ams.Model;
+﻿using Ams.Kernel.Model.System;
+
 namespace Ams.Kernel.Model.Dto.System
 {
+    /// <summary>
+    /// 字典数据
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class SysDictDataDto
     {
         public string DictType { get; set; }

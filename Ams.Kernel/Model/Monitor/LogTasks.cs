@@ -1,11 +1,11 @@
-﻿using SqlSugar;
-using System;
-
-namespace Ams.Kernel.Model.Monitor
+﻿namespace Ams.Kernel.Model.Monitor
 {
     /// <summary>
     /// 任务日志
-    /// </summary>
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/25 13:57:42)
+    /// <summary>
     [SugarTable("log_tasks", "任务日志")]
     [Tenant("0")]
     public class LogTasks : SysBase
@@ -15,39 +15,45 @@ namespace Ams.Kernel.Model.Monitor
         /// </summary>
         [SugarColumn(IsIdentity = true, IsPrimaryKey = true)]
         public long JobLogId { get; set; }
+
         /// <summary>
         /// 任务Id
         /// </summary>
         [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string JobId { get; set; }
+
         /// <summary>
         /// 任务名
         /// </summary>
         [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string JobName { get; set; }
+
         /// <summary>
         /// 任务分组
         /// </summary>
         [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string JobGroup { get; set; }
+
         /// <summary>
         /// 执行状态（0正常 1失败）
         /// </summary>
         [SugarColumn(DefaultValue = "0")]
         public int IsState { get; set; }
+
         /// <summary>
         /// 异常
         /// </summary>
         public string Exception { get; set; }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public string JobMessage { get; set; }
+
         /// <summary>
         /// 调用目标字符串
         /// </summary>
         public string InvokeTarget { get; set; }
-
 
         /// <summary>
         /// 执行用时，毫秒

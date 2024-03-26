@@ -1,20 +1,21 @@
-using Ams.Infrastructure.Attribute;
-using JinianNet.JNTemplate.Caching;
-using System.ComponentModel;
 using Ams.Common;
+using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Model;
+using Ams.Kernel.Model.Dto.System;
 using Ams.Kernel.Model.System;
 using Ams.Kernel.Model.System.Enums;
 using Ams.Kernel.Model.System.Generate;
 using Ams.Kernel.Model.System.Vo;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Model;
 using Ams.Kernel.Services.IService.System;
-using Microsoft.IdentityModel.Tokens;
+
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 菜单
-    /// </summary>
+    /// 系统菜单
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ISysMenuService), ServiceLifetime = LifeTime.Transient)]
     public class SysMenuService : BaseService<SysMenu>, ISysMenuService
     {
@@ -317,6 +318,7 @@ namespace Ams.Kernel.Services.System
 
             return list;
         }
+
         #region 方法
 
         ///// <summary>
@@ -588,8 +590,8 @@ namespace Ams.Kernel.Services.System
                 .Replace(UserConstants.WWW, "")
                 .Replace(".", "/") : path;
         }
-        #endregion
 
+        #endregion 方法
 
         public void AddSysMenu(GenTable genTableInfo, string permPrefix, bool showEdit, bool showExport, bool showImport)
         {
@@ -615,7 +617,6 @@ namespace Ams.Kernel.Services.System
             }
             else
             {
-
                 menu.MenuName = genTableInfo.FunctionName;
                 menu.ParentId = genTableInfo.Options.ParentMenuId;
                 menu.Path = genTableInfo.BusinessName;

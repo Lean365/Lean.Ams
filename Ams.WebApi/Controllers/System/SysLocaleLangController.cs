@@ -1,17 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-using MiniExcelLibs;
-using Ams.Kernel.Filters;
-using Ams.Model;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Infrastructure.CustomException;
-using Ams.Kernel.Model.System;
-using Ams.Kernel.Services.IService.System;
-using Ams.Infrastructure.WebExtensions;
-
 namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
-    /// 多语言配置Controller
+    /// 本地语言
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Verify]
     [Route("system/localelang")]
@@ -19,7 +12,7 @@ namespace Ams.WebApi.Controllers.System
     public class SysLocaleLangController : BaseController
     {
         /// <summary>
-        /// 多语言配置接口
+        /// 本地语言接口
         /// </summary>
         private readonly ISysLocaleLangService _SysLocaleLangService;
 
@@ -29,7 +22,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 查询多语言配置列表
+        /// 查询本地语言列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -37,16 +30,14 @@ namespace Ams.WebApi.Controllers.System
         [ActionPermissionFilter(Permission = "system:lang:list")]
         public IActionResult QuerySysLocaleLang([FromQuery] SysLocaleLangQueryDto parm)
         {
-
-
             if (parm.ShowMode == 2)
             {
                 PagedInfo<dynamic> pagedInfo = new()
                 {
                     TotalNum = 6000,
-                    TotalPage=300,
+                    TotalPage = 300,
                     Result = _SysLocaleLangService.GetListToPivot(parm)
-            };
+                };
 
                 return SUCCESS(pagedInfo, TIME_FORMAT_YYYMMDD);
             }
@@ -55,7 +46,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 查询多语言配置列表
+        /// 查询本地语言列表
         /// </summary>
         /// <returns></returns>
         [HttpGet("list/{lang}")]
@@ -68,7 +59,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 查询多语言配置详情
+        /// 查询本地语言详情
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
@@ -85,7 +76,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 查询多语言配置详情
+        /// 查询本地语言详情
         /// </summary>
         /// <param name="langKey"></param>
         /// <returns></returns>
@@ -101,15 +92,14 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 更新多语言配置
+        /// 更新本地语言
         /// </summary>
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "system:lang:edit")]
-        [Log(Title = "多语言配置", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "本地语言", BusinessType = BusinessType.UPDATE)]
         public IActionResult UpdateSysLocaleLang([FromBody] SysLocaleLangDto parm)
         {
-
             if (parm == null || parm.LangKey.IsEmpty())
             {
                 throw new CustomizeException("请求实体不能为空");
@@ -117,18 +107,17 @@ namespace Ams.WebApi.Controllers.System
             parm.Create_by = HttpContext.GetName();
             parm.Update_by = HttpContext.GetName();
             _SysLocaleLangService.StorageSysLocaleLang(parm);
-            
 
             return ToResponse(1);
         }
 
         /// <summary>
-        /// 删除多语言配置
+        /// 删除本地语言
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
         [ActionPermissionFilter(Permission = "system:lang:delete")]
-        [Log(Title = "多语言配置", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "本地语言", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSysLocaleLang(string ids)
         {
             long[] idsArr = Tools.SpitLongArrary(ids);
@@ -140,12 +129,12 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 删除多语言配置
+        /// 删除本地语言
         /// </summary>
         /// <returns></returns>
         [HttpDelete("ByKey")]
         [ActionPermissionFilter(Permission = "system:lang:delete")]
-        [Log(Title = "多语言配置", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "本地语言", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSysLocaleLangByKey(string langkey)
         {
             if (langkey.IsEmpty()) { return ToResponse(ApiResult.Error($"删除失败Id 不能为空")); }
@@ -159,10 +148,10 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 导出多语言配置
+        /// 导出本地语言
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "多语言配置", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "本地语言", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "system:lang:export")]
         public IActionResult Export([FromQuery] SysLocaleLangQueryDto parm)
@@ -170,7 +159,7 @@ namespace Ams.WebApi.Controllers.System
             parm.PageSize = 10000;
             var list = _SysLocaleLangService.GetListToPivot(parm);
 
-            string sFileName = ExportExcel(list, "LocaleLang", "多语言配置", "export/system");
+            string sFileName = ExportExcel(list, "LocaleLang", "本地语言", "export/system");
             return SUCCESS(new { path = "/export/system/" + sFileName, fileName = sFileName });
         }
 
@@ -192,7 +181,7 @@ namespace Ams.WebApi.Controllers.System
 
                 foreach (var item in rows)
                 {
-                    list.Add(new SysLocaleLang() { LangCode = "zh-cn", LangKey = item.A, LangName = item.B, Create_time = nowTime });                    
+                    list.Add(new SysLocaleLang() { LangCode = "zh-cn", LangKey = item.A, LangName = item.B, Create_time = nowTime });
                     list.Add(new SysLocaleLang() { LangCode = "zh-tw", LangKey = item.A, LangName = item.D, Create_time = nowTime });
                     list.Add(new SysLocaleLang() { LangCode = "ja", LangKey = item.A, LangName = item.C, Create_time = nowTime });
                     list.Add(new SysLocaleLang() { LangCode = "en", LangKey = item.A, LangName = item.C, Create_time = nowTime });

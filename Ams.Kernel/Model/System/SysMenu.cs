@@ -1,10 +1,10 @@
-﻿using SqlSugar;
-using System.Collections.Generic;
-
-namespace Ams.Kernel.Model.System
+﻿namespace Ams.Kernel.Model.System
 {
     /// <summary>
-    /// Sys_menu表
+    /// 菜单信息
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/25 13:57:42)
     /// </summary>
     [SugarTable("sys_menu", "菜单信息")]
     [Tenant("0")]
@@ -15,6 +15,7 @@ namespace Ams.Kernel.Model.System
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long MenuId { get; set; }
+
         /// <summary>
         /// 菜单名称
         /// </summary>
@@ -48,6 +49,7 @@ namespace Ams.Kernel.Model.System
         /// </summary>
         [SugarColumn(DefaultValue = "0", ColumnDataType = "int")]
         public string IsCache { get; set; } = "0";
+
         /// <summary>
         /// 是否外链 1、是 0、否
         /// </summary>
@@ -83,21 +85,25 @@ namespace Ams.Kernel.Model.System
         /// </summary>
         [SugarColumn(DefaultValue = "#")]
         public string Icon { get; set; } = string.Empty;
+
         /// <summary>
         /// 菜单名key
         /// </summary>
         [SugarColumn(ColumnName = "menuName_key")]
         public string MenuNameKey { get; set; }
+
         /// <summary>
         /// 子菜单
         /// </summary>
         [SugarColumn(IsIgnore = true)]
         public List<SysMenu> Children { get; set; } = new List<SysMenu>();
+
         /// <summary>
         /// 子菜单个数
         /// </summary>
         [SugarColumn(IsIgnore = true)]
         public int SubNum { get; set; }
+
         /// <summary>
         /// 是否包含子节点，前端用
         /// </summary>

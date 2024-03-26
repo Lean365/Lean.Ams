@@ -3,7 +3,7 @@ namespace Ams.Model.Logistics
 {
     /// <summary>
     /// 物料信息
-    /// 数据实体
+    /// 数据实体对象
     /// @Author: Lean365(Davis.Cheng)
     /// @Date: (2024/1/24 11:34:57)
     /// </summary>

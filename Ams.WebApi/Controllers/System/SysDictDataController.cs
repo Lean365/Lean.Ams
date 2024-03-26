@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Ams.Kernel.Filters;
-using Ams.Model;
-using Ams.Kernel.Model.System;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Services.IService.System;
-namespace Ams.WebApi.Controllers.System
+﻿namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
     /// 数据字典信息
+    /// API控制器
+    /// @Author: (Lean365:Davis.Cheng)
+    /// @Date: (2023-12-15)
     /// </summary>
     [Verify]
     [Route("system/dict/data")]
@@ -16,11 +12,11 @@ namespace Ams.WebApi.Controllers.System
     public class SysDictDataController : BaseController
     {
         private readonly ISysDictDataService SysDictDataService;
-        private readonly ISysDictService SysDictService;
+        private readonly ISysDictTypeService SysDictTypeService;
 
-        public SysDictDataController(ISysDictService sysDictService, ISysDictDataService sysDictDataService)
+        public SysDictDataController(ISysDictTypeService SysDictTypeService, ISysDictDataService sysDictDataService)
         {
-            SysDictService = sysDictService;
+            SysDictTypeService = SysDictTypeService;
             SysDictDataService = sysDictDataService;
         }
 
@@ -38,7 +34,7 @@ namespace Ams.WebApi.Controllers.System
 
             if (dictData.DictType.StartsWith("sql_"))
             {
-                var result = SysDictService.SelectDictDataByCustomSql(dictData.DictType);
+                var result = SysDictTypeService.SelectDictDataByCustomSql(dictData.DictType);
 
                 list.Result.AddRange(result);
                 list.TotalNum += result.Count;
@@ -81,7 +77,7 @@ namespace Ams.WebApi.Controllers.System
                 };
                 if (dic.DictType.StartsWith("cus_") || dic.DictType.StartsWith("sql_"))
                 {
-                    vo.List.AddRange(SysDictService.SelectDictDataByCustomSql(dic.DictType));
+                    vo.List.AddRange(SysDictTypeService.SelectDictDataByCustomSql(dic.DictType));
                 }
                 dataVos.Add(vo);
             }

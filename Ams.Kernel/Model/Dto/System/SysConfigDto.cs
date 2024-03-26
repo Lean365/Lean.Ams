@@ -1,10 +1,13 @@
-using System;
 using Ams.Model;
+
 namespace Ams.Kernel.Model.Dto.System
 {
     /// <summary>
-    /// 参数配置输入对象模型
-    /// </summary>
+    /// 参数配置
+    /// 输入对象模型
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class SysConfigDto
     {
         public int ConfigId { get; set; }
@@ -16,8 +19,11 @@ namespace Ams.Kernel.Model.Dto.System
     }
 
     /// <summary>
-    /// 参数配置查询对象模型
-    /// </summary>
+    /// 参数配置
+    /// 查询对象
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class SysConfigQueryDto : PagerInfo
     {
         public string ConfigName { get; set; }

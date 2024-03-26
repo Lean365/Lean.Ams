@@ -1,7 +1,12 @@
-﻿using Ams.Common;
-using Ams.Infrastructure.Cache;
+﻿using Ams.Infrastructure.Cache;
+
 namespace Ams.Kernel.SqlSugar
 {
+    /// <summary>
+    /// SqlSugar缓存
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public class SqlSugarCache : ICacheService
     {
         public void Add<V>(string key, V value)

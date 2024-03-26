@@ -1,17 +1,17 @@
 using Ams.Infrastructure.Attribute;
-using Ams.Model;
 using Ams.Kernel.Model.Dto.Routine;
 using Ams.Kernel.Model.Routine;
 using Ams.Kernel.Services.IService.Routine;
+using Ams.Model;
 
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
-    /// 通知公告表
-    /// Service业务层处理
-    /// @author Lean365(Davis.Cheng)
-    /// @date 2021-12-15
-    /// </summary>
+    /// 通知公告
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(INoticesService), ServiceLifetime = LifeTime.Transient)]
     public class NoticesService : BaseService<Notices>, INoticesService
     {
@@ -44,6 +44,6 @@ namespace Ams.Kernel.Services.Routine
             return response;
         }
 
-        #endregion
+        #endregion 业务逻辑代码
     }
 }

@@ -1,15 +1,18 @@
 ﻿using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Model.Dto.Routine;
+using Ams.Kernel.Model.Routine;
+using Ams.Kernel.Services.IService.Routine;
 using Ams.Model;
 using Ams.Repository;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Model.Dto.Routine;
-using Ams.Kernel.Services.IService.Routine;
 
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
-    /// 定时任务
-    /// </summary>
+    /// 计划任务
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ITasksQzService), ServiceLifetime = LifeTime.Transient)]
     public class TasksQzService : BaseService<TasksQz>, ITasksQzService
     {

@@ -2,11 +2,15 @@
 using Ams.Kernel.Model.System;
 using Ams.Kernel.Model;
 using Ams.Kernel.Services.IService.System;
+
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
     /// 岗位管理
-    /// </summary>
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     [AppService(ServiceType = typeof(ISysPostService), ServiceLifetime = LifeTime.Transient)]
     public class SysPostService : BaseService<SysPost>, ISysPostService
     {

@@ -1,9 +1,15 @@
-﻿using Ams.Model;
-using Ams.Kernel.Model.Dto.System;
+﻿using Ams.Kernel.Model.Dto.System;
 using Ams.Kernel.Model.System;
+using Ams.Model;
 
 namespace Ams.Kernel.Services.IService.System
 {
+    /// <summary>
+    /// 角色管理
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: (2024/1/22 10:55:14)
+    /// <summary>
     public interface ISysRoleService : IBaseService<SysRole>
     {
         /// <summary>
@@ -81,8 +87,8 @@ namespace Ams.Kernel.Services.IService.System
         /// <param name="role"></param>
         /// <returns></returns>
         bool AuthDataScope(SysRoleDto role);
-        #region Service
 
+        #region Service
 
         /// <summary>
         /// 新增角色菜单信息
@@ -104,7 +110,9 @@ namespace Ams.Kernel.Services.IService.System
         /// <param name="roleId"></param>
         /// <returns></returns>
         public List<long> SelectUserRoleMenus(long roleId);
+
         List<long> SelectRoleMenuByRoleIds(long[] roleIds);
+
         /// <summary>
         /// 获取用户角色列表
         /// </summary>
@@ -128,7 +136,7 @@ namespace Ams.Kernel.Services.IService.System
 
         public List<string> SelectUserRoleNames(long userId);
 
-        #endregion
+        #endregion Service
 
         /// <summary>
         /// 修改保存角色信息
