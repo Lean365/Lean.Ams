@@ -27,6 +27,7 @@ namespace Ams.Model.Dto
         [Required(ErrorMessage = "父SFID不能为空")]
         [ExcelColumn(Name = "父SFID")]
         [ExcelColumnName("父SFID")]
+        [JsonConverter(typeof(ValueToStringConverter))]
         public long PosParentSfid { get; set; }
 
         [ExcelColumn(Name = "生产时段")]

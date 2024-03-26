@@ -11,12 +11,14 @@ using Ams.Infrastructure.CustomException;
 using Ams.Infrastructure.WebExtensions;
 using Ams.Kernel.Model.Monitor;
 using Ams.Kernel.Services.IService.Monitor;
+
 namespace Ams.Kernel.Filters
 {
     public class GlobalActionMonitor : ActionFilterAttribute
     {
-        static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly ILogOperService OperLogService;
+
         public GlobalActionMonitor(ILogOperService operLogService)
         {
             OperLogService = operLogService;
@@ -48,7 +50,7 @@ namespace Ams.Kernel.Filters
             {
                 logger.Info($"请求参数错误,{msg}");
                 ApiResult response = new((int)ResultCode.PARAM_ERROR, msg);
-                
+
                 context.Result = new JsonResult(response);
             }
             return base.OnActionExecutionAsync(context, next);
@@ -61,11 +63,11 @@ namespace Ams.Kernel.Filters
         public override void OnResultExecuted(ResultExecutedContext context)
         {
             if (context.ActionDescriptor is not ControllerActionDescriptor controllerActionDescriptor) return;
-
+            int statusCode = context.HttpContext.Response.StatusCode;
             //获得注解信息
             LogAttribute logAttribute = GetLogAttribute(controllerActionDescriptor);
-            if (logAttribute == null) return;
-
+            //if (logAttribute == null) return;
+            if (logAttribute == null && statusCode != 403) return;
             try
             {
                 string method = context.HttpContext.Request.Method.ToUpper();
@@ -111,8 +113,14 @@ namespace Ams.Kernel.Filters
                     LogOper.BusinessType = (int)logAttribute.BusinessType;
                     LogOper.OperParam = logAttribute.IsSaveRequestData ? LogOper.OperParam : "";
                     LogOper.JsonResult = logAttribute.IsSaveResponseData ? LogOper.JsonResult : "";
+                    //LogOper.OperParam = logAttribute.IsSaveRequestData ? sysOperLog.OperParam : "";
+                    //LogOper.JsonResult = logAttribute.IsSaveResponseData ? sysOperLog.JsonResult : "";
                 }
-
+                if (statusCode == 403)
+                {
+                    LogOper.IsState = 1;
+                    LogOper.ErrorMsg = "无权限访问";
+                }
                 LogEventInfo ei = new(NLog.LogLevel.Info, "GlobalActionMonitor", "");
 
                 ei.Properties["jsonResult"] = !HttpMethods.IsGet(method) ? jsonResult : "";

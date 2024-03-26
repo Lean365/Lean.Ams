@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 固定资产
     /// 业务层接口
     /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 11:12:08)
+    /// @Date: (2024/3/18 16:31:28)
     /// </summary>
     public interface IAssetService : IBaseService<Asset>
     {
@@ -47,6 +47,7 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <param name="parm"></param>
         /// <returns></returns>
         int UpdateAsset(Asset parm);
+
 
         /// <summary>
         /// 导入

@@ -7,6 +7,7 @@ using Ams.Infrastructure.Apps;
 using Ams.Infrastructure.CustomException;
 using Ams.Kernel.Services.Monitor;
 using Ams.Kernel.Services.IService.System;
+
 namespace Ams.Kernel.Filters
 {
     /// <summary>
@@ -20,12 +21,17 @@ namespace Ams.Kernel.Filters
         /// 权限字符串，例如 system:user:view
         /// </summary>
         public string Permission { get; set; } = string.Empty;
+
         /// <summary>
         /// 角色字符串，例如 common,admin
         /// </summary>
         public string RolePermi { get; set; } = string.Empty;
+
         private bool HasPermi { get; set; }
-        public ActionPermissionFilter() { }
+
+        public ActionPermissionFilter()
+        { }
+
         public ActionPermissionFilter(string permission)
         {
             Permission = permission;
@@ -83,9 +89,15 @@ namespace Ams.Kernel.Filters
                 if (!HasPermi && !Permission.Equals("common"))
                 {
                     logger.Info($"用户{info.UserName}没有权限访问{url}，当前权限[{Permission}]");
-                    JsonResult result = new(new ApiResult((int)ResultCode.FORBIDDEN, $"你当前没有权限访问,请联系管理员", url))
+                    var apiResult = new ApiResult((int)ResultCode.FORBIDDEN, $"你当前没有权限访问,请联系管理员", url);
+                    apiResult.Put("permi", Permission);
+                    JsonResult result = new(apiResult)
+                    //JsonResult result = new(new ApiResult((int)ResultCode.FORBIDDEN, $"你当前没有权限访问,请联系管理员", url))
                     {
+                        StatusCode = 403,
                         ContentType = "application/json",
+                        Value = JsonConvert.SerializeObject(apiResult)
+                        //ContentType = "application/json",
                     };
                     context.HttpContext.Response.StatusCode = 403;
                     context.Result = result;

@@ -32,7 +32,7 @@
         </el-descriptions-item>
         <el-descriptions-item :label=" $t('btn.preview')" label-align="left">
           <el-link type="primary" :underline="false" href="leansoft365" target="_blank">
-            Lps</el-link>
+            Ams</el-link>
         </el-descriptions-item>
       </el-descriptions>
     </div>

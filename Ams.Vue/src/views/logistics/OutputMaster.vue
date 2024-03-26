@@ -771,7 +771,13 @@
     const arr = obj.dictLabel.split("|")
     console.log(arr)
     form.value.pomMfgOrderQty = arr[3]
-    form.value.pomMfgOrderSerial = arr[4]
+    if (arr[4] != undefined && arr[4] != null && arr[4] != '') {
+      form.value.pomMfgOrderSerial = arr[4]
+    }
+    else {
+      form.value.pomMfgOrderSerial = arr[2] + '00001~' + parseFloat(arr[3]).toFixed(0)
+    }
+
     form.value.pomMfgLot = arr[2]
     form.value.pomMfgModel = arr[5]
     form.value.pomMfgItem = arr[1]

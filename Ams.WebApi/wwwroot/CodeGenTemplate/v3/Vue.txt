@@ -586,7 +586,7 @@ const ids = ref([])
 //是否加载动画
 const loading = ref(false)
 //显示搜索条件
-const showSearch = ref(true)
+const showSearch = ref(false)
 //使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
 const queryParams = reactive({
   pageNum: 1,

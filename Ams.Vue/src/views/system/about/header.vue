@@ -83,15 +83,15 @@
   const carouselItems = ref([
     {
       id: 1,
-      imageUrl: 'src/assets/logo/Antares.png'
+      imageUrl: 'src/assets/logo/Agile.png'
     },
     {
       id: 2,
-      imageUrl: 'src/assets/logo/Laplace.png'
+      imageUrl: 'src/assets/logo/Jit.png'
     },
     {
       id: 3,
-      imageUrl: 'src/assets/logo/Lean365.png'
+      imageUrl: 'src/assets/logo/Flexible.png'
     }
   ]);
   // // 初始化时间

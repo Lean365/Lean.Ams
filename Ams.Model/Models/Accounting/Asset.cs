@@ -5,7 +5,7 @@ namespace Ams.Model.Accounting
     /// 固定资产
     /// 数据实体
     /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 11:12:08)
+    /// @Date: (2024/3/18 16:31:28)
     /// </summary>
     [SugarTable("fico_asset")]
     public class Asset
@@ -104,7 +104,7 @@ namespace Ams.Model.Accounting
         /// <summary>
         /// 使用年限 
         /// </summary>
-        public decimal FaAssetUesd { get; set; }
+        public decimal FaAssetUsed { get; set; }
 
         /// <summary>
         /// 是否停用 
