@@ -1,8 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Ams.Kernel.Filters;
-using Ams.Infrastructure.CustomException;
-using Ams.Kernel.Model.Dto.Monitor;
-using Ams.Kernel.Services.IService.Monitor;
 //创建时间：2023-11-19
 namespace Ams.WebApi.Controllers.Monitor
 {
@@ -73,7 +68,7 @@ namespace Ams.WebApi.Controllers.Monitor
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "短信验证码记录", "短信验证码记录", "/export/log/");
+            var result = ExportExcelMini(list, "短信验证记录", "短信验证记录", "/export/log/");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

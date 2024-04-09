@@ -129,7 +129,7 @@
   // 查询参数
   let queryParams = reactive({
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 15,
     postCode: undefined,
     postName: undefined,
     isState: undefined

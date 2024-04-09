@@ -203,7 +203,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = UserService.SelectUserList(user, new PagerInfo(1, 10000));
 
-            var result = ExportExcelMini(list.Result, "user", "用户列表", "/export/system/");
+            var result = ExportExcelMini(list.Result, "user", "用户信息", "/export/system/");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

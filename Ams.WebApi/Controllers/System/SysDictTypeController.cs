@@ -111,7 +111,7 @@
         {
             var list = _SysDictTypeService.GetAll();
 
-            string sFileName = ExportExcel(list, "DictType", "字典", "export/system");
+            string sFileName = ExportExcel(list, "DictType", "数据字典", "export/system");
             return SUCCESS(new { path = "/export/system/" + sFileName, fileName = sFileName });
         }
     }

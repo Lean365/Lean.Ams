@@ -136,7 +136,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = PostService.GetAll();
 
-            var result = ExportExcelMini(list, "post", "岗位列表", "/export/system/");
+            var result = ExportExcelMini(list, "post", "岗位信息", "/export/system/");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

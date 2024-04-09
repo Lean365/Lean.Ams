@@ -11,13 +11,13 @@
     [ApiExplorerSettings(GroupName = "system")]
     public class SysDictDataController : BaseController
     {
-        private readonly ISysDictDataService SysDictDataService;
-        private readonly ISysDictTypeService SysDictTypeService;
+        private readonly ISysDictDataService _SysDictDataService;
+        private readonly ISysDictTypeService _SysDictTypeService;
 
-        public SysDictDataController(ISysDictTypeService SysDictTypeService, ISysDictDataService sysDictDataService)
+        public SysDictDataController(ISysDictTypeService SysDictTypeService, ISysDictDataService SysDictDataService)
         {
-            SysDictTypeService = SysDictTypeService;
-            SysDictDataService = sysDictDataService;
+            _SysDictTypeService = SysDictTypeService;
+            _SysDictDataService = SysDictDataService;
         }
 
         /// <summary>
@@ -30,11 +30,11 @@
         [HttpGet("list")]
         public IActionResult List([FromQuery] SysDictData dictData, [FromQuery] PagerInfo pagerInfo)
         {
-            var list = SysDictDataService.SelectDictDataList(dictData, pagerInfo);
+            var list = _SysDictDataService.SelectDictDataList(dictData, pagerInfo);
 
             if (dictData.DictType.StartsWith("sql_"))
             {
-                var result = SysDictTypeService.SelectDictDataByCustomSql(dictData.DictType);
+                var result = _SysDictTypeService.SelectDictDataByCustomSql(dictData.DictType);
 
                 list.Result.AddRange(result);
                 list.TotalNum += result.Count;
@@ -51,7 +51,7 @@
         [HttpGet("type/{dictType}")]
         public IActionResult DictType(string dictType)
         {
-            return SUCCESS(SysDictDataService.SelectDictDataByType(dictType));
+            return SUCCESS(_SysDictDataService.SelectDictDataByType(dictType));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@
         [HttpPost("types")]
         public IActionResult DictTypes([FromBody] List<SysDictDataDto> dto)
         {
-            var list = SysDictDataService.SelectDictDataByTypes(dto.Select(f => f.DictType).ToArray());
+            var list = _SysDictDataService.SelectDictDataByTypes(dto.Select(f => f.DictType).ToArray());
             List<SysDictDataDto> dataVos = new();
 
             foreach (var dic in dto)
@@ -77,7 +77,7 @@
                 };
                 if (dic.DictType.StartsWith("cus_") || dic.DictType.StartsWith("sql_"))
                 {
-                    vo.List.AddRange(SysDictTypeService.SelectDictDataByCustomSql(dic.DictType));
+                    vo.List.AddRange(_SysDictTypeService.SelectDictDataByCustomSql(dic.DictType));
                 }
                 dataVos.Add(vo);
             }
@@ -93,7 +93,7 @@
         [HttpGet("info/{dictCode}")]
         public IActionResult GetInfo(long dictCode)
         {
-            return SUCCESS(SysDictDataService.SelectDictDataById(dictCode));
+            return SUCCESS(_SysDictDataService.SelectDictDataById(dictCode));
         }
 
         /// <summary>
@@ -108,7 +108,7 @@
         {
             dict.Create_by = HttpContext.GetName();
             dict.Create_time = DateTime.Now;
-            return SUCCESS(SysDictDataService.InsertDictData(dict));
+            return SUCCESS(_SysDictDataService.InsertDictData(dict));
         }
 
         /// <summary>
@@ -122,7 +122,7 @@
         public IActionResult Edit([FromBody] SysDictData dict)
         {
             dict.Update_by = HttpContext.GetName();
-            return SUCCESS(SysDictDataService.UpdateDictData(dict));
+            return SUCCESS(_SysDictDataService.UpdateDictData(dict));
         }
 
         /// <summary>
@@ -137,7 +137,7 @@
         {
             long[] dictCodes = Common.Tools.SpitLongArrary(dictCode);
 
-            return SUCCESS(SysDictDataService.DeleteDictDataByIds(dictCodes));
+            return SUCCESS(_SysDictDataService.DeleteDictDataByIds(dictCodes));
         }
     }
 }

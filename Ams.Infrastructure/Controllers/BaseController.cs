@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using MiniExcelLibs;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web;
@@ -11,6 +6,12 @@ using Ams.Infrastructure.Apps;
 using Ams.Infrastructure.CustomException;
 using Ams.Infrastructure.Extensions;
 using Ams.Infrastructure.Model;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using MiniExcelLibs;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 namespace Ams.Infrastructure.Controllers
 {
     /// <summary>
@@ -119,13 +120,14 @@ namespace Ams.Infrastructure.Controllers
 
             return new ApiResult((int)resultCode, msg, data);
         }
+
         protected ApiResult Success()
         {
             return GetApiResult(ResultCode.SUCCESS);
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="apiResult"></param>
         /// <param name="timeFormatStr"></param>
@@ -145,7 +147,8 @@ namespace Ams.Infrastructure.Controllers
 
             return JsonConvert.SerializeObject(apiResult, Formatting.Indented, serializerSettings);
         }
-        #endregion
+
+        #endregion 方法
 
         /// <summary>
         /// 导出Excel
@@ -160,7 +163,7 @@ namespace Ams.Infrastructure.Controllers
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
@@ -170,7 +173,7 @@ namespace Ams.Infrastructure.Controllers
         protected (string, string) ExportExcelMini<T>(List<T> list, string sheetName, string fileName, string savePath)
         {
             IWebHostEnvironment webHostEnvironment = (IWebHostEnvironment)App.ServiceProvider.GetService(typeof(IWebHostEnvironment));
-            string sFileName = $"{fileName}_{DateTime.Now:yyyy-MM-dd-HHmmss}.xlsx";
+            string sFileName = $"{fileName}_{DateTime.Now:yyyyMMddHHmmss}.xlsx";
             string fullPath = Path.Combine(webHostEnvironment.WebRootPath, savePath, sFileName);
 
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
@@ -192,7 +195,7 @@ namespace Ams.Infrastructure.Controllers
             string fullPath = Path.Combine(webHostEnvironment.WebRootPath, "export", sFileName);
 
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
-            
+
             MiniExcel.SaveAs(fullPath, sheets);
             return (sFileName, fullPath);
         }
