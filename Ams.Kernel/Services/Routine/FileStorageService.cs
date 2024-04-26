@@ -1,15 +1,6 @@
 ﻿using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using Ams.Common;
-using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.Enums;
-using Ams.Infrastructure.Model;
-using Ams.Kernel.Model;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Services.IService.Routine;
-using Ams.Kernel.Services.IService.System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -18,9 +9,9 @@ namespace Ams.Kernel.Services.Routine
     /// <summary>
     /// 文件存储
     /// 业务层处理
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(IFileStorageService), ServiceLifetime = LifeTime.Transient)]
     public class FileStorageService : BaseService<FileStorage>, IFileStorageService
     {
@@ -32,21 +23,6 @@ namespace Ams.Kernel.Services.Routine
         {
             SysConfigService = sysConfigService;
             OptionsSetting = options.Value;
-        }
-
-        /// <summary>
-        /// 校验输入项目唯一性
-        /// </summary>
-        /// <param name="enterString"></param>
-        /// <returns></returns>
-        public string CheckEntryUnique(string enterString)
-        {
-            int count = Count(it => it.RealName.ToString() == enterString);
-            if (count > 0)
-            {
-                return UserConstants.NOT_UNIQUE;
-            }
-            return UserConstants.UNIQUE;
         }
 
         /// <summary>
@@ -62,14 +38,6 @@ namespace Ams.Kernel.Services.Routine
         {
             string fileExt = Path.GetExtension(formFile.FileName);
             fileName = (fileName.IsEmpty() ? HashFileName() : fileName) + fileExt;
-
-            // 校验输入项目唯一性
-            if (UserConstants.NOT_UNIQUE.Equals(CheckEntryUnique(formFile.FileName.ToString())))
-            {
-                Console.WriteLine("提交数据异常,重复文件：" + formFile.FileName);
-                throw new Exception("提交数据异常,重复文件：" + formFile.FileName);
-                //return; //ToResponse(ApiResult.Error($"新增(New)固定资产 '{parm.FaSFID}'失败(failed)，输入的(The entered)固定资产已存在(already exists)"));
-            }
 
             string filePath = GetdirPath(fileDir);
             string finalFilePath = Path.Combine(rootPath, filePath, fileName);
@@ -130,7 +98,7 @@ namespace Ams.Kernel.Services.Routine
         public string GetdirPath(string storePath = "", bool byTimeStore = true)
         {
             DateTime date = DateTime.Now;
-            string timeDir = "uploads/" + date.ToString("yyyy/MMdd");
+            string timeDir = date.ToString("yyyy/MMdd");
 
             if (!string.IsNullOrEmpty(storePath))
             {
@@ -139,11 +107,6 @@ namespace Ams.Kernel.Services.Routine
             return timeDir;
         }
 
-        /// <summary>
-        /// 哈希文件名算法
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
         public string HashFileName(string str = null)
         {
             if (string.IsNullOrEmpty(str))
@@ -153,11 +116,6 @@ namespace Ams.Kernel.Services.Routine
             return BitConverter.ToString(MD5.HashData(Encoding.Default.GetBytes(str)), 4, 8).Replace("-", "");
         }
 
-        /// <summary>
-        /// 添加文件使用雪花ID
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
         public Task<long> InsertFile(FileStorage file)
         {
             return Insertable(file).ExecuteReturnSnowflakeIdAsync();//单条插入返回雪花ID;

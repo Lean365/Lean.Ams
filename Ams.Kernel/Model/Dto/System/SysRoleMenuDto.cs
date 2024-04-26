@@ -1,22 +1,18 @@
-﻿namespace Ams.Kernel.Model.Dto.System
+﻿using System;
+using System.Collections.Generic;
+
+namespace Ams.Model.System.Dto
 {
-    /// <summary>
-    /// 角色菜单
-    /// 输入输出对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    public class SysRoleMenuDto
+    public class SysRoleSysMenuDto
     {
         public long RoleId { get; set; }
-
         /// <summary>
-        /// 角色分配菜单
+        /// 角色信息分配菜单信息
         /// </summary>
         public List<long> MenuIds { get; set; } = new List<long>();
-
         public string RoleName { get; set; }
         public string RoleKey { get; set; }
         public string Create_by { get; set; }
-        public DateTime Create_time { get; set; }
+        public DateTime Create_time{ get; set; }
     }
 }

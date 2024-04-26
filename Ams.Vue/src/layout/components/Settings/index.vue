@@ -1,300 +1,203 @@
 <template>
-  <el-drawer v-model="showSettings" :withHeader="false" direction="rtl" size="300px">
-    <div class="setting-drawer-title">
-      <h3 class="drawer-title">{{ $t('layout.themeStyleSet') }}</h3>
-    </div>
-    <div class="setting-drawer-block-checbox">
-      <div class="item" @click="handleTheme('theme-dark')">
-        <img src="@/assets/images/dark.svg" alt="dark" />
-        <div v-if="sideTheme === 'theme-dark'" class="setting-drawer-block-checbox-selectIcon" style="display: block">
-          <el-icon>
-            <Check />
-          </el-icon>
+  <div class="drawer-container">
+    <div class="setting-drawer-content">
+      <div class="setting-drawer-title">
+        <h3 class="drawer-title">主题风格设置</h3>
+      </div>
+      <div class="setting-drawer-block-checbox">
+        <div class="setting-drawer-block-checbox-item" @click="handleTheme('theme-dark')">
+          <img src="@/assets/image/dark.svg" alt="dark">
+          <div v-if="sideTheme === 'theme-dark'" class="setting-drawer-block-checbox-selectIcon" style="display: block;">
+            <i aria-label="图标: check" class="anticon anticon-check">
+              <svg viewBox="64 64 896 896" data-icon="check" width="1em" height="1em" :fill="theme" aria-hidden="true" focusable="false" class="">
+                <path
+                  d="M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 0 0-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z" />
+              </svg>
+            </i>
+          </div>
+        </div>
+        <div class="setting-drawer-block-checbox-item" @click="handleTheme('theme-light')">
+          <img src="@/assets/image/light.svg" alt="light">
+          <div v-if="sideTheme === 'theme-light'" class="setting-drawer-block-checbox-selectIcon" style="display: block;">
+            <i aria-label="图标: check" class="anticon anticon-check">
+              <svg viewBox="64 64 896 896" data-icon="check" width="1em" height="1em" :fill="theme" aria-hidden="true" focusable="false" class="">
+                <path
+                  d="M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 0 0-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z" />
+              </svg>
+            </i>
+          </div>
         </div>
       </div>
-      <div class="item" @click="handleTheme('theme-light')">
-        <img src="@/assets/images/light.svg" alt="light" />
-        <div v-if="sideTheme === 'theme-light'" class="setting-drawer-block-checbox-selectIcon" style="display: block">
-          <el-icon>
-            <Check />
-          </el-icon>
-        </div>
-      </div>
-    </div>
-    <div class="drawer-item">
-      <el-radio-group v-model="mode" size="small">
-        <el-radio label="dark">{{ $t('layout.darkMode') }}</el-radio>
-        <el-radio label="light">{{ $t('layout.lightMode') }}</el-radio>
-        <!-- <el-radio label="cafe">cafe</el-radio>
-        <el-radio label="contrast">contrast</el-radio> -->
-      </el-radio-group>
-    </div>
-    <div class="drawer-item">
-      <span>{{ $t('layout.themeColor') }}</span>
-      <span class="comp-style quick-color-wrap">
-        <!-- <span :style="{ 'background-color': item }" v-for="item in predefineColors" @change="themeChange(item)"></span> -->
-        <el-color-picker v-model="theme" :predefine="predefineColors" @change="themeChange" />
-      </span>
-    </div>
-    <el-divider />
 
-    <h3 class="drawer-title">{{ $t('layout.sysLayoutSet') }}</h3>
-    <div class="drawer-item">
-      <span>{{ $t('layout.open') }} {{ $t('layout.topNav') }}</span>
-      <span class="comp-style">
+      <div class="drawer-item">
+        <span>主题颜色</span>
+        <theme-picker style="float: right;height: 26px;margin: -3px 8px 0 0;" @change="themeChange" />
+      </div>
+
+      <el-divider />
+
+      <h3 class="drawer-title">系统布局配置</h3>
+
+      <div class="drawer-item">
+        <span>开启 TopNav</span>
         <el-switch v-model="topNav" class="drawer-switch" />
-      </span>
-    </div>
+      </div>
 
-    <div class="drawer-item">
-      <span>{{ $t('layout.open') }} {{ $t('layout.tagsView') }}</span>
-      <span class="comp-style">
+      <div class="drawer-item">
+        <span>开启 Tags-Views</span>
         <el-switch v-model="tagsView" class="drawer-switch" />
-      </span>
-    </div>
-    <div class="drawer-item">
-      <span>{{ $t('layout.open') }} {{ $t('layout.bottomBar') }}</span>
-      <span class="comp-style">
-        <el-switch v-model="showFooter" class="drawer-switch" />
-      </span>
-    </div>
-    <div class="drawer-item">
-      <span>{{ $t('layout.openWatermark') }}</span>
-      <span class="comp-style">
-        <el-switch v-model="showWatermark" class="drawer-switch" />
-      </span>
-    </div>
-    <!-- <div class="drawer-item">
-      <span>{{ $t('layout.fixed') }} Header</span>
-      <span class="comp-style">
+      </div>
+
+      <div class="drawer-item">
+        <span>固定 Header</span>
         <el-switch v-model="fixedHeader" class="drawer-switch" />
-      </span>
-    </div> -->
+      </div>
 
-    <div class="drawer-item">
-      <span>{{ $t('layout.show') }} Logo</span>
-      <span class="comp-style">
+      <div class="drawer-item">
+        <span>显示 Logo</span>
         <el-switch v-model="sidebarLogo" class="drawer-switch" />
-      </span>
-    </div>
-
-    <div class="drawer-item">
-      <span>{{ $t('layout.dynamicTitle') }}</span>
-      <span class="comp-style">
+      </div>
+      <div class="drawer-item">
+        <span>动态标题</span>
         <el-switch v-model="dynamicTitle" class="drawer-switch" />
-      </span>
+      </div>
+      <el-divider />
+
+      <el-button size="small" type="primary" plain icon="el-icon-document-add" @click="saveSetting">保存配置</el-button>
+      <el-button size="small" plain icon="el-icon-refresh" @click="resetSetting">重置配置</el-button>
     </div>
-
-    <div class="drawer-item">
-      <span>{{ $t('layout.tagsPersist') }}</span>
-      <span class="comp-style">
-        <el-switch v-model="tabsPersist" class="drawer-switch" />
-      </span>
-    </div>
-
-    <el-divider />
-
-    <el-button type="primary" plain icon="DocumentAdd" @click="saveSetting">{{ $t('layout.saveConfig') }}</el-button>
-    <el-button plain icon="Refresh" @click="resetSetting">{{ $t('layout.resetConfig') }}</el-button>
-  </el-drawer>
+  </div>
 </template>
 
-<script setup>
-  import 'element-plus/theme-chalk/index.css'
-  import 'element-plus/theme-chalk/dark/css-vars.css'
-  import { useColorMode } from '@vueuse/core'
-  import { useDynamicTitle } from '@/utils/dynamicTitle'
-  import { getLightColor } from '@/utils/index'
-  import { getmark } from '@/utils/wartermark'
-  import useAppStore from '@/store/modules/app'
-  import useSettingsStore from '@/store/modules/settings'
-  import usePermissionStore from '@/store/modules/permission'
-  import useUserStore from '@/store/modules/user'
-  const { proxy } = getCurrentInstance()
-  const appStore = useAppStore()
-  const settingsStore = useSettingsStore()
-  const permissionStore = usePermissionStore()
-  const showSettings = ref(false)
-  const theme = ref(settingsStore.theme)
-  const sideTheme = ref(settingsStore.sideTheme)
-  const storeSettings = computed(() => settingsStore)
-  const predefineColors = ref(['#409EFF', '#ff4500', '#ff8c00', '#00ced1', '#1e90ff', '#c71585'])
-  //const predefineColors = ref(['#409EFF', '#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#1e90ff', '#c71585'])
-  const { setWatermark, removeWatermark } = getmark()
-  // 可以手动更改当前值 model.value = 'cafe'
-  const mode = useColorMode({
-    modes: {
-      // custom colors
-      contrast: 'dark contrast',
-      cafe: 'cafe',
-      auto: 'auto'
-    }
-  })
-  /** 是否需要topnav */
-  const topNav = computed({
-    get: () => storeSettings.value.topNav,
-    set: (val) => {
-      settingsStore.changeSetting({ key: 'topNav', value: val })
-      if (!val) {
-        appStore.toggleSideBarHide(false)
-        permissionStore.setSidebarRouters(permissionStore.defaultRoutes)
-      }
-    }
-  })
-  /** 是否需要tagview */
-  const tagsView = computed({
-    get: () => storeSettings.value.tagsView,
-    set: (val) => {
-      settingsStore.changeSetting({ key: 'tagsView', value: val })
-    }
-  })
-  /**是否需要固定头部 */
-  const fixedHeader = computed({
-    get: () => storeSettings.value.fixedHeader,
-    set: (val) => {
-      settingsStore.changeSetting({ key: 'fixedHeader', value: val })
-    }
-  })
-  // 是否显示底部
-  const showFooter = computed({
-    get: () => storeSettings.value.showFooter,
-    set: (val) => {
-      settingsStore.changeSetting({ key: 'showFooter', value: val })
-    }
-  })
-  /**是否需要侧边栏的logo */
-  const sidebarLogo = computed({
-    get: () => storeSettings.value.sidebarLogo,
-    set: (val) => {
-      settingsStore.changeSetting({ key: 'sidebarLogo', value: val })
-    }
-  })
-  /**是否需要侧边栏的动态网页的title */
-  const dynamicTitle = computed({
-    get: () => storeSettings.value.dynamicTitle,
-    set: (val) => {
-      settingsStore.changeSetting({ key: 'dynamicTitle', value: val })
-      // 动态设置网页标题
-      useDynamicTitle()
-    }
-  })
-  /**是否显示水印 */
-  const showWatermark = computed({
-    get: () => storeSettings.value.showWatermark,
-    set: (val) => {
-      settingsStore.changeSetting({ key: 'showWatermark', value: val })
-      changeWatermark()
-    }
-  })
+<script>
+import ThemePicker from "@/components/ThemePicker";
 
-  /**标签持久化 */
-  const tabsPersist = computed({
-    get: () => storeSettings.value.tagsViewPersist,
-    set: (val) => {
-      settingsStore.changeSetting({ key: 'tagsViewPersist', value: val })
-    }
-  })
-  const changeWatermark = () => {
-    storeSettings.value.showWatermark ? setWatermark(useUserStore().userInfo.userName) : removeWatermark()
-  }
-  // 开启水印
-  changeWatermark()
-  // 监控主题颜色
-  watch(
-    () => theme,
-    (val) => {
-      themeChange(val.value)
+export default {
+  components: { ThemePicker },
+  data() {
+    return {
+      theme: this.$store.state.settings.theme,
+      sideTheme: this.$store.state.settings.sideTheme,
+    };
+  },
+  computed: {
+    fixedHeader: {
+      get() {
+        return this.$store.state.settings.fixedHeader;
+      },
+      set(val) {
+        this.$store.dispatch("settings/changeSetting", {
+          key: "fixedHeader",
+          value: val,
+        });
+      },
     },
-    {
-      immediate: true
-    }
-  )
-  watch(
-    () => sideTheme,
-    (val) => {
-      const body = document.documentElement
-      body.setAttribute('data-theme', '')
+    topNav: {
+      get() {
+        return this.$store.state.settings.topNav;
+      },
+      set(val) {
+        this.$store.dispatch("settings/changeSetting", {
+          key: "topNav",
+          value: val,
+        });
+        if (!val) {
+          this.$store.commit(
+            "SET_SIDEBAR_ROUTERS",
+            this.$store.state.permission.defaultRoutes
+          );
+        }
+      },
     },
-    {
-      immediate: true
-    }
-  )
-  watch(
-    () => mode,
-    (val) => {
-      settingsStore.changeSetting({ key: 'codeMode', value: val.value })
-      if (val.value === 'dark') {
-        handleTheme('')
-      }
+    tagsView: {
+      get() {
+        return this.$store.state.settings.tagsView;
+      },
+      set(val) {
+        this.$store.dispatch("settings/changeSetting", {
+          key: "tagsView",
+          value: val,
+        });
+      },
     },
-    {
-      immediate: true,
-      deep: true
-    }
-  )
-  /**
-   * 改变主题颜色
-   */
-  function themeChange(val) {
-    settingsStore.changeSetting({ key: 'theme', value: val })
-    theme.value = val
-    // 设置element-plus ui主题
-    document.documentElement.style.setProperty('--el-color-primary', val)
-
-    // 颜色变浅
-    for (let i = 1; i <= 9; i++) {
-      document.documentElement.style.setProperty(`--el-color-primary-light-${i}`, `${getLightColor(val, i / 10)}`)
-    }
-  }
-  function handleTheme(val) {
-    settingsStore.changeSetting({ key: 'sideTheme', value: val })
-    sideTheme.value = val
-    const body = document.documentElement
-    if (val == 'theme-black') body.setAttribute('data-theme', 'theme-black')
-    else body.removeAttribute('data-theme')
-  }
-  function saveSetting() {
-    proxy.$modal.loading('正在保存到本地，请稍候...')
-    let layoutSetting = {
-      topNav: storeSettings.value.topNav,
-      tagsView: storeSettings.value.tagsView,
-      fixedHeader: storeSettings.value.fixedHeader,
-      sidebarLogo: storeSettings.value.sidebarLogo,
-      dynamicTitle: storeSettings.value.dynamicTitle,
-      sideTheme: storeSettings.value.sideTheme,
-      theme: storeSettings.value.theme,
-      showFooter: storeSettings.value.showFooter,
-      showWatermark: storeSettings.value.showWatermark,
-      tagsViewPersist: storeSettings.value.tagsViewPersist
-    }
-    localStorage.setItem('layout-setting', JSON.stringify(layoutSetting))
-    setTimeout(proxy.$modal.closeLoading(), 100)
-    setTimeout('window.location.reload()', 200)
-  }
-  function resetSetting() {
-    proxy.$modal.loading('正在清除设置缓存并刷新，请稍候...')
-    localStorage.removeItem('layout-setting')
-    setTimeout('window.location.reload()', 1000)
-  }
-  function openSetting() {
-    showSettings.value = true
-  }
-
-  defineExpose({
-    openSetting
-  })
+    sidebarLogo: {
+      get() {
+        return this.$store.state.settings.sidebarLogo;
+      },
+      set(val) {
+        this.$store.dispatch("settings/changeSetting", {
+          key: "sidebarLogo",
+          value: val,
+        });
+      },
+    },
+    dynamicTitle: {
+      get() {
+        return this.$store.state.settings.dynamicTitle;
+      },
+      set(val) {
+        this.$store.dispatch("settings/changeSetting", {
+          key: "dynamicTitle",
+          value: val,
+        });
+      },
+    },
+  },
+  methods: {
+    themeChange(val) {
+      this.$store.dispatch("settings/changeSetting", {
+        key: "theme",
+        value: val,
+      });
+      this.theme = val;
+    },
+    handleTheme(val) {
+      this.$store.dispatch("settings/changeSetting", {
+        key: "sideTheme",
+        value: val,
+      });
+      this.sideTheme = val;
+    },
+    // 保存配置好
+    saveSetting() {
+      // this.$modal.loading("正在保存到本地，请稍后...");
+      const loading = this.$loading({
+        lock: true,
+        text: "正在保存到本地，请稍后...",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)",
+      });
+      localStorage.setItem(
+        "layout-setting",
+        `{
+            "topNav":${this.topNav},
+            "tagsView":${this.tagsView},
+            "fixedHeader":${this.fixedHeader},
+            "sidebarLogo":${this.sidebarLogo},
+						"dynamicTitle":${this.dynamicTitle},
+            "sideTheme":"${this.sideTheme}",
+            "theme":"${this.theme}"
+          }`
+      );
+      setTimeout(loading.close(), 2000);
+    },
+    resetSetting() {
+      // this.$modal.loading("正在清除设置缓存并刷新，请稍后...");
+      localStorage.removeItem("layout-setting");
+      setTimeout("window.location.reload()", 1000);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
+.setting-drawer-content {
   .setting-drawer-title {
     margin-bottom: 12px;
-    color: var(--base-text-color-rgba);
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
     line-height: 22px;
     font-weight: bold;
-
-    .drawer-title {
-      font-size: 14px;
-    }
   }
 
   .setting-drawer-block-checbox {
@@ -304,7 +207,7 @@
     margin-top: 10px;
     margin-bottom: 20px;
 
-    .item {
+    .setting-drawer-block-checbox-item {
       position: relative;
       margin-right: 16px;
       border-radius: 2px;
@@ -329,27 +232,30 @@
       }
     }
   }
+}
+
+.drawer-container {
+  padding: 24px;
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
+
+  .drawer-title {
+    margin-bottom: 12px;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    line-height: 22px;
+  }
 
   .drawer-item {
-    color: var(--base-text-color-rgba);
-    padding: 12px 0;
+    color: rgba(0, 0, 0, 0.65);
     font-size: 14px;
-
-    .comp-style {
-      float: right;
-      margin: -3px 8px 0px 0px;
-    }
-
-    .quick-color-wrap {
-      display: flex;
-      align-items: center;
-
-      span {
-        width: 15px;
-        height: 15px;
-        margin-right: 10px;
-        cursor: pointer;
-      }
-    }
+    padding: 12px 0;
   }
+
+  .drawer-switch {
+    float: right;
+  }
+}
 </style>
+

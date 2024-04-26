@@ -1,4 +1,4 @@
-﻿using Ams.Kernel.Model.Routine;
+﻿using Ams.Model.System;
 
 namespace Ams.Service.IService
 {

@@ -5,9 +5,15 @@ using System.Reflection;
 
 namespace Ams.Infrastructure.Extensions
 {
+    /// <summary>
+    /// 枚举类型扩展类
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
+    /// </summary>
     public static partial class Extensions
     {
         #region 枚举成员转成dictionary类型
+
         /// <summary>
         /// 转成dictionary类型
         /// </summary>
@@ -40,6 +46,7 @@ namespace Ams.Infrastructure.Extensions
             }
             return dictionary;
         }
+
         /// <summary>
         /// 枚举成员转成键值对Json字符串
         /// </summary>
@@ -51,9 +58,11 @@ namespace Ams.Infrastructure.Extensions
         //    var sJson = JsonConvert.SerializeObject(dictionaryList);
         //    return sJson;
         //}
-        #endregion
+
+        #endregion 枚举成员转成dictionary类型
 
         #region 获取枚举的描述
+
         /// <summary>
         /// 获取枚举值对应的描述
         /// </summary>
@@ -72,15 +81,18 @@ namespace Ams.Infrastructure.Extensions
             }
             return enumType.ToString();
         }
-        #endregion
+
+        #endregion 获取枚举的描述
 
         #region 根据值获取枚举的描述
+
         public static string GetDescriptionByEnum<T>(this object obj)
         {
             var tEnum = System.Enum.Parse(typeof(T), obj.ParseToString()) as System.Enum;
             var description = tEnum.GetDescription();
             return description;
         }
-        #endregion
+
+        #endregion 根据值获取枚举的描述
     }
 }

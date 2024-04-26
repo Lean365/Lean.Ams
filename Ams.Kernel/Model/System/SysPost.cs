@@ -2,16 +2,16 @@
 {
     /// <summary>
     /// 岗位信息
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/25 13:57:42)
+    /// 数据实体类：sys_post
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [SugarTable("sys_post", "岗位信息")]
     [Tenant("0")]
     public class SysPost : SysBase
     {
         /// <summary>
-        /// 岗位Id
+        /// 岗位信息Id
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long PostId { get; set; }
@@ -25,7 +25,7 @@
         [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
         public int PostSort { get; set; }
 
-        [SugarColumn(DefaultValue = "0")]
-        public int IsState { get; set; }
+        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int IsStated { get; set; }
     }
 }

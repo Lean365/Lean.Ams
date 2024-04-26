@@ -5,15 +5,19 @@ $end
 namespace ${options.DtosNamespace}
 {
     /// <summary>
-    /// ${genTable.FunctionName}
+    /// ${genTable.functionName}
     /// 查询对象
-    /// @Author: ${replaceDto.Author}(Davis.Cheng)
-    /// @Date: (${replaceDto.CreateTime})
+    /// @Author: ${GeneratorReplaceDto.Author}(Davis.Cheng)
+    /// @Date: ${GeneratorReplaceDto.CreateTime}
     /// </summary>
-    public class ${replaceDto.ModelTypeName}QueryDto : PagerInfo 
+
+    public class ${GeneratorReplaceDto.ModelTypeName}QueryDto : PagerInfo 
     {
 $foreach(item in genTable.Columns)
 $if(item.IsQuery)
+        /// <summary>
+        /// ${item.ColumnComment} ${item.Remark}
+        /// </summary>
 $if(item.htmlType.StartsWith("date"))
         public DateTime? Begin$item.CsharpField { get; set; }
         public DateTime? End$item.CsharpField { get; set; }
@@ -29,8 +33,10 @@ $end
     /// <summary>
     /// ${genTable.FunctionName}
     /// 输入输出对象
+    /// @Author: ${GeneratorReplaceDto.Author}(Davis.Cheng)
+    /// @Date: ${GeneratorReplaceDto.CreateTime}
     /// </summary>
-    public class ${replaceDto.ModelTypeName}Dto
+    public class ${GeneratorReplaceDto.ModelTypeName}Dto
     {
 $foreach(item in genTable.Columns)
 $set(labelName = "")
@@ -42,7 +48,7 @@ $end
 $if(item.IsRequired)
         [Required(ErrorMessage = "${item.ColumnComment}不能为空")]
 $end
-$if(replaceDto.ShowBtnExport)
+$if(GeneratorReplaceDto.ShowBtnExport)
 $if(item.IsExport)
         [ExcelColumn(Name = "$labelName"$if(item.CsharpType == "DateTime"), Format = "yyyy-MM-dd HH:mm:ss", Width = 20$end)]
         [ExcelColumnName("$labelName")]
@@ -50,7 +56,7 @@ $else
         [ExcelIgnore]
 $end
 $end
-$if(item.CsharpType == "long" && replaceDto.useSnowflakeId == true && item.IsPk)
+$if(item.CsharpType == "long" && GeneratorReplaceDto.useSnowflakeId == true && item.IsPk)
         [JsonConverter(typeof(ValueToStringConverter))]
 $end
         public $item.CsharpType$item.RequiredStr $item.CsharpField { get; set; }
@@ -58,14 +64,14 @@ $end
 $end
 
 $if(genTable.TplCategory == "subNav" && genTable.SubTable != null)
-$if(replaceDto.ShowBtnExport)
+$if(GeneratorReplaceDto.ShowBtnExport)
         [ExcelIgnore]
 $end
         public ${genTable.SubTable.ClassName}Dto ${genTable.SubTable.ClassName}Nav { get; set; }
 $end
 
 $if(genTable.TplCategory == "subNavMore" && genTable.SubTable != null)
-$if(replaceDto.ShowBtnExport)
+$if(GeneratorReplaceDto.ShowBtnExport)
         [ExcelIgnore]
 $end
         public List<${genTable.SubTable.ClassName}Dto> ${genTable.SubTable.ClassName}Nav { get; set; }

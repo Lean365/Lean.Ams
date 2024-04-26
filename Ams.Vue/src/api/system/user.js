@@ -7,15 +7,7 @@ export function listUser(query) {
   return request({
     url: '/system/user/list',
     method: 'get',
-    params: query
-  })
-}
-
-export function listUseAll(query) {
-  return request({
-    url: '/system/user/list',
-    method: 'get',
-    params: query
+    params: query,
   })
 }
 
@@ -23,7 +15,7 @@ export function listUseAll(query) {
 export function getUser(userId) {
   return request({
     url: '/system/user/' + praseStrZero(userId),
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -32,7 +24,7 @@ export function addUser(data) {
   return request({
     url: '/system/user/add',
     method: 'post',
-    data: data
+    data: data,
   })
 }
 
@@ -41,7 +33,7 @@ export function updateUser(data) {
   return request({
     url: '/system/user/edit',
     method: 'put',
-    data: data
+    data: data,
   })
 }
 
@@ -49,7 +41,7 @@ export function updateUser(data) {
 export function delUser(userId) {
   return request({
     url: '/system/user/' + userId,
-    method: 'delete'
+    method: 'delete',
   })
 }
 
@@ -67,25 +59,25 @@ export async function exportUser(query) {
 export function resetUserPwd(userId, password) {
   const data = {
     userId,
-    password
+    password,
   }
   return request({
     url: '/system/user/resetPwd',
     method: 'put',
-    data: data
+    data: data,
   })
 }
 
 // 用户状态修改
-export function changeUserStatus(userId, isState) {
+export function changeUserStatus(userId, status) {
   const data = {
     userId,
-    isState
+    status,
   }
   return request({
     url: '/system/user/changeStatus',
     method: 'put',
-    data: data
+    data: data,
   })
 }
 
@@ -93,7 +85,7 @@ export function changeUserStatus(userId, isState) {
 export function getUserProfile() {
   return request({
     url: '/system/user/Profile',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -102,7 +94,7 @@ export function updateUserProfile(data) {
   return request({
     url: '/system/user/profile',
     method: 'put',
-    data: data
+    data: data,
   })
 }
 
@@ -110,12 +102,12 @@ export function updateUserProfile(data) {
 export function updateUserPwd(oldPassword, newPassword) {
   const data = {
     oldPassword,
-    newPassword
+    newPassword,
   }
   return request({
     url: '/system/user/profile/updatePwd',
     method: 'put',
-    params: data
+    params: data,
   })
 }
 
@@ -125,7 +117,6 @@ export function uploadAvatar(data) {
     url: '/system/user/profile/avatar',
     method: 'post',
     data: data,
-    headers: { 'Content-Type': 'multipart/form-data' }
   })
 }
 
@@ -134,6 +125,6 @@ export function importTemplate() {
   return request({
     url: '/system/user/importTemplate',
     method: 'get',
-    responseType: 'blob' //1.首先设置responseType对象格式为 blob:
+    responseType: 'blob', //1.首先设置responseType对象格式为 blob:
   })
 }

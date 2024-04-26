@@ -1,10 +1,12 @@
-﻿namespace Ams.WebApi.Controllers.System
+﻿using Ams.Model.System;
+
+namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
     /// 角色信息
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Verify]
     [Route("system/role")]
@@ -23,7 +25,7 @@
         }
 
         /// <summary>
-        /// 获取系统角色管理
+        /// 获取角色信息管理
         /// </summary>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:role:list")]
@@ -32,11 +34,11 @@
         {
             var list = sysRoleService.SelectRoleList(role, pager);
 
-            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
+            return SUCCESS(list, TIME_FORMAT_FULL);
         }
 
         /// <summary>
-        /// 根据角色编号获取详细信息
+        /// 根据角色信息编号获取详细信息
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
@@ -45,17 +47,17 @@
         {
             var info = sysRoleService.SelectRoleById(roleId);
 
-            return SUCCESS(info, TIME_FORMAT_YYYMMDD);
+            return SUCCESS(info, TIME_FORMAT_FULL);
         }
 
         /// <summary>
-        /// 添加角色
+        /// 添加角色信息
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "system:role:add")]
-        [Log(Title = "角色管理", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "角色信息管理", BusinessType = BusinessType.INSERT)]
         [Route("edit")]
         public IActionResult RoleAdd([FromBody] SysRoleDto dto)
         {
@@ -63,7 +65,7 @@
             SysRole sysRoleDto = dto.Adapt<SysRole>();
             if (UserConstants.NOT_UNIQUE.Equals(sysRoleService.CheckRoleKeyUnique(sysRoleDto)))
             {
-                return ToResponse(ApiResult.Error((int)ResultCode.CUSTOM_ERROR, $"新增角色'{sysRoleDto.RoleName}'失败，角色权限已存在"));
+                return ToResponse(ApiResult.Error((int)ResultCode.CUSTOM_ERROR, $"新增角色信息'{sysRoleDto.RoleName}'失败，角色信息权限已存在"));
             }
 
             sysRoleDto.Create_by = HttpContext.GetName();
@@ -73,13 +75,13 @@
         }
 
         /// <summary>
-        /// 修改角色
+        /// 修改角色信息
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "system:role:edit")]
-        [Log(Title = "角色管理", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "角色信息管理", BusinessType = BusinessType.UPDATE)]
         [Route("edit")]
         public IActionResult RoleEdit([FromBody] SysRoleDto dto)
         {
@@ -94,7 +96,7 @@
             {
                 if (UserConstants.NOT_UNIQUE.Equals(sysRoleService.CheckRoleKeyUnique(sysRoleDto)))
                 {
-                    return ToResponse(ApiResult.Error($"编辑角色'{sysRoleDto.RoleName}'失败，角色权限已存在"));
+                    return ToResponse(ApiResult.Error($"编辑角色信息'{sysRoleDto.RoleName}'失败，角色信息权限已存在"));
                 }
             }
             sysRoleDto.Update_by = HttpContext.GetName();
@@ -103,17 +105,17 @@
             {
                 return SUCCESS(upResult);
             }
-            return ToResponse(ApiResult.Error($"修改角色'{sysRoleDto.RoleName}'失败，请联系管理员"));
+            return ToResponse(ApiResult.Error($"修改角色信息'{sysRoleDto.RoleName}'失败，请联系管理员"));
         }
 
         /// <summary>
-        /// 根据角色分配菜单
+        /// 根据角色信息分配菜单信息
         /// </summary>
         /// <param name="sysRoleDto"></param>
         /// <returns></returns>
         [HttpPut("dataScope")]
         [ActionPermissionFilter(Permission = "system:role:authorize")]
-        [Log(Title = "角色管理", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "角色信息管理", BusinessType = BusinessType.UPDATE)]
         public IActionResult DataScope([FromBody] SysRoleDto sysRoleDto)
         {
             if (sysRoleDto == null || sysRoleDto.RoleId <= 0) return ToResponse(ApiResult.Error(101, "请求参数错误"));
@@ -127,12 +129,12 @@
         }
 
         /// <summary>
-        /// 角色删除
+        /// 角色信息删除
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
         [HttpDelete("{roleId}")]
-        [Log(Title = "角色管理", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "角色信息管理", BusinessType = BusinessType.DELETE)]
         [ActionPermissionFilter(Permission = "system:role:delete")]
         public IActionResult Remove(string roleId)
         {
@@ -143,12 +145,12 @@
         }
 
         /// <summary>
-        /// 修改角色状态
+        /// 修改角色信息状态
         /// </summary>
-        /// <param name="roleDto">角色对象</param>
+        /// <param name="roleDto">角色信息对象</param>
         /// <returns></returns>
         [HttpPut("changeStatus")]
-        [Log(Title = "修改角色状态", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "修改角色信息状态", BusinessType = BusinessType.UPDATE)]
         [ActionPermissionFilter(Permission = "system:role:edit")]
         public IActionResult ChangeStatus([FromBody] SysRole roleDto)
         {
@@ -159,18 +161,18 @@
         }
 
         /// <summary>
-        /// 角色导出
+        /// 角色信息导出
         /// </summary>
         /// <returns></returns>
-        [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "角色导出")]
+        [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "角色信息导出")]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "system:role:export")]
         public IActionResult Export()
         {
             var list = sysRoleService.SelectRoleAll();
 
-            string sFileName = ExportExcel(list, "role", "角色", "export/system");
-            return SUCCESS(new { path = "/export/system/" + sFileName, fileName = sFileName });
+            string sFileName = ExportExcel(list, "sysrole", "角色信息");
+            return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
 
         /// <summary>
@@ -183,11 +185,11 @@
         [ActionPermissionFilter(Permission = "system:role:export")]
         public IActionResult ExportRoleMenu(int roleId)
         {
-            MenuQueryDto dto = new() { IsState = 0, MenuTypeIds = "M,C,F" };
+            SysMenuQueryDto dto = new() { IsStated = 0, MenuTypeIds = "M,C,F" };
 
             var list = sysMenuService.SelectRoleMenuListByRole(dto, roleId);
 
-            var result = ExportExcelMini(list, roleId.ToString(), "角色菜单", "/export/system/");
+            var result = ExportExcelMini(list, roleId.ToString(), "角色菜单");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

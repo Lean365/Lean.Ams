@@ -1,11 +1,4 @@
 ﻿using System.Text.Encodings.Web;
-using Ams.Common;
-using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.Model;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Monitor;
-using Ams.Kernel.Services.IService.Monitor;
 using IPTools.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -17,20 +10,20 @@ namespace Ams.Kernel.Middleware
     /// <summary>
     /// 全局异常处理中间件
     /// 调用 app.UseMiddlewareGlobalExceptionMiddleware>();
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class GlobalExceptionMiddleware
     {
         private readonly RequestDelegate next;
-        private readonly ILogOperService LogOperService;
+        private readonly IOperLogService OperLogService;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public GlobalExceptionMiddleware(RequestDelegate next, ILogOperService LogOper)
+        public GlobalExceptionMiddleware(RequestDelegate next, IOperLogService OperLog)
         {
             this.next = next;
-            this.LogOperService = LogOper;
+            this.OperLogService = OperLog;
         }
 
         public async Task Invoke(HttpContext context)
@@ -53,12 +46,12 @@ namespace Ams.Kernel.Middleware
             string error = string.Empty;
             bool notice = true;
             //自定义异常
-            if (ex is CustomizeException CustomizeException)
+            if (ex is CustomException customException)
             {
-                code = CustomizeException.Code;
-                msg = CustomizeException.Message;
-                error = CustomizeException.LogMsg;
-                notice = CustomizeException.Notice;
+                code = customException.Code;
+                msg = customException.Message;
+                error = customException.LogMsg;
+                notice = customException.Notice;
             }
             else if (ex is ArgumentException)//参数异常
             {
@@ -84,9 +77,9 @@ namespace Ams.Kernel.Middleware
             string ip = HttpContextExtension.GetClientUserIp(context);
             var ip_info = IpTool.Search(ip);
 
-            LogOper LogOper = new()
+            OperLog OperLog = new()
             {
-                IsState = 1,
+                IsStated = 1,
                 OperIp = ip,
                 OperUrl = HttpContextExtension.GetRequestUrl(context),
                 RequestMethod = context.Request.Method,
@@ -103,10 +96,10 @@ namespace Ams.Kernel.Middleware
                 var logAttribute = endpoint.Metadata.GetMetadata<LogAttribute>();
                 if (logAttribute != null)
                 {
-                    LogOper.BusinessType = (int)logAttribute.BusinessType;
-                    LogOper.Title = logAttribute?.Title;
-                    LogOper.OperParam = logAttribute.IsSaveRequestData ? LogOper.OperParam : "";
-                    LogOper.JsonResult = logAttribute.IsSaveResponseData ? LogOper.JsonResult : "";
+                    OperLog.BusinessType = (int)logAttribute.BusinessType;
+                    OperLog.Title = logAttribute?.Title;
+                    OperLog.OperParam = logAttribute.IsSaveRequestData ? OperLog.OperParam : "";
+                    OperLog.JsonResult = logAttribute.IsSaveResponseData ? OperLog.JsonResult : "";
                 }
             }
             LogEventInfo ei = new(logLevel, "GlobalExceptionMiddleware", error)
@@ -116,20 +109,20 @@ namespace Ams.Kernel.Middleware
             };
             ei.Properties["status"] = 1;//走正常返回都是通过走GlobalExceptionFilter不通过
             ei.Properties["jsonResult"] = responseResult;
-            ei.Properties["requestParam"] = LogOper.OperParam;
-            ei.Properties["user"] = LogOper.OperName;
+            ei.Properties["requestParam"] = OperLog.OperParam;
+            ei.Properties["user"] = OperLog.OperName;
 
             Logger.Log(ei);
             context.Response.ContentType = "text/json;charset=utf-8";
             await context.Response.WriteAsync(responseResult, System.Text.Encoding.UTF8);
 
-            string errorMsg = $"> 操作人：{LogOper.OperName}" +
-                $"\n> 操作地区：{LogOper.OperIp}({LogOper.OperLocation})" +
-                $"\n> 操作模块：{LogOper.Title}" +
-                $"\n> 操作地址：{LogOper.OperUrl}" +
+            string errorMsg = $"> 操作人：{OperLog.OperName}" +
+                $"\n> 操作地区：{OperLog.OperIp}({OperLog.OperLocation})" +
+                $"\n> 操作模块：{OperLog.Title}" +
+                $"\n> 操作地址：{OperLog.OperUrl}" +
                 $"\n> 错误信息：{msg}\n\n> {error}";
 
-            LogOperService.InsertOperlog(LogOper);
+            OperLogService.InsertOperlog(OperLog);
             if (!notice) return;
             WxNoticeHelper.SendMsg("系统异常", errorMsg, msgType: WxNoticeHelper.MsgType.markdown);
         }

@@ -20,3 +20,4 @@ export function decrypt(txt) {
   encryptor.setPrivateKey(privateKey) // 设置私钥
   return encryptor.decrypt(txt) // 对数据进行解密
 }
+

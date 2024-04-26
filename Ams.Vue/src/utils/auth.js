@@ -1,3 +1,4 @@
+
 // import Cookies from 'js-cookie'
 
 const TokenKey = 'ZR-Token'
@@ -7,6 +8,7 @@ export function getToken() {
 }
 
 export function setToken(token) {
+  // console.log('set token=' + token)
   return localStorage.setItem(TokenKey, token)
 }
 

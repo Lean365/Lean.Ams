@@ -1,5 +1,4 @@
-﻿using ${options.BaseNamespace}Model;
-using ${options.DtosNamespace};
+﻿using ${options.DtosNamespace};
 using ${options.ModelsNamespace}.${options.SubNamespace};
 
 namespace ${options.IServicsNamespace}.${options.SubNamespace}.I${options.SubNamespace}Service
@@ -7,81 +6,89 @@ namespace ${options.IServicsNamespace}.${options.SubNamespace}.I${options.SubNam
     /// <summary>
     /// ${genTable.FunctionName}
     /// 业务层接口
-    /// @Author: ${replaceDto.Author}(Davis.Cheng)
-    /// @Date: (${replaceDto.CreateTime})
+    /// @Author: ${GeneratorReplaceDto.Author}(Davis.Cheng)
+    /// @Date: ${GeneratorReplaceDto.CreateTime}
     /// </summary>
-    public interface I${replaceDto.ModelTypeName}Service : IBaseService<${replaceDto.ModelTypeName}>
+    public interface I${GeneratorReplaceDto.ModelTypeName}Service : IBaseService<${GeneratorReplaceDto.ModelTypeName}>
     {
+
         /// <summary>
-        /// 列表
+        /// 获取${genTable.FunctionName}列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        PagedInfo<${replaceDto.ModelTypeName}Dto> GetList(${replaceDto.ModelTypeName}QueryDto parm);
+        PagedInfo<${GeneratorReplaceDto.ModelTypeName}Dto> GetList(${GeneratorReplaceDto.ModelTypeName}QueryDto parm);
 
         /// <summary>
-        /// 详情
+        /// 获取${genTable.FunctionName}信息
         /// </summary>
-        /// <param name="${replaceDto.PKName}"></param>
+        /// <param name="${GeneratorReplaceDto.PKName}"></param>
         /// <returns></returns>
-        ${replaceDto.ModelTypeName} GetInfo(${replaceDto.PKType} ${replaceDto.PKName});
+        ${GeneratorReplaceDto.ModelTypeName} GetInfo(${GeneratorReplaceDto.PKType} ${GeneratorReplaceDto.PKName});
 
         /// <summary>
         /// 校验输入项目唯一性
         /// </summary>
         /// <param name="enterString"></param>
         /// <returns></returns>
-        public string CheckEntryUnique(string enterString);
+        public string CheckInputUnique(string enterString);
 
 $if(genTable.TplCategory == "tree")
         /// <summary>
-        /// 树表
+        /// 获取${genTable.FunctionName}树信息
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        List<${replaceDto.ModelTypeName}> GetTreeList(${replaceDto.ModelTypeName}QueryDto parm);
+        List<${GeneratorReplaceDto.ModelTypeName}> GetTreeList(${GeneratorReplaceDto.ModelTypeName}QueryDto parm);
 $end
 
         /// <summary>
-        /// 添加
+        /// 新增
+        /// ${genTable.FunctionName}
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        ${replaceDto.ModelTypeName} Add${replaceDto.ModelTypeName}(${replaceDto.ModelTypeName} parm);
+        ${GeneratorReplaceDto.ModelTypeName} Add${GeneratorReplaceDto.ModelTypeName}(${GeneratorReplaceDto.ModelTypeName} parm);
+$if(GeneratorReplaceDto.ShowBtnEdit)
 
-$if(replaceDto.ShowBtnEdit)
         /// <summary>
-        /// 修改
+        /// 更新
+        /// ${genTable.FunctionName}
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        int Update${replaceDto.ModelTypeName}(${replaceDto.ModelTypeName} parm);
+        int Update${GeneratorReplaceDto.ModelTypeName}(${GeneratorReplaceDto.ModelTypeName} parm);
 $end
+$if(GeneratorReplaceDto.ShowBtnTruncate)   
 
-$if(replaceDto.ShowBtnTruncate)
         /// <summary>
         /// 清空
+        /// ${genTable.FunctionName}
         /// </summary>
-        /// <returns></returns>    
-        bool Truncate${replaceDto.ModelTypeName}();
+        /// <returns></returns>
+        bool Truncate${GeneratorReplaceDto.ModelTypeName}();
 $end
 
-$if(replaceDto.ShowBtnImport)
+$if(GeneratorReplaceDto.ShowBtnImport)
+
         /// <summary>
-        /// 导入
+        /// 批量导入
+        /// ${genTable.FunctionName}
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        (string, object, object) Import${replaceDto.ModelTypeName}(List<${replaceDto.ModelTypeName}> list);
+        (string, object, object) Import${GeneratorReplaceDto.ModelTypeName}(List<${GeneratorReplaceDto.ModelTypeName}> list);
 $end
 
-$if(replaceDto.ShowBtnExport)
+$if(GeneratorReplaceDto.ShowBtnExport)
+
         /// <summary>
         /// 导出
+        /// ${genTable.FunctionName}
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        PagedInfo<${replaceDto.ModelTypeName}Dto> ExportList(${replaceDto.ModelTypeName}QueryDto parm);
+        PagedInfo<${GeneratorReplaceDto.ModelTypeName}Dto> ExportList(${GeneratorReplaceDto.ModelTypeName}QueryDto parm);
 $end
     }
 }

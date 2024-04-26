@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" id="图层_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="256px" height="256px"
+	 viewBox="0 0 256 256" enable-background="new 0 0 256 256" xml:space="preserve">
+<metadata>
+	<sfw  xmlns="&ns_sfw;">
+		<slices></slices>
+		<sliceSourceBounds  width="256" height="256" y="0.5" x="-0.5" bottomLeftOrigin="true"></sliceSourceBounds>
+	</sfw>
+</metadata>
+<path d="M42.667,0C19.133,0,0,14.35,0,32v192c0,17.65,19.133,32,42.667,32h170.667C236.867,256,256,241.65,256,224V32
+	c0-17.65-19.133-32-42.667-32H42.667z M64,32h128c11.8,0,21.333,7.15,21.333,16v16c0,8.85-9.533,16-21.333,16H64
+	c-11.8,0-21.333-7.15-21.333-16V48C42.667,39.15,52.2,32,64,32z M85.333,112c0,8.836-9.552,16-21.333,16s-21.333-7.164-21.333-16
+	S52.218,96,64,96S85.333,103.164,85.333,112z M64,176c-11.782,0-21.333-7.164-21.333-16S52.218,144,64,144s21.333,7.164,21.333,16
+	S75.782,176,64,176z M42.667,208c0-8.85,9.533-16,21.333-16h64c11.8,0,21.333,7.15,21.333,16S139.8,224,128,224H64
+	C52.2,224,42.667,216.85,42.667,208z M128,128c-11.782,0-21.333-7.164-21.333-16S116.218,96,128,96c11.781,0,21.333,7.164,21.333,16
+	S139.781,128,128,128z M149.333,160c0,8.836-9.552,16-21.333,16c-11.782,0-21.333-7.164-21.333-16s9.552-16,21.333-16
+	C139.781,144,149.333,151.164,149.333,160z M192,128c-11.781,0-21.333-7.164-21.333-16S180.219,96,192,96s21.333,7.164,21.333,16
+	S203.781,128,192,128z M213.333,160c0,8.836-9.552,16-21.333,16s-21.333-7.164-21.333-16s9.552-16,21.333-16
+	S213.333,151.164,213.333,160z M192,224c-11.781,0-21.333-7.164-21.333-16s9.552-16,21.333-16s21.333,7.164,21.333,16
+	S203.781,224,192,224z"/>
+</svg>

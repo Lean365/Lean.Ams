@@ -1,56 +1,48 @@
 <template>
   <div class="upload-file">
-    <el-upload multiple :action="uploadFileUrl" :before-upload="handleBeforeUpload" v-model:file-list="fileList"
-      :limit="limit" :on-error="handleUploadError" :on-exceed="handleExceed" :on-success="handleUploadSuccess"
-      :show-file-list="false" :data="uploadData" :drag="drag" :headers="headers" :auto-upload="autoUpload"
-      class="upload-file-uploader" ref="fileUpload">
-      <!-- 拖拽上传 -->
-      <template v-if="drag">
-        <el-icon class="el-icon--upload">
-          <upload-filled />
-        </el-icon>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      </template>
-      <!-- 上传按钮 -->
-      <el-button type="primary" icon="upload" v-if="!drag">选取文件</el-button>
+    <el-upload :action="uploadFileUrl" :before-upload="handleBeforeUpload" :file-list="fileList" :limit="limit" :on-error="handleUploadError"
+      :on-exceed="handleExceed" :on-success="handleUploadSuccess" :show-file-list="true" :data="data" :headers="headers" :drag="drag" ref="upload"
+      :auto-upload="autoUpload">
+      <!-- 拖拽上传文件 -->
+      <i class="el-icon-upload" v-if="drag"></i>
+      <div class="el-upload__text" v-if="drag">将文件拖到此处，或<em>点击上传</em></div>
+      <!-- 选择文件按钮 -->
+      <el-button size="mini" icon="el-icon-upload" v-if="!drag">选取文件</el-button>
       <!-- 上传提示 -->
-      <template v-slot:tip>
-        <div class="el-upload__tip" v-if="showTip">
-          <slot name="tip">
-            <template v-if="fileSize">
-              大小不超过 <b class="text-danger">{{ fileSize }}MB</b>
-            </template>
-            <template v-if="fileType">
-              格式为 <b class="text-danger">{{ fileType.join('/') }}</b>
-            </template>
-          </slot>
-        </div>
-      </template>
+      <div class="el-upload__tip" slot="tip" v-if="showTip">
+        请上传
+        <span v-if="fileSize"> 大小不超过 <b style="color: #f56c6c">{{ fileSize }}MB</b> </span>
+        <span v-if="fileType"> 格式为 <b style="color: #f56c6c">{{ fileType.join("/") }}</b> </span>
+        的文件
+      </div>
     </el-upload>
+
     <!-- 文件列表 -->
     <transition-group class="upload-file-list el-upload-list el-upload-list--text" name="el-fade-in-linear" tag="ul">
       <li :key="file.uid" class="el-upload-list__item ele-upload-list__item-content" v-for="(file, index) in fileList">
         <el-link :href="`${file.url}`" :underline="false" target="_blank">
-          <svg-icon class-name="doc-icon" name="documentation" />
-          {{ file.name }}
+          <span class="el-icon-document"> {{ getFileName(file.name) }} </span>
         </el-link>
         <div class="ele-upload-list__item-content-action">
-          <el-link :underline="false" @click="handleDelete(index)" type="danger">删除</el-link>
+          <el-link @click="handleDelete(index)" type="danger">删除</el-link>
         </div>
       </li>
     </transition-group>
   </div>
 </template>
 
-<script setup>
-  import { getToken } from '@/utils/auth'
+<script>
+import { getToken } from '@/utils/auth'
 
-  const props = defineProps({
-    modelValue: [String, Object, Array],
+export default {
+  name: 'FileUpload',
+  props: {
+    // 值
+    value: [String, Object, Array],
     // 数量限制
     limit: {
       type: Number,
-      default: 5
+      default: 1
     },
     // 大小限制(MB)
     fileSize: {
@@ -60,12 +52,23 @@
     // 文件类型, 例如['png', 'jpg', 'jpeg']
     fileType: {
       type: Array,
-      default: () => ['doc', 'xls', 'ppt', 'txt', 'pdf']
+      default: () => ['doc', 'xls', 'ppt', 'txt', 'pdf', 'json']
     },
     // 是否显示提示
     isShowTip: {
       type: Boolean,
       default: true
+    },
+    // 上传地址
+    uploadUrl: {
+      type: String,
+      default: process.env.VUE_APP_UPLOAD_URL
+    },
+    // form 列名
+    column: [String],
+    // 上传携带的参数
+    data: {
+      type: Object
     },
     // 是否拖拽
     drag: {
@@ -76,180 +79,163 @@
     autoUpload: {
       type: Boolean,
       default: true
-    },
-    // 上传携带的参数
-    data: {
-      type: Object
     }
-  })
-
-  const { proxy } = getCurrentInstance()
-  const emit = defineEmits()
-  const number = ref(0)
-  const uploadList = ref([])
-  const baseUrl = import.meta.env.VITE_APP_BASE_API
-  const uploadFileUrl = ref(baseUrl + import.meta.env.VITE_APP_UPLOAD_URL) // 上传的图片服务器地址
-  const headers = ref({ Authorization: 'Bearer ' + getToken() })
-  const fileList = ref([])
-  const showTip = computed(() => props.isShowTip && (props.fileType || props.fileSize))
-  const uploadData = computed(() => props.data)
-
-  watch(
-    () => props.modelValue,
-    (val) => {
-      if (val) {
-        let temp = 1
-        // 首先将值转为数组
-        const list = Array.isArray(val) ? val : props.modelValue.split(',')
-
-        // 然后将数组转为对象数组
-        fileList.value = list.map((item) => {
-
-          var fileName = item.slice(item.lastIndexOf('/') + 1)
-          if (typeof item === 'string') {
-            item = { name: fileName, url: item }
-          }
-          item.uid = item.uid || new Date().getTime() + temp++
-          return item
+  },
+  data() {
+    return {
+      baseUrl: process.env.VUE_APP_BASE_API,
+      uploadFileUrl: process.env.VUE_APP_BASE_API + this.uploadUrl, // 上传的图片服务器地址
+      headers: {
+        Authorization: 'Bearer ' + getToken()
+      },
+      fileList: []
+    }
+  },
+  watch: {
+    value: {
+      handler(val) {
+        if (val) {
+          let temp = 1
+          // 首先将值转为数组
+          const list = Array.isArray(val) ? val : this.value.split(',')
+          // 然后将数组转为对象数组
+          this.fileList = list.map((item) => {
+            if (typeof item === 'string') {
+              item = { name: item, url: item }
+            }
+            item.uid = item.uid || new Date().getTime() + temp++
+            return item
+          })
+        } else {
+          this.fileList = []
+          return []
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    uploadUrl: {
+      handler(val) {
+        this.uploadFileUrl = process.env.VUE_APP_BASE_API + val
+      },
+      immediate: true
+    }
+  },
+  computed: {
+    // 是否显示提示
+    showTip() {
+      return this.isShowTip && (this.fileType || this.fileSize)
+    }
+  },
+  methods: {
+    // 上传前校检格式和大小
+    handleBeforeUpload(file) {
+      // 校检文件类型
+      if (this.fileType && this.fileType.length > 0) {
+        let fileExtension = ''
+        if (file.name.lastIndexOf('.') > -1) {
+          fileExtension = file.name.slice(file.name.lastIndexOf('.') + 1)
+        }
+        const isTypeOk = this.fileType.some((type) => {
+          if (file.type.indexOf(type) > -1) return true
+          if (fileExtension && fileExtension.indexOf(type) > -1) return true
+          return false
         })
-        console.log(fileList)
+        if (!isTypeOk) {
+          this.msgError(
+            `文件格式不正确, 请上传${this.fileType.join('/')}格式文件!`
+          )
+          return false
+        }
+      }
+      // 校检文件大小
+      if (this.fileSize) {
+        const isLt = file.size / 1024 / 1024 < this.fileSize
+        if (!isLt) {
+          this.msgError(`上传文件大小不能超过 ${this.fileSize} MB!`)
+          return false
+        }
+      }
+      return true
+    },
+    // 文件个数超出
+    handleExceed() {
+      this.msgError(`上传文件数量不能超过 ${this.limit} 个!`)
+    },
+    // 上传失败
+    handleUploadError(err) {
+      this.msgError('上传失败, 请重试')
+      this.fileList = []
+    },
+    // 上传成功回调
+    handleUploadSuccess(res, file) {
+      if (res.code != 200) {
+        this.fileList = []
+        this.msgError(`上传失败，原因:${res.msg}!`)
+        return
+      }
+      this.msgSuccess('上传成功')
+      this.fileList.push({
+        name: res.data.fileName,
+        url: res.data.url,
+        path: res.data.path
+      })
+      this.$emit(
+        'input',
+        this.column,
+        this.listToString(this.fileList),
+        res.data
+      )
+    },
+    // 删除文件
+    handleDelete(index) {
+      this.fileList.splice(index, 1)
+      this.$emit('input', this.column, this.listToString(this.fileList))
+    },
+    // 获取文件名称
+    getFileName(name) {
+      if (name.lastIndexOf('/') > -1) {
+        return name.slice(name.lastIndexOf('/') + 1).toLowerCase()
       } else {
-        fileList.value = []
-        return []
+        return name
       }
     },
-    { deep: true, immediate: true }
-  )
-
-  // 上传前校检格式和大小
-  function handleBeforeUpload(file) {
-
-    // 校检文件类型
-    if (props.fileType.length) {
-      let fileExtension = ''
-      if (file.name.lastIndexOf('.') > -1) {
-        fileExtension = file.name.slice(file.name.lastIndexOf('.') + 1)
+    // 对象转成指定字符串分隔
+    listToString(list, separator) {
+      let strs = ''
+      separator = separator || ','
+      for (const i in list) {
+        strs += list[i].url + separator
       }
-      const isTypeOk = props.fileType.some((type) => {
-        if (file.type.indexOf(type) > -1) return true
-        if (fileExtension && fileExtension.indexOf(type) > -1) return true
-        return false
-      })
-      if (!isTypeOk) {
-        proxy.$modal.msgError(`文件格式不正确, 请上传${props.fileType.join('/')}格式文件!`)
-        return false
-      }
-    }
-    // 校检文件大小
-    if (props.fileSize) {
-      const isLt = file.size / 1024 / 1024 < props.fileSize
-      if (!isLt) {
-        proxy.$modal.msgError(`上传文件大小不能超过 ${props.fileSize} MB!`)
-        return false
-      }
-    }
-    proxy.$modal.loading('正在上传文件，请稍候...')
-    number.value++
-    console.log(file)
-    return true
-  }
-
-  // 文件个数超出
-  function handleExceed() {
-    proxy.$modal.msgError(`上传文件数量不能超过 ${props.limit} 个!`)
-  }
-
-  // 上传失败
-  function handleUploadError(err) {
-    proxy.$modal.msgError('上传失败')
-    proxy.$modal.closeLoading()
-  }
-
-  // 上传成功回调
-  function handleUploadSuccess(response, uploadFile) {
-    if (response.code != 200) {
-
-      fileList.value = []
-      proxy.$modal.msgError(`上传失败，原因:${response.msg}!`)
-      proxy.$modal.closeLoading()
-      return
-    }
-    const { fileName, url, fileId } = response.data
-    const tempFile = { name: fileName, url: url }
-    uploadList.value.push(tempFile)
-    console.log(tempFile)
-    if (number.value > 0 && uploadList.value.length === number.value) {
-      fileList.value = fileList.value.filter((f) => f.url !== undefined).concat(uploadList.value)
-      uploadList.value = []
-      number.value = 0
-      emit('update:modelValue', listToString(fileList.value))
-      emit('success', listToString(fileList.value))
-      proxy.$modal.closeLoading()
+      return strs != '' ? strs.substr(0, strs.length - 1) : ''
+    },
+    // 提交上传
+    submitUpload() {
+      console.log(this.fileList)
+      this.$refs.upload.submit()
     }
   }
-
-  // 删除文件
-  function handleDelete(index) {
-    fileList.value.splice(index, 1)
-    //emit('update:modelValue', listToString(fileList.value))
-  }
-
-  // 获取文件名称
-  function getFileName(name) {
-    if (name.lastIndexOf('/') > -1) {
-      //console.log(name)
-      return name.slice(name.lastIndexOf('/') + 1).toLowerCase()
-    } else {
-      return ''
-    }
-  }
-
-  // 对象转成指定字符串分隔
-  function listToString(list, separator) {
-    let strs = ''
-    separator = separator || ','
-
-    list.forEach((element) => {
-      if (element) {
-        strs += element.url + separator
-      }
-    })
-    return strs != '' ? strs.substr(0, strs.length - 1) : ''
-
-  }
-  // 手动提交上传
-  function submitUpload() {
-    proxy.$refs.fileUpload.submit()
-  }
-  defineExpose({
-    submitUpload
-  })
+}
 </script>
 
 <style scoped lang="scss">
-  .upload-file-uploader {
-    margin-bottom: 5px;
-  }
-
-  .upload-file-list .el-upload-list__item {
-    border: 1px solid #e4e7ed;
-    line-height: 2;
-    margin-bottom: 10px;
-    position: relative;
-  }
-
-  .upload-file-list .ele-upload-list__item-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: inherit;
-  }
-
-  .ele-upload-list__item-content-action .el-link {
-    margin-right: 10px;
-  }
-
-  .doc-icon {
-    margin: 0 10px;
-  }
+.upload-file-list .el-upload-list__item {
+  border: 1px solid #e4e7ed;
+  line-height: 2;
+  margin-bottom: 10px;
+  position: relative;
+}
+.upload-file-list .ele-upload-list__item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: inherit;
+}
+.ele-upload-list__item-content-action .el-link {
+  margin-right: 10px;
+}
+::v-deep .el-upload-dragger {
+  width: 270px;
+  height: 150px;
+}
 </style>

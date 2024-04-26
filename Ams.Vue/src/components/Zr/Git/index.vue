@@ -1,20 +1,21 @@
 <template>
   <div>
-    <svg-icon name="github" @click="goto" />
+    <svg-icon icon-class="github" @click="goto"/>
   </div>
 </template>
+
 <script>
 export default {
-  setup() {
-    const url = ref("https://gitee.com/izory/ZrAdminNetCore");
-
-    function goto() {
-      window.open(url.value);
-    }
-
+  name: 'IZoryGit',
+  data() {
     return {
-      goto,
-    };
+      url: 'https://gitee.com/izory/ZrAdminNetCore'
+    }
   },
-};
+  methods: {
+    goto() {
+      window.open(this.url)
+    }
+  }
+}
 </script>

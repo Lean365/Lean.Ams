@@ -1,8 +1,5 @@
-﻿using Ams.Infrastructure.Attribute;
-using Ams.Kernel.Model.Dto.Routine;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Services.IService.Routine;
-using Ams.Model;
+﻿using Ams.Kernel.Model.Dto.Routine;
+using Ams.Model.System;
 using Ams.Repository;
 
 namespace Ams.Kernel.Services.Routine
@@ -10,9 +7,9 @@ namespace Ams.Kernel.Services.Routine
     /// <summary>
     /// 文章目录
     /// 业务层处理
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(IArticleCategoryService), ServiceLifetime = LifeTime.Transient)]
     public class ArticleCategoryService : BaseService<ArticleCategory>, IArticleCategoryService
     {
@@ -23,10 +20,9 @@ namespace Ams.Kernel.Services.Routine
         /// <returns></returns>
         public PagedInfo<ArticleCategory> GetList(ArticleCategoryQueryDto parm)
         {
-            //开始拼装查询条件
             var predicate = Expressionable.Create<ArticleCategory>();
+            predicate.AndIF(parm.CategoryType != null, m => m.CategoryType == parm.CategoryType);
 
-            //搜索条件查询语法参考Sqlsugar
             var response = Queryable()
                 .Where(predicate.ToExpression())
                 .ToPage(parm);
@@ -41,15 +37,17 @@ namespace Ams.Kernel.Services.Routine
         /// <returns></returns>
         public List<ArticleCategory> GetTreeList(ArticleCategoryQueryDto parm)
         {
-            //开始拼装查询条件
             var predicate = Expressionable.Create<ArticleCategory>();
+            predicate.AndIF(parm.CategoryType != null, m => m.CategoryType == parm.CategoryType);
 
-            //搜索条件查询语法参考Sqlsugar
+            var response = Queryable()
+                .Where(predicate.ToExpression());
 
-            var response = Queryable().Where(predicate.ToExpression())
-                .ToTree(it => it.Children, it => it.ParentId, 0);
-
-            return response;
+            if (parm.Sort.IsNotEmpty())
+            {
+                response = response.OrderByPropertyName(parm.Sort, parm.SortType.Contains("desc") ? OrderByType.Desc : OrderByType.Asc);
+            }
+            return response.ToTree(it => it.Children, it => it.ParentId, 0); ;
         }
 
         /// <summary>
@@ -59,12 +57,7 @@ namespace Ams.Kernel.Services.Routine
         /// <returns></returns>
         public int AddArticleCategory(ArticleCategory parm)
         {
-            var response = Insert(parm, it => new
-            {
-                it.Name,
-                it.Create_time,
-                it.ParentId,
-            });
+            var response = Add(parm);
             return response;
         }
     }

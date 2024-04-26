@@ -2,9 +2,9 @@
 {
     /// <summary>
     /// 角色菜单
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/25 13:57:42)
+    /// 数据实体类：sys_role_menu
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [SugarTable("sys_role_menu", "角色菜单")]
     [Tenant("0")]

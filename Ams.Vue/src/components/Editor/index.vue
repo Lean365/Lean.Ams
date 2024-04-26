@@ -1,139 +1,195 @@
 <template>
-  <div style="border: 1px solid #ccc">
-    <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig" :mode="mode" />
-    <Editor
-      style="height: 300px; overflow-y: hidden"
-      v-model="valueHtml"
-      :defaultConfig="editorConfig"
-      :mode="mode"
-      @onCreated="handleCreated"
-      @onChange="handleChange" />
-  </div>
+    <div class="editor" ref="editor" :style="styles"></div>
 </template>
+
 <script>
-import '@wangeditor/editor/dist/css/style.css' // 引入 css
-import { onBeforeUnmount, ref, shallowRef } from 'vue'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { getToken } from '@/utils/auth'
-import useUserStore from '@/store/modules/user'
+import Quill from "quill";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
+
 export default {
-  components: { Editor, Toolbar },
+  name: "Editor",
   props: {
-    placeholder: {
+    /* 编辑器的内容 */
+    value: {
       type: String,
-      default: () => '请输入内容'
+      default: "",
     },
-    modelValue: String,
-    // 工具栏
-    toolbarConfig: {
-      type: [Object],
-      default: () => {}
-    }
+    /* 高度 */
+    height: {
+      type: Number,
+      default: null,
+    },
+    /* 最小高度 */
+    minHeight: {
+      type: Number,
+      default: null,
+    },
   },
-  setup(props, { emit }) {
-    const editorRef = shallowRef()
-    const valueHtml = ref(props.modelValue)
-    const editorConfig = {
-      MENU_CONF: {},
-      placeholder: props.placeholder
-    }
-    //上传图片
-    editorConfig.MENU_CONF['uploadImage'] = {
-      server: import.meta.env.VITE_APP_BASE_API + '/common/UploadFile',
-      // form-data fieldName ，默认值 'wangeditor-uploaded-image'
-      fieldName: 'file',
-      // 单个文件的最大体积限制，默认为 2M
-      maxFileSize: 1 * 1024 * 1024, // 1M
-      // 最多可上传几个文件，默认为 100
-      maxNumberOfFiles: 10,
-      // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
-      allowedFileTypes: ['image/*'],
-      // 将 meta 拼接到 url 参数中，默认 false
-      metaWithUrl: false,
-      // 自定义增加 http  header
-      headers: {
-        Authorization: 'Bearer ' + getToken(),
-        userid: useUserStore().userId
-      },
-      // 跨域是否传递 cookie ，默认为 false
-      withCredentials: true,
-      // 超时时间，默认为 10 秒
-      timeout: 5 * 1000, // 5 秒
-      // 自定义插入图片
-      customInsert(res, insertFn) {
-        ;-(
-          // 从 res 中找到 url alt href ，然后插图图片
-          insertFn(res.data.url)
-        )
-      }
-    }
-    //上传视频
-    editorConfig.MENU_CONF['uploadVideo'] = {
-      server: import.meta.env.VITE_APP_BASE_API + '/common/UploadFile',
-      // form-data fieldName ，默认值 'wangeditor-uploaded-video'
-      fieldName: 'file',
-
-      // 单个文件的最大体积限制，默认为 10M
-      maxFileSize: 5 * 1024 * 1024, // 5M
-
-      // 最多可上传几个文件，默认为 5
-      maxNumberOfFiles: 3,
-
-      // 选择文件时的类型限制，默认为 ['video/*'] 。如不想限制，则设置为 []
-      allowedFileTypes: ['video/*'],
-
-      // 将 meta 拼接到 url 参数中，默认 false
-      metaWithUrl: false,
-
-      // 自定义增加 http  header
-      headers: {
-        Authorization: 'Bearer ' + getToken(),
-        userid: useUserStore().userId
-      },
-
-      // 跨域是否传递 cookie ，默认为 false
-      withCredentials: true,
-      // 超时时间，默认为 30 秒
-      timeout: 15 * 1000, // 15 秒
-      // 自定义插入视频
-      customInsert(res, insertFn) {
-        ;-(
-          // 从 res 中找到 url alt href ，然后插图图片
-          insertFn(res.data.url)
-        )
-      }
-    }
-    onBeforeUnmount(() => {
-      const editor = editorRef.value
-      if (editor == null) return
-      editor.destroy()
-    })
-    const handleCreated = (editor) => {
-      editorRef.value = editor
-    }
-    const handleChange = (editor) => {
-      emit('update:modelValue', editor.getHtml())
-    }
-    watch(
-      () => props.modelValue,
-      (value) => {
-        const editor = editorRef.value
-        if (value == undefined) {
-          editor.clear()
-          return
-        }
-        valueHtml.value = value
-      }
-    )
+  data() {
     return {
-      editorRef,
-      valueHtml,
-      mode: 'default',
-      editorConfig,
-      handleCreated,
-      handleChange,
-      toolbarConfig: props.toolbarConfig
-    }
-  }
-}
+      Quill: null,
+      currentValue: "",
+      options: {
+        theme: "snow",
+        bounds: document.body,
+        debug: "warn",
+        modules: {
+          // 工具栏配置
+          toolbar: [
+            ["bold", "italic", "underline", "strike"],       // 加粗 斜体 下划线 删除线
+            ["blockquote", "code-block"],                    // 引用  代码块
+            [{ list: "ordered" }, { list: "bullet" }],       // 有序、无序列表
+            [{ indent: "-1" }, { indent: "+1" }],            // 缩进
+            [{ size: ["small", false, "large", "huge"] }],   // 字体大小
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],         // 标题
+            [{ color: [] }, { background: [] }],             // 字体颜色、字体背景颜色
+            [{ align: [] }],                                 // 对齐方式
+            ["clean"],                                       // 清除文本格式
+            ["link", "image", "video"]                       // 链接、图片、视频
+          ],
+        },
+        placeholder: "请输入内容",
+        readOnly: false,
+      },
+    };
+  },
+  computed: {
+    styles() {
+      let style = {};
+      if (this.minHeight) {
+        style.minHeight = `${this.minHeight}px`;
+      }
+      if (this.height) {
+        style.height = `${this.height}px`;
+      }
+      return style;
+    },
+  },
+  watch: {
+    value: {
+      handler(val) {
+        if (val !== this.currentValue) {
+          this.currentValue = val === null ? "" : val;
+          if (this.Quill) {
+            this.Quill.pasteHTML(this.currentValue);
+          }
+        }
+      },
+      immediate: true,
+    },
+  },
+  mounted() {
+    this.init();
+  },
+  beforeDestroy() {
+    this.Quill = null;
+  },
+  methods: {
+    init() {
+      const editor = this.$refs.editor;
+      this.Quill = new Quill(editor, this.options);
+      this.Quill.pasteHTML(this.currentValue);
+      this.Quill.on("text-change", (delta, oldDelta, source) => {
+        const html = this.$refs.editor.children[0].innerHTML;
+        const text = this.Quill.getText();
+        const quill = this.Quill;
+        this.currentValue = html;
+        this.$emit("input", html);
+        this.$emit("on-change", { html, text, quill });
+      });
+      this.Quill.on("text-change", (delta, oldDelta, source) => {
+        this.$emit("on-text-change", delta, oldDelta, source);
+      });
+      this.Quill.on("selection-change", (range, oldRange, source) => {
+        this.$emit("on-selection-change", range, oldRange, source);
+      });
+      this.Quill.on("editor-change", (eventName, ...args) => {
+        this.$emit("on-editor-change", eventName, ...args);
+      });
+    },
+  },
+};
 </script>
+
+<style>
+.editor, .ql-toolbar {
+  white-space: pre-wrap!important;
+  line-height: normal !important;
+}
+.quill-img {
+  display: none;
+}
+.ql-snow .ql-tooltip[data-mode="link"]::before {
+  content: "请输入链接地址:";
+}
+.ql-snow .ql-tooltip.ql-editing a.ql-action::after {
+  border-right: 0px;
+  content: "保存";
+  padding-right: 0px;
+}
+
+.ql-snow .ql-tooltip[data-mode="video"]::before {
+  content: "请输入视频地址:";
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item::before {
+  content: "14px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="small"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="small"]::before {
+  content: "10px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="large"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="large"]::before {
+  content: "18px";
+}
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="huge"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="huge"]::before {
+  content: "32px";
+}
+
+.ql-snow .ql-picker.ql-header .ql-picker-label::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item::before {
+  content: "文本";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before {
+  content: "标题1";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before {
+  content: "标题2";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before {
+  content: "标题3";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="4"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="4"]::before {
+  content: "标题4";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="5"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="5"]::before {
+  content: "标题5";
+}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="6"]::before,
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="6"]::before {
+  content: "标题6";
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item::before {
+  content: "标准字体";
+}
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="serif"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="serif"]::before {
+  content: "衬线字体";
+}
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="monospace"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="monospace"]::before {
+  content: "等宽字体";
+}
+</style>

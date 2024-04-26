@@ -1,12 +1,12 @@
 ﻿namespace Ams.Kernel.Model.System
 {
     /// <summary>
-    /// 参数配置
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/25 13:57:42)
+    /// 系统参数
+    /// 数据实体类：sys_config
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
-    [SugarTable("sys_config", "参数配置")]
+    [SugarTable("sys_config", "系统参数")]
     [Tenant("0")]
     public class SysConfig : SysBase
     {

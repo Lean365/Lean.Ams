@@ -1,10 +1,10 @@
-namespace Ams.WebApi.Controllers.System
+namespace Ams.WebApi.Controllers
 {
     /// <summary>
-    /// 参数配置
+    /// 系统参数
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Verify]
     [Route("system/config")]
@@ -12,7 +12,7 @@ namespace Ams.WebApi.Controllers.System
     public class SysConfigController : BaseController
     {
         /// <summary>
-        /// 参数配置接口
+        /// 系统参数接口
         /// </summary>
         private readonly ISysConfigService _SysConfigService;
 
@@ -22,7 +22,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 查询参数配置列表
+        /// 查询系统参数列表
         /// </summary>
         /// <returns></returns>
         [HttpGet("list")]
@@ -39,11 +39,11 @@ namespace Ams.WebApi.Controllers.System
 
             var response = _SysConfigService.GetPages(predicate.ToExpression(), parm);
 
-            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
+            return SUCCESS(response);
         }
 
         /// <summary>
-        /// 查询参数配置详情
+        /// 查询系统参数详情
         /// </summary>
         /// <param name="ConfigId"></param>
         /// <returns></returns>
@@ -71,17 +71,17 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 添加参数配置
+        /// 添加系统参数
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "system:config:add")]
-        [Log(Title = "参数配置添加", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "系统参数添加", BusinessType = BusinessType.INSERT)]
         public IActionResult AddSysConfig([FromBody] SysConfigDto parm)
         {
             if (parm == null)
             {
-                throw new CustomizeException("请求参数错误");
+                throw new CustomException("请求参数错误");
             }
             var model = parm.Adapt<SysConfig>().ToCreate(HttpContext);
 
@@ -98,17 +98,17 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 更新参数配置
+        /// 更新人员系统参数
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "system:config:update")]
-        [Log(Title = "参数配置修改", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "system:config:edit")]
+        [Log(Title = "系统参数修改", BusinessType = BusinessType.UPDATE)]
         public IActionResult UpdateSysConfig([FromBody] SysConfigDto parm)
         {
             if (parm == null)
             {
-                throw new CustomizeException("请求实体不能为空");
+                throw new CustomException("请求实体不能为空");
             }
             var model = parm.Adapt<SysConfig>().ToUpdate(HttpContext);
 
@@ -127,12 +127,12 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 删除参数配置
+        /// 删除系统参数
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
         [ActionPermissionFilter(Permission = "system:config:delete")]
-        [Log(Title = "参数配置删除", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "系统参数删除", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSysConfig(string ids)
         {
             int[] idsArr = Tools.SpitIntArrary(ids);

@@ -1,21 +1,17 @@
-using Ams.Common;
-using Ams.Infrastructure.Attribute;
-using Ams.Kernel.Model;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Model.System;
-using Ams.Kernel.Model.System.Enums;
-using Ams.Kernel.Model.System.Generate;
-using Ams.Kernel.Model.System.Vo;
-using Ams.Kernel.Services.IService.System;
+using Ams.Model.System;
+using Ams.Model.System.Dto;
+using Ams.Model.System.Enums;
+
+using Ams.Model.System.Vo;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 系统菜单
+    /// 菜单信息
     /// 业务层处理
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(ISysMenuService), ServiceLifetime = LifeTime.Transient)]
     public class SysMenuService : BaseService<SysMenu>, ISysMenuService
     {
@@ -27,10 +23,10 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取所有菜单数（菜单管理）
+        /// 获取所有菜单信息数（菜单信息管理）
         /// </summary>
         /// <returns></returns>
-        public List<SysMenu> SelectTreeMenuList(MenuQueryDto menu, long userId)
+        public List<SysMenu> SelectTreeMenuList(SysMenuQueryDto menu, long userId)
         {
             if (menu.ParentId != null)
             {
@@ -41,10 +37,10 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取所有菜单列表
+        /// 获取所有菜单信息列表
         /// </summary>
         /// <returns></returns>
-        public List<SysMenu> SelectMenuList(MenuQueryDto menu, long userId)
+        public List<SysMenu> SelectMenuList(SysMenuQueryDto menu, long userId)
         {
             List<SysMenu> menuList;
             if (SysRoleService.IsAdmin(userId))
@@ -60,7 +56,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取菜单详情
+        /// 获取菜单信息详情
         /// </summary>
         /// <param name="menuId"></param>
         /// <returns></returns>
@@ -70,7 +66,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据菜单id获取菜单列表
+        /// 根据菜单信息id获取菜单信息列表
         /// </summary>
         /// <param name="menuId"></param>
         /// <param name="userId"></param>
@@ -97,7 +93,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 添加菜单
+        /// 添加菜单信息
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
@@ -108,7 +104,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 编辑菜单
+        /// 编辑菜单信息
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
@@ -119,7 +115,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 删除菜单管理信息
+        /// 删除菜单信息管理信息
         /// </summary>
         /// <param name="menuId"></param>
         /// <returns></returns>
@@ -129,7 +125,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 校验菜单名称是否唯一
+        /// 校验菜单信息名称是否唯一
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
@@ -150,17 +146,17 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 菜单排序
+        /// 菜单信息排序
         /// </summary>
-        /// <param name="menuDto"></param>
+        /// <param name="SysMenuDto"></param>
         /// <returns></returns>
-        public int ChangeSortMenu(MenuDto menuDto)
+        public int ChangeSortMenu(SysMenuDto SysMenuDto)
         {
-            return Update(new SysMenu() { MenuId = menuDto.MenuId, OrderNum = menuDto.OrderNum }, it => new { it.OrderNum });
+            return Update(new SysMenu() { MenuId = SysMenuDto.MenuId, OrderNum = SysMenuDto.OrderNum }, it => new { it.OrderNum });
         }
 
         /// <summary>
-        /// 是否存在菜单子节点
+        /// 是否存在菜单信息子节点
         /// </summary>
         /// <param name="menuId"></param>
         /// <returns></returns>
@@ -170,13 +166,13 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取左边导航栏菜单树
+        /// 获取左边导航栏菜单信息树
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         public List<SysMenu> SelectMenuTreeByUserId(long userId)
         {
-            MenuQueryDto dto = new() { IsState = 0, MenuTypeIds = "M,C" };
+            SysMenuQueryDto dto = new() { IsStated = 0, MenuTypeIds = "M,C" };
             if (SysRoleService.IsAdmin(userId))
             {
                 return SelectTreeMenuList(dto);
@@ -201,7 +197,7 @@ namespace Ams.Kernel.Services.System
                 JoinType.Left, ur.RoleId == r.RoleId
                 ))
                 .WithCache(60 * 10)
-                .Where((m, rm, ur, r) => m.IsState == 0 && r.IsState == 0 && ur.UserId == userId)
+                .Where((m, rm, ur, r) => m.IsStated == 0 && r.IsStated == 0 && ur.UserId == userId)
                 .Select((m, rm, ur, r) => m).ToList();
             var menuList = menus.Where(f => !string.IsNullOrEmpty(f.Perms));
 
@@ -209,12 +205,12 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据用户查询系统菜单列表
+        /// 根据用户查询系统菜单信息列表
         /// </summary>
         /// <param name="menu"></param>
-        /// <param name="roles">用户角色集合</param>
+        /// <param name="roles">用户角色信息集合</param>
         /// <returns></returns>
-        public List<SysMenu> SelectTreeMenuListByRoles(MenuQueryDto menu, List<long> roles)
+        public List<SysMenu> SelectTreeMenuListByRoles(SysMenuQueryDto menu, List<long> roles)
         {
             var roleMenus = Context.Queryable<SysRoleMenu>()
                 .Where(r => roles.Contains(r.Role_id))
@@ -224,7 +220,7 @@ namespace Ams.Kernel.Services.System
                 .Where(c => roleMenus.Contains(c.MenuId))
                 .WhereIF(!string.IsNullOrEmpty(menu.MenuName), (c) => c.MenuName.Contains(menu.MenuName))
                 .WhereIF(!string.IsNullOrEmpty(menu.Visible), (c) => c.Visible == menu.Visible)
-                .WhereIF(!string.IsNullOrEmpty(menu.IsState.ToString()), (c) => c.IsState == menu.IsState)
+                .WhereIF(!string.IsNullOrEmpty(menu.IsStated.ToString()), (c) => c.IsStated == menu.IsStated)
                 .WhereIF(!string.IsNullOrEmpty(menu.MenuTypeIds), c => menu.MenuTypeIdArr.Contains(c.MenuType))
                 .OrderBy((c) => new { c.ParentId, c.OrderNum })
                 .Select(c => c)
@@ -232,12 +228,12 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据用户查询系统菜单列表
+        /// 根据用户查询系统菜单信息列表
         /// </summary>
         /// <param name="menu"></param>
-        /// <param name="roleId">用户角色</param>
+        /// <param name="roleId">用户角色信息</param>
         /// <returns></returns>
-        public List<RoleMenuExportDto> SelectRoleMenuListByRole(MenuQueryDto menu, int roleId)
+        public List<SysRoleMenuExportDto> SelectRoleMenuListByRole(SysMenuQueryDto menu, int roleId)
         {
             var menuIds = Context.Queryable<SysRoleMenu>()
                 .Where(r => r.Role_id == roleId)
@@ -247,27 +243,27 @@ namespace Ams.Kernel.Services.System
                 .InnerJoin<SysMenu>((t1, t2) => t1.MenuId == t2.ParentId)
                 .InnerJoin<SysMenu>((t1, t2, t3) => t2.MenuId == t3.ParentId)
                 .Where((t1, t2, t3) => menuIds.Contains(t1.MenuId))
-                .Select((t1, t2, t3) => new RoleMenuExportDto()
+                .Select((t1, t2, t3) => new SysRoleMenuExportDto()
                 {
                     MenuName = $"{t1.MenuName}->{t2.MenuName}->{t3.MenuName}",
                     Path = t2.Path,
                     Component = t2.Component,
                     Perms = t3.Perms,
                     MenuType = (MenuType)(object)t3.MenuType,
-                    Status = (MenuStatus)(object)t3.IsState
+                    Status = (MenuStatus)(object)t3.IsStated
                 }).ToList();
         }
 
         /// <summary>
-        /// 获取所有菜单
+        /// 获取所有菜单信息
         /// </summary>
         /// <returns></returns>
-        private List<SysMenu> SelectMenuList(MenuQueryDto menu)
+        private List<SysMenu> SelectMenuList(SysMenuQueryDto menu)
         {
             var menuExp = Expressionable.Create<SysMenu>();
             menuExp.AndIF(!string.IsNullOrEmpty(menu.MenuName), it => it.MenuName.Contains(menu.MenuName));
             menuExp.AndIF(!string.IsNullOrEmpty(menu.Visible), it => it.Visible == menu.Visible);
-            menuExp.AndIF(!string.IsNullOrEmpty(menu.IsState.ToString()), it => it.IsState == menu.IsState);
+            menuExp.AndIF(!string.IsNullOrEmpty(menu.IsStated.ToString()), it => it.IsStated == menu.IsStated);
             menuExp.AndIF(!string.IsNullOrEmpty(menu.MenuTypeIds), it => menu.MenuTypeIdArr.Contains(it.MenuType));
             menuExp.AndIF(menu.ParentId != null, it => it.ParentId == menu.ParentId);
 
@@ -278,19 +274,19 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据用户查询系统菜单列表
+        /// 根据用户查询系统菜单信息列表
         /// </summary>
         /// <param name="sysMenu"></param>
-        /// <param name="roles">用户角色集合</param>
+        /// <param name="roles">用户角色信息集合</param>
         /// <returns></returns>
-        private List<SysMenu> SelectMenuListByRoles(MenuQueryDto sysMenu, List<long> roles)
+        private List<SysMenu> SelectMenuListByRoles(SysMenuQueryDto sysMenu, List<long> roles)
         {
             var roleMenus = Context.Queryable<SysRoleMenu>()
                 .Where(r => roles.Contains(r.Role_id));
 
             return Queryable()
                 .InnerJoin(roleMenus, (c, j) => c.MenuId == j.Menu_id)
-                .Where((c, j) => c.IsState == 0)
+                .Where((c, j) => c.IsStated == 0)
                 .WhereIF(!string.IsNullOrEmpty(sysMenu.MenuName), (c, j) => c.MenuName.Contains(sysMenu.MenuName))
                 .WhereIF(!string.IsNullOrEmpty(sysMenu.Visible), (c, j) => c.Visible == sysMenu.Visible)
                 .OrderBy((c, j) => new { c.ParentId, c.OrderNum })
@@ -299,10 +295,10 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取所有菜单（菜单管理）
+        /// 获取所有菜单信息（菜单信息管理）
         /// </summary>
         /// <returns></returns>
-        public List<SysMenu> SelectTreeMenuList(MenuQueryDto menu)
+        public List<SysMenu> SelectTreeMenuList(SysMenuQueryDto menu)
         {
             int parentId = menu.ParentId != null ? (int)menu.ParentId : 0;
 
@@ -310,7 +306,7 @@ namespace Ams.Kernel.Services.System
                 .WithCache(60 * 10)
                 .WhereIF(!string.IsNullOrEmpty(menu.MenuName), it => it.MenuName.Contains(menu.MenuName))
                 .WhereIF(!string.IsNullOrEmpty(menu.Visible), it => it.Visible == menu.Visible)
-                .WhereIF(!string.IsNullOrEmpty(menu.IsState.ToString()), it => it.IsState == menu.IsState)
+                .WhereIF(!string.IsNullOrEmpty(menu.IsStated.ToString()), it => it.IsStated == menu.IsStated)
                 .WhereIF(!string.IsNullOrEmpty(menu.MenuTypeIds), it => menu.MenuTypeIdArr.Contains(it.MenuType))
                 .WhereIF(menu.ParentId != null, it => it.ParentId == menu.ParentId)
                 .OrderBy(it => new { it.ParentId, it.OrderNum })
@@ -361,9 +357,9 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 递归获取子菜单
+        /// 递归获取子菜单信息
         /// </summary>
-        /// <param name="list">所有菜单</param>
+        /// <param name="list">所有菜单信息</param>
         /// <param name="sysMenu"></param>
         /// <returns></returns>
         private List<SysMenu> GetChildList(List<SysMenu> list, SysMenu sysMenu)
@@ -393,7 +389,7 @@ namespace Ams.Kernel.Services.System
                 };
 
                 List<SysMenu> cMenus = menu.Children;
-                //是目录并且有子菜单
+                //是目录并且有子菜单信息
                 if (cMenus != null && cMenus.Count > 0 && UserConstants.TYPE_DIR.Equals(menu.MenuType))
                 {
                     router.AlwaysShow = true;
@@ -437,7 +433,7 @@ namespace Ams.Kernel.Services.System
         /// <summary>
         /// 构建前端所需要下拉树结构
         /// </summary>
-        /// <param name="menus">菜单列表</param>
+        /// <param name="menus">菜单信息列表</param>
         /// <returns>下拉树结构列表</returns>
         public List<SysMenu> BuildMenuTree(List<SysMenu> menus)
         {
@@ -516,7 +512,7 @@ namespace Ams.Kernel.Services.System
             {
                 routerPath = "/" + menu.Path;
             }
-            else if (IsMeunFrame(menu))// 非外链并且是一级目录（类型为菜单）
+            else if (IsMeunFrame(menu))// 非外链并且是一级目录（类型为菜单信息）
             {
                 routerPath = "/";
             }
@@ -547,7 +543,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 是否为菜单内部跳转
+        /// 是否为菜单信息内部跳转
         /// </summary>
         /// <param name="menu">菜单信息</param>
         /// <returns></returns>
@@ -609,7 +605,7 @@ namespace Ams.Kernel.Services.System
                     IsCache = "1",
                     MenuType = "C",
                     Visible = "0",
-                    IsState = 0,
+                    IsStated = 0,
                     Icon = "icon1",
                     Create_by = "system",
                 };
@@ -624,7 +620,7 @@ namespace Ams.Kernel.Services.System
                 menu.Perms = $"{permPrefix}:list";
                 menu.IsCache = "1";
                 menu.Visible = "0";
-                menu.IsState = 0;
+                menu.IsStated = 0;
                 menu.Update_by = "system";
                 menu.Update_time = DateTime.Now;
                 EditMenu(menu);
@@ -640,7 +636,7 @@ namespace Ams.Kernel.Services.System
                 Perms = $"{permPrefix}:query",
                 MenuType = "F",
                 Visible = "0",
-                IsState = 0,
+                IsStated = 0,
                 Icon = "",
             };
             SysMenu menuAdd = new()
@@ -651,7 +647,7 @@ namespace Ams.Kernel.Services.System
                 Perms = $"{permPrefix}:add",
                 MenuType = "F",
                 Visible = "0",
-                IsState = 0,
+                IsStated = 0,
                 Icon = "",
             };
             SysMenu menuDel = new()
@@ -662,7 +658,7 @@ namespace Ams.Kernel.Services.System
                 Perms = $"{permPrefix}:delete",
                 MenuType = "F",
                 Visible = "0",
-                IsState = 0,
+                IsStated = 0,
                 Icon = "",
             };
 
@@ -674,7 +670,7 @@ namespace Ams.Kernel.Services.System
                 Perms = $"{permPrefix}:edit",
                 MenuType = "F",
                 Visible = "0",
-                IsState = 0,
+                IsStated = 0,
                 Icon = "",
             };
 
@@ -686,7 +682,7 @@ namespace Ams.Kernel.Services.System
                 Perms = $"{permPrefix}:export",
                 MenuType = "F",
                 Visible = "0",
-                IsState = 0,
+                IsStated = 0,
                 Icon = "",
             };
 
@@ -698,7 +694,7 @@ namespace Ams.Kernel.Services.System
                 Perms = $"{permPrefix}:import",
                 MenuType = "F",
                 Visible = "0",
-                IsState = 0,
+                IsStated = 0,
                 Icon = "",
             };
 

@@ -1,12 +1,12 @@
 ﻿using Ams.Infrastructure;
 using Ams.Infrastructure.Attribute;
 using SqlSugar.IOC;
-using Ams.Kernel.Model.System;
+using Ams.Model.System;
 using Ams.Repository;
 using Ams.Service.IService;
-using Ams.Infrastructure.Apps;
-using Ams.Kernel.Model.Routine;
+using Ams.Kernel.Model.System;
 using Ams.Kernel.Services.IService.System;
+
 namespace Ams.Service
 {
     /// <summary>

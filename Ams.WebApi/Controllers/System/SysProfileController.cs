@@ -1,10 +1,12 @@
+using Ams.Model.System.Dto;
+
 namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
     /// 个人中心
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Verify]
     [Route("system/user/profile")]
@@ -49,7 +51,7 @@ namespace Ams.WebApi.Controllers.System
             var deptInfo = DeptService.GetFirst(f => f.DeptId == user.DeptId);
             user.DeptName = deptInfo?.DeptName ?? "-";
 
-            return SUCCESS(new { user, roles, postGroup }, TIME_FORMAT_YYYMMDD);
+            return SUCCESS(new { user, roles, postGroup }, TIME_FORMAT_FULL);
         }
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace Ams.WebApi.Controllers.System
         {
             if (userDto == null)
             {
-                throw new CustomizeException(ResultCode.PARAM_ERROR, "请求参数错误");
+                throw new CustomException(ResultCode.PARAM_ERROR, "请求参数错误");
             }
             var user = userDto.Adapt<SysUser>().ToUpdate(HttpContext);
 
@@ -95,7 +97,7 @@ namespace Ams.WebApi.Controllers.System
             }
             if (UserService.ResetPwd(userId, newMd5) > 0)
             {
-                //TODO 更新缓存
+                //TODO 更新人员缓存
 
                 return SUCCESS(1);
             }
@@ -114,7 +116,7 @@ namespace Ams.WebApi.Controllers.System
         public async Task<IActionResult> Avatar([FromForm(Name = "picture")] IFormFile formFile)
         {
             long userId = HttpContext.GetUId();
-            if (formFile == null) throw new CustomizeException("请选择文件");
+            if (formFile == null) throw new CustomException("请选择文件");
 
             FileStorage file = await FileService.SaveFileToLocal(hostEnvironment.WebRootPath, "", "avatar", HttpContext.GetName(), formFile);
 

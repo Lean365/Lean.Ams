@@ -6,6 +6,7 @@ using MimeKit.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Ams.Common
 {
@@ -14,18 +15,18 @@ namespace Ams.Common
         /// <summary>
         /// 发送人邮箱
         /// </summary>
-        public string FromEmail { get; set; } = "";
         private readonly MailOptions mailOptions = new();
 
         public MailHelper()
         {
-            AppSettings.Bind("MailOptions", mailOptions);
-            FromEmail = mailOptions.FromEmail;
+            List<MailOptions> options = new();
+
+            AppSettings.Bind("MailOptions", options);
+            mailOptions = options.First();
         }
         public MailHelper(MailOptions _mailOptions)
         {
-            this.mailOptions = _mailOptions;
-            FromEmail = _mailOptions.FromEmail;
+            mailOptions = _mailOptions;
         }
         /// <summary>
         /// 发送一个
@@ -79,7 +80,7 @@ namespace Ams.Common
             message.Subject = subject;
             message.Date = DateTime.Now;
 
-            //创建附件Multipart
+            //创建人员附件Multipart
             Multipart multipart = new Multipart("mixed");
             var alternative = new MultipartAlternative();
             //html内容
@@ -130,7 +131,7 @@ namespace Ams.Common
             client.Connect(mailOptions.Smtp, mailOptions.Port, mailOptions.UseSsl);
 
             //登录，发送
-            //特别说明，对于服务器端的中文相应，Exception中有编码问题，显示乱码了
+            //特别备注说明，对于服务器端的中文相应，Exception中有编码问题，显示乱码了
             client.Authenticate(System.Text.Encoding.UTF8, mailOptions.FromEmail, mailOptions.Password);
 
             try

@@ -1,10 +1,12 @@
-﻿namespace Ams.Kernel.Model.System
+﻿using MiniExcelLibs.Attributes;
+
+namespace Ams.Kernel.Model.System
 {
     /// <summary>
     /// 用户信息
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/25 13:57:42)
+    /// 数据实体类：sys_user
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [SugarTable("sys_user", "用户信息")]
     [Tenant("0")]
@@ -59,8 +61,8 @@
         /// 帐号状态（0正常 1停用）
         /// </summary>
         [ExcelIgnore]
-        [SugarColumn(DefaultValue = "0")]
-        public int IsState { get; set; }
+        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int IsStated { get; set; }
 
         /// <summary>
         /// 删除标志（0代表存在 2代表删除）
@@ -82,7 +84,7 @@
         public DateTime? LoginDate { get; set; }
 
         /// <summary>
-        /// 部门Id
+        /// 部门信息Id
         /// </summary>
         [SugarColumn(DefaultValue = "0")]
         public long DeptId { get; set; }
@@ -102,7 +104,7 @@
         }
 
         /// <summary>
-        /// 拥有角色个数
+        /// 拥有角色信息个数
         /// </summary>
         //[SugarColumn(IsIgnore = true)]
         //public int RoleNum { get; set; }
@@ -110,14 +112,14 @@
         public string DeptName { get; set; }
 
         /// <summary>
-        /// 角色id集合
+        /// 角色信息id集合
         /// </summary>
         [SugarColumn(IsIgnore = true)]
         [ExcelIgnore]
         public long[] RoleIds { get; set; }
 
         /// <summary>
-        /// 岗位集合
+        /// 岗位信息集合
         /// </summary>
         [SugarColumn(IsIgnore = true)]
         [ExcelIgnore]

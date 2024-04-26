@@ -2,9 +2,9 @@
 {
     /// <summary>
     /// 在线用户信息
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class OnlineUsers
     {
         /// <summary>

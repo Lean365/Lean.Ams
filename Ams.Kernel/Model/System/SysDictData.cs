@@ -2,9 +2,9 @@
 {
     /// <summary>
     /// 字典数据
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/25 13:57:42)
+    /// 数据实体类：sys_dict_data
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Tenant("0")]
     [SugarTable("sys_dict_data", "字典数据")]
@@ -34,7 +34,7 @@
         public string DictValue { get; set; }
 
         /// <summary>
-        /// 字典类型
+        /// 字典类别
         /// </summary>
         [SugarColumn(Length = 100, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string DictType { get; set; }
@@ -60,8 +60,8 @@
         /// <summary>
         /// 状态（0正常 1停用）
         /// </summary>
-        [SugarColumn(DefaultValue = "0")]
-        public int IsState { get; set; }
+        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int IsStated { get; set; }
 
         /// <summary>
         /// 多语言翻译key值

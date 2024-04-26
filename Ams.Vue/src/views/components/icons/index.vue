@@ -1,12 +1,18 @@
 <template>
   <div class="icons-container">
+    <!-- <aside>
+      <a href="#" target="_blank">Add and use
+      </a>
+    </aside> -->
     <el-tabs type="border-card">
-      <el-tab-pane label="svg Icons">
-        <div v-for="item of svgIconList" :key="item" class="item">
+      <el-tab-pane label="Icons">
+        <div v-for="item of svgIcons" :key="item">
           <el-tooltip placement="top">
-            <template #content> {{ generateIconCode(item) }} </template>
+            <div slot="content">
+              {{ generateIconCode(item) }}
+            </div>
             <div class="icon-item">
-              <svg-icon :name="item" style="height: 40px; width: 40px" />
+              <svg-icon :icon-class="item" class-name="disabled" />
               <span>{{ item }}</span>
             </div>
           </el-tooltip>
@@ -15,9 +21,11 @@
       <el-tab-pane label="Element-UI Icons">
         <div v-for="item of elementIcons" :key="item">
           <el-tooltip placement="top">
-            <template #content> {{ generateElementIconCode(item) }} </template>
+            <div slot="content">
+              {{ generateElementIconCode(item) }}
+            </div>
             <div class="icon-item">
-              <el-icon><component :is="item" /></el-icon>
+              <i :class="'el-icon-' + item" />
               <span>{{ item }}</span>
             </div>
           </el-tooltip>
@@ -27,22 +35,26 @@
   </div>
 </template>
 
-<script setup name="icons">
-import icons from '@/components/IconSelect/requireIcons'
-import * as elIcons from '@element-plus/icons-vue'
+<script>
+import svgIcons from './svg-icons'
+import elementIcons from './element-icons'
 
-const svgIconList = ref(icons)
-const elementIcons = ref([])
-
-for (const key in elIcons) {
-  elementIcons.value.push(key)
-}
-
-function generateIconCode(symbol) {
-  return `<svg-icon name="${symbol}" />`
-}
-function generateElementIconCode(symbol) {
-  return `<el-icon><${symbol} /></el-icon>`
+export default {
+  name: 'Icons',
+  data() {
+    return {
+      svgIcons,
+      elementIcons
+    }
+  },
+  methods: {
+    generateIconCode(symbol) {
+      return `<svg-icon icon-class="${symbol}" />`
+    },
+    generateElementIconCode(symbol) {
+      return `<i class="el-icon-${symbol}" />`
+    }
+  }
 }
 </script>
 
@@ -51,12 +63,11 @@ function generateElementIconCode(symbol) {
   margin: 10px 20px 0;
   overflow: hidden;
 
-  .icon-item,
-  .item {
+  .icon-item {
     margin: 20px;
-    height: 60px;
+    height: 85px;
     text-align: center;
-    width: 77px;
+    width: 100px;
     float: left;
     font-size: 30px;
     color: #24292e;
@@ -68,6 +79,7 @@ function generateElementIconCode(symbol) {
     font-size: 16px;
     margin-top: 10px;
   }
+
   .disabled {
     pointer-events: none;
   }

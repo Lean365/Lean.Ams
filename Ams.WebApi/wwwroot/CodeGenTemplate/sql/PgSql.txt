@@ -1,10 +1,10 @@
-﻿use ZrAdmin;
+﻿use Lean365;
 
--- ${genTable.functionName}菜单
+-- ${genTable.functionName}菜单信息
 INSERT INTO sys_menu(menuName, parentId, orderNum, path, component, isFrame, isCache, menuType, visible, status, perms, icon, create_by, create_time) 
-VALUES ('${genTable.functionName}', ${parentId}, 999, '${genTable.BusinessName}', '${tool.FirstLowerCase(genTable.ModuleName)}/${genTable.BusinessName}', 0, 0, 'C', '0', '0', '${replaceDto.PermissionPrefix}:list', 'icon1', 'system', null);
+VALUES ('${genTable.functionName}', ${parentId}, 999, '${genTable.BusinessName}', '${tool.FirstLowerCase(genTable.ModuleName)}/${genTable.BusinessName}', 0, 0, 'C', '0', '0', '${GeneratorReplaceDto.PermissionPrefix}:list', 'icon1', 'system', null);
 
--- 按钮父菜单id
+-- 按钮父菜单信息id
 DO $$
 	DECLARE @menuId integer;
 	DECLARE @nowTime datetime;
@@ -13,19 +13,19 @@ BEGIN
 	SELECT now()::timestamp(0)without time zone INTO @nowTime
 
 	INSERT INTO sys_menu(menuName, parentId, orderNum, path, component, isFrame, isCache, menuType, visible, status, perms, icon, create_by,create_time) 
-	VALUES ('查询', @menuId, 1, '#', NULL, 0, 0, 'F', '0', '0', '${replaceDto.PermissionPrefix}:query', '', 'system', @nowTime);
+	VALUES ('查询', @menuId, 1, '#', NULL, 0, 0, 'F', '0', '0', '${GeneratorReplaceDto.PermissionPrefix}:query', '', 'system', @nowTime);
 
 	INSERT INTO sys_menu(menuName, parentId, orderNum, path, component, isFrame, isCache, menuType, visible, status, perms, icon, create_by,create_time) 
-	VALUES ('新增', @menuId, 2, '#', NULL, 0, 0, 'F', '0', '0', '${replaceDto.PermissionPrefix}:add', '', 'system', @nowTime);
+	VALUES ('新增', @menuId, 2, '#', NULL, 0, 0, 'F', '0', '0', '${GeneratorReplaceDto.PermissionPrefix}:add', '', 'system', @nowTime);
 
 	INSERT INTO sys_menu(menuName, parentId, orderNum, path, component, isFrame, isCache, menuType, visible, status, perms, icon, create_by,create_time) 
-	VALUES ('删除', @menuId, 3, '#', NULL, 0, 0, 'F', '0', '0', '${replaceDto.PermissionPrefix}:delete', '', 'system', @nowTime);
+	VALUES ('删除', @menuId, 3, '#', NULL, 0, 0, 'F', '0', '0', '${GeneratorReplaceDto.PermissionPrefix}:delete', '', 'system', @nowTime);
 
 	INSERT INTO sys_menu(menuName, parentId, orderNum, path, component, isFrame, isCache, menuType, visible, status, perms, icon, create_by,create_time) 
-	VALUES ('修改', @menuId, 4, '#', NULL, 0, 0, 'F', '0', '0', '${replaceDto.PermissionPrefix}:edit', '', 'system', @nowTime);
+	VALUES ('修改', @menuId, 4, '#', NULL, 0, 0, 'F', '0', '0', '${GeneratorReplaceDto.PermissionPrefix}:edit', '', 'system', @nowTime);
 	   
    	INSERT INTO sys_menu(menuName, parentId, orderNum, path, component, isFrame, isCache, menuType, visible, status, perms, icon, create_by,create_time) 
-   	VALUES ('导出', @menuId, 5, '#', NULL, 0, 0, 'F', '0', '0', '${replaceDto.PermissionPrefix}:export', '', 'system', @nowTime);
+   	VALUES ('导出', @menuId, 5, '#', NULL, 0, 0, 'F', '0', '0', '${GeneratorReplaceDto.PermissionPrefix}:export', '', 'system', @nowTime);
 
 END $$;
 

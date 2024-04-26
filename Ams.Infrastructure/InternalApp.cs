@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using System;
 
 namespace Ams.Infrastructure
 {
+    /// <summary>
+    /// 内部应用
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
+    /// </summary>
     public static class InternalApp
     {
         /// <summary>

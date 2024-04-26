@@ -1,13 +1,16 @@
-﻿using Microsoft.Extensions.DependencyModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyModel;
 
 namespace Ams.Infrastructure.Helper
 {
+    /// <summary>
+    /// 组件工具类
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
+    /// </summary>
     public static class AssemblyUtils
     {
         /// <summary>

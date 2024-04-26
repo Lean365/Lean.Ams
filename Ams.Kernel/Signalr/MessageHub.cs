@@ -1,14 +1,6 @@
 ﻿using System.Web;
-using Ams.Infrastructure;
-using Ams.Infrastructure.Apps;
-using Ams.Infrastructure.Helper;
-using Ams.Infrastructure.Model;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Services.IService.Routine;
-using Ams.Kernel.Services.IService.System;
+using Ams.Kernel.Model.Dto;
 using IPTools.Core;
-using Mapster;
 using Microsoft.AspNetCore.SignalR;
 using UAParser;
 
@@ -16,30 +8,32 @@ namespace Ams.Kernel.Signalr
 {
     /// <summary>
     /// 消息中心
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class MessageHub : Hub
     {
-        //创建用户集合，用于存储所有链接的用户数据
+        //创建人员用户集合，用于存储所有链接的用户数据
         public static readonly List<OnlineUsers> onlineClients = new();
 
         public static List<OnlineUsers> users = new();
 
         //private readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private readonly INoticesService NoticesService;
+        private readonly INoticeService _NoticeService;
 
-        private readonly ISysUserService UserService;
+        private readonly ISysUserService _UserService;
+        private readonly IOnlineLogService _OnlineLogService;
 
-        public MessageHub(INoticesService noticeService, ISysUserService userService)
+        public MessageHub(INoticeService noticeService, ISysUserService userService, IOnlineLogService OnlineLogService)
         {
-            NoticesService = noticeService;
-            UserService = userService;
+            _NoticeService = noticeService;
+            _UserService = userService;
+            _OnlineLogService = OnlineLogService;
         }
 
         private ApiResult SendNotice()
         {
-            var result = NoticesService.GetNoticess();
+            var result = _NoticeService.GetNotices();
 
             return new ApiResult(200, "success", result);
         }
@@ -107,7 +101,7 @@ namespace Ams.Kernel.Signalr
             Clients.Clients(connIds.Select(f => f.ConnnectionId)).SendAsync("onlineInfo", userInfo);
 
             Log.WriteLine(ConsoleColor.Blue, msg: $"用户{name}已连接，今日已在线{userInfo?.TodayOnlineTime}分钟，当前已连接{onlineClients.Count}个");
-            //给所有用户更新在线人数
+            //给所有用户更新人员在线人数
             Clients.All.SendAsync(HubsConstant.OnlineNum, new
             {
                 num = onlineClients.Count,
@@ -126,7 +120,7 @@ namespace Ams.Kernel.Signalr
             if (user != null)
             {
                 onlineClients.Remove(user);
-                //给所有用户更新在线人数
+                //给所有用户更新人员在线人数
                 Clients.All.SendAsync(HubsConstant.OnlineNum, new
                 {
                     num = onlineClients.Count,
@@ -139,8 +133,21 @@ namespace Ams.Kernel.Signalr
                 if (userInfo != null)
                 {
                     userInfo.TodayOnlineTime += user?.OnlineTime ?? 0;
+
+                    _OnlineLogService.AddOnlineLog(new Model.Monitor.OnlineLog()
+                    {
+                        UserId = user.Userid,
+                        Create_time = DateTime.Now,
+                        Location = user?.Location,
+                        OnlineTime = user.OnlineTime,
+                        UserIP = user.UserIP,
+                        TodayOnlineTime = userInfo.TodayOnlineTime,
+                        Platform = user.Platform,
+                        Remark = user.Browser,
+                        LoginTime = user.LoginTime,
+                    });
                 }
-                Log.WriteLine(ConsoleColor.Red, msg: $"用户{user?.Name}离开了,已在线{userInfo?.TodayOnlineTime}分，当前已连接{onlineClients.Count}个");
+                Log.WriteLine(ConsoleColor.Red, msg: $"用户{user?.Name}离开了,已在线{userInfo?.TodayOnlineTime}分种，当前已连接{onlineClients.Count}个");
             }
             return base.OnDisconnectedAsync(exception);
         }
@@ -162,7 +169,7 @@ namespace Ams.Kernel.Signalr
             var toUserInfo = toUserList.FirstOrDefault();
             IList<string> sendToUser = toUserList.Select(x => x.ConnnectionId).ToList();
             sendToUser.Add(GetConnectId());
-            var fromUser = await UserService.GetByIdAsync(userid);
+            var fromUser = await _UserService.GetByIdAsync(userid);
 
             ChatMessageDto messageDto = new()
             {

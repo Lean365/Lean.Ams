@@ -1,7 +1,10 @@
-﻿namespace Ams.Kernel.Model.System.Vo
+﻿namespace Ams.Model.System.Vo
 {
     /// <summary>
-    /// Treeselect树结构实体类
+    /// Treeselect树结构
+    /// 实体类
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public class TreeSelectVo
     {
@@ -9,21 +12,26 @@
         /// 节点Id
         /// </summary>
         public long Id { get; set; }
+
         /// <summary>
         /// 节点名称
         /// </summary>
         public string Label { get; set; }
-        public int IsState { get; set; }
-        public string MenuType { get; set; }
 
-        public TreeSelectVo() { }
+        public int IsStated { get; set; }
+        public string MenuType { get; set; }
+        public string Permission { get; set; }
+
+        public TreeSelectVo()
+        { }
 
         public TreeSelectVo(SysMenu menu)
         {
             Id = menu.MenuId;
             Label = menu.MenuName;
-            IsState = menu.IsState;
+            IsStated = menu.IsStated;
             MenuType = menu.MenuType;
+            Permission = menu.Perms;
 
             List<TreeSelectVo> child = new List<TreeSelectVo>();
             foreach (var item in menu.Children)

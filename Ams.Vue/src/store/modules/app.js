@@ -1,48 +1,56 @@
 import Cookies from 'js-cookie'
-import cache from '@/plugins/cache'
-import defaultSettings from '@/settings'
-const useAppStore = defineStore('app', {
-  state: () => ({
-    sidebar: {
-      opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
-      // withoutAnimation: false,
-      hide: false
-    },
-    device: 'desktop',
-    size: cache.local.get('size') || defaultSettings.defaultSize,
-    lang: cache.local.get('lang') || defaultSettings.defaultLang
-  }),
-  actions: {
-    toggleSideBar() {
-      if (this.sidebar.hide) {
-        return false
-      }
-      this.sidebar.opened = !this.sidebar.opened
-      if (this.sidebar.opened) {
-        Cookies.set('sidebarStatus', 1)
-      } else {
-        Cookies.set('sidebarStatus', 0)
-      }
-    },
-    closeSideBar() {
-      Cookies.set('sidebarStatus', 0)
-      this.sidebar.opened = false
-    },
-    toggleDevice(device) {
-      this.device = device
-    },
-    setSize(size) {
-      this.size = size
-      cache.local.set('size', size)
-    },
-    toggleSideBarHide(status) {
-      this.sidebar.hide = status
-    },
-    setLang(lang) {
-      this.lang = lang
-      cache.local.set('lang', lang)
-    }
-  }
-})
 
-export default useAppStore
+const state = {
+  sidebar: {
+    opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
+    withoutAnimation: false
+  },
+  device: 'desktop',
+  size: Cookies.get('size') || 'medium'
+}
+
+const mutations = {
+  TOGGLE_SIDEBAR: state => {
+    state.sidebar.opened = !state.sidebar.opened
+    state.sidebar.withoutAnimation = false
+    if (state.sidebar.opened) {
+      Cookies.set('sidebarStatus', 1)
+    } else {
+      Cookies.set('sidebarStatus', 0)
+    }
+  },
+  CLOSE_SIDEBAR: (state, withoutAnimation) => {
+    Cookies.set('sidebarStatus', 0)
+    state.sidebar.opened = false
+    state.sidebar.withoutAnimation = withoutAnimation
+  },
+  TOGGLE_DEVICE: (state, device) => {
+    state.device = device
+  },
+  SET_SIZE: (state, size) => {
+    state.size = size
+    Cookies.set('size', size)
+  }
+}
+
+const actions = {
+  toggleSideBar({ commit }) {
+    commit('TOGGLE_SIDEBAR')
+  },
+  closeSideBar({ commit }, { withoutAnimation }) {
+    commit('CLOSE_SIDEBAR', withoutAnimation)
+  },
+  toggleDevice({ commit }, device) {
+    commit('TOGGLE_DEVICE', device)
+  },
+  setSize({ commit }, size) {
+    commit('SET_SIZE', size)
+  }
+}
+
+export default {
+  namespaced: true,
+  state,
+  mutations,
+  actions
+}

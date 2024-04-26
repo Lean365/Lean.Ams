@@ -1,18 +1,13 @@
-﻿using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.CustomException;
-using Ams.Kernel.Model;
-using Ams.Kernel.Model.System;
-using Ams.Kernel.Services.IService.System;
-using Ams.Model;
+﻿using Ams.Model.System;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 字典类型
+    /// 字典类别
     /// 业务层处理
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(ISysDictTypeService), ServiceLifetime = LifeTime.Transient)]
     public class SysDictTypeService : BaseService<SysDictType>, ISysDictTypeService
     {
@@ -29,7 +24,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 查询字段类型列表
+        /// 查询字典类别列表
         /// </summary>
         /// <param name="dictType">实体模型</param>
         /// <param name="pager"></param>
@@ -38,7 +33,7 @@ namespace Ams.Kernel.Services.System
         {
             var exp = Expressionable.Create<SysDictType>();
             exp.AndIF(!string.IsNullOrEmpty(dictType.DictName), it => it.DictName.Contains(dictType.DictName));
-            exp.AndIF(!string.IsNullOrEmpty(dictType.IsState.ToString()), it => it.IsState == dictType.IsState);
+            exp.AndIF(!string.IsNullOrEmpty(dictType.IsStated.ToString()), it => it.IsStated == dictType.IsStated);
             exp.AndIF(!string.IsNullOrEmpty(dictType.DictType), it => it.DictType.Contains(dictType.DictType));
             exp.AndIF(!string.IsNullOrEmpty(dictType.Type), it => it.Type.Equals(dictType.Type));
 
@@ -46,9 +41,9 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 校验字典类型称是否唯一
+        /// 校验字典类别称是否唯一
         /// </summary>
-        /// <param name="dictType">字典类型</param>
+        /// <param name="dictType">字典类别</param>
         /// <returns></returns>
         public string CheckDictTypeUnique(SysDictType dictType)
         {
@@ -68,13 +63,13 @@ namespace Ams.Kernel.Services.System
         public int DeleteDictTypeByIds(long[] dictIds)
         {
             int sysCount = Count(s => s.Type == "Y" && dictIds.Contains(s.DictId));
-            if (sysCount > 0) { throw new CustomizeException($"删除失败Id： 系统内置参数不能删除！"); }
+            if (sysCount > 0) { throw new CustomException($"删除失败Id： 系统内置参数不能删除！"); }
             foreach (var dictId in dictIds)
             {
                 SysDictType dictType = GetFirst(x => x.DictId == dictId);
                 if (DictDataService.Count(f => f.DictType == dictType.DictType) > 0)
                 {
-                    throw new CustomizeException($"{dictType.DictName}已分配,不能删除");
+                    throw new CustomException($"{dictType.DictName}已分配,不能删除");
                 }
             }
             int count = Context.Deleteable<SysDictType>().In(dictIds).ExecuteCommand();
@@ -86,22 +81,26 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 插入字典类型
+        /// 插入字典类别
         /// </summary>
         /// <param name="sysDictType"></param>
         /// <returns></returns>
         public long InsertDictType(SysDictType sysDictType)
         {
+            sysDictType.Create_by = App.UserName;
+            sysDictType.Create_time = DateTime.Now;
             return InsertReturnBigIdentity(sysDictType);
         }
 
         /// <summary>
-        /// 修改字典类型
+        /// 修改字典类别
         /// </summary>
         /// <param name="sysDictType"></param>
         /// <returns></returns>
         public int UpdateDictType(SysDictType sysDictType)
         {
+            sysDictType.Update_by = App.UserName;
+            sysDictType.Update_time = DateTime.Now;
             SysDictType oldDict = GetFirst(x => x.DictId == sysDictType.DictId);
             if (sysDictType.DictType != oldDict.DictType)
             {
@@ -122,11 +121,11 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据字典类型查询自定义sql
+        /// 根据字典类别查询自定义sql
         /// </summary>
         /// <param name="dictType"></param>
         /// <returns></returns>
-        public List<SysDictData> SelectDictDataByCustomSql(string dictType)
+        public List<SysDictDataDto> SelectDictDataByCustomSql(string dictType)
         {
             var dictInfo = Queryable()
                 .Where(f => f.DictType == dictType).First();

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
+	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
+	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
+	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
+	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
+	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
+	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
+]>
+<svg version="1.1" id="图层_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="256px" height="256px"
+	 viewBox="0 0 256 256" enable-background="new 0 0 256 256" xml:space="preserve">
+<metadata>
+	<sfw  xmlns="&ns_sfw;">
+		<slices></slices>
+		<sliceSourceBounds  height="256" width="256" y="0.5" x="-0.5" bottomLeftOrigin="true"></sliceSourceBounds>
+	</sfw>
+</metadata>
+<path d="M25.6,54.857V36.571H64v182.857H51.2c-7.08,0-12.8,8.171-12.8,18.285C38.4,247.829,44.12,256,51.2,256h51.2
+	c7.08,0,12.8-8.171,12.8-18.286c0-10.114-5.72-18.285-12.8-18.285H89.6V36.571H128v18.286c0,10.114,5.721,18.286,12.8,18.286
+	c7.08,0,12.8-8.172,12.8-18.286V27.429C153.6,12.286,145,0,134.4,0H76.8H19.2C8.6,0,0,12.286,0,27.429v27.428
+	c0,10.114,5.72,18.286,12.8,18.286C19.88,73.143,25.6,64.971,25.6,54.857z M153.6,155.429v-9.144H179.2v73.144h-6.4
+	c-7.079,0-12.8,8.171-12.8,18.285c0,10.115,5.721,18.286,12.8,18.286h38.4c7.079,0,12.8-8.171,12.8-18.286
+	c0-10.114-5.721-18.285-12.8-18.285h-6.4v-73.144H230.4v9.144c0,10.113,5.72,18.286,12.8,18.286c7.079,0,12.8-8.173,12.8-18.286
+	v-18.285c0-15.144-8.6-27.429-19.2-27.429h-89.6c-10.601,0-19.2,12.285-19.2,27.429v18.285c0,10.113,5.721,18.286,12.8,18.286
+	C147.88,173.715,153.6,165.542,153.6,155.429z"/>
+</svg>

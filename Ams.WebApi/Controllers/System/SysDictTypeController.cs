@@ -1,10 +1,12 @@
-﻿namespace Ams.WebApi.Controllers.System
+﻿using Ams.Model.System;
+
+namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
-    /// 数据字典信息
+    /// 字典类别
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Verify]
     [Route("system/dict/type")]
@@ -30,11 +32,11 @@
         {
             var list = _SysDictTypeService.SelectDictTypeList(dict, pagerInfo);
 
-            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
+            return SUCCESS(list, TIME_FORMAT_FULL);
         }
 
         /// <summary>
-        /// 查询字典类型详细
+        /// 查询字典类别详细
         /// </summary>
         /// <param name="dictId"></param>
         /// <returns></returns>
@@ -46,7 +48,7 @@
         }
 
         /// <summary>
-        /// 添加字典类型
+        /// 添加字典类别
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
@@ -58,7 +60,7 @@
             SysDictType dict = dto.Adapt<SysDictType>();
             if (UserConstants.NOT_UNIQUE.Equals(_SysDictTypeService.CheckDictTypeUnique(dict)))
             {
-                return ToResponse(ApiResult.Error($"新增字典'{dict.DictName}'失败，字典类型已存在"));
+                return ToResponse(ApiResult.Error($"新增字典'{dict.DictName}'失败，字典类别已存在"));
             }
             dict.Create_by = HttpContext.GetName();
             dict.Create_time = DateTime.Now;
@@ -66,7 +68,7 @@
         }
 
         /// <summary>
-        /// 修改字典类型
+        /// 修改字典类别
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
@@ -79,7 +81,7 @@
             SysDictType dict = dto.Adapt<SysDictType>();
             if (UserConstants.NOT_UNIQUE.Equals(_SysDictTypeService.CheckDictTypeUnique(dict)))
             {
-                return ToResponse(ApiResult.Error($"修改字典'{dict.DictName}'失败，字典类型已存在"));
+                return ToResponse(ApiResult.Error($"修改字典'{dict.DictName}'失败，字典类别已存在"));
             }
             //设置添加人
             dict.Update_by = HttpContext.GetName();
@@ -87,11 +89,11 @@
         }
 
         /// <summary>
-        /// 删除字典类型
+        /// 删除字典类别
         /// </summary>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:dict:delete")]
-        [Log(Title = "删除字典类型", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "删除字典类别", BusinessType = BusinessType.DELETE)]
         [HttpDelete("{ids}")]
         public IActionResult Remove(string ids)
         {
@@ -111,8 +113,8 @@
         {
             var list = _SysDictTypeService.GetAll();
 
-            string sFileName = ExportExcel(list, "DictType", "数据字典", "export/system");
-            return SUCCESS(new { path = "/export/system/" + sFileName, fileName = sFileName });
+            string sFileName = ExportExcel(list, "sysdictType", "字典");
+            return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
     }
 }

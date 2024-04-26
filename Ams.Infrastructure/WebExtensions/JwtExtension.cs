@@ -1,14 +1,22 @@
-﻿using Ams.Infrastructure;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Threading.Tasks;
 
 namespace Ams.Infrastructure.WebExtensions
 {
+    /// <summary>
+    /// JWT扩展
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
+    /// </summary>
     public static class JwtExtension
     {
+        /// <summary>
+        /// 添加JWT
+        /// </summary>
+        /// <param name="services"></param>
         public static void AddJwt(this IServiceCollection services)
         {
             services.AddAuthentication(options =>

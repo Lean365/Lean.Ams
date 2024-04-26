@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询在线用户列表
-export function listOnline(query) {
+export function list(query) {
   return request({
     url: '/monitor/online/list',
     method: 'get',
@@ -10,19 +10,9 @@ export function listOnline(query) {
 }
 
 // 强退用户
-export function forceLogout(data) {
+export function forceLogout(tokenId) {
   return request({
-    url: '/monitor/online/force',
-    method: 'delete',
-    data: data
-  })
-}
-
-// 批量强退用户
-export function forceLogoutAll(data) {
-  return request({
-    url: '/monitor/online/batchForce',
-    method: 'delete',
-    data: data
+    url: '/monitor/online/' + tokenId,
+    method: 'delete'
   })
 }

@@ -2,12 +2,12 @@
 {
     /// <summary>
     /// 文件存储
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/25 13:57:42)
-    /// <summary>
+    /// 数据实体类：routine_filestorage
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [Tenant("0")]
-    [SugarTable("routine_files", "文件存储")]
+    [SugarTable("routine_filestorage", "文件存储")]
     public class FileStorage : SysBase
     {
         /// <summary>
@@ -62,18 +62,30 @@
         /// </summary>
         public string AccessUrl { get; set; }
 
+        /// <summary>
+        /// 文件存储实体类
+        /// </summary>
         public FileStorage()
         { }
 
+        /// <summary>
+        /// 文件存储实体类
+        /// </summary>
+        /// <param name="originFileName"></param>
+        /// <param name="fileName"></param>
+        /// <param name="ext"></param>
+        /// <param name="fileSize"></param>
+        /// <param name="storePath"></param>
+        /// <param name="create_by"></param>
         public FileStorage(string originFileName, string fileName, string ext, string fileSize, string storePath, string create_by)
         {
-            StorePath = storePath;
-            RealName = originFileName;
-            FileName = fileName;
-            FileExt = ext;
-            FileSize = fileSize;
-            Create_by = create_by;
-            Create_time = DateTime.Now;
+            StorePath = storePath;//仓库位置
+            RealName = originFileName;//
+            FileName = fileName;//文件名
+            FileExt = ext;//扩展名
+            FileSize = fileSize;//大小
+            Create_by = create_by;//创建人员
+            Create_time = DateTime.Now;//上传时间
         }
     }
 }

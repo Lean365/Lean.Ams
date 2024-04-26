@@ -1,14 +1,19 @@
-﻿using Ams.Infrastructure.Model;
+﻿using System;
+using System.Security.Claims;
+using Ams.Infrastructure.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System;
-using System.Security.Claims;
 
 namespace Ams.Infrastructure.Apps
 {
+    /// <summary>
+    /// 应用配置
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
+    /// </summary>
     public static class App
     {
         /// <summary>
@@ -20,26 +25,32 @@ namespace Ams.Infrastructure.Apps
         /// 服务提供器
         /// </summary>
         public static IServiceProvider ServiceProvider => InternalApp.ServiceProvider;
+
         /// <summary>
         /// 获取请求上下文
         /// </summary>
         public static HttpContext HttpContext => CatchOrDefault(() => ServiceProvider?.GetService<IHttpContextAccessor>()?.HttpContext);
+
         /// <summary>
         /// 获取请求上下文用户
         /// </summary>
         public static ClaimsPrincipal User => HttpContext?.User;
+
         /// <summary>
         /// 获取用户名
         /// </summary>
         public static string UserName => User?.Identity?.Name;
+
         /// <summary>
         /// 获取Web主机环境
         /// </summary>
-        public static IWebHostEnvironment WebHostEnvironment => InternalApp.WebHostEnvironment; 
+        public static IWebHostEnvironment WebHostEnvironment => InternalApp.WebHostEnvironment;
+
         /// <summary>
         /// 获取全局配置
         /// </summary>
         public static IConfiguration Configuration => CatchOrDefault(() => InternalApp.Configuration, new ConfigurationBuilder().Build());
+
         /// <summary>
         /// 获取请求生命周期的服务
         /// </summary>

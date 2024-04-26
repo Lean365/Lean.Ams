@@ -1,10 +1,14 @@
+using Ams.Model.System;
+using Ams.Model.System.Dto;
+using MiniExcelLibs;
+
 namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
     /// 用户管理
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Verify]
     [Route("system/user")]
@@ -39,7 +43,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = UserService.SelectUserList(user, pager);
 
-            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
+            return SUCCESS(list);
         }
 
         /// <summary>
@@ -117,7 +121,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPut("changeStatus")]
         [Log(Title = "修改用户状态", BusinessType = BusinessType.UPDATE)]
-        [ActionPermissionFilter(Permission = "system:user:update")]
+        [ActionPermissionFilter(Permission = "system:user:edit")]
         public IActionResult ChangeStatus([FromBody] SysUser user)
         {
             if (user == null) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }
@@ -169,6 +173,7 @@ namespace Ams.WebApi.Controllers.System
         [ActionPermissionFilter(Permission = "system:user:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
         {
+            formFile.ToCreate(HttpContext);
             List<SysUser> users = new();
             using (var stream = formFile.OpenReadStream())
             {
@@ -203,7 +208,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = UserService.SelectUserList(user, new PagerInfo(1, 10000));
 
-            var result = ExportExcelMini(list.Result, "user", "用户信息", "/export/system/");
+            var result = ExportExcelMini(list.Result, "user", "用户列表");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

@@ -1,14 +1,15 @@
-﻿using Ams.Tasks;
+﻿using Ams.Model.System;
+using Ams.Tasks;
 using Quartz.Spi;
 using SqlSugar.IOC;
 
 namespace Ams.WebApi.Extensions
 {
     /// <summary>
-    /// 定时任务
-    /// 扩展方法
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// 任务计划配置
+    /// API控制器
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public static class TasksExtension
     {
@@ -22,7 +23,7 @@ namespace Ams.WebApi.Extensions
             if (services == null) throw new ArgumentNullException(nameof(services));
 
             //添加Quartz服务
-            services.AddSingleton<IJobFactory, TasksFactory>();
+            services.AddSingleton<IJobFactory, Tasks.TaskFactory>();
             services.AddTransient<ITaskSchedulerServer, TaskSchedulerServer>();
         }
 
@@ -58,10 +59,10 @@ namespace Ams.WebApi.Extensions
         /// <returns></returns>
         public static IApplicationBuilder UseInit(this IApplicationBuilder app)
         {
-            Console.WriteLine("初始化字典数据...");
+            //Console.WriteLine("初始化字典数据...");
             var db = DbScoped.SugarScope;
             var types = db.Queryable<SysDictType>()
-                .Where(it => it.IsState == 0)
+                .Where(it => it.IsStated == 0)
                 .Select(it => it.DictType)
                 .ToList();
 

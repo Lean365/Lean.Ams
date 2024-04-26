@@ -4,23 +4,32 @@ using System.Linq;
 
 namespace Ams.Infrastructure.Model
 {
+    /// <summary>
+    /// Token
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
+    /// </summary>
     public class TokenModel
     {
         public long UserId { get; set; }
         public long DeptId { get; set; }
         public string UserName { get; set; }
+
         /// <summary>
-        /// 角色集合
+        /// 角色信息集合
         /// </summary>
         public List<string> RoleIds { get; set; }
+
         /// <summary>
-        /// 角色集合(数据权限过滤使用)
+        /// 角色信息集合(数据权限过滤使用)
         /// </summary>
         public List<Roles> Roles { get; set; }
+
         /// <summary>
         /// Jwt过期时间
         /// </summary>
         public DateTime ExpireTime { get; set; }
+
         /// <summary>
         /// 权限集合
         /// </summary>
@@ -29,6 +38,11 @@ namespace Ams.Infrastructure.Model
         {
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="roles"></param>
         public TokenModel(TokenModel info, List<Roles> roles)
         {
             UserId = info.UserId;
@@ -39,6 +53,9 @@ namespace Ams.Infrastructure.Model
         }
     }
 
+    /// <summary>
+    /// 角色信息
+    /// </summary>
     public class Roles
     {
         public long RoleId { get; set; }

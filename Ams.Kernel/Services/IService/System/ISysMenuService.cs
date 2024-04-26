@@ -1,23 +1,21 @@
-﻿using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Model.System;
-using Ams.Kernel.Model.System.Generate;
-using Ams.Kernel.Model.System.Vo;
+﻿using Ams.Model.System.Dto;
+using Ams.Model.System.Vo;
 
 namespace Ams.Kernel.Services.IService.System
 {
     /// <summary>
-    /// 系统菜单
+    /// 系统菜单信息
     /// 业务层接口
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public interface ISysMenuService : IBaseService<SysMenu>
     {
         //List<SysMenu> SelectMenuList(long userId);
 
-        List<SysMenu> SelectMenuList(MenuQueryDto menu, long userId);
+        List<SysMenu> SelectMenuList(SysMenuQueryDto menu, long userId);
 
-        List<SysMenu> SelectTreeMenuList(MenuQueryDto menu, long userId);
+        List<SysMenu> SelectTreeMenuList(SysMenuQueryDto menu, long userId);
 
         SysMenu GetMenuByMenuId(int menuId);
 
@@ -31,7 +29,7 @@ namespace Ams.Kernel.Services.IService.System
 
         string CheckMenuNameUnique(SysMenu menu);
 
-        int ChangeSortMenu(MenuDto menuDto);
+        int ChangeSortMenu(SysMenuDto SysMenuDto);
 
         bool HasChildByMenuId(long menuId);
 
@@ -49,9 +47,9 @@ namespace Ams.Kernel.Services.IService.System
 
         void AddSysMenu(GenTable genTableInfo, string permPrefix, bool showEdit, bool showExport, bool showImport);
 
-        List<SysMenu> SelectTreeMenuListByRoles(MenuQueryDto menu, List<long> roles);
+        List<SysMenu> SelectTreeMenuListByRoles(SysMenuQueryDto menu, List<long> roles);
 
-        List<RoleMenuExportDto> SelectRoleMenuListByRole(MenuQueryDto menu, int roleId);
+        List<SysRoleMenuExportDto> SelectRoleMenuListByRole(SysMenuQueryDto menu, int roleId);
     }
 
     /// <summary>
@@ -62,35 +60,35 @@ namespace Ams.Kernel.Services.IService.System
         bool CheckMenuExistRole(long menuId);
 
         /// <summary>
-        /// 根据角色获取菜单id
+        /// 根据角色信息获取菜单信息id
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
         List<SysRoleMenu> SelectRoleMenuByRoleId(long roleId);
 
         /// <summary>
-        /// 根据用户所有角色获取菜单
+        /// 根据用户所有角色信息获取菜单信息
         /// </summary>
         /// <param name="roleIds"></param>
         /// <returns></returns>
         List<SysRoleMenu> SelectRoleMenuByRoleIds(long[] roleIds);
 
         /// <summary>
-        /// 批量插入用户菜单
+        /// 批量插入用户菜单信息
         /// </summary>
         /// <param name="sysRoleMenus"></param>
         /// <returns></returns>
         int AddRoleMenu(List<SysRoleMenu> sysRoleMenus);
 
         /// <summary>
-        /// 删除角色与菜单关联
+        /// 删除角色信息与菜单信息关联
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
         int DeleteRoleMenuByRoleId(long roleId);
 
         /// <summary>
-        /// 删除角色指定菜单
+        /// 删除角色信息指定菜单信息
         /// </summary>
         /// <param name="roleId"></param>
         /// <param name="menuIds"></param>

@@ -1,10 +1,4 @@
-﻿using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.Model;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Monitor;
-using Ams.Kernel.Services.IService.Monitor;
-using IPTools.Core;
+﻿using IPTools.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -15,15 +9,15 @@ namespace Ams.Kernel.Filters
 {
     /// <summary>
     /// 全局操作日志记录
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class GlobalActionMonitor : ActionFilterAttribute
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private readonly ILogOperService OperLogService;
+        private readonly IOperLogService OperLogService;
 
-        public GlobalActionMonitor(ILogOperService operLogService)
+        public GlobalActionMonitor(IOperLogService operLogService)
         {
             OperLogService = operLogService;
         }
@@ -70,8 +64,8 @@ namespace Ams.Kernel.Filters
             int statusCode = context.HttpContext.Response.StatusCode;
             //获得注解信息
             LogAttribute logAttribute = GetLogAttribute(controllerActionDescriptor);
-            //if (logAttribute == null) return;
             if (logAttribute == null && statusCode != 403) return;
+
             try
             {
                 string method = context.HttpContext.Request.Method.ToUpper();
@@ -96,9 +90,9 @@ namespace Ams.Kernel.Filters
                 string ip = HttpContextExtension.GetClientUserIp(context.HttpContext);
                 var ip_info = IpTool.Search(ip);
 
-                LogOper LogOper = new()
+                OperLog OperLog = new()
                 {
-                    IsState = 0,
+                    IsStated = 0,
                     OperName = userName,
                     OperIp = ip,
                     OperUrl = HttpContextExtension.GetRequestUrl(context.HttpContext),
@@ -113,26 +107,24 @@ namespace Ams.Kernel.Filters
 
                 if (logAttribute != null)
                 {
-                    LogOper.Title = logAttribute?.Title;
-                    LogOper.BusinessType = (int)logAttribute.BusinessType;
-                    LogOper.OperParam = logAttribute.IsSaveRequestData ? LogOper.OperParam : "";
-                    LogOper.JsonResult = logAttribute.IsSaveResponseData ? LogOper.JsonResult : "";
-                    //LogOper.OperParam = logAttribute.IsSaveRequestData ? sysOperLog.OperParam : "";
-                    //LogOper.JsonResult = logAttribute.IsSaveResponseData ? sysOperLog.JsonResult : "";
+                    OperLog.Title = logAttribute?.Title;
+                    OperLog.BusinessType = (int)logAttribute.BusinessType;
+                    OperLog.OperParam = logAttribute.IsSaveRequestData ? OperLog.OperParam : "";
+                    OperLog.JsonResult = logAttribute.IsSaveResponseData ? OperLog.JsonResult : "";
                 }
                 if (statusCode == 403)
                 {
-                    LogOper.IsState = 1;
-                    LogOper.ErrorMsg = "无权限访问";
+                    OperLog.IsStated = 1;
+                    OperLog.ErrorMsg = "无权限访问";
                 }
                 LogEventInfo ei = new(NLog.LogLevel.Info, "GlobalActionMonitor", "");
 
                 ei.Properties["jsonResult"] = !HttpMethods.IsGet(method) ? jsonResult : "";
-                ei.Properties["requestParam"] = LogOper.OperParam;
+                ei.Properties["requestParam"] = OperLog.OperParam;
                 ei.Properties["user"] = userName;
                 logger.Log(ei);
 
-                OperLogService.InsertOperlog(LogOper);
+                OperLogService.InsertOperlog(OperLog);
             }
             catch (Exception ex)
             {

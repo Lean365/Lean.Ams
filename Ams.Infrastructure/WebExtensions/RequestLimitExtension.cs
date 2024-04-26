@@ -6,6 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Ams.Infrastructure.WebExtensions
 {
+    /// <summary>
+    /// 请求body大小设置
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
+    /// </summary>
     public static class RequestLimitExtension
     {
         /// <summary>

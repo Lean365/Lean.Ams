@@ -5,18 +5,22 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml.XPath;
 
 namespace Ams.Infrastructure.Helper
 {
+    /// <summary>
+    /// Xml注释帮助类
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
+    /// </summary>
     public class XmlCommentHelper
     {
         private static Regex RefTagPattern = new Regex(@"<(see|paramref) (name|cref)=""([TPF]{1}:)?(?<display>.+?)"" ?/>");
         private static Regex CodeTagPattern = new Regex(@"<c>(?<display>.+?)</c>");
         private static Regex ParaTagPattern = new Regex(@"<para>(?<display>.+?)</para>", RegexOptions.Singleline);
 
-        List<XPathNavigator> navigators = new List<XPathNavigator>();
+        private List<XPathNavigator> navigators = new List<XPathNavigator>();
 
         /// <summary>
         /// 从当前dll文件中加载所有的xml文件
@@ -32,6 +36,7 @@ namespace Ams.Infrastructure.Helper
                 }
             }
         }
+
         /// <summary>
         /// 从xml中加载
         /// </summary>
@@ -43,6 +48,7 @@ namespace Ams.Infrastructure.Helper
                 Load(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
             }
         }
+
         /// <summary>
         /// 从文件中加载
         /// </summary>
@@ -57,6 +63,7 @@ namespace Ams.Infrastructure.Helper
                 //Console.WriteLine("加载xml文件=" + xmlFile);
             }
         }
+
         /// <summary>
         /// 从流中加载
         /// </summary>
@@ -82,6 +89,7 @@ namespace Ams.Infrastructure.Helper
             var typeMemberName = GetMemberNameForType(type);
             return GetComment(typeMemberName, xPath, humanize);
         }
+
         /// <summary>
         /// 读取字段或者属性的注释
         /// </summary>
@@ -94,6 +102,7 @@ namespace Ams.Infrastructure.Helper
             var fieldOrPropertyMemberName = GetMemberNameForFieldOrProperty(fieldOrPropertyInfo);
             return GetComment(fieldOrPropertyMemberName, xPath, humanize);
         }
+
         /// <summary>
         /// 读取方法中的注释
         /// </summary>
@@ -106,6 +115,7 @@ namespace Ams.Infrastructure.Helper
             var methodMemberName = GetMemberNameForMethod(methodInfo);
             return GetComment(methodMemberName, xPath, humanize);
         }
+
         /// <summary>
         /// 读取方法中的返回值注释
         /// </summary>
@@ -116,6 +126,7 @@ namespace Ams.Infrastructure.Helper
         {
             return GetMethodComment(methodInfo, "returns", humanize);
         }
+
         /// <summary>
         /// 读取参数的注释
         /// </summary>
@@ -129,6 +140,7 @@ namespace Ams.Infrastructure.Helper
             var methodMemberName = GetMemberNameForMethod(methodInfo);
             return GetComment(methodMemberName, $"param[@name='{parameterInfo.Name}']", humanize);
         }
+
         /// <summary>
         /// 读取方法的所有参数的注释
         /// </summary>
@@ -145,6 +157,7 @@ namespace Ams.Infrastructure.Helper
             }
             return dict;
         }
+
         /// <summary>
         /// 读取指定名称节点的注释
         /// </summary>
@@ -166,6 +179,7 @@ namespace Ams.Infrastructure.Helper
 
             return string.Empty;
         }
+
         /// <summary>
         /// 读取指定节点的summary注释
         /// </summary>
@@ -176,6 +190,7 @@ namespace Ams.Infrastructure.Helper
         {
             return GetComment(name, "summary", humanize);
         }
+
         /// <summary>
         /// 读取指定节点的example注释
         /// </summary>
@@ -186,6 +201,7 @@ namespace Ams.Infrastructure.Helper
         {
             return GetComment(name, "example", humanize);
         }
+
         /// <summary>
         /// 获取方法的节点名称
         /// </summary>
@@ -212,6 +228,7 @@ namespace Ams.Infrastructure.Helper
 
             return builder.ToString();
         }
+
         /// <summary>
         /// 获取类型的节点名称
         /// </summary>
@@ -224,6 +241,7 @@ namespace Ams.Infrastructure.Helper
 
             return builder.ToString();
         }
+
         /// <summary>
         /// 获取字段或者属性的节点名称
         /// </summary>
@@ -274,6 +292,7 @@ namespace Ams.Infrastructure.Helper
 
             return builder.ToString();
         }
+
         private IEnumerable<string> GetNestedTypeNames(Type type)
         {
             if (!type.IsNested || type.DeclaringType == null) yield break;
@@ -285,12 +304,13 @@ namespace Ams.Infrastructure.Helper
 
             yield return type.DeclaringType.Name;
         }
+
         private string Humanize(string text)
         {
             if (text == null)
                 throw new ArgumentNullException("text");
 
-            //Call DecodeXml at last to avoid entities like &lt and &gt to break valid xml      
+            //Call DecodeXml at last to avoid entities like &lt and &gt to break valid xml
             text = NormalizeIndentation(text);
             text = HumanizeRefTags(text);
             text = HumanizeCodeTags(text);
@@ -298,6 +318,7 @@ namespace Ams.Infrastructure.Helper
             text = DecodeXml(text);
             return text;
         }
+
         private string NormalizeIndentation(string text)
         {
             string[] lines = text.Split('\n');
@@ -320,6 +341,7 @@ namespace Ams.Infrastructure.Helper
             // remove all trailing whitespace, regardless
             return string.Join("\r\n", lines.SkipWhile(x => string.IsNullOrWhiteSpace(x))).TrimEnd();
         }
+
         private string GetCommonLeadingWhitespace(string[] lines)
         {
             if (null == lines)
@@ -355,18 +377,22 @@ namespace Ams.Infrastructure.Helper
 
             return null;
         }
+
         private string HumanizeRefTags(string text)
         {
             return RefTagPattern.Replace(text, (match) => match.Groups["display"].Value);
         }
+
         private string HumanizeCodeTags(string text)
         {
             return CodeTagPattern.Replace(text, (match) => "{" + match.Groups["display"].Value + "}");
         }
+
         private string HumanizeParaTags(string text)
         {
             return ParaTagPattern.Replace(text, (match) => "<br>" + match.Groups["display"].Value);
         }
+
         private string DecodeXml(string text)
         {
             return System.Net.WebUtility.HtmlDecode(text);

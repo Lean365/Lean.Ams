@@ -1,18 +1,21 @@
-﻿using IPTools.Core;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
-using UAParser;
 using Ams.Infrastructure.Extensions;
+using IPTools.Core;
+using Microsoft.AspNetCore.Http;
+using UAParser;
+
 namespace Ams.Infrastructure.WebExtensions
 {
     /// <summary>
     /// HttpContext扩展类
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
     /// </summary>
     public static partial class HttpContextExtension
     {
@@ -81,7 +84,7 @@ namespace Ams.Infrastructure.WebExtensions
         }
 
         /// <summary>
-        /// 获取部门id
+        /// 获取部门信息id
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
@@ -123,6 +126,7 @@ namespace Ams.Infrastructure.WebExtensions
         {
             return context.User?.Identities;
         }
+
         //public static int GetRole(this HttpContext context)
         //{
         //    var roleid = context.User.FindFirstValue(ClaimTypes.Role) ?? "0";
@@ -240,5 +244,4 @@ namespace Ams.Infrastructure.WebExtensions
             return param;
         }
     }
-
 }

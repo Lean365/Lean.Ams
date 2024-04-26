@@ -1,17 +1,16 @@
-﻿using Ams.Kernel.Services.System;
-using Ams.Service.IService;
+﻿using Ams.Service.IService;
 using Microsoft.Extensions.Options;
+using MiniExcelLibs;
 
 namespace Ams.WebApi.Controllers
 {
     /// <summary>
-    /// 公共模块
+    /// 通用
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Route("[controller]/[action]")]
-    [ApiExplorerSettings(GroupName = "system")]
     public class CommonController : BaseController
     {
         private OptionsSetting OptionsSetting;
@@ -41,9 +40,8 @@ namespace Ams.WebApi.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return new RedirectResult("/swagger/");//返回API界面
-            //return Ok("看到这里页面说明你已经成功启动了本项目:)\n\n" +
-            //    "如果觉得项目有用，打赏作者喝杯咖啡作为奖励\n☛☛https://leansoft365.github.io//support.html\n");
+            return Ok("看到这里页面说明你已经成功启动了本项目:)\n\n" +
+                "如果觉得项目有用，打赏作者喝杯咖啡作为奖励\n☛☛http://www.lean365.cn/vip\n");
         }
 
         /// <summary>
@@ -86,9 +84,9 @@ namespace Ams.WebApi.Controllers
         [ActionPermissionFilter(Permission = "common")]
         public async Task<IActionResult> UploadFile([FromForm] UploadDto uploadDto, StoreType storeType = StoreType.LOCAL)
         {
-            IFormFile formFile = uploadDto.File;
-            if (formFile == null) throw new CustomizeException(ResultCode.PARAM_ERROR, "上传文件不能为空");
+            if (uploadDto?.File == null) throw new CustomException(ResultCode.PARAM_ERROR, "上传文件不能为空");
             FileStorage file = new();
+            IFormFile formFile = uploadDto.File;
             string fileExt = Path.GetExtension(formFile.FileName);//文件后缀
             double fileSize = Math.Round(formFile.Length / 1024.0, 2);//文件大小KB
 
@@ -199,7 +197,7 @@ namespace Ams.WebApi.Controllers
         {
             if (!WebHostEnvironment.IsDevelopment())
             {
-                return ToResponse(ResultCode.CUSTOM_ERROR, "导入数据失败");
+                return ToResponse(ResultCode.CUSTOM_ERROR, "导入数据失败，请在开发模式下初始化");
             }
             var path = Path.Combine(WebHostEnvironment.WebRootPath, "data.xlsx");
             SeedDataService seedDataService = new();
@@ -215,25 +213,34 @@ namespace Ams.WebApi.Controllers
                 result
             });
         }
-    }
-
-    public class UploadDto
-    {
-        /// <summary>
-        /// 自定文件名
-        /// </summary>
-        public string? FileName { get; set; }
 
         /// <summary>
-        /// 存储目录
+        ///
         /// </summary>
-        public string? FileDir { get; set; }
+        /// <returns></returns>
+        [HttpGet]
+        [ActionPermissionFilter(Permission = "common")]
+        [Log(BusinessType = BusinessType.INSERT, Title = "初始化数据")]
+        public IActionResult UpdateSeedData()
+        {
+            if (!WebHostEnvironment.IsDevelopment())
+            {
+                return ToResponse(ResultCode.CUSTOM_ERROR, "导入数据失败，请在开发模式下初始化");
+            }
+            var path = Path.Combine(WebHostEnvironment.WebRootPath, "data.xlsx");
+            SeedDataService seedDataService = new();
 
-        /// <summary>
-        /// 文件名生成类型 1 原文件名 2 自定义 3 自动生成
-        /// </summary>
-        public int FileNameType { get; set; }
+            var Notice = MiniExcel.Query<Notice>(path, sheetName: "notice").ToList();
+            var result = seedDataService.InitNoticeData(Notice);
 
-        public IFormFile? File { get; set; }
+            var sysMenu = MiniExcel.Query<SysMenu>(path, sheetName: "menu").Where(f => f.MenuId >= 1104).ToList();
+            var result5 = seedDataService.InitMenuData(sysMenu);
+
+            return SUCCESS(new
+            {
+                result,
+                result5
+            });
+        }
     }
 }

@@ -1,32 +1,58 @@
 <template>
-  <div class="sidebar-logo-container" :class="{ collapse: collapse }">
+  <!-- <div class="sidebar-logo-container" :class="{'collapse':collapse}" :style="{ backgroundColor: sideTheme === 'theme-dark' ? variables.menuBackground : variables.menuLightBackground }">
+    <transition name="sidebarLogoFade">
+      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
+        <img v-if="logo" :src="logo" class="sidebar-logo">
+        <h1 v-else class="sidebar-title">{{ title }} </h1>
+      </router-link>
+      <router-link v-else key="expand" class="sidebar-logo-link" to="/">
+        <img v-if="logo" :src="logo" class="sidebar-logo">
+        <h1 class="sidebar-title">{{ title }} </h1>
+      </router-link>
+    </transition>
+  </div> -->
+  <div class="sidebar-logo-container" :class="{'collapse':collapse}" :style="{ backgroundColor: sideTheme === 'theme-dark' ? variables.menuBackground : variables.menuLightBackground }">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
         <img v-if="logo" :src="logo" class="sidebar-logo" />
-        <h1 v-else class="sidebar-title">{{ title }}</h1>
+        <h1 v-else class="sidebar-title" :style="{ color: sideTheme === 'theme-dark' ? variables.logoTitleColor : variables.logoLightTitleColor }">{{ title }} </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
         <img v-if="logo" :src="logo" class="sidebar-logo" />
-        <h1 class="sidebar-title">{{ title }}</h1>
+        <h1 class="sidebar-title" :style="{ color: sideTheme === 'theme-dark' ? variables.logoTitleColor : variables.logoLightTitleColor }">{{ title }} </h1>
       </router-link>
     </transition>
   </div>
 </template>
 
-<script setup>
-import logo from '@/assets/logo/logo.png'
-import useSettingsStore from '@/store/modules/settings'
+<script>
+import logoImg from "@/assets/logo/logo.png";
+import variables from "@/assets/styles/variables.scss";
+import defaultSettings from '@/settings'
 
-defineProps({
-  collapse: {
-    type: Boolean,
-    required: true,
+export default {
+  name: "SidebarLogo",
+  props: {
+    collapse: {
+      type: Boolean,
+      required: true,
+    },
   },
-})
-
-const title = ref(import.meta.env.VITE_APP_TITLE)
-const settingsStore = useSettingsStore();
-const sideTheme = computed(() => settingsStore.sideTheme);
+  computed: {
+    variables() {
+      return variables;
+    },
+    sideTheme() {
+      return this.$store.state.settings.sideTheme;
+    },
+  },
+  data() {
+    return {
+      title: defaultSettings.title,
+      logo: logoImg,
+    };
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -44,7 +70,6 @@ const sideTheme = computed(() => settingsStore.sideTheme);
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: var(--base-menu-background);
   text-align: center;
   overflow: hidden;
 
@@ -62,7 +87,7 @@ const sideTheme = computed(() => settingsStore.sideTheme);
     & .sidebar-title {
       display: inline-block;
       margin: 0;
-      color: var(--base-logo-title-color);
+      color: #fff;
       font-weight: 600;
       line-height: 50px;
       font-size: 14px;

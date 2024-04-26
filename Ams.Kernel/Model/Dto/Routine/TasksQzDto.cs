@@ -1,43 +1,43 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Ams.Model;
 
-namespace Ams.Kernel.Model.Dto.Routine
+namespace Ams.Model.System.Dto
 {
     /// <summary>
-    /// 计划任务
+    /// 任务计划
     /// 查询对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public class TasksQzQueryDto : PagerInfo
     {
         /// <summary>
-        /// 查询字符串
+        /// 查询字符
         /// </summary>
         [Display(Name = "查询字符串")]
         public string QueryText { get; set; }
 
+        /// <summary>
+        /// 类别
+        /// </summary>
         public int? TaskType { get; set; }
+
+        /// <summary>
+        /// 触发器类型（0、simple 1、cron）
+        /// </summary>
         public int? TriggerType { get; set; }
+
+        /// <summary>
+        /// 是否启用
+        /// </summary>
         public int? IsStart { get; set; }
     }
 
     /// <summary>
-    /// 计划任务
-    /// 输入输出对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
-    public class TasksQzDto
-    {
-    }
-
-    /// <summary>
-    /// 计划任务
+    /// 任务计划
     /// 添加任务
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class TasksQzCreateDto
     {
         /// <summary>

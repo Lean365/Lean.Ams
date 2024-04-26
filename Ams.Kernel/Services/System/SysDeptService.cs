@@ -1,20 +1,14 @@
-﻿using Ams.Common;
-using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.CustomException;
-using Ams.Kernel.Model;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Model.System;
-using Ams.Kernel.Model.System.Vo;
-using Ams.Kernel.Services.IService.System;
+﻿using Ams.Model.System;
+using Ams.Model.System.Vo;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 部门管理
+    /// 部门信息管理
     /// 业务层处理
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(ISysDeptService), ServiceLifetime = LifeTime.Transient)]
     public class SysDeptService : BaseService<SysDept>, ISysDeptService
     {
@@ -26,7 +20,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 查询部门管理数据
+        /// 查询部门信息管理数据
         /// </summary>
         /// <param name="dept"></param>
         /// <returns></returns>
@@ -35,7 +29,7 @@ namespace Ams.Kernel.Services.System
             var predicate = Expressionable.Create<SysDept>();
             predicate = predicate.And(it => it.IsDeleted == 0);
             predicate = predicate.AndIF(dept.DeptName.IfNotEmpty(), it => it.DeptName.Contains(dept.DeptName));
-            predicate = predicate.AndIF(dept.IsState != null, it => it.IsState == dept.IsState);
+            predicate = predicate.AndIF(dept.IsStated != null, it => it.IsStated == dept.IsStated);
 
             var response = Queryable()
                 .Where(predicate.ToExpression())
@@ -49,7 +43,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 查询部门管理数据
+        /// 查询部门信息管理数据
         /// </summary>
         /// <param name="dept"></param>
         /// <returns></returns>
@@ -58,15 +52,15 @@ namespace Ams.Kernel.Services.System
             var predicate = Expressionable.Create<SysDept>();
             predicate = predicate.And(it => it.IsDeleted == 0);
             predicate = predicate.AndIF(dept.DeptName.IfNotEmpty(), it => it.DeptName.Contains(dept.DeptName));
-            predicate = predicate.AndIF(dept.IsState != null, it => it.IsState == dept.IsState);
+            predicate = predicate.AndIF(dept.IsStated != null, it => it.IsStated == dept.IsStated);
 
-            //var response = GetList(predicate.ToExpression());
             var response = Queryable().Where(predicate.ToExpression()).ToList();
+
             return response;
         }
 
         /// <summary>
-        /// 校验部门名称是否唯一
+        /// 校验部门信息名称是否唯一
         /// </summary>
         /// <param name="dept"></param>
         /// <returns></returns>
@@ -90,9 +84,9 @@ namespace Ams.Kernel.Services.System
         {
             SysDept info = GetFirst(it => it.DeptId == dept.ParentId);
             //如果父节点不为正常状态,则不允许新增子节点
-            if (info != null && UserConstants.DEPT_NORMAL != info?.IsState)
+            if (info != null && UserConstants.DEPT_NORMAL != info?.IsStated)
             {
-                throw new CustomizeException("部门停用，不允许新增");
+                throw new CustomException("部门信息停用，不允许新增");
             }
             dept.Ancestors = "";
             if (info != null)
@@ -119,32 +113,32 @@ namespace Ams.Kernel.Services.System
                 UpdateDeptChildren(dept.DeptId, newAncestors, oldAncestors);
             }
             int result = Context.Updateable(dept).ExecuteCommand();
-            if (UserConstants.DEPT_NORMAL.Equals(dept.IsState) && dept.Ancestors.IfNotEmpty()
+            if (UserConstants.DEPT_NORMAL.Equals(dept.IsStated) && dept.Ancestors.IfNotEmpty()
                 && !"0".Equals(dept.Ancestors))
             {
-                // 如果该部门是启用状态，则启用该部门的所有上级部门
+                // 如果该部门信息是启用状态，则启用该部门信息的所有上级部门信息
                 UpdateParentDeptStatusNormal(dept);
             }
             return result;
         }
 
         /// <summary>
-        /// 修改该部门的父级部门状态
+        /// 修改该部门信息的父级部门信息状态
         /// </summary>
-        /// <param name="dept">当前部门</param>
+        /// <param name="dept">当前部门信息</param>
         private void UpdateParentDeptStatusNormal(SysDept dept)
         {
             long[] depts = Tools.SpitLongArrary(dept.Ancestors);
-            dept.IsState = 0;
+            dept.IsStated = 0;
             dept.Update_time = DateTime.Now;
 
-            Update(dept, it => new { it.Update_by, it.Update_time, it.IsState }, f => depts.Contains(f.DeptId));
+            Update(dept, it => new { it.Update_by, it.Update_time, it.IsStated }, f => depts.Contains(f.DeptId));
         }
 
         /// <summary>
         /// 修改子元素关系
         /// </summary>
-        /// <param name="deptId">被修改的部门ID</param>
+        /// <param name="deptId">被修改的部门信息ID</param>
         /// <param name="newAncestors">新的父ID集合</param>
         /// <param name="oldAncestors">旧的父ID集合</param>
         public void UpdateDeptChildren(long deptId, string newAncestors, string oldAncestors)
@@ -165,7 +159,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取所有子部门
+        /// 获取所有子部门信息
         /// </summary>
         /// <param name="depts"></param>
         /// <param name="deptId"></param>
@@ -182,7 +176,7 @@ namespace Ams.Kernel.Services.System
         /// <summary>
         /// 构建前端所需要树结构
         /// </summary>
-        /// <param name="depts">部门列表</param>
+        /// <param name="depts">部门信息列表</param>
         /// <returns></returns>
         public List<SysDept> BuildDeptTree(List<SysDept> depts)
         {
@@ -241,9 +235,9 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 递归获取子菜单
+        /// 递归获取子菜单信息
         /// </summary>
-        /// <param name="list">所有菜单</param>
+        /// <param name="list">所有菜单信息</param>
         /// <param name="dept"></param>
         /// <returns></returns>
         private List<SysDept> GetChildList(List<SysDept> list, SysDept dept)
@@ -254,7 +248,7 @@ namespace Ams.Kernel.Services.System
         #region 角色部门
 
         /// <summary>
-        /// 根据角色获取菜单id
+        /// 根据角色信息获取菜单信息id
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>

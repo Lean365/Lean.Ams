@@ -12,7 +12,7 @@ export function list${genTable.BusinessName}(query) {
   })
 }
 
-$if(replaceDto.ShowBtnAdd)
+$if(GeneratorReplaceDto.ShowBtnAdd)
 /**
 * 新增${genTable.functionName}
 * @param data
@@ -25,7 +25,7 @@ export function add${genTable.BusinessName}(data) {
   })
 }
 $end
-$if(replaceDto.ShowBtnEdit)
+$if(GeneratorReplaceDto.ShowBtnEdit)
 /**
 * 修改${genTable.functionName}
 * @param data
@@ -49,7 +49,7 @@ export function get${genTable.BusinessName}(id) {
   })
 }
 
-$if(replaceDto.ShowBtnDelete || replaceDto.ShowBtnMultiDel)
+$if(GeneratorReplaceDto.ShowBtnDelete || GeneratorReplaceDto.ShowBtnMultiDel)
 /**
 * 删除${genTable.functionName}
 * @param {主键} pid
@@ -59,20 +59,5 @@ export function del${genTable.BusinessName}(pid) {
     url: '/${genTable.ModuleName}/${genTable.BusinessName}/delete/' + pid,
     method: 'delete'
   })
-}
-$end
-$if(replaceDto.ShowBtnTruncate)
-// 清空${genTable.functionName}
-export function clear${genTable.BusinessName}() {
-  return request({
-    url: '/${genTable.ModuleName}/${genTable.BusinessName}/clean',
-    method: 'delete'
-  })
-}
-$end
-$if(replaceDto.ShowBtnExport)
-// 导出${genTable.functionName}
-export async function export${genTable.BusinessName}(query) {
-  await downFile('/${genTable.ModuleName}/${genTable.BusinessName}/export', { ...query })
 }
 $end

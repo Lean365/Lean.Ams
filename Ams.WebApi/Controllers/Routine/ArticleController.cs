@@ -1,19 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SqlSugar;
-using Ams.Kernel.Filters;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Model.Dto.Routine;
-using Ams.Kernel.Services.IService.Routine;
+﻿using Ams.Model.System;
 
 namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
-    /// 文章管理
+    /// 系统监控
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Verify]
     [Route("routine/article")]
@@ -60,6 +53,112 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
+        /// 查询文章详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        [AllowAnonymous]
+        public IActionResult Get(int id)
+        {
+            long userId = HttpContext.GetUId();
+            var response = _ArticleService.GetId(id);
+            var model = response.Adapt<ArticleDto>();
+            if (model == null) return ToResponse(ResultCode.FAIL, "文章不存在");
+            if (model.IsPublic == 0 && userId != model.UserId)
+            {
+                return ToResponse(ResultCode.CUSTOM_ERROR, "访问失败");
+            }
+            if (model != null)
+            {
+                model.ArticleCategoryNav = _ArticleCategoryService.GetById(model.CategoryId);
+                //model.TagList = model.Tags?.Split(',', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
+            }
+            var CK = "ARTICLE_DETAILS_" + userId + HttpContext.GetClientUserIp();
+            if (!CacheHelper.Exists(CK))
+            {
+                _ArticleService.UpdateArticleHit(id);
+            }
+            CacheHelper.SetCache(CK, 1, 10);
+            return SUCCESS(model);
+        }
+
+        /// <summary>
+        /// 发布文章
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("add")]
+        [ActionPermissionFilter(Permission = "routine:article:add")]
+        public IActionResult Create([FromBody] ArticleDto parm)
+        {
+            var addModel = parm.Adapt<Article>().ToCreate(context: HttpContext);
+            addModel.AuthorName = HttpContext.GetName();
+            addModel.UserId = HttpContext.GetUId();
+            addModel.UserIP = HttpContext.GetClientUserIp();
+            addModel.Location = HttpContextExtension.GetIpInfo(addModel.UserIP);
+
+            return SUCCESS(_ArticleService.InsertReturnIdentity(addModel));
+        }
+
+        /// <summary>
+        /// 更新人员文章
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("edit")]
+        [ActionPermissionFilter(Permission = "routine:article:edit")]
+        public IActionResult Update([FromBody] ArticleDto parm)
+        {
+            parm.AuthorName = HttpContext.GetName();
+            var modal = parm.Adapt<Article>().ToUpdate(HttpContext);
+            var response = _ArticleService.UpdateArticle(modal);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 置顶
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("top")]
+        [ActionPermissionFilter(Permission = "routine:article:edit")]
+        [Log(Title = "置顶文章", BusinessType = BusinessType.UPDATE)]
+        public IActionResult Top([FromBody] Article parm)
+        {
+            var response = _ArticleService.TopArticle(parm);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 是否公开
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("changePublic")]
+        [ActionPermissionFilter(Permission = "routine:article:edit")]
+        [Log(Title = "是否公开", BusinessType = BusinessType.UPDATE)]
+        public IActionResult ChangePublic([FromBody] Article parm)
+        {
+            var response = _ArticleService.ChangeArticlePublic(parm);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 删除文章
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ActionPermissionFilter(Permission = "routine:article:delete")]
+        [Log(Title = "文章删除", BusinessType = BusinessType.DELETE)]
+        public IActionResult Delete(int id = 0)
+        {
+            var response = _ArticleService.Delete(id);
+            return SUCCESS(response);
+        }
+
+        #region 前端接口
+
+        /// <summary>
         /// 前台查询文章列表
         /// </summary>
         /// <returns></returns>
@@ -81,114 +180,19 @@ namespace Ams.WebApi.Controllers.Routine
         public IActionResult QueryNew()
         {
             var predicate = Expressionable.Create<Article>();
-            predicate = predicate.And(m => m.IsState == 1);
+            predicate = predicate.And(m => m.IsStated == 1);
             predicate = predicate.And(m => m.IsPublic == 1);
+            predicate = predicate.And(m => m.ArticleType == 0);
 
             var response = _ArticleService.Queryable()
                 .Where(predicate.ToExpression())
                 .Includes(x => x.ArticleCategoryNav) //填充子对象
                 .Take(10)
-                .OrderBy(f => f.Update_time, OrderByType.Desc).ToList();
+                .OrderBy(f => f.UpdateTime, OrderByType.Desc).ToList();
 
             return SUCCESS(response);
         }
 
-        /// <summary>
-        /// 查询文章详情
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("{id}")]
-        [AllowAnonymous]
-        public IActionResult Get(int id)
-        {
-            long userId = HttpContext.GetUId();
-            var response = _ArticleService.GetId(id);
-            var model = response.Adapt<ArticleDto>();
-            if (model == null) return ToResponse(ResultCode.FAIL, "文章不存在");
-            if (model.IsPublic == 0 && userId != model.UserId)
-            {
-                return ToResponse(ResultCode.CUSTOM_ERROR, "访问失败");
-            }
-            if (model != null)
-            {
-                model.ArticleCategoryNav = _ArticleCategoryService.GetById(model.CategoryId);
-                model.TagList = model.Tags?.Split(',', StringSplitOptions.RemoveEmptyEntries);
-            }
-            return SUCCESS(model);
-        }
-
-        /// <summary>
-        /// 添加文章
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost("add")]
-        [ActionPermissionFilter(Permission = "routine:article:add")]
-        [Log(Title = "发布文章", BusinessType = BusinessType.INSERT)]
-        public IActionResult Create([FromBody] ArticleDto parm)
-        {
-            var addModel = parm.Adapt<Article>().ToCreate(context: HttpContext);
-            addModel.AuthorName = HttpContext.GetName();
-            addModel.UserId = HttpContext.GetUId();
-
-            return SUCCESS(_ArticleService.InsertReturnIdentity(addModel));
-        }
-
-        /// <summary>
-        /// 更新文章
-        /// </summary>
-        /// <returns></returns>
-        [HttpPut("edit")]
-        [ActionPermissionFilter(Permission = "routine:article:update")]
-        [Log(Title = "文章修改", BusinessType = BusinessType.UPDATE)]
-        public IActionResult Update([FromBody] ArticleDto parm)
-        {
-            parm.AuthorName = HttpContext.GetName();
-            var modal = parm.Adapt<Article>().ToUpdate(HttpContext);
-            var response = _ArticleService.UpdateArticle(modal);
-
-            return SUCCESS(response);
-        }
-
-        /// <summary>
-        /// 置顶
-        /// </summary>
-        /// <returns></returns>
-        [HttpPut("top")]
-        [ActionPermissionFilter(Permission = "routine:article:update")]
-        [Log(Title = "置顶文章", BusinessType = BusinessType.UPDATE)]
-        public IActionResult Top([FromBody] Article parm)
-        {
-            var response = _ArticleService.TopArticle(parm);
-
-            return SUCCESS(response);
-        }
-
-        /// <summary>
-        /// 是否公开
-        /// </summary>
-        /// <returns></returns>
-        [HttpPut("changePublic")]
-        [ActionPermissionFilter(Permission = "routine:article:update")]
-        [Log(Title = "是否公开", BusinessType = BusinessType.UPDATE)]
-        public IActionResult ChangePublic([FromBody] Article parm)
-        {
-            var response = _ArticleService.ChangeArticlePublic(parm);
-
-            return SUCCESS(response);
-        }
-
-        /// <summary>
-        /// 删除文章
-        /// </summary>
-        /// <returns></returns>
-        [HttpDelete("{id}")]
-        [ActionPermissionFilter(Permission = "routine:article:delete")]
-        [Log(Title = "文章删除", BusinessType = BusinessType.DELETE)]
-        public IActionResult Delete(int id = 0)
-        {
-            var response = _ArticleService.Delete(id);
-            return SUCCESS(response);
-        }
+        #endregion 前端接口
     }
 }

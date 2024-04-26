@@ -1,24 +1,17 @@
 using System.Collections;
-using Ams.Common;
-using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.CustomException;
-using Ams.Kernel.Model;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Model.System;
-using Ams.Kernel.Services.IService.System;
-using Ams.Model;
+using Ams.Model.System;
+using Ams.Model.System.Dto;
 using Ams.Repository;
 using IPTools.Core;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 系统用户
+    /// 用户信息
     /// 业务层处理
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(ISysUserService), ServiceLifetime = LifeTime.Transient)]
     public class SysUserService : BaseService<SysUser>, ISysUserService
     {
@@ -45,7 +38,7 @@ namespace Ams.Kernel.Services.System
             var exp = Expressionable.Create<SysUser>();
             exp.AndIF(!string.IsNullOrEmpty(user.UserName), u => u.UserName.Contains(user.UserName));
             exp.AndIF(user.UserId > 0, u => u.UserId == user.UserId);
-            exp.AndIF(user.IsState != -1, u => u.IsState == user.IsState);
+            exp.AndIF(user.IsStated != -1, u => u.IsStated == user.IsStated);
             exp.AndIF(user.BeginTime != DateTime.MinValue && user.BeginTime != null, u => u.Create_time >= user.BeginTime);
             exp.AndIF(user.EndTime != DateTime.MinValue && user.EndTime != null, u => u.Create_time <= user.EndTime);
             exp.AndIF(!user.Phonenumber.IsEmpty(), u => u.Phonenumber == user.Phonenumber);
@@ -77,7 +70,7 @@ namespace Ams.Kernel.Services.System
         public SysUser SelectUserById(long userId)
         {
             var user = Queryable().Filter(null, true).WithCache(60 * 5)
-                .Where(f => f.UserId == userId).First();
+                .Where(f => f.UserId == userId && f.IsDeleted == 0).First();
             if (user != null && user.UserId > 0)
             {
                 user.Roles = RoleService.SelectUserRoleListByUserId(userId);
@@ -133,22 +126,22 @@ namespace Ams.Kernel.Services.System
             var roleIds = RoleService.SelectUserRoles(user.UserId);
             var diffArr = roleIds.Where(c => !((IList)user.RoleIds).Contains(c)).ToArray();
             var diffArr2 = user.RoleIds.Where(c => !((IList)roleIds).Contains(c)).ToArray();
-            bool result = UseTran2(() =>
+            var result = UseTran(() =>
             {
                 if (diffArr.Length > 0 || diffArr2.Length > 0)
                 {
-                    //删除用户与角色关联
+                    //删除用户与角色信息关联
                     UserRoleService.DeleteUserRoleByUserId((int)user.UserId);
-                    //新增用户与角色关联
+                    //新增用户与角色信息关联
                     UserRoleService.InsertUserRole(user);
                 }
-                // 删除用户与岗位关联
+                // 删除用户与岗位信息关联
                 UserPostService.Delete(user.UserId);
-                // 新增用户与岗位管理
+                // 新增用户与岗位信息管理
                 UserPostService.InsertUserPost(user);
                 ChangeUser(user);
             });
-            return result ? 1 : 0;
+            return result.IsSuccess ? 1 : 0;
         }
 
         public int ChangeUser(SysUser user)
@@ -160,7 +153,7 @@ namespace Ams.Kernel.Services.System
                 t.Email,
                 t.Phonenumber,
                 t.DeptId,
-                t.IsState,
+                t.IsStated,
                 t.Sex,
                 t.PostIds,
                 t.Remark,
@@ -188,7 +181,7 @@ namespace Ams.Kernel.Services.System
         public int ChangeUserStatus(SysUser user)
         {
             CheckUserAllowed(user);
-            return Update(user, it => new { it.IsState }, f => f.UserId == user.UserId);
+            return Update(user, it => new { it.IsStated }, f => f.UserId == user.UserId);
         }
 
         /// <summary>
@@ -199,16 +192,15 @@ namespace Ams.Kernel.Services.System
         public int DeleteUser(long userid)
         {
             CheckUserAllowed(new SysUser() { UserId = userid });
-            //删除用户与角色关联
-            bool result = UseTran2(() =>
+            var result = UseTran(() =>
             {
-                //删除用户与角色关联
+                //删除用户与角色信息关联
                 UserRoleService.DeleteUserRoleByUserId((int)userid);
-                // 删除用户与岗位关联
+                // 删除用户与岗位信息关联
                 UserPostService.Delete(userid);
                 Update(new SysUser() { UserId = userid, IsDeleted = 2 }, it => new { it.IsDeleted }, f => f.UserId == userid);
             });
-            return result ? 1 : 0;
+            return result.IsSuccess ? 1 : 0;
         }
 
         /// <summary>
@@ -230,11 +222,11 @@ namespace Ams.Kernel.Services.System
         {
             if (!Tools.PasswordStrength(dto.Password))
             {
-                throw new CustomizeException("密码强度不符合要求");
+                throw new CustomException("密码强度不符合要求");
             }
             if (!Tools.CheckUserName(dto.Username))
             {
-                throw new CustomizeException("用户名不符合要求");
+                throw new CustomException("用户名不符合要求");
             }
             //密码md5
             string password = NETCore.Encrypt.EncryptProvider.Md5(dto.Password);
@@ -245,7 +237,7 @@ namespace Ams.Kernel.Services.System
                 UserName = dto.Username,
                 NickName = dto.Username,
                 Password = password,
-                IsState = 0,
+                IsStated = 0,
                 DeptId = 0,
                 Remark = "用户注册",
                 Province = ip_info.Province,
@@ -253,21 +245,21 @@ namespace Ams.Kernel.Services.System
             };
             if (UserConstants.NOT_UNIQUE.Equals(CheckUserNameUnique(dto.Username)))
             {
-                throw new CustomizeException($"保存用户{dto.Username}失败，注册账号已存在");
+                throw new CustomException($"保存用户{dto.Username}失败，注册账号已存在");
             }
             user.UserId = Insertable(user).ExecuteReturnIdentity();
             return user;
         }
 
         /// <summary>
-        /// 校验角色是否允许操作
+        /// 校验角色信息是否允许操作
         /// </summary>
         /// <param name="user"></param>
         public void CheckUserAllowed(SysUser user)
         {
             if (user.IsAdmin)
             {
-                throw new CustomizeException("不允许操作超级管理员角色");
+                throw new CustomException("不允许操作超级管理员角色信息");
             }
         }
 
@@ -278,12 +270,6 @@ namespace Ams.Kernel.Services.System
         /// <param name="loginUserId"></param>
         public void CheckUserDataScope(long userid, long loginUserId)
         {
-            //if (!SysUser.IsAdmin(loginUserId))
-            //{
-            //    SysUser user = new SysUser() { UserId = userid };
-
-            //    //TODO 判断用户是否有数据权限
-            //}
         }
 
         /// <summary>
@@ -296,7 +282,7 @@ namespace Ams.Kernel.Services.System
             users.ForEach(x =>
             {
                 x.Create_time = DateTime.Now;
-                x.IsState = 0;
+                x.IsStated = 0;
                 x.IsDeleted = 0;
                 x.Password = "E10ADC3949BA59ABBE56E057F20F883E";
                 x.Remark = x.Remark.IsEmpty() ? "数据导入" : x.Remark;
@@ -310,7 +296,7 @@ namespace Ams.Kernel.Services.System
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
 
-            string msg = string.Format(" 插入{0} 更新{1} 错误数据{2} 不计算数据{3} 删除数据{4} 总共{5}",
+            string msg = string.Format(" 插入{0} 更新人员{1} 错误数据{2} 不计算数据{3} 删除数据{4} 总共{5}",
                                x.InsertList.Count,
                                x.UpdateList.Count,
                                x.ErrorList.Count,
@@ -340,7 +326,7 @@ namespace Ams.Kernel.Services.System
         /// <returns></returns>
         public SysUser Login(LoginBodyDto user)
         {
-            return GetFirst(it => it.UserName == user.Username && it.Password.ToLower() == user.Password.ToLower());
+            return GetFirst(it => it.UserName == user.Username && it.Password.ToLower() == user.Password.ToLower() && it.IsDeleted == 0);
         }
 
         /// <summary>
@@ -349,7 +335,7 @@ namespace Ams.Kernel.Services.System
         /// <param name="userIP"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public void UpdateLogLogin(string userIP, long userId)
+        public void UpdateLoginInfo(string userIP, long userId)
         {
             Update(new SysUser() { LoginIP = userIP, LoginDate = DateTime.Now, UserId = userId }, it => new { it.LoginIP, it.LoginDate });
         }

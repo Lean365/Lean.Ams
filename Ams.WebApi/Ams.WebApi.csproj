@@ -37,10 +37,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Ams.CodeGenerator\Ams.CodeGenerator.csproj" />
-		<ProjectReference Include="..\Ams.IdGenerator\Ams.IdGenerator.csproj" />
-		<ProjectReference Include="..\Ams.Kernel\Ams.Kernel.csproj" />
-		<ProjectReference Include="..\Ams.Report\Ams.Report.csproj" />
+		<ProjectReference Include="..\Ams.Generator\Ams.Generator.csproj" />
 		<ProjectReference Include="..\Ams.Service\Ams.Service.csproj" />
 		<ProjectReference Include="..\Ams.Tasks\Ams.Tasks.csproj" />
 	</ItemGroup>
@@ -50,7 +47,7 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.12" />
 		<PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
 		<PackageReference Include="Mapster" Version="7.4.0" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.6" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.7" />
 	</ItemGroup>
 
 	<ItemGroup>

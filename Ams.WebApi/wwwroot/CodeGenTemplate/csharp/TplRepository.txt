@@ -4,10 +4,13 @@ using ${options.ModelsNamespace}.${options.SubNamespace};
 namespace ${options.RepositoriesNamespace}
 {
     /// <summary>
-    /// ${genTable.FunctionName}仓储
+    /// ${genTable.FunctionName}
+    /// 仓储实体
+    /// @Author: ${GeneratorReplaceDto.Author}(Davis.Cheng)
+    /// @Date: ${GeneratorReplaceDto.CreateTime}
     /// </summary>
     [AppService(ServiceLifetime = LifeTime.Transient)]
-    public class ${replaceDto.ModelTypeName}Repository : BaseRepository<${replaceDto.ModelTypeName}>
+    public class ${GeneratorReplaceDto.ModelTypeName}Repository : BaseRepository<${GeneratorReplaceDto.ModelTypeName}>
     {
     }
 }

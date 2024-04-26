@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-#创建 /app文件夹
+#创建人员 /app文件夹
 WORKDIR /app
-#创建挂载目录,用于将程序部署在服务器本地
+#创建人员挂载目录,用于将程序部署在服务器本地
 #VOLUME /app
 #设置docker容器对外暴露端口
 EXPOSE 8888

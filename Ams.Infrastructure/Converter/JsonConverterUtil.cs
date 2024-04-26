@@ -4,8 +4,16 @@ using System.Text.Json.Serialization;
 
 namespace Ams.Infrastructure.Converter
 {
+    /// <summary>
+    /// Json转换
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
+    /// </summary>
     public class JsonConverterUtil
     {
+        /// <summary>
+        /// Json转换
+        /// </summary>
         public class DateTimeNullConverter : JsonConverter<DateTime?>
         {
             public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -15,6 +23,9 @@ namespace Ams.Infrastructure.Converter
                 => writer.WriteStringValue(value?.ToString("yyyy-MM-dd HH:mm:ss"));
         }
 
+        /// <summary>
+        /// Json转换
+        /// </summary>
         public class DateTimeConverter : JsonConverter<DateTime>
         {
             public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -27,6 +38,11 @@ namespace Ams.Infrastructure.Converter
                 => writer.WriteStringValue(value.ToString("yyyy-MM-dd HH:mm:ss"));
         }
 
+        /// <summary>
+        /// Json转换
+        /// </summary>
+        /// <param name="dateStr"></param>
+        /// <returns></returns>
         public static DateTime? ParseDateTime(string dateStr)
         {
             if (System.Text.RegularExpressions.Regex.IsMatch(dateStr, @"^\d{4}[/-]") && DateTime.TryParse(dateStr, null, System.Globalization.DateTimeStyles.AssumeLocal, out var dateVal))

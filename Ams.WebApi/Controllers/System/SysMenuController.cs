@@ -1,10 +1,12 @@
-﻿namespace Ams.WebApi.Controllers.System
+﻿using Ams.Model.System;
+
+namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
-    /// 系统菜单
+    /// 菜单信息
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Verify]
     [Route("/system/menu")]
@@ -26,31 +28,31 @@
         }
 
         /// <summary>
-        /// 获取菜单树列表
+        /// 获取菜单信息树列表
         /// </summary>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:menu:list")]
         [HttpGet("treelist")]
-        public IActionResult TreeMenuList([FromQuery] MenuQueryDto menu)
+        public IActionResult TreeMenuList([FromQuery] SysMenuQueryDto menu)
         {
             long userId = HttpContext.GetUId();
-            return SUCCESS(sysMenuService.SelectTreeMenuList(menu, userId), TIME_FORMAT_YYYMMDD);
+            return SUCCESS(sysMenuService.SelectTreeMenuList(menu, userId), "yyyy-MM-dd HH:mm:ss");
         }
 
         /// <summary>
-        /// 获取菜单列表
+        /// 获取菜单信息列表
         /// </summary>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:menu:list")]
         [HttpGet("list")]
-        public IActionResult MenuList([FromQuery] MenuQueryDto menu)
+        public IActionResult MenuList([FromQuery] SysMenuQueryDto menu)
         {
             long userId = HttpContext.GetUId();
             return SUCCESS(sysMenuService.SelectMenuList(menu, userId), "yyyy-MM-dd HH:mm:ss");
         }
 
         /// <summary>
-        /// 根据菜单编号获取详细信息
+        /// 根据菜单信息编号获取详细信息
         /// </summary>
         /// <param name="menuId"></param>
         /// <returns></returns>
@@ -62,7 +64,7 @@
         }
 
         /// <summary>
-        /// 根据菜单编号获取菜单列表，菜单管理首次进入
+        /// 根据菜单信息编号获取菜单信息列表，菜单信息管理首次进入
         /// </summary>
         /// <param name="menuId"></param>
         /// <returns></returns>
@@ -75,7 +77,7 @@
         }
 
         /// <summary>
-        /// 获取角色菜单信息
+        /// 获取角色菜单
         /// 加载对应角色菜单列表树
         /// </summary>
         /// <param name="roleId"></param>
@@ -84,7 +86,7 @@
         public IActionResult RoleMenuTreeselect(int roleId)
         {
             long userId = HttpContext.GetUId();
-            var menus = sysMenuService.SelectMenuList(new MenuQueryDto(), userId);
+            var menus = sysMenuService.SelectMenuList(new SysMenuQueryDto(), userId);
             var checkedKeys = sysRoleService.SelectUserRoleMenus(roleId);
             return SUCCESS(new
             {
@@ -94,34 +96,33 @@
         }
 
         /// <summary>
-        /// 修改菜单
+        /// 修改菜单信息
         /// </summary>
-        /// <param name="menuDto"></param>
+        /// <param name="SysMenuDto"></param>
         /// <returns></returns>
         [HttpPost("edit")]
-        [Log(Title = "菜单管理", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "菜单信息管理", BusinessType = BusinessType.UPDATE)]
         [ActionPermissionFilter(Permission = "system:menu:edit")]
-        public IActionResult MenuEdit([FromBody] MenuDto menuDto)
+        public IActionResult MenuEdit([FromBody] SysMenuDto SysMenuDto)
         {
-            if (menuDto == null) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }
-            //if (UserConstants.NOT_UNIQUE.Equals(sysMenuService.CheckMenuNameUnique(MenuDto)))
+            if (SysMenuDto == null) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }
+            //if (UserConstants.NOT_UNIQUE.Equals(sysMenuService.CheckMenuNameUnique(SysMenuDto)))
             //{
-            //    return ToResponse(ApiResult.Error($"修改菜单'{MenuDto.menuName}'失败，菜单名称已存在"));
+            //    return ToResponse(ApiResult.Error($"修改菜单信息'{SysMenuDto.menuName}'失败，菜单信息名称已存在"));
             //}
             var config = new TypeAdapterConfig();
             //映射规则
-            config.ForType<SysMenu, MenuDto>()
+            config.ForType<SysMenu, SysMenuDto>()
                 .NameMatchingStrategy(NameMatchingStrategy.IgnoreCase);//忽略字段名称的大小写;//忽略除以上配置的所有字段
 
-            var modal = menuDto.Adapt<SysMenu>(config).ToUpdate(HttpContext);
-            //if (UserConstants.YES_FRAME.Equals(modal.IsFrame) && !modal.Path.StartsWith("http"))
+            var modal = SysMenuDto.Adapt<SysMenu>(config).ToUpdate(HttpContext);
             if (UserConstants.YES_FRAME.Equals(modal.IsFrame) && (!modal.Path.StartsWith("http") && !modal.Path.StartsWith("/link")))
             {
-                return ToResponse(ApiResult.Error($"修改菜单'{modal.MenuName}'失败，地址必须以http(s)://开头"));
+                return ToResponse(ApiResult.Error($"修改菜单信息'{modal.MenuName}'失败，地址必须以http(s)://开头"));
             }
             if (modal.MenuId.Equals(modal.ParentId))
             {
-                return ToResponse(ApiResult.Error($"修改菜单'{modal.MenuName}'失败，上级菜单不能选择自己"));
+                return ToResponse(ApiResult.Error($"修改菜单信息'{modal.MenuName}'失败，上级菜单信息不能选择自己"));
             }
             modal.Update_by = HttpContext.GetName();
             long result = sysMenuService.EditMenu(modal);
@@ -130,29 +131,29 @@
         }
 
         /// <summary>
-        /// 添加菜单
+        /// 添加菜单信息
         /// </summary>
-        /// <param name="menuDto"></param>
+        /// <param name="SysMenuDto"></param>
         /// <returns></returns>
         [HttpPut("add")]
-        [Log(Title = "菜单管理", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "菜单信息管理", BusinessType = BusinessType.INSERT)]
         [ActionPermissionFilter(Permission = "system:menu:add")]
-        public IActionResult MenuAdd([FromBody] MenuDto menuDto)
+        public IActionResult MenuAdd([FromBody] SysMenuDto SysMenuDto)
         {
             var config = new TypeAdapterConfig();
             //映射规则
-            config.ForType<SysMenu, MenuDto>()
+            config.ForType<SysMenu, SysMenuDto>()
                 .NameMatchingStrategy(NameMatchingStrategy.IgnoreCase);
-            var menu = menuDto.Adapt<SysMenu>(config).ToCreate(HttpContext);
+            var menu = SysMenuDto.Adapt<SysMenu>(config).ToCreate(HttpContext);
 
             if (menu == null) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }
             if (UserConstants.NOT_UNIQUE.Equals(sysMenuService.CheckMenuNameUnique(menu)))
             {
-                return ToResponse(ApiResult.Error($"新增菜单'{menu.MenuName}'失败，菜单名称已存在"));
+                return ToResponse(ApiResult.Error($"新增菜单信息'{menu.MenuName}'失败，菜单信息名称已存在"));
             }
             if (UserConstants.YES_FRAME.Equals(menu.IsFrame) && !menu.Path.StartsWith("http"))
             {
-                return ToResponse(ApiResult.Error($"新增菜单'{menu.MenuName}'失败，地址必须以http(s)://开头"));
+                return ToResponse(ApiResult.Error($"新增菜单信息'{menu.MenuName}'失败，地址必须以http(s)://开头"));
             }
 
             menu.Create_by = HttpContext.GetName();
@@ -162,22 +163,22 @@
         }
 
         /// <summary>
-        /// 菜单删除
+        /// 菜单信息删除
         /// </summary>
         /// <param name="menuId"></param>
         /// <returns></returns>
         [HttpDelete("{menuId}")]
-        [Log(Title = "菜单管理", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "菜单信息管理", BusinessType = BusinessType.DELETE)]
         [ActionPermissionFilter(Permission = "system:menu:delete")]
         public IActionResult Remove(int menuId = 0)
         {
             if (sysMenuService.HasChildByMenuId(menuId))
             {
-                return ToResponse(ResultCode.CUSTOM_ERROR, "存在子菜单,不允许删除");
+                return ToResponse(ResultCode.CUSTOM_ERROR, "存在子菜单信息,不允许删除");
             }
             if (sysRoleMenuService.CheckMenuExistRole(menuId))
             {
-                return ToResponse(ResultCode.CUSTOM_ERROR, "菜单已分配,不允许删除");
+                return ToResponse(ResultCode.CUSTOM_ERROR, "菜单信息已分配,不允许删除");
             }
             int result = sysMenuService.DeleteMenuById(menuId);
 
@@ -190,19 +191,19 @@
         /// <param name="id"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "system:menu:update")]
+        [ActionPermissionFilter(Permission = "system:menu:edit")]
         [HttpGet("ChangeSort")]
         [Log(Title = "保存排序", BusinessType = BusinessType.UPDATE)]
         public IActionResult ChangeSort(int id = 0, int value = 0)
         {
-            MenuDto MenuDto = new()
+            SysMenuDto SysMenuDto = new()
             {
                 MenuId = id,
                 OrderNum = value
             };
-            if (MenuDto == null) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }
+            if (SysMenuDto == null) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }
 
-            int result = sysMenuService.ChangeSortMenu(MenuDto);
+            int result = sysMenuService.ChangeSortMenu(SysMenuDto);
             return ToResponse(result);
         }
     }

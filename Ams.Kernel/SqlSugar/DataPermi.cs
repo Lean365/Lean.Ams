@@ -1,6 +1,4 @@
-﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Apps;
-using Ams.Kernel.Model.Monitor;
+﻿using Ams.Kernel.Model.Monitor;
 using Ams.Kernel.Model.System;
 using SqlSugar.IOC;
 
@@ -8,9 +6,10 @@ namespace Ams.Kernel.SqlSugar
 {
     /// <summary>
     /// 数据权限枚举
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// 0:无权限，1:全部数据权限，2:自定数据权限，3:本部门信息数据权限，4:本部门信息及以下数据权限，5:仅本人数据权限
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public enum DataPermiEnum
     {
         None = 0,
@@ -26,7 +25,7 @@ namespace Ams.Kernel.SqlSugar
         SELF = 5,
 
         /// <summary>
-        /// 部门数据权限
+        /// 部门信息数据权限
         /// </summary>
         DEPT = 3,
 
@@ -36,7 +35,7 @@ namespace Ams.Kernel.SqlSugar
         CUSTOM = 2,
 
         /// <summary>
-        /// 部门及以下数据权限
+        /// 部门信息及以下数据权限
         /// </summary>
         DEPT_CHILD = 4
     }
@@ -60,7 +59,8 @@ namespace Ams.Kernel.SqlSugar
             var db = DbScoped.SugarScope.GetConnectionScope(configId);
             var expUser = Expressionable.Create<SysUser>();
             var expRole = Expressionable.Create<SysRole>();
-            var expLoginlog = Expressionable.Create<LogLogin>();
+            var expLoginlog = Expressionable.Create<LoginLog>();
+            expUser.And(it => it.IsDeleted == 0);
 
             foreach (var role in user.Roles.OrderBy(f => f.DataScope))
             {
@@ -75,11 +75,11 @@ namespace Ams.Kernel.SqlSugar
 
                     expUser.Or(it => SqlFunc.Subqueryable<SysRoleDept>().Where(f => f.DeptId == it.DeptId && f.RoleId == role.RoleId).Any());
                 }
-                else if (DataPermiEnum.DEPT.Equals(dataScope))//本部门数据
+                else if (DataPermiEnum.DEPT.Equals(dataScope))//本部门信息数据
                 {
                     expUser.Or(it => it.DeptId == user.DeptId);
                 }
-                else if (DataPermiEnum.DEPT_CHILD.Equals(dataScope))//本部门及以下数据
+                else if (DataPermiEnum.DEPT_CHILD.Equals(dataScope))//本部门信息及以下数据
                 {
                     //SQl  OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or find_in_set( {} , ancestors ) )
                     var allChildDepts = db.Queryable<SysDept>().ToChildList(it => it.ParentId, user.DeptId);
@@ -97,6 +97,7 @@ namespace Ams.Kernel.SqlSugar
             db.QueryFilter.AddTableFilter(expUser.ToExpression());
             db.QueryFilter.AddTableFilter(expRole.ToExpression());
             db.QueryFilter.AddTableFilter(expLoginlog.ToExpression());
+            db.QueryFilter.AddTableFilter<OnlineLog>(f => f.UserId == user.UserId, QueryFilterProvider.FilterJoinPosition.Where);
         }
     }
 }

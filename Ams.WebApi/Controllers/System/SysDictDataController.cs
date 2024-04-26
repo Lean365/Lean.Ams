@@ -1,10 +1,12 @@
-﻿namespace Ams.WebApi.Controllers.System
+﻿using Newtonsoft.Json;
+
+namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
-    /// 数据字典信息
+    /// 数据字典
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Verify]
     [Route("system/dict/data")]
@@ -36,14 +38,14 @@
             {
                 var result = _SysDictTypeService.SelectDictDataByCustomSql(dictData.DictType);
 
-                list.Result.AddRange(result);
+                list.Result.AddRange(result.Adapt<List<SysDictData>>());
                 list.TotalNum += result.Count;
             }
-            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
+            return SUCCESS(list);
         }
 
         /// <summary>
-        /// 根据字典类型查询字典数据信息
+        /// 根据字典类别查询字典数据信息
         /// </summary>
         /// <param name="dictType"></param>
         /// <returns></returns>
@@ -55,33 +57,51 @@
         }
 
         /// <summary>
-        /// 根据字典类型查询字典数据信息
+        /// 根据字典类别查询字典数据信息
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("types")]
-        public IActionResult DictTypes([FromBody] List<SysDictDataDto> dto)
+        public IActionResult DictTypes([FromBody] List<SysDictDataParamDto> dto)
         {
             var list = _SysDictDataService.SelectDictDataByTypes(dto.Select(f => f.DictType).ToArray());
-            List<SysDictDataDto> dataVos = new();
+            var dataVos = GetDicts(dto.Select(f => f.DictType).ToArray());
 
-            foreach (var dic in dto)
+            return SUCCESS(dataVos);
+        }
+
+        /// <summary>
+        /// 移动端使用uniapp
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpPost("dicts")]
+        public IActionResult GetDictTypes()
+        {
+            var data = HttpContext.GetBody();
+            return SUCCESS(GetDicts(JsonConvert.DeserializeObject<string[]>(data)));
+        }
+
+        private List<SysDictDataParamDto> GetDicts([FromBody] string[] dicts)
+        {
+            List<SysDictDataParamDto> dataVos = new();
+            var list = _SysDictDataService.SelectDictDataByTypes(dicts);
+
+            foreach (var dic in dicts)
             {
-                SysDictDataDto vo = new()
+                SysDictDataParamDto vo = new()
                 {
-                    DictType = dic.DictType,
-                    //Remark=dic.Remark,
-                    ColumnName = dic.ColumnName,
-                    List = list.FindAll(f => f.DictType == dic.DictType)
+                    DictType = dic,
+                    List = list.FindAll(f => f.DictType == dic)
                 };
-                if (dic.DictType.StartsWith("cus_") || dic.DictType.StartsWith("sql_"))
+                if (dic.StartsWith("cus_") || dic.StartsWith("sql_"))
                 {
-                    vo.List.AddRange(_SysDictTypeService.SelectDictDataByCustomSql(dic.DictType));
+                    vo.List.AddRange(_SysDictTypeService.SelectDictDataByCustomSql(dic));
                 }
                 dataVos.Add(vo);
             }
-            return SUCCESS(dataVos);
+            return dataVos;
         }
 
         /// <summary>
@@ -126,12 +146,12 @@
         }
 
         /// <summary>
-        /// 删除字典类型
+        /// 删除字典类别
         /// </summary>
         /// <param name="dictCode"></param>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:dict:delete")]
-        [Log(Title = "字典类型", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "字典类别", BusinessType = BusinessType.DELETE)]
         [HttpDelete("{dictCode}")]
         public IActionResult Remove(string dictCode)
         {

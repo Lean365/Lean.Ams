@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import { downFile } from '@/utils/request'
 
 // 查询角色列表
 export function listRole(query) {
@@ -23,7 +22,7 @@ export const addRole = (data) => {
   return request({
     url: '/system/role/edit',
     method: 'post',
-    data: data
+    data: data,
   })
 }
 
@@ -46,10 +45,10 @@ export function dataScope(data) {
 }
 
 // 角色状态修改
-export function changeRoleStatus(roleId, isState) {
+export function changeRoleStatus(roleId, status) {
   const data = {
     roleId,
-    isState
+    status
   }
   return request({
     url: '/system/role/changeStatus',
@@ -73,8 +72,4 @@ export function exportRole(query) {
     method: 'get',
     params: query
   })
-}
-// 导出角色菜单
-export async function exportRoleMenu(query) {
-  await downFile('/system/role/exportRoleMenu', { ...query })
 }

@@ -1,20 +1,16 @@
-﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Model;
+﻿using Ams.Infrastructure.Model;
+using Ams.Kernel.Services.Monitor;
+using Ams.Model.System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Ams.Kernel.Model.System;
-using Ams.Infrastructure.Apps;
-using Ams.Infrastructure.CustomException;
-using Ams.Kernel.Services.Monitor;
-using Ams.Kernel.Services.IService.System;
 
 namespace Ams.Kernel.Filters
 {
     /// <summary>
     /// API授权判断
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class ActionPermissionFilter : ActionFilterAttribute//, IAsyncActionFilter
     {
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -25,7 +21,7 @@ namespace Ams.Kernel.Filters
         public string Permission { get; set; } = string.Empty;
 
         /// <summary>
-        /// 角色字符串，例如 common,admin
+        /// 角色信息字符串，例如 common,admin
         /// </summary>
         public string RolePermi { get; set; } = string.Empty;
 
@@ -94,12 +90,10 @@ namespace Ams.Kernel.Filters
                     var apiResult = new ApiResult((int)ResultCode.FORBIDDEN, $"你当前没有权限访问,请联系管理员", url);
                     apiResult.Put("permi", Permission);
                     JsonResult result = new(apiResult)
-                    //JsonResult result = new(new ApiResult((int)ResultCode.FORBIDDEN, $"你当前没有权限访问,请联系管理员", url))
                     {
                         StatusCode = 403,
                         ContentType = "application/json",
                         Value = JsonConvert.SerializeObject(apiResult)
-                        //ContentType = "application/json",
                     };
                     context.HttpContext.Response.StatusCode = 403;
                     context.Result = result;

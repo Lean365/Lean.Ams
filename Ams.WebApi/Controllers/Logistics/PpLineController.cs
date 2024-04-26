@@ -1,0 +1,164 @@
+using Ams.Model.Dto;
+using Ams.Model.Logistics;
+using Ams.Service.Logistics.ILogisticsService;
+using MiniExcelLibs;
+
+namespace Ams.WebApi.Controllers
+{
+    /// <summary>
+    /// 生产班组
+    /// API控制器
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: 2024/4/25 17:15:19
+    /// </summary>
+
+    [Verify]
+    [Route("logistics/PpLine")]
+    [ApiExplorerSettings(GroupName = "logistics")]
+    public class PpLineController : BaseController
+    {
+        /// <summary>
+        /// 生产班组接口
+        /// </summary>
+        private readonly IPpLineService _PpLineService;
+
+        public PpLineController(IPpLineService PpLineService)
+        {
+            _PpLineService = PpLineService;
+        }
+
+        /// <summary>
+        /// 查询生产班组列表
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        [HttpGet("list")]
+        [ActionPermissionFilter(Permission = "pp:line:list")]
+        public IActionResult QueryPpLine([FromQuery] PpLineQueryDto parm)
+        {
+            var response = _PpLineService.GetList(parm);
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 查询生产班组详情
+        /// </summary>
+        /// <param name="PlSFID"></param>
+        /// <returns></returns>
+        [HttpGet("{PlSFID}")]
+        [ActionPermissionFilter(Permission = "pp:line:query")]
+        public IActionResult GetPpLine(long PlSFID)
+        {
+            var response = _PpLineService.GetInfo(PlSFID);
+
+            var info = response.Adapt<PpLineDto>();
+            return SUCCESS(info);
+        }
+
+        /// <summary>
+        /// 添加生产班组
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ActionPermissionFilter(Permission = "pp:line:add")]
+        [Log(Title = "生产班组", BusinessType = BusinessType.INSERT)]
+        public IActionResult AddPpLine([FromBody] PpLineDto parm)
+        {
+            var modal = parm.Adapt<PpLine>().ToCreate(HttpContext);
+            // 校验输入项目唯一性
+            if (UserConstants.NOT_UNIQUE.Equals(_PpLineService.CheckInputUnique(parm.PlLineType + parm.PlLineCode)))
+            {
+                return ToResponse(ApiResult.Error($"新增生产班组 '{parm.PlLineType + "," + parm.PlLineCode}'失败(Add Failed)，输入的生产班组已存在(The data already exists)"));
+            }
+            var response = _PpLineService.AddPpLine(modal);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 更新生产班组
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut]
+        [ActionPermissionFilter(Permission = "pp:line:edit")]
+        [Log(Title = "生产班组", BusinessType = BusinessType.UPDATE)]
+        public IActionResult UpdatePpLine([FromBody] PpLineDto parm)
+        {
+            var modal = parm.Adapt<PpLine>().ToUpdate(HttpContext);
+            var response = _PpLineService.UpdatePpLine(modal);
+
+            return ToResponse(response);
+        }
+
+        /// <summary>
+        /// 删除生产班组
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete("delete/{ids}")]
+        [ActionPermissionFilter(Permission = "pp:line:delete")]
+        [Log(Title = "生产班组", BusinessType = BusinessType.DELETE)]
+        public IActionResult DeletePpLine([FromRoute] string ids)
+        {
+            var idArr = Tools.SplitAndConvert<long>(ids);
+
+            return ToResponse(_PpLineService.Delete(idArr, "删除生产班组"));
+        }
+
+        /// <summary>
+        /// 批量导出
+        /// 生产班组
+        /// </summary>
+        /// <returns></returns>
+        [Log(Title = "生产班组", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [HttpGet("export")]
+        [ActionPermissionFilter(Permission = "pp:line:export")]
+        public IActionResult Export([FromQuery] PpLineQueryDto parm)
+        {
+            // 导出页码默认为1
+            parm.PageNum = 1;
+            // 限制最大导出数量
+            parm.PageSize = 100000;
+            var list = _PpLineService.ExportList(parm).Result;
+            if (list == null || list.Count <= 0)
+            {
+                return ToResponse(ResultCode.FAIL, "没有要导出的数据(No Data)");
+            }
+            var result = ExportExcelMini(list, "生产班组", "生产班组");
+            return ExportExcel(result.Item2, result.Item1);
+        }
+
+        /// <summary>
+        /// 批量导入
+        /// 生产班组数据
+        /// </summary>
+        /// <param name="formFile"></param>
+        /// <returns></returns>
+        [HttpPost("importData")]
+        [Log(Title = "生产班组导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
+        [ActionPermissionFilter(Permission = "pp:line:import")]
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        {
+            List<PpLineDto> list = new();
+            using (var stream = formFile.OpenReadStream())
+            {
+                list = stream.Query<PpLineDto>(startCell: "A1").ToList();
+            }
+
+            return SUCCESS(_PpLineService.ImportPpLine(list.Adapt<List<PpLine>>()));
+        }
+
+        /// <summary>
+        /// 导入模板下载
+        /// 生产班组
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("importTemplate")]
+        [Log(Title = "生产班组模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [AllowAnonymous]
+        public IActionResult ImportTemplateExcel()
+        {
+            var result = DownloadImportTemplate(new List<PpLineDto>() { }, "PpLine" + "_InputTpl");
+            return ExportExcel(result.Item2, result.Item1);
+        }
+    }
+}

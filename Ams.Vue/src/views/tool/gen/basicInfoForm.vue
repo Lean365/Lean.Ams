@@ -30,17 +30,32 @@
     </el-row>
   </el-form>
 </template>
-<script setup name="BasicInfoForm">
-const props = defineProps({
-  info: {
-    type: Object,
-    default: null,
+<script>
+export default {
+  name: "BasicInfoForm",
+  props: {
+    info: {
+      type: Object,
+      default: null
+    }
   },
-})
-const rules = reactive({
-  tableName: [{ required: true, message: '请输入表名称', trigger: 'blur' }],
-  tableComment: [{ required: true, message: '请输入表描述', trigger: 'blur' }],
-  className: [{ required: true, message: '请输入实体类名称', trigger: 'blur' }],
-  functionAuthor: [{ required: true, message: '请输入作者', trigger: 'blur' }],
-})
+  data() {
+    return {
+      rules: {
+        tableName: [
+          { required: true, message: "请输入表名称", trigger: "blur" }
+        ],
+        tableComment: [
+          { required: true, message: "请输入表描述", trigger: "blur" }
+        ],
+        className: [
+          { required: true, message: "请输入实体类名称", trigger: "blur" }
+        ],
+        functionAuthor: [
+          { required: true, message: "请输入作者", trigger: "blur" }
+        ]
+      }
+    };
+  }
+};
 </script>

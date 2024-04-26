@@ -1,8 +1,15 @@
-﻿using Ams.Infrastructure.Constant;
-using System.Collections.Generic;
-using Ams.Infrastructure.CustomException;
+﻿using System.Collections.Generic;
+using Ams.Infrastructure.Constant;
+using Ams.Infrastructure.CustomExceptions;
+
 namespace Ams.Infrastructure.Model
 {
+    /// <summary>
+    /// API返回结果
+    /// 状态码：0表示成功，其他表示失败
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
+    /// </summary>
     public class ApiResult : Dictionary<string, object>
     {
         /// <summary>
@@ -21,14 +28,14 @@ namespace Ams.Infrastructure.Model
         public static readonly string DATA_TAG = "data";
 
         /// <summary>
-        /// 初始化一个新创建的APIResult对象，使其表示一个空消息
+        /// 初始化一个新创建人员的APIResult对象，使其表示一个空消息
         /// </summary>
         public ApiResult()
         {
         }
 
         /// <summary>
-        /// 初始化一个新创建的 ApiResult 对象
+        /// 初始化一个新创建人员的 ApiResult 对象
         /// </summary>
         /// <param name="code"></param>
         /// <param name="msg"></param>
@@ -39,7 +46,7 @@ namespace Ams.Infrastructure.Model
         }
 
         /// <summary>
-        /// 初始化一个新创建的 ApiResult 对象
+        /// 初始化一个新创建人员的 ApiResult 对象
         /// </summary>
         /// <param name="code"></param>
         /// <param name="msg"></param>
@@ -58,21 +65,24 @@ namespace Ams.Infrastructure.Model
         /// 返回成功消息
         /// </summary>
         /// < returns > 成功消息 </ returns >
-        public static ApiResult Success() { return new ApiResult(HttpStatus.SUCCESS, "success"); }
+        public static ApiResult Success()
+        { return new ApiResult(HttpStatus.SUCCESS, "success"); }
 
         /// <summary>
         /// 返回成功消息
         /// </summary>
         /// <param name="data"></param>
         /// <returns> 成功消息 </returns >
-        public static ApiResult Success(object data) { return new ApiResult(HttpStatus.SUCCESS, "success", data); }
+        public static ApiResult Success(object data)
+        { return new ApiResult(HttpStatus.SUCCESS, "success", data); }
 
         /// <summary>
         /// 返回成功消息
         /// </summary>
         /// <param name="msg">返回内容</param>
         /// <returns>成功消息</returns>
-        public static ApiResult Success(string msg) { return new ApiResult(HttpStatus.SUCCESS, msg, null); }
+        public static ApiResult Success(string msg)
+        { return new ApiResult(HttpStatus.SUCCESS, msg, null); }
 
         /// <summary>
         /// 返回成功消息
@@ -80,7 +90,8 @@ namespace Ams.Infrastructure.Model
         /// <param name="msg">返回内容</param>
         /// <param name="data">数据对象</param>
         /// <returns>成功消息</returns>
-        public static ApiResult Success(string msg, object data) { return new ApiResult(HttpStatus.SUCCESS, msg, data); }
+        public static ApiResult Success(string msg, object data)
+        { return new ApiResult(HttpStatus.SUCCESS, msg, data); }
 
         public static ApiResult Error(ResultCode code, string msg = "")
         {
@@ -93,15 +104,16 @@ namespace Ams.Infrastructure.Model
         /// <param name="code"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public static ApiResult Error(int code, string msg) { return new ApiResult(code, msg); }
+        public static ApiResult Error(int code, string msg)
+        { return new ApiResult(code, msg); }
 
         /// <summary>
         /// 返回失败消息
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public static ApiResult Error(string msg) { return new ApiResult((int)ResultCode.CUSTOM_ERROR, msg); }
-
+        public static ApiResult Error(string msg)
+        { return new ApiResult((int)ResultCode.CUSTOM_ERROR, msg); }
 
         /// <summary>
         /// 是否为成功消息

@@ -1,74 +1,61 @@
 import { constantRoutes } from '@/router'
 import { getRouters } from '@/api/system/menu'
 import Layout from '@/layout/index'
-import ParentView from '@/components/ParentView'
-import InnerLink from '@/layout/components/InnerLink'
-import cache from '@/plugins/cache'
+import ParentView from '@/components/ParentView';
 
-// 匹配views里面所有的.vue文件
-const modules = import.meta.glob('./../../views/**/*.vue')
-
-const usePermissionStore = defineStore('permission', {
-  state: () => ({
+const permission = {
+  state: {
     routes: [],
+    addRoutes: [],
     defaultRoutes: [],
     topbarRouters: [],
-    sidebarRouters: [],
-    commonlyUsedRoutes: [] //常用路由
-  }),
+    sidebarRouters: []
+  },
+  mutations: {
+    SET_ROUTES: (state, routes) => {
+      state.addRoutes = routes
+      state.routes = constantRoutes.concat(routes)
+    },
+    SET_DEFAULT_ROUTES: (state, routes) => {
+      state.defaultRoutes = constantRoutes.concat(routes)
+    },
+    SET_TOPBAR_ROUTES: (state, routes) => {
+      // 顶部导航菜单默认添加统计报表栏指向首页
+      const index = [{
+        // path: 'index',
+        // meta: { title: '系统首页', icon: 'dashboard' }
+      }]
+      state.topbarRouters = routes;//.concat(index);
+    },
+    SET_SIDEBAR_ROUTERS: (state, routes) => {
+      state.sidebarRouters = routes
+    },
+  },
   actions: {
-    setRoutes(routes) {
-      this.addRoutes = routes
-      this.routes = constantRoutes.concat(routes)
-    },
-    setDefaultRoutes(routes) {
-      this.defaultRoutes = constantRoutes.concat(routes)
-    },
-    setTopbarRoutes(routes) {
-      this.topbarRouters = routes
-    },
-    setSidebarRouters(routes) {
-      this.sidebarRouters = routes
-    },
     // 生成路由
-    generateRoutes() {
-      return new Promise((resolve) => {
+    GenerateRoutes({ commit }) {
+      return new Promise(resolve => {
         // 向后端请求路由数据
-        getRouters().then((res) => {
+        getRouters().then(res => {
           const sdata = JSON.parse(JSON.stringify(res.data))
           const rdata = JSON.parse(JSON.stringify(res.data))
-          const defaultData = JSON.parse(JSON.stringify(res.data))
           const sidebarRoutes = filterAsyncRouter(sdata)
           const rewriteRoutes = filterAsyncRouter(rdata, false, true)
-          const defaultRoutes = filterAsyncRouter(defaultData)
-          this.setRoutes(rewriteRoutes)
-          this.setSidebarRouters(constantRoutes.concat(sidebarRoutes))
-          this.setDefaultRoutes(sidebarRoutes)
-          this.setTopbarRoutes(defaultRoutes)
-          this.setCommonlyUsedRoutes()
+          rewriteRoutes.push({ path: '*', redirect: '/404', hidden: true })
+          commit('SET_ROUTES', rewriteRoutes)
+          commit('SET_SIDEBAR_ROUTERS', constantRoutes.concat(sidebarRoutes))
+          commit('SET_DEFAULT_ROUTES', sidebarRoutes)
+          commit('SET_TOPBAR_ROUTES', sidebarRoutes)
           resolve(rewriteRoutes)
         })
       })
-    },
-    // 设置常用路由
-    setCommonlyUsedRoutes() {
-      var arraryObjectLocal = cache.local.getJSON('commonlyUseMenu') || []
-      this.commonlyUsedRoutes = arraryObjectLocal
-    },
-    // 移除常用路由
-    removeCommonlyUsedRoutes(item) {
-      var routes = this.commonlyUsedRoutes
-
-      const fi = routes.findIndex((v) => v.path === item.path)
-      routes.splice(fi, 1)
-      cache.local.setJSON('commonlyUseMenu', routes)
     }
   }
-})
+}
 
 // 遍历后台传来的路由字符串，转换为组件对象
 function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
-  return asyncRouterMap.filter((route) => {
+  return asyncRouterMap.filter(route => {
     if (type && route.children) {
       route.children = filterChildren(route.children)
     }
@@ -78,8 +65,6 @@ function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
         route.component = Layout
       } else if (route.component === 'ParentView') {
         route.component = ParentView
-      } else if (route.component === 'InnerLink') {
-        route.component = InnerLink
       } else {
         route.component = loadView(route.component)
       }
@@ -98,8 +83,8 @@ function filterChildren(childrenMap, lastRouter = false) {
   var children = []
   childrenMap.forEach((el, index) => {
     if (el.children && el.children.length) {
-      if (el.component === 'ParentView' && !lastRouter) {
-        el.children.forEach((c) => {
+      if (el.component === 'ParentView') {
+        el.children.forEach(c => {
           c.path = el.path + '/' + c.path
           if (c.children && c.children.length) {
             children = children.concat(filterChildren(c.children, c))
@@ -118,15 +103,8 @@ function filterChildren(childrenMap, lastRouter = false) {
   return children
 }
 
-export const loadView = (view) => {
-  let res
-  for (const path in modules) {
-    const dir = path.split('views/')[1].split('.vue')[0]
-    if (dir === view) {
-      res = () => modules[path]()
-    }
-  }
-  return res
+export const loadView = (view) => { // 路由懒加载
+  return (resolve) => require([`@/views/${view}`], resolve)
 }
 
-export default usePermissionStore
+export default permission

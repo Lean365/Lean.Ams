@@ -1,9 +1,9 @@
 <!--
  * @Descripttion: (${genTable.functionName}/${genTable.remark})
  * @version: (1.0)
- * @Author: (${replaceDto.Author})
- * @Date: (${replaceDto.AddTime})
- * @LastEditors: (最后更新作者)
+ * @Author: (${GeneratorReplaceDto.Author})
+ * @Date: (${GeneratorReplaceDto.Create_time})
+ * @LastEditors: (最后更新人员作者)
  * @LastEditTime: (最后更新时间)
 -->
 <template>
@@ -11,7 +11,7 @@
     <!-- :model属性用于表单验证使用 比如下面的el-form-item 的 prop属性用于对表单值进行验证操作 -->
     <el-form :model="queryParams" size="small" label-position="right" inline ref="queryForm" :label-width="labelWidth" v-show="showSearch" 
       @submit.native.prevent>
-      ${replaceDto.vueQueryFormHtml}
+      ${GeneratorReplaceDto.vueQueryFormHtml}
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -20,17 +20,17 @@
     <!-- 工具区域 -->
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" v-hasPermi="['${replaceDto.PermissionPrefix}:add']" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+        <el-button type="primary" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:add']" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
       </el-col>
        <el-col :span="1.5">
         <el-button type="info" plain icon="el-icon-sort" size="mini" @click="toggleExpandAll">展开/折叠</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" :disabled="multiple" v-hasPermi="['${replaceDto.PermissionPrefix}:delete']" plain icon="el-icon-delete" size="mini" @click="handleDelete">删除</el-button>
+        <el-button type="danger" :disabled="multiple" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:delete']" plain icon="el-icon-delete" size="mini" @click="handleDelete">删除</el-button>
       </el-col>
-$if(replaceDto.ShowBtnExport)
+$if(GeneratorReplaceDto.ShowBtnExport)
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['${replaceDto.PermissionPrefix}:export']">导出</el-button>
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:export']">导出</el-button>
       </el-col>
 $end
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -40,12 +40,12 @@ $end
     <el-table v-if="refreshTable" :data="dataList" v-loading="loading" ref="table" border highlight-current-row @selection-change="handleSelectionChange"
       :default-expand-all="isExpandAll" row-key="${tool.FirstLowerCase(genTable.Options.TreeCode)}" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
       <el-table-column type="selection" width="50" align="center"/>
-${replaceDto.VueViewListHtml}
+${GeneratorReplaceDto.VueViewListHtml}
       <el-table-column label="操作" align="center" width="140">
         <template slot-scope="scope">
-          <el-button size="mini" v-hasPermi="['${replaceDto.PermissionPrefix}:edit']" type="success" icon="el-icon-edit" title="编辑" 
+          <el-button size="mini" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:edit']" type="success" icon="el-icon-edit" title="编辑" 
             @click="handleUpdate(scope.row)"></el-button>
-          <el-button size="mini" v-hasPermi="['${replaceDto.PermissionPrefix}:delete']" type="danger" icon="el-icon-delete" title="删除" 
+          <el-button size="mini" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:delete']" type="danger" icon="el-icon-delete" title="删除" 
             @click="handleDelete(scope.row)"></el-button>
         </template>
       </el-table-column>
@@ -56,7 +56,7 @@ ${replaceDto.VueViewListHtml}
     <el-dialog :title="title" :lock-scroll="false" :visible.sync="open" >
       <el-form ref="form" :model="form" :rules="rules" :label-width="formLabelWidth">
         <el-row :gutter="20">
-        ${replaceDto.VueViewFormHtml}
+        ${GeneratorReplaceDto.VueViewFormHtml}
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -75,7 +75,7 @@ import {
   del${genTable.BusinessName},
   update${genTable.BusinessName},
   get${genTable.BusinessName},
-$if(replaceDto.ShowBtnExport)
+$if(GeneratorReplaceDto.ShowBtnExport)
   export${genTable.BusinessName},
 $end
 $if(showCustomInput)
@@ -92,7 +92,7 @@ export default {
     return {
       labelWidth: "100px",
       formLabelWidth:"100px",
-      // 选中${replaceDto.FistLowerPk}数组
+      // 选中${GeneratorReplaceDto.FistLowerPk}数组
       ids: [],
       // 非单个禁用
       single: true,
@@ -198,7 +198,7 @@ $end
          }
        })
     },
-    /** 转换菜单数据结构 */
+    /** 转换菜单信息数据结构 */
     normalizer(node) {
       if (node.children && !node.children.length) {
         delete node.children;
@@ -241,7 +241,7 @@ $end
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map((item) => item.${replaceDto.FistLowerPk});
+      this.ids = selection.map((item) => item.${GeneratorReplaceDto.FistLowerPk});
       this.single = selection.length != 1
       this.multiple = !selection.length;
     },
@@ -259,7 +259,7 @@ $end
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const Ids = row.${replaceDto.FistLowerPk} || this.ids;
+      const Ids = row.${GeneratorReplaceDto.FistLowerPk} || this.ids;
 
       this.${confirm}confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
         .then(function () {
@@ -274,7 +274,7 @@ $end
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const id = row.${replaceDto.FistLowerPk} || this.ids;
+      const id = row.${GeneratorReplaceDto.FistLowerPk} || this.ids;
       get${genTable.BusinessName}(id).then((res) => {
         const { code, data } = res;
         if (code == 200) {
@@ -293,7 +293,7 @@ $end
         }
       });
     },
-$if(replaceDto.UploadFile == 1)
+$if(GeneratorReplaceDto.UploadFile == 1)
     //图片上传成功方法
     handleUploadSuccess(column, filelist) {
       this.form[column] = filelist;
@@ -319,7 +319,7 @@ $if(item.HtmlType == "customInput")
     // 保存排序
     handleChangeSort(info) {
       this.editIndex = -1;
-      changeSort({ value: info.${item.CsharpFieldFl}, id: info.${replaceDto.FistLowerPk} }).then(
+      changeSort({ value: info.${item.CsharpFieldFl}, id: info.${GeneratorReplaceDto.FistLowerPk} }).then(
         (response) => {
           this.msgSuccess("修改成功");
           this.getList();
@@ -339,7 +339,7 @@ $end
 $end
           console.log(JSON.stringify(this.form));
           
-          if (this.form.${replaceDto.FistLowerPk} != undefined && this.opertype === 2) {
+          if (this.form.${GeneratorReplaceDto.FistLowerPk} != undefined && this.opertype === 2) {
             update${genTable.BusinessName}(this.form)
               .then((res) => {
                 this.msgSuccess("修改成功");
@@ -363,7 +363,7 @@ $end
         }
       });
     },
-$if(replaceDto.ShowBtnExport)
+$if(GeneratorReplaceDto.ShowBtnExport)
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;

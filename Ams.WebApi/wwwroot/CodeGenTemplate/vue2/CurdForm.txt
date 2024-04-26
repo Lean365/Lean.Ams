@@ -23,7 +23,7 @@ $elseif(column.IsInsert == false && column.IsEdit == false)
 $elseif(tool.CheckTree(genTable ,column.CsharpField))
           <el-col :lg="24">
             <el-form-item label="父级id" prop="${columnName}">
-              <treeselect v-model="form.${columnName}" :options="dataList" :normalizer="normalizer" :show-count="true" placeholder="选择上级菜单" />
+              <treeselect v-model="form.${columnName}" :options="dataList" :normalizer="normalizer" :show-count="true" placeholder="选择上级菜单信息" />
             </el-form-item>
           </el-col>
 $elseif(column.IsPK || column.IsIncrement)

@@ -1,24 +1,12 @@
-﻿using Ams.Model;
-
-namespace Ams.Kernel.Model.Dto.System
+﻿namespace Ams.Kernel.Model.Dto.System
 {
-    /// <summary>
-    /// 部门信息
-    /// 查询对象
-    /// </summary>
     public class SysDeptQueryDto : PagerInfo
     {
-        public int? IsState { get; set; }
+        public int? IsStated { get; set; }
         public int? IsDeleted { get; set; }
         public string DeptName { get; set; }
     }
 
-    /// <summary>
-    /// 部门信息
-    /// 输入输出对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
     public class SysDeptDto : SysBase
     {
         public long DeptId { get; set; }
@@ -37,7 +25,7 @@ namespace Ams.Kernel.Model.Dto.System
 
         public string Email { get; set; }
 
-        public int IsState { get; set; }
+        public int IsStated { get; set; }
 
         public int IsDeleted { get; set; }
         public int UserNum { get; set; }

@@ -1,22 +1,15 @@
-﻿using Ams.Common;
-using Ams.Infrastructure;
-using Ams.Infrastructure.Apps;
-using Ams.Infrastructure.Model;
-using Ams.Kernel.Model.Monitor;
-using Ams.Kernel.Model.System;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NETCore.Encrypt;
 using SqlSugar.IOC;
 
 namespace Ams.Kernel.SqlSugar
 {
     /// <summary>
     /// SqlSugar初始化
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public static class SqlsugarSetup
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -28,28 +21,20 @@ namespace Ams.Kernel.SqlSugar
         /// <param name="environment"></param>
         public static void AddDb(this IServiceCollection services, IWebHostEnvironment environment)
         {
-            var desKey = EncryptProvider.CreateDesKey();
-            var aesKey = EncryptProvider.CreateAesKey();
-            //aesKey.Key = desKey;
             var options = App.OptionsSetting;
             List<DbConfigs> dbConfigs = options.DbConfigs;
-            string dbcon, gendbcon;
+
             var iocList = new List<IocConfig>();
             foreach (var item in dbConfigs)
             {
-                dbcon = NETCore.Encrypt.EncryptProvider.AESEncrypt("Data Source=fs03;User ID=sa;Password=Tac26901333.;Initial Catalog=Ams_Deb; Connect Timeout =300", "yDbwFBmFsTD53MsxSYrUislnMZ1jsWNi");
-                gendbcon = NETCore.Encrypt.EncryptProvider.AESEncrypt("Data Source=fs03;User ID=sa;Password=Tac26901333.;Initial Catalog={dbName}; Connect Timeout =300", "yDbwFBmFsTD53MsxSYrUislnMZ1jsWNi");
-                //asede = NETCore.Encrypt.EncryptProvider.AESDecrypt(aesen, "yDbwFBmFsTD53MsxSYrUislnMZ1jsWNi");
                 iocList.Add(new IocConfig()
                 {
                     ConfigId = item.ConfigId,
-                    ConnectionString = EncryptProvider.AESDecrypt(item.Conn, "yDbwFBmFsTD53MsxSYrUislnMZ1jsWNi"),
-
+                    ConnectionString = item.Conn,
                     DbType = (IocDbType)item.DbType,
                     IsAutoCloseConnection = item.IsAutoCloseConnection
                 });
             }
-
             SugarIocServices.AddSqlSugar(iocList);
             ICacheService cache = new SqlSugarCache();
             SugarIocServices.ConfigurationSugar(db =>
@@ -68,9 +53,11 @@ namespace Ams.Kernel.SqlSugar
                 });
             });
 
-            if (options.InitDb && environment.IsDevelopment())
+            if (environment.IsDevelopment())
             {
-                InitTable.InitDb();
+                InitTable.InitDb(options.InitDb);
+
+                InitTable.InitNewTb();
             }
         }
 
@@ -137,7 +124,7 @@ namespace Ams.Kernel.SqlSugar
                 {
                     var pars = db.Utilities.SerializeObject(item.Columns.ToDictionary(it => it.ColumnName, it => it.Value));
 
-                    LogDiff log = new()
+                    DiffLog log = new()
                     {
                         BeforeData = pars,
                         BusinessData = data?.ToString(),
@@ -145,7 +132,7 @@ namespace Ams.Kernel.SqlSugar
                         Sql = sql,
                         TableName = item.TableName,
                         UserName = name,
-                        ExecTime = DateTime.Now,
+                        Create_time = DateTime.Now,
                         ConfigId = configId
                     };
                     if (editAfterData != null)

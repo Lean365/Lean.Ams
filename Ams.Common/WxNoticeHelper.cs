@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using Ams.Common.Model;
-using Ams.Infrastructure.Helper;
+
 namespace Ams.Common
 {
     public class WxNoticeHelper

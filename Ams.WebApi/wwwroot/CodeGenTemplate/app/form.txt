@@ -1,5 +1,6 @@
 ﻿<template>
-  <view class="edit-form">
+  <view class="edit-wrap">
+    <view class="edit-form">
     <u--form labelPosition="left" :model="form" labelWidth="90px" :rules="rules" ref="uForm">
 $foreach(column in genTable.Columns)
 $set(columnName = column.CsharpFieldFl)
@@ -12,7 +13,7 @@ $if(column.CsharpType == "int" || column.CsharpType == "long")
 $end
 
 $if(column.IsPK || column.IsIncrement)
-$if(column.IsPK && column.IsIncrement == false && replaceDto.useSnowflakeId == false)
+$if(column.IsPK && column.IsIncrement == false && GeneratorReplaceDto.useSnowflakeId == false)
       <u-form-item label="${labelName}" prop="${columnName}">
         <u--input type="number" v-model.number="form.${columnName}" placeholder="请输入${labelName}" :disabled="opertype != 1"></u--input>
       </u-form-item>
@@ -67,7 +68,8 @@ $end
 $end
 $end
 
-    </u--form>
+      </u--form>
+    </view>
 
     <view class="form-footer">
       <view class="btn_wrap">
@@ -85,10 +87,10 @@ $end
 <script>
   import {
     get${genTable.BusinessName},
-$if(replaceDto.ShowBtnAdd) 
+$if(GeneratorReplaceDto.ShowBtnAdd) 
     add${genTable.BusinessName},
 $end
-$if(replaceDto.ShowBtnEdit) 
+$if(GeneratorReplaceDto.ShowBtnEdit) 
     update${genTable.BusinessName},
 $end
   } from '@/api/${tool.FirstLowerCase(genTable.ModuleName)}/${genTable.BusinessName.ToLower()}.js'
@@ -183,7 +185,7 @@ $if(item.HtmlType == "checkbox")
           this.form.${item.CsharpFieldFl} = this.form.${item.CsharpFieldFl}Checked.toString();
 $end
 $end
-          if (this.form.${replaceDto.FistLowerPk} != undefined && this.opertype == 2) {
+          if (this.form.${GeneratorReplaceDto.FistLowerPk} != undefined && this.opertype == 2) {
             update${genTable.BusinessName}(this.form).then((res) => {
                 this.${modal}modal.msgSuccess("修改成功")
             })

@@ -1,10 +1,10 @@
 ﻿namespace Ams.Kernel.Signalr
 {
     /// <summary>
-    /// 常数
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// 消息中心的Hub名称常量
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class HubsConstant
     {
         private const string V = "receiveNotice";

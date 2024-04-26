@@ -1,12 +1,13 @@
-﻿using Ams.Repository;
+﻿using Ams.Model.System;
+using Ams.Repository;
 
 namespace Ams.WebApi.Controllers.System
 {
     /// <summary>
-    /// 岗位管理
+    /// 岗位信息
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Verify]
     [Route("system/post")]
@@ -21,7 +22,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 岗位列表查询
+        /// 岗位信息列表查询
         /// </summary>
         /// <returns></returns>
         [HttpGet("list")]
@@ -29,7 +30,7 @@ namespace Ams.WebApi.Controllers.System
         public IActionResult List([FromQuery] SysPostQueryDto dto)
         {
             var predicate = Expressionable.Create<SysPost>();
-            predicate = predicate.AndIF(dto.IsState.ToString().IfNotEmpty(), it => it.IsState == dto.IsState);
+            predicate = predicate.AndIF(dto.IsStated.ToString().IfNotEmpty(), it => it.IsStated == dto.IsStated);
             predicate = predicate.AndIF(dto.PostName.IfNotEmpty(), it => it.PostName.Contains(dto.PostName));
             predicate = predicate.AndIF(dto.PostCode.IfNotEmpty(), it => it.PostCode.Contains(dto.PostCode));
 
@@ -45,7 +46,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 岗位查询
+        /// 岗位信息查询
         /// </summary>
         /// <param name="postId"></param>
         /// <returns></returns>
@@ -57,22 +58,22 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 岗位管理
+        /// 岗位信息管理
         /// </summary>
         /// <param name="post"></param>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "system:post:add")]
-        [Log(Title = "岗位添加", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "岗位信息添加", BusinessType = BusinessType.INSERT)]
         public IActionResult Add([FromBody] SysPost post)
         {
             if (UserConstants.NOT_UNIQUE.Equals(PostService.CheckPostNameUnique(post)))
             {
-                throw new CustomizeException($"修改岗位{post.PostName}失败，岗位名已存在");
+                throw new CustomException($"修改岗位信息{post.PostName}失败，岗位信息名已存在");
             }
             if (UserConstants.NOT_UNIQUE.Equals(PostService.CheckPostCodeUnique(post)))
             {
-                throw new CustomizeException($"修改岗位{post.PostName}失败，岗位编码已存在");
+                throw new CustomException($"修改岗位信息{post.PostName}失败，岗位信息编码已存在");
             }
             post.ToCreate(HttpContext);
 
@@ -80,35 +81,35 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 岗位管理
+        /// 岗位信息管理
         /// </summary>
         /// <param name="post"></param>
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "system:post:edit")]
-        [Log(Title = "岗位编辑", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "岗位信息编辑", BusinessType = BusinessType.UPDATE)]
         public IActionResult Update([FromBody] SysPost post)
         {
             if (UserConstants.NOT_UNIQUE.Equals(PostService.CheckPostNameUnique(post)))
             {
-                throw new CustomizeException($"修改岗位{post.PostName}失败，岗位名已存在");
+                throw new CustomException($"修改岗位信息{post.PostName}失败，岗位信息名已存在");
             }
             if (UserConstants.NOT_UNIQUE.Equals(PostService.CheckPostCodeUnique(post)))
             {
-                throw new CustomizeException($"修改岗位{post.PostName}失败，岗位编码已存在");
+                throw new CustomException($"修改岗位信息{post.PostName}失败，岗位信息编码已存在");
             }
             post.ToUpdate(HttpContext);
             return ToResponse(PostService.Update(post));
         }
 
         /// <summary>
-        /// 岗位删除
+        /// 岗位信息删除
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
         [ActionPermissionFilter(Permission = "system:post:delete")]
-        [Log(Title = "岗位删除", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "岗位信息删除", BusinessType = BusinessType.DELETE)]
         public IActionResult Delete(string id)
         {
             int[] ids = Tools.SpitIntArrary(id);
@@ -116,7 +117,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 获取岗位选择框列表
+        /// 获取岗位信息选择框列表
         /// </summary>
         [HttpGet("optionselect")]
         public IActionResult Optionselect()
@@ -126,17 +127,17 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 岗位导出
+        /// 岗位信息导出
         /// </summary>
         /// <returns></returns>
-        [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "岗位导出")]
+        [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "岗位信息导出")]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "system:post:export")]
         public IActionResult Export()
         {
             var list = PostService.GetAll();
 
-            var result = ExportExcelMini(list, "post", "岗位信息", "/export/system/");
+            var result = ExportExcelMini(list, "post", "岗位信息列表");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

@@ -1,19 +1,22 @@
-﻿using Ams.Infrastructure.Extensions;
-using Ams.Infrastructure.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Ams.Infrastructure.Extensions;
+using Ams.Infrastructure.Model;
 using Ams.Infrastructure.WebExtensions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+
 namespace Ams.Infrastructure
 {
     /// <summary>
-    /// 2023-8-29已从WebApi移至此
+    /// JWT工具类
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
     /// </summary>
     public class JwtUtil
     {
@@ -65,6 +68,7 @@ namespace Ams.Infrastructure
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
         /// <summary>
         /// 验证Token
         /// </summary>
@@ -94,6 +98,7 @@ namespace Ams.Infrastructure
             };
             return tokenDescriptor;
         }
+
         /// <summary>
         /// 从令牌中获取数据声明
         /// </summary>
@@ -155,14 +160,14 @@ namespace Ams.Infrastructure
         {
             var claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.PrimarySid, user.UserId.ToString()),
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.GroupSid, user.DeptId.ToString()),
-                    new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(user))
+                    new(ClaimTypes.PrimarySid, user.UserId.ToString()),
+                    new(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                    new(ClaimTypes.Name, user.UserName),
+                    new(ClaimTypes.GroupSid, user.DeptId.ToString()),
+                    new(ClaimTypes.UserData, JsonConvert.SerializeObject(user))
                 };
 
             return claims;
         }
-
     }
 }

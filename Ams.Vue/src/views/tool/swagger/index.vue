@@ -4,27 +4,23 @@
   </div>
 </template>
 <script>
-import { onMounted } from "vue";
 export default {
   name: "Swagger",
-  setup() {
-    const src = ref(import.meta.env.VITE_APP_BASE_API + "/swagger/index.html");
-    const height = ref(document.documentElement.clientHeight - 94.5 + "px;");
-    const loading = ref(true);
-    onMounted(() => {
-      setTimeout(() => {
-        loading.value = false;
-      }, 230);
-
-      window.onresize = function temp() {
-        height.value = document.documentElement.clientHeight - 94.5 + "px;";
-      };
-    });
+  data() {
     return {
-      src,
-      height,
-      loading,
+      src: process.env.VUE_APP_BASE_API + "/swagger/index.html",
+      height: document.documentElement.clientHeight - 94.5 + "px;",
+      loading: true
     };
   },
+  mounted: function() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 230);
+    const that = this;
+    window.onresize = function temp() {
+      that.height = document.documentElement.clientHeight - 94.5 + "px;";
+    };
+  }
 };
 </script>

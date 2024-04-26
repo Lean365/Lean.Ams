@@ -1,19 +1,14 @@
-using Microsoft.AspNetCore.Mvc;
-using Ams.Kernel.Filters;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Model.Dto.Routine;
-using Ams.Kernel.Services.IService.Routine;
+using Ams.Model.System;
 
 namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
     /// 文章目录
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
-    [Route("routine/articlecategory")]
+    [Route("routine/article/category")]
     [ApiExplorerSettings(GroupName = "routine")]
     public class ArticleCategoryController : BaseController
     {
@@ -33,11 +28,10 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        //[ActionPermissionFilter(Permission = "articlecategory:list")]
         public IActionResult QueryArticleCategory([FromQuery] ArticleCategoryQueryDto parm)
         {
             var response = _ArticleCategoryService.GetList(parm);
-            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
+            return SUCCESS(response);
         }
 
         /// <summary>
@@ -46,7 +40,6 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("treeList")]
-        //[ActionPermissionFilter(Permission = "articlecategory:list")]
         public IActionResult QueryTreeArticleCategory([FromQuery] ArticleCategoryQueryDto parm)
         {
             var response = _ArticleCategoryService.GetTreeList(parm);
@@ -59,10 +52,22 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="CategoryId"></param>
         /// <returns></returns>
         [HttpGet("{CategoryId}")]
-        //[ActionPermissionFilter(Permission = "articlecategory:query")]
         public IActionResult GetArticleCategory(int CategoryId)
         {
             var response = _ArticleCategoryService.GetFirst(x => x.CategoryId == CategoryId);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 查询目录分类
+        /// </summary>
+        /// <param name="categoryType"></param>
+        /// <returns></returns>
+        [HttpGet("type{categoryType}")]
+        public IActionResult GetArticleCategoryByType(int categoryType)
+        {
+            var response = _ArticleCategoryService.GetFirst(x => x.CategoryType == categoryType);
 
             return SUCCESS(response);
         }
@@ -84,7 +89,7 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 更新文章目录
+        /// 更新人员文章目录
         /// </summary>
         /// <returns></returns>
         [HttpPut]
@@ -94,11 +99,7 @@ namespace Ams.WebApi.Controllers.Routine
         public IActionResult UpdateArticleCategory([FromBody] ArticleCategoryDto parm)
         {
             var modal = parm.Adapt<ArticleCategory>().ToUpdate(HttpContext);
-            var response = _ArticleCategoryService.Update(w => w.CategoryId == modal.CategoryId, it => new ArticleCategory()
-            {
-                Name = modal.Name,
-                ParentId = modal.ParentId,
-            });
+            var response = _ArticleCategoryService.Update(modal);
 
             return ToResponse(response);
         }
@@ -132,8 +133,8 @@ namespace Ams.WebApi.Controllers.Routine
             parm.PageSize = 10000;
             var list = _ArticleCategoryService.GetList(parm).Result;
 
-            string sFileName = ExportExcel(list, "ArticleCategory", "文章目录", "export/routine");
-            return SUCCESS(new { path = "/export/routine/" + sFileName, fileName = sFileName });
+            string sFileName = ExportExcel(list, "ArticleCategory", "文章目录");
+            return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
 
         /// <summary>
@@ -147,5 +148,24 @@ namespace Ams.WebApi.Controllers.Routine
             return SUCCESS(response);
         }
 
+        /// <summary>
+        /// 保存排序
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [ActionPermissionFilter(Permission = "routine:articlecategory:edit")]
+        [HttpGet("ChangeSort")]
+        [Log(Title = "保存排序", BusinessType = BusinessType.UPDATE)]
+        public IActionResult ChangeSort(int id = 0, int value = 0)
+        {
+            if (id <= 0) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }
+            var response = _ArticleCategoryService.Update(w => w.CategoryId == id, it => new ArticleCategory()
+            {
+                CategoryId = id,
+                OrderNum = value
+            });
+            return ToResponse(response);
+        }
     }
 }

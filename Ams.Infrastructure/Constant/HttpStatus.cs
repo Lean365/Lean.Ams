@@ -11,7 +11,7 @@ namespace Ams.Infrastructure.Constant
         /// </summary>
         public static readonly int SUCCESS = 200;
         /// <summary>
-        /// 对象创建成功
+        /// 对象创建人员成功
         /// </summary>
         public static readonly int CREATED = 201;
 

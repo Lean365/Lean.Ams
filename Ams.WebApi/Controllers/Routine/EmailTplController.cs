@@ -1,20 +1,14 @@
-using Microsoft.AspNetCore.Mvc;
-using Ams.Kernel.Filters;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Model.Dto.Routine;
-using Ams.Kernel.Services.IService.Routine;
 //创建时间：2023-11-12
-namespace Ams.WebApi.Controllers.Routine
+namespace Ams.WebApi.Controllers.Email
 {
     /// <summary>
-    /// 邮件模板
+    /// 系统监控
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Verify]
-    [Route("routine/emailtpl")]
+    [Route("routine/email/tpl")]
     [ApiExplorerSettings(GroupName = "routine")]
     public class EmailTplController : BaseController
     {
@@ -38,7 +32,7 @@ namespace Ams.WebApi.Controllers.Routine
         public IActionResult QueryEmailTpl([FromQuery] EmailTplQueryDto parm)
         {
             var response = _EmailTplService.GetList(parm);
-            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
+            return SUCCESS(response);
         }
 
         /// <summary>
@@ -72,7 +66,7 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 更新邮件模板
+        /// 更新人员邮件模板
         /// </summary>
         /// <returns></returns>
         [HttpPut]

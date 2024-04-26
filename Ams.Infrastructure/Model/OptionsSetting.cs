@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
+
 namespace Ams.Infrastructure.Model
 {
     /// <summary>
-    /// 获取配置文件POCO实体类
+    /// 系统配置
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
     /// </summary>
     public class OptionsSetting
     {
@@ -11,28 +14,68 @@ namespace Ams.Infrastructure.Model
         /// 是否单点登录
         /// </summary>
         public bool SingleLogin { get; set; }
+
         /// <summary>
         /// 是否演示模式
         /// </summary>
         public bool DemoMode { get; set; }
+
         /// <summary>
         /// 初始化db
         /// </summary>
         public bool InitDb { get; set; }
-        public MailOptions MailOptions { get; set; }
+
+        /// <summary>
+        /// 初始化表
+        /// </summary>
+        public string[] InitTables { get; set; }
+
+        /// <summary>
+        /// 发送邮件配置
+        /// </summary>
+        public List<MailOptions> MailOptions { get; set; }
+
+        /// <summary>
+        /// 上传配置
+        /// </summary>
         public Upload Upload { get; set; }
+
+        /// <summary>
+        /// 阿里云存储配置
+        /// </summary>
         public ALIYUN_OSS ALIYUN_OSS { get; set; }
+
+        /// <summary>
+        /// Jwt配置
+        /// </summary>
         public JwtSettings JwtSettings { get; set; }
+
+        /// <summary>
+        /// 代码生成配置
+        /// </summary>
         public CodeGen CodeGen { get; set; }
+
+        /// <summary>
+        /// 数据库配置
+        /// </summary>
         public List<DbConfigs> DbConfigs { get; set; }
+
+        /// <summary>
+        /// 代码生成数据库配置
+        /// </summary>
         public DbConfigs CodeGenDbConfig { get; set; }
     }
+
     /// <summary>
     /// 发送邮件数据配置
     /// </summary>
     public class MailOptions
     {
+        /// <summary>
+        /// 发件人姓名
+        /// </summary>
         public string FromName { get; set; }
+
         public string FromEmail { get; set; }
         public string Password { get; set; }
         public string Smtp { get; set; }
@@ -40,6 +83,7 @@ namespace Ams.Infrastructure.Model
         public bool UseSsl { get; set; }
         public string Signature { get; set; }
     }
+
     /// <summary>
     /// 上传
     /// </summary>
@@ -50,6 +94,7 @@ namespace Ams.Infrastructure.Model
         public int MaxSize { get; set; }
         public string[] NotAllowedExt { get; set; } = new string[0];
     }
+
     /// <summary>
     /// 阿里云存储
     /// </summary>
@@ -72,28 +117,36 @@ namespace Ams.Infrastructure.Model
         /// token是谁颁发的
         /// </summary>
         public string Issuer { get; set; }
+
         /// <summary>
         /// token可以给那些客户端使用
         /// </summary>
         public string Audience { get; set; }
+
         /// <summary>
         /// 加密的key（SecretKey必须大于16个,是大于，不是大于等于）
         /// </summary>
         public string SecretKey { get; set; }
+
         /// <summary>
         /// token时间（分）
         /// </summary>
         public int Expire { get; set; } = 1440;
+
         /// <summary>
         /// 刷新token时长
         /// </summary>
         public int RefreshTokenTime { get; set; }
+
         /// <summary>
         /// token类型
         /// </summary>
         public string TokenType { get; set; } = "Bearer";
     }
 
+    /// <summary>
+    /// 代码生成配置
+    /// </summary>
     public class CodeGen
     {
         public bool ShowApp { get; set; }
@@ -106,6 +159,10 @@ namespace Ams.Infrastructure.Model
         public CsharpTypeArr CsharpTypeArr { get; set; }
     }
 
+    /// <summary>
+    /// 数据库配置
+    /// </summary>
+
     public class DbConfigs
     {
         public string Conn { get; set; }
@@ -115,8 +172,12 @@ namespace Ams.Infrastructure.Model
         public string DbName { get; set; }
     }
 
+    /// <summary>
+    /// C#类型数组
+    /// </summary>
     public class CsharpTypeArr
     {
+        public Guid uniqueidentifier { get; set; }
         public string[] String { get; set; }
         public string[] Int { get; set; }
         public string[] Long { get; set; }
@@ -124,6 +185,5 @@ namespace Ams.Infrastructure.Model
         public string[] Float { get; set; }
         public string[] Decimal { get; set; }
         public string[] Bool { get; set; }
-        public Guid uniqueidentifier { get; set; }
     }
 }

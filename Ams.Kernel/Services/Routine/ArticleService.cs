@@ -1,8 +1,5 @@
-﻿using Ams.Infrastructure.Attribute;
-using Ams.Kernel.Model.Dto.Routine;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Services.IService.Routine;
-using Ams.Model;
+﻿using Ams.Kernel.Model.Dto.Routine;
+using Ams.Model.System;
 using Ams.Repository;
 
 namespace Ams.Kernel.Services.Routine
@@ -10,9 +7,9 @@ namespace Ams.Kernel.Services.Routine
     /// <summary>
     /// 文章管理
     /// 业务层处理
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(IArticleService), ServiceLifetime = LifeTime.Transient)]
     public class ArticleService : BaseService<Article>, IArticleService
     {
@@ -27,19 +24,21 @@ namespace Ams.Kernel.Services.Routine
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Title), m => m.Title.Contains(parm.Title));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.AbstractText), m => m.AbstractText.Contains(parm.AbstractText));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IsState.ToString()), m => m.IsState == parm.IsState);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IsStated.ToString()), m => m.IsStated == parm.IsStated);
             predicate = predicate.AndIF(parm.IsPublic != null, m => m.IsPublic == parm.IsPublic);
             predicate = predicate.AndIF(parm.IsTop != null, m => m.IsTop == parm.IsTop);
+            predicate = predicate.AndIF(parm.ArticleType != null, m => (int)m.ArticleType == parm.ArticleType);
 
             if (parm.CategoryId != null)
             {
                 var allChildCategory = Context.Queryable<ArticleCategory>()
-                    .ToChildList(it => it.ParentId, parm.CategoryId);
+                    .ToChildList(m => m.ParentId, parm.CategoryId);
                 var categoryIdList = allChildCategory.Select(x => x.CategoryId).ToArray();
-                predicate = predicate.And(it => categoryIdList.Contains(it.CategoryId));
+                predicate = predicate.And(m => categoryIdList.Contains(m.CategoryId));
             }
 
             var response = Queryable()
+                .WithCache(60 * 24)
                 .IgnoreColumns(x => new { x.Content })
                 .Includes(x => x.ArticleCategoryNav) //填充子对象
                 .Where(predicate.ToExpression())
@@ -57,24 +56,64 @@ namespace Ams.Kernel.Services.Routine
         public PagedInfo<ArticleDto> GetHotList(ArticleQueryDto parm)
         {
             var predicate = Expressionable.Create<Article>();
-            predicate = predicate.And(m => m.IsState == 1);
+            predicate = predicate.And(m => m.IsStated == 1);
             predicate = predicate.And(m => m.IsPublic == 1);
             predicate = predicate.AndIF(parm.IsTop != null, m => m.IsTop == parm.IsTop);
-
+            predicate = predicate.And(m => (int)m.ArticleType == parm.ArticleType);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Title), m => m.Title.Contains(parm.Title));
+
             if (parm.CategoryId != null)
             {
                 var allChildCategory = Context.Queryable<ArticleCategory>()
-                    .ToChildList(it => it.ParentId, parm.CategoryId);
+                    .ToChildList(m => m.ParentId, parm.CategoryId);
                 var categoryIdList = allChildCategory.Select(x => x.CategoryId).ToArray();
-                predicate = predicate.And(it => categoryIdList.Contains(it.CategoryId));
+                predicate = predicate.And(m => categoryIdList.Contains(m.CategoryId));
             }
 
             var response = Queryable()
-                .IgnoreColumns(x => new { x.Content })
+                .WithCache(60 * 30)
                 .Includes(x => x.ArticleCategoryNav)
+                .LeftJoin<SysUser>((m, u) => m.UserId == u.UserId).Filter(null, true)
                 .Where(predicate.ToExpression())
-                .ToPage<Article, ArticleDto>(parm);
+                .OrderByDescending(m => m.Cid)
+                .Select((m, u) => new ArticleDto()
+                {
+                    Avatar = u.Avatar,
+                    NickName = u.NickName,
+                    Sex = u.Sex,
+                    Content = string.Empty,
+                    UserIP = string.Empty,
+                    ArticleCategoryNav = m.ArticleCategoryNav
+                }, true)
+                .ToPage(parm);
+
+            return response;
+        }
+
+        /// <summary>
+        /// 前台查询动态列表
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        public PagedInfo<ArticleDto> GetMonentList(ArticleQueryDto parm)
+        {
+            var predicate = Expressionable.Create<Article>();
+            predicate = predicate.And(m => m.IsStated == 1);
+            predicate = predicate.And(m => m.IsPublic == 1);
+            predicate = predicate.And(m => m.ArticleType == ArticleTypeEnum.Monent);
+
+            var response = Queryable()
+                .LeftJoin<SysUser>((m, u) => m.UserId == u.UserId).Filter(null, true)
+                .Where(predicate.ToExpression())
+                .OrderByIF(parm.TabId == 3, m => new { m.PraiseNum }, OrderByType.Desc)
+                .OrderBy(m => m.Cid, OrderByType.Desc)
+                .Select((m, u) => new ArticleDto()
+                {
+                    Avatar = u.Avatar,
+                    NickName = u.NickName,
+                    Sex = u.Sex
+                }, true)
+                .ToPage(parm);
 
             return response;
         }
@@ -89,21 +128,25 @@ namespace Ams.Kernel.Services.Routine
             var predicate = Expressionable.Create<Article>();
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Title), m => m.Title.Contains(parm.Title));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IsState.ToString()), m => m.IsState == parm.IsState);
-            predicate = predicate.AndIF(parm.BeginTime != null, m => m.Create_time >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, m => m.Create_time <= parm.EndTime);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IsStated.ToString()), m => m.IsStated == parm.IsStated);
+            predicate = predicate.AndIF(parm.BeginTime != null, m => m.CreateTime >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, m => m.CreateTime <= parm.EndTime);
             predicate = predicate.And(m => m.UserId == parm.UserId);
-            predicate = predicate.AndIF(parm.ArticleType != null, m => m.ArticleType == parm.ArticleType);
+            predicate = predicate.AndIF(parm.ArticleType != null, m => (int)m.ArticleType == parm.ArticleType);
+            predicate = predicate.AndIF(parm.TabId == 2, m => m.IsPublic == 0 && m.UserId == parm.UserId);
+
             var response = Queryable()
                 //.IgnoreColumns(x => new { x.Content })
                 .Includes(x => x.ArticleCategoryNav)
                 .Where(predicate.ToExpression())
-                //.ToPage<Article, ArticleDto>(parm);
+                .OrderByIF(parm.TabId == 3, m => new { m.PraiseNum }, OrderByType.Desc)
+                .OrderByDescending(m => m.Cid)
                 .Select((x) => new ArticleDto()
                 {
-                    Content = x.ArticleType == 1 ? x.Content : string.Empty,
+                    Content = x.ArticleType == 0 ? string.Empty : x.Content,
                 }, true)
                 .ToPage(parm);
+
             return response;
         }
 
@@ -118,9 +161,9 @@ namespace Ams.Kernel.Services.Routine
             {
                 Title = model.Title,
                 Content = model.Content,
-                IsState = model.IsState,
+                IsStated = model.IsStated,
                 Tags = model.Tags,
-                Update_time = DateTime.Now,
+                UpdateTime = DateTime.Now,
                 CoverUrl = model.CoverUrl,
                 CategoryId = model.CategoryId,
                 FmtType = model.FmtType,
@@ -156,6 +199,39 @@ namespace Ams.Kernel.Services.Routine
                 IsPublic = model.IsPublic,
             });
             return response;
+        }
+
+        /// <summary>
+        /// 修改文章访问量
+        /// </summary>
+        /// <param name="cid"></param>
+        /// <returns></returns>
+        public int UpdateArticleHit(int cid)
+        {
+            //var response = Context.Updateable<Article>()
+            //    .SetColumns(it => it.Hits == it.Hits + 1)
+            //    .Where(it => it.Cid == cid)
+            //    .ExecuteCommand();
+            var response = Update(w => w.Cid == cid, it => new Article() { Hits = it.Hits + 1 });
+            return response;
+        }
+
+        /// <summary>
+        /// 点赞
+        /// </summary>
+        /// <param name="cid"></param>
+        /// <returns></returns>
+        public int PraiseArticle(int cid)
+        {
+            return Context.Updateable<Article>()
+                .SetColumns(it => it.PraiseNum == it.PraiseNum + 1)
+                .Where(it => it.Cid == cid)
+                .ExecuteCommand();
+        }
+
+        public Article PublishArticle(Article article)
+        {
+            throw new NotImplementedException();
         }
     }
 }

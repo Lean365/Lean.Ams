@@ -1,14 +1,11 @@
-﻿using Ams.Kernel.Model.System;
-using Ams.Model;
-
-namespace Ams.Kernel.Services.IService.System
+﻿namespace Ams.Kernel.Services.IService.System
 {
     /// <summary>
-    /// 字典类型
+    /// 字典类别
     /// 业务层接口
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public interface ISysDictTypeService
     {
         public List<SysDictType> GetAll();
@@ -16,9 +13,9 @@ namespace Ams.Kernel.Services.IService.System
         public PagedInfo<SysDictType> SelectDictTypeList(SysDictType dictType, PagerInfo pager);
 
         /// <summary>
-        /// 校验字典类型称是否唯一
+        /// 校验字典类别称是否唯一
         /// </summary>
-        /// <param name="dictType">字典类型</param>
+        /// <param name="dictType">字典类别</param>
         /// <returns></returns>
         public string CheckDictTypeUnique(SysDictType dictType);
 
@@ -30,14 +27,14 @@ namespace Ams.Kernel.Services.IService.System
         public int DeleteDictTypeByIds(long[] dictIds);
 
         /// <summary>
-        /// 插入字典类型
+        /// 插入字典类别
         /// </summary>
         /// <param name="sysDictType"></param>
         /// <returns></returns>
         public long InsertDictType(SysDictType sysDictType);
 
         /// <summary>
-        /// 修改字典类型
+        /// 修改字典类别
         /// </summary>
         /// <param name="sysDictType"></param>
         /// <returns></returns>
@@ -50,6 +47,6 @@ namespace Ams.Kernel.Services.IService.System
         /// <returns></returns>
         SysDictType GetInfo(long dictId);
 
-        List<SysDictData> SelectDictDataByCustomSql(string dictType);
+        List<SysDictDataDto> SelectDictDataByCustomSql(string dictType);
     }
 }

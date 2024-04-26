@@ -1,17 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Ams.Infrastructure.Helper
+namespace Ams.Infrastructure
 {
+    /// <summary>
+    /// 文件操作工具类
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
+    /// </summary>
     public class FileUtil
     {
         /// <summary>
-        /// 按时间来创建文件夹
+        /// 按时间来创建人员文件夹
         /// </summary>
         /// <param name="path"></param>
         /// <returns>eg: /{yourPath}/2020/11/3/</returns>
@@ -74,43 +78,13 @@ namespace Ams.Infrastructure.Helper
                     //删除空文件夹
                     Directory.Delete(file);
                 }
-
             }
             catch (Exception ex) // 异常处理
             {
                 Console.WriteLine("代码生成异常" + ex.Message);
             }
         }
-        /// <summary>
-        /// 查找并删除类
-        /// </summary>
-        /// <param name="srcPath"></param>
-        /// <param name="fileName"></param>
-        public static void DeleteDir(string srcPath, string fileName)
-        {
 
-            //string[] files = Directory.GetFiles(filepath + @"\", "*.xls");
-            //string[] files = Directory.GetFiles(filepath + @"\", filename);  //查找时不包括子目录
-            try
-            {
-                string[] files = Directory.GetFiles(srcPath + @"\\", "*" + fileName + "*.*", SearchOption.AllDirectories);   //查找时包括子目录
-                foreach (string file in files)
-                {
-                    File.Delete(file); //删除指定文件
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-                var a = ex.Message; //a的值为：发生一个或多个错误。
-                var b = ex.GetBaseException(); //b的值为：Task异常测试
-                Console.WriteLine(a + "|*|" + b);
-
-            }
-
-        }
         /// <summary>
         /// 删除文件
         /// </summary>
@@ -124,24 +98,23 @@ namespace Ams.Infrastructure.Helper
                 {
                     File.Delete(filePath + fileName);
                 }
-
             }
             catch (Exception ex)
             {
                 var a = ex.Message; //a的值为：发生一个或多个错误。
                 var b = ex.GetBaseException(); //b的值为：Task异常测试
                 Console.WriteLine(a + "|*|" + b);
-
             }
         }
-            /// <summary>
-            /// 压缩代码
-            /// </summary>
-            /// <param name="zipPath"></param>
-            /// <param name="genCodePath"></param>
-            /// <param name="zipFileName">压缩后的文件名</param>
-            /// <returns></returns>
-            public static bool ZipGenCode(string zipPath, string genCodePath, string zipFileName)
+
+        /// <summary>
+        /// 压缩代码
+        /// </summary>
+        /// <param name="zipPath"></param>
+        /// <param name="genCodePath"></param>
+        /// <param name="zipFileName">压缩后的文件名</param>
+        /// <returns></returns>
+        public static bool ZipGenCode(string zipPath, string genCodePath, string zipFileName)
         {
             if (string.IsNullOrEmpty(zipPath)) return false;
             try
@@ -166,7 +139,7 @@ namespace Ams.Infrastructure.Helper
         }
 
         /// <summary>
-        /// 创建文件夹
+        /// 创建人员文件夹
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -181,12 +154,12 @@ namespace Ams.Infrastructure.Helper
                 if (!Directory.Exists(path))
                 {
                     DirectoryInfo info = Directory.CreateDirectory(path);
-                    Console.WriteLine("不存在创建文件夹" + info);
+                    Console.WriteLine("不存在创建人员文件夹" + info);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"创建文件夹出错了,{ex.Message}");
+                Console.WriteLine($"创建人员文件夹出错了,{ex.Message}");
                 return false;
             }
             return true;

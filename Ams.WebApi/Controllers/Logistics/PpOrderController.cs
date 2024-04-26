@@ -1,0 +1,167 @@
+using Ams.Model.Dto;
+using Ams.Model.Logistics;
+using Ams.Service.Logistics.ILogisticsService;
+using MiniExcelLibs;
+
+
+namespace Ams.WebApi.Controllers
+{
+    /// <summary>
+    /// 生产工单
+    /// API控制器
+    /// @Author: Lean365(Davis.Cheng)
+    /// @Date: 2024/4/26 9:04:35
+    /// </summary>
+
+    [Verify]
+    [Route("logistics/PpOrder")]
+    [ApiExplorerSettings(GroupName = "logistics")]
+    public class PpOrderController : BaseController
+    {
+        /// <summary>
+        /// 生产工单接口
+        /// </summary>
+        private readonly IPpOrderService _PpOrderService;
+
+        public PpOrderController(IPpOrderService PpOrderService)
+        {
+            _PpOrderService = PpOrderService;
+        }
+
+        /// <summary>
+        /// 查询生产工单列表
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        [HttpGet("list")]
+        [ActionPermissionFilter(Permission = "pp:order:list")]
+        public IActionResult QueryPpOrder([FromQuery] PpOrderQueryDto parm)
+        {
+            var response = _PpOrderService.GetList(parm);
+            return SUCCESS(response);
+        }
+
+
+        /// <summary>
+        /// 查询生产工单详情
+        /// </summary>
+        /// <param name="MoSFID"></param>
+        /// <returns></returns>
+        [HttpGet("{MoSFID}")]
+        [ActionPermissionFilter(Permission = "pp:order:query")]
+        public IActionResult GetPpOrder(long MoSFID)
+        {
+            var response = _PpOrderService.GetInfo(MoSFID);
+            
+            var info = response.Adapt<PpOrderDto>();
+            return SUCCESS(info);
+        }
+
+        /// <summary>
+        /// 添加生产工单
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ActionPermissionFilter(Permission = "pp:order:add")]
+        [Log(Title = "生产工单", BusinessType = BusinessType.INSERT)]
+        public IActionResult AddPpOrder([FromBody] PpOrderDto parm)
+        {
+            var modal = parm.Adapt<PpOrder>().ToCreate(HttpContext);
+            // 校验输入项目唯一性
+            if (UserConstants.NOT_UNIQUE.Equals(_PpOrderService.CheckInputUnique(parm.MoSFID.ToString())))
+            {
+                return ToResponse(ApiResult.Error($"新增生产工单 '{parm.MoSFID}'失败(Add Failed)，输入的生产工单已存在(The data already exists)"));
+            }
+            var response = _PpOrderService.AddPpOrder(modal);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 更新生产工单
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut]
+        [ActionPermissionFilter(Permission = "pp:order:edit")]
+        [Log(Title = "生产工单", BusinessType = BusinessType.UPDATE)]
+        public IActionResult UpdatePpOrder([FromBody] PpOrderDto parm)
+        {
+            var modal = parm.Adapt<PpOrder>().ToUpdate(HttpContext);
+            var response = _PpOrderService.UpdatePpOrder(modal);
+
+            return ToResponse(response);
+        }
+
+        /// <summary>
+        /// 删除生产工单
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete("delete/{ids}")]
+        [ActionPermissionFilter(Permission = "pp:order:delete")]
+        [Log(Title = "生产工单", BusinessType = BusinessType.DELETE)]
+        public IActionResult DeletePpOrder([FromRoute]string ids)
+        {
+            var idArr = Tools.SplitAndConvert<long>(ids);
+
+            return ToResponse(_PpOrderService.Delete(idArr, "删除生产工单"));
+        }
+
+        /// <summary>
+        /// 批量导出
+        /// 生产工单
+        /// </summary>
+        /// <returns></returns>
+        [Log(Title = "生产工单", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [HttpGet("export")]
+        [ActionPermissionFilter(Permission = "pp:order:export")]
+        public IActionResult Export([FromQuery] PpOrderQueryDto parm)
+        {
+            // 导出页码默认为1
+            parm.PageNum = 1;
+            // 限制最大导出数量
+            parm.PageSize = 100000;
+            var list = _PpOrderService.ExportList(parm).Result;
+            if (list == null || list.Count <= 0)
+            {
+                return ToResponse(ResultCode.FAIL, "没有要导出的数据(No Data)");
+            }
+            var result = ExportExcelMini(list, "生产工单", "生产工单");
+            return ExportExcel(result.Item2, result.Item1);
+        }
+
+        /// <summary>
+        /// 批量导入
+        /// 生产工单数据
+        /// </summary>
+        /// <param name="formFile"></param>
+        /// <returns></returns>
+        [HttpPost("importData")]
+        [Log(Title = "生产工单导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
+        [ActionPermissionFilter(Permission = "pp:order:import")]
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        {
+            List<PpOrderDto> list = new();
+            using (var stream = formFile.OpenReadStream())
+            {
+                list = stream.Query<PpOrderDto>(startCell: "A1").ToList();
+            }
+
+            return SUCCESS(_PpOrderService.ImportPpOrder(list.Adapt<List<PpOrder>>()));
+        }
+
+        /// <summary>
+        /// 导入模板下载
+        /// 生产工单
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("importTemplate")]
+        [Log(Title = "生产工单模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [AllowAnonymous]
+        public IActionResult ImportTemplateExcel()
+        {
+            var result = DownloadImportTemplate(new List<PpOrderDto>() { }, "PpOrder"+"_InputTpl");
+            return ExportExcel(result.Item2, result.Item1);
+        }
+
+    }
+}

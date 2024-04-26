@@ -1,8 +1,8 @@
 ﻿import request from '@/utils/request'
-$if(replaceDto.SelectMulti == 1)
+$if(GeneratorReplaceDto.SelectMulti == 1)
 import QS from 'qs'
 $end
-$if(replaceDto.ShowBtnExport)
+$if(GeneratorReplaceDto.ShowBtnExport)
 import { downFile } from '@/utils/request'
 $end
 
@@ -15,7 +15,7 @@ export function list${genTable.BusinessName}(query) {
     url: '${genTable.ModuleName}/${genTable.BusinessName}/list',
     method: 'get',
     params: query,
-$if(replaceDto.SelectMulti == 1)
+$if(GeneratorReplaceDto.SelectMulti == 1)
     paramsSerializer: function (params) {
       return QS.stringify(params, { indices: false })
     }
@@ -36,7 +36,7 @@ export function treelist${genTable.BusinessName}(query) {
   })
 }
 $end
-$if(replaceDto.ShowBtnAdd)
+$if(GeneratorReplaceDto.ShowBtnAdd)
 /**
 * 新增${genTable.functionName}
 * @param data
@@ -49,7 +49,7 @@ export function add${genTable.BusinessName}(data) {
   })
 }
 $end
-$if(replaceDto.ShowBtnEdit)
+$if(GeneratorReplaceDto.ShowBtnEdit)
 /**
 * 修改${genTable.functionName}
 * @param data
@@ -73,7 +73,7 @@ export function get${genTable.BusinessName}(id) {
   })
 }
 
-$if(replaceDto.ShowBtnDelete || replaceDto.ShowBtnMultiDel)
+$if(GeneratorReplaceDto.ShowBtnDelete || GeneratorReplaceDto.ShowBtnMultiDel)
 /**
 * 删除${genTable.functionName}
 * @param {主键} pid
@@ -85,7 +85,7 @@ export function del${genTable.BusinessName}(pid) {
   })
 }
 $end
-$if(replaceDto.ShowBtnTruncate)
+$if(GeneratorReplaceDto.ShowBtnTruncate)
 // 清空${genTable.functionName}
 export function clear${genTable.BusinessName}() {
   return request({
@@ -94,7 +94,7 @@ export function clear${genTable.BusinessName}() {
   })
 }
 $end
-$if(replaceDto.ShowBtnExport)
+$if(GeneratorReplaceDto.ShowBtnExport)
 // 导出${genTable.functionName}
 export async function export${genTable.BusinessName}(query) {
   await downFile('${genTable.ModuleName}/${genTable.BusinessName}/export', { ...query })

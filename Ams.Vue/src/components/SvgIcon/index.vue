@@ -1,63 +1,61 @@
-<script>
-import { h, resolveComponent } from 'vue'
+<template>
+  <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon" v-on="$listeners" />
+  <svg v-else :class="svgClass" aria-hidden="true" v-on="$listeners">
+    <use :xlink:href="iconName" />
+  </svg>
+</template>
 
-export default defineComponent({
+<script>
+import { isExternal } from '@/utils/validate'
+
+export default {
+  name: 'SvgIcon',
   props: {
-    // svg 图标组件名字
-    name: {
+    iconClass: {
       type: String,
-      required: true,
-      default: ''
+      required: true
     },
     className: {
       type: String,
       default: ''
-    },
-    // svg 颜色
-    color: {
-      type: String,
-      default: ''
     }
   },
-  setup(props) {
-    if (props.name?.startsWith('ele')) {
-      return () =>
-        h(
-          'i',
-          {
-            class: 'el-icon'
-          },
-          [h(resolveComponent(props.name.replace('ele-', '')))]
-        )
-    } else if (props.name != undefined && props.name != '') {
-      return () =>
-        h(
-          'svg',
-          {
-            name: props.name,
-            'aria-hidden': true,
-            style: `color: ${props.color}`,
-            class: `svg-icon ${props.className}`,
-            'shape-rendering': 'geometricPrecision'
-          },
-          h('use', {
-            'xlink:href': `#icon-${props.name}`,
-            fill: `${props.color}`
-          })
-        )
-    } else {
-      return () => h('i')
+  computed: {
+    isExternal() {
+      return isExternal(this.iconClass)
+    },
+    iconName() {
+      return `#icon-${this.iconClass}`
+    },
+    svgClass() {
+      if (this.className) {
+        return 'svg-icon ' + this.className
+      } else {
+        return 'svg-icon'
+      }
+    },
+    styleExternalIcon() {
+      return {
+        mask: `url(${this.iconClass}) no-repeat 50% 50%`,
+        '-webkit-mask': `url(${this.iconClass}) no-repeat 50% 50%`
+      }
     }
   }
-})
+}
 </script>
 
-<style scope lang="scss">
+<style scoped>
 .svg-icon {
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+}
+
+.svg-external-icon {
+  background-color: currentColor;
+  mask-size: cover!important;
+  display: inline-block;
 }
 </style>

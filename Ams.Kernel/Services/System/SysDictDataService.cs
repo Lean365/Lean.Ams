@@ -1,17 +1,11 @@
-﻿using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.Cache;
-using Ams.Kernel.Model.System;
-using Ams.Kernel.Services.IService.System;
-using Ams.Model;
-
-namespace Ams.Kernel.Services.System
+﻿namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 数据字典
+    /// 字典数据
     /// 业务层处理
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(ISysDictDataService), ServiceLifetime = LifeTime.Transient)]
     public class SysDictDataService : BaseService<SysDictData>, ISysDictDataService
     {
@@ -26,13 +20,13 @@ namespace Ams.Kernel.Services.System
             //return SysDictDataRepository.SelectDictDataList(dictData, pagerInfo);
             var exp = Expressionable.Create<SysDictData>();
             exp.AndIF(!string.IsNullOrEmpty(dictData.DictLabel), it => it.DictLabel.Contains(dictData.DictLabel));
-            exp.AndIF(!string.IsNullOrEmpty(dictData.IsState.ToString()), it => it.IsState == dictData.IsState);
+            exp.AndIF(!string.IsNullOrEmpty(dictData.IsStated.ToString()), it => it.IsStated == dictData.IsStated);
             exp.AndIF(!string.IsNullOrEmpty(dictData.DictType), it => it.DictType == dictData.DictType);
             return GetPages(exp.ToExpression(), pagerInfo);
         }
 
         /// <summary>
-        /// 根据字典类型查询
+        /// 根据字典类别查询
         /// </summary>
         /// <param name="dictType"></param>
         /// <returns></returns>
@@ -42,21 +36,26 @@ namespace Ams.Kernel.Services.System
 
             var list = Queryable()
                 .WithCache(CK, 60 * 10)
-                .Where(f => f.IsState == 0 && f.DictType == dictType)
+                .Where(f => f.IsStated == 0 && f.DictType == dictType)
             .OrderBy(it => it.DictSort)
             .ToList();
 
             return list;
         }
 
-        public List<SysDictData> SelectDictDataByTypes(string[] dictTypes)
+        public List<SysDictDataDto> SelectDictDataByTypes(string[] dictTypes)
         {
             string CK = $"SelectDictDataByTypes_{dictTypes}";
 
             var list = Queryable()
             .WithCache(CK, 60 * 30)
-            .Where(f => f.IsState == 0 && dictTypes.Contains(f.DictType))
+            .Where(f => f.IsStated == 0 && dictTypes.Contains(f.DictType))
             .OrderBy(it => it.DictSort)
+            .Select((it) => new SysDictDataDto()
+            {
+                Label = it.DictLabel,
+                Value = it.DictValue
+            }, true)
             .ToList();
 
             return list;
@@ -85,6 +84,8 @@ namespace Ams.Kernel.Services.System
         /// <returns></returns>
         public long InsertDictData(SysDictData dict)
         {
+            dict.Create_by = App.UserName;
+            dict.Create_time = DateTime.Now;
             return Insertable(dict).ExecuteReturnBigIdentity();
         }
 
@@ -97,12 +98,13 @@ namespace Ams.Kernel.Services.System
         {
             var result = Update(w => w.DictCode == dict.DictCode, it => new SysDictData()
             {
+                Update_by = App.UserName,
                 Remark = dict.Remark,
                 Update_time = DateTime.Now,
                 DictSort = dict.DictSort,
                 DictLabel = dict.DictLabel,
                 DictValue = dict.DictValue,
-                IsState = dict.IsState,
+                IsStated = dict.IsStated,
                 CssClass = dict.CssClass,
                 ListClass = dict.ListClass,
                 LangKey = dict.LangKey
@@ -123,14 +125,14 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 同步修改字典类型
+        /// 同步修改字典类别
         /// </summary>
-        /// <param name="old_dictType">旧字典类型</param>
-        /// <param name="new_dictType">新字典类型</param>
+        /// <param name="old_dictType">旧字典类别</param>
+        /// <param name="new_dictType">新字典类别</param>
         /// <returns></returns>
         public int UpdateDictDataType(string old_dictType, string new_dictType)
         {
-            //只更新DictType字段根据where条件
+            //只更新人员DictType字段根据where条件
             return Context.Updateable<SysDictData>()
                 .SetColumns(t => new SysDictData() { DictType = new_dictType })
                 .Where(f => f.DictType == old_dictType)
@@ -138,13 +140,13 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据字典类型查询自定义sql
+        /// 根据字典类别查询自定义sql
         /// </summary>
         /// <param name="sysDictType"></param>
         /// <returns></returns>
-        public List<SysDictData> SelectDictDataByCustomSql(SysDictType sysDictType)
+        public List<SysDictDataDto> SelectDictDataByCustomSql(SysDictType sysDictType)
         {
-            return Context.Ado.SqlQuery<SysDictData>(sysDictType?.CustomSql).ToList();
+            return Context.Ado.SqlQuery<SysDictDataDto>(sysDictType?.CustomSql).ToList();
         }
     }
 }

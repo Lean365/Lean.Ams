@@ -1,8 +1,4 @@
-﻿<!--
- * @Descripttion: (${genTable.functionName}/${genTable.tableName})
- * @Author: (${replaceDto.Author})
- * @Date: (${replaceDto.CreateTime})
--->
+﻿
 <template>
   <div>
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
@@ -57,9 +53,9 @@ $end
     </el-form>
     <!-- 工具区域 -->
     <el-row :gutter="10" class="mb8">
-$if(replaceDto.ShowBtnAdd)
+$if(GeneratorReplaceDto.ShowBtnAdd)
       <el-col :span="1.5">
-        <el-button type="primary" v-hasPermi="['${replaceDto.PermissionPrefix}:add']" plain icon="plus" @click="handleAdd">
+        <el-button type="primary" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:add']" plain icon="plus" @click="handleAdd">
           {{ ${t}t('btn.add') }}
         </el-button>
       </el-col>
@@ -67,16 +63,16 @@ $end
        <el-col :span="1.5">
         <el-button type="info" plain icon="sort" @click="toggleExpandAll">展开/折叠</el-button>
       </el-col>
-$if(replaceDto.ShowBtnMultiDel)
+$if(GeneratorReplaceDto.ShowBtnMultiDel)
       <el-col :span="1.5">
-        <el-button type="danger" :disabled="multiple" v-hasPermi="['${replaceDto.PermissionPrefix}:delete']" plain icon="delete" @click="handleDelete">
+        <el-button type="danger" :disabled="multiple" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:delete']" plain icon="delete" @click="handleDelete">
           {{ ${t}t('btn.delete') }}
         </el-button>
       </el-col>
 $end
-$if(replaceDto.ShowBtnExport)
+$if(GeneratorReplaceDto.ShowBtnExport)
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['${replaceDto.PermissionPrefix}:export']">
+        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:export']">
           {{ ${t}t('btn.export') }}
         </el-button>
       </el-col>
@@ -141,12 +137,12 @@ $end
 
       <el-table-column label="操作" align="center" width="140">
         <template #default="scope">
-$if(replaceDto.ShowBtnEdit)
-          <el-button v-hasPermi="['${replaceDto.PermissionPrefix}:edit']" type="success" icon="edit" title="编辑" 
+$if(GeneratorReplaceDto.ShowBtnEdit)
+          <el-button v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:edit']" type="success" icon="edit" title="编辑" 
             @click="handleUpdate(scope.row)"></el-button>      
 $end
-$if(replaceDto.ShowBtnDelete)
-          <el-button v-hasPermi="['${replaceDto.PermissionPrefix}:delete']" type="danger" icon="delete" title="删除" 
+$if(GeneratorReplaceDto.ShowBtnDelete)
+          <el-button v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:delete']" type="danger" icon="delete" title="删除" 
             @click="handleDelete(scope.row)"></el-button>
 $end
         </template>      
@@ -185,7 +181,7 @@ $elseif(tool.CheckTree(genTable ,column.CsharpField))
                 class="w100"
                 :options="dataList"
                 :props="{ checkStrictly: true, value: '${treeCode}', label: '${treeName}', emitPath: false }"
-                placeholder="请选择上级菜单"
+                placeholder="请选择上级菜单信息"
                 clearable
                 v-model="form.${columnName}"
               >
@@ -291,12 +287,12 @@ $end
 
 <script setup name="${genTable.BusinessName.ToLower()}">
 import { treelist${genTable.BusinessName}, list${genTable.BusinessName}, 
-$if(replaceDto.ShowBtnAdd) add${genTable.BusinessName}, $end
-$if(replaceDto.ShowBtnDelete || replaceDto.ShowBtnMultiDel)del${genTable.BusinessName},$end
-$if(replaceDto.ShowBtnEdit) update${genTable.BusinessName},$end
+$if(GeneratorReplaceDto.ShowBtnAdd) add${genTable.BusinessName}, $end
+$if(GeneratorReplaceDto.ShowBtnDelete || GeneratorReplaceDto.ShowBtnMultiDel)del${genTable.BusinessName},$end
+$if(GeneratorReplaceDto.ShowBtnEdit) update${genTable.BusinessName},$end
 get${genTable.BusinessName},
 $if(showCustomInput) changeSort $end } from '@/api/${tool.FirstLowerCase(genTable.ModuleName)}/${genTable.BusinessName.ToLower()}.js'
-$if(replaceDto.ShowEditor == 1)
+$if(GeneratorReplaceDto.ShowEditor == 1)
 import Editor from '@/components/Editor'
 $end
 
@@ -311,7 +307,7 @@ function toggleExpandAll() {
   })
 }
 
-// 选中${replaceDto.FistLowerPk}数组数组
+// 选中${GeneratorReplaceDto.FistLowerPk}数组数组
 const ids = ref([])
 const single = ref(true)
 const multiple = ref(true)
@@ -355,7 +351,7 @@ function handleChangeSort(info) {
   proxy
     .${confirm}confirm('是否保存数据?')
     .then(function () {
-      return changeSort({ value: info.${item.CsharpFieldFl}, id: info.${replaceDto.FistLowerPk} })
+      return changeSort({ value: info.${item.CsharpFieldFl}, id: info.${GeneratorReplaceDto.FistLowerPk} })
     })
     .then(() => {
       handleQuery()
@@ -425,7 +421,7 @@ $end
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.${replaceDto.FistLowerPk});
+  ids.value = selection.map((item) => item.${GeneratorReplaceDto.FistLowerPk});
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -502,7 +498,7 @@ function handleAdd() {
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.${replaceDto.FistLowerPk} || ids.value
+  const id = row.${GeneratorReplaceDto.FistLowerPk} || ids.value
   get${genTable.BusinessName}(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -526,7 +522,7 @@ $end
 function submitForm() {
   proxy.${refs}refs["formRef"].validate((valid) => {
     if (valid) {
-      if (form.value.${replaceDto.FistLowerPk} != undefined && opertype.value === 2) {
+      if (form.value.${GeneratorReplaceDto.FistLowerPk} != undefined && opertype.value === 2) {
         update${genTable.BusinessName}(form.value).then((res) => {
           proxy.${modal}modal.msgSuccess("修改成功")
           open.value = false
@@ -547,7 +543,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.${replaceDto.FistLowerPk} || ids.value
+  const Ids = row.${GeneratorReplaceDto.FistLowerPk} || ids.value
 
   proxy.${confirm}confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
   .then(function () {
@@ -560,7 +556,7 @@ function handleDelete(row) {
   .catch(() => {})
 }
 
-$if(replaceDto.ShowBtnExport)
+$if(GeneratorReplaceDto.ShowBtnExport)
 // 导出按钮操作
 function handleExport() {
   proxy

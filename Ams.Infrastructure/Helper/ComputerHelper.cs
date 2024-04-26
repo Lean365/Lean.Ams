@@ -1,14 +1,17 @@
-﻿using Ams.Infrastructure.Extensions;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
+using Ams.Infrastructure.Extensions;
+using Newtonsoft.Json;
 
-namespace Ams.Infrastructure.Helper
+namespace Ams.Infrastructure
 {
+    /// <summary>
+    /// 计算机相关帮助类
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
+    /// </summary>
     public class ComputerHelper
     {
         /// <summary>
@@ -101,12 +104,20 @@ namespace Ams.Infrastructure.Helper
             return diskInfos;
         }
 
+        /// <summary>
+        /// 判断是否是Unix系统
+        /// </summary>
+        /// <returns></returns>
         public static bool IsUnix()
         {
             var isUnix = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
             return isUnix;
         }
 
+        /// <summary>
+        /// 获取CPU使用率
+        /// </summary>
+        /// <returns></returns>
         public static string GetCPURate()
         {
             string cpuRate;
@@ -162,50 +173,80 @@ namespace Ams.Infrastructure.Helper
     {
         [JsonIgnore]
         public double Total { get; set; }
+
         [JsonIgnore]
         public double Used { get; set; }
+
         [JsonIgnore]
         public double Free { get; set; }
 
         public string UsedRam { get; set; }
+
         /// <summary>
         /// CPU使用率%
         /// </summary>
         public string CPURate { get; set; }
+
         /// <summary>
         /// 总内存 GB
         /// </summary>
         public string TotalRAM { get; set; }
+
         /// <summary>
         /// 内存使用率 %
         /// </summary>
         public string RAMRate { get; set; }
+
         /// <summary>
         /// 空闲内存
         /// </summary>
         public string FreeRam { get; set; }
     }
 
+    /// <summary>
+    /// 磁盘信息
+    /// </summary>
     public class DiskInfo
     {
         /// <summary>
         /// 磁盘名
         /// </summary>
         public string DiskName { get; set; }
+
+        /// <summary>
+        /// 磁盘类型
+        /// </summary>
         public string TypeName { get; set; }
+
+        /// <summary>
+        /// 总大小
+        /// </summary>
         public long TotalFree { get; set; }
+
+        /// <summary>
+        /// 总大小
+        /// </summary>
         public long TotalSize { get; set; }
+
         /// <summary>
         /// 已使用
         /// </summary>
         public long Used { get; set; }
+
         /// <summary>
         /// 可使用
         /// </summary>
         public long AvailableFreeSpace { get; set; }
+
+        /// <summary>
+        /// 可用率
+        /// </summary>
         public decimal AvailablePercent { get; set; }
     }
 
+    /// <summary>
+    /// 内存信息客户端
+    /// </summary>
     public class MemoryMetricsClient
     {
         #region 获取内存信息
@@ -256,6 +297,7 @@ namespace Ams.Infrastructure.Helper
             }
             return metrics;
         }
-        #endregion
+
+        #endregion 获取内存信息
     }
 }

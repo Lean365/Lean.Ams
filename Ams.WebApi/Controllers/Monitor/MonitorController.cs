@@ -1,25 +1,23 @@
-using Ams.Infrastructure.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Ams.Infrastructure.Helper;
-using Ams.Kernel.Filters;
+using Microsoft.Extensions.Options;
+
 namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
-    /// 服务监控
+    /// 系统监控
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
-    [Verify]
     [ApiExplorerSettings(GroupName = "monitor")]
+    [Verify]
     public class MonitorController : BaseController
     {
         private OptionsSetting Options;
         private IWebHostEnvironment HostEnvironment;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         public MonitorController(IOptions<OptionsSetting> options, IWebHostEnvironment hostEnvironment)
         {
             this.HostEnvironment = hostEnvironment;
@@ -41,7 +39,6 @@ namespace Ams.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpGet("monitor/server")]
-        //[AllowAnonymous]
         public IActionResult Server()
         {
             //核心数

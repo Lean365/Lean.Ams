@@ -1,16 +1,11 @@
-using AspNetCoreRateLimit;
+using System.Text.Json;
 using Ams.Infrastructure.Converter;
+using Ams.Kernel.SqlSugar;
+using Ams.WebApi.Extensions;
+using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.DataProtection;
 using NLog.Web;
-using SqlSugar;
-using System.Text.Json;
-using Ams.WebApi.Extensions;
-using Ams.Infrastructure.Cache;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Signalr;
-using Ams.Kernel.SqlSugar;
-using Ams.Kernel.Filters;
-using Ams.IdGenerator;
+
 var builder = WebApplication.CreateBuilder(args);
 // NLog: Setup NLog for Dependency injection
 //builder.Logging.ClearProviders();
@@ -25,8 +20,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 // 跨域配置
 builder.Services.AddCors(builder.Configuration);
-// 显示logo
-builder.Services.AddLogo();
 //消除Error unprotecting the session cookie警告
 builder.Services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo(Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + "DataProtection"));
@@ -35,7 +28,7 @@ builder.Services.AddCaptcha(builder.Configuration);
 //IPRatelimit
 builder.Services.AddIPRate(builder.Configuration);
 //builder.Services.AddSession();
-//builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpContextAccessor();
 //绑定整个对象到Model上
 builder.Services.Configure<OptionsSetting>(builder.Configuration);
 builder.Configuration.AddJsonFile("codeGen.json");
@@ -50,6 +43,7 @@ builder.Services.AddAppService();
 builder.Services.AddTaskSchedulers();
 //请求大小限制
 builder.Services.AddRequestLimit(builder.Configuration);
+
 //注册REDIS 服务
 var openRedis = builder.Configuration["RedisServer:open"];
 if (openRedis == "1")
@@ -79,6 +73,8 @@ builder.Services.AddSignalR()
     options.PayloadSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 });
 builder.Services.AddSwaggerConfig();
+// 显示logo
+builder.Services.AddLogo();
 
 var app = builder.Build();
 InternalApp.ServiceProvider = app.Services;
@@ -86,28 +82,12 @@ InternalApp.Configuration = builder.Configuration;
 InternalApp.WebHostEnvironment = app.Environment;
 //初始化db
 builder.Services.AddDb(app.Environment);
-//sqlsugar雪花ID
 var workId = builder.Configuration["workId"].ParseToInt();
 if (app.Environment.IsDevelopment())
 {
     workId += 1;
 }
-
 SnowFlakeSingle.WorkId = workId;
-
-//雪花ID自定义算法
-
-// 创建 IdGeneratorOptions 对象，可在构造函数中输入 WorkerId：
-var options = new IdGeneratorOptions(Convert.ToUInt16( builder.Configuration["workId"]));
-// options.WorkerIdBitLength = 10; // 默认值6，限定 WorkerId 最大值为2^6-1，即默认最多支持64个节点。
-// options.SeqBitLength = 6; // 默认值6，限制每毫秒生成的ID个数。若生成速度超过5万个/秒，建议加大 SeqBitLength 到 10。
-// options.BaseTime = Your_Base_Time; // 如果要兼容老系统的雪花算法，此处应设置为老系统的BaseTime。
-// ...... 其它参数参考 IdGeneratorOptions 定义。
-
-// 保存参数（务必调用，否则参数设置不生效）：
-AmsIdHelper.SetIdGenerator(options);
-
-
 //使用全局异常中间件
 app.UseMiddleware<GlobalExceptionMiddleware>();
 

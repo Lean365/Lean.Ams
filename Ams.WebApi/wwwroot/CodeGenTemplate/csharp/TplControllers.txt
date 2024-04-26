@@ -1,12 +1,7 @@
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Filters;
-using Microsoft.AspNetCore.Mvc;
-using Ams.Kernel.Model;
 using ${options.DtosNamespace};
 using ${options.ModelsNamespace}.${options.SubNamespace};
 using ${options.IServicsNamespace}.${options.SubNamespace}.I${options.SubNamespace}Service;
-$if(replaceDto.ShowBtnImport)
+$if(GeneratorReplaceDto.ShowBtnImport)
 using MiniExcelLibs;
 $end
 
@@ -16,22 +11,23 @@ namespace ${options.ApiControllerNamespace}.Controllers
     /// <summary>
     /// ${genTable.functionName}
     /// API控制器
-    /// @Author: ${replaceDto.Author}(Davis.Cheng)
-    /// @Date: (${replaceDto.CreateTime})
+    /// @Author: ${GeneratorReplaceDto.Author}(Davis.Cheng)
+    /// @Date: ${GeneratorReplaceDto.CreateTime}
     /// </summary>
+
     [Verify]
-    [Route("${genTable.ModuleName}/${genTable.BusinessName}", Name = "${genTable.functionName}")]
+    [Route("${genTable.ModuleName}/${genTable.BusinessName}")]
     [ApiExplorerSettings(GroupName = "${genTable.ModuleName}")]
-    public class ${replaceDto.ModelTypeName}Controller : BaseController
+    public class ${GeneratorReplaceDto.ModelTypeName}Controller : BaseController
     {
         /// <summary>
         /// ${genTable.FunctionName}接口
         /// </summary>
-        private readonly I${replaceDto.ModelTypeName}Service _${replaceDto.ModelTypeName}Service;
+        private readonly I${GeneratorReplaceDto.ModelTypeName}Service _${GeneratorReplaceDto.ModelTypeName}Service;
 
-        public ${replaceDto.ModelTypeName}Controller(I${replaceDto.ModelTypeName}Service ${replaceDto.ModelTypeName}Service)
+        public ${GeneratorReplaceDto.ModelTypeName}Controller(I${GeneratorReplaceDto.ModelTypeName}Service ${GeneratorReplaceDto.ModelTypeName}Service)
         {
-            _${replaceDto.ModelTypeName}Service = ${replaceDto.ModelTypeName}Service;
+            _${GeneratorReplaceDto.ModelTypeName}Service = ${GeneratorReplaceDto.ModelTypeName}Service;
         }
 
         /// <summary>
@@ -40,11 +36,11 @@ namespace ${options.ApiControllerNamespace}.Controllers
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:list")]
-        public IActionResult Query${replaceDto.ModelTypeName}([FromQuery] ${replaceDto.ModelTypeName}QueryDto parm)
+        [ActionPermissionFilter(Permission = "${GeneratorReplaceDto.PermissionPrefix}:list")]
+        public IActionResult Query${GeneratorReplaceDto.ModelTypeName}([FromQuery] ${GeneratorReplaceDto.ModelTypeName}QueryDto parm)
         {
-            var response = _${replaceDto.ModelTypeName}Service.GetList(parm);
-            return SUCCESS(response,TIME_FORMAT_YYYMMDD);
+            var response = _${GeneratorReplaceDto.ModelTypeName}Service.GetList(parm);
+            return SUCCESS(response);
         }
 
 $if(genTable.TplCategory == "tree")
@@ -54,10 +50,10 @@ $if(genTable.TplCategory == "tree")
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("treeList")]
-        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:list")]
-        public IActionResult QueryTree${replaceDto.ModelTypeName}([FromQuery] ${replaceDto.ModelTypeName}QueryDto parm)
+        [ActionPermissionFilter(Permission = "${GeneratorReplaceDto.PermissionPrefix}:list")]
+        public IActionResult QueryTree${GeneratorReplaceDto.ModelTypeName}([FromQuery] ${GeneratorReplaceDto.ModelTypeName}QueryDto parm)
         {
-            var response = _${replaceDto.ModelTypeName}Service.GetTreeList(parm);
+            var response = _${GeneratorReplaceDto.ModelTypeName}Service.GetTreeList(parm);
             return SUCCESS(response);
         }
 $end
@@ -65,137 +61,140 @@ $end
         /// <summary>
         /// 查询${genTable.FunctionName}详情
         /// </summary>
-        /// <param name="${replaceDto.PKName}"></param>
+        /// <param name="${GeneratorReplaceDto.PKName}"></param>
         /// <returns></returns>
-        [HttpGet("{${replaceDto.PKName}}")]
-        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:query")]
-        public IActionResult Get${replaceDto.ModelTypeName}(${replaceDto.PKType} ${replaceDto.PKName})
+        [HttpGet("{${GeneratorReplaceDto.PKName}}")]
+        [ActionPermissionFilter(Permission = "${GeneratorReplaceDto.PermissionPrefix}:query")]
+        public IActionResult Get${GeneratorReplaceDto.ModelTypeName}(${GeneratorReplaceDto.PKType} ${GeneratorReplaceDto.PKName})
         {
-            var response = _${replaceDto.ModelTypeName}Service.GetInfo(${replaceDto.PKName});
+            var response = _${GeneratorReplaceDto.ModelTypeName}Service.GetInfo(${GeneratorReplaceDto.PKName});
             
-            var info = response.Adapt<${replaceDto.ModelTypeName}Dto>();
+            var info = response.Adapt<${GeneratorReplaceDto.ModelTypeName}Dto>();
             return SUCCESS(info);
         }
 
-$if(replaceDto.ShowBtnAdd)
+$if(GeneratorReplaceDto.ShowBtnAdd)
         /// <summary>
         /// 添加${genTable.FunctionName}
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:add")]
+        [ActionPermissionFilter(Permission = "${GeneratorReplaceDto.PermissionPrefix}:add")]
         [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.INSERT)]
-        public IActionResult Add${replaceDto.ModelTypeName}([FromBody] ${replaceDto.ModelTypeName}Dto parm)
+        public IActionResult Add${GeneratorReplaceDto.ModelTypeName}([FromBody] ${GeneratorReplaceDto.ModelTypeName}Dto parm)
         {
-            var modal = parm.Adapt<${replaceDto.ModelTypeName}>().ToCreate(HttpContext);
-           
+            var modal = parm.Adapt<${GeneratorReplaceDto.ModelTypeName}>().ToCreate(HttpContext);
             // 校验输入项目唯一性
-            if (UserConstants.NOT_UNIQUE.Equals(_${ replaceDto.ModelTypeName}Service.CheckEntryUnique(parm.${ replaceDto.PKName}.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_${ GeneratorReplaceDto.ModelTypeName}Service.CheckInputUnique(parm.${ GeneratorReplaceDto.PKName}.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增(New)${genTable.FunctionName} '{parm.${replaceDto.PKName}}'失败(failed)，输入的(The entered)${genTable.FunctionName}已存在(already exists)"));
+                return ToResponse(ApiResult.Error($"新增${genTable.FunctionName} '{parm.${GeneratorReplaceDto.PKName}}'失败(Add Failed)，输入的${genTable.FunctionName}已存在(The data already exists)"));
             }
-            var response = _${replaceDto.ModelTypeName}Service.Add${replaceDto.ModelTypeName}(modal);
+            var response = _${GeneratorReplaceDto.ModelTypeName}Service.Add${GeneratorReplaceDto.ModelTypeName}(modal);
 
             return SUCCESS(response);
         }
 
 $end
-$if(replaceDto.ShowBtnEdit)
+$if(GeneratorReplaceDto.ShowBtnEdit)
         /// <summary>
         /// 更新${genTable.FunctionName}
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:edit")]
+        [ActionPermissionFilter(Permission = "${GeneratorReplaceDto.PermissionPrefix}:edit")]
         [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.UPDATE)]
-        public IActionResult Update${replaceDto.ModelTypeName}([FromBody] ${replaceDto.ModelTypeName}Dto parm)
+        public IActionResult Update${GeneratorReplaceDto.ModelTypeName}([FromBody] ${GeneratorReplaceDto.ModelTypeName}Dto parm)
         {
-            var modal = parm.Adapt<${replaceDto.ModelTypeName}>().ToUpdate(HttpContext);
-            var response = _${replaceDto.ModelTypeName}Service.Update${replaceDto.ModelTypeName}(modal);
+            var modal = parm.Adapt<${GeneratorReplaceDto.ModelTypeName}>().ToUpdate(HttpContext);
+            var response = _${GeneratorReplaceDto.ModelTypeName}Service.Update${GeneratorReplaceDto.ModelTypeName}(modal);
 
             return ToResponse(response);
         }
 
 $end
-$if(replaceDto.ShowBtnDelete || replaceDto.ShowBtnMultiDel)
+$if(GeneratorReplaceDto.ShowBtnDelete || GeneratorReplaceDto.ShowBtnMultiDel)
         /// <summary>
         /// 删除${genTable.FunctionName}
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
-        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:delete")]
+        [ActionPermissionFilter(Permission = "${GeneratorReplaceDto.PermissionPrefix}:delete")]
         [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.DELETE)]
-        public IActionResult Delete${replaceDto.ModelTypeName}([FromRoute]string ids)
+        public IActionResult Delete${GeneratorReplaceDto.ModelTypeName}([FromRoute]string ids)
         {
-            var idArr = Tools.SplitAndConvert<${replaceDto.PKType}>(ids);
+            var idArr = Tools.SplitAndConvert<${GeneratorReplaceDto.PKType}>(ids);
 
-            return ToResponse(_${replaceDto.ModelTypeName}Service.Delete(idArr$if(replaceDto.enableLog), "删除${genTable.FunctionName}"$end));
+            return ToResponse(_${GeneratorReplaceDto.ModelTypeName}Service.Delete(idArr$if(GeneratorReplaceDto.enableLog), "删除${genTable.FunctionName}"$end));
         }
 
 $end
-$if(replaceDto.ShowBtnExport)
+$if(GeneratorReplaceDto.ShowBtnExport)
         /// <summary>
-        /// 导出${genTable.FunctionName}
+        /// 批量导出
+        /// ${genTable.FunctionName}
         /// </summary>
         /// <returns></returns>
         [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:export")]
-        public IActionResult Export([FromQuery] ${replaceDto.ModelTypeName}QueryDto parm)
+        [ActionPermissionFilter(Permission = "${GeneratorReplaceDto.PermissionPrefix}:export")]
+        public IActionResult Export([FromQuery] ${GeneratorReplaceDto.ModelTypeName}QueryDto parm)
         {
+            // 导出页码默认为1
             parm.PageNum = 1;
+            // 限制最大导出数量
             parm.PageSize = 100000;
-            var list = _${replaceDto.ModelTypeName}Service.ExportList(parm).Result;
+            var list = _${GeneratorReplaceDto.ModelTypeName}Service.ExportList(parm).Result;
             if (list == null || list.Count <= 0)
             {
-                return ToResponse(ResultCode.FAIL, "没有要导出的数据");
+                return ToResponse(ResultCode.FAIL, "没有要导出的数据(No Data)");
             }
-            var result = ExportExcelMini(list, "${genTable.FunctionName}", "${genTable.FunctionName}","export/${genTable.ModuleName}");
+            var result = ExportExcelMini(list, "${genTable.FunctionName}", "${genTable.FunctionName}");
             return ExportExcel(result.Item2, result.Item1);
         }
 
 $end
-$if(replaceDto.ShowBtnTruncate)
+$if(GeneratorReplaceDto.ShowBtnTruncate)
         /// <summary>
         /// 清空${genTable.FunctionName}
         /// </summary>
         /// <returns></returns>
         [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.CLEAN)]
-        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:delete")]
+        [ActionPermissionFilter(Permission = "${GeneratorReplaceDto.PermissionPrefix}:delete")]
         [HttpDelete("clean")]
         public IActionResult Clear()
         {
             if (!HttpContextExtension.IsAdmin(HttpContext))
             {
-                return ToResponse(ResultCode.FAIL, "操作失败");
+                return ToResponse(ResultCode.FAIL, "操作失败(Operation failed.)");
             }
-            return SUCCESS(_${replaceDto.ModelTypeName}Service.Truncate${replaceDto.ModelTypeName}());
+            return SUCCESS(_${GeneratorReplaceDto.ModelTypeName}Service.Truncate${GeneratorReplaceDto.ModelTypeName}());
         }
 
 $end
-$if(replaceDto.ShowBtnImport)
+$if(GeneratorReplaceDto.ShowBtnImport)
         /// <summary>
-        /// 导入${genTable.FunctionName}
+        /// 批量导入
+        /// ${genTable.FunctionName}数据
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
         [HttpPost("importData")]
         [Log(Title = "${genTable.FunctionName}导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
-        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:import")]
+        [ActionPermissionFilter(Permission = "${GeneratorReplaceDto.PermissionPrefix}:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
         {
-            List<${replaceDto.ModelTypeName}Dto> list = new();
+            List<${GeneratorReplaceDto.ModelTypeName}Dto> list = new();
             using (var stream = formFile.OpenReadStream())
             {
-                list = stream.Query<${replaceDto.ModelTypeName}Dto>(startCell: "A1").ToList();
+                list = stream.Query<${GeneratorReplaceDto.ModelTypeName}Dto>(startCell: "A1").ToList();
             }
 
-            return SUCCESS(_${replaceDto.ModelTypeName}Service.Import${replaceDto.ModelTypeName}(list.Adapt<List<${replaceDto.ModelTypeName}>>()));
+            return SUCCESS(_${GeneratorReplaceDto.ModelTypeName}Service.Import${GeneratorReplaceDto.ModelTypeName}(list.Adapt<List<${GeneratorReplaceDto.ModelTypeName}>>()));
         }
 
         /// <summary>
-        /// ${genTable.FunctionName}
         /// 导入模板下载
+        /// ${genTable.FunctionName}
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
@@ -203,7 +202,7 @@ $if(replaceDto.ShowBtnImport)
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<${replaceDto.ModelTypeName}Dto>() { }, "${replaceDto.ModelTypeName}Tpl");
+            var result = DownloadImportTemplate(new List<${GeneratorReplaceDto.ModelTypeName}Dto>() { }, "${GeneratorReplaceDto.ModelTypeName}"+"_InputTpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 
@@ -215,13 +214,13 @@ $if(showCustomInput)
         /// <param name="id">主键</param>
         /// <param name="value">排序值</param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:edit")]
+        [ActionPermissionFilter(Permission = "${GeneratorReplaceDto.PermissionPrefix}:edit")]
         [HttpGet("ChangeSort")]
         [Log(Title = "保存排序", BusinessType = BusinessType.UPDATE)]
         public IActionResult ChangeSort(int id = 0, int value = 0)
         {
             if (id <= 0) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }
-            var response = _${replaceDto.ModelTypeName}Service.Update(w => w.${replaceDto.PKName} == id, it => new ${replaceDto.ModelTypeName}()
+            var response = _${GeneratorReplaceDto.ModelTypeName}Service.Update(w => w.${GeneratorReplaceDto.PKName} == id, it => new ${GeneratorReplaceDto.ModelTypeName}()
             {
 $foreach(item in genTable.Columns)
 $if((item.htmlType == "customInput"))

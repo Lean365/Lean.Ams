@@ -1,15 +1,11 @@
-﻿using Ams.Infrastructure.Attribute;
-using Ams.Kernel.Model.System;
-using Ams.Kernel.Services.IService.System;
-
-namespace Ams.Kernel.Services.System
+﻿namespace Ams.Kernel.Services.System
 {
     /// <summary>
     /// 角色菜单
     /// 业务层处理
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(ISysRoleMenuService), ServiceLifetime = LifeTime.Transient)]
     public class SysRoleMenuService : BaseService<SysRoleMenu>, ISysRoleMenuService
     {
@@ -34,7 +30,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据角色获取菜单id
+        /// 根据角色信息获取菜单信息id
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
@@ -44,7 +40,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据用户所有角色获取菜单
+        /// 根据用户所有角色信息获取菜单信息
         /// </summary>
         /// <param name="roleIds"></param>
         /// <returns></returns>

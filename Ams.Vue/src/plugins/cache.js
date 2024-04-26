@@ -64,22 +64,7 @@ const localCache = {
     localStorage.removeItem(key);
   }
 }
-import Cookies from 'js-cookie'
 
-const cookie = {
-  set(key, data, expires) {
-    Cookies.set(key, data, { expires: expires })
-  },
-  set(key, data) {
-    Cookies.set(key, data)
-  },
-  remove(key) {
-    Cookies.remove(key)
-  },
-  get(key) {
-    Cookies.get(key)
-  }
-}
 export default {
   /**
    * 会话级缓存
@@ -88,9 +73,5 @@ export default {
   /**
    * 本地缓存
    */
-  local: localCache,
-  /**
-   * cookie存储
-   */
-  cookie: cookie
+  local: localCache
 }

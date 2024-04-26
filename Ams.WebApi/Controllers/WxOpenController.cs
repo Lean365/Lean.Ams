@@ -5,11 +5,10 @@ namespace Ams.WebApi.Controllers
     /// <summary>
     /// 微信公众号
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Route("[controller]/[action]")]
-    [ApiExplorerSettings(GroupName = "system")]
     [AllowAnonymous]
     public class WxOpenController : BaseController
     {

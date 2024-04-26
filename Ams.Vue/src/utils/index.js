@@ -1,5 +1,19 @@
 import { parseTime } from './ruoyi'
-import { useWebNotification } from '@vueuse/core'
+
+/**
+ * 表格时间格式化
+ */
+export function formatDate(cellValue) {
+  if (cellValue == null || cellValue == "") return "";
+  var date = new Date(cellValue) 
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
+  var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate() 
+  var hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours() 
+  var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes() 
+  var seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+  return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+}
 
 /**
  * @param {number} time
@@ -30,7 +44,17 @@ export function formatTime(time, option) {
   if (option) {
     return parseTime(time, option)
   } else {
-    return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
+    return (
+      d.getMonth() +
+      1 +
+      '月' +
+      d.getDate() +
+      '日' +
+      d.getHours() +
+      '时' +
+      d.getMinutes() +
+      '分'
+    )
   }
 }
 
@@ -54,7 +78,22 @@ export function getQueryObject(url) {
 }
 
 /**
- * 清空数组
+ * @param {string} input value
+ * @returns {number} output value
+ */
+export function byteLength(str) {
+  // returns the byte length of an utf8 string
+  let s = str.length
+  for (var i = str.length - 1; i >= 0; i--) {
+    const code = str.charCodeAt(i)
+    if (code > 0x7f && code <= 0x7ff) s++
+    else if (code > 0x7ff && code <= 0xffff) s += 2
+    if (code >= 0xDC00 && code <= 0xDFFF) i--
+  }
+  return s
+}
+
+/**
  * @param {Array} actual
  * @returns {Array}
  */
@@ -75,7 +114,7 @@ export function cleanArray(actual) {
 export function param(json) {
   if (!json) return ''
   return cleanArray(
-    Object.keys(json).map((key) => {
+    Object.keys(json).map(key => {
       if (json[key] === undefined) return ''
       return encodeURIComponent(key) + '=' + encodeURIComponent(json[key])
     })
@@ -93,7 +132,7 @@ export function param2Obj(url) {
   }
   const obj = {}
   const searchArr = search.split('&')
-  searchArr.forEach((v) => {
+  searchArr.forEach(v => {
     const index = v.indexOf('=')
     if (index !== -1) {
       const name = v.substring(0, index)
@@ -127,7 +166,7 @@ export function objectMerge(target, source) {
   if (Array.isArray(source)) {
     return source.slice()
   }
-  Object.keys(source).forEach((property) => {
+  Object.keys(source).forEach(property => {
     const sourceProperty = source[property]
     if (typeof sourceProperty === 'object') {
       target[property] = objectMerge(target[property], sourceProperty)
@@ -151,7 +190,9 @@ export function toggleClass(element, className) {
   if (nameIndex === -1) {
     classString += '' + className
   } else {
-    classString = classString.substr(0, nameIndex) + classString.substr(nameIndex + className.length)
+    classString =
+      classString.substr(0, nameIndex) +
+      classString.substr(nameIndex + className.length)
   }
   element.className = classString
 }
@@ -177,7 +218,7 @@ export function getTime(type) {
 export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
-  const later = function () {
+  const later = function() {
     // 据上一次触发时间间隔
     const last = +new Date() - timestamp
 
@@ -194,7 +235,7 @@ export function debounce(func, wait, immediate) {
     }
   }
 
-  return function (...args) {
+  return function(...args) {
     context = this
     timestamp = +new Date()
     const callNow = immediate && !timeout
@@ -221,7 +262,7 @@ export function deepClone(source) {
     throw new Error('error arguments', 'deepClone')
   }
   const targetObj = source.constructor === Array ? [] : {}
-  Object.keys(source).forEach((keys) => {
+  Object.keys(source).forEach(keys => {
     if (source[keys] && typeof source[keys] === 'object') {
       targetObj[keys] = deepClone(source[keys])
     } else {
@@ -285,82 +326,65 @@ export function makeMap(str, expectsLowerCase) {
   for (let i = 0; i < list.length; i++) {
     map[list[i]] = true
   }
-  return expectsLowerCase ? (val) => map[val.toLowerCase()] : (val) => map[val]
+  return expectsLowerCase
+    ? val => map[val.toLowerCase()]
+    : val => map[val]
+}
+ 
+export const exportDefault = 'export default '
+
+export const beautifierConf = {
+  html: {
+    indent_size: '2',
+    indent_char: ' ',
+    max_preserve_newlines: '-1',
+    preserve_newlines: false,
+    keep_array_indentation: false,
+    break_chained_methods: false,
+    indent_scripts: 'separate',
+    brace_style: 'end-expand',
+    space_before_conditional: true,
+    unescape_strings: false,
+    jslint_happy: false,
+    end_with_newline: true,
+    wrap_line_length: '110',
+    indent_inner_html: true,
+    comma_first: false,
+    e4x: true,
+    indent_empty_lines: true
+  },
+  js: {
+    indent_size: '2',
+    indent_char: ' ',
+    max_preserve_newlines: '-1',
+    preserve_newlines: false,
+    keep_array_indentation: false,
+    break_chained_methods: false,
+    indent_scripts: 'normal',
+    brace_style: 'end-expand',
+    space_before_conditional: true,
+    unescape_strings: false,
+    jslint_happy: true,
+    end_with_newline: true,
+    wrap_line_length: '110',
+    indent_inner_html: true,
+    comma_first: false,
+    e4x: true,
+    indent_empty_lines: true
+  }
 }
 
 // 首字母大小
 export function titleCase(str) {
-  return str.replace(/( |^)[a-z]/g, (L) => L.toUpperCase())
+  return str.replace(/( |^)[a-z]/g, L => L.toUpperCase())
 }
 
 // 下划转驼峰
 export function camelCase(str) {
-  return str.replace(/_[a-z]/g, (str1) => str1.substr(-1).toUpperCase())
+  return str.replace(/_[a-z]/g, str1 => str1.substr(-1).toUpperCase())
 }
 
-// 是否数字
 export function isNumberStr(str) {
   return /^[+-]?(0|([1-9]\d*))(\.\d+)?$/g.test(str)
 }
-
-/**
- * 变浅颜色值
- * @param color 颜色值字符串
- * @param level 加深的程度，限0-1之间
- * @returns 返回处理后的颜色值
- */
-export function getLightColor(color, level) {
-  let reg = /^\#?[0-9A-Fa-f]{6}$/
-  if (!reg.test(color)) return color
-  let rgb = hexToRgb(color)
-  for (let i = 0; i < 3; i++) rgb[i] = Math.floor((255 - rgb[i]) * level + rgb[i])
-  return rgbToHex(rgb[0], rgb[1], rgb[2])
-}
-
-/**
- * hex颜色转rgb颜色
- * @param str 颜色值字符串
- * @returns 返回处理后的颜色值
- */
-export function hexToRgb(str) {
-  let hexs = ''
-  let reg = /^\#?[0-9A-Fa-f]{6}$/
-  if (!reg.test(str)) return str
-  str = str.replace('#', '')
-  hexs = str.match(/../g)
-  for (let i = 0; i < 3; i++) hexs[i] = parseInt(hexs[i], 16)
-  return hexs
-}
-
-/**
- * rgb颜色转Hex颜色
- * @param r 代表红色
- * @param g 代表绿色
- * @param b 代表蓝色
- * @returns 返回处理后的颜色值
- */
-export function rgbToHex(r, g, b) {
-  let reg = /^\d{1,3}$/
-  if (!reg.test(r) || !reg.test(g) || !reg.test(b)) return ''
-  let hexs = [r.toString(16), g.toString(16), b.toString(16)]
-  for (let i = 0; i < 3; i++) if (hexs[i].length == 1) hexs[i] = `0${hexs[i]}`
-  return `#${hexs.join('')}`
-}
-
-/**
- * 浏览器Web通知
- * @param { title: 'title' } optinos
- */
-export function webNotify(optinos) {
-  const { show, isSupported } = useWebNotification({
-    title: optinos.title,
-    dir: 'auto',
-    lang: 'en',
-    renotify: true,
-    tag: 'tag',
-    body: optinos.body
-  })
-  if (isSupported) {
-    show()
-  }
-}
+ 

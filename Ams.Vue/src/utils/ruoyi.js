@@ -1,22 +1,51 @@
-const baseURL = import.meta.env.VITE_APP_BASE_API
-import dayjs from 'dayjs'
-/**
+﻿/**
  * 通用js方法封装处理
- * Copyright (c) 2019 ruoyi
+ *
  */
 
-/**
- * 日期格式化
- * @param {*} time
- * @param {* } pattern 'YYYY-MM-DD HH:mm:ss'
- * @returns
- */
-export function parseTime(time, pattern = 'YYYY-MM-DD HH:mm:ss') {
+const baseURL = process.env.VUE_APP_BASE_API
+
+// 日期格式化
+export function parseTime(time, pattern) {
   if (arguments.length === 0 || !time) {
     return null
   }
-
-  return dayjs(time).format(pattern)
+  const format = pattern || '{y}-{m}-{d} {h}:{i}:{s}'
+  let date
+  if (typeof time === 'object') {
+    date = time
+  } else {
+    if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
+      time = parseInt(time)
+    } else if (typeof time === 'string') {
+      time = time.replace(new RegExp(/-/gm), '/')
+    }
+    if (typeof time === 'number' && time.toString().length === 10) {
+      time = time * 1000
+    }
+    date = new Date(time)
+  }
+  const formatObj = {
+    y: date.getFullYear(),
+    m: date.getMonth() + 1,
+    d: date.getDate(),
+    h: date.getHours(),
+    i: date.getMinutes(),
+    s: date.getSeconds(),
+    a: date.getDay(),
+  }
+  const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
+    let value = formatObj[key]
+    // Note: getDay() returns 0 on Sunday
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
+    }
+    if (result.length > 0 && value < 10) {
+      value = '0' + value
+    }
+    return value || 0
+  })
+  return time_str
 }
 
 // 表单重置
@@ -48,6 +77,16 @@ export function addDateRange(params, dateRange, propName) {
   return search
 }
 
+export function addDateRange2(dateRange, index) {
+  var time = undefined
+  if (null != dateRange && '' != dateRange) {
+    if (dateRange.length <= 2) {
+      time = dateRange[index]
+    }
+  }
+  return time
+}
+
 // 回显数据字典
 export function selectDictLabel(datas, value) {
   if (value === undefined) {
@@ -75,19 +114,33 @@ export function selectDictLabels(datas, value, separator) {
   var currentSeparator = undefined === separator ? ',' : separator
   var temp = value.split(currentSeparator)
   Object.keys(value.split(currentSeparator)).some((val) => {
+    var match = false
     Object.keys(datas).some((key) => {
       if (datas[key].value == '' + temp[val]) {
         actions.push(datas[key].label + currentSeparator)
+        match = true
       }
     })
+    if (!match) {
+      actions.push(temp[val] + currentSeparator)
+    }
   })
   return actions.join('').substring(0, actions.join('').length - 1)
 }
+
+// table是否显示当前列
+export function showColumn(columns, value) {
+  columns.filter((item, index) => {
+    // console.log(item);
+    return item.key == value
+  })
+}
+
 // 通用下载方法
-export function download(fileName) {
+export function download(url, fileName) {
   // window.location.href = baseURL + "/common/download?fileName=" + encodeURI(fileName) + "&delete=" + true;
   // window.open(baseURL + "/common/download?fileName=" + encodeURI(fileName) + "&delete=" + true)
-  window.open(baseURL + fileName)
+  window.open(baseURL + url)
 }
 
 // 字符串格式化(%s )
@@ -107,41 +160,32 @@ export function sprintf(str) {
 }
 
 // 转换字符串，undefined,null等转化为""
-export function parseStrEmpty(str) {
+export function praseStrEmpty(str) {
   if (!str || str == 'undefined' || str == 'null') {
     return ''
   }
   return str
 }
-
-// 数据合并
-export function mergeRecursive(source, target) {
-  for (var p in target) {
-    try {
-      if (target[p].constructor == Object) {
-        source[p] = mergeRecursive(source[p], target[p])
-      } else {
-        source[p] = target[p]
-      }
-    } catch (e) {
-      source[p] = target[p]
-    }
+export function praseStrZero(str) {
+  if (!str || str == 'undefined' || str == 'null') {
+    console.log('zero')
+    return 0
   }
-  return source
+  return str
 }
-
 /**
  * 构造树型结构数据
  * @param {*} data 数据源
  * @param {*} id id字段 默认 'id'
  * @param {*} parentId 父节点字段 默认 'parentId'
  * @param {*} children 孩子节点字段 默认 'children'
+ * @param {*} rootId 根Id 默认 0
  */
 export function handleTree(data, id, parentId, children) {
   let config = {
     id: id || 'id',
     parentId: parentId || 'parentId',
-    childrenList: children || 'children'
+    childrenList: children || 'children',
   }
 
   var childrenListMap = {}
@@ -180,66 +224,28 @@ export function handleTree(data, id, parentId, children) {
   }
   return tree
 }
+
 /**
- * 将自定义数据转换成字典
+ * 构造自定义字典数据
  * @param {*} data 数据源
- * @param {*} dictLabel dictLabel
- * @param {*} dictValue dictValue
+ * @param {*} lableId id字段 默认 'lableId'
+ * @param {*} labelName 名称 默认 'labelName'
  */
-export function toDict(data, dictLabel, dictValue) {
-  let config = {
-    label: dictLabel || 'dictLabel',
-    value: dictValue || 'dictValue'
+export function handleDict(data, lableId, labelName) {
+  lableId = lableId || 'id'
+  labelName = labelName || 'name'
+  //循环所有项
+  var dictList = []
+  if (!Array.isArray(data)) {
+    return []
   }
-
-  var tree = []
-
-  for (let d of data) {
-    let label = d[config.label]
-    let value = d[config.value]
-
-    tree.push({ dictLabel: label, dictValue: value })
-  }
-
-  return tree
-}
-
-/**
- * 参数处理
- * @param {*} params  参数
- */
-export function tansParams(params) {
-  let result = ''
-  for (const propName of Object.keys(params)) {
-    const value = params[propName]
-    var part = encodeURIComponent(propName) + '='
-    if (value !== null && typeof value !== 'undefined') {
-      if (typeof value === 'object') {
-        for (const key of Object.keys(value)) {
-          if (value[key] !== null && typeof value[key] !== 'undefined') {
-            let params = propName + '[' + key + ']'
-            var subPart = encodeURIComponent(params) + '='
-            result += subPart + encodeURIComponent(value[key]) + '&'
-          }
-        }
-      } else {
-        result += part + encodeURIComponent(value) + '&'
-      }
-    }
-  }
-  return result
-}
-
-// 返回项目路径
-export function getNormalPath(p) {
-  if (p.length === 0 || !p || p == 'undefined') {
-    return p
-  }
-  let res = p.replace('//', '/')
-  if (res[res.length - 1] === '/') {
-    return res.slice(0, res.length - 1)
-  }
-  return res
+  data.forEach((element) => {
+    dictList.push({
+      dictLabel: element[labelName],
+      dictValue: element[lableId].toString(),
+    })
+  })
+  return dictList
 }
 
 // 验证是否为blob格式
@@ -251,86 +257,4 @@ export async function blobValidate(data) {
   } catch (error) {
     return true
   }
-}
-
-// 转换字符串，undefined,null等转化为""
-export function praseStrEmpty(str) {
-  if (!str || str == 'undefined' || str == 'null') {
-    return ''
-  }
-  return str
-}
-export function praseStrZero(str) {
-  if (!str || str == 'undefined' || str == 'null') {
-    console.log('zero')
-    return 0
-  }
-  return str
-}
-
-/**
- * 字符串是否为空
- * @param {*} obj
- * @returns
- */
-export function strIsNullOrEmpty(obj) {
-  if (typeof obj == 'undefined' || obj == null || obj === '') {
-    return true
-  } else {
-    return false
-  }
-}
-
-/**
- * 查找对象的唯一键值对（比如id）去判断是否存在某个数据中
- * @param {*} arr 数组
- * @param {*} key 对象键值名
- * @param {*} val
- * @returns
- */
-export function findItem(arr, key, val) {
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i][key] == val) {
-      return i
-    }
-  }
-  return -1
-}
-
-export function color16() {
-  //十六进制颜色随机
-  const r = Math.floor(Math.random() * 256)
-  const g = Math.floor(Math.random() * 256)
-  const b = Math.floor(Math.random() * 256)
-  const color = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`
-  return color
-}
-
-/**
- * 返回星期几
- * @param {*} num
- * @returns
- */
-export function getWeek(num = 0) {
-  var datas = dayjs().add(num, 'day').day()
-  var week = ['日', '一', '二', '三', '四', '五', '六']
-  return '星期' + week[datas]
-}
-
-// 移除空字符串，null, undefined
-export const delEmptyQueryNodes = (obj = {}) => {
-  if (Array.isArray(obj)) {
-    return obj
-  }
-  const params = Object.keys(obj)
-    .filter((key) => obj[key] !== null && obj[key] !== undefined)
-    .reduce(
-      (acc, key) => ({
-        ...acc,
-        [key]: obj[key]
-      }),
-      {}
-    )
-  // console.log('过滤后参数=', params)
-  return params
 }

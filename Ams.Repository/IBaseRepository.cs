@@ -22,7 +22,7 @@ namespace Ams.Repository
         int Update(T entity, bool ignoreNullColumns = false, object data = null);
 
         /// <summary>
-        /// 只更新表达式的值
+        /// 只更新人员表达式的值
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="expression"></param>
@@ -36,13 +36,12 @@ namespace Ams.Repository
         #endregion update
         DbResult<bool> UseTran(Action action);
 
-        DbResult<bool> UseTran(SqlSugarClient client, Action action);
+        DbResult<bool> UseTran(ISqlSugarClient client, Action action);
 
         bool UseTran2(Action action);
 
         #region delete
         IDeleteable<T> Deleteable();
-        int Delete(object[] obj, string title = "");
         int Delete(object id, string title = "");
         int DeleteTable();
         bool Truncate();

@@ -1,13 +1,15 @@
-﻿using Ams.Infrastructure.Attribute;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
+using Ams.Infrastructure.Attribute;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Ams.Infrastructure.WebExtensions
 {
     /// <summary>
     /// App服务注册
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2004-02-01
     /// </summary>
     public static class AppServiceExtensions
     {
@@ -20,7 +22,7 @@ namespace Ams.Infrastructure.WebExtensions
             var cls = AppSettings.Get<string[]>("InjectClass");
             if (cls == null || cls.Length <= 0)
             {
-                throw new Exception("请更新appsettings类");
+                throw new Exception("请更新人员appsettings类");
             }
             foreach (var item in cls)
             {
@@ -54,12 +56,15 @@ namespace Ams.Infrastructure.WebExtensions
                         case LifeTime.Singleton:
                             services.AddSingleton(serviceType, type);
                             break;
+
                         case LifeTime.Scoped:
                             services.AddScoped(serviceType, type);
                             break;
+
                         case LifeTime.Transient:
                             services.AddTransient(serviceType, type);
                             break;
+
                         default:
                             services.AddTransient(serviceType, type);
                             break;

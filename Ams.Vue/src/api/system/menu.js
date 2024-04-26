@@ -3,9 +3,16 @@ import request from '@/utils/request'
 // 查询菜单列表
 export function listMenu(query) {
   return request({
+    url: '/system/menu/list',
+    method: 'get',
+    params: query,
+  })
+}
+export function listTreeMenu(query) {
+  return request({
     url: '/system/menu/treelist',
     method: 'get',
-    params: query
+    params: query,
   })
 }
 // 查询菜单列表
@@ -27,7 +34,7 @@ export function getMenu(menuId) {
 export function treeselect() {
   return request({
     url: '/system/Menu/treeSelect',
-    method: 'get'
+    method: 'get',
   })
 }
 
@@ -53,7 +60,7 @@ export function updateMenu(data) {
   return request({
     url: '/system/Menu/edit',
     method: 'post',
-    data: data
+    data: data,
   })
 }
 
@@ -61,7 +68,7 @@ export function updateMenu(data) {
 export function delMenu(menuId) {
   return request({
     url: '/system/Menu/' + menuId,
-    method: 'delete'
+    method: 'delete',
   })
 }
 
@@ -69,8 +76,8 @@ export function delMenu(menuId) {
 export function changeMenuSort(data) {
   return request({
     url: '/system/Menu/ChangeSort',
-    method: 'GET',
-    params: data
+    method: 'get',
+    params: data,
   })
 }
 
@@ -79,6 +86,6 @@ export const getRouters = (query) => {
   return request({
     url: '/getRouters',
     method: 'get',
-    params: query
+    params: query,
   })
 }

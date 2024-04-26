@@ -1,15 +1,13 @@
-﻿using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Model.System;
-using Ams.Model;
+﻿using Ams.Model.System.Dto;
 
 namespace Ams.Kernel.Services.IService.System
 {
     /// <summary>
-    /// 系统用户
+    /// 用户信息
     /// 业务层接口
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public interface ISysUserService : IBaseService<SysUser>
     {
         public PagedInfo<SysUser> SelectUserList(SysUserQueryDto user, PagerInfo pager);
@@ -88,6 +86,6 @@ namespace Ams.Kernel.Services.IService.System
 
         SysUser Login(LoginBodyDto user);
 
-        void UpdateLogLogin(string userIP, long userId);
+        void UpdateLoginInfo(string userIP, long userId);
     }
 }

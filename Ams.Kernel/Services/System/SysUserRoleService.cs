@@ -1,23 +1,18 @@
-﻿using Ams.Infrastructure.Attribute;
-using Ams.Kernel.Model.Dto.System;
-using Ams.Kernel.Model.System;
-using Ams.Kernel.Services.IService.System;
-using Ams.Model;
-using Ams.Repository;
+﻿using Ams.Repository;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 用户角色
+    /// 用户角色信息
     /// 业务层处理
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// @Author Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(ISysUserRoleService), ServiceLifetime = LifeTime.Transient)]
     public class SysUserRoleService : BaseService<SysUserRole>, ISysUserRoleService
     {
         /// <summary>
-        /// 通过角色ID查询角色使用数量
+        /// 通过角色信息ID查询角色信息使用数量
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
@@ -27,7 +22,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 删除用户角色
+        /// 删除用户角色信息
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
@@ -37,7 +32,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 批量删除角色对应用户
+        /// 批量删除角色信息对应用户
         /// </summary>
         /// <param name="roleId"></param>
         /// <param name="userIds"></param>
@@ -48,7 +43,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 添加用户角色
+        /// 添加用户角色信息
         /// </summary>
         /// <param name="sysUserRoles"></param>
         /// <returns></returns>
@@ -58,7 +53,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取用户数据根据角色id
+        /// 获取用户数据根据角色信息id
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
@@ -73,35 +68,35 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取用户数据根据角色id
+        /// 获取用户数据根据角色信息id
         /// </summary>
-        /// <param name="roleUserQueryDto"></param>
+        /// <param name="SysRoleUserQueryDto"></param>
         /// <returns></returns>
-        public PagedInfo<SysUser> GetSysUsersByRoleId(RoleUserQueryDto roleUserQueryDto)
+        public PagedInfo<SysUser> GetSysUsersByRoleId(SysRoleUserQueryDto SysRoleUserQueryDto)
         {
             var query = Context.Queryable<SysUserRole, SysUser>((t1, u) => new JoinQueryInfos(
                 JoinType.Left, t1.UserId == u.UserId))
-                .Where((t1, u) => t1.RoleId == roleUserQueryDto.RoleId && u.IsDeleted == 0);
-            if (!string.IsNullOrEmpty(roleUserQueryDto.UserName))
+                .Where((t1, u) => t1.RoleId == SysRoleUserQueryDto.RoleId && u.IsDeleted == 0);
+            if (!string.IsNullOrEmpty(SysRoleUserQueryDto.UserName))
             {
-                query = query.Where((t1, u) => u.UserName.Contains(roleUserQueryDto.UserName));
+                query = query.Where((t1, u) => u.UserName.Contains(SysRoleUserQueryDto.UserName));
             }
-            return query.Select((t1, u) => u).ToPage(roleUserQueryDto);
+            return query.Select((t1, u) => u).ToPage(SysRoleUserQueryDto);
         }
 
         /// <summary>
-        /// 获取尚未指派的用户数据根据角色id
+        /// 获取尚未指派的用户数据根据角色信息id
         /// </summary>
-        /// <param name="roleUserQueryDto"></param>
+        /// <param name="SysRoleUserQueryDto"></param>
         /// <returns></returns>
-        public PagedInfo<SysUser> GetExcludedSysUsersByRoleId(RoleUserQueryDto roleUserQueryDto)
+        public PagedInfo<SysUser> GetExcludedSysUsersByRoleId(SysRoleUserQueryDto SysRoleUserQueryDto)
         {
             var query = Context.Queryable<SysUser>()
                 .Where(it => it.IsDeleted == 0)
-                .Where(it => SqlFunc.Subqueryable<SysUserRole>().Where(s => s.UserId == it.UserId && s.RoleId == roleUserQueryDto.RoleId).NotAny())
-                .WhereIF(roleUserQueryDto.UserName.IsNotEmpty(), it => it.UserName.Contains(roleUserQueryDto.UserName));
+                .Where(it => SqlFunc.Subqueryable<SysUserRole>().Where(s => s.UserId == it.UserId && s.RoleId == SysRoleUserQueryDto.RoleId).NotAny())
+                .WhereIF(SysRoleUserQueryDto.UserName.IsNotEmpty(), it => it.UserName.Contains(SysRoleUserQueryDto.UserName));
 
-            return query.ToPage(roleUserQueryDto);
+            return query.ToPage(SysRoleUserQueryDto);
         }
 
         /// <summary>
@@ -124,14 +119,14 @@ namespace Ams.Kernel.Services.System
         /// <summary>
         /// 新增加角色用户
         /// </summary>
-        /// <param name="roleUsersCreateDto"></param>
+        /// <param name="SysRoleUsersCreateDto"></param>
         /// <returns></returns>
-        public int InsertRoleUser(RoleUsersCreateDto roleUsersCreateDto)
+        public int InsertRoleUser(SysRoleUsersCreateDto SysRoleUsersCreateDto)
         {
             List<SysUserRole> userRoles = new();
-            foreach (var item in roleUsersCreateDto.UserIds)
+            foreach (var item in SysRoleUsersCreateDto.UserIds)
             {
-                userRoles.Add(new SysUserRole() { RoleId = roleUsersCreateDto.RoleId, UserId = item });
+                userRoles.Add(new SysUserRole() { RoleId = SysRoleUsersCreateDto.RoleId, UserId = item });
             }
 
             return userRoles.Count > 0 ? AddUserRole(userRoles) : 0;

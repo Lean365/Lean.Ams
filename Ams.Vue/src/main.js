@@ -1,91 +1,85 @@
-import { createApp } from 'vue'
-// import Cookies from 'js-cookie'
+import Vue from 'vue'
 
-import ElementPlus from 'element-plus'
-import VForm3 from 'vform3-builds'  //引入VForm 3库
-import 'vform3-builds/dist/designer.style.css'  //引入VForm3样式
-import 'dayjs/locale/zh-cn'
+import Cookies from 'js-cookie'
+
+import Element from 'element-ui'
+import 'normalize.css/normalize.css' // a modern alternative to CSS resets
+import './assets/styles/element-variables.scss'
 import '@/assets/styles/index.scss' // global css
-import CountUp from 'vue-countup-v3'
+
 import App from './App'
+import store from './store'
 import router from './router'
-import directive from './directive' // directive
-import vxetb from './vxe-tb'
-// 注册指令
+import permission from './directive/permission'
 import plugins from './plugins' // plugins
+import signalR from '@/utils/signalR'
 import { downFile } from '@/utils/request'
-import signalR from '@/signalr/signalr'
-import vueI18n from './i18n/index'
-import pinia from '@/store/index'
 
-// svg图标
-import '@/assets/iconfont/iconfont.js' //iconfont
-import 'virtual:svg-icons-register'
-import SvgIcon from '@/components/SvgIcon/index.vue'
-import elementIcons from '@/components/SvgIcon/svgicon'
-//转拼音
-//import pinyin from "js-pinyin";
-
+import './assets/icons' // icon
 import './permission' // permission control
-
-import { getConfigKey } from '@/api/system/config'
-import { getDicts } from '@/api/system/dict/data'
-import { parseTime, resetForm, addDateRange, handleTree, selectDictLabel, download, parseStrEmpty, strIsNullOrEmpty } from '@/utils/ruoyi'
-
-// 分页组件
-import Pagination from '@/components/Pagination'
-// 自定义表格工具组件
-import RightToolbar from '@/components/RightToolbar'
-// 文件上传组件
-import FileUpload from '@/components/FileUpload'
-// 图片上传组件
-import ImageUpload from '@/components/ImageUpload'
-// 图片预览组件
-import ImagePreview from '@/components/ImagePreview'
+import { getDicts } from "@/api/system/dict/data";
+import { getConfigKey } from "@/api/system/config";
+import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, download, handleTree, handleDict } from "@/utils/ruoyi";
+//分页组件
+import Pagination from "@/components/Pagination";
+//自定义表格工具扩展
+import RightToolbar from "@/components/RightToolbar"
+// 富文本组件
+import Editor from "@/components/Editor";
 // 字典标签组件
 import DictTag from '@/components/DictTag'
-// el-date-picker 快捷选项
-import dateOptions from '@/utils/dateOptions'
-// Dialog组件
-import Dialog from '@/components/Dialog'
+// 上传图片
+import UploadImage from '@/components/UploadImage/index';
+// 上传文件
+import UploadFile from '@/components/FileUpload/index';
 
-const app = createApp(App)
-signalR.init(import.meta.env.VITE_APP_SOCKET_API)
-app.config.globalProperties.signalr = signalR
 // 全局方法挂载
-app.config.globalProperties.getConfigKey = getConfigKey//配置文件
-app.config.globalProperties.getDicts = getDicts//字典数据
-app.config.globalProperties.download = download// 通用下载方法
-app.config.globalProperties.downFile = downFile//通用下载方法
-app.config.globalProperties.parseTime = parseTime//日期格式化
-app.config.globalProperties.resetForm = resetForm// 表单重置
-app.config.globalProperties.handleTree = handleTree//构造树型结构数据
-app.config.globalProperties.addDateRange = addDateRange// 添加日期范围
-app.config.globalProperties.selectDictLabel = selectDictLabel// 回显数据字典
-app.config.globalProperties.dateOptions = dateOptions//日期选项
-app.config.globalProperties.parseStrEmpty = parseStrEmpty//转换字符串，undefined,null等转化为""
-app.config.globalProperties.strIsNullOrEmpty = strIsNullOrEmpty//字符串是否为空
+Vue.prototype.getDicts = getDicts
+Vue.prototype.getConfigKey = getConfigKey
+Vue.prototype.parseTime = parseTime
+Vue.prototype.resetForm = resetForm
+Vue.prototype.addDateRange = addDateRange
+Vue.prototype.selectDictLabel = selectDictLabel
+Vue.prototype.selectDictLabels = selectDictLabels
+Vue.prototype.download = download
+Vue.prototype.handleTree = handleTree
+Vue.prototype.handleDict = handleDict
+Vue.prototype.downFile = downFile
 
+Vue.prototype.msgSuccess = function (msg) {
+  this.$message({ showClose: true, message: msg, type: "success" });
+}
+
+Vue.prototype.msgError = function (msg) {
+  this.$message({ showClose: true, message: msg, type: "error" });
+}
+
+Vue.prototype.msgInfo = function (msg) {
+  this.$message.info(msg);
+}
 
 // 全局组件挂载
-app.component('DictTag', DictTag)
-app.component('Pagination', Pagination)
-app.component('UploadFile', FileUpload)
-app.component('UploadImage', ImageUpload)
-app.component('ImagePreview', ImagePreview)
-app.component('RightToolbar', RightToolbar)
-app.component('svg-icon', SvgIcon)
-app.component('ZrDialog', Dialog)
+Vue.component('Pagination', Pagination)
+Vue.component('RightToolbar', RightToolbar)
+Vue.component('DictTag', DictTag)
+Vue.component('Editor', Editor)
+Vue.component('UploadImage', UploadImage)
+Vue.component('UploadFile', UploadFile)
 
-directive(app)
-vxetb(app)
-app.use(pinia)
-  .use(router)
-  .use(plugins)
-  .use(CountUp)
-  //.use(pinyin.setOptions({ checkPolyphone: false, charCase: 0 }))
-  .use(ElementPlus, {})
-  .use(VForm3)  //全局注册VForm3(同时注册了v-form-designe、v-form-render等组件)
-  .use(elementIcons)
-  .use(vueI18n)
-  .mount('#app')
+Vue.use(permission)
+Vue.use(plugins)
+Vue.use(Element, {
+  size: Cookies.get('size') || 'small' // set element-ui default size
+})
+
+Vue.config.productionTip = false
+
+signalR.init(process.env.VUE_APP_SOCKET_API);
+Vue.prototype.signalr = signalR
+
+new Vue({
+  el: '#app',
+  router,
+  store,
+  render: h => h(App)
+})
