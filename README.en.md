@@ -106,44 +106,44 @@ Due to being a personal project, funds are limited!!!
 
 <table>
     <tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/1.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/2.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/1.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/2.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/3.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/4.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/3.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/4.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/5.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/6.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/5.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/6.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/7.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/8.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/7.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/8.png"/></td>
     </tr>	
 	<tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/9.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/10.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/9.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/10.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/11.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/12.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/11.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/12.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/13.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/14.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/13.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/14.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/15.png"/></td>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/16.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/15.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/16.png"/></td>
     </tr>
 	<tr>
-        <td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/17.png"/></td>
-		<td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/18.png"/></td>
+        <td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/17.png"/></td>
+		<td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/18.png"/></td>
     </tr>
 	<tr>
-		<td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/19.png"/></td>
-		<td><img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/20.png"/></td>
+		<td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/19.png"/></td>
+		<td><img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/20.png"/></td>
 	</tr>
 </table>
 
@@ -168,7 +168,7 @@ Due to being a personal project, funds are limited!!!
 
 ## 🎀Donate
 If you think this project has helped you, you can help the author buy a glass of juice to show your encouragement 🍹 
-<img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/logo/pay.jpg"/>
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/logo/pay.jpg"/>
 
 
 ## 💡Browsers support
@@ -239,15 +239,15 @@ Change to
    Download[urlrewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
    Download[Application Request Routing](https://www.iis.net/downloads/microsoft/application-request-routing)
    Configuration Example
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/iis1.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/iis2.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/iis3.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/iis4.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/iis5.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/iis6.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/iis7.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/iis8.png"/>
-   <img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/iis9.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis1.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis2.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis3.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis4.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis5.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis6.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis7.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis8.png"/>
+   <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis9.png"/>
 
 ## 🔑License
 [MIT](https://github.com/Lean365/Lean.Ams/blob/master/LICENSE)
