@@ -2,10 +2,10 @@
 <h2 align="center">🏬Laplace.NET General management platform🏬</h2>
 <h4 align="center">👉.Net7+Vue3.x+Element plus Fast development framework with front and rear separation👈</h4>  
 <div align=center>
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/Jit.png" width=128" height="128" />
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/Lean.png" width=128" height="128" />
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/Flexible.png" width=128" height="128" />
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/Agile.png" width=128" height="128" />
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/logo/Jit.png" width=128" height="128" />
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/logo/Lean365.png" width=128" height="128" />
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/logo/Flexible.png" width=128" height="128" />
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/logo/Agile.png" width=128" height="128" />
 </div>
 
 <p align="center">
@@ -168,7 +168,7 @@ Due to being a personal project, funds are limited!!!
 
 ## 🎀Donate
 If you think this project has helped you, you can help the author buy a glass of juice to show your encouragement 🍹 
-<img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/pay.jpg"/>
+<img src="https://github.com/Lean365/Lean365.LPS/blob/master/Ams.Document/images/logo/pay.jpg"/>
 
 
 ## 💡Browsers support

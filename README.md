@@ -2,10 +2,10 @@
 <h2 align="center">💥Lean.Ams通用中小制造企业的生产看板💥</h2>
 <h4 align="center">👉.Net7+Vue3.x+Element plus前后端分离的快速发开框架👈</h4>  
 <div align=center>
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/Jit.png" width=128" height="128" />
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/Lean.png" width=128" height="128" />
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/Flexible.png" width=128" height="128" />
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/Agile.png" width=128" height="128" />
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/logo/Jit.png" width=128" height="128" />
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/logo/Lean365.png" width=128" height="128" />
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/logo/Flexible.png" width=128" height="128" />
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/logo/Agile.png" width=128" height="128" />
 </div>
 
 <p align="center">
@@ -202,7 +202,7 @@
 
 ## 🎀捐赠
 如果你觉得这个项目帮助到了你，你可以帮作者买一杯果汁表示鼓励 🍹 
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/pay.jpg"/>
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/logo/pay.jpg"/>
 
 
 ## 💡Browsers support
