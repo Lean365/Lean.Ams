@@ -2,10 +2,10 @@
 <h2 align="center">🏬Laplace.NET General management platform🏬</h2>
 <h4 align="center">👉.Net7+Vue3.x+Element plus Fast development framework with front and rear separation👈</h4>  
 <div align=center>
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Vue/src/assets/logo/Jit.png" width=128" height="128" />
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Vue/src/assets/logo/Lean.png" width=128" height="128" />
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Vue/src/assets/logo/Flexible.png" width=128" height="128" />
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Vue/src/assets/logo/Agile.png" width=128" height="128" />
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/Jit.png" width=128" height="128" />
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/Lean.png" width=128" height="128" />
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/Flexible.png" width=128" height="128" />
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/Agile.png" width=128" height="128" />
 </div>
 
 <p align="center">
