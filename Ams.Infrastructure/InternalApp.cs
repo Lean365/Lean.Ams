@@ -6,8 +6,8 @@ namespace Ams.Infrastructure
 {
     /// <summary>
     /// 内部应用
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public static class InternalApp
     {

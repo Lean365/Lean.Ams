@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
 namespace Ams.Common
 {
+    /// <summary>
+    /// Excel导入导出帮助类
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ExcelHelper<T> where T : new()
     {
         /// <summary>

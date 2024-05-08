@@ -3,9 +3,9 @@
 namespace Ams.Infrastructure
 {
     /// <summary>
-    /// 命令Helper
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// ShellHelper
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class ShellHelper
     {

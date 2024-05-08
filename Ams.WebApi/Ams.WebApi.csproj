@@ -58,7 +58,7 @@
 		<None Update="ip2region.db">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<Content Update="wwwroot\Generatecode\**\*">
+		<Content Update="wwwroot\Generatorcode\**\*">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 		</Content>
 		<Content Update="wwwroot\export\**\*">

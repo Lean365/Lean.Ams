@@ -2,8 +2,8 @@ namespace Ams.Kernel.Model.Routine
 {
     /// <summary>
     /// 通知公告
-    /// 数据实体类：routine_notice
-    /// @Author Lean365(Davis.Ching)
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
     /// </summary>
     [SugarTable("routine_notice", "通知公告")]
@@ -37,13 +37,13 @@ namespace Ams.Kernel.Model.Routine
         /// <summary>
         /// 公告附件
         /// </summary>
-        [SugarColumn(ColumnName = "notice_attached", ColumnDataType = StaticConfig.CodeFirst_BigString)]
-        public string NoticeAttached { get; set; }
+        [SugarColumn(ColumnName = "notice_fileurl", ColumnDataType = StaticConfig.CodeFirst_BigString)]
+        public string NoticeFileUrl { get; set; }
 
         /// <summary>
         /// 公告状态 (0正常 1关闭)
         /// </summary>
         [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public int IsStated { get; set; }
+        public int IsStated { get; set; } = 0;
     }
 }

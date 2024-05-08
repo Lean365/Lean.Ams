@@ -4,7 +4,7 @@ import request from '@/utils/request'
  * 多语言配置分页查询
  * @param {查询条件} data
  */
-export function listCommonLang(query) {
+export function listLocaleLang(query) {
   return request({
     url: 'system/locale/list',
     method: 'get',
@@ -26,7 +26,7 @@ export function listLangByLocale(locale) {
  * 新增多语言配置
  * @param data
  */
-export function addCommonLang(data) {
+export function addLocaleLang(data) {
   return request({
     url: 'system/locale',
     method: 'post',
@@ -38,7 +38,7 @@ export function addCommonLang(data) {
  * 修改多语言配置
  * @param data
  */
-export function updateCommonLang(data) {
+export function updateLocaleLang(data) {
   return request({
     url: 'system/locale',
     method: 'PUT',
@@ -50,7 +50,7 @@ export function updateCommonLang(data) {
  * 获取多语言配置详情
  * @param {Id}
  */
-export function getCommonLang(id) {
+export function getLocaleLang(id) {
   return request({
     url: 'system/locale/' + id,
     method: 'get'
@@ -60,7 +60,7 @@ export function getCommonLang(id) {
  * 获取多语言配置详情
  * @param {key}
  */
-export function getCommonLangByKey(key) {
+export function getLocaleLangByKey(key) {
   return request({
     url: 'system/locale/key/' + key,
     method: 'get'
@@ -71,7 +71,7 @@ export function getCommonLangByKey(key) {
  * 删除多语言配置
  * @param {主键} pid
  */
-export function delCommonLang(pid) {
+export function delLocaleLang(pid) {
   return request({
     url: 'system/locale/' + pid,
     method: 'delete'
@@ -82,7 +82,7 @@ export function delCommonLang(pid) {
  * 删除多语言配置
  * @param {key} langkey
  */
-export function delCommonLangByKey(langkey) {
+export function delLocaleLangByKey(langkey) {
   return request({
     url: 'system/locale/ByKey',
     method: 'delete',
@@ -91,7 +91,7 @@ export function delCommonLangByKey(langkey) {
 }
 
 // 导出多语言配置
-export function exportCommonLang(query) {
+export function exportLocaleLang(query) {
   return request({
     url: 'system/locale/export',
     method: 'get',

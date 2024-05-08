@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace Ams.Infrastructure.Model
 {
     /// <summary>
-    /// 系统配置
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// 获取配置文件POCO实体类
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class OptionsSetting
     {
@@ -25,44 +25,13 @@ namespace Ams.Infrastructure.Model
         /// </summary>
         public bool InitDb { get; set; }
 
-        /// <summary>
-        /// 初始化表
-        /// </summary>
         public string[] InitTables { get; set; }
-
-        /// <summary>
-        /// 发送邮件配置
-        /// </summary>
         public List<MailOptions> MailOptions { get; set; }
-
-        /// <summary>
-        /// 上传配置
-        /// </summary>
         public Upload Upload { get; set; }
-
-        /// <summary>
-        /// 阿里云存储配置
-        /// </summary>
         public ALIYUN_OSS ALIYUN_OSS { get; set; }
-
-        /// <summary>
-        /// Jwt配置
-        /// </summary>
         public JwtSettings JwtSettings { get; set; }
-
-        /// <summary>
-        /// 代码生成配置
-        /// </summary>
         public CodeGen CodeGen { get; set; }
-
-        /// <summary>
-        /// 数据库配置
-        /// </summary>
         public List<DbConfigs> DbConfigs { get; set; }
-
-        /// <summary>
-        /// 代码生成数据库配置
-        /// </summary>
         public DbConfigs CodeGenDbConfig { get; set; }
     }
 
@@ -71,11 +40,7 @@ namespace Ams.Infrastructure.Model
     /// </summary>
     public class MailOptions
     {
-        /// <summary>
-        /// 发件人姓名
-        /// </summary>
         public string FromName { get; set; }
-
         public string FromEmail { get; set; }
         public string Password { get; set; }
         public string Smtp { get; set; }
@@ -144,9 +109,6 @@ namespace Ams.Infrastructure.Model
         public string TokenType { get; set; } = "Bearer";
     }
 
-    /// <summary>
-    /// 代码生成配置
-    /// </summary>
     public class CodeGen
     {
         public bool ShowApp { get; set; }
@@ -159,10 +121,6 @@ namespace Ams.Infrastructure.Model
         public CsharpTypeArr CsharpTypeArr { get; set; }
     }
 
-    /// <summary>
-    /// 数据库配置
-    /// </summary>
-
     public class DbConfigs
     {
         public string Conn { get; set; }
@@ -172,9 +130,6 @@ namespace Ams.Infrastructure.Model
         public string DbName { get; set; }
     }
 
-    /// <summary>
-    /// C#类型数组
-    /// </summary>
     public class CsharpTypeArr
     {
         public Guid uniqueidentifier { get; set; }

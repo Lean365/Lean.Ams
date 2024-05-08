@@ -3,9 +3,9 @@
 namespace Ams.Kernel.Model.Dto
 {
     /// <summary>
-    /// 上传
+    /// 上传文件D
     /// 输入输出对象
-    /// @Author Lean365(Davis.Ching)
+    /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
     /// </summary>
     public class UploadDto
@@ -25,9 +25,6 @@ namespace Ams.Kernel.Model.Dto
         /// </summary>
         public int FileNameType { get; set; }
 
-        /// <summary>
-        /// 文件
-        /// </summary>
         public IFormFile File { get; set; }
     }
 }

@@ -1,4 +1,7 @@
-﻿using IPTools.Core;
+﻿using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.Model;
+using Ams.Kernel.Services.IService.Monitor;
+using IPTools.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -9,15 +12,15 @@ namespace Ams.Kernel.Filters
 {
     /// <summary>
     /// 全局操作日志记录
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class GlobalActionMonitor : ActionFilterAttribute
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private readonly IOperLogService OperLogService;
+        private readonly ILogOperService OperLogService;
 
-        public GlobalActionMonitor(IOperLogService operLogService)
+        public GlobalActionMonitor(ILogOperService operLogService)
         {
             OperLogService = operLogService;
         }
@@ -90,7 +93,7 @@ namespace Ams.Kernel.Filters
                 string ip = HttpContextExtension.GetClientUserIp(context.HttpContext);
                 var ip_info = IpTool.Search(ip);
 
-                OperLog OperLog = new()
+                LogOper LogOper = new()
                 {
                     IsStated = 0,
                     OperName = userName,
@@ -107,24 +110,24 @@ namespace Ams.Kernel.Filters
 
                 if (logAttribute != null)
                 {
-                    OperLog.Title = logAttribute?.Title;
-                    OperLog.BusinessType = (int)logAttribute.BusinessType;
-                    OperLog.OperParam = logAttribute.IsSaveRequestData ? OperLog.OperParam : "";
-                    OperLog.JsonResult = logAttribute.IsSaveResponseData ? OperLog.JsonResult : "";
+                    LogOper.Title = logAttribute?.Title;
+                    LogOper.BusinessType = (int)logAttribute.BusinessType;
+                    LogOper.OperParam = logAttribute.IsSaveRequestData ? LogOper.OperParam : "";
+                    LogOper.JsonResult = logAttribute.IsSaveResponseData ? LogOper.JsonResult : "";
                 }
                 if (statusCode == 403)
                 {
-                    OperLog.IsStated = 1;
-                    OperLog.ErrorMsg = "无权限访问";
+                    LogOper.IsStated = 1;
+                    LogOper.ErrorMsg = "无权限访问";
                 }
                 LogEventInfo ei = new(NLog.LogLevel.Info, "GlobalActionMonitor", "");
 
                 ei.Properties["jsonResult"] = !HttpMethods.IsGet(method) ? jsonResult : "";
-                ei.Properties["requestParam"] = OperLog.OperParam;
+                ei.Properties["requestParam"] = LogOper.OperParam;
                 ei.Properties["user"] = userName;
                 logger.Log(ei);
 
-                OperLogService.InsertOperlog(OperLog);
+                OperLogService.InsertOperlog(LogOper);
             }
             catch (Exception ex)
             {

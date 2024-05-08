@@ -1,20 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Ams.Model.System
+namespace Ams.Kernel.Model.Routine
 {
     ///<summary>
     ///计划任务
-    ///数据实体类：routine_tasks
-    /// @Author Lean365(Davis.Ching)
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
-    ///</summary>
-    [SugarTable("routine_tasksqz", "计划任务表")]
+    /// </summary>
+    [SugarTable("routine_tasks_qz", "计划任务表")]
     [Tenant("0")]
     public class TasksQz : SysBase
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
         public TasksQz()
         {
         }

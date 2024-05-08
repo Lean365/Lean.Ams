@@ -1,4 +1,4 @@
-﻿using Ams.Model.System;
+﻿using Ams.Model.Content;
 
 namespace Ams.Service.IService
 {

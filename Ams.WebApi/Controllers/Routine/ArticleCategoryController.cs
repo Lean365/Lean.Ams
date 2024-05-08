@@ -1,4 +1,7 @@
-using Ams.Model.System;
+using Ams.Model.Content;
+using Ams.Model.Dto;
+using Ams.Service.Content.IService;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ams.WebApi.Controllers.Routine
 {
@@ -28,6 +31,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
+        [AllowAnonymous]
         public IActionResult QueryArticleCategory([FromQuery] ArticleCategoryQueryDto parm)
         {
             var response = _ArticleCategoryService.GetList(parm);
@@ -40,6 +44,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("treeList")]
+        [AllowAnonymous]
         public IActionResult QueryTreeArticleCategory([FromQuery] ArticleCategoryQueryDto parm)
         {
             var response = _ArticleCategoryService.GetTreeList(parm);
@@ -52,6 +57,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="CategoryId"></param>
         /// <returns></returns>
         [HttpGet("{CategoryId}")]
+        [AllowAnonymous]
         public IActionResult GetArticleCategory(int CategoryId)
         {
             var response = _ArticleCategoryService.GetFirst(x => x.CategoryId == CategoryId);
@@ -89,12 +95,12 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 更新人员文章目录
+        /// 更新文章目录
         /// </summary>
         /// <returns></returns>
         [HttpPut]
         [Verify]
-        [ActionPermissionFilter(Permission = "routine:articlecategory:edit")]
+        [ActionPermissionFilter(Permission = "routine:articlecategory:update")]
         [Log(Title = "文章目录", BusinessType = BusinessType.UPDATE)]
         public IActionResult UpdateArticleCategory([FromBody] ArticleCategoryDto parm)
         {
@@ -154,7 +160,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="id"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "routine:articlecategory:edit")]
+        [ActionPermissionFilter(Permission = "routine:articlecategory:update")]
         [HttpGet("ChangeSort")]
         [Log(Title = "保存排序", BusinessType = BusinessType.UPDATE)]
         public IActionResult ChangeSort(int id = 0, int value = 0)

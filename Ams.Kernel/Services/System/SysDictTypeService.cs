@@ -1,12 +1,11 @@
-﻿using Ams.Model.System;
+﻿using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Services.IService.System;
+using Ams.Model;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 字典类别
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 字典类型
     /// </summary>
     [AppService(ServiceType = typeof(ISysDictTypeService), ServiceLifetime = LifeTime.Transient)]
     public class SysDictTypeService : BaseService<SysDictType>, ISysDictTypeService
@@ -24,7 +23,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 查询字典类别列表
+        /// 查询字段类型列表
         /// </summary>
         /// <param name="dictType">实体模型</param>
         /// <param name="pager"></param>
@@ -41,14 +40,14 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 校验字典类别称是否唯一
+        /// 校验字典类型称是否唯一
         /// </summary>
-        /// <param name="dictType">字典类别</param>
+        /// <param name="dictType">字典类型</param>
         /// <returns></returns>
         public string CheckDictTypeUnique(SysDictType dictType)
         {
-            SysDictType sysDictType = GetFirst(f => f.DictType == dictType.DictType);
-            if (sysDictType != null && sysDictType.DictId != dictType.DictId)
+            SysDictType SysDictType = GetFirst(f => f.DictType == dictType.DictType);
+            if (SysDictType != null && SysDictType.DictId != dictType.DictId)
             {
                 return UserConstants.NOT_UNIQUE;
             }
@@ -81,33 +80,29 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 插入字典类别
+        /// 插入字典类型
         /// </summary>
-        /// <param name="sysDictType"></param>
+        /// <param name="SysDictType"></param>
         /// <returns></returns>
-        public long InsertDictType(SysDictType sysDictType)
+        public long InsertDictType(SysDictType SysDictType)
         {
-            sysDictType.Create_by = App.UserName;
-            sysDictType.Create_time = DateTime.Now;
-            return InsertReturnBigIdentity(sysDictType);
+            return InsertReturnBigIdentity(SysDictType);
         }
 
         /// <summary>
-        /// 修改字典类别
+        /// 修改字典类型
         /// </summary>
-        /// <param name="sysDictType"></param>
+        /// <param name="SysDictType"></param>
         /// <returns></returns>
-        public int UpdateDictType(SysDictType sysDictType)
+        public int UpdateDictType(SysDictType SysDictType)
         {
-            sysDictType.Update_by = App.UserName;
-            sysDictType.Update_time = DateTime.Now;
-            SysDictType oldDict = GetFirst(x => x.DictId == sysDictType.DictId);
-            if (sysDictType.DictType != oldDict.DictType)
+            SysDictType oldDict = GetFirst(x => x.DictId == SysDictType.DictId);
+            if (SysDictType.DictType != oldDict.DictType)
             {
                 //同步修改 dict_data表里面的DictType值
-                DictDataService.UpdateDictDataType(oldDict.DictType, sysDictType.DictType);
+                DictDataService.UpdateDictDataType(oldDict.DictType, SysDictType.DictType);
             }
-            return Context.Updateable(sysDictType).IgnoreColumns(it => new { sysDictType.Create_by }).ExecuteCommand();
+            return Context.Updateable(SysDictType).IgnoreColumns(it => new { SysDictType.Create_by }).ExecuteCommand();
         }
 
         /// <summary>
@@ -121,7 +116,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据字典类别查询自定义sql
+        /// 根据字典类型查询自定义sql
         /// </summary>
         /// <param name="dictType"></param>
         /// <returns></returns>

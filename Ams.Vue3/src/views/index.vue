@@ -66,7 +66,7 @@
 
   import noticeBar from '@/components/NoticeBar/index'
 
-  const noticeList = ref(['官网地址：http://www.izhaorui.cn', 'ZRAdmin.NET后台管理系统'])
+  const noticeList = ref(['Lean365.Ams', '生产管理系统'])
   const { proxy } = getCurrentInstance()
   const userInfo = computed(() => {
     return useUserStore().userInfo

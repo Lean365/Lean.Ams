@@ -4,7 +4,7 @@
       <!-- //缩放图标fa-beat
       //渐变动画效果fa-beat-fade
       //前后摇晃fa-shake -->
-      <i class="fas fa-volume-high fa-beat-fade" style="font-size: 1.5em; color: rgb(255, 0, 0);"></i>
+      <i class="fas fa-volume-high fa-beat-fade" style="font-size: 1em; color: rgb(255, 0, 0);"></i>
     </slot>
 
     <div class="notice-bar-container">

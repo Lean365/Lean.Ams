@@ -1,12 +1,12 @@
-﻿using Ams.Model.System;
-using Ams.Tasks;
+﻿using Ams.Tasks;
 using Quartz.Spi;
+using SqlSugar;
 using SqlSugar.IOC;
 
 namespace Ams.WebApi.Extensions
 {
     /// <summary>
-    /// 任务计划配置
+    /// 定时任务扩展方法
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
@@ -23,7 +23,7 @@ namespace Ams.WebApi.Extensions
             if (services == null) throw new ArgumentNullException(nameof(services));
 
             //添加Quartz服务
-            services.AddSingleton<IJobFactory, Tasks.TaskFactory>();
+            services.AddSingleton<IJobFactory, JobFactory>();
             services.AddTransient<ITaskSchedulerServer, TaskSchedulerServer>();
         }
 

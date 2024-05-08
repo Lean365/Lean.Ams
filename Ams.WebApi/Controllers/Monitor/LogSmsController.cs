@@ -1,19 +1,20 @@
-//创建时间：2023-11-19
+using Microsoft.AspNetCore.Mvc;
+
 namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
-    /// 短信记录
+    /// 验证码记录
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Verify]
-    [Route("monitor/logsms")]
+    [Route("monitor/sms")]
     [ApiExplorerSettings(GroupName = "monitor")]
     public class LogSmsController : BaseController
     {
         /// <summary>
-        /// 短信验证码记录接口
+        /// 验证码记录接口
         /// </summary>
         private readonly ILogSmsService _LogSmsService;
 
@@ -23,25 +24,25 @@ namespace Ams.WebApi.Controllers.Monitor
         }
 
         /// <summary>
-        /// 查询短信验证码记录列表
+        /// 查询验证码记录列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "monitor:logsms:list")]
+        [ActionPermissionFilter(Permission = "monitor:sms:list")]
         public IActionResult QueryLogSms([FromQuery] LogSmsQueryDto parm)
         {
             var response = _LogSmsService.GetList(parm);
-            return SUCCESS(response, TIME_FORMAT_YYYMMDD);
+            return SUCCESS(response);
         }
 
         /// <summary>
-        /// 删除短信验证码记录
+        /// 删除验证码记录
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "monitor:logsms:delete")]
-        [Log(Title = "短信验证码记录", BusinessType = BusinessType.DELETE)]
+        [ActionPermissionFilter(Permission = "monitor:sms:delete")]
+        [Log(Title = "验证码记录", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteLogSms(string ids)
         {
             long[] idsArr = Tools.SpitLongArrary(ids);
@@ -53,12 +54,12 @@ namespace Ams.WebApi.Controllers.Monitor
         }
 
         /// <summary>
-        /// 导出短信验证码记录
+        /// 导出验证码记录
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "短信验证码记录", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "验证码记录", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "monitor:logsms:export")]
+        [ActionPermissionFilter(Permission = "monitor:sms:export")]
         public IActionResult Export([FromQuery] LogSmsQueryDto parm)
         {
             parm.PageNum = 1;
@@ -68,7 +69,7 @@ namespace Ams.WebApi.Controllers.Monitor
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "短信验证记录", "短信验证记录", "/export/log/");
+            var result = ExportExcelMini(list, "验证码记录", "验证码记录");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

@@ -1,11 +1,13 @@
-﻿namespace Ams.Kernel.Model.Monitor
+﻿using MiniExcelLibs.Attributes;
+
+namespace Ams.Kernel.Model.Monitor
 {
     /// <summary>
     /// 操作日志
     /// 数据实体对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/25 13:57:42)
-    /// <summary>
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [SugarTable("log_oper", "操作日志")]
     [Tenant("0")]
     public class LogOper : SysBase
@@ -87,11 +89,12 @@
         /// 操作状态（0正常 1异常）
         /// </summary>
         [SugarColumn(DefaultValue = "0")]
-        public int IsState { get; set; }
+        public int IsStated { get; set; }
 
         /// <summary>
         /// 错误消息
         /// </summary>
+        [SugarColumn(Length = 4000)]
         public string ErrorMsg { get; set; }
 
         /// <summary>

@@ -7,7 +7,7 @@ import { downFile } from '@/utils/request'
  */
 export function listSqlDiffLog(query) {
   return request({
-    url: 'monitor/difflog/list',
+    url: 'monitor/diff/list',
     method: 'get',
     params: query
   })
@@ -19,11 +19,11 @@ export function listSqlDiffLog(query) {
  */
 export function delSqlDiffLog(pid) {
   return request({
-    url: 'monitor/difflog/' + pid,
+    url: 'monitor/diff/' + pid,
     method: 'delete'
   })
 }
 // 导出数据差异日志
 export async function exportSqlDiffLog(query) {
-  await downFile('monitor/difflog/export', { ...query })
+  await downFile('monitor/diff/export', { ...query })
 }

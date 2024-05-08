@@ -6,8 +6,8 @@ namespace Ams.Infrastructure.Extensions
 {
     /// <summary>
     /// 扩展方法类
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public static partial class Extensions
     {

@@ -1,16 +1,19 @@
 ﻿using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using Ams.Common;
+using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.Enums;
+using Ams.Infrastructure.Model;
+using Ams.Kernel.Services.IService.Routine;
+using Ams.Kernel.Services.IService.System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
-    /// 文件存储
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 文件管理
     /// </summary>
     [AppService(ServiceType = typeof(IFileStorageService), ServiceLifetime = LifeTime.Transient)]
     public class FileStorageService : BaseService<FileStorage>, IFileStorageService

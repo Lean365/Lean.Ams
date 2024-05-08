@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Ams.Infrastructure
 {
     /// <summary>
-    /// Logo扩展
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// LogoExtension
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public static class LogoExtension
     {
@@ -21,9 +21,9 @@ namespace Ams.Infrastructure
             Console.WriteLine(content);
             Console.ForegroundColor = ConsoleColor.Blue;
             //Console.WriteLine("🎉源码地址: https://gitee.com/izory/Lean365NetCore");
-            Console.WriteLine("📖官方文档：http://www.lean365.cn");
-            Console.WriteLine("💰打赏作者：http://www.lean365.cn/vip");
-            Console.WriteLine("📱移动端体验：http://demo.lean365.cn/h5");
+            Console.WriteLine("📖官方文档：http://www.izhaorui.cn");
+            Console.WriteLine("💰打赏作者：http://www.izhaorui.cn/vip");
+            Console.WriteLine("📱移动端体验：http://demo.izhaorui.cn/h5");
             Console.WriteLine($"Swagger地址：{url}/swagger/index.html");
             Console.WriteLine($"初始化种子数据地址：{url}/common/InitSeedData");
         }

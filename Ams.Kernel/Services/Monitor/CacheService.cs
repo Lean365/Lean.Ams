@@ -1,11 +1,5 @@
 ﻿namespace Ams.Kernel.Services.Monitor
 {
-    /// <summary>
-    /// 审计日志
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
-    /// </summary>
     public class CacheService
     {
         private static readonly string CK_verifyScan = "verifyScan_";

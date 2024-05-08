@@ -1,15 +1,20 @@
-﻿using Ams.Infrastructure;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Ams.Infrastructure;
 using Ams.Infrastructure.Model;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace Ams.Common
 {
+    /// <summary>
+    /// 邮件发送帮助类
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
+    /// </summary>
     public class MailHelper
     {
         /// <summary>
@@ -24,10 +29,12 @@ namespace Ams.Common
             AppSettings.Bind("MailOptions", options);
             mailOptions = options.First();
         }
+
         public MailHelper(MailOptions _mailOptions)
         {
             mailOptions = _mailOptions;
         }
+
         /// <summary>
         /// 发送一个
         /// </summary>
@@ -80,7 +87,7 @@ namespace Ams.Common
             message.Subject = subject;
             message.Date = DateTime.Now;
 
-            //创建人员附件Multipart
+            //创建附件Multipart
             Multipart multipart = new Multipart("mixed");
             var alternative = new MultipartAlternative();
             //html内容
@@ -131,7 +138,7 @@ namespace Ams.Common
             client.Connect(mailOptions.Smtp, mailOptions.Port, mailOptions.UseSsl);
 
             //登录，发送
-            //特别备注说明，对于服务器端的中文相应，Exception中有编码问题，显示乱码了
+            //特别说明，对于服务器端的中文相应，Exception中有编码问题，显示乱码了
             client.Authenticate(System.Text.Encoding.UTF8, mailOptions.FromEmail, mailOptions.Password);
 
             try

@@ -1,12 +1,12 @@
 ﻿namespace Ams.Kernel.Model.Generator
 {
     /// <summary>
-    /// 生成表
+    /// 代码生成表
     /// 数据实体对象
-    /// @Author Lean365(Davis.Ching)
+    /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
     /// </summary>
-    [SugarTable("gen_table", "生成表信息")]
+    [SugarTable("gen_table", "代码生成表")]
     [Tenant("0")]
     public class GenTable : SysBase
     {
@@ -122,39 +122,12 @@
 
     public class CodeOptions
     {
-        /// <summary>
-        /// 父菜单信息id
-        /// </summary>
         public long ParentMenuId { get; set; }
-
-        /// <summary>
-        /// 排序
-        /// </summary>
         public string SortType { get; set; } = "asc";
-
-        /// <summary>
-        /// 排序字段
-        /// </summary>
         public string SortField { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 树形编码字段名
-        /// </summary>
         public string TreeCode { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 树形名称字段名
-        /// </summary>
         public string TreeName { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 树形父级编码字段名
-        /// </summary>
         public string TreeParentCode { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 权限前缀
-        /// </summary>
         public string PermissionPrefix { get; set; } = string.Empty;
 
         /// <summary>
@@ -170,12 +143,12 @@
         /// <summary>
         /// 是否生成仓储层
         /// </summary>
-        public int GenerateRepo { get; set; }
+        public int GeneratorRepo { get; set; }
 
         /// <summary>
-        /// 自动生成菜单信息
+        /// 自动生成菜单
         /// </summary>
-        public bool GenerateMenu { get; set; }
+        public bool GeneratorMenu { get; set; }
 
         /// <summary>
         /// 操作按钮样式

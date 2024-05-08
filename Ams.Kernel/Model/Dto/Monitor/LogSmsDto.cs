@@ -1,13 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 using Ams.Model;
+using MiniExcelLibs.Attributes;
 
 namespace Ams.Kernel.Model.Dto.Monitor
 {
     /// <summary>
-    /// 验证码
+    /// 验证码记录
     /// 查询对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public class LogSmsQueryDto : PagerInfo
     {
@@ -19,10 +20,10 @@ namespace Ams.Kernel.Model.Dto.Monitor
     }
 
     /// <summary>
-    /// 验证码
+    /// 验证码记录
     /// 输入输出对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public class LogSmsDto
     {
@@ -48,6 +49,10 @@ namespace Ams.Kernel.Model.Dto.Monitor
         [ExcelColumn(Name = "短信内容")]
         [ExcelColumnName("短信内容")]
         public string SmsContent { get; set; }
+
+        [ExcelColumn(Name = "添加时间", Format = "yyyy-MM-dd HH:mm:ss")]
+        [ExcelColumnName("添加时间")]
+        public DateTime? createTime { get; set; }
 
         [ExcelColumn(Name = "用户IP")]
         [ExcelColumnName("用户IP")]

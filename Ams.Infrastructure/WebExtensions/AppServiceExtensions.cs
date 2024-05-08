@@ -8,8 +8,8 @@ namespace Ams.Infrastructure.WebExtensions
 {
     /// <summary>
     /// App服务注册
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public static class AppServiceExtensions
     {
@@ -22,7 +22,7 @@ namespace Ams.Infrastructure.WebExtensions
             var cls = AppSettings.Get<string[]>("InjectClass");
             if (cls == null || cls.Length <= 0)
             {
-                throw new Exception("请更新人员appsettings类");
+                throw new Exception("请更新appsettings类");
             }
             foreach (var item in cls)
             {

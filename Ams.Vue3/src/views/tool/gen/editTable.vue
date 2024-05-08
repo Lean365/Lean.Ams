@@ -157,7 +157,6 @@
           <el-table-column label="字典类型" min-width="140">
             <template #default="scope">
               <el-select v-model="scope.row.dictType" clearable filterable placeholder="请选择字典类型" v-if="
-                  scope.row.htmlType == 'selectRemote' ||
                   scope.row.htmlType == 'selectMulti' ||
                   scope.row.htmlType == 'select' ||
                   scope.row.htmlType == 'radio' ||
@@ -266,8 +265,7 @@
   }
 
   /** 查询字典下拉列表 */
-  //listType({ pageSize: 10000000 }).then((response) => {
-  listType({ pageSize: 10000000 }).then((response) => {
+  listType({ pageSize: 100000 }).then((response) => {
     dictOptions.value = response.data.result
   })
   /** 关闭按钮 */

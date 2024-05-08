@@ -1,14 +1,13 @@
 using System.Collections;
-using Ams.Model.System;
+using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Services.IService.System;
+using Ams.Model;
 using Ams.Repository;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 角色信息
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 角色
     /// </summary>
     [AppService(ServiceType = typeof(ISysRoleService), ServiceLifetime = LifeTime.Transient)]
     public class SysRoleService : BaseService<SysRole>, ISysRoleService
@@ -28,11 +27,11 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据条件分页查询角色信息数据
+        /// 根据条件分页查询角色数据
         /// </summary>
         /// <param name="sysRole">角色信息</param>
         /// <param name="pager">分页信息</param>
-        /// <returns>角色信息数据集合信息</returns>
+        /// <returns>角色数据集合信息</returns>
         public PagedInfo<SysRole> SelectRoleList(SysRole sysRole, PagerInfo pager)
         {
             var exp = Expressionable.Create<SysRole>();
@@ -53,7 +52,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 查询所有角色信息
+        /// 查询所有角色
         /// </summary>
         /// <returns></returns>
         public List<SysRole> SelectRoleAll()
@@ -79,10 +78,10 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 通过角色信息ID查询角色信息
+        /// 通过角色ID查询角色
         /// </summary>
-        /// <param name="roleId">角色信息ID</param>
-        /// <returns>角色信息对象信息</returns>
+        /// <param name="roleId">角色ID</param>
+        /// <returns>角色对象信息</returns>
         public SysRole SelectRoleById(long roleId)
         {
             return GetId(roleId);
@@ -91,7 +90,7 @@ namespace Ams.Kernel.Services.System
         /// <summary>
         /// 批量删除角色信息
         /// </summary>
-        /// <param name="roleIds">需要删除的角色信息ID</param>
+        /// <param name="roleIds">需要删除的角色ID</param>
         /// <returns></returns>
         public int DeleteRoleByRoleId(long[] roleIds)
         {
@@ -108,7 +107,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 更改角色信息权限状态
+        /// 更改角色权限状态
         /// </summary>
         /// <param name="roleDto"></param>
         /// <returns></returns>
@@ -118,7 +117,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 校验角色信息权限是否唯一
+        /// 校验角色权限是否唯一
         /// </summary>
         /// <param name="sysRole">角色信息</param>
         /// <returns></returns>
@@ -134,14 +133,14 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 校验角色信息是否允许操作
+        /// 校验角色是否允许操作
         /// </summary>
         /// <param name="role"></param>
         public void CheckRoleAllowed(SysRole role)
         {
             if (IsRoleAdmin(role.RoleId))
             {
-                throw new CustomException("不允许操作超级管理员角色信息");
+                throw new CustomException("不允许操作超级管理员角色");
             }
         }
 
@@ -161,9 +160,9 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 通过角色信息ID删除角色信息和菜单信息关联
+        /// 通过角色ID删除角色和菜单关联
         /// </summary>
-        /// <param name="roleId">角色信息ID</param>
+        /// <param name="roleId">角色ID</param>
         /// <returns></returns>
         public int DeleteRoleMenuByRoleId(long roleId)
         {
@@ -185,9 +184,9 @@ namespace Ams.Kernel.Services.System
                 var oldMenus = SelectUserRoleMenus(sysRoleDto.RoleId);
                 var newMenus = sysRoleDto.MenuIds;
 
-                //并集菜单信息
+                //并集菜单
                 var arr_c = oldMenus.Intersect(newMenus).ToArray();
-                //获取减量菜单信息
+                //获取减量菜单
                 var delMenuIds = oldMenus.Where(c => !arr_c.Contains(c)).ToArray();
                 //获取增量
                 var addMenuIds = newMenus.Where(c => !arr_c.Contains(c)).ToArray();
@@ -196,7 +195,7 @@ namespace Ams.Kernel.Services.System
                 sysRoleDto.MenuIds = addMenuIds.ToList();
                 sysRoleDto.DelMenuIds = delMenuIds.ToList();
                 InsertRoleMenu(sysRoleDto);
-                Console.WriteLine($"减少了{delMenuIds.Length},增加了{addMenuIds.Length}菜单信息");
+                Console.WriteLine($"减少了{delMenuIds.Length},增加了{addMenuIds.Length}菜单");
             });
             return result.IsSuccess;
         }
@@ -204,14 +203,14 @@ namespace Ams.Kernel.Services.System
         #region Service
 
         /// <summary>
-        /// 批量新增角色菜单
+        /// 批量新增角色菜单信息
         /// </summary>
         /// <param name="sysRoleDto"></param>
         /// <returns></returns>
         public int InsertRoleMenu(SysRoleDto sysRoleDto)
         {
             int rows = 1;
-            // 新增用户与角色信息管理
+            // 新增用户与角色管理
             List<SysRoleMenu> sysRoleMenus = new();
             foreach (var item in sysRoleDto.MenuIds)
             {
@@ -270,7 +269,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据用户所有角色信息获取菜单信息
+        /// 根据用户所有角色获取菜单
         /// </summary>
         /// <param name="roleIds"></param>
         /// <returns></returns>
@@ -282,7 +281,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取用户角色信息列表
+        /// 获取用户角色列表
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
@@ -320,7 +319,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取用户所有角色信息名
+        /// 获取用户所有角色名
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
@@ -343,7 +342,7 @@ namespace Ams.Kernel.Services.System
             {
                 //修改角色信息
                 UpdateSysRole(sysRole);
-                //删除角色信息与部门信息管理
+                //删除角色与部门管理
                 DeptService.DeleteRoleDeptByRoleId(sysRole.RoleId);
                 //插入角色部门数据
                 DeptService.InsertRoleDepts(sysRole);
@@ -353,7 +352,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 修改用户角色信息
+        /// 修改用户角色
         /// </summary>
         /// <param name="sysRole"></param>
         /// <returns></returns>

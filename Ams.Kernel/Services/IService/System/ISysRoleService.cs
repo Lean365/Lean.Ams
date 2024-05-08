@@ -1,23 +1,20 @@
-﻿namespace Ams.Kernel.Services.IService.System
+﻿using Ams.Kernel.Model.System;
+using Ams.Model;
+
+namespace Ams.Kernel.Services.IService.System
 {
-    /// <summary>
-    /// 角色信息
-    /// 业务层接口
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
-    /// </summary>
     public interface ISysRoleService : IBaseService<SysRole>
     {
         /// <summary>
-        /// 根据条件分页查询角色信息数据
+        /// 根据条件分页查询角色数据
         /// </summary>
         /// <param name="role">角色信息</param>
         /// <param name="pager"></param>
-        /// <returns>角色信息数据集合信息</returns>
+        /// <returns>角色数据集合信息</returns>
         public PagedInfo<SysRole> SelectRoleList(SysRole role, PagerInfo pager);
 
         /// <summary>
-        /// 查询所有角色信息
+        /// 查询所有角色
         /// </summary>
         /// <returns></returns>
         public List<SysRole> SelectRoleAll();
@@ -30,35 +27,35 @@
         public List<SysRole> SelectRolePermissionByUserId(long userId);
 
         /// <summary>
-        /// 通过角色信息ID查询角色信息
+        /// 通过角色ID查询角色
         /// </summary>
-        /// <param name="roleId">角色信息ID</param>
-        /// <returns>角色信息对象信息</returns>
+        /// <param name="roleId">角色ID</param>
+        /// <returns>角色对象信息</returns>
         public SysRole SelectRoleById(long roleId);
 
         /// <summary>
         /// 批量删除角色信息
         /// </summary>
-        /// <param name="roleIds">需要删除的角色信息ID</param>
+        /// <param name="roleIds">需要删除的角色ID</param>
         /// <returns></returns>
         public int DeleteRoleByRoleId(long[] roleIds);
 
         /// <summary>
-        /// 更改角色信息权限状态
+        /// 更改角色权限状态
         /// </summary>
         /// <param name="roleDto"></param>
         /// <returns></returns>
         public int UpdateRoleStatus(SysRole roleDto);
 
         /// <summary>
-        /// 校验角色信息权限是否唯一
+        /// 校验角色权限是否唯一
         /// </summary>
         /// <param name="sysRole">角色信息</param>
         /// <returns></returns>
         public string CheckRoleKeyUnique(SysRole sysRole);
 
         /// <summary>
-        /// 校验角色信息是否允许操作
+        /// 校验角色是否允许操作
         /// </summary>
         /// <param name="role"></param>
         public void CheckRoleAllowed(SysRole role);
@@ -71,9 +68,9 @@
         public long InsertRole(SysRole sysRole);
 
         /// <summary>
-        /// 通过角色信息ID删除角色信息和菜单信息关联
+        /// 通过角色ID删除角色和菜单关联
         /// </summary>
-        /// <param name="roleId">角色信息ID</param>
+        /// <param name="roleId">角色ID</param>
         /// <returns></returns>
         public int DeleteRoleMenuByRoleId(long roleId);
 
@@ -83,11 +80,11 @@
         /// <param name="role"></param>
         /// <returns></returns>
         bool AuthDataScope(SysRoleDto role);
-
         #region Service
 
+
         /// <summary>
-        /// 新增角色菜单
+        /// 新增角色菜单信息
         /// </summary>
         /// <param name="sysRoleDto"></param>
         /// <returns></returns>
@@ -106,11 +103,9 @@
         /// <param name="roleId"></param>
         /// <returns></returns>
         public List<long> SelectUserRoleMenus(long roleId);
-
         List<long> SelectRoleMenuByRoleIds(long[] roleIds);
-
         /// <summary>
-        /// 获取用户角色信息列表
+        /// 获取用户角色列表
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
@@ -132,7 +127,7 @@
 
         public List<string> SelectUserRoleNames(long userId);
 
-        #endregion Service
+        #endregion
 
         /// <summary>
         /// 修改保存角色信息

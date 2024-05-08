@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询调度日志列表
 export function listJobLog(query) {
   return request({
-    url: '/monitor/taskqz/log/list',
+    url: '/monitor/tasksqz/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listJobLog(query) {
 // 删除调度日志
 export function delJobLog(jobLogId) {
   return request({
-    url: '/monitor/taskqz/log/' + jobLogId,
+    url: '/monitor/tasksqz/' + jobLogId,
     method: 'delete'
   })
 }
@@ -20,7 +20,7 @@ export function delJobLog(jobLogId) {
 // 清空调度日志
 export function cleanJobLog() {
   return request({
-    url: '/monitor/taskqz/log/clean',
+    url: '/monitor/tasksqz/clean',
     method: 'delete'
   })
 }
@@ -28,7 +28,7 @@ export function cleanJobLog() {
 // 导出调度日志
 export function exportJobLog(query) {
   return request({
-    url: '/monitor/taskqz/log/export',
+    url: '/monitor/tasksqz/export',
     method: 'get',
     params: query
   })

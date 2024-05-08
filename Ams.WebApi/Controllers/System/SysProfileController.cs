@@ -1,4 +1,5 @@
-using Ams.Model.System.Dto;
+using Ams.Model.System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ams.WebApi.Controllers.System
 {
@@ -97,7 +98,7 @@ namespace Ams.WebApi.Controllers.System
             }
             if (UserService.ResetPwd(userId, newMd5) > 0)
             {
-                //TODO 更新人员缓存
+                //TODO 更新缓存
 
                 return SUCCESS(1);
             }

@@ -4,9 +4,8 @@ namespace Ams.Infrastructure.Enums
 {
     /// <summary>
     /// 文件存储位置
-    /// 本地=1, 阿里云=2, 腾讯云=3, 七牛=4, 远程=5
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public enum StoreType
     {

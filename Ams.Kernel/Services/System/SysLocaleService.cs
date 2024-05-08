@@ -1,12 +1,15 @@
+using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Services.IService.System;
+using Ams.Model;
 using Ams.Repository;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 本地语言
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 本地语言Service业务层处理
+    ///
+    /// @author zr
+    /// @date 2022-05-06
     /// </summary>
     [AppService(ServiceType = typeof(ISysLocaleService), ServiceLifetime = LifeTime.Transient)]
     public class SysLocaleService : BaseService<SysLocale>, ISysLocaleService
@@ -68,7 +71,6 @@ namespace Ams.Kernel.Services.System
             {
                 langs.Add(new SysLocale()
                 {
-                    Create_by = App.UserName,
                     Create_time = DateTime.Now,
                     LangKey = parm.LangKey,
                     LangCode = item.LangCode,
@@ -109,7 +111,7 @@ namespace Ams.Kernel.Services.System
             x.AsInsertable.ExecuteReturnSnowflakeIdList();//插入可插入部分;
             x.AsUpdateable.UpdateColumns(it => new { it.LangName }).ExecuteCommand();
 
-            string msg = $"插入{x.InsertList.Count} 更新人员{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";
+            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";
 
             //输出错误信息
             foreach (var item in x.ErrorList)

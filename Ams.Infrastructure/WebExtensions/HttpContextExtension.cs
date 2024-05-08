@@ -5,17 +5,16 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
-using Ams.Infrastructure.Extensions;
 using IPTools.Core;
 using Microsoft.AspNetCore.Http;
 using UAParser;
 
-namespace Ams.Infrastructure.WebExtensions
+namespace Ams.Infrastructure.Extensions
 {
     /// <summary>
     /// HttpContext扩展类
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public static partial class HttpContextExtension
     {
@@ -84,7 +83,7 @@ namespace Ams.Infrastructure.WebExtensions
         }
 
         /// <summary>
-        /// 获取部门信息id
+        /// 获取部门id
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>

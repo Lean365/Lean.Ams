@@ -6,7 +6,6 @@ using System.Security.Claims;
 using System.Text;
 using Ams.Infrastructure.Extensions;
 using Ams.Infrastructure.Model;
-using Ams.Infrastructure.WebExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -14,9 +13,9 @@ using Newtonsoft.Json;
 namespace Ams.Infrastructure
 {
     /// <summary>
-    /// JWT工具类
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// JwtUtil
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class JwtUtil
     {
@@ -41,7 +40,7 @@ namespace Ams.Infrastructure
         /// </summary>
         /// <param name="claims"></param>
         /// <returns></returns>
-        public static string GenerateJwtToken(List<Claim> claims)
+        public static string GeneratorJwtToken(List<Claim> claims)
         {
             JwtSettings jwtSettings = new();
             AppSettings.Bind("JwtSettings", jwtSettings);

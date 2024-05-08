@@ -1,10 +1,11 @@
-﻿namespace Ams.Kernel.Services.Generator
+﻿using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Services.IService.Generator;
+using Ams.Model;
+
+namespace Ams.Kernel.Services.Generator
 {
     /// <summary>
-    /// 代码生成
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 代码生成表
     /// </summary>
     [AppService(ServiceType = typeof(IGenTableService), ServiceLifetime = LifeTime.Transient)]
     public class GenTableService : BaseService<GenTable>, IGenTableService
@@ -23,8 +24,28 @@
         /// <returns></returns>
         public int DeleteGenTableByIds(long[] tableIds)
         {
+            //Delete(f => tableIds.Contains(f.TableId));
+            //return GenTableColumnService.DeleteGenTableColumn(tableIds);
+
+            //Delete(f => tableIds.Contains(f.TableId));
+            //return GenTableColumnService.DeleteGenTableColumn(tableIds);
+            //应用程序启动目录
+            string StartupPathStr = Directory.GetCurrentDirectory();
+            //返回上一层目录
+            string PreviousDirStr = StartupPathStr.Substring(0, StartupPathStr.LastIndexOf("\\")); // 第一个\是转义符，所以要写两个
+                                                                                                   //读取类名
+            string DelClassname;
+            foreach (var item in tableIds)
+            {
+                var info = GetId(item);
+                DelClassname = info.ClassName;
+                FileUtil.DeleteDir(PreviousDirStr, DelClassname);
+                //路径将随着系统位置而变化，注意修改。
+            }
             Delete(f => tableIds.Contains(f.TableId));
             return GenTableColumnService.DeleteGenTableColumn(tableIds);
+            //Delete(f => tableIds.Contains(f.TableId));
+            //return GenTableColumnService.DeleteGenTableColumn(tableIds);
         }
 
         /// <summary>
@@ -151,7 +172,7 @@
                         column.DictType = prevColumn.DictType;
                         column.QueryType = prevColumn.QueryType;
                     }
-                    //不同步列备注说明
+                    //不同步列说明
                     //if (column.ColumnComment.IsEmpty())
                     //{
                     //    column.ColumnComment = prevColumn.ColumnComment;
@@ -237,7 +258,7 @@
         }
 
         /// <summary>
-        /// 批量更新人员表字段
+        /// 批量更新表字段
         /// </summary>
         /// <param name="tableColumn"></param>
         /// <returns></returns>

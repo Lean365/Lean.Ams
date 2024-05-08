@@ -21,7 +21,6 @@ export default function useTable(app) {
 
   // 可选组件
   app
-    .use(Icon)
     .use(Column)
     // .use(Colgroup)
     // .use(Grid)

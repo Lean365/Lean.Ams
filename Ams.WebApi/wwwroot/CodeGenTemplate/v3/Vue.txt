@@ -1,8 +1,8 @@
 <!--
  * @Descripttion: ${genTable.functionName}/${genTable.tableName}
- * @Version: ${GeneratorReplaceDto.EndVersion}
- * @Author: ${GeneratorReplaceDto.Author}(Davis.Ching)
- * @Date: ${GeneratorReplaceDto.CreateTime}
+ * @Version: ${ReplaceDto.EndVersion}
+ * @Author: ${ReplaceDto.Author}(Davis.Ching)
+ * @Date: ${ReplaceDto.CreateTime}
 -->
 <template>
   <div>
@@ -85,35 +85,35 @@ $end
     </el-form>
     <!-- 工具区域 -->
     <el-row :gutter="15" class="mb10">
-$if(GeneratorReplaceDto.ShowBtnAdd)
+$if(ReplaceDto.ShowBtnAdd)
       <el-col :span="1.5">
-        <el-button type="primary" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:add']" plain icon="plus" @click="handleAdd">
+        <el-button type="primary" v-hasPermi="['${ReplaceDto.PermissionPrefix}:add']" plain icon="plus" @click="handleAdd">
           {{ ${t}t('btn.add') }}
         </el-button>
       </el-col>
 $end
-$if(GeneratorReplaceDto.ShowBtnMultiDel)
+$if(ReplaceDto.ShowBtnMultiDel)
       <el-col :span="1.5">
-        <el-button type="success" :disabled="single" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:edit']" plain icon="edit" @click="handleUpdate">
+        <el-button type="success" :disabled="single" v-hasPermi="['${ReplaceDto.PermissionPrefix}:edit']" plain icon="edit" @click="handleUpdate">
           {{ ${t}t('btn.edit') }}
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" :disabled="multiple" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:delete']" plain icon="delete" @click="handleDelete">
+        <el-button type="danger" :disabled="multiple" v-hasPermi="['${ReplaceDto.PermissionPrefix}:delete']" plain icon="delete" @click="handleDelete">
           {{ ${t}t('btn.delete') }}
         </el-button>
       </el-col>
 $end
-$if(GeneratorReplaceDto.ShowBtnTruncate)
+$if(ReplaceDto.ShowBtnTruncate)
       <el-col :span="1.5">
-        <el-button type="danger" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:delete']" plain icon="delete" @click="handleClear">
+        <el-button type="danger" v-hasPermi="['${ReplaceDto.PermissionPrefix}:delete']" plain icon="delete" @click="handleClear">
           {{ ${t}t('btn.clean') }}
         </el-button>
       </el-col>
 $end
-$if(GeneratorReplaceDto.ShowBtnImport)
+$if(ReplaceDto.ShowBtnImport)
       <el-col :span="1.5">
-        <el-dropdown trigger="click" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:import']">
+        <el-dropdown trigger="click" v-hasPermi="['${ReplaceDto.PermissionPrefix}:import']">
           <el-button color="#626aef" plain icon="Upload">
             {{ ${t}t('btn.import') }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
           </el-button>
@@ -130,9 +130,9 @@ $if(GeneratorReplaceDto.ShowBtnImport)
         </el-dropdown>
       </el-col>
 $end
-$if(GeneratorReplaceDto.ShowBtnExport)
+$if(ReplaceDto.ShowBtnExport)
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:export']">
+        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['${ReplaceDto.PermissionPrefix}:export']">
           {{ ${t}t('btn.export') }}
         </el-button>
       </el-col>
@@ -148,11 +148,11 @@ $end
       header-cell-class-name="el-table-header-cell"
       highlight-current-row
       @sort-change="sortChange"
-$if(GeneratorReplaceDto.ShowBtnMultiDel)
+$if(ReplaceDto.ShowBtnMultiDel)
       @selection-change="handleSelectionChange"
 $end
       >
-$if(GeneratorReplaceDto.ShowBtnMultiDel)
+$if(ReplaceDto.ShowBtnMultiDel)
       <el-table-column type="selection" width="50" align="center"/>
 $end
 $if(sub)
@@ -202,27 +202,27 @@ $end
 $end
       <el-table-column :label="${t}t('btn.operation')" width="160" align="center">
         <template #default="scope">
-$if(GeneratorReplaceDto.OperBtnStyle == 2)
+$if(ReplaceDto.OperBtnStyle == 2)
         <el-button-group>
-$if(GeneratorReplaceDto.ShowBtnView)
+$if(ReplaceDto.ShowBtnView)
           <el-button plain type="primary" icon="view" @click="handlePreview(scope.row)"></el-button>
 $end
-$if(GeneratorReplaceDto.ShowBtnEdit)
-          <el-button plain v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:edit']" type="success" icon="edit" :title="${t}t('btn.edit')"  @click="handleUpdate(scope.row)"></el-button>
+$if(ReplaceDto.ShowBtnEdit)
+          <el-button plain v-hasPermi="['${ReplaceDto.PermissionPrefix}:edit']" type="success" icon="edit" :title="${t}t('btn.edit')"  @click="handleUpdate(scope.row)"></el-button>
 $end
-$if(GeneratorReplaceDto.ShowBtnDelete)
-          <el-button plain v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:delete']" type="danger" icon="delete" :title="${t}t('btn.delete')"  @click="handleDelete(scope.row)"></el-button>
+$if(ReplaceDto.ShowBtnDelete)
+          <el-button plain v-hasPermi="['${ReplaceDto.PermissionPrefix}:delete']" type="danger" icon="delete" :title="${t}t('btn.delete')"  @click="handleDelete(scope.row)"></el-button>
 $end
         </el-button-group>
 $else
-$if(GeneratorReplaceDto.ShowBtnView)
+$if(ReplaceDto.ShowBtnView)
           <el-button type="primary" plain size="small" icon="view" :title="${t}t('btn.view')" @click="handlePreview(scope.row)"></el-button>
 $end
-$if(GeneratorReplaceDto.ShowBtnEdit)
-          <el-button type="success" plain size="small" icon="edit" :title="${t}t('btn.edit')" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:edit']" @click="handleUpdate(scope.row)"></el-button>
+$if(ReplaceDto.ShowBtnEdit)
+          <el-button type="success" plain size="small" icon="edit" :title="${t}t('btn.edit')" v-hasPermi="['${ReplaceDto.PermissionPrefix}:edit']" @click="handleUpdate(scope.row)"></el-button>
 $end
-$if(GeneratorReplaceDto.ShowBtnDelete)
-          <el-button type="danger" plain size="small" icon="delete" :title="${t}t('btn.delete')" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:delete']" @click="handleDelete(scope.row)"></el-button>
+$if(ReplaceDto.ShowBtnDelete)
+          <el-button type="danger" plain size="small" icon="delete" :title="${t}t('btn.delete')" v-hasPermi="['${ReplaceDto.PermissionPrefix}:delete']" @click="handleDelete(scope.row)"></el-button>
 $end
 $end
         </template>
@@ -271,7 +271,7 @@ $if(column.CsharpType == "int" || column.CsharpType == "long")
 $end
 
 $if(column.IsPK || column.IsIncrement)
-$if(column.IsPK && column.IsIncrement == false && GeneratorReplaceDto.useSnowflakeId == true)
+$if(column.IsPK && column.IsIncrement == false && ReplaceDto.useSnowflakeId == true)
           <el-col :lg="${options.ColNum}">
             <el-form-item label="${labelName}" prop="${columnName}">
               <el-input v-model${number}="form.${columnName}" :placeholder="${t}t('btn.enter')+'${labelName}'" :disabled="opertype != 1"/>
@@ -523,7 +523,7 @@ $end
       </el-form>
       <template #footer v-if="opertype != 3">
         <el-button text @click="cancel">{{ ${t}t('btn.cancel') }}</el-button>
-$if(GeneratorReplaceDto.ShowBtnEdit || GeneratorReplaceDto.ShowBtnAdd)
+$if(ReplaceDto.ShowBtnEdit || ReplaceDto.ShowBtnAdd)
         <el-button type="primary" @click="submitForm">{{ ${t}t('btn.submit') }}</el-button>
 $end
       </template>
@@ -534,17 +534,17 @@ $end
 <script setup name="${genTable.BusinessName.ToLower()}">
 //后台操作函数
 import { list${genTable.BusinessName},
-$if(GeneratorReplaceDto.ShowBtnAdd) add${genTable.BusinessName}, $end
-$if(GeneratorReplaceDto.ShowBtnDelete || GeneratorReplaceDto.ShowBtnMultiDel)del${genTable.BusinessName},$end 
-$if(GeneratorReplaceDto.ShowBtnEdit) update${genTable.BusinessName},$end
+$if(ReplaceDto.ShowBtnAdd) add${genTable.BusinessName}, $end
+$if(ReplaceDto.ShowBtnDelete || ReplaceDto.ShowBtnMultiDel)del${genTable.BusinessName},$end 
+$if(ReplaceDto.ShowBtnEdit) update${genTable.BusinessName},$end
 get${genTable.BusinessName}, 
-$if(GeneratorReplaceDto.ShowBtnTruncate) clear${genTable.BusinessName}, $end
+$if(ReplaceDto.ShowBtnTruncate) clear${genTable.BusinessName}, $end
 $if(showCustomInput) changeSort $end } 
 from '@/api/${tool.FirstLowerCase(genTable.ModuleName)}/${genTable.BusinessName.ToLower()}.js'
-$if(GeneratorReplaceDto.ShowEditor == 1)
+$if(ReplaceDto.ShowEditor == 1)
 import Editor from '@/components/Editor'
 $end
-$if(GeneratorReplaceDto.ShowBtnImport)
+$if(ReplaceDto.ShowBtnImport)
 import importData from '@/components/ImportData'
 $end
 //防抖处理函数 import { debounce } from 'lodash';
@@ -683,7 +683,7 @@ function handleChangeSort(info) {
   proxy
     .${confirm}confirm('是否保存数据?')
     .then(function () {
-      return changeSort({ value: info.${item.CsharpFieldFl}, id: info.${GeneratorReplaceDto.FistLowerPk} })
+      return changeSort({ value: info.${item.CsharpFieldFl}, id: info.${ReplaceDto.FistLowerPk} })
     })
     .then(() => {
       handleQuery()
@@ -749,10 +749,10 @@ $end
   proxy.resetForm("queryRef")
   handleQuery()
 }
-$if(GeneratorReplaceDto.ShowBtnMultiDel)
+$if(ReplaceDto.ShowBtnMultiDel)
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.${GeneratorReplaceDto.FistLowerPk});
+  ids.value = selection.map((item) => item.${ReplaceDto.FistLowerPk});
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -797,7 +797,7 @@ const state = reactive({
   form: {},
   rules: {
 $foreach(column in genTable.Columns)
-$if(column.IsRequired && column.IsPk && GeneratorReplaceDto.useSnowflakeId)
+$if(column.IsRequired && column.IsPk && ReplaceDto.useSnowflakeId)
     ${column.CsharpFieldFl}: [{ required: true, message: "${column.ColumnComment}不能为空", trigger: $if(column.htmlType == "select")"change"$else"blur"$end }],
 $elseif(column.IsRequired && column.IsIncrement == false)
     ${column.CsharpFieldFl}: [{ required: true, message: "${column.ColumnComment}不能为空", trigger: $if(column.htmlType == "select")"change"$else"blur"$end
@@ -845,14 +845,14 @@ $end
   proxy.resetForm("formRef")
 }
 
-$if(GeneratorReplaceDto.ShowBtnView)
+$if(ReplaceDto.ShowBtnView)
 /**
  * 查看
  * @param {*} row
  */
 function handlePreview(row) {
   reset()
-    const id = row.${GeneratorReplaceDto.FistLowerPk}
+    const id = row.${ReplaceDto.FistLowerPk}
     get${genTable.BusinessName}(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -875,7 +875,7 @@ $end
 }
 $end
 
-$if(GeneratorReplaceDto.ShowBtnAdd)
+$if(ReplaceDto.ShowBtnAdd)
 // 添加按钮操作
 function handleAdd() {
   reset();
@@ -899,11 +899,11 @@ $end
 $end
 }
 $end
-$if(GeneratorReplaceDto.ShowBtnEdit)
+$if(ReplaceDto.ShowBtnEdit)
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.${GeneratorReplaceDto.FistLowerPk} || ids.value
+  const id = row.${ReplaceDto.FistLowerPk} || ids.value
   get${genTable.BusinessName}(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -940,8 +940,8 @@ $end
 $if(sub)
       form.value.${tool.FirstLowerCase(genTable.SubTable.ClassName)}Nav = ${tool.FirstLowerCase(genTable.SubTable.ClassName)}List.value
 $end
-      if (form.value.${GeneratorReplaceDto.FistLowerPk} != undefined && opertype.value === 2) {
-$if(GeneratorReplaceDto.ShowBtnEdit)
+      if (form.value.${ReplaceDto.FistLowerPk} != undefined && opertype.value === 2) {
+$if(ReplaceDto.ShowBtnEdit)
         update${genTable.BusinessName}(form.value).then((res) => {
          proxy.${modal}modal.msgSuccess(proxy.${t}t('common.Modicompleted'))
           open.value = false
@@ -949,7 +949,7 @@ $if(GeneratorReplaceDto.ShowBtnEdit)
         })
 $end
       } else {
-$if(GeneratorReplaceDto.ShowBtnAdd)
+$if(ReplaceDto.ShowBtnAdd)
         add${genTable.BusinessName}(form.value).then((res) => {
              proxy.${modal}modal.msgSuccess(proxy.${t}t('common.Newcompleted'))
             open.value = false
@@ -961,10 +961,10 @@ $end
   })
 }
 
-$if(GeneratorReplaceDto.ShowBtnMultiDel || GeneratorReplaceDto.ShowBtnDelete)
+$if(ReplaceDto.ShowBtnMultiDel || ReplaceDto.ShowBtnDelete)
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.${GeneratorReplaceDto.FistLowerPk} || ids.value
+  const Ids = row.${ReplaceDto.FistLowerPk} || ids.value
 
   proxy
     .${confirm}confirm(proxy.${t}t('common.confirmDel') + Ids + proxy.${t}t('common.confirmDelDataitems'), proxy.${t}t('common.warningTips'), {
@@ -982,7 +982,7 @@ function handleDelete(row) {
 }
 $end
 
-$if(GeneratorReplaceDto.ShowBtnTruncate)
+$if(ReplaceDto.ShowBtnTruncate)
 // 清空
 function handleClear() {
   proxy
@@ -1001,7 +1001,7 @@ function handleClear() {
 }
 $end
 
-$if(GeneratorReplaceDto.ShowBtnImport)
+$if(ReplaceDto.ShowBtnImport)
 // 导入数据成功处理
 const handleFileSuccess = (response) => {
   const { item1, item2 } = response.data
@@ -1016,7 +1016,7 @@ const handleFileSuccess = (response) => {
 }
 $end
 
-$if(GeneratorReplaceDto.ShowBtnExport)
+$if(ReplaceDto.ShowBtnExport)
 // 导出按钮操作
 function handleExport() {
   proxy
@@ -1076,7 +1076,7 @@ function handleDelete${genTable.SubTable.ClassName}() {
 
 /** ${genTable.SubTable.FunctionName}详情 */
 function rowClick(row) {
-  const id = row.${GeneratorReplaceDto.FistLowerPk} || ids.value
+  const id = row.${ReplaceDto.FistLowerPk} || ids.value
   get${genTable.BusinessName}(id).then((res) => {
     const { code, data } = res
     if (code == 200) {

@@ -37,6 +37,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Ams.Infrastructure\Ams.Infrastructure.csproj" />
+		<ProjectReference Include="..\Ams.Infrastructure\Ams.Infrastructure.csproj" />
 	</ItemGroup>
 </Project>

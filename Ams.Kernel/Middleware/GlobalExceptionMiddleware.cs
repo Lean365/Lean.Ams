@@ -1,4 +1,9 @@
 ﻿using System.Text.Encodings.Web;
+using Ams.Common;
+using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.Model;
+using Ams.Kernel.Model.Monitor;
+using Ams.Kernel.Services.IService.Monitor;
 using IPTools.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -10,20 +15,20 @@ namespace Ams.Kernel.Middleware
     /// <summary>
     /// 全局异常处理中间件
     /// 调用 app.UseMiddlewareGlobalExceptionMiddleware>();
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class GlobalExceptionMiddleware
     {
         private readonly RequestDelegate next;
-        private readonly IOperLogService OperLogService;
+        private readonly ILogOperService LogOperService;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public GlobalExceptionMiddleware(RequestDelegate next, IOperLogService OperLog)
+        public GlobalExceptionMiddleware(RequestDelegate next, ILogOperService LogOper)
         {
             this.next = next;
-            this.OperLogService = OperLog;
+            this.LogOperService = LogOper;
         }
 
         public async Task Invoke(HttpContext context)
@@ -77,7 +82,7 @@ namespace Ams.Kernel.Middleware
             string ip = HttpContextExtension.GetClientUserIp(context);
             var ip_info = IpTool.Search(ip);
 
-            OperLog OperLog = new()
+            LogOper LogOper = new()
             {
                 IsStated = 1,
                 OperIp = ip,
@@ -96,10 +101,10 @@ namespace Ams.Kernel.Middleware
                 var logAttribute = endpoint.Metadata.GetMetadata<LogAttribute>();
                 if (logAttribute != null)
                 {
-                    OperLog.BusinessType = (int)logAttribute.BusinessType;
-                    OperLog.Title = logAttribute?.Title;
-                    OperLog.OperParam = logAttribute.IsSaveRequestData ? OperLog.OperParam : "";
-                    OperLog.JsonResult = logAttribute.IsSaveResponseData ? OperLog.JsonResult : "";
+                    LogOper.BusinessType = (int)logAttribute.BusinessType;
+                    LogOper.Title = logAttribute?.Title;
+                    LogOper.OperParam = logAttribute.IsSaveRequestData ? LogOper.OperParam : "";
+                    LogOper.JsonResult = logAttribute.IsSaveResponseData ? LogOper.JsonResult : "";
                 }
             }
             LogEventInfo ei = new(logLevel, "GlobalExceptionMiddleware", error)
@@ -109,20 +114,20 @@ namespace Ams.Kernel.Middleware
             };
             ei.Properties["status"] = 1;//走正常返回都是通过走GlobalExceptionFilter不通过
             ei.Properties["jsonResult"] = responseResult;
-            ei.Properties["requestParam"] = OperLog.OperParam;
-            ei.Properties["user"] = OperLog.OperName;
+            ei.Properties["requestParam"] = LogOper.OperParam;
+            ei.Properties["user"] = LogOper.OperName;
 
             Logger.Log(ei);
             context.Response.ContentType = "text/json;charset=utf-8";
             await context.Response.WriteAsync(responseResult, System.Text.Encoding.UTF8);
 
-            string errorMsg = $"> 操作人：{OperLog.OperName}" +
-                $"\n> 操作地区：{OperLog.OperIp}({OperLog.OperLocation})" +
-                $"\n> 操作模块：{OperLog.Title}" +
-                $"\n> 操作地址：{OperLog.OperUrl}" +
+            string errorMsg = $"> 操作人：{LogOper.OperName}" +
+                $"\n> 操作地区：{LogOper.OperIp}({LogOper.OperLocation})" +
+                $"\n> 操作模块：{LogOper.Title}" +
+                $"\n> 操作地址：{LogOper.OperUrl}" +
                 $"\n> 错误信息：{msg}\n\n> {error}";
 
-            OperLogService.InsertOperlog(OperLog);
+            LogOperService.InsertOperlog(LogOper);
             if (!notice) return;
             WxNoticeHelper.SendMsg("系统异常", errorMsg, msgType: WxNoticeHelper.MsgType.markdown);
         }

@@ -1,10 +1,10 @@
+using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Services.IService.System;
+
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 系统参数
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 参数配置Service业务层处理
     /// </summary>
     [AppService(ServiceType = typeof(ISysConfigService), ServiceLifetime = LifeTime.Transient)]
     public class SysConfigService : BaseService<SysConfig>, ISysConfigService

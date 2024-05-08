@@ -1,4 +1,6 @@
-﻿using Ams.Model.System;
+﻿using Ams.Model;
+using Ams.Model.System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ams.WebApi.Controllers.System
 {
@@ -25,7 +27,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 获取角色信息管理
+        /// 获取系统角色管理
         /// </summary>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:role:list")]
@@ -38,7 +40,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 根据角色信息编号获取详细信息
+        /// 根据角色编号获取详细信息
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
@@ -51,13 +53,13 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 添加角色信息
+        /// 添加角色
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "system:role:add")]
-        [Log(Title = "角色信息管理", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "角色管理", BusinessType = BusinessType.INSERT)]
         [Route("edit")]
         public IActionResult RoleAdd([FromBody] SysRoleDto dto)
         {
@@ -65,7 +67,7 @@ namespace Ams.WebApi.Controllers.System
             SysRole sysRoleDto = dto.Adapt<SysRole>();
             if (UserConstants.NOT_UNIQUE.Equals(sysRoleService.CheckRoleKeyUnique(sysRoleDto)))
             {
-                return ToResponse(ApiResult.Error((int)ResultCode.CUSTOM_ERROR, $"新增角色信息'{sysRoleDto.RoleName}'失败，角色信息权限已存在"));
+                return ToResponse(ApiResult.Error((int)ResultCode.CUSTOM_ERROR, $"新增角色'{sysRoleDto.RoleName}'失败，角色权限已存在"));
             }
 
             sysRoleDto.Create_by = HttpContext.GetName();
@@ -75,13 +77,13 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 修改角色信息
+        /// 修改角色
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "system:role:edit")]
-        [Log(Title = "角色信息管理", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "system:role:update")]
+        [Log(Title = "角色管理", BusinessType = BusinessType.UPDATE)]
         [Route("edit")]
         public IActionResult RoleEdit([FromBody] SysRoleDto dto)
         {
@@ -96,7 +98,7 @@ namespace Ams.WebApi.Controllers.System
             {
                 if (UserConstants.NOT_UNIQUE.Equals(sysRoleService.CheckRoleKeyUnique(sysRoleDto)))
                 {
-                    return ToResponse(ApiResult.Error($"编辑角色信息'{sysRoleDto.RoleName}'失败，角色信息权限已存在"));
+                    return ToResponse(ApiResult.Error($"编辑角色'{sysRoleDto.RoleName}'失败，角色权限已存在"));
                 }
             }
             sysRoleDto.Update_by = HttpContext.GetName();
@@ -105,17 +107,17 @@ namespace Ams.WebApi.Controllers.System
             {
                 return SUCCESS(upResult);
             }
-            return ToResponse(ApiResult.Error($"修改角色信息'{sysRoleDto.RoleName}'失败，请联系管理员"));
+            return ToResponse(ApiResult.Error($"修改角色'{sysRoleDto.RoleName}'失败，请联系管理员"));
         }
 
         /// <summary>
-        /// 根据角色信息分配菜单信息
+        /// 根据角色分配菜单
         /// </summary>
         /// <param name="sysRoleDto"></param>
         /// <returns></returns>
         [HttpPut("dataScope")]
         [ActionPermissionFilter(Permission = "system:role:authorize")]
-        [Log(Title = "角色信息管理", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "角色管理", BusinessType = BusinessType.UPDATE)]
         public IActionResult DataScope([FromBody] SysRoleDto sysRoleDto)
         {
             if (sysRoleDto == null || sysRoleDto.RoleId <= 0) return ToResponse(ApiResult.Error(101, "请求参数错误"));
@@ -129,12 +131,12 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 角色信息删除
+        /// 角色删除
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
         [HttpDelete("{roleId}")]
-        [Log(Title = "角色信息管理", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "角色管理", BusinessType = BusinessType.DELETE)]
         [ActionPermissionFilter(Permission = "system:role:delete")]
         public IActionResult Remove(string roleId)
         {
@@ -145,13 +147,13 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 修改角色信息状态
+        /// 修改角色状态
         /// </summary>
-        /// <param name="roleDto">角色信息对象</param>
+        /// <param name="roleDto">角色对象</param>
         /// <returns></returns>
         [HttpPut("changeStatus")]
-        [Log(Title = "修改角色信息状态", BusinessType = BusinessType.UPDATE)]
-        [ActionPermissionFilter(Permission = "system:role:edit")]
+        [Log(Title = "修改角色状态", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "system:role:update")]
         public IActionResult ChangeStatus([FromBody] SysRole roleDto)
         {
             sysRoleService.CheckRoleAllowed(roleDto);
@@ -161,17 +163,17 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 角色信息导出
+        /// 角色导出
         /// </summary>
         /// <returns></returns>
-        [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "角色信息导出")]
+        [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "角色导出")]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "system:role:export")]
         public IActionResult Export()
         {
             var list = sysRoleService.SelectRoleAll();
 
-            string sFileName = ExportExcel(list, "sysrole", "角色信息");
+            string sFileName = ExportExcel(list, "sysrole", "角色");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
 

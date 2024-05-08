@@ -6,8 +6,9 @@ namespace Ams.Infrastructure.Helper
 {
     /// <summary>
     /// Jn模板帮助类
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// 极念模板引擎
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class JnHelper
     {

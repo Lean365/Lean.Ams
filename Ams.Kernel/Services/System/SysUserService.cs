@@ -1,16 +1,16 @@
 using System.Collections;
-using Ams.Model.System;
-using Ams.Model.System.Dto;
+using Ams.Common;
+using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Model.Dto.Login;
+using Ams.Kernel.Services.IService.System;
+using Ams.Model;
 using Ams.Repository;
 using IPTools.Core;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 用户信息
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 系统用户
     /// </summary>
     [AppService(ServiceType = typeof(ISysUserService), ServiceLifetime = LifeTime.Transient)]
     public class SysUserService : BaseService<SysUser>, ISysUserService
@@ -95,6 +95,29 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
+        /// 校验手机号是否绑定
+        /// </summary>
+        /// <param name="phoneNum"></param>
+        /// <returns></returns>
+        public List<long> CheckPhoneBind(string phoneNum)
+        {
+            var list = GetList(it => it.Phonenumber == phoneNum);
+            var temp = list.Select(x => x.UserId).ToList();
+            return list.Count > 0 ? temp : new List<long>();
+        }
+
+        /// <summary>
+        /// 绑定手机号
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="phoneNum"></param>
+        /// <returns></returns>
+        public int ChangePhoneNum(long userid, string phoneNum)
+        {
+            return Update(new SysUser() { Phonenumber = phoneNum }, it => new { it.Phonenumber }, f => f.UserId == userid);
+        }
+
+        /// <summary>
         /// 新增保存用户信息
         /// </summary>
         /// <param name="sysUser"></param>
@@ -130,14 +153,14 @@ namespace Ams.Kernel.Services.System
             {
                 if (diffArr.Length > 0 || diffArr2.Length > 0)
                 {
-                    //删除用户与角色信息关联
+                    //删除用户与角色关联
                     UserRoleService.DeleteUserRoleByUserId((int)user.UserId);
-                    //新增用户与角色信息关联
+                    //新增用户与角色关联
                     UserRoleService.InsertUserRole(user);
                 }
-                // 删除用户与岗位信息关联
+                // 删除用户与岗位关联
                 UserPostService.Delete(user.UserId);
-                // 新增用户与岗位信息管理
+                // 新增用户与岗位管理
                 UserPostService.InsertUserPost(user);
                 ChangeUser(user);
             });
@@ -194,9 +217,9 @@ namespace Ams.Kernel.Services.System
             CheckUserAllowed(new SysUser() { UserId = userid });
             var result = UseTran(() =>
             {
-                //删除用户与角色信息关联
+                //删除用户与角色关联
                 UserRoleService.DeleteUserRoleByUserId((int)userid);
-                // 删除用户与岗位信息关联
+                // 删除用户与岗位关联
                 UserPostService.Delete(userid);
                 Update(new SysUser() { UserId = userid, IsDeleted = 2 }, it => new { it.IsDeleted }, f => f.UserId == userid);
             });
@@ -252,14 +275,14 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 校验角色信息是否允许操作
+        /// 校验角色是否允许操作
         /// </summary>
         /// <param name="user"></param>
         public void CheckUserAllowed(SysUser user)
         {
             if (user.IsAdmin)
             {
-                throw new CustomException("不允许操作超级管理员角色信息");
+                throw new CustomException("不允许操作超级管理员角色");
             }
         }
 
@@ -296,7 +319,7 @@ namespace Ams.Kernel.Services.System
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
 
-            string msg = string.Format(" 插入{0} 更新人员{1} 错误数据{2} 不计算数据{3} 删除数据{4} 总共{5}",
+            string msg = string.Format(" 插入{0} 更新{1} 错误数据{2} 不计算数据{3} 删除数据{4} 总共{5}",
                                x.InsertList.Count,
                                x.UpdateList.Count,
                                x.ErrorList.Count,

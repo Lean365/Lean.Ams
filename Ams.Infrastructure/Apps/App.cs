@@ -10,9 +10,9 @@ using Microsoft.Extensions.Options;
 namespace Ams.Infrastructure.Apps
 {
     /// <summary>
-    /// 应用配置
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// 应用
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public static class App
     {

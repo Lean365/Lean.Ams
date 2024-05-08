@@ -1,6 +1,10 @@
-﻿using Ams.Model.System;
-using MiniExcelLibs;
+﻿using MiniExcelLibs;
 using SqlSugar.IOC;
+using Ams.Common;
+using Ams.Model.Content;
+using Ams.Kernel.Model;
+using Ams.Kernel.Model.Routine;
+using Ams.Kernel.Model.System;
 
 namespace Ams.Kernel.Services
 {
@@ -16,10 +20,6 @@ namespace Ams.Kernel.Services
         /// <returns></returns>
         public (string, object, object) InitUserData(List<SysUser> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             data.ForEach(x =>
             {
                 x.Password = "E10ADC3949BA59ABBE56E057F20F883E";
@@ -42,27 +42,22 @@ namespace Ams.Kernel.Services
         }
 
         /// <summary>
-        /// 菜单信息数据
+        /// 菜单数据
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
         public (string, object, object) InitMenuData(List<SysMenu> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
                 .SplitInsert(it => it.NotAny())
                 .WhereColumns(it => it.MenuId)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.OffIdentity().ExecuteCommand();//插入可插入部分;
-
-            string msg = $"[菜单信息数据] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
+            
+            string msg = $"[菜单数据] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
-
         /// <summary>
         /// 角色菜单数据
         /// </summary>
@@ -70,10 +65,6 @@ namespace Ams.Kernel.Services
         /// <returns></returns>
         public (string, object, object) InitRoleMenuData(List<SysRoleMenu> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
                 .SplitInsert(it => it.NotAny())
@@ -84,18 +75,13 @@ namespace Ams.Kernel.Services
             string msg = $"[角色菜单] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
-
         /// <summary>
-        /// 初始化部门信息数据
+        /// 初始化部门数据
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
         public (string, object, object) InitDeptData(List<SysDept> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
                 .SplitInsert(it => it.NotAny())
@@ -103,16 +89,12 @@ namespace Ams.Kernel.Services
                 .ToStorage();
             var result = x.AsInsertable.OffIdentity().ExecuteCommand();
 
-            string msg = $"[部门信息数据] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
+            string msg = $"[部门数据] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
 
         public (string, object, object) InitPostData(List<SysPost> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
                 .SplitInsert(it => it.NotAny())
@@ -120,16 +102,12 @@ namespace Ams.Kernel.Services
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();
 
-            string msg = $"[岗位信息数据] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
+            string msg = $"[岗位数据] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
 
         public (string, object, object) InitRoleData(List<SysRole> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
                 .SplitInsert(it => it.NotAny())
@@ -137,16 +115,12 @@ namespace Ams.Kernel.Services
                 .ToStorage();
             var result = x.AsInsertable.OffIdentity().ExecuteCommand();
 
-            string msg = $"[角色信息数据] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
+            string msg = $"[角色数据] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
 
         public (string, object, object) InitUserRoleData(List<SysUserRole> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
                 .SplitInsert(it => it.NotAny())
@@ -154,7 +128,7 @@ namespace Ams.Kernel.Services
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();
 
-            string msg = $"[用户角色信息] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
+            string msg = $"[用户角色] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
 
@@ -165,10 +139,6 @@ namespace Ams.Kernel.Services
         /// <returns></returns>
         public (string, object, object) InitConfigData(List<SysConfig> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
                 .SplitInsert(it => it.NotAny())
@@ -187,10 +157,6 @@ namespace Ams.Kernel.Services
         /// <returns></returns>
         public (string, object, object) InitDictType(List<SysDictType> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
                 .SplitInsert(it => it.NotAny())
@@ -209,10 +175,6 @@ namespace Ams.Kernel.Services
         /// <returns></returns>
         public (string, object, object) InitDictData(List<SysDictData> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
                 .WhereColumns(it => new { it.DictType, it.DictValue })
@@ -220,7 +182,7 @@ namespace Ams.Kernel.Services
             x.AsInsertable.ExecuteCommand();
             x.AsUpdateable.ExecuteCommand();
 
-            string msg = $"[字典数据] 插入{x.InsertList.Count} 更新人员{x.UpdateList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
+            string msg = $"[字典数据] 插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
 
@@ -231,10 +193,6 @@ namespace Ams.Kernel.Services
         /// <returns></returns>
         public (string, object, object) InitArticleCategoryData(List<ArticleCategory> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
                 //.SplitInsert(it => it.NotAny())
@@ -242,7 +200,24 @@ namespace Ams.Kernel.Services
                 .ToStorage();
             x.AsInsertable.ExecuteCommand();
             x.AsUpdateable.ExecuteCommand();
-            string msg = $"[文章目录] 插入{x.InsertList.Count} 更新人员{x.UpdateList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
+            string msg = $"[文章目录] 插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
+            return (msg, x.ErrorList, x.IgnoreList);
+        }
+
+        /// <summary>
+        /// 文章话题
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public (string, object, object) InitArticleTopicData(List<ArticleTopic> data)
+        {
+            var db = DbScoped.SugarScope;
+            var x = db.Storageable(data)
+                .WhereColumns(it => it.TopicName)
+                .ToStorage();
+            x.AsInsertable.ExecuteCommand();
+            x.AsUpdateable.ExecuteCommand();
+            string msg = $"[文章话题] 插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
 
@@ -253,10 +228,6 @@ namespace Ams.Kernel.Services
         /// <returns></returns>
         public (string, object, object) InitTaskData(List<TasksQz> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
                 .SplitInsert(it => it.NotAny())
@@ -275,10 +246,6 @@ namespace Ams.Kernel.Services
         /// <returns></returns>
         public (string, object, object) InitNoticeData(List<Notice> data)
         {
-            data.ForEach(x =>
-            {
-                x.Create_by = App.UserName;
-            });
             var db = DbScoped.SugarScope;
             var x = db.Storageable(data)
                 .WhereColumns(it => new { it.NoticeId })
@@ -286,7 +253,7 @@ namespace Ams.Kernel.Services
             x.AsInsertable.ExecuteCommand();
             x.AsUpdateable.ExecuteCommand();
 
-            string msg = $"[通知公告数据] 插入{x.InsertList.Count} 更新人员{x.UpdateList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
+            string msg = $"[通知公告数据] 插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
 
@@ -343,8 +310,8 @@ namespace Ams.Kernel.Services
             var result7 = InitRoleMenuData(sysRoleMenu);
             result.Add(result7.Item1);
 
-            var sysDict = MiniExcel.Query<SysDictType>(path, sheetName: "dict_type").ToList();
-            var result8 = InitDictType(sysDict);
+            var SysDict = MiniExcel.Query<SysDictType>(path, sheetName: "dict_type").ToList();
+            var result8 = InitDictType(SysDict);
             result.Add(result8.Item1);
 
             var SysDictData = MiniExcel.Query<SysDictData>(path, sheetName: "dict_data").ToList();
@@ -358,6 +325,10 @@ namespace Ams.Kernel.Services
             var sysArticleCategory = MiniExcel.Query<ArticleCategory>(path, sheetName: "article_category").ToList();
             var result11 = InitArticleCategoryData(sysArticleCategory);
             result.Add(result11.Item1);
+
+            var sysArticleTopic = MiniExcel.Query<ArticleTopic>(path, sheetName: "article_topic").ToList();
+            var result13 = InitArticleTopicData(sysArticleTopic);
+            result.Add(result13.Item1);
 
             var Notice = MiniExcel.Query<Notice>(path, sheetName: "notice").ToList();
             var result12 = InitNoticeData(Notice);

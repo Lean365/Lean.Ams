@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Ams.Model;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Ams.WebApi.Controllers.System
 {
@@ -45,7 +47,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 根据字典类别查询字典数据信息
+        /// 根据字典类型查询字典数据信息
         /// </summary>
         /// <param name="dictType"></param>
         /// <returns></returns>
@@ -57,7 +59,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 根据字典类别查询字典数据信息
+        /// 根据字典类型查询字典数据信息
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
@@ -136,7 +138,7 @@ namespace Ams.WebApi.Controllers.System
         /// </summary>
         /// <param name="dict"></param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "system:dict:edit")]
+        [ActionPermissionFilter(Permission = "system:dict:update")]
         [Log(Title = "字典数据", BusinessType = BusinessType.UPDATE)]
         [HttpPut()]
         public IActionResult Edit([FromBody] SysDictData dict)
@@ -146,12 +148,12 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 删除字典类别
+        /// 删除字典类型
         /// </summary>
         /// <param name="dictCode"></param>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:dict:delete")]
-        [Log(Title = "字典类别", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "字典类型", BusinessType = BusinessType.DELETE)]
         [HttpDelete("{dictCode}")]
         public IActionResult Remove(string dictCode)
         {

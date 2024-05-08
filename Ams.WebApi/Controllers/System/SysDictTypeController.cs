@@ -1,4 +1,6 @@
-﻿using Ams.Model.System;
+﻿using Ams.Model;
+using Ams.Model.System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ams.WebApi.Controllers.System
 {
@@ -36,7 +38,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 查询字典类别详细
+        /// 查询字典类型详细
         /// </summary>
         /// <param name="dictId"></param>
         /// <returns></returns>
@@ -48,7 +50,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 添加字典类别
+        /// 添加字典类型
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
@@ -60,7 +62,7 @@ namespace Ams.WebApi.Controllers.System
             SysDictType dict = dto.Adapt<SysDictType>();
             if (UserConstants.NOT_UNIQUE.Equals(_SysDictTypeService.CheckDictTypeUnique(dict)))
             {
-                return ToResponse(ApiResult.Error($"新增字典'{dict.DictName}'失败，字典类别已存在"));
+                return ToResponse(ApiResult.Error($"新增字典'{dict.DictName}'失败，字典类型已存在"));
             }
             dict.Create_by = HttpContext.GetName();
             dict.Create_time = DateTime.Now;
@@ -68,11 +70,11 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 修改字典类别
+        /// 修改字典类型
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "system:dict:edit")]
+        [ActionPermissionFilter(Permission = "system:dict:update")]
         [Log(Title = "字典操作", BusinessType = BusinessType.UPDATE)]
         [Route("edit")]
         [HttpPut]
@@ -81,7 +83,7 @@ namespace Ams.WebApi.Controllers.System
             SysDictType dict = dto.Adapt<SysDictType>();
             if (UserConstants.NOT_UNIQUE.Equals(_SysDictTypeService.CheckDictTypeUnique(dict)))
             {
-                return ToResponse(ApiResult.Error($"修改字典'{dict.DictName}'失败，字典类别已存在"));
+                return ToResponse(ApiResult.Error($"修改字典'{dict.DictName}'失败，字典类型已存在"));
             }
             //设置添加人
             dict.Update_by = HttpContext.GetName();
@@ -89,11 +91,11 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 删除字典类别
+        /// 删除字典类型
         /// </summary>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:dict:delete")]
-        [Log(Title = "删除字典类别", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "删除字典类型", BusinessType = BusinessType.DELETE)]
         [HttpDelete("{ids}")]
         public IActionResult Remove(string ids)
         {
@@ -113,7 +115,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = _SysDictTypeService.GetAll();
 
-            string sFileName = ExportExcel(list, "sysdictType", "字典");
+            string sFileName = ExportExcel(list, "SysDictType", "字典");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
     }

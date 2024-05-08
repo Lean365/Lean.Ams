@@ -6,7 +6,7 @@ using Ams.Kernel.Services.IService.System;
 namespace Ams.Kernel.Services
 {
     /// <summary>
-    /// 角色信息权限
+    /// 角色权限
     /// </summary>
     [AppService(ServiceType = typeof(ISysPermissionService), ServiceLifetime = LifeTime.Transient)]
     public class SysPermissionService : ISysPermissionService
@@ -23,10 +23,10 @@ namespace Ams.Kernel.Services
         }
 
         /// <summary>
-        /// 获取角色信息数据权限
+        /// 获取角色数据权限
         /// </summary>
         /// <param name="user">用户信息</param>
-        /// <returns>角色信息权限信息</returns>
+        /// <returns>角色权限信息</returns>
         public List<string> GetRolePermission(SysUser user)
         {
             List<string> roles = new();
@@ -43,10 +43,10 @@ namespace Ams.Kernel.Services
         }
 
         /// <summary>
-        /// 获取菜单信息数据权限
+        /// 获取菜单数据权限
         /// </summary>
         /// <param name="user">用户信息</param>
-        /// <returns>菜单信息权限信息</returns>
+        /// <returns>菜单权限信息</returns>
         public List<string> GetMenuPermission(SysUser user)
         {
             List<string> perms = new();

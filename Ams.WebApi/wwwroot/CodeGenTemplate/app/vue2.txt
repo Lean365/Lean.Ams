@@ -1,8 +1,8 @@
 ﻿<template>
   <view class="container">
     <view class="search-bar">
-$if(GeneratorReplaceDto.ShowBtnAdd)
-      <u-button type="primary" size="small" shape="circle" icon="plus" v-if="checkPermi(['${GeneratorReplaceDto.PermissionPrefix}:add'])"
+$if(replaceDto.ShowBtnAdd)
+      <u-button type="primary" size="small" shape="circle" icon="plus" v-if="checkPermi(['${replaceDto.PermissionPrefix}:add'])"
         @click="handleAdd" :customStyle="{'width': '80px', 'margin': '10px'}">新增</u-button>
 $end
       <u-search :disabled="true" placeholder="请输入要搜索的内容" @click="show=true"></u-search>
@@ -37,19 +37,19 @@ $end
 $end
 $end
       <view class="info-btn-wrap justify-end">
-$if(GeneratorReplaceDto.ShowBtnView)
+$if(replaceDto.ShowBtnView)
         <view class="tag-item">
           <u-tag text="详情" plain shape="circle" type="info" icon="eye" @click="handleView(item)"
-            v-if="checkPermi(['${GeneratorReplaceDto.PermissionPrefix}:query'])"></u-tag>
+            v-if="checkPermi(['${replaceDto.PermissionPrefix}:query'])"></u-tag>
         </view>
 $end
-$if(GeneratorReplaceDto.ShowBtnEdit)
+$if(replaceDto.ShowBtnEdit)
         <view class="tag-item">
           <u-tag text="编辑" plain shape="circle" icon="edit-pen" @click="handleEdit(item)"
-            v-if="checkPermi(['${GeneratorReplaceDto.PermissionPrefix}:edit'])"></u-tag>
+            v-if="checkPermi(['${replaceDto.PermissionPrefix}:update'])"></u-tag>
         </view>
 $end
-$if(GeneratorReplaceDto.ShowBtnDelete || GeneratorReplaceDto.ShowBtnMultiDel)
+$if(replaceDto.ShowBtnDelete || replaceDto.ShowBtnMultiDel)
         <view class="tag-item">
           <u-tag text="删除" class="tag-item" plain shape="circle" type="error" icon="trash"
             v-if="checkPermi(['userinfo:delete'])" @click="handleDelete(item)"></u-tag>
@@ -136,7 +136,7 @@ $end
   } from '@/utils/permission.js'
   import {
     list${genTable.BusinessName},
-$if(GeneratorReplaceDto.ShowBtnDelete)
+$if(replaceDto.ShowBtnDelete)
     del${genTable.BusinessName},
 $end
   } from '@/api/${tool.FirstLowerCase(genTable.ModuleName)}/${genTable.BusinessName.ToLower()}.js'
@@ -210,24 +210,24 @@ $end
           }
         })
       },
-$if(GeneratorReplaceDto.ShowBtnAdd)
+$if(replaceDto.ShowBtnAdd)
       handleAdd() {
         this.${tab}tab.navigateTo('./edit?opertype=1')
       },
 $end
-$if(GeneratorReplaceDto.ShowBtnEdit)
+$if(replaceDto.ShowBtnEdit)
       handleEdit(e) {
-        this.${tab}tab.navigateTo('./edit?opertype=2&${GeneratorReplaceDto.FistLowerPk}=' + e.id)
+        this.${tab}tab.navigateTo('./edit?opertype=2&${replaceDto.FistLowerPk}=' + e.id)
       },
 $end
-$if(GeneratorReplaceDto.ShowBtnView)
+$if(replaceDto.ShowBtnView)
       handleView(e) {
-        this.${tab}tab.navigateTo('./edit?opertype=3&${GeneratorReplaceDto.FistLowerPk}=' + e.id)
+        this.${tab}tab.navigateTo('./edit?opertype=3&${replaceDto.FistLowerPk}=' + e.id)
       },
 $end
-$if(GeneratorReplaceDto.ShowBtnDelete || GeneratorReplaceDto.ShowBtnMultiDel)
+$if(replaceDto.ShowBtnDelete || replaceDto.ShowBtnMultiDel)
       handleDelete(row) {
-        const Ids = row.${GeneratorReplaceDto.FistLowerPk};
+        const Ids = row.${replaceDto.FistLowerPk};
         
         this.${modal}modal.confirm('你确定要删除吗?').then(() => {
           return del${genTable.BusinessName}(Ids);

@@ -1,10 +1,7 @@
 ﻿namespace Ams.Model.System.Vo
 {
     /// <summary>
-    /// Treeselect树结构
-    /// 实体类
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// Treeselect树结构实体类
     /// </summary>
     public class TreeSelectVo
     {

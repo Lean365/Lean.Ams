@@ -1,5 +1,4 @@
-﻿using Ams.Common;
-using Ams.Infrastructure.Model;
+﻿using Ams.Infrastructure.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -10,8 +9,8 @@ namespace Ams.Kernel.Filters
     /// <summary>
     /// 授权校验访问
     /// 如果跳过授权登录在Action 或controller加上 AllowAnonymousAttribute
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     [AttributeUsage(AttributeTargets.All)]
     public class VerifyAttribute : Attribute, IAuthorizationFilter
@@ -50,7 +49,7 @@ namespace Ams.Kernel.Filters
                 var CK = "token_" + loginUser.UserId;
                 if (!CacheHelper.Exists(CK) && ts.TotalMinutes < 5)
                 {
-                    var newToken = JwtUtil.GenerateJwtToken(JwtUtil.AddClaims(loginUser));
+                    var newToken = JwtUtil.GeneratorJwtToken(JwtUtil.AddClaims(loginUser));
 
                     CacheHelper.SetCache(CK, CK, 1);
                     //移动端不加下面这个获取不到自定义Header

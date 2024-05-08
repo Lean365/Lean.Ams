@@ -1,3 +1,5 @@
+using Ams.Model;
+using Microsoft.AspNetCore.Mvc;
 using MiniExcelLibs;
 
 namespace Ams.WebApi.Controllers
@@ -29,7 +31,7 @@ namespace Ams.WebApi.Controllers
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "system:locale:list")]
+        [ActionPermissionFilter(Permission = "system:lang:list")]
         public IActionResult QuerySysLocale([FromQuery] SysLocaleQueryDto parm)
         {
             if (parm.ShowMode == 2)
@@ -64,7 +66,7 @@ namespace Ams.WebApi.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        [ActionPermissionFilter(Permission = "system:locale:query")]
+        [ActionPermissionFilter(Permission = "system:lang:query")]
         public IActionResult GetSysLocale(long Id)
         {
             var response = _SysLocaleService.GetFirst(x => x.Id == Id);
@@ -81,7 +83,7 @@ namespace Ams.WebApi.Controllers
         /// <param name="langKey"></param>
         /// <returns></returns>
         [HttpGet("key/{langKey}")]
-        [ActionPermissionFilter(Permission = "system:locale:query")]
+        [ActionPermissionFilter(Permission = "system:lang:query")]
         public IActionResult GetSysLocaleByKey(string langKey)
         {
             var list = _SysLocaleService.GetList(x => x.LangKey == langKey);
@@ -92,11 +94,11 @@ namespace Ams.WebApi.Controllers
         }
 
         /// <summary>
-        /// 更新人员本地语言
+        /// 更新本地语言
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "system:locale:edit")]
+        [ActionPermissionFilter(Permission = "system:lang:update")]
         [Log(Title = "本地语言", BusinessType = BusinessType.UPDATE)]
         public IActionResult UpdateSysLocale([FromBody] SysLocaleDto parm)
         {
@@ -115,7 +117,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "system:locale:delete")]
+        [ActionPermissionFilter(Permission = "system:lang:delete")]
         [Log(Title = "本地语言", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSysLocale(string ids)
         {
@@ -132,7 +134,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete("ByKey")]
-        [ActionPermissionFilter(Permission = "system:locale:delete")]
+        [ActionPermissionFilter(Permission = "system:lang:delete")]
         [Log(Title = "本地语言", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSysLocaleByKey(string langkey)
         {
@@ -152,7 +154,7 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [Log(Title = "本地语言", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "system:locale:export")]
+        [ActionPermissionFilter(Permission = "system:lang:export")]
         public IActionResult Export([FromQuery] SysLocaleQueryDto parm)
         {
             parm.PageSize = 10000;
@@ -169,22 +171,21 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpPost("importData")]
         [Log(Title = "多语言设置导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false, IsSaveResponseData = true)]
-        [ActionPermissionFilter(Permission = "system:locale:import")]
+        [ActionPermissionFilter(Permission = "system:lang:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
         {
             List<SysLocale> list = new();
             var nowTime = DateTime.Now;
-            var create = App.UserName;
             using (var stream = formFile.OpenReadStream())
             {
                 var rows = stream.Query(startCell: "A2").ToList();
 
                 foreach (var item in rows)
                 {
-                    list.Add(new SysLocale() { LangCode = "zh-cn", LangKey = item.A, LangName = item.B, Create_by = create, Create_time = nowTime });
-                    list.Add(new SysLocale() { LangCode = "zh-tw", LangKey = item.A, LangName = item.C, Create_by = create, Create_time = nowTime });
-                    list.Add(new SysLocale() { LangCode = "ja", LangKey = item.A, LangName = item.D, Create_by = create, Create_time = nowTime });
-                    list.Add(new SysLocale() { LangCode = "en", LangKey = item.A, LangName = item.E, Create_by = create, Create_time = nowTime });
+                    list.Add(new SysLocale() { LangCode = "zh-cn", LangKey = item.A, LangName = item.B, Create_time = nowTime });
+                    list.Add(new SysLocale() { LangCode = "zh-tw", LangKey = item.A, LangName = item.C, Create_time = nowTime });
+                    list.Add(new SysLocale() { LangCode = "ja", LangKey = item.A, LangName = item.D, Create_time = nowTime });
+                    list.Add(new SysLocale() { LangCode = "en", LangKey = item.A, LangName = item.E, Create_time = nowTime });
                 }
             }
 

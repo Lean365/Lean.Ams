@@ -1,31 +1,25 @@
-﻿using System.Threading.Tasks;
-using Ams.Infrastructure.Model;
-using Ams.Model.System;
+﻿using Ams.Infrastructure.Model;
+using System.Threading.Tasks;
+using Ams.Kernel.Model.Routine;
 
 namespace Ams.Tasks
 {
-    /// <summary>
-    /// 系统监控
-    /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
-    /// </summary>
     public interface ITaskSchedulerServer
-    {
-        Task<ApiResult> StartTaskScheduleAsync();
+	{
+		Task<ApiResult> StartTaskScheduleAsync();
 
-        Task<ApiResult> StopTaskScheduleAsync();
+		Task<ApiResult> StopTaskScheduleAsync();
 
-        Task<ApiResult> AddTaskScheduleAsync(TasksQz tasksQz);
+		Task<ApiResult> AddTaskScheduleAsync(TasksQz tasksQz);
 
-        Task<ApiResult> PauseTaskScheduleAsync(TasksQz tasksQz);
+		Task<ApiResult> PauseTaskScheduleAsync(TasksQz tasksQz);
 
-        Task<ApiResult> ResumeTaskScheduleAsync(TasksQz tasksQz);
+		Task<ApiResult> ResumeTaskScheduleAsync(TasksQz tasksQz);
 
-        Task<ApiResult> DeleteTaskScheduleAsync(TasksQz tasksQz);
+		Task<ApiResult> DeleteTaskScheduleAsync(TasksQz tasksQz);
 
-        Task<ApiResult> RunTaskScheduleAsync(TasksQz tasksQz);
+		Task<ApiResult> RunTaskScheduleAsync(TasksQz tasksQz);
 
-        Task<ApiResult> UpdateTaskScheduleAsync(TasksQz tasksQz);
-    }
+		Task<ApiResult> UpdateTaskScheduleAsync(TasksQz tasksQz);
+	}
 }

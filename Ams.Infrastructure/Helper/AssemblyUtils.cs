@@ -7,9 +7,9 @@ using Microsoft.Extensions.DependencyModel;
 namespace Ams.Infrastructure.Helper
 {
     /// <summary>
-    /// 组件工具类
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// AssemblyUtils
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public static class AssemblyUtils
     {

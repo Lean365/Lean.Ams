@@ -4,16 +4,15 @@ namespace Ams.Infrastructure
 {
     /// <summary>
     /// 时间处理类
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class DateTimeHelper
     {
         /// <summary>
-        /// 获取开始时间
+        ///
         /// </summary>
         /// <param name="dateTime"></param>
-        /// <param name="days"></param>
         /// <returns></returns>
         public static DateTime GetBeginTime(DateTime? dateTime, int days = 0)
         {

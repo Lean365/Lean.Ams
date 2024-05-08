@@ -1,14 +1,14 @@
 using System.ComponentModel.DataAnnotations;
 using Ams.Model;
+using MiniExcelLibs.Attributes;
 
 namespace Ams.Kernel.Model.Dto.Monitor
 {
     /// <summary>
-    /// 审计日志
-    /// 查询对象
-
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
+    /// 审计日志查询对象
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public class LogDiffQueryDto : PagerInfo
     {
@@ -20,11 +20,10 @@ namespace Ams.Kernel.Model.Dto.Monitor
     }
 
     /// <summary>
-    /// 审计日志
+    /// 审计日志输入输出对象
     /// 输入输出对象
-
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public class LogDiffDto
     {
@@ -55,7 +54,7 @@ namespace Ams.Kernel.Model.Dto.Monitor
         public string UserName { get; set; }
 
         [ExcelColumn(Name = "记录时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        public DateTime? ExecTime { get; set; }
+        public DateTime? createTime { get; set; }
 
         [ExcelColumn(Name = "数据库配置id")]
         public string ConfigId { get; set; }

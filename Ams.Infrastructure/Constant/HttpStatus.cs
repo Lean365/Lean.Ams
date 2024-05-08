@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ams.Infrastructure.Constant
+﻿namespace Ams.Infrastructure.Constant
 {
+    /// <summary>
+    /// HTTP状态码
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
+    /// </summary>
     public class HttpStatus
     {
         /// <summary>
         /// 操作成功
         /// </summary>
         public static readonly int SUCCESS = 200;
+
         /// <summary>
-        /// 对象创建人员成功
+        /// 对象创建成功
         /// </summary>
         public static readonly int CREATED = 201;
 

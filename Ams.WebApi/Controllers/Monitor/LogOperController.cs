@@ -1,27 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ams.Kernel.Filters;
-using Ams.Infrastructure.CustomException;
-using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Model.Dto.Monitor;
-using Ams.Kernel.Services.IService.Monitor;
+
 namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
-    /// 操作日志
+    /// 操作日志记录
     /// API控制器
-    /// @Author: (Lean365:Davis.Cheng)
-    /// @Date: (2023-12-15)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [Verify]
-    [Route("/monitor/operlog")]
+    [Route("/monitor/oper")]
     [ApiExplorerSettings(GroupName = "monitor")]
     public class LogOperController : BaseController
     {
-        private ILogOperService LogOperService;
+        private ILogOperService _LogOperService;
 
         public LogOperController(ILogOperService LogOperService)
         {
-            this.LogOperService = LogOperService;
+            this._LogOperService = LogOperService;
         }
 
         /// <summary>
@@ -32,10 +28,10 @@ namespace Ams.WebApi.Controllers.Monitor
         [HttpGet("list")]
         public IActionResult OperList([FromQuery] LogOperQueryDto LogOper)
         {
-            LogOper.OperName = !HttpContextExtension.IsAdmin(HttpContext) ? HttpContextExtension.GetName(HttpContext) : LogOper.OperName;
-            var list = LogOperService.SelectOperLogList(LogOper);
+            LogOper.OperName = !HttpContext.IsAdmin() ? HttpContext.GetName() : LogOper.OperName;
+            var list = _LogOperService.SelectOperLogList(LogOper);
 
-            return SUCCESS(list, TIME_FORMAT_YYYMMDD);
+            return SUCCESS(list);
         }
 
         /// <summary>
@@ -44,16 +40,16 @@ namespace Ams.WebApi.Controllers.Monitor
         /// <param name="operIds"></param>
         /// <returns></returns>
         [Log(Title = "操作日志", BusinessType = BusinessType.DELETE)]
-        [ActionPermissionFilter(Permission = "monitor:operlog:delete")]
+        [ActionPermissionFilter(Permission = "monitor:oper:delete")]
         [HttpDelete("{operIds}")]
         public IActionResult Remove(string operIds)
         {
-            if (!HttpContextExtension.IsAdmin(HttpContext))
+            if (!HttpContext.IsAdmin())
             {
                 return ToResponse(ApiResult.Error("操作失败"));
             }
             long[] operIdss = Tools.SpitLongArrary(operIds);
-            return SUCCESS(LogOperService.DeleteOperLogByIds(operIdss));
+            return SUCCESS(_LogOperService.DeleteOperLogByIds(operIdss));
         }
 
         /// <summary>
@@ -61,15 +57,15 @@ namespace Ams.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [Log(Title = "清空操作日志", BusinessType = BusinessType.CLEAN)]
-        [ActionPermissionFilter(Permission = "monitor:operlog:truncate")]
+        [ActionPermissionFilter(Permission = "monitor:oper:clean")]
         [HttpDelete("clean")]
         public IActionResult ClearOperLog()
         {
-            if (!HttpContextExtension.IsAdmin(HttpContext))
+            if (!HttpContext.IsAdmin())
             {
-                return ToResponse(ResultCode.CUSTOM_ERROR,"操作失败");
+                return ToResponse(ResultCode.CUSTOM_ERROR, "操作失败");
             }
-            LogOperService.CleanOperLog();
+            _LogOperService.CleanOperLog();
 
             return SUCCESS(1);
         }
@@ -79,15 +75,14 @@ namespace Ams.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [Log(Title = "操作日志", BusinessType = BusinessType.EXPORT)]
-        [ActionPermissionFilter(Permission = "monitor:operlog:export")]
+        [ActionPermissionFilter(Permission = "monitor:oper:export")]
         [HttpGet("export")]
         public IActionResult Export([FromQuery] LogOperQueryDto LogOper)
         {
             LogOper.PageSize = 100000;
-            var list = LogOperService.SelectOperLogList(LogOper);
-            var result = ExportExcelMini(list.Result, "操作日志", "操作日志", "/export/log/");
+            var list = _LogOperService.SelectOperLogList(LogOper);
+            var result = ExportExcelMini(list.Result, "操作日志", "操作日志");
             return ExportExcel(result.Item2, result.Item1);
         }
-
     }
 }

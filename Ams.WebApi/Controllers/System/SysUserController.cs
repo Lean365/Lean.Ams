@@ -1,6 +1,8 @@
+using Ams.Model;
 using Ams.Model.System;
-using Ams.Model.System.Dto;
+using Microsoft.AspNetCore.Mvc;
 using MiniExcelLibs;
+using SqlSugar;
 
 namespace Ams.WebApi.Controllers.System
 {
@@ -103,7 +105,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPut("edit")]
         [Log(Title = "用户管理", BusinessType = BusinessType.UPDATE)]
-        [ActionPermissionFilter(Permission = "system:user:edit")]
+        [ActionPermissionFilter(Permission = "system:user:update")]
         public IActionResult UpdateUser([FromBody] SysUserDto parm)
         {
             var user = parm.Adapt<SysUser>().ToUpdate(HttpContext);
@@ -121,7 +123,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPut("changeStatus")]
         [Log(Title = "修改用户状态", BusinessType = BusinessType.UPDATE)]
-        [ActionPermissionFilter(Permission = "system:user:edit")]
+        [ActionPermissionFilter(Permission = "system:user:update")]
         public IActionResult ChangeStatus([FromBody] SysUser user)
         {
             if (user == null) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }
@@ -173,7 +175,6 @@ namespace Ams.WebApi.Controllers.System
         [ActionPermissionFilter(Permission = "system:user:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
         {
-            formFile.ToCreate(HttpContext);
             List<SysUser> users = new();
             using (var stream = formFile.OpenReadStream())
             {

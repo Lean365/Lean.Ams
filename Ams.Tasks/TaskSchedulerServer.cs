@@ -1,40 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Ams.Infrastructure.Model;
-using Ams.Model.System;
+﻿using Ams.Infrastructure.Model;
 using NLog;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Matchers;
 using Quartz.Impl.Triggers;
 using Quartz.Spi;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using Ams.Kernel.Model.Routine;
 
 namespace Ams.Tasks
 {
     /// <summary>
-    /// 系统监控
-    /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 计划任务中心
     /// </summary>
+    //[AppService]
     public class TaskSchedulerServer : ITaskSchedulerServer
     {
         private Task<IScheduler> _scheduler;
-        private readonly IJobFactory _TaskFactory;
-
+        private readonly IJobFactory _jobFactory;
         /// <summary>
         /// 日志接口
         /// </summary>
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        public TaskSchedulerServer(IJobFactory TaskFactory)
+        public TaskSchedulerServer(IJobFactory jobFactory)
         {
             _scheduler = GetTaskSchedulerAsync();
-            _TaskFactory = TaskFactory;
+            _jobFactory = jobFactory;
         }
 
         /// <summary>
@@ -74,7 +71,7 @@ namespace Ams.Tasks
         {
             try
             {
-                _scheduler.Result.JobFactory = _TaskFactory;
+                _scheduler.Result.JobFactory = _jobFactory;
                 if (_scheduler.Result.IsStarted)
                 {
                     return ApiResult.Error(500, $"计划任务已经开启");
@@ -130,7 +127,6 @@ namespace Ams.Tasks
                 {
                     return ApiResult.Error(500, $"结束时间小于当前时间计划将不会被执行");
                 }
-
                 #region 设置开始时间和结束时间
 
                 tasksQz.BeginTime = tasksQz.BeginTime == null ? DateTime.Now : tasksQz.BeginTime;
@@ -139,27 +135,26 @@ namespace Ams.Tasks
                 DateTimeOffset starRunTime = DateBuilder.NextGivenSecondDate(tasksQz.BeginTime, 1);//设置开始时间
                 DateTimeOffset endRunTime = DateBuilder.NextGivenSecondDate(tasksQz.EndTime, 1);//设置暂停时间
 
-                #endregion 设置开始时间和结束时间
+                #endregion
 
-                #region 通过反射获取程序集类型和类
+                #region 通过反射获取程序集类型和类   
 
                 Assembly assembly = Assembly.Load(new AssemblyName(tasksQz.AssemblyName));
                 Type jobType = assembly.GetType(tasksQz.AssemblyName + "." + tasksQz.ClassName);
 
-                #endregion 通过反射获取程序集类型和类
-
+                #endregion
                 //2、开启调度器。判断任务调度是否开启
                 if (!_scheduler.Result.IsStarted)
                 {
                     await StartTaskScheduleAsync();
                 }
 
-                //3、创建人员任务。传入反射出来的执行程序集
+                //3、创建任务。传入反射出来的执行程序集
                 IJobDetail job = new JobDetailImpl(tasksQz.ID, tasksQz.JobGroup, jobType);
                 job.JobDataMap.Add("JobParam", tasksQz.JobParams);
                 ITrigger trigger;
 
-                //4、创建人员一个触发器
+                //4、创建一个触发器
                 if (tasksQz.Cron != null && CronExpression.IsValidExpression(tasksQz.Cron))
                 {
                     trigger = CreateCronTrigger(tasksQz);
@@ -202,7 +197,7 @@ namespace Ams.Tasks
                 JobKey jobKey = new JobKey(tasksQz.ID, tasksQz.JobGroup);
                 if (await _scheduler.Result.CheckExists(jobKey))
                 {
-                    // 防止创建人员时存在数据问题 先移除，然后在执行创建人员操作
+                    // 防止创建时存在数据问题 先移除，然后在执行创建操作
                     await _scheduler.Result.PauseJob(jobKey);
                 }
                 return ApiResult.Success($"暂停计划任务:【{tasksQz.Name}】成功");
@@ -292,7 +287,7 @@ namespace Ams.Tasks
         }
 
         /// <summary>
-        /// 更新人员计划任务
+        /// 更新计划任务
         /// </summary>
         /// <param name="tasksQz"></param>
         /// <returns></returns>
@@ -303,7 +298,7 @@ namespace Ams.Tasks
                 JobKey jobKey = new JobKey(tasksQz.ID, tasksQz.JobGroup);
                 if (await _scheduler.Result.CheckExists(jobKey))
                 {
-                    //防止创建人员时存在数据问题 先移除，然后在执行创建人员操作
+                    //防止创建时存在数据问题 先移除，然后在执行创建操作
                     await _scheduler.Result.DeleteJob(jobKey);
                 }
                 //await AddTaskScheduleAsync(tasksQz);
@@ -316,10 +311,10 @@ namespace Ams.Tasks
             }
         }
 
-        #region 创建人员触发器帮助方法
+        #region 创建触发器帮助方法
 
         /// <summary>
-        /// 创建人员SimpleTrigger触发器（简单触发器）
+        /// 创建SimpleTrigger触发器（简单触发器）
         /// </summary>
         /// <param name="tasksQz"></param>
         /// <returns></returns>
@@ -349,7 +344,7 @@ namespace Ams.Tasks
         }
 
         /// <summary>
-        /// 创建人员类型Cron的触发器
+        /// 创建类型Cron的触发器
         /// </summary>
         /// <param name="tasksQz"></param>
         /// <returns></returns>
@@ -365,6 +360,7 @@ namespace Ams.Tasks
                    .Build();
         }
 
-        #endregion 创建人员触发器帮助方法
+        #endregion
+
     }
 }

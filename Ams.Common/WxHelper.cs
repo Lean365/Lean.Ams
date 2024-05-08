@@ -9,6 +9,11 @@ using Newtonsoft.Json;
 
 namespace Ams.Common
 {
+    /// <summary>
+    /// 微信相关工具类
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
+    /// </summary>
     public class WxHelper
     {
         private static readonly string GetTokenUrl = "https://api.weixin.qq.com/cgi-bin/token";

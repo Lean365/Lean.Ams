@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-
 using Ams.Model.System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ams.WebApi.Controllers.System
 {
@@ -26,7 +26,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 获取部门信息列表
+        /// 获取部门列表
         /// </summary>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:dept:list")]
@@ -37,7 +37,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 查询部门信息列表（排除节点）
+        /// 查询部门列表（排除节点）
         /// </summary>
         /// <param name="deptId"></param>
         /// <returns></returns>
@@ -59,7 +59,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 获取部门信息下拉树列表
+        /// 获取部门下拉树列表
         /// </summary>
         /// <param name="dept"></param>
         /// <returns></returns>
@@ -72,7 +72,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 获取角色部门
+        /// 获取角色部门信息
         /// 加载对应角色部门列表树
         /// </summary>
         /// <param name="roleId"></param>
@@ -90,7 +90,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 根据部门信息编号获取详细信息
+        /// 根据部门编号获取详细信息
         /// </summary>
         /// <returns></returns>
         [HttpGet("{deptId}")]
@@ -102,61 +102,61 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 新增部门信息
+        /// 新增部门
         /// </summary>
         /// <param name="dept"></param>
         /// <returns></returns>
         [HttpPost]
-        [Log(Title = "部门信息管理", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "部门管理", BusinessType = BusinessType.INSERT)]
         [ActionPermissionFilter(Permission = "system:dept:add")]
         public IActionResult Add([FromBody] SysDept dept)
         {
             if (UserConstants.NOT_UNIQUE.Equals(DeptService.CheckDeptNameUnique(dept)))
             {
-                return ToResponse(ResultCode.CUSTOM_ERROR, $"新增部门信息{dept.DeptName}失败，部门信息名称已存在");
+                return ToResponse(ResultCode.CUSTOM_ERROR, $"新增部门{dept.DeptName}失败，部门名称已存在");
             }
             dept.Create_by = HttpContext.GetName();
             return ToResponse(DeptService.InsertDept(dept));
         }
 
         /// <summary>
-        /// 修改部门信息
+        /// 修改部门
         /// </summary>
         /// <param name="dept"></param>
         /// <returns></returns>
         [HttpPut]
-        [Log(Title = "部门信息管理", BusinessType = BusinessType.UPDATE)]
-        [ActionPermissionFilter(Permission = "system:dept:edit")]
+        [Log(Title = "部门管理", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "system:dept:update")]
         public IActionResult Update([FromBody] SysDept dept)
         {
             if (UserConstants.NOT_UNIQUE.Equals(DeptService.CheckDeptNameUnique(dept)))
             {
-                return ToResponse(ResultCode.CUSTOM_ERROR, $"修改部门信息{dept.DeptName}失败，部门信息名称已存在");
+                return ToResponse(ResultCode.CUSTOM_ERROR, $"修改部门{dept.DeptName}失败，部门名称已存在");
             }
             else if (dept.ParentId.Equals(dept.DeptId))
             {
-                return ToResponse(ResultCode.CUSTOM_ERROR, $"修改部门信息{dept.DeptName}失败，上级部门信息不能是自己");
+                return ToResponse(ResultCode.CUSTOM_ERROR, $"修改部门{dept.DeptName}失败，上级部门不能是自己");
             }
             dept.Update_by = HttpContext.GetName();
             return ToResponse(DeptService.UpdateDept(dept));
         }
 
         /// <summary>
-        /// 删除部门信息
+        /// 删除部门
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{deptId}")]
         [ActionPermissionFilter(Permission = "system:dept:delete")]
-        [Log(Title = "部门信息管理", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "部门管理", BusinessType = BusinessType.DELETE)]
         public IActionResult Remove(long deptId)
         {
             if (DeptService.Queryable().Count(it => it.ParentId == deptId && it.IsDeleted == 0) > 0)
             {
-                return ToResponse(ResultCode.CUSTOM_ERROR, $"存在下级部门信息，不允许删除");
+                return ToResponse(ResultCode.CUSTOM_ERROR, $"存在下级部门，不允许删除");
             }
             if (UserService.Queryable().Count(it => it.DeptId == deptId && it.IsDeleted == 0) > 0)
             {
-                return ToResponse(ResultCode.CUSTOM_ERROR, $"部门信息存在用户，不允许删除");
+                return ToResponse(ResultCode.CUSTOM_ERROR, $"部门存在用户，不允许删除");
             }
 
             return SUCCESS(DeptService.Delete(deptId));

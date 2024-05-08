@@ -3,8 +3,8 @@
     /// <summary>
     /// 登录日志
     /// 数据实体对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/25 13:57:42)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [SugarTable("log_login", "登录日志")]
     [Tenant("0")]
@@ -21,8 +21,8 @@
         /// <summary>
         /// 登录状态 0成功 1失败
         /// </summary>
-        [SugarColumn(DefaultValue = "0")]
-        public int IsState { get; set; }
+        [SugarColumn(Length = 1, DefaultValue = "0")]
+        public int IsStated { get; set; }
 
         /// <summary>
         /// 登录IP地址
@@ -59,17 +59,5 @@
 
         [SugarColumn(IsIgnore = true)]
         public DateTime? EndTime { get; set; }
-    }
-
-    public class StatiLogLoginDto
-    {
-        /// <summary>
-        /// 去重数据
-        /// </summary>
-        public int DeRepeatNum { get; set; }
-
-        public int Num { get; set; }
-        public DateTime Date { get; set; }
-        public string WeekName { get; set; }
     }
 }

@@ -9,8 +9,8 @@ namespace Ams.Infrastructure
 {
     /// <summary>
     /// 计算机相关帮助类
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class ComputerHelper
     {
@@ -104,20 +104,12 @@ namespace Ams.Infrastructure
             return diskInfos;
         }
 
-        /// <summary>
-        /// 判断是否是Unix系统
-        /// </summary>
-        /// <returns></returns>
         public static bool IsUnix()
         {
             var isUnix = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
             return isUnix;
         }
 
-        /// <summary>
-        /// 获取CPU使用率
-        /// </summary>
-        /// <returns></returns>
         public static string GetCPURate()
         {
             string cpuRate;
@@ -203,9 +195,6 @@ namespace Ams.Infrastructure
         public string FreeRam { get; set; }
     }
 
-    /// <summary>
-    /// 磁盘信息
-    /// </summary>
     public class DiskInfo
     {
         /// <summary>
@@ -213,19 +202,8 @@ namespace Ams.Infrastructure
         /// </summary>
         public string DiskName { get; set; }
 
-        /// <summary>
-        /// 磁盘类型
-        /// </summary>
         public string TypeName { get; set; }
-
-        /// <summary>
-        /// 总大小
-        /// </summary>
         public long TotalFree { get; set; }
-
-        /// <summary>
-        /// 总大小
-        /// </summary>
         public long TotalSize { get; set; }
 
         /// <summary>
@@ -238,15 +216,9 @@ namespace Ams.Infrastructure
         /// </summary>
         public long AvailableFreeSpace { get; set; }
 
-        /// <summary>
-        /// 可用率
-        /// </summary>
         public decimal AvailablePercent { get; set; }
     }
 
-    /// <summary>
-    /// 内存信息客户端
-    /// </summary>
     public class MemoryMetricsClient
     {
         #region 获取内存信息

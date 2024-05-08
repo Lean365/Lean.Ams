@@ -4,8 +4,8 @@ namespace Ams.Kernel.Model.System
 {
     /// <summary>
     /// 用户信息
-    /// 数据实体类：sys_user
-    /// @Author Lean365(Davis.Ching)
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
     /// </summary>
     [SugarTable("sys_user", "用户信息")]
@@ -62,13 +62,13 @@ namespace Ams.Kernel.Model.System
         /// </summary>
         [ExcelIgnore]
         [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public int IsStated { get; set; }
+        public int IsStated { get; set; } = 0;
 
         /// <summary>
         /// 删除标志（0代表存在 2代表删除）
         /// </summary>
-        [SugarColumn(DefaultValue = "0")]
-        public int IsDeleted { get; set; }
+        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int IsDeleted { get; set; } = 0;
 
         /// <summary>
         /// 最后登录IP
@@ -84,7 +84,7 @@ namespace Ams.Kernel.Model.System
         public DateTime? LoginDate { get; set; }
 
         /// <summary>
-        /// 部门信息Id
+        /// 部门Id
         /// </summary>
         [SugarColumn(DefaultValue = "0")]
         public long DeptId { get; set; }
@@ -104,7 +104,7 @@ namespace Ams.Kernel.Model.System
         }
 
         /// <summary>
-        /// 拥有角色信息个数
+        /// 拥有角色个数
         /// </summary>
         //[SugarColumn(IsIgnore = true)]
         //public int RoleNum { get; set; }
@@ -112,14 +112,14 @@ namespace Ams.Kernel.Model.System
         public string DeptName { get; set; }
 
         /// <summary>
-        /// 角色信息id集合
+        /// 角色id集合
         /// </summary>
         [SugarColumn(IsIgnore = true)]
         [ExcelIgnore]
         public long[] RoleIds { get; set; }
 
         /// <summary>
-        /// 岗位信息集合
+        /// 岗位集合
         /// </summary>
         [SugarColumn(IsIgnore = true)]
         [ExcelIgnore]

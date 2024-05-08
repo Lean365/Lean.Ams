@@ -2,8 +2,8 @@
 {
     /// <summary>
     /// 岗位信息
-    /// 数据实体类：sys_post
-    /// @Author Lean365(Davis.Ching)
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
     /// </summary>
     [SugarTable("sys_post", "岗位信息")]
@@ -11,7 +11,7 @@
     public class SysPost : SysBase
     {
         /// <summary>
-        /// 岗位信息Id
+        /// 岗位Id
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long PostId { get; set; }

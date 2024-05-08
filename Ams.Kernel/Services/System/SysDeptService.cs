@@ -1,13 +1,12 @@
-﻿using Ams.Model.System;
+﻿using Ams.Common;
+using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Services.IService.System;
 using Ams.Model.System.Vo;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 部门信息管理
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 部门管理
     /// </summary>
     [AppService(ServiceType = typeof(ISysDeptService), ServiceLifetime = LifeTime.Transient)]
     public class SysDeptService : BaseService<SysDept>, ISysDeptService
@@ -20,7 +19,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 查询部门信息管理数据
+        /// 查询部门管理数据
         /// </summary>
         /// <param name="dept"></param>
         /// <returns></returns>
@@ -43,7 +42,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 查询部门信息管理数据
+        /// 查询部门管理数据
         /// </summary>
         /// <param name="dept"></param>
         /// <returns></returns>
@@ -60,7 +59,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 校验部门信息名称是否唯一
+        /// 校验部门名称是否唯一
         /// </summary>
         /// <param name="dept"></param>
         /// <returns></returns>
@@ -86,7 +85,7 @@ namespace Ams.Kernel.Services.System
             //如果父节点不为正常状态,则不允许新增子节点
             if (info != null && UserConstants.DEPT_NORMAL != info?.IsStated)
             {
-                throw new CustomException("部门信息停用，不允许新增");
+                throw new CustomException("部门停用，不允许新增");
             }
             dept.Ancestors = "";
             if (info != null)
@@ -116,16 +115,16 @@ namespace Ams.Kernel.Services.System
             if (UserConstants.DEPT_NORMAL.Equals(dept.IsStated) && dept.Ancestors.IfNotEmpty()
                 && !"0".Equals(dept.Ancestors))
             {
-                // 如果该部门信息是启用状态，则启用该部门信息的所有上级部门信息
+                // 如果该部门是启用状态，则启用该部门的所有上级部门
                 UpdateParentDeptStatusNormal(dept);
             }
             return result;
         }
 
         /// <summary>
-        /// 修改该部门信息的父级部门信息状态
+        /// 修改该部门的父级部门状态
         /// </summary>
-        /// <param name="dept">当前部门信息</param>
+        /// <param name="dept">当前部门</param>
         private void UpdateParentDeptStatusNormal(SysDept dept)
         {
             long[] depts = Tools.SpitLongArrary(dept.Ancestors);
@@ -138,7 +137,7 @@ namespace Ams.Kernel.Services.System
         /// <summary>
         /// 修改子元素关系
         /// </summary>
-        /// <param name="deptId">被修改的部门信息ID</param>
+        /// <param name="deptId">被修改的部门ID</param>
         /// <param name="newAncestors">新的父ID集合</param>
         /// <param name="oldAncestors">旧的父ID集合</param>
         public void UpdateDeptChildren(long deptId, string newAncestors, string oldAncestors)
@@ -159,7 +158,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取所有子部门信息
+        /// 获取所有子部门
         /// </summary>
         /// <param name="depts"></param>
         /// <param name="deptId"></param>
@@ -176,7 +175,7 @@ namespace Ams.Kernel.Services.System
         /// <summary>
         /// 构建前端所需要树结构
         /// </summary>
-        /// <param name="depts">部门信息列表</param>
+        /// <param name="depts">部门列表</param>
         /// <returns></returns>
         public List<SysDept> BuildDeptTree(List<SysDept> depts)
         {
@@ -235,9 +234,9 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 递归获取子菜单信息
+        /// 递归获取子菜单
         /// </summary>
-        /// <param name="list">所有菜单信息</param>
+        /// <param name="list">所有菜单</param>
         /// <param name="dept"></param>
         /// <returns></returns>
         private List<SysDept> GetChildList(List<SysDept> list, SysDept dept)
@@ -248,7 +247,7 @@ namespace Ams.Kernel.Services.System
         #region 角色部门
 
         /// <summary>
-        /// 根据角色信息获取菜单信息id
+        /// 根据角色获取菜单id
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>

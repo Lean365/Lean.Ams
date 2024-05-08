@@ -1,49 +1,37 @@
 ﻿namespace Ams.Kernel.Model.Generator
 {
     /// <summary>
-    /// 生成表字段
+    /// 代码生成表字段
     /// 数据实体对象
-    /// @Author Lean365(Davis.Ching)
+    /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
     /// </summary>
-    [SugarTable("gen_table_column", "生成表字段")]
+    [SugarTable("gen_table_column", "代码生成表字段")]
     [Tenant("0")]
     public class GenTableColumn : SysBase
     {
         /// <summary>
-        /// id
+        /// 列id
         /// </summary>
         [SugarColumn(IsIdentity = true, IsPrimaryKey = true)]
         public long ColumnId { get; set; }
 
         /// <summary>
-        /// 导入代码生成表列名
-        /// 首字母转了小写
+        /// 导入代码生成表列名 首字母转了小写
         /// </summary>
         public string ColumnName { get; set; }
 
-        /// <summary>
-        /// 数据表ID
-        /// </summary>
-
         [SugarColumn(IsOnlyIgnoreUpdate = true)]
         public long TableId { get; set; }
-
-        /// <summary>
-        /// 数据表名
-        /// </summary>
 
         [SugarColumn(IsOnlyIgnoreUpdate = true)]
         public string TableName { get; set; }
 
         /// <summary>
-        /// 列描述
+        /// 列说明
         /// </summary>
         private string columnComment;
 
-        /// <summary>
-        /// 列描述
-        /// </summary>
         public string ColumnComment
         {
             get
@@ -57,7 +45,7 @@
         }
 
         /// <summary>
-        /// 数据类型
+        /// 数据库列类型
         /// </summary>
 
         [SugarColumn(IsOnlyIgnoreUpdate = true)]
@@ -69,8 +57,7 @@
         public string CsharpType { get; set; }
 
         /// <summary>
-        /// C# 字段名
-        /// 首字母大写
+        /// C# 字段名 首字母大写
         /// </summary>
         public string CsharpField { get; set; }
 
@@ -132,13 +119,10 @@
         [SugarColumn(DefaultValue = "EQ")]
         public string QueryType { get; set; } = "EQ";
 
-        /// <summary>
-        /// 排序
-        /// </summary>
         public int Sort { get; set; }
 
         /// <summary>
-        /// 字典类别
+        /// 字典类型
         /// </summary>
         public string DictType { get; set; } = "";
 

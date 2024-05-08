@@ -1,6 +1,4 @@
 using Ams.Infrastructure.Attribute;
-using Ams.Kernel.Model.Dto.Monitor;
-using Ams.Kernel.Model.Monitor;
 using Ams.Kernel.Services.IService.Monitor;
 using Ams.Model;
 using Ams.Repository;
@@ -8,11 +6,8 @@ using Ams.Repository;
 namespace Ams.Kernel.Services.Monitor
 {
     /// <summary>
-    /// 审计日志
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
+    /// 审计日志Service业务层处理
+    /// </summary>
     [AppService(ServiceType = typeof(ILogDiffService), ServiceLifetime = LifeTime.Transient)]
     public class LogDiffService : BaseService<LogDiff>, ILogDiffService
     {
@@ -28,9 +23,9 @@ namespace Ams.Kernel.Services.Monitor
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.TableName), it => it.TableName == parm.TableName);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DiffType), it => it.DiffType == parm.DiffType);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.UserName), it => it.UserName == parm.UserName);
-            //predicate = predicate.AndIF(parm.BeginTime == null, it => it.AddTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.ExecTime >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, it => it.ExecTime <= parm.EndTime);
+            predicate = predicate.AndIF(parm.BeginTime == null, it => it.createTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginTime != null, it => it.createTime >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, it => it.createTime <= parm.EndTime);
             var response = Queryable()
                 //.OrderBy("PId desc")
                 .Where(predicate.ToExpression())
@@ -79,7 +74,7 @@ namespace Ams.Kernel.Services.Monitor
             //    BeforeData = model.BeforeData,
             //    AfterData = model.AfterData,
             //    UserName = model.UserName,
-            //    AddTime = model.AddTime,
+            //    createTime = model.createTime,
             //    ConfigId = model.ConfigId,
             //});
             //return response;

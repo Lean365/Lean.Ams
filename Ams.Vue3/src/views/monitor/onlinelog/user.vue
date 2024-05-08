@@ -23,8 +23,8 @@
         </template>
       </el-table-column>
       <el-table-column prop="name" label="用户名" align="center" />
-      <el-table-column label="登录地点" prop="location" align="center"> </el-table-column>
-      <el-table-column label="登录IP" prop="userIP" align="center"></el-table-column>
+      <el-table-column prop="location" label="登录地点" align="center"> </el-table-column>
+      <el-table-column prop="userIP" label="登录IP" align="center"></el-table-column>
       <el-table-column prop="browser" label="登录浏览器" width="210"></el-table-column>
       <el-table-column prop="platform" label="登录平台" align="center"></el-table-column>
       <el-table-column prop="loginTime" label="登录时间" witdh="280px">
@@ -101,6 +101,7 @@
           loading.value = false
         }, 200)
       }
+      console.log(res)
     })
   }
   getList()

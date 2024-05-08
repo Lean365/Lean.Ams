@@ -8,19 +8,13 @@ namespace Ams.Infrastructure.Cache
 {
     /// <summary>
     /// 缓存帮助类
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class CacheHelper
     {
-        /// <summary>
-        /// 缓存对象
-        /// </summary>
         public static MemoryCache Cache { get; set; }
 
-        /// <summary>
-        /// 静态构造函数
-        /// </summary>
         static CacheHelper()
         {
             Cache = new MemoryCache(new MemoryCacheOptions
@@ -53,11 +47,6 @@ namespace Ams.Infrastructure.Cache
             return Cache.Get<object>(CacheKey);
         }
 
-        /// <summary>
-        /// 获取缓存
-        /// </summary>
-        /// <param name="CacheKey"></param>
-        /// <returns></returns>
         public static object Get(string CacheKey)
         {
             return Cache.Get(CacheKey);

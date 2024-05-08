@@ -16,8 +16,8 @@ namespace Ams.Infrastructure.Controllers
 {
     /// <summary>
     /// web层通用数据处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     //[ApiController]
     public class BaseController : ControllerBase
@@ -48,12 +48,6 @@ namespace Ams.Infrastructure.Controllers
             return Content(jsonStr, "application/json");
         }
 
-        /// <summary>
-        /// 返回成功封装
-        /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="timeFormatStr"></param>
-        /// <returns></returns>
         protected IActionResult ToResponse(long rows, string timeFormatStr = "yyyy-MM-dd HH:mm:ss")
         {
             string jsonStr = GetJsonStr(ToJson(rows), timeFormatStr);
@@ -61,12 +55,6 @@ namespace Ams.Infrastructure.Controllers
             return Content(jsonStr, "application/json");
         }
 
-        /// <summary>
-        /// 返回失败封装
-        /// </summary>
-        /// <param name="resultCode"></param>
-        /// <param name="msg"></param>
-        /// <returns></returns>
         protected IActionResult ToResponse(ResultCode resultCode, string msg = "")
         {
             return ToResponse(new ApiResult((int)resultCode, msg));
@@ -85,7 +73,7 @@ namespace Ams.Infrastructure.Controllers
             {
                 throw new CustomException(fileName + "文件不存在");
             }
-            var stream = System.IO.File.OpenRead(path);  //创建人员文件流
+            var stream = System.IO.File.OpenRead(path);  //创建文件流
 
             Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", HttpUtility.UrlEncode(fileName));
@@ -103,7 +91,7 @@ namespace Ams.Infrastructure.Controllers
             {
                 return NotFound();
             }
-            var stream = System.IO.File.OpenRead(path);  //创建人员文件流
+            var stream = System.IO.File.OpenRead(path);  //创建文件流
             Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
             return File(stream, "application/octet-stream", HttpUtility.UrlEncode(fileName));
         }
@@ -176,7 +164,7 @@ namespace Ams.Infrastructure.Controllers
         }
 
         /// <summary>
-        /// 导出excel(MiniExcel)
+        ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
@@ -186,7 +174,7 @@ namespace Ams.Infrastructure.Controllers
         protected (string, string) ExportExcelMini<T>(List<T> list, string sheetName, string fileName)
         {
             IWebHostEnvironment webHostEnvironment = (IWebHostEnvironment)App.ServiceProvider.GetService(typeof(IWebHostEnvironment));
-            string sFileName = $"{fileName}_{DateTime.Now:yyyy-MM-dd-HHmmss}.xlsx";
+            string sFileName = $"{fileName}{DateTime.Now:MM-dd-HHmmss}.xlsx";
             string fullPath = Path.Combine(webHostEnvironment.WebRootPath, "export", sFileName);
 
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
@@ -204,7 +192,7 @@ namespace Ams.Infrastructure.Controllers
         protected (string, string) ExportExcelMini(Dictionary<string, object> sheets, string fileName)
         {
             IWebHostEnvironment webHostEnvironment = (IWebHostEnvironment)App.ServiceProvider.GetService(typeof(IWebHostEnvironment));
-            string sFileName = $"{fileName}_{DateTime.Now:yyyy-MM-dd-HHmmss}.xlsx";
+            string sFileName = $"{fileName}{DateTime.Now:MM-dd-HHmmss}.xlsx";
             string fullPath = Path.Combine(webHostEnvironment.WebRootPath, "export", sFileName);
 
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
@@ -226,7 +214,7 @@ namespace Ams.Infrastructure.Controllers
             string sFileName = $"{fileName}.xlsx";
             string fullPath = Path.Combine(webHostEnvironment.WebRootPath, "ImportTemplate", sFileName);
 
-            //不存在模板创建人员模板
+            //不存在模板创建模板
             if (!Directory.Exists(fullPath))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(fullPath));

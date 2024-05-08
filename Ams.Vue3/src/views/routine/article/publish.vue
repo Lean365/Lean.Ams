@@ -76,7 +76,7 @@
     </el-form>
   </div>
 </template>
-<script setup name="publish">
+<script setup name="articlepublish">
   import { addArticle, updateArticle, getArticle } from '@/api/routine/article.js'
   import { treelistArticleCategory } from '@/api/routine/articlecategory.js'
   import useSettingsStore from '@/store/modules/settings'
@@ -229,6 +229,8 @@
   .btn-wrap {
     z-index: 10;
     width: 100%;
+    top: 0;
+    /* background: #fff; */
     padding: 5px 20px;
     display: flex;
     align-items: center;

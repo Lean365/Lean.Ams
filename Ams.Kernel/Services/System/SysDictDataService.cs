@@ -1,10 +1,11 @@
-﻿namespace Ams.Kernel.Services.System
+﻿using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Services.IService.System;
+using Ams.Model;
+
+namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 字典数据
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 字典数据类
     /// </summary>
     [AppService(ServiceType = typeof(ISysDictDataService), ServiceLifetime = LifeTime.Transient)]
     public class SysDictDataService : BaseService<SysDictData>, ISysDictDataService
@@ -26,7 +27,7 @@
         }
 
         /// <summary>
-        /// 根据字典类别查询
+        /// 根据字典类型查询
         /// </summary>
         /// <param name="dictType"></param>
         /// <returns></returns>
@@ -84,8 +85,6 @@
         /// <returns></returns>
         public long InsertDictData(SysDictData dict)
         {
-            dict.Create_by = App.UserName;
-            dict.Create_time = DateTime.Now;
             return Insertable(dict).ExecuteReturnBigIdentity();
         }
 
@@ -98,7 +97,6 @@
         {
             var result = Update(w => w.DictCode == dict.DictCode, it => new SysDictData()
             {
-                Update_by = App.UserName,
                 Remark = dict.Remark,
                 Update_time = DateTime.Now,
                 DictSort = dict.DictSort,
@@ -125,14 +123,14 @@
         }
 
         /// <summary>
-        /// 同步修改字典类别
+        /// 同步修改字典类型
         /// </summary>
-        /// <param name="old_dictType">旧字典类别</param>
-        /// <param name="new_dictType">新字典类别</param>
+        /// <param name="old_dictType">旧字典类型</param>
+        /// <param name="new_dictType">新字典类型</param>
         /// <returns></returns>
         public int UpdateDictDataType(string old_dictType, string new_dictType)
         {
-            //只更新人员DictType字段根据where条件
+            //只更新DictType字段根据where条件
             return Context.Updateable<SysDictData>()
                 .SetColumns(t => new SysDictData() { DictType = new_dictType })
                 .Where(f => f.DictType == old_dictType)
@@ -140,13 +138,13 @@
         }
 
         /// <summary>
-        /// 根据字典类别查询自定义sql
+        /// 根据字典类型查询自定义sql
         /// </summary>
-        /// <param name="sysDictType"></param>
+        /// <param name="SysDictType"></param>
         /// <returns></returns>
-        public List<SysDictDataDto> SelectDictDataByCustomSql(SysDictType sysDictType)
+        public List<SysDictDataDto> SelectDictDataByCustomSql(SysDictType SysDictType)
         {
-            return Context.Ado.SqlQuery<SysDictDataDto>(sysDictType?.CustomSql).ToList();
+            return Context.Ado.SqlQuery<SysDictDataDto>(SysDictType?.CustomSql).ToList();
         }
     }
 }

@@ -5,14 +5,14 @@ using System.Text.Json.Serialization;
 namespace Ams.Infrastructure.Converter
 {
     /// <summary>
-    /// Json转换
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// Json转换类
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class JsonConverterUtil
     {
         /// <summary>
-        /// Json转换
+        /// Json转换类
         /// </summary>
         public class DateTimeNullConverter : JsonConverter<DateTime?>
         {
@@ -24,7 +24,7 @@ namespace Ams.Infrastructure.Converter
         }
 
         /// <summary>
-        /// Json转换
+        /// Json转换类
         /// </summary>
         public class DateTimeConverter : JsonConverter<DateTime>
         {
@@ -39,10 +39,11 @@ namespace Ams.Infrastructure.Converter
         }
 
         /// <summary>
-        /// Json转换
+        /// Json转换类
         /// </summary>
         /// <param name="dateStr"></param>
         /// <returns></returns>
+
         public static DateTime? ParseDateTime(string dateStr)
         {
             if (System.Text.RegularExpressions.Regex.IsMatch(dateStr, @"^\d{4}[/-]") && DateTime.TryParse(dateStr, null, System.Globalization.DateTimeStyles.AssumeLocal, out var dateVal))

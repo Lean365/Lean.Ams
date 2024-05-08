@@ -1,19 +1,20 @@
-using Ams.Model.System.Dto;
+using Ams.Kernel.Model.Dto.Routine;
+using Ams.Kernel.Model.Routine;
+using Ams.Model;
 
-namespace Ams.Kernel.Services.IService.Routine
+namespace Ams.Kernel.Services
 {
     /// <summary>
-    /// 公告通知
-    /// 业务层接口
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 通知公告service接口
+    ///
+    /// @author zr
+    /// @date 2021-12-15
     /// </summary>
     public interface INoticeService : IBaseService<Notice>
     {
         List<Notice> GetNotices();
 
         PagedInfo<Notice> GetPageList(NoticeQueryDto parm);
-
         PagedInfo<NoticeDto> ExportList(NoticeQueryDto parm);
     }
 }

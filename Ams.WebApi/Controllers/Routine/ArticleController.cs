@@ -1,9 +1,12 @@
-﻿using Ams.Model.System;
+﻿using Ams.Model.Content;
+using Ams.Model.Dto;
+using Ams.Service.Content.IService;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
-    /// 系统监控
+    /// 内容管理
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
@@ -20,10 +23,12 @@ namespace Ams.WebApi.Controllers.Routine
 
         private readonly IArticleCategoryService _ArticleCategoryService;
 
-        public ArticleController(IArticleService ArticleService, IArticleCategoryService articleCategoryService)
+        public ArticleController(
+            IArticleService ArticleService,
+            IArticleCategoryService ArticleCategoryService)
         {
             _ArticleService = ArticleService;
-            _ArticleCategoryService = articleCategoryService;
+            _ArticleCategoryService = ArticleCategoryService;
         }
 
         /// <summary>
@@ -58,29 +63,14 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [AllowAnonymous]
         public IActionResult Get(int id)
         {
             long userId = HttpContext.GetUId();
-            var response = _ArticleService.GetId(id);
-            var model = response.Adapt<ArticleDto>();
-            if (model == null) return ToResponse(ResultCode.FAIL, "文章不存在");
-            if (model.IsPublic == 0 && userId != model.UserId)
-            {
-                return ToResponse(ResultCode.CUSTOM_ERROR, "访问失败");
-            }
-            if (model != null)
-            {
-                model.ArticleCategoryNav = _ArticleCategoryService.GetById(model.CategoryId);
-                //model.TagList = model.Tags?.Split(',', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
-            }
-            var CK = "ARTICLE_DETAILS_" + userId + HttpContext.GetClientUserIp();
-            if (!CacheHelper.Exists(CK))
-            {
-                _ArticleService.UpdateArticleHit(id);
-            }
-            CacheHelper.SetCache(CK, 1, 10);
-            return SUCCESS(model);
+            var model = _ArticleService.GetArticle(id, userId);
+
+            ApiResult apiResult = ApiResult.Success(model);
+
+            return ToResponse(apiResult);
         }
 
         /// <summary>
@@ -101,11 +91,11 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 更新人员文章
+        /// 更新文章
         /// </summary>
         /// <returns></returns>
         [HttpPut("edit")]
-        [ActionPermissionFilter(Permission = "routine:article:edit")]
+        [ActionPermissionFilter(Permission = "routine:article:update")]
         public IActionResult Update([FromBody] ArticleDto parm)
         {
             parm.AuthorName = HttpContext.GetName();
@@ -120,7 +110,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPut("top")]
-        [ActionPermissionFilter(Permission = "routine:article:edit")]
+        [ActionPermissionFilter(Permission = "routine:article:update")]
         [Log(Title = "置顶文章", BusinessType = BusinessType.UPDATE)]
         public IActionResult Top([FromBody] Article parm)
         {
@@ -134,7 +124,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPut("changePublic")]
-        [ActionPermissionFilter(Permission = "routine:article:edit")]
+        [ActionPermissionFilter(Permission = "routine:article:update")]
         [Log(Title = "是否公开", BusinessType = BusinessType.UPDATE)]
         public IActionResult ChangePublic([FromBody] Article parm)
         {
@@ -155,44 +145,5 @@ namespace Ams.WebApi.Controllers.Routine
             var response = _ArticleService.Delete(id);
             return SUCCESS(response);
         }
-
-        #region 前端接口
-
-        /// <summary>
-        /// 前台查询文章列表
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("hotList")]
-        [AllowAnonymous]
-        public IActionResult QueryHot([FromQuery] ArticleQueryDto parm)
-        {
-            var response = _ArticleService.GetHotList(parm);
-
-            return SUCCESS(response);
-        }
-
-        /// <summary>
-        /// 查询最新文章列表
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("newList")]
-        [AllowAnonymous]
-        public IActionResult QueryNew()
-        {
-            var predicate = Expressionable.Create<Article>();
-            predicate = predicate.And(m => m.IsStated == 1);
-            predicate = predicate.And(m => m.IsPublic == 1);
-            predicate = predicate.And(m => m.ArticleType == 0);
-
-            var response = _ArticleService.Queryable()
-                .Where(predicate.ToExpression())
-                .Includes(x => x.ArticleCategoryNav) //填充子对象
-                .Take(10)
-                .OrderBy(f => f.UpdateTime, OrderByType.Desc).ToList();
-
-            return SUCCESS(response);
-        }
-
-        #endregion 前端接口
     }
 }

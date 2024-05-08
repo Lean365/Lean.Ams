@@ -1,13 +1,14 @@
-using Ams.Model.System.Dto;
+using Ams.Infrastructure.Attribute;
+using Ams.Model;
 using Ams.Repository;
 
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
-    /// 公告通知
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 通知公告Service业务层处理
+    ///
+    /// @author zr
+    /// @date 2021-12-15
     /// </summary>
     [AppService(ServiceType = typeof(INoticeService), ServiceLifetime = LifeTime.Transient)]
     public class NoticeService : BaseService<Notice>, INoticeService
@@ -27,11 +28,6 @@ namespace Ams.Kernel.Services.Routine
                 .ToList();
         }
 
-        /// <summary>
-        /// 查询系统通知分页
-        /// </summary>
-        /// <param name="parm"></param>
-        /// <returns></returns>
         public PagedInfo<Notice> GetPageList(NoticeQueryDto parm)
         {
             var predicate = QueryExp(parm);
@@ -53,7 +49,7 @@ namespace Ams.Kernel.Services.Routine
                 .Select((it) => new NoticeDto()
                 {
                     NoticeTypeLabel = it.NoticeType.GetConfigValue<SysDictData>("sys_notice_type"),
-                    IsStatedLabel = int.Parse(it.IsStated.GetConfigValue<SysDictData>("sys_notice_status")),
+                    StatusLabel = it.IsStated.GetConfigValue<SysDictData>("sys_notice_status"),
                 }, true)
                 .ToPage(parm);
 

@@ -1,16 +1,13 @@
-using Ams.Model.System;
-using Ams.Model.System.Dto;
+using Ams.Common;
+using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Services.IService.System;
 using Ams.Model.System.Enums;
-
 using Ams.Model.System.Vo;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 菜单信息
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 菜单
     /// </summary>
     [AppService(ServiceType = typeof(ISysMenuService), ServiceLifetime = LifeTime.Transient)]
     public class SysMenuService : BaseService<SysMenu>, ISysMenuService
@@ -23,7 +20,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取所有菜单信息数（菜单信息管理）
+        /// 获取所有菜单数（菜单管理）
         /// </summary>
         /// <returns></returns>
         public List<SysMenu> SelectTreeMenuList(SysMenuQueryDto menu, long userId)
@@ -37,7 +34,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取所有菜单信息列表
+        /// 获取所有菜单列表
         /// </summary>
         /// <returns></returns>
         public List<SysMenu> SelectMenuList(SysMenuQueryDto menu, long userId)
@@ -56,7 +53,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取菜单信息详情
+        /// 获取菜单详情
         /// </summary>
         /// <param name="menuId"></param>
         /// <returns></returns>
@@ -66,7 +63,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据菜单信息id获取菜单信息列表
+        /// 根据菜单id获取菜单列表
         /// </summary>
         /// <param name="menuId"></param>
         /// <param name="userId"></param>
@@ -93,7 +90,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 添加菜单信息
+        /// 添加菜单
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
@@ -104,7 +101,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 编辑菜单信息
+        /// 编辑菜单
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
@@ -115,7 +112,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 删除菜单信息管理信息
+        /// 删除菜单管理信息
         /// </summary>
         /// <param name="menuId"></param>
         /// <returns></returns>
@@ -125,7 +122,23 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 校验菜单信息名称是否唯一
+        /// 删除所有菜单
+        /// </summary>
+        /// <param name="menuId"></param>
+        /// <returns></returns>
+        public int DeleteAllMenuById(int menuId)
+        {
+            var childMenu = Queryable().ToChildList(x => x.ParentId, menuId).Select(x => x.MenuId);
+            var result = UseTran(() =>
+            {
+                Delete(childMenu.ToArray(), "删除菜单");
+                Context.Deleteable<SysRoleMenu>().Where(f => childMenu.Contains(f.Menu_id)).ExecuteCommand();
+            });
+            return result.IsSuccess ? 1 : 0;
+        }
+
+        /// <summary>
+        /// 校验菜单名称是否唯一
         /// </summary>
         /// <param name="menu"></param>
         /// <returns></returns>
@@ -146,7 +159,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 菜单信息排序
+        /// 菜单排序
         /// </summary>
         /// <param name="SysMenuDto"></param>
         /// <returns></returns>
@@ -156,7 +169,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 是否存在菜单信息子节点
+        /// 是否存在菜单子节点
         /// </summary>
         /// <param name="menuId"></param>
         /// <returns></returns>
@@ -166,7 +179,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取左边导航栏菜单信息树
+        /// 获取左边导航栏菜单树
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
@@ -205,10 +218,10 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据用户查询系统菜单信息列表
+        /// 根据用户查询系统菜单列表
         /// </summary>
         /// <param name="menu"></param>
-        /// <param name="roles">用户角色信息集合</param>
+        /// <param name="roles">用户角色集合</param>
         /// <returns></returns>
         public List<SysMenu> SelectTreeMenuListByRoles(SysMenuQueryDto menu, List<long> roles)
         {
@@ -228,10 +241,10 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据用户查询系统菜单信息列表
+        /// 根据用户查询系统菜单列表
         /// </summary>
         /// <param name="menu"></param>
-        /// <param name="roleId">用户角色信息</param>
+        /// <param name="roleId">用户角色</param>
         /// <returns></returns>
         public List<SysRoleMenuExportDto> SelectRoleMenuListByRole(SysMenuQueryDto menu, int roleId)
         {
@@ -250,12 +263,12 @@ namespace Ams.Kernel.Services.System
                     Component = t2.Component,
                     Perms = t3.Perms,
                     MenuType = (MenuType)(object)t3.MenuType,
-                    Status = (MenuStatus)(object)t3.IsStated
+                    IsStated = (MenuStatus)(object)t3.IsStated
                 }).ToList();
         }
 
         /// <summary>
-        /// 获取所有菜单信息
+        /// 获取所有菜单
         /// </summary>
         /// <returns></returns>
         private List<SysMenu> SelectMenuList(SysMenuQueryDto menu)
@@ -274,10 +287,10 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 根据用户查询系统菜单信息列表
+        /// 根据用户查询系统菜单列表
         /// </summary>
         /// <param name="sysMenu"></param>
-        /// <param name="roles">用户角色信息集合</param>
+        /// <param name="roles">用户角色集合</param>
         /// <returns></returns>
         private List<SysMenu> SelectMenuListByRoles(SysMenuQueryDto sysMenu, List<long> roles)
         {
@@ -295,7 +308,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取所有菜单信息（菜单信息管理）
+        /// 获取所有菜单（菜单管理）
         /// </summary>
         /// <returns></returns>
         public List<SysMenu> SelectTreeMenuList(SysMenuQueryDto menu)
@@ -317,26 +330,6 @@ namespace Ams.Kernel.Services.System
 
         #region 方法
 
-        ///// <summary>
-        ///// 根据父节点的ID获取所有子节点
-        ///// </summary>
-        ///// <param name="list">分类表</param>
-        ///// <param name="parentId">传入的父节点ID</param>
-        ///// <returns></returns>
-        //public List<SysMenu> GetChildPerms(List<SysMenu> list, int parentId)
-        //{
-        //    List<SysMenu> returnList = new List<SysMenu>();
-        //    var data = list.FindAll(f => f.parentId == parentId);
-
-        //    foreach (var item in data)
-        //    {
-        //        RecursionFn(list, item);
-
-        //        returnList.Add(item);
-        //    }
-        //    return returnList;
-        //}
-
         /// <summary>
         /// 递归列表
         /// </summary>
@@ -357,9 +350,9 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 递归获取子菜单信息
+        /// 递归获取子菜单
         /// </summary>
-        /// <param name="list">所有菜单信息</param>
+        /// <param name="list">所有菜单</param>
         /// <param name="sysMenu"></param>
         /// <returns></returns>
         private List<SysMenu> GetChildList(List<SysMenu> list, SysMenu sysMenu)
@@ -389,7 +382,7 @@ namespace Ams.Kernel.Services.System
                 };
 
                 List<SysMenu> cMenus = menu.Children;
-                //是目录并且有子菜单信息
+                //是目录并且有子菜单
                 if (cMenus != null && cMenus.Count > 0 && UserConstants.TYPE_DIR.Equals(menu.MenuType))
                 {
                     router.AlwaysShow = true;
@@ -433,7 +426,7 @@ namespace Ams.Kernel.Services.System
         /// <summary>
         /// 构建前端所需要下拉树结构
         /// </summary>
-        /// <param name="menus">菜单信息列表</param>
+        /// <param name="menus">菜单列表</param>
         /// <returns>下拉树结构列表</returns>
         public List<SysMenu> BuildMenuTree(List<SysMenu> menus)
         {
@@ -512,7 +505,7 @@ namespace Ams.Kernel.Services.System
             {
                 routerPath = "/" + menu.Path;
             }
-            else if (IsMeunFrame(menu))// 非外链并且是一级目录（类型为菜单信息）
+            else if (IsMeunFrame(menu))// 非外链并且是一级目录（类型为菜单）
             {
                 routerPath = "/";
             }
@@ -543,7 +536,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 是否为菜单信息内部跳转
+        /// 是否为菜单内部跳转
         /// </summary>
         /// <param name="menu">菜单信息</param>
         /// <returns></returns>
@@ -667,7 +660,7 @@ namespace Ams.Kernel.Services.System
                 MenuName = "修改",
                 ParentId = menu.MenuId,
                 OrderNum = 4,
-                Perms = $"{permPrefix}:edit",
+                Perms = $"{permPrefix}:update",
                 MenuType = "F",
                 Visible = "0",
                 IsStated = 0,

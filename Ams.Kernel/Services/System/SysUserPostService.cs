@@ -1,10 +1,11 @@
-﻿namespace Ams.Kernel.Services.System
+﻿using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Model.System;
+using Ams.Kernel.Services.IService.System;
+
+namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 用户岗位信息
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 用户岗位
     /// </summary>
     [AppService(ServiceType = typeof(ISysUserPostService), ServiceLifetime = LifeTime.Transient)]
     public class SysUserPostService : BaseService<SysUserPost>, ISysUserPostService
@@ -15,7 +16,7 @@
         /// <param name="user"></param>
         public void InsertUserPost(SysUser user)
         {
-            // 新增用户与岗位信息管理
+            // 新增用户与岗位管理
             List<SysUserPost> list = new();
             foreach (var item in user.PostIds)
             {
@@ -25,7 +26,7 @@
         }
 
         /// <summary>
-        /// 查询用户岗位信息集合
+        /// 查询用户岗位集合
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
@@ -36,7 +37,7 @@
         }
 
         /// <summary>
-        /// 获取用户岗位信息
+        /// 获取用户岗位
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
@@ -52,7 +53,7 @@
         }
 
         /// <summary>
-        /// 获取用户岗位信息
+        /// 获取用户岗位
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>

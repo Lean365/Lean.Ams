@@ -5,6 +5,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace Ams.Infrastructure
 {
+    /// <summary>
+    /// 读取配置文件
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
+    /// </summary>
     public class AppSettings
     {
         private static IConfiguration Configuration { get; set; }

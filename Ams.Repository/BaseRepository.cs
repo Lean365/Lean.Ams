@@ -67,7 +67,7 @@ namespace Ams.Repository
         //}
 
         /// <summary>
-        /// 实体根据主键更新人员
+        /// 实体根据主键更新
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="ignoreNullColumns"></param>
@@ -79,8 +79,8 @@ namespace Ams.Repository
         }
 
         /// <summary>
-        /// 实体根据主键更新人员指定字段
-        /// return Update(new SysUser(){ Status = 1 }, t => new { t.NickName, }, true);
+        /// 实体根据主键更新指定字段
+        /// return Update(new SysUser(){ IsStated = 1 }, t => new { t.NickName, }, true);
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="expression"></param>
@@ -92,11 +92,11 @@ namespace Ams.Repository
         }
 
         /// <summary>
-        /// 根据指定条件更新人员指定列 eg：Update(new SysUser(){ Status = 1 }, it => new { it.Status }, f => f.Userid == 1));
-        /// 只更新人员Status列，条件是包含
+        /// 根据指定条件更新指定列 eg：Update(new SysUser(){ IsStated = 1 }, it => new { it.Status }, f => f.Userid == 1));
+        /// 只更新Status列，条件是包含
         /// </summary>
         /// <param name="entity">实体类</param>
-        /// <param name="expression">要更新人员列的表达式</param>
+        /// <param name="expression">要更新列的表达式</param>
         /// <param name="where">where表达式</param>
         /// <returns></returns>
         public int Update(T entity, Expression<Func<T, object>> expression, Expression<Func<T, bool>> where)
@@ -105,7 +105,7 @@ namespace Ams.Repository
         }
 
         /// <summary>
-        /// 更新人员指定列 eg：Update(w => w.NoticeId == model.NoticeId, it => new Notice(){ Update_time = DateTime.Now, Title = "通知标题" });
+        /// 更新指定列 eg：Update(w => w.NoticeId == model.NoticeId, it => new Notice(){ Update_time = DateTime.Now, Title = "通知标题" });
         /// </summary>
         /// <param name="where"></param>
         /// <param name="columns"></param>

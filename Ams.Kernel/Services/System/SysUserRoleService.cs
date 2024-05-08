@@ -1,18 +1,19 @@
-﻿using Ams.Repository;
+﻿using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Model.System;
+using Ams.Kernel.Services.IService.System;
+using Ams.Model;
+using Ams.Repository;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 用户角色信息
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 用户角色
     /// </summary>
     [AppService(ServiceType = typeof(ISysUserRoleService), ServiceLifetime = LifeTime.Transient)]
     public class SysUserRoleService : BaseService<SysUserRole>, ISysUserRoleService
     {
         /// <summary>
-        /// 通过角色信息ID查询角色信息使用数量
+        /// 通过角色ID查询角色使用数量
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
@@ -22,7 +23,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 删除用户角色信息
+        /// 删除用户角色
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
@@ -32,7 +33,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 批量删除角色信息对应用户
+        /// 批量删除角色对应用户
         /// </summary>
         /// <param name="roleId"></param>
         /// <param name="userIds"></param>
@@ -43,7 +44,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 添加用户角色信息
+        /// 添加用户角色
         /// </summary>
         /// <param name="sysUserRoles"></param>
         /// <returns></returns>
@@ -53,7 +54,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取用户数据根据角色信息id
+        /// 获取用户数据根据角色id
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
@@ -68,7 +69,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取用户数据根据角色信息id
+        /// 获取用户数据根据角色id
         /// </summary>
         /// <param name="SysRoleUserQueryDto"></param>
         /// <returns></returns>
@@ -85,7 +86,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 获取尚未指派的用户数据根据角色信息id
+        /// 获取尚未指派的用户数据根据角色id
         /// </summary>
         /// <param name="SysRoleUserQueryDto"></param>
         /// <returns></returns>

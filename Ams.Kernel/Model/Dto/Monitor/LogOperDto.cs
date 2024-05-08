@@ -3,10 +3,10 @@
 namespace Ams.Kernel.Model.Dto.Monitor
 {
     /// <summary>
-    /// 日志操作
+    /// 操作日志
     /// 查询对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public class LogOperQueryDto : PagerInfo
     {
@@ -18,12 +18,12 @@ namespace Ams.Kernel.Model.Dto.Monitor
         /// <summary>
         /// 业务类型 0=其它,1=新增,2=修改,3=删除,4=授权,5=导出,6=导入,7=强退,8=生成代码,9=清空数据
         /// </summary>
-        public int BusinessType { get; set; }
+        public int? BusinessType { get; set; }
 
         /// <summary>
         /// 状态
         /// </summary>
-        public int IsState { get; set; }
+        public int? IsStated { get; set; }
 
         /// <summary>
         /// 操作模块
@@ -40,10 +40,10 @@ namespace Ams.Kernel.Model.Dto.Monitor
     }
 
     /// <summary>
-    /// 日志操作
+    /// 操作日志
     /// 输入输出对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public class LogOperDto : SysBase
     {
@@ -67,7 +67,7 @@ namespace Ams.Kernel.Model.Dto.Monitor
         /// <summary>
         /// 状态
         /// </summary>
-        public int IsState { get; set; } = -1;
+        public int IsStated { get; set; } = -1;
 
         /// <summary>
         /// 操作模块

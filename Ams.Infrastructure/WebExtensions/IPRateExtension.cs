@@ -6,18 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Ams.Infrastructure.WebExtensions
 {
     /// <summary>
-    /// IP限流扩展
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// IP访问频率限制
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public static class IPRateExtension
     {
-        /// <summary>
-        /// 添加IP限流
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="configuration"></param>
-        /// <exception cref="ArgumentNullException"></exception>
         public static void AddIPRate(this IServiceCollection services, IConfiguration configuration)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));

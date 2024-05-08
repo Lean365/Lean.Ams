@@ -1,18 +1,18 @@
-﻿using Ams.Model.System;
+﻿using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Model.System;
+using Ams.Kernel.Services.IService.System;
+using Ams.Model.System;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 岗位信息
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 岗位管理
     /// </summary>
     [AppService(ServiceType = typeof(ISysPostService), ServiceLifetime = LifeTime.Transient)]
     public class SysPostService : BaseService<SysPost>, ISysPostService
     {
         /// <summary>
-        /// 校验岗位信息编码是否唯一
+        /// 校验岗位编码是否唯一
         /// </summary>
         /// <param name="post"></param>
         /// <returns></returns>
@@ -27,7 +27,7 @@ namespace Ams.Kernel.Services.System
         }
 
         /// <summary>
-        /// 校验岗位信息名称是否唯一
+        /// 校验岗位名称是否唯一
         /// </summary>
         /// <param name="post"></param>
         /// <returns></returns>

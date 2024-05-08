@@ -2,7 +2,7 @@ export default {
   /**
    * 框架版本号
    */
-  version: '20230920',
+  version: '20240105',
   /**
    * 网页标题
    */
@@ -67,7 +67,7 @@ export default {
   /**
    * 水印文案
    */
-  watermarkText: 'ZRAdmin.NET',
+  watermarkText: 'Lean365.Ams',
   /**
    * 是否显示其他登录
    */
@@ -95,5 +95,13 @@ export default {
   /**
    * 标签页持久化
    */
-  tagsViewPersist: false
+  tagsViewPersist: false,
+  /**
+   * 标签显示icon
+   */
+  tagsShowIcon: true,
+  /**
+   * 导航模式 1、侧边栏 2、混合 3、纯顶部
+   */
+  navType: 1
 }

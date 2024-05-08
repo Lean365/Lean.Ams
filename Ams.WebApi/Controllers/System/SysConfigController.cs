@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
+using SqlSugar;
+
 namespace Ams.WebApi.Controllers
 {
     /// <summary>
-    /// 系统参数
+    /// 参数配置
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
@@ -12,7 +15,7 @@ namespace Ams.WebApi.Controllers
     public class SysConfigController : BaseController
     {
         /// <summary>
-        /// 系统参数接口
+        /// 参数配置接口
         /// </summary>
         private readonly ISysConfigService _SysConfigService;
 
@@ -22,7 +25,7 @@ namespace Ams.WebApi.Controllers
         }
 
         /// <summary>
-        /// 查询系统参数列表
+        /// 查询参数配置列表
         /// </summary>
         /// <returns></returns>
         [HttpGet("list")]
@@ -43,7 +46,7 @@ namespace Ams.WebApi.Controllers
         }
 
         /// <summary>
-        /// 查询系统参数详情
+        /// 查询参数配置详情
         /// </summary>
         /// <param name="ConfigId"></param>
         /// <returns></returns>
@@ -71,12 +74,12 @@ namespace Ams.WebApi.Controllers
         }
 
         /// <summary>
-        /// 添加系统参数
+        /// 添加参数配置
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "system:config:add")]
-        [Log(Title = "系统参数添加", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "参数配置添加", BusinessType = BusinessType.INSERT)]
         public IActionResult AddSysConfig([FromBody] SysConfigDto parm)
         {
             if (parm == null)
@@ -98,12 +101,12 @@ namespace Ams.WebApi.Controllers
         }
 
         /// <summary>
-        /// 更新人员系统参数
+        /// 更新参数配置
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "system:config:edit")]
-        [Log(Title = "系统参数修改", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "system:config:update")]
+        [Log(Title = "参数配置修改", BusinessType = BusinessType.UPDATE)]
         public IActionResult UpdateSysConfig([FromBody] SysConfigDto parm)
         {
             if (parm == null)
@@ -127,12 +130,12 @@ namespace Ams.WebApi.Controllers
         }
 
         /// <summary>
-        /// 删除系统参数
+        /// 删除参数配置
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
         [ActionPermissionFilter(Permission = "system:config:delete")]
-        [Log(Title = "系统参数删除", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "参数配置删除", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSysConfig(string ids)
         {
             int[] idsArr = Tools.SpitIntArrary(ids);

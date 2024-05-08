@@ -6,9 +6,9 @@ using System.Reflection;
 namespace Ams.Infrastructure.Extensions
 {
     /// <summary>
-    /// 枚举类型扩展类
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// 枚举类型扩展
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public static partial class Extensions
     {

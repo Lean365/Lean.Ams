@@ -4,11 +4,8 @@ namespace Ams.Infrastructure.CustomExceptions
 {
     /// <summary>
     /// 系统错误码枚举
-    /// 200-成功, 210-没有更多数据, 101-参数错误, 103-验证码错误, 105-登录错误,
-    /// 1-操作失败, 500-服务端出错啦, 110-自定义异常, 116-非法请求,
-    /// 201-授权失败, 401-未授权, 403-授权访问失败, 400-Bad Request
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public enum ResultCode
     {
@@ -41,6 +38,9 @@ namespace Ams.Infrastructure.CustomExceptions
 
         [Description("授权失败")]
         OAUTH_FAIL = 201,
+
+        [Description("请先绑定手机号")]
+        PHONE_BIND = 202,
 
         [Description("未授权")]
         DENY = 401,

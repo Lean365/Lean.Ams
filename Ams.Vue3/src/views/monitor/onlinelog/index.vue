@@ -34,14 +34,14 @@
 
     <el-table :data="dataList" v-loading="loading" ref="table" border header-cell-class-name="el-table-header-cell"
       highlight-current-row @sort-change="sortChange">
-      <el-table-column prop="id" label="Id" v-if="columns.showColumn('id')" />
-      <el-table-column prop="userId" label="用户id" align="center" v-if="columns.showColumn('userId')" />
-      <el-table-column prop="nickName" label="用户昵称" align="center" />
+      <el-table-column prop="connnectionId" label="Id" v-if="columns.showColumn('id')" />
+      <el-table-column prop="userid" label="用户id" align="center" v-if="columns.showColumn('userId')" />
+      <el-table-column prop="name" label="用户昵称" align="center" />
       <el-table-column prop="platform" label="登录平台" align="center" />
       <el-table-column prop="onlineTime" label="在线时长(分)" align="center" v-if="columns.showColumn('onlineTime')" />
       <el-table-column prop="todayOnlineTime" label="今日在线时长" align="center" v-if="columns.showColumn('onlineTime')" />
-      <el-table-column prop="addTime" label="结束时间" width="170" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('addTime')" />
+      <el-table-column prop="loginTime" label="结束时间" width="170" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('loginTime')" />
       <el-table-column prop="location" label="地址位置" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('location')" />
       <el-table-column prop="userIP" label="用户IP" align="center" :show-overflow-tooltip="true"
@@ -101,6 +101,7 @@
         dataList.value = data.result
         total.value = data.totalNum
         loading.value = false
+        console.log(dataList.value)
       }
     })
   }

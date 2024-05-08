@@ -8,15 +8,11 @@ namespace Ams.Infrastructure.WebExtensions
 {
     /// <summary>
     /// JWT扩展
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public static class JwtExtension
     {
-        /// <summary>
-        /// 添加JWT
-        /// </summary>
-        /// <param name="services"></param>
         public static void AddJwt(this IServiceCollection services)
         {
             services.AddAuthentication(options =>

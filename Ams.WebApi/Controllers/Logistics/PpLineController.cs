@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Ams.Model.Dto;
 using Ams.Model.Logistics;
 using Ams.Service.Logistics.ILogisticsService;
@@ -8,10 +9,9 @@ namespace Ams.WebApi.Controllers
     /// <summary>
     /// 生产班组
     /// API控制器
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: 2024/4/25 17:15:19
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024/5/8 15:24:51
     /// </summary>
-
     [Verify]
     [Route("logistics/PpLine")]
     [ApiExplorerSettings(GroupName = "logistics")]
@@ -40,6 +40,7 @@ namespace Ams.WebApi.Controllers
             return SUCCESS(response);
         }
 
+
         /// <summary>
         /// 查询生产班组详情
         /// </summary>
@@ -50,7 +51,7 @@ namespace Ams.WebApi.Controllers
         public IActionResult GetPpLine(long PlSFID)
         {
             var response = _PpLineService.GetInfo(PlSFID);
-
+            
             var info = response.Adapt<PpLineDto>();
             return SUCCESS(info);
         }
@@ -65,11 +66,7 @@ namespace Ams.WebApi.Controllers
         public IActionResult AddPpLine([FromBody] PpLineDto parm)
         {
             var modal = parm.Adapt<PpLine>().ToCreate(HttpContext);
-            // 校验输入项目唯一性
-            if (UserConstants.NOT_UNIQUE.Equals(_PpLineService.CheckInputUnique(parm.PlLineType + parm.PlLineCode)))
-            {
-                return ToResponse(ApiResult.Error($"新增生产班组 '{parm.PlLineType + "," + parm.PlLineCode}'失败(Add Failed)，输入的生产班组已存在(The data already exists)"));
-            }
+
             var response = _PpLineService.AddPpLine(modal);
 
             return SUCCESS(response);
@@ -80,7 +77,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "pp:line:edit")]
+        [ActionPermissionFilter(Permission = "pp:line:update")]
         [Log(Title = "生产班组", BusinessType = BusinessType.UPDATE)]
         public IActionResult UpdatePpLine([FromBody] PpLineDto parm)
         {
@@ -97,7 +94,7 @@ namespace Ams.WebApi.Controllers
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "pp:line:delete")]
         [Log(Title = "生产班组", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeletePpLine([FromRoute] string ids)
+        public IActionResult DeletePpLine([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -105,8 +102,7 @@ namespace Ams.WebApi.Controllers
         }
 
         /// <summary>
-        /// 批量导出
-        /// 生产班组
+        /// 导出生产班组
         /// </summary>
         /// <returns></returns>
         [Log(Title = "生产班组", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
@@ -114,14 +110,12 @@ namespace Ams.WebApi.Controllers
         [ActionPermissionFilter(Permission = "pp:line:export")]
         public IActionResult Export([FromQuery] PpLineQueryDto parm)
         {
-            // 导出页码默认为1
             parm.PageNum = 1;
-            // 限制最大导出数量
             parm.PageSize = 100000;
             var list = _PpLineService.ExportList(parm).Result;
             if (list == null || list.Count <= 0)
             {
-                return ToResponse(ResultCode.FAIL, "没有要导出的数据(No Data)");
+                return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
             var result = ExportExcelMini(list, "生产班组", "生产班组");
             return ExportExcel(result.Item2, result.Item1);
@@ -157,8 +151,9 @@ namespace Ams.WebApi.Controllers
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<PpLineDto>() { }, "PpLine" + "_InputTpl");
+            var result = DownloadImportTemplate(new List<PpLineImportTpl>() { }, "pp_line_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
+
     }
 }

@@ -1,24 +1,21 @@
-﻿namespace Ams.Kernel.Services.IService.System
+﻿using Ams.Kernel.Model.System;
+using Ams.Model;
+
+namespace Ams.Kernel.Services.IService.System
 {
-    /// <summary>
-    /// 用户角色信息
-    /// 业务层接口
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
-    /// </summary>
     public interface ISysUserRoleService : IBaseService<SysUserRole>
     {
         public int CountUserRoleByRoleId(long roleId);
 
         /// <summary>
-        /// 删除用户角色信息
+        /// 删除用户角色
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
         public int DeleteUserRoleByUserId(int userId);
 
         /// <summary>
-        /// 批量删除角色信息对应用户
+        /// 批量删除角色对应用户
         /// </summary>
         /// <param name="roleId"></param>
         /// <param name="userIds"></param>
@@ -26,28 +23,28 @@
         public int DeleteRoleUserByUserIds(long roleId, List<long> userIds);
 
         /// <summary>
-        /// 添加用户角色信息
+        /// 添加用户角色
         /// </summary>
         /// <param name="sysUsers"></param>
         /// <returns></returns>
         public int AddUserRole(List<SysUserRole> sysUsers);
 
         /// <summary>
-        /// 获取用户数据根据角色信息id
+        /// 获取用户数据根据角色id
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
         public List<SysUser> GetSysUsersByRoleId(long roleId);
 
         /// <summary>
-        /// 获取用户数据根据角色信息id
+        /// 获取用户数据根据角色id
         /// </summary>
         /// <param name="SysRoleUserQueryDto"></param>
         /// <returns></returns>
         public PagedInfo<SysUser> GetSysUsersByRoleId(SysRoleUserQueryDto SysRoleUserQueryDto);
 
         /// <summary>
-        /// 获取尚未指派的用户数据根据角色信息id
+        /// 获取尚未指派的用户数据根据角色id
         /// </summary>
         /// <param name="SysRoleUserQueryDto"></param>
         /// <returns></returns>

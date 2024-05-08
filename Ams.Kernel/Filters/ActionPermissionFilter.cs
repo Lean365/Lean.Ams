@@ -1,4 +1,5 @@
 ﻿using Ams.Infrastructure.Model;
+using Ams.Kernel.Services;
 using Ams.Kernel.Services.Monitor;
 using Ams.Model.System;
 using Microsoft.AspNetCore.Mvc;
@@ -8,8 +9,8 @@ namespace Ams.Kernel.Filters
 {
     /// <summary>
     /// API授权判断
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class ActionPermissionFilter : ActionFilterAttribute//, IAsyncActionFilter
     {
@@ -21,7 +22,7 @@ namespace Ams.Kernel.Filters
         public string Permission { get; set; } = string.Empty;
 
         /// <summary>
-        /// 角色信息字符串，例如 common,admin
+        /// 角色字符串，例如 common,admin
         /// </summary>
         public string RolePermi { get; set; } = string.Empty;
 

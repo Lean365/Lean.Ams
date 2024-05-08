@@ -3,7 +3,7 @@
     <el-popover placement="bottom" trigger="click" width="400px" popper-class="el-popover-pupop-user-news">
       <template #reference>
         <el-badge :hidden="allDotNum <= 0" :value="allDotNum" style="line-height: 18px">
-          <svg-icon name="m-bell"></svg-icon>
+          <el-icon><bell /></el-icon>
         </el-badge>
       </template>
       <div class="layout-navbars-breadcrumb-user-news">
@@ -62,133 +62,126 @@
 </template>
 
 <script setup name="noticeIndex">
-  import noticeInfo from './noticeInfo.vue'
-  import useSocketStore from '@/store/modules/socket'
-  import useUserStore from '@/store/modules/user'
-  import { dayjs } from 'element-plus'
-  import { formatTime } from '@/utils/index'
-  const { proxy } = getCurrentInstance()
-  const noticeType = ref('0')
-  // 小红点
-  const newsDot = computed(() => {
-    return useSocketStore().newNotice
-  })
-  const noticeList = computed(() => {
-    return useSocketStore().noticeList
-  })
+import noticeInfo from './noticeInfo.vue'
+import useSocketStore from '@/store/modules/socket'
+import useUserStore from '@/store/modules/user'
+import { dayjs } from 'element-plus'
+import { formatTime } from '@/utils/index'
+const { proxy } = getCurrentInstance()
+const noticeType = ref('0')
+// 小红点
+const newsDot = computed(() => {
+  return useSocketStore().newNotice
+})
+const noticeList = computed(() => {
+  return useSocketStore().noticeList
+})
 
-  const allDotNum = computed(() => {
-    return useSocketStore().getAllDotNum()
-  })
-  const chatList = computed(() => {
-    return useSocketStore().getSessionList(useUserStore().userId)
-  })
-  const chatDotNum = computed(() => {
-    return useSocketStore().newChat
-  })
-  const noticeInfoRef = ref()
-  function handleDetails(item, type) {
-    var info = {}
-    if (type == 0) {
-      info = { type, ...item, title: item.noticeTitle }
-    } else if (type == 1) {
-      info = { type, title: item.fromUser.nickName, userId: item.userId }
-    }
-    proxy.$refs['noticeInfoRef'].handleOpen(type, info)
+const allDotNum = computed(() => {
+  return useSocketStore().getAllDotNum()
+})
+const chatList = computed(() => {
+  return useSocketStore().getSessionList(useUserStore().userId)
+})
+const chatDotNum = computed(() => {
+  return useSocketStore().newChat
+})
+const noticeInfoRef = ref()
+function handleDetails(item, type) {
+  var info = {}
+  if (type == 0) {
+    info = { type, ...item, title: item.noticeTitle }
+  } else if (type == 1) {
+    info = { type, title: item.fromUser.nickName, userId: item.userId }
   }
-  // 全部已读点击
-  function onAllReadClick() {
-    useSocketStore().readAll(noticeType.value)
-  }
-  // 前往通知中心点击
-  function onGoToGiteeClick() {
-    window.open('https://gitee.com/izory/ZrAdminNetCore')
-  }
+  proxy.$refs['noticeInfoRef'].handleOpen(type, info)
+}
+// 全部已读点击
+function onAllReadClick() {
+  useSocketStore().readAll(noticeType.value)
+}
+// 前往通知中心点击
+function onGoToGiteeClick() {
+  window.open('https://gitee.com/izory/ZrAdminNetCore')
+}
 </script>
 
 <style lang="scss" scoped>
-  .content-box {
-    font-size: 13px;
-    min-height: 160px;
-    max-height: 230px;
-    overflow: auto;
+.content-box {
+  font-size: 13px;
+  min-height: 160px;
+  max-height: 230px;
+  overflow: auto;
 
-    .content-box-item {
-      .left {
-        display: flex;
-        align-items: center;
-
-        .svg-icon {
-          width: 20px;
-        }
-      }
-
+  .content-box-item {
+    .left {
       display: flex;
-      margin-bottom: 20px;
-      cursor: pointer;
+      align-items: center;
 
-      &:hover {
+      .svg-icon {
+        width: 20px;
+      }
+    }
+    display: flex;
+    margin-bottom: 20px;
+    cursor: pointer;
+    &:hover {
+      color: var(--el-color-primary);
+    }
+
+    &:last-of-type {
+      padding-bottom: 12px;
+    }
+    .content {
+      margin-left: 8px;
+
+      .name {
         color: var(--el-color-primary);
       }
+    }
+    .icon {
+      width: 30px;
+      height: 30px;
+      margin: 2px 10px 0 0;
+    }
 
-      &:last-of-type {
-        padding-bottom: 12px;
-      }
-
-      .content {
-        margin-left: 8px;
-
-        .name {
-          color: var(--el-color-primary);
-        }
-      }
-
-      .icon {
-        width: 30px;
-        height: 30px;
-        margin: 2px 10px 0 0;
-      }
-
-      .content-box-time {
-        margin-top: 3px;
-      }
+    .content-box-time {
+      margin-top: 3px;
     }
   }
+}
+.foot-box {
+  height: 35px;
+  color: var(--el-color-primary);
+  font-size: 13px;
+  cursor: pointer;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid #ebeef5;
+  &:hover {
+    opacity: 1;
+  }
+}
 
-  .foot-box {
-    height: 35px;
+.layout-navbars-breadcrumb-user-news {
+  position: relative;
+  .read {
+    position: absolute;
+    top: 7px;
+    right: 0;
     color: var(--el-color-primary);
-    font-size: 13px;
     cursor: pointer;
-    opacity: 0.8;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    border-top: 1px solid #ebeef5;
-
-    &:hover {
-      opacity: 1;
-    }
+    z-index: 2;
+    font-size: 12px;
   }
-
-  .layout-navbars-breadcrumb-user-news {
-    position: relative;
-
-    .read {
-      position: absolute;
-      top: 7px;
-      right: 0;
-      color: var(--el-color-primary);
-      cursor: pointer;
-      z-index: 2;
-      font-size: 12px;
-    }
-  }
+}
 </style>
 <style>
-  .new-item {
-    .is-fixed {
-      right: -3px !important;
-    }
+.new-item {
+  .is-fixed {
+    right: -3px !important;
   }
+}
 </style>

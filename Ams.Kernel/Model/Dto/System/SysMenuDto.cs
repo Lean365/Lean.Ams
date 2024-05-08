@@ -3,18 +3,47 @@ using MiniExcelLibs.Attributes;
 
 namespace Ams.Kernel.Model.Dto.System
 {
+    /// <summary>
+    /// 菜单信息
+    /// 查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
+    public class SysMenuQueryDto
+    {
+        public string MenuName { get; set; }
+        public string Visible { get; set; }
+        public int IsStated { get; set; }
+        public string MenuTypeIds { get; set; } = string.Empty;
+        public int? ParentId { get; set; }
+
+        public string[] MenuTypeIdArr
+        {
+            get
+            {
+                return MenuTypeIds?.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 菜单信息
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class SysMenuDto
     {
         //{"parentId":0,"menuName":"aaa","icon":"documentation","menuType":"M","orderNum":999,"visible":0,"status":0,"path":"aaa"}
-        [Required(ErrorMessage = "菜单信息id不能为空")]
-        [ExcelColumn(Name = "菜单信息id")]
+        [Required(ErrorMessage = "菜单id不能为空")]
+        [ExcelColumn(Name = "菜单id")]
         public int MenuId { get; set; }
 
-        [ExcelColumn(Name = "菜单信息名")]
+        [ExcelColumn(Name = "菜单名")]
         public string MenuName { get; set; }
 
         /// <summary>
-        /// 父菜单信息ID
+        /// 父菜单ID
         /// </summary>
         public long? ParentId { get; set; }
 
@@ -48,9 +77,9 @@ namespace Ams.Kernel.Model.Dto.System
         public int IsFrame { get; set; }
 
         /// <summary>
-        /// 类型（M目录 C菜单信息 F按钮 L链接）
+        /// 类型（M目录 C菜单 F按钮 L链接）
         /// </summary>
-        [Required(ErrorMessage = "菜单信息类型不能为空")]
+        [Required(ErrorMessage = "菜单类型不能为空")]
         public string MenuType { get; set; }
 
         /// <summary>
@@ -60,9 +89,9 @@ namespace Ams.Kernel.Model.Dto.System
         public string Visible { get; set; }
 
         /// <summary>
-        /// 菜单信息状态（0正常 1停用）
+        /// 菜单状态（0正常 1停用）
         /// </summary>
-        [Required(ErrorMessage = "菜单信息状态不能为空")]
+        [Required(ErrorMessage = "菜单状态不能为空")]
         public int IsStated { get; set; }
 
         /// <summary>
@@ -72,7 +101,7 @@ namespace Ams.Kernel.Model.Dto.System
         public string Perms { get; set; }
 
         /// <summary>
-        /// 菜单信息图标
+        /// 菜单图标
         /// </summary>
         public string Icon { get; set; } = string.Empty;
 
@@ -82,22 +111,5 @@ namespace Ams.Kernel.Model.Dto.System
         public string MenuNameKey { get; set; }
 
         public List<SysMenuDto> Children { get; set; } = new List<SysMenuDto>();
-    }
-
-    public class SysMenuQueryDto
-    {
-        public string MenuName { get; set; }
-        public string Visible { get; set; }
-        public int IsStated { get; set; }
-        public string MenuTypeIds { get; set; } = string.Empty;
-        public int? ParentId { get; set; }
-
-        public string[] MenuTypeIdArr
-        {
-            get
-            {
-                return MenuTypeIds?.Split(',', StringSplitOptions.RemoveEmptyEntries);
-            }
-        }
     }
 }

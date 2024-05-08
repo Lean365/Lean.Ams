@@ -1,17 +1,17 @@
 ﻿<!--
  * @Descripttion: (${genTable.functionName}/${genTable.tableName})
  * @version: (1.0)
- * @Author: (${GeneratorReplaceDto.Author})
- * @Date: (${GeneratorReplaceDto.Create_time})
- * @LastEditors: (${GeneratorReplaceDto.Author})
- * @LastEditTime: (${GeneratorReplaceDto.Create_time})
+ * @Author: (${replaceDto.Author})
+ * @Date: (${replaceDto.createTime})
+ * @LastEditors: (${replaceDto.Author})
+ * @LastEditTime: (${replaceDto.createTime})
 -->
 <template>
   <div class="app-container">
     <!-- :model属性用于表单验证使用 比如下面的el-form-item 的 prop属性用于对表单值进行验证操作 -->
     <el-form :model="queryParams" size="small" label-position="right" inline ref="queryForm" :label-width="labelWidth" v-show="showSearch" 
       @submit.native.prevent>
-      ${GeneratorReplaceDto.VueQueryFormHtml}
+      ${replaceDto.VueQueryFormHtml}
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -20,7 +20,7 @@
     <!-- 工具区域 -->
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['${GeneratorReplaceDto.PermissionPrefix}:export']">导出</el-button>
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport" v-hasPermi="['${replaceDto.PermissionPrefix}:export']">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -28,7 +28,7 @@
     <!-- 数据区域 -->
     <el-table :data="dataList" v-loading="loading" ref="table" border highlight-current-row @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center"/>
-${GeneratorReplaceDto.VueViewListHtml}
+${replaceDto.VueViewListHtml}
       <el-table-column label="操作" align="center" width="140">
         <template slot-scope="scope">
           <el-button size="mini" type="success" icon="el-icon-view" title="查看" 
@@ -74,7 +74,7 @@ export default {
     return {
       labelWidth: "100px",
       formLabelWidth:"100px",
-      // 选中${GeneratorReplaceDto.FistLowerPk}数组
+      // 选中${replaceDto.FistLowerPk}数组
       ids: [],
       // 非单个禁用
       single: true,
@@ -196,7 +196,7 @@ $end
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map((item) => item.${GeneratorReplaceDto.FistLowerPk});
+      this.ids = selection.map((item) => item.${replaceDto.FistLowerPk});
       this.single = selection.length != 1
       this.multiple = !selection.length;
     },
@@ -207,7 +207,7 @@ $end
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const Ids = row.${GeneratorReplaceDto.FistLowerPk} || this.ids;
+      const Ids = row.${replaceDto.FistLowerPk} || this.ids;
 
       this.${confirm}confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
         .then(function () {
@@ -222,7 +222,7 @@ $end
     /** 预览按钮操作 */
     handleView(row) {
       this.reset();
-      const id = row.${GeneratorReplaceDto.FistLowerPk} || this.ids;
+      const id = row.${replaceDto.FistLowerPk} || this.ids;
       get${genTable.BusinessName}(id).then((res) => {
         const { code, data } = res;
         if (code == 200) {
@@ -240,7 +240,7 @@ $end
         }
       });
     },
-$if(GeneratorReplaceDto.ShowBtnExport)
+$if(replaceDto.ShowBtnExport)
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams;

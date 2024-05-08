@@ -1,10 +1,13 @@
-﻿using Ams.Model.System.Dto;
+﻿using Ams.Kernel.Signalr;
+using Ams.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using SqlSugar;
 
 namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
-    /// 通知公告
+    /// 系统通知
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
@@ -32,7 +35,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpGet("queryNotice")]
-        public IActionResult QuerysNotice([FromQuery] NoticeQueryDto parm)
+        public IActionResult QueryNotice([FromQuery] NoticeQueryDto parm)
         {
             var predicate = Expressionable.Create<Notice>();
 
@@ -47,7 +50,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpGet("list")]
         [ActionPermissionFilter(Permission = "routine:notice:list")]
-        public IActionResult QueryNotice([FromQuery] NoticeQueryDto parm)
+        public IActionResult QueryNotices([FromQuery] NoticeQueryDto parm)
         {
             PagedInfo<Notice> response = _NoticeService.GetPageList(parm);
             return SUCCESS(response);
@@ -92,11 +95,11 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 更新人员通知公告
+        /// 更新通知公告
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "routine:notice:edit")]
+        [ActionPermissionFilter(Permission = "routine:notice:update")]
         [Log(Title = "修改公告", BusinessType = BusinessType.UPDATE)]
         public IActionResult UpdateNotice([FromBody] NoticeDto parm)
         {
@@ -121,7 +124,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPut("send/{NoticeId}")]
-        [ActionPermissionFilter(Permission = "routine:notice:edit")]
+        [ActionPermissionFilter(Permission = "routine:notice:send")]
         [Log(Title = "发送通知公告", BusinessType = BusinessType.OTHER)]
         public IActionResult SendNotice(int NoticeId = 0)
         {

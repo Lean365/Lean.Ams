@@ -1,10 +1,9 @@
-﻿namespace Ams.Kernel.Services.IService.System
+﻿using Ams.Model;
+
+namespace Ams.Kernel.Services.IService.System
 {
     /// <summary>
-    /// 字典类别
-    /// 业务层接口
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    ///
     /// </summary>
     public interface ISysDictTypeService
     {
@@ -13,9 +12,9 @@
         public PagedInfo<SysDictType> SelectDictTypeList(SysDictType dictType, PagerInfo pager);
 
         /// <summary>
-        /// 校验字典类别称是否唯一
+        /// 校验字典类型称是否唯一
         /// </summary>
-        /// <param name="dictType">字典类别</param>
+        /// <param name="dictType">字典类型</param>
         /// <returns></returns>
         public string CheckDictTypeUnique(SysDictType dictType);
 
@@ -27,18 +26,18 @@
         public int DeleteDictTypeByIds(long[] dictIds);
 
         /// <summary>
-        /// 插入字典类别
+        /// 插入字典类型
         /// </summary>
-        /// <param name="sysDictType"></param>
+        /// <param name="SysDictType"></param>
         /// <returns></returns>
-        public long InsertDictType(SysDictType sysDictType);
+        public long InsertDictType(SysDictType SysDictType);
 
         /// <summary>
-        /// 修改字典类别
+        /// 修改字典类型
         /// </summary>
-        /// <param name="sysDictType"></param>
+        /// <param name="SysDictType"></param>
         /// <returns></returns>
-        public int UpdateDictType(SysDictType sysDictType);
+        public int UpdateDictType(SysDictType SysDictType);
 
         /// <summary>
         /// 获取字典信息

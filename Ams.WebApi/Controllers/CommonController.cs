@@ -1,16 +1,20 @@
-﻿using Ams.Service.IService;
+﻿using Ams.Kernel.Model.Dto;
+using Ams.Model.System;
+using Ams.Service.IService;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MiniExcelLibs;
 
 namespace Ams.WebApi.Controllers
 {
     /// <summary>
-    /// 通用
+    /// 公共模块
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
     /// </summary>
     [Route("[controller]/[action]")]
+    [ApiExplorerSettings(GroupName = "system")]
     public class CommonController : BaseController
     {
         private OptionsSetting OptionsSetting;
@@ -41,7 +45,7 @@ namespace Ams.WebApi.Controllers
         public IActionResult Index()
         {
             return Ok("看到这里页面说明你已经成功启动了本项目:)\n\n" +
-                "如果觉得项目有用，打赏作者喝杯咖啡作为奖励\n☛☛http://www.lean365.cn/vip\n");
+                "如果觉得项目有用，打赏作者喝杯咖啡作为奖励\n☛☛http://www.izhaorui.cn/vip\n");
         }
 
         /// <summary>

@@ -92,14 +92,14 @@
       </el-table-column>
       <el-table-column label="置顶" prop="isTop" width="90" align="center" sortable>
         <template #default="scope">
-          <el-switch v-model="scope.row.isTop" inline-prompt active-text="是" inactive-text="否" :active-value="1"
-            :inactive-value="0" @change="handleTopChange(scope.row)"></el-switch>
+          <el-switch v-model="scope.row.isTop" inline-prompt disabled active-text="是" inactive-text="否"
+            :active-value="1" :inactive-value="0"></el-switch>
         </template>
       </el-table-column>
       <el-table-column label="公开" align="center" prop="isPublic" sortable width="90">
         <template #default="scope">
           <el-switch v-model="scope.row.isPublic" inline-prompt active-text="是" inactive-text="否" :active-value="1"
-            :inactive-value="0" @change="handleChangePublic(scope.row)"></el-switch>
+            :inactive-value="0" disabled></el-switch>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="128" :show-overflow-tooltip="true"> </el-table-column>

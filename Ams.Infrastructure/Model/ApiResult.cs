@@ -6,9 +6,8 @@ namespace Ams.Infrastructure.Model
 {
     /// <summary>
     /// API返回结果
-    /// 状态码：0表示成功，其他表示失败
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class ApiResult : Dictionary<string, object>
     {
@@ -28,14 +27,14 @@ namespace Ams.Infrastructure.Model
         public static readonly string DATA_TAG = "data";
 
         /// <summary>
-        /// 初始化一个新创建人员的APIResult对象，使其表示一个空消息
+        /// 初始化一个新创建的APIResult对象，使其表示一个空消息
         /// </summary>
         public ApiResult()
         {
         }
 
         /// <summary>
-        /// 初始化一个新创建人员的 ApiResult 对象
+        /// 初始化一个新创建的 ApiResult 对象
         /// </summary>
         /// <param name="code"></param>
         /// <param name="msg"></param>
@@ -46,7 +45,7 @@ namespace Ams.Infrastructure.Model
         }
 
         /// <summary>
-        /// 初始化一个新创建人员的 ApiResult 对象
+        /// 初始化一个新创建的 ApiResult 对象
         /// </summary>
         /// <param name="code"></param>
         /// <param name="msg"></param>

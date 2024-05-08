@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Ams.Infrastructure;
+using Ams.Infrastructure.Model;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SqlSugar.IOC;
+using Ams.Common;
+using Ams.Kernel.Model.Monitor;
+using Ams.Kernel.Model.System;
 
 namespace Ams.Kernel.SqlSugar
 {
-    /// <summary>
-    /// SqlSugar初始化
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
-    /// </summary>
     public static class SqlsugarSetup
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -117,14 +117,14 @@ namespace Ams.Kernel.SqlSugar
                 var parameter = it.Parameters;
                 var data = it.BusinessData;//这边会显示你传进来的对象
                 var time = it.Time;
-                var diffType = it.DiffType;//enum insert 、update and delete
+                var diffType = it.DiffType;//enum insert 、update and delete  
                 string name = App.UserName;
 
                 foreach (var item in editBeforeData)
                 {
                     var pars = db.Utilities.SerializeObject(item.Columns.ToDictionary(it => it.ColumnName, it => it.Value));
 
-                    DiffLog log = new()
+                    LogDiff log = new()
                     {
                         BeforeData = pars,
                         BusinessData = data?.ToString(),
@@ -132,7 +132,7 @@ namespace Ams.Kernel.SqlSugar
                         Sql = sql,
                         TableName = item.TableName,
                         UserName = name,
-                        Create_time = DateTime.Now,
+                        createTime = DateTime.Now,
                         ConfigId = configId
                     };
                     if (editAfterData != null)
@@ -176,9 +176,7 @@ namespace Ams.Kernel.SqlSugar
                             p.DataType = "char(1)";
                         }
                     }
-
                     #region 兼容Oracle
-
                     if (config.DbType == DbType.Oracle)
                     {
                         if (p.IsIdentity == true)
@@ -205,8 +203,7 @@ namespace Ams.Kernel.SqlSugar
                             }
                         }
                     }
-
-                    #endregion 兼容Oracle
+                    #endregion
                 }
             };
             db.GetConnectionScope(configId).Aop.OnLogExecuted = (sql, pars) =>

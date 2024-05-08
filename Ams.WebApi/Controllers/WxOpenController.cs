@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ams.WebApi.Controllers
 {
@@ -9,6 +10,7 @@ namespace Ams.WebApi.Controllers
     /// @Date 2024-01-01
     /// </summary>
     [Route("[controller]/[action]")]
+    [ApiExplorerSettings(GroupName = "system")]
     [AllowAnonymous]
     public class WxOpenController : BaseController
     {

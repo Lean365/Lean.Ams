@@ -1,3 +1,4 @@
+using Ams.Model;
 using Ams.Model.Dto;
 using Ams.Model.Logistics;
 
@@ -6,12 +7,11 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// <summary>
     /// 生产班组
     /// 业务层接口
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: 2024/4/25 17:15:19
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024/5/8 15:24:51
     /// </summary>
     public interface IPpLineService : IBaseService<PpLine>
     {
-
         /// <summary>
         /// 获取生产班组列表
         /// </summary>
@@ -41,7 +41,6 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <param name="parm"></param>
         /// <returns></returns>
         PpLine AddPpLine(PpLine parm);
-
         /// <summary>
         /// 更新
         /// 生产班组
@@ -50,7 +49,6 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <returns></returns>
         int UpdatePpLine(PpLine parm);
 
-
         /// <summary>
         /// 批量导入
         /// 生产班组
@@ -58,7 +56,6 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <param name="list"></param>
         /// <returns></returns>
         (string, object, object) ImportPpLine(List<PpLine> list);
-
 
         /// <summary>
         /// 导出

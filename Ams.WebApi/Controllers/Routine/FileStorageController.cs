@@ -1,9 +1,11 @@
-using Ams.Model.System.Dto;
+using Ams.Model.System;
+using Microsoft.AspNetCore.Mvc;
+using SqlSugar;
 
 namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
-    /// 系统监控
+    /// 文件存储Controller
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
@@ -29,13 +31,13 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "routine:filestorage:list")]
+        [ActionPermissionFilter(Permission = "routine:file:list")]
         public IActionResult QueryFileStorage([FromQuery] FileStorageQueryDto parm)
         {
             var predicate = Expressionable.Create<FileStorage>();
 
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, it => it.Create_time <= parm.EndTime);
+            predicate = predicate.AndIF(parm.BeginCreate_time != null, it => it.Create_time >= parm.BeginCreate_time);
+            predicate = predicate.AndIF(parm.EndCreate_time != null, it => it.Create_time <= parm.EndCreate_time);
             predicate = predicate.AndIF(parm.StoreType != null, m => m.StoreType == parm.StoreType);
             predicate = predicate.AndIF(parm.FileId != null, m => m.Id == parm.FileId);
 
@@ -49,7 +51,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        [ActionPermissionFilter(Permission = "routine:filestorage:query")]
+        [ActionPermissionFilter(Permission = "routine:file:query")]
         public IActionResult GetFileStorage(long Id)
         {
             var response = _FileStorageService.GetFirst(x => x.Id == Id);
@@ -62,7 +64,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "routine:filestorage:delete")]
+        [ActionPermissionFilter(Permission = "routine:file:delete")]
         [Log(Title = "文件存储", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteFileStorage(string ids)
         {
@@ -84,7 +86,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "文件存储")]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "routine:filestorage:export")]
+        [ActionPermissionFilter(Permission = "routine:file:export")]
         public IActionResult Export()
         {
             var list = _FileStorageService.GetAll();

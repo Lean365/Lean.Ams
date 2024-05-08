@@ -5,12 +5,12 @@ namespace ${options.RepositoriesNamespace}
 {
     /// <summary>
     /// ${genTable.FunctionName}
-    /// 仓储实体
-    /// @Author: ${GeneratorReplaceDto.Author}(Davis.Cheng)
-    /// @Date: ${GeneratorReplaceDto.CreateTime}
+    /// 仓储层处理
+    /// @Author: ${ReplaceDto.Author}
+    /// @Date: ${ReplaceDto.createTime}
     /// </summary>
     [AppService(ServiceLifetime = LifeTime.Transient)]
-    public class ${GeneratorReplaceDto.ModelTypeName}Repository : BaseRepository<${GeneratorReplaceDto.ModelTypeName}>
+    public class ${replaceDto.ModelTypeName}Repository : BaseRepository<${replaceDto.ModelTypeName}>
     {
     }
 }

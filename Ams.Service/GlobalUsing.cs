@@ -1,12 +1,10 @@
 ﻿global using System;
 global using System.Collections.Generic;
 global using Ams.Infrastructure.Apps;
-global using Ams.Infrastructure.Attribute;
+global using Ams.Infrastructure.Cache;
+global using Ams.Infrastructure.CustomExceptions;
 global using Ams.Infrastructure.Extensions;
 global using Ams.Kernel;
 global using Ams.Kernel.Model;
-global using Ams.Kernel.Model.System;
-global using Ams.Kernel.Services.IService.System;
-global using Ams.Model;
 global using Newtonsoft.Json;
 global using SqlSugar;

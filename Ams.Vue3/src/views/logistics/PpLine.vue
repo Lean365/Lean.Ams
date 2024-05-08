@@ -1,16 +1,16 @@
 <!--
  * @Descripttion: 生产班组/pp_line
- * @Version: 0.24.481.30647
- * @Author: Lean365(Davis.Ching)
- * @Date: 2024/4/25 17:15:19
+ * @Version: 0.24.494.27641
+ * @Author: Lean365(Davis.Ching)(Davis.Ching)
+ * @Date: 2024/5/8 15:24:51
 -->
 <template>
   <div>
     <!-- 查询区域 -->
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
       <el-form-item label="班组类别" prop="plLineType">
-        <el-select clearable  v-model="queryParams.plLineType" :placeholder="$t('btn.select')+'班组类别'">
-          <el-option v-for="item in  options.sys_article_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+        <el-select filterable clearable   v-model="queryParams.plLineType" :placeholder="$t('btn.select')+'班组类别'">
+          <el-option v-for="item in   options.sys_line_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -18,14 +18,6 @@
       </el-form-item>
       <el-form-item label="班组代码" prop="plLineCode">
         <el-input v-model="queryParams.plLineCode" :placeholder="$t('btn.enter')+'班组代码'" />
-      </el-form-item>
-      <el-form-item label="语言Key" prop="plLineLangCode">
-        <el-select clearable  v-model="queryParams.plLineLangCode" :placeholder="$t('btn.select')+'语言Key'">
-          <el-option v-for="item in  options.sys_lang_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
       </el-form-item>
       <el-form-item label="班组名称" prop="plLineName">
         <el-input v-model="queryParams.plLineName" :placeholder="$t('btn.enter')+'班组名称'" />
@@ -91,17 +83,12 @@
       <el-table-column prop="plSFID" label="SFID" align="center" v-if="columns.showColumn('plSFID')"/>
       <el-table-column prop="plLineType" label="班组类别" align="center" v-if="columns.showColumn('plLineType')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_article_type " :value="scope.row.plLineType"  />
+          <dict-tag :options=" options.sys_line_type " :value="scope.row.plLineType"  />
         </template>
       </el-table-column>
       <el-table-column prop="plLineCode" label="班组代码" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('plLineCode')"/>
-      <el-table-column prop="plLineLangCode" label="语言Key" align="center" v-if="columns.showColumn('plLineLangCode')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_lang_type " :value="scope.row.plLineLangCode"  />
-        </template>
-      </el-table-column>
+      <el-table-column prop="plLineLangCode" label="语言Key" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('plLineLangCode')"/>
       <el-table-column prop="plLineName" label="班组名称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('plLineName')"/>
-      <el-table-column prop="isDeleted" label="软删除" align="center" v-if="columns.showColumn('isDeleted')"/>
       <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
       <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
@@ -132,15 +119,16 @@
 
           <el-col :lg="12">
             <el-form-item label="班组类别" prop="plLineType">
-              <el-select v-model="form.plLineType"  :placeholder="$t('btn.select')+'班组类别'">
+              <el-select filterable clearable   v-model="form.plLineType"  :placeholder="$t('btn.select')+'班组类别'">
                 <el-option
-                  v-for="item in options.sys_article_type" 
+                  v-for="item in  options.sys_line_type" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
+
 
           <el-col :lg="12">
             <el-form-item label="班组代码" prop="plLineCode">
@@ -150,13 +138,7 @@
 
           <el-col :lg="12">
             <el-form-item label="语言Key" prop="plLineLangCode">
-              <el-select v-model="form.plLineLangCode"  :placeholder="$t('btn.select')+'语言Key'">
-                <el-option
-                  v-for="item in options.sys_lang_type" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
+              <el-input v-model="form.plLineLangCode" :placeholder="$t('btn.enter')+'语言Key'" />
             </el-form-item>
           </el-col>
 
@@ -306,8 +288,6 @@ const queryParams = reactive({
 //是否查询（1是）
   plLineCode: undefined,
 //是否查询（1是）
-  plLineLangCode: undefined,
-//是否查询（1是）
   plLineName: undefined,
 })
 //字段显示控制
@@ -317,7 +297,6 @@ const columns = ref([
   { visible: true, prop: 'plLineCode', label: '班组代码' },
   { visible: true, prop: 'plLineLangCode', label: '语言Key' },
   { visible: true, prop: 'plLineName', label: '班组名称' },
-  { visible: true, prop: 'isDeleted', label: '软删除' },
   { visible: true, prop: 'remark', label: '备注' },
   { visible: true, prop: 'createBy', label: '创建者' },
   { visible: false, prop: 'createTime', label: '创建时间' },
@@ -347,8 +326,7 @@ const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23,
 
 //字典参数
 var dictParams = [
-  { dictType: "sys_article_type" },
-  { dictType: "sys_lang_type" },
+  { dictType: "sys_line_type" },
 ]
 
 //字典加载
@@ -419,16 +397,15 @@ const state = reactive({
   multiple: true,
   form: {},
   rules: {
+    plSFID: [{ required: true, message: "SFID不能为空", trigger: "blur" }],
     plLineType: [{ required: true, message: "班组类别不能为空", trigger: "change"     }],
     plLineCode: [{ required: true, message: "班组代码不能为空", trigger: "blur"     }],
-    plLineLangCode: [{ required: true, message: "语言Key不能为空", trigger: "change"     }],
+    plLineLangCode: [{ required: true, message: "语言Key不能为空", trigger: "blur"     }],
     plLineName: [{ required: true, message: "班组名称不能为空", trigger: "blur"     }],
   },
   options: {
     // 班组类别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_article_type: [],
-    // 语言Key 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_lang_type: [],
+sys_line_type: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -477,8 +454,6 @@ function handleAdd() {
   title.value = proxy.$t('btn.add')+'生产班组'
   opertype.value = 1
   form.value.plLineType= []
-  form.value.plLineLangCode= []
-  form.value.isDeleted= 0
   form.value.createTime= new Date()
   form.value.updateTime= new Date()
 }

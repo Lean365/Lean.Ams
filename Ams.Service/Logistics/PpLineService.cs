@@ -1,21 +1,26 @@
+using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.Extensions;
+using Ams.Model;
 using Ams.Model.Dto;
 using Ams.Model.Logistics;
 using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
+using System.Linq;
 
 namespace Ams.Service.Logistics
 {
     /// <summary>
     /// 生产班组
     /// 业务层处理
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: 2024/4/25 17:15:19
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024/5/8 15:24:51
     /// </summary>
     [AppService(ServiceType = typeof(IPpLineService), ServiceLifetime = LifeTime.Transient)]
     public class PpLineService : BaseService<PpLine>, IPpLineService
     {
         /// <summary>
-        /// 查询生产班组列表
+        /// 查询
+        /// 生产班组列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -37,13 +42,14 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.PlLineType + it.PlLineCode == enterString);
+            int count = Count(it => it. PlSFID.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
             }
             return UserConstants.UNIQUE;
         }
+
 
         /// <summary>
         /// 获取详情
@@ -60,7 +66,8 @@ namespace Ams.Service.Logistics
         }
 
         /// <summary>
-        /// 添加生产班组
+        /// 添加
+        /// 生产班组
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -71,7 +78,8 @@ namespace Ams.Service.Logistics
         }
 
         /// <summary>
-        /// 修改生产班组
+        /// 修改
+        /// 生产班组
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -81,13 +89,15 @@ namespace Ams.Service.Logistics
         }
 
         /// <summary>
-        /// 导入生产班组
+        /// 批量导入
+        /// 生产班组
         /// </summary>
         /// <returns></returns>
         public (string, object, object) ImportPpLine(List<PpLine> list)
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
+                .SplitError(x => x.Item.PlSFID.IsEmpty(), "SFID不能为空")
                 .SplitError(x => x.Item.PlLineType.IsEmpty(), "班组类别不能为空")
                 .SplitError(x => x.Item.PlLineCode.IsEmpty(), "班组代码不能为空")
                 .SplitError(x => x.Item.PlLineLangCode.IsEmpty(), "语言Key不能为空")
@@ -96,10 +106,10 @@ namespace Ams.Service.Logistics
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
 
-            string msg = $"插入{x.InsertList.Count} 更新人员{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";
+            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";                    
             Console.WriteLine(msg);
 
-            //输出错误信息
+            //输出错误信息               
             foreach (var item in x.ErrorList)
             {
                 Console.WriteLine("错误" + item.StorageMessage);
@@ -113,7 +123,8 @@ namespace Ams.Service.Logistics
         }
 
         /// <summary>
-        /// 导出生产班组
+        /// 批量导出
+        /// 生产班组
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -125,8 +136,7 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpLineDto()
                 {
-                    PlLineTypeLabel = it.PlLineType.GetConfigValue<SysDictData>("sys_article_type"),
-                    PlLineLangCodeLabel = it.PlLineLangCode.GetConfigValue<SysDictData>("sys_lang_type"),
+                    PlLineTypeLabel = it.PlLineType.GetConfigValue<Kernel.Model.System.SysDictData>("sys_line_type"),
                 }, true)
                 .ToPage(parm);
 
@@ -134,7 +144,7 @@ namespace Ams.Service.Logistics
         }
 
         /// <summary>
-        /// 查询导出表达式
+        /// 查询表达式
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -144,7 +154,6 @@ namespace Ams.Service.Logistics
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PlLineType), it => it.PlLineType == parm.PlLineType);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PlLineCode), it => it.PlLineCode.Contains(parm.PlLineCode));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PlLineLangCode), it => it.PlLineLangCode == parm.PlLineLangCode);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PlLineName), it => it.PlLineName.Contains(parm.PlLineName));
             return predicate;
         }

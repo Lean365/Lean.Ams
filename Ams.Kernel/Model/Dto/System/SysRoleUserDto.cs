@@ -1,7 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Ams.Model;
 
 namespace Ams.Kernel.Model.Dto.System
 {
+    /// <summary>
+    /// 角色用户
+    /// 查询条件
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class SysRoleUserQueryDto : PagerInfo
     {
         public long RoleId { get; set; }
@@ -9,12 +16,18 @@ namespace Ams.Kernel.Model.Dto.System
         public string UserName { get; set; }
     }
 
+    /// <summary>
+    /// 角色用户
+    /// 创建对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class SysRoleUsersCreateDto
     {
         /// <summary>
-        /// 角色信息id
+        /// 角色id
         /// </summary>
-        [Display(Name = "角色信息id")]
+        [Display(Name = "角色id")]
         [Required(ErrorMessage = "roleId 不能为空")]
         public long RoleId { get; set; }
 

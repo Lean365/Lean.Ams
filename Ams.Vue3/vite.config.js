@@ -8,6 +8,7 @@ const __APP_INFO__ = {
   pkg: { dependencies, devDependencies, name, version },
   lastBuildTime: dayjs().format("YYYY-MM-DD HH:mm:ss")
 }
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd())
@@ -38,9 +39,6 @@ export default defineConfig(({ mode, command }) => {
       devSourcemap: true //开发模式时启用
     },
     base: env.VITE_APP_ROUTER_PREFIX,
-    optimizeDeps: {
-      include: ['/vform3-builds/']  //此处路径必须跟main.js中import路径完全一致！
-    },
     // 打包配置
     build: {
       sourcemap: command === 'build' ? false : 'inline',

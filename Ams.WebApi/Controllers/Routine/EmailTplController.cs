@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
+
 //创建时间：2023-11-12
-namespace Ams.WebApi.Controllers.Email
+namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
-    /// 系统监控
+    /// 邮件模板
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
@@ -66,11 +68,11 @@ namespace Ams.WebApi.Controllers.Email
         }
 
         /// <summary>
-        /// 更新人员邮件模板
+        /// 更新邮件模板
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "routine:emailtpl:edit")]
+        [ActionPermissionFilter(Permission = "routine:emailtpl:update")]
         [Log(Title = "邮件模板", BusinessType = BusinessType.UPDATE)]
         public IActionResult UpdateEmailTpl([FromBody] EmailTplDto parm)
         {

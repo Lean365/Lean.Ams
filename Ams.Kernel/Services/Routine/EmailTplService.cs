@@ -1,13 +1,12 @@
-using Ams.Kernel.Model.Dto.Routine;
+using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Services.IService.Routine;
+using Ams.Model;
 using Ams.Repository;
 
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
-    /// 邮件模板
-    /// 业务层处理
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 邮件模板Service业务层处理
     /// </summary>
     [AppService(ServiceType = typeof(IEmailTplService), ServiceLifetime = LifeTime.Transient)]
     public class EmailTplService : BaseService<EmailTpl>, IEmailTplService

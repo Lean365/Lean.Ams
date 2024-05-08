@@ -9,13 +9,13 @@ namespace Ams.Infrastructure
 {
     /// <summary>
     /// 文件操作工具类
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class FileUtil
     {
         /// <summary>
-        /// 按时间来创建人员文件夹
+        /// 按时间来创建文件夹
         /// </summary>
         /// <param name="path"></param>
         /// <returns>eg: /{yourPath}/2020/11/3/</returns>
@@ -44,6 +44,31 @@ namespace Ams.Infrastructure
             }
             MD5 md5 = MD5.Create();
             return BitConverter.ToString(md5.ComputeHash(Encoding.Default.GetBytes(str)), 4, 8).Replace("-", "");
+        }
+
+        /// <summary>
+        /// 查找并删除类
+        /// </summary>
+        /// <param name="srcPath"></param>
+        /// <param name="fileName"></param>
+        public static void DeleteDir(string srcPath, string fileName)
+        {
+            //string[] files = Directory.GetFiles(filepath + @"\", "*.xls");
+            //string[] files = Directory.GetFiles(filepath + @"\", filename);  //查找时不包括子目录
+            try
+            {
+                string[] files = Directory.GetFiles(srcPath + @"\\", "*" + fileName + "*.*", SearchOption.AllDirectories);   //查找时包括子目录
+                foreach (string file in files)
+                {
+                    File.Delete(file); //删除指定文件
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message; //a的值为：发生一个或多个错误。
+                var b = ex.GetBaseException(); //b的值为：Task异常测试
+                Console.WriteLine(a + "|*|" + b);
+            }
         }
 
         /// <summary>
@@ -139,7 +164,7 @@ namespace Ams.Infrastructure
         }
 
         /// <summary>
-        /// 创建人员文件夹
+        /// 创建文件夹
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -154,12 +179,12 @@ namespace Ams.Infrastructure
                 if (!Directory.Exists(path))
                 {
                     DirectoryInfo info = Directory.CreateDirectory(path);
-                    Console.WriteLine("不存在创建人员文件夹" + info);
+                    Console.WriteLine("不存在创建文件夹" + info);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"创建人员文件夹出错了,{ex.Message}");
+                Console.WriteLine($"创建文件夹出错了,{ex.Message}");
                 return false;
             }
             return true;

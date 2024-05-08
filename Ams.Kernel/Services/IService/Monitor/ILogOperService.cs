@@ -4,12 +4,6 @@ using Ams.Model;
 
 namespace Ams.Kernel.Services.IService.Monitor
 {
-    /// <summary>
-    /// 操作日志
-    /// 业务层接口
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/22 10:55:14)
-    /// <summary>
     public interface ILogOperService
     {
         public void InsertOperlog(LogOper operLog);

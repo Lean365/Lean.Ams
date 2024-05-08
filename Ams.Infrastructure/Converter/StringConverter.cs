@@ -10,19 +10,11 @@ namespace Ams.Infrastructure.Converter
     /// Json任何类型读取到字符串属性
     /// 因为 System.Text.Json 必须严格遵守类型一致，当非字符串读取到字符属性时报错：
     /// The JSON value could not be converted to System.String.
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2004-02-01
+    /// @author Lean365(Davis Ching)
+    /// @date 2024-02-01
     /// </summary>
     public class StringConverter : System.Text.Json.Serialization.JsonConverter<string>
     {
-        /// <summary>
-        /// 读取字符串类型
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <param name="typeToConvert"></param>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        /// <exception cref="JsonException"></exception>
         public override string Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (reader.TokenType == JsonTokenType.String)
@@ -38,12 +30,6 @@ namespace Ams.Infrastructure.Converter
             throw new JsonException();
         }
 
-        /// <summary>
-        /// 写入字符串类型
-        /// </summary>
-        /// <param name="writer"></param>
-        /// <param name="value"></param>
-        /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
         {
             writer.WriteStringValue(value);

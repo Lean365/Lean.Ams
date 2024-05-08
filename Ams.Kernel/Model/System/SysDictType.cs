@@ -2,8 +2,8 @@
 {
     /// <summary>
     /// 字典类别
-    /// 数据实体类：sys_dict_type
-    /// @Author Lean365(Davis.Ching)
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
     /// </summary>
     [SugarTable("sys_dict_type", "字典类别")]
@@ -24,7 +24,7 @@
         public string DictName { get; set; }
 
         /// <summary>
-        /// 字典类别
+        /// 字典类型
         /// </summary>
         [SugarColumn(Length = 100, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string DictType { get; set; }
@@ -32,8 +32,8 @@
         /// <summary>
         /// 状态 0、正常 1、停用
         /// </summary>
-        [SugarColumn(Length = 1, DefaultValue = "0")]
-        public int IsStated { get; set; }
+        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int IsStated { get; set; } = 0;
 
         /// <summary>
         /// 系统内置 Y是 N否
@@ -44,7 +44,7 @@
         /// <summary>
         /// 自定义sql
         /// </summary>
-        [SugarColumn(ColumnName = "CustomSql", ColumnDataType = StaticConfig.CodeFirst_BigString)]
+        [SugarColumn(ColumnDataType = StaticConfig.CodeFirst_BigString)]
         public string CustomSql { get; set; }
     }
 }

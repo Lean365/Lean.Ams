@@ -3,8 +3,8 @@
     /// <summary>
     /// 审计日志
     /// 数据实体对象
-    /// @Author: Lean365(Davis.Cheng)
-    /// @Date: (2024/1/25 13:57:42)
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [SugarTable("log_diff", "审计日志")]
     [Tenant("0")]
@@ -56,7 +56,7 @@
         /// </summary>
         public string UserName { get; set; }
 
-        public DateTime ExecTime { get; set; }
+        public DateTime createTime { get; set; }
 
         /// <summary>
         /// 数据库配置id

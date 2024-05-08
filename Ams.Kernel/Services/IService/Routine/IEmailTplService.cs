@@ -1,12 +1,11 @@
+using Ams.Model;
+using Ams.Kernel.Model.Routine;
 using Ams.Kernel.Model.Dto.Routine;
 
 namespace Ams.Kernel.Services.IService.Routine
 {
     /// <summary>
-    /// 邮件模板
-    /// 业务层接口
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 邮件模板service接口
     /// </summary>
     public interface IEmailTplService : IBaseService<EmailTpl>
     {
@@ -17,5 +16,6 @@ namespace Ams.Kernel.Services.IService.Routine
         EmailTpl AddEmailTpl(EmailTpl parm);
 
         int UpdateEmailTpl(EmailTpl parm);
+
     }
 }

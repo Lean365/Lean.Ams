@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function queryTasks(data) {
   return request({
-    url: '/routine/taskqz/list',
+    url: '/routine/tasksqz/list',
     method: 'get',
     params: data
   })
@@ -10,7 +10,7 @@ export function queryTasks(data) {
 
 export function getTasks(id) {
   return request({
-    url: '/routine/taskqz/get?id=' + id,
+    url: '/routine/tasksqz/get?id=' + id,
     method: 'get'
   })
 }
@@ -22,7 +22,7 @@ export function getTasks(id) {
  */
 export function getAllTasks() {
   return request({
-    url: '/routine/taskqz/getAll',
+    url: '/routine/tasksqz/getAll',
     method: 'get'
   })
 }
@@ -34,7 +34,7 @@ export function getAllTasks() {
  */
 export function createTasks(data) {
   return request({
-    url: '/routine/taskqz/create',
+    url: '/routine/tasksqz/create',
     method: 'post',
     data
   })
@@ -47,7 +47,7 @@ export function createTasks(data) {
  */
 export function updateTasks(data) {
   return request({
-    url: '/routine/taskqz/update',
+    url: '/routine/tasksqz/update',
     method: 'post',
     data
   })
@@ -60,7 +60,7 @@ export function updateTasks(data) {
  */
 export function deleteTasks(id) {
   return request({
-    url: '/routine/taskqz/delete?id=' + id,
+    url: '/routine/tasksqz/delete?id=' + id,
     method: 'delete'
   })
 }
@@ -72,7 +72,7 @@ export function deleteTasks(id) {
  */
 export function startTasks(id) {
   return request({
-    url: '/routine/taskqz/start?id=' + id,
+    url: '/routine/tasksqz/start?id=' + id,
     method: 'get'
   })
 }
@@ -84,7 +84,7 @@ export function startTasks(id) {
  */
 export function stopTasks(id) {
   return request({
-    url: '/routine/taskqz/stop?id=' + id,
+    url: '/routine/tasksqz/stop?id=' + id,
     method: 'get'
   })
 }
@@ -96,7 +96,7 @@ export function stopTasks(id) {
  */
 export function runTasks(id) {
   return request({
-    url: '/routine/taskqz/run?id=' + id,
+    url: '/routine/tasksqz/run?id=' + id,
     method: 'get'
   })
 }
@@ -106,7 +106,7 @@ export function runTasks(id) {
  */
 export function exportTasks() {
   return request({
-    url: '/routine/taskqz/export',
+    url: '/routine/tasksqz/export',
     method: 'get'
   })
 }

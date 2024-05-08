@@ -1,41 +1,27 @@
 using System.ComponentModel.DataAnnotations;
+using Ams.Model;
 using MiniExcelLibs.Attributes;
 
-namespace Ams.Model.System.Dto
+namespace Ams.Kernel.Model.Dto.Routine
 {
     /// <summary>
     /// 通知公告
     /// 查询对象
-    /// @Author Lean365(Davis.Ching)
+    /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
     /// </summary>
     public class NoticeQueryDto : PagerInfo
     {
-        /// <summary>
-        /// 公告标题
-        /// </summary>
         public string NoticeTitle { get; set; }
-
-        /// <summary>
-        /// 公告类型
-        /// </summary>
         public int? NoticeType { get; set; }
-
-        /// <summary>
-        /// 创建人员
-        /// </summary>
         public string CreateBy { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
         public int? IsStated { get; set; }
     }
 
     /// <summary>
     /// 通知公告
     /// 输入输出对象
-    /// @Author Lean365(Davis.Ching)
+    /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
     /// </summary>
     public class NoticeDto
@@ -64,8 +50,8 @@ namespace Ams.Model.System.Dto
         [ExcelColumnName("公告状态")]
         public int IsStated { get; set; }
 
-        [ExcelColumn(Name = "创建人员")]
-        [ExcelColumnName("创建人员")]
+        [ExcelColumn(Name = "创建人")]
+        [ExcelColumnName("创建人")]
         public string CreateBy { get; set; }
 
         [ExcelColumn(Name = "创建时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
@@ -80,6 +66,6 @@ namespace Ams.Model.System.Dto
         public string NoticeTypeLabel { get; set; }
 
         [ExcelColumn(Name = "公告状态")]
-        public int IsStatedLabel { get; set; }
+        public string StatusLabel { get; set; }
     }
 }

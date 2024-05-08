@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace Ams.WebApi.Controllers.Monitor
@@ -14,14 +15,14 @@ namespace Ams.WebApi.Controllers.Monitor
     [Verify]
     public class MonitorController : BaseController
     {
-        private OptionsSetting Options;
-        private IWebHostEnvironment HostEnvironment;
+        private OptionsSetting _OptionsSetting;
+        private IWebHostEnvironment _WebHostEnvironment;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public MonitorController(IOptions<OptionsSetting> options, IWebHostEnvironment hostEnvironment)
+        public MonitorController(IOptions<OptionsSetting> OptionsSetting, IWebHostEnvironment WebHostEnvironment)
         {
-            this.HostEnvironment = hostEnvironment;
-            this.Options = options.Value;
+            _WebHostEnvironment = WebHostEnvironment;
+            _OptionsSetting = OptionsSetting.Value;
         }
 
         /// <summary>
@@ -61,9 +62,9 @@ namespace Ams.WebApi.Controllers.Monitor
                 sys = new { cpuNum, computerName, osName, osArch, serverIP, runTime = sysRunTime },
                 app = new
                 {
-                    name = HostEnvironment.EnvironmentName,
-                    rootPath = HostEnvironment.ContentRootPath,
-                    webRootPath = HostEnvironment.WebRootPath,
+                    name = _WebHostEnvironment.EnvironmentName,
+                    rootPath = _WebHostEnvironment.ContentRootPath,
+                    webRootPath = _WebHostEnvironment.WebRootPath,
                     version,
                     appRAM,
                     startTime,

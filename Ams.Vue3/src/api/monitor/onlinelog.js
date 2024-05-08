@@ -7,7 +7,7 @@ import { downFile } from '@/utils/request'
 */
 export function listOnlineLog(query) {
   return request({
-    url: '/monitor/online/log/list',
+    url: '/monitor/onlineuser/list',
     method: 'get',
     params: query,
   })
@@ -19,7 +19,7 @@ export function listOnlineLog(query) {
 */
 export function addOnlineLog(data) {
   return request({
-    url: '/monitor/online/log',
+    url: '/monitor/onlineuser',
     method: 'post',
     data: data,
   })
@@ -30,7 +30,7 @@ export function addOnlineLog(data) {
 */
 export function getOnlineLog(id) {
   return request({
-    url: '/monitor/online/log/' + id,
+    url: '/monitor/onlineuser/' + id,
     method: 'get'
   })
 }
@@ -41,11 +41,11 @@ export function getOnlineLog(id) {
 */
 export function delOnlineLog(pid) {
   return request({
-    url: '/monitor/online/log/delete/' + pid,
+    url: '/monitor/onlineuser/delete/' + pid,
     method: 'delete'
   })
 }
 // 导出用户在线时长
 export async function exportOnlineLog(query) {
-  await downFile('/monitor/online/log/export', { ...query })
+  await downFile('/monitor/onlineuser/export', { ...query })
 }

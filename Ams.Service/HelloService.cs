@@ -1,11 +1,10 @@
-﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using SqlSugar.IOC;
-using Ams.Model.System;
-using Ams.Repository;
-using Ams.Service.IService;
+﻿using Ams.Infrastructure.Attribute;
 using Ams.Kernel.Model.System;
 using Ams.Kernel.Services.IService.System;
+using Ams.Model.Content;
+using Ams.Repository;
+using Ams.Service.IService;
+using SqlSugar.IOC;
 
 namespace Ams.Service
 {
@@ -21,13 +20,14 @@ namespace Ams.Service
         private readonly ISysUserService userService;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="userService"></param>
         public HelloService(ISysUserService userService)
         {
             this.userService = userService;
         }
+
         /// <summary>
         /// 数据库使用案例
         /// </summary>

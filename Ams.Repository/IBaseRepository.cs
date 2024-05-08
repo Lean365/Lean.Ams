@@ -22,7 +22,7 @@ namespace Ams.Repository
         int Update(T entity, bool ignoreNullColumns = false, object data = null);
 
         /// <summary>
-        /// 只更新人员表达式的值
+        /// 只更新表达式的值
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="expression"></param>

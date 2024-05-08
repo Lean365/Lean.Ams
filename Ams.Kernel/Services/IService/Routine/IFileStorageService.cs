@@ -2,12 +2,6 @@
 
 namespace Ams.Kernel.Services.IService.Routine
 {
-    /// <summary>
-    /// 文件存储
-    /// 业务层接口
-    /// @Author Lean365(Davis.Ching)
-    /// @Date 2024-01-01
-    /// </summary>
     public interface IFileStorageService : IBaseService<FileStorage>
     {
         Task<long> InsertFile(FileStorage file);
@@ -26,7 +20,7 @@ namespace Ams.Kernel.Services.IService.Routine
         Task<FileStorage> SaveFileToAliyun(FileStorage file, IFormFile formFile);
 
         /// <summary>
-        /// 按时间来创建人员文件夹
+        /// 按时间来创建文件夹
         /// </summary>
         /// <param name="path"></param>
         /// <param name="byTimeStore"></param>
