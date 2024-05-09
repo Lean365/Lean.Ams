@@ -118,7 +118,7 @@ namespace Ams.Service.Content
                 Context.ThenMapper(response.Result, item =>
                 {
                     item.IsPraise = Context.Queryable<ArticlePraise>()
-                    .Where(f => f.UserId == parm.UserId && f.ArticleId == item.Cid && f.IsDelete == 0)
+                    .Where(f => f.UserId == parm.UserId && f.ArticleId == item.Cid && f.IsDeleted == 0)
                     .SetContext(scl => scl.ArticleId, () => item.Cid, item).Any() ? 1 : 0;
                 });
             }
@@ -164,7 +164,7 @@ namespace Ams.Service.Content
                 Context.ThenMapper(response.Result, item =>
                 {
                     item.IsPraise = Context.Queryable<ArticlePraise>()
-                    .Where(f => f.UserId == parm.UserId && f.IsDelete == 0)
+                    .Where(f => f.UserId == parm.UserId && f.IsDeleted == 0)
                     .SetContext(scl => scl.ArticleId, () => item.Cid, item).Any() ? 1 : 0;
                 });
             }
@@ -200,8 +200,8 @@ namespace Ams.Service.Content
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Title), m => m.Title.Contains(parm.Title));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IsStated.ToString()), m => m.IsStated == parm.IsStated);
-            predicate = predicate.AndIF(parm.BeginTime != null, m => m.CreateTime >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, m => m.CreateTime <= parm.EndTime);
+            predicate = predicate.AndIF(parm.BeginTime != null, m => m.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, m => m.Create_time <= parm.EndTime);
             predicate = predicate.And(m => m.UserId == parm.UserId);
             predicate = predicate.AndIF(parm.ArticleType != null, m => (int)m.ArticleType == parm.ArticleType);
             predicate = predicate.AndIF(parm.TabId == 2, m => m.IsPublic == 0 && m.UserId == parm.UserId);
@@ -234,7 +234,7 @@ namespace Ams.Service.Content
                 Content = model.Content,
                 IsStated = model.IsStated,
                 Tags = model.Tags,
-                UpdateTime = DateTime.Now,
+                Update_time = DateTime.Now,
                 CoverUrl = model.CoverUrl,
                 CategoryId = model.CategoryId,
                 FmtType = model.FmtType,
@@ -364,14 +364,14 @@ namespace Ams.Service.Content
                     UserId = userId,
                     Location = location,
                     UserIP = userIP,
-                    createTime = DateTime.Now,
+                    Create_time = DateTime.Now,
                 }).ExecuteReturnSnowflakeId();
             }
             CacheHelper.SetCache(CK, 1, 10);
             if (userId > 0)
             {
                 model.IsPraise = Context.Queryable<ArticlePraise>()
-               .Where(f => f.UserId == userId && f.ArticleId == cid && f.IsDelete == 0)
+               .Where(f => f.UserId == userId && f.ArticleId == cid && f.IsDeleted == 0)
                .Any() ? 1 : 0;
             }
 

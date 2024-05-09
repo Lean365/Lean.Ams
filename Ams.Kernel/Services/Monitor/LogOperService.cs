@@ -17,6 +17,7 @@ namespace Ams.Kernel.Services.Monitor
         /// <param name="operLog">日志对象</param>
         public void InsertOperlog(LogOper operLog)
         {
+            operLog.Create_by = operLog.OperName; //获取当前登录用户
             if (operLog.OperParam != null && operLog.OperParam.Length >= 1000)
             {
                 operLog.OperParam = operLog.OperParam[..1000];

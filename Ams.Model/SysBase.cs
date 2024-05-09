@@ -1,6 +1,4 @@
-﻿using MiniExcelLibs.Attributes;
-
-namespace Ams.Kernel.Model
+﻿namespace Ams.Model
 {
     //[EpplusTable(PrintHeaders = true, AutofitColumns = true, AutoCalculate = true, ShowTotal = true)]
     public class SysBase

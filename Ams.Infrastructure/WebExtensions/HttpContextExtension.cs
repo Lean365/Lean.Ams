@@ -5,11 +5,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
+using Ams.Infrastructure.Extensions;
 using IPTools.Core;
 using Microsoft.AspNetCore.Http;
 using UAParser;
 
-namespace Ams.Infrastructure.Extensions
+namespace Ams.Infrastructure.WebExtensions
 {
     /// <summary>
     /// HttpContext扩展类

@@ -35,12 +35,6 @@
         public string SmsContent { get; set; }
 
         /// <summary>
-        /// 发送时间
-        /// </summary>
-        [SugarColumn(InsertServerTime = true)]
-        public DateTime createTime { get; set; }
-
-        /// <summary>
         /// 用户IP
         /// </summary>
         public string UserIP { get; set; }

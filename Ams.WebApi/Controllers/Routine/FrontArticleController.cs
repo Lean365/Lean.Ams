@@ -73,7 +73,7 @@ namespace Ams.WebApi.Controllers.Routine
                 .Where(predicate.ToExpression())
                 .Includes(x => x.ArticleCategoryNav) //填充子对象
                 .Take(10)
-                .OrderBy(f => f.UpdateTime, OrderByType.Desc).ToList();
+                .OrderBy(f => f.Update_time, OrderByType.Desc).ToList();
 
             return SUCCESS(response);
         }

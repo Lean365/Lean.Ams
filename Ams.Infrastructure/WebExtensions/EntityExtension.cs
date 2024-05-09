@@ -3,7 +3,7 @@ using System.Reflection;
 using Ams.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Http;
 
-namespace Ams.Infrastructure
+namespace Ams.Infrastructure.WebExtensions
 {
     /// <summary>
     /// Entity Extension

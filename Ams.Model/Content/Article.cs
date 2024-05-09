@@ -3,11 +3,14 @@
 namespace Ams.Model.Content
 {
     /// <summary>
-    /// 文章表
+    /// 内容管理
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [SugarTable("routine_article", "内容管理")]
     [Tenant("0")]
-    public class Article
+    public class Article : SysBase
     {
         /// <summary>
         /// 文章id
@@ -20,18 +23,6 @@ namespace Ams.Model.Content
         /// </summary>
         [SugarColumn(ColumnDescription = "文章标题", Length = 254, ExtendedAttribute = EntityConstant.NOTNULL)]
         public string Title { get; set; }
-
-        /// <summary>
-        /// 发布时间
-        /// </summary>
-        [SugarColumn(ColumnDescription = "发布时间")]
-        public DateTime? CreateTime { get; set; }
-
-        /// <summary>
-        /// 更新时间
-        /// </summary>
-        [SugarColumn(IsOnlyIgnoreInsert = true, ColumnDescription = "更新时间")]
-        public DateTime? UpdateTime { get; set; }
 
         /// <summary>
         /// 文章内容

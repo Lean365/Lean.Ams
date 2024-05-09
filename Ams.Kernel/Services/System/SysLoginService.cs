@@ -128,6 +128,9 @@ namespace Ams.Kernel.Services.System
         /// <returns></returns>
         public void AddLoginInfo(LogLogin LogLogin)
         {
+            //var httpContext = App.HttpContext;
+            // HttpContextExtension.GetName(httpContext); //获取当前登录用户
+            LogLogin.Create_by = LogLogin.UserName;
             Insert(LogLogin);
         }
 

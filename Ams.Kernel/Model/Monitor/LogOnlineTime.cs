@@ -32,11 +32,6 @@ namespace Ams.Kernel.Model.Monitor
         public double TodayOnlineTime { get; set; }
 
         /// <summary>
-        /// 结束时间
-        /// </summary>
-        public DateTime? createTime { get; set; }
-
-        /// <summary>
         /// 地址位置
         /// </summary>
         public string Location { get; set; }
@@ -46,12 +41,11 @@ namespace Ams.Kernel.Model.Monitor
         /// </summary>
         public string UserIP { get; set; }
 
-        public DateTime LoginTime { get; set; }
-
         /// <summary>
-        /// 备注
+        /// 登录时间
         /// </summary>
-        public string Remark { get; set; }
+
+        public DateTime LoginTime { get; set; }
 
         /// <summary>
         /// 登录平台

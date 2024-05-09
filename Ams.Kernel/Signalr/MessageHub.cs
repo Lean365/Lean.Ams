@@ -140,7 +140,7 @@ namespace Ams.Kernel.Signalr
                     _LogOnlineTimeService.AddLogOnlineTime(new LogOnlineTime()
                     {
                         UserId = user.Userid,
-                        createTime = DateTime.Now,
+                        Create_time = DateTime.Now,
                         Location = user?.Location,
                         OnlineTime = user.OnlineTime,
                         UserIP = user.UserIP,

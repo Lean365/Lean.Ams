@@ -37,7 +37,7 @@ namespace Ams.Kernel.Model.Routine
         /// <summary>
         /// 公告附件
         /// </summary>
-        [SugarColumn(ColumnName = "notice_fileurl", ColumnDataType = StaticConfig.CodeFirst_BigString)]
+        [SugarColumn(ColumnName = "notice_fileurl", Length = 200)]
         public string NoticeFileUrl { get; set; }
 
         /// <summary>
@@ -45,5 +45,11 @@ namespace Ams.Kernel.Model.Routine
         /// </summary>
         [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public int IsStated { get; set; } = 0;
+
+        /// <summary>
+        /// 软删除 (0正常 1删除标记)
+        /// </summary>
+        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int IsDeleted { get; set; } = 0;
     }
 }

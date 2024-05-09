@@ -5,6 +5,7 @@ global using Ams.Infrastructure.Apps;
 global using Ams.Infrastructure.Cache;
 global using Ams.Infrastructure.CustomExceptions;
 global using Ams.Infrastructure.Extensions;
+global using Ams.Infrastructure.WebExtensions;
 global using Ams.Kernel.Model;
 global using Ams.Kernel.Model.Dto.Monitor;
 global using Ams.Kernel.Model.Dto.Routine;

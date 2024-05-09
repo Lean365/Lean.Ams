@@ -2,10 +2,13 @@ namespace Ams.Model.Content
 {
     /// <summary>
     /// 话题列表
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [SugarTable("routine_article_topic", TableDescription = "话题列表")]
     [Tenant("0")]
-    public class ArticleTopic
+    public class ArticleTopic : SysBase
     {
         /// <summary>
         /// 话题ID
@@ -32,12 +35,6 @@ namespace Ams.Model.Content
         /// 浏览次数
         /// </summary>
         public int ViewNum { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        [SugarColumn(InsertServerTime = true)]
-        public DateTime? createTime { get; set; }
 
         /// <summary>
         /// 话题分类

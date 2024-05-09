@@ -22,9 +22,9 @@ namespace Ams.Kernel.Services.Monitor
 
             predicate = predicate.AndIF(parm.Userid != null, it => it.Userid == parm.Userid);
             predicate = predicate.AndIF(parm.PhoneNum != null, it => it.PhoneNum == parm.PhoneNum);
-            predicate = predicate.AndIF(parm.BeginTime == null, it => it.createTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.createTime >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, it => it.createTime <= parm.EndTime);
+            predicate = predicate.AndIF(parm.BeginTime == null, it => it.Create_time >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, it => it.Create_time <= parm.EndTime);
             predicate = predicate.AndIF(parm.SendType != null, it => it.SendType == parm.SendType);
             var response = Queryable()
                 //.OrderBy("Id desc")
@@ -55,6 +55,8 @@ namespace Ams.Kernel.Services.Monitor
         /// <returns></returns>
         public LogSms AddLogSms(LogSms model)
         {
+            var httpContext = App.HttpContext;
+            model.Create_by = HttpContextExtension.GetName(httpContext); //获取当前登录用户
             model.Id = Context.Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }

@@ -40,6 +40,8 @@ namespace Ams.Kernel.Services.Monitor
         /// <returns></returns>
         public LogOnlineTime AddLogOnlineTime(LogOnlineTime model)
         {
+            var httpContext = App.HttpContext;
+            model.Create_by = HttpContextExtension.GetName(httpContext); //获取当前登录用户
             if (model.OnlineTime >= 0.5)
             {
                 Insertable(model).ExecuteReturnSnowflakeId();
@@ -77,8 +79,8 @@ namespace Ams.Kernel.Services.Monitor
 
             predicate = predicate.AndIF(parm.UserId != null, it => it.UserId == parm.UserId);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.UserIP), it => it.UserIP == parm.UserIP);
-            predicate = predicate.AndIF(parm.BeginTime == null, it => it.createTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.createTime >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.BeginTime == null, it => it.Create_time >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
             return predicate;
         }
     }

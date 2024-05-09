@@ -1,5 +1,4 @@
 ﻿using Ams.Model;
-using Ams.Model.System;
 using Microsoft.AspNetCore.Mvc;
 using SqlSugar;
 
@@ -35,13 +34,13 @@ namespace Ams.WebApi.Controllers.Monitor
             queryDto.BeginTime = DateTimeHelper.GetBeginTime(queryDto.BeginTime, -7);
             queryDto.EndTime = DateTimeHelper.GetBeginTime(queryDto.EndTime, 7);
 
-            var predicate = Expressionable.Create<LogTasksQz>().And(it => it.CreateTime >= queryDto.BeginTime && it.CreateTime <= queryDto.EndTime);
+            var predicate = Expressionable.Create<LogTasksQz>().And(it => it.Create_time >= queryDto.BeginTime && it.Create_time <= queryDto.EndTime);
             predicate = predicate.AndIF(queryDto.JobName.IfNotEmpty(), m => m.JobName.Contains(queryDto.JobName));
             predicate = predicate.AndIF(queryDto.JobGroup.IfNotEmpty(), m => m.JobGroup == queryDto.JobGroup);
             predicate = predicate.AndIF(queryDto.IsStated.ToString().IfNotEmpty(), m => m.IsStated == queryDto.IsStated);
             predicate = predicate.AndIF(queryDto.JobId.IfNotEmpty(), m => m.JobId == queryDto.JobId);
 
-            var response = _LogTasksQzService.GetPages(predicate.ToExpression(), pager, m => m.CreateTime, OrderByType.Desc);
+            var response = _LogTasksQzService.GetPages(predicate.ToExpression(), pager, m => m.Create_time, OrderByType.Desc);
 
             return SUCCESS(response, TIME_FORMAT_FULL);
         }

@@ -56,8 +56,6 @@
         /// </summary>
         public string UserName { get; set; }
 
-        public DateTime createTime { get; set; }
-
         /// <summary>
         /// 数据库配置id
         /// </summary>

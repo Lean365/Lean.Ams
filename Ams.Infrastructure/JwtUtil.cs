@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using Ams.Infrastructure.Extensions;
 using Ams.Infrastructure.Model;
+using Ams.Infrastructure.WebExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;

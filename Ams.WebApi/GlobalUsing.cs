@@ -6,6 +6,7 @@ global using Ams.Infrastructure.Controllers;
 global using Ams.Infrastructure.CustomExceptions;
 global using Ams.Infrastructure.Enums;
 global using Ams.Infrastructure.Extensions;
+global using Ams.Infrastructure.WebExtensions;
 global using Ams.Infrastructure.Model;
 global using Ams.Kernel.Filters;
 global using Ams.Kernel.Middleware;

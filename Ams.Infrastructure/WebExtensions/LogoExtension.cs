@@ -3,7 +3,7 @@ using Ams.Infrastructure.Helper;
 using JinianNet.JNTemplate;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Ams.Infrastructure
+namespace Ams.Infrastructure.WebExtensions
 {
     /// <summary>
     /// LogoExtension

@@ -56,11 +56,6 @@
         public string InvokeTarget { get; set; }
 
         /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreateTime { get; set; }
-
-        /// <summary>
         /// 执行用时，毫秒
         /// </summary>
         //[SqlSugar.SugarColumn(IsIgnore = true)]

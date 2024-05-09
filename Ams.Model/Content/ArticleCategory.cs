@@ -2,10 +2,13 @@
 {
     /// <summary>
     /// 文章目录
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [SugarTable("routine_article_category", "文章目录")]
     [Tenant("0")]
-    public class ArticleCategory
+    public class ArticleCategory : SysBase
     {
         /// <summary>
         /// 目录id
@@ -24,6 +27,9 @@
         /// </summary>
         public int OrderNum { get; set; }
 
+        /// <summary>
+        /// 父ID
+        /// </summary>
         public int? ParentId { get; set; }
 
         /// <summary>
@@ -50,12 +56,6 @@
         /// 加入人数
         /// </summary>
         public int JoinNum { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        [SugarColumn(ColumnDescription = "创建时间", ColumnName = "create_time", InsertServerTime = true)]
-        public DateTime CreateTime { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [SugarColumn(IsIgnore = true)]

@@ -19,6 +19,8 @@ namespace Ams.Kernel.Services.Monitor
 
         public async Task<LogTasksQz> AddTaskLog(string jobId, LogTasksQz logModel)
         {
+            var httpContext = App.HttpContext;
+            logModel.Create_by = HttpContextExtension.GetName(httpContext); //获取当前登录用户
             //获取任务信息
             var model = await _tasksQzService.GetSingleAsync(f => f.ID == jobId);
 
@@ -27,7 +29,7 @@ namespace Ams.Kernel.Services.Monitor
                 logModel.JobId = jobId;
                 logModel.JobName = model.Name;
                 logModel.JobGroup = model.JobGroup;
-                logModel.CreateTime = DateTime.Now;
+                logModel.Create_time = DateTime.Now;
             }
 
             await InsertAsync(logModel);

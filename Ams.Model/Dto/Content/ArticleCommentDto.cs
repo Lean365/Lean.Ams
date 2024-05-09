@@ -74,7 +74,7 @@
         /// 空值 : true  
         /// </summary>
         [JsonIgnore]
-        public int IsDelete { get; set; } = 0;
+        public int IsDeleted { get; set; } = 0;
         public string NickName { get; set; }
 
         ///// <summary>

@@ -1,8 +1,14 @@
 ﻿namespace Ams.Model.Content
 {
+    /// <summary>
+    /// 评论记录
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [SugarTable("routine_article_comment", "评论记录")]
     [Tenant(0)]
-    public class ArticleComment
+    public class ArticleComment : SysBase
     {
         /// <summary>
         /// 评论ID
@@ -25,11 +31,6 @@
         /// 最顶级留言id
         /// </summary>
         public long ParentId { get; set; } = 0;
-
-        /// <summary>
-        /// 评论时间
-        /// </summary>
-        public DateTime createTime { get; set; }
 
         /// <summary>
         /// 回复用户id
@@ -71,7 +72,7 @@
         /// 空值 : true
         /// </summary>
         [JsonIgnore]
-        public int IsDelete { get; set; } = 0;
+        public int IsDeleted { get; set; } = 0;
 
         /// <summary>
         /// 聊天图片

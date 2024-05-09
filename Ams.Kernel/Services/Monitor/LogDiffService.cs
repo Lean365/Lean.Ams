@@ -23,9 +23,9 @@ namespace Ams.Kernel.Services.Monitor
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.TableName), it => it.TableName == parm.TableName);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DiffType), it => it.DiffType == parm.DiffType);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.UserName), it => it.UserName == parm.UserName);
-            predicate = predicate.AndIF(parm.BeginTime == null, it => it.createTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.createTime >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, it => it.createTime <= parm.EndTime);
+            predicate = predicate.AndIF(parm.BeginTime == null, it => it.Create_time >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, it => it.Create_time <= parm.EndTime);
             var response = Queryable()
                 //.OrderBy("PId desc")
                 .Where(predicate.ToExpression())
@@ -55,6 +55,8 @@ namespace Ams.Kernel.Services.Monitor
         /// <returns></returns>
         public LogDiff AddLogDiff(LogDiff model)
         {
+            //var httpContext = App.HttpContext;
+            model.Create_by = model.UserName;// HttpContextExtension.GetName(httpContext); //获取当前登录用户
             return Context.Insertable(model).ExecuteReturnEntity();
         }
 
@@ -78,6 +80,8 @@ namespace Ams.Kernel.Services.Monitor
             //    ConfigId = model.ConfigId,
             //});
             //return response;
+            //var httpContext = App.HttpContext;
+            model.Update_by = model.UserName;// HttpContextExtension.GetName(httpContext); //获取当前登录用户
             return Update(model, true);
         }
     }

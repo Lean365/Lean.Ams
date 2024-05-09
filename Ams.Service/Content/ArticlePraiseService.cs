@@ -36,7 +36,7 @@ namespace Ams.Service.Content
                 }
                 else
                 {
-                    if (praiseInfo.IsDelete == 0)
+                    if (praiseInfo.IsDeleted == 0)
                     {
                         result = CanclePraise(dto.UserId, dto.ArticleId);
                         //文章点赞-1
