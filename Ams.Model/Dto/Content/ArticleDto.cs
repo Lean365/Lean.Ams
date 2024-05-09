@@ -1,7 +1,11 @@
-﻿using Ams.Model.Dto;
-
-namespace Ams.Model.Dto
+﻿namespace Ams.Model.Dto
 {
+    /// <summary>
+    /// 文章内容
+    /// 查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024/01/01
+    /// </summary>
     public class ArticleQueryDto : PagerInfo
     {
         public long? UserId { get; set; }
@@ -14,14 +18,17 @@ namespace Ams.Model.Dto
         public DateTime? BeginTime { get; set; }
         public DateTime? EndTime { get; set; }
         public int? ArticleType { get; set; }
+
         /// <summary>
         /// 1、最新 2、私密 3、热门
         /// </summary>
         public int TabId { get; set; }
+
         /// <summary>
         /// 话题ID
         /// </summary>
         public int? TopicId { get; set; }
+
         /// <summary>
         /// 排序 1、热门 2、最新
         /// </summary>
@@ -29,14 +36,19 @@ namespace Ams.Model.Dto
     }
 
     /// <summary>
+    /// 文章内容
     /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024/01/01
     /// </summary>
     public class ArticleDto
     {
         [Required(ErrorMessage = "Cid不能为空")]
         public long Cid { get; set; }
+
         [Required(ErrorMessage = "标题不能为空")]
         public string Title { get; set; }
+
         [Required(ErrorMessage = "内容不能为空")]
         public string Content { get; set; }
 
@@ -61,6 +73,7 @@ namespace Ams.Model.Dto
         public string CoverUrl { get; set; }
 
         public ArticleCategoryDto CategoryNav { get; set; }
+
         public string[] TagList
         {
             get
@@ -68,39 +81,48 @@ namespace Ams.Model.Dto
                 return Tags?.Split(',', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
             }
         }
+
         public int IsPublic { get; set; } = 1;
         public string AbstractText { get; set; }
         public int IsTop { get; set; }
+
         /// <summary>
         /// 内容类型
         /// </summary>
         public int ArticleType { get; set; }
+
         /// <summary>
         /// 点赞数
         /// </summary>
         public int PraiseNum { get; set; }
+
         /// <summary>
         /// 评论数
         /// </summary>
         public int CommentNum { get; set; }
+
         /// <summary>
         /// 分享数
         /// </summary>
         public int ShareNum { get; set; }
+
         /// <summary>
         /// 用户IP
         /// </summary>
         [JsonIgnore]
         public string UserIP { get; set; }
+
         /// <summary>
         /// 地理位置
         /// </summary>
         [JsonIgnore]
         public string Location { get; set; }
+
         /// <summary>
         /// 手机型号
         /// </summary>
         public string PhoneModel { get; set; }
+
         /// <summary>
         /// 封面图片集合
         /// </summary>
@@ -111,6 +133,7 @@ namespace Ams.Model.Dto
                 return CoverUrl?.Split(',', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
             }
         }
+
         /// <summary>
         /// 地理位置
         /// </summary>
@@ -127,14 +150,17 @@ namespace Ams.Model.Dto
                 return temp_location?.Replace("省", "");
             }
         }
+
         /// <summary>
         /// 是否点赞
         /// </summary>
         public int IsPraise { get; set; }
+
         public long TopicId { get; set; }
         public string TopicName { get; set; }
         public ArticleUser User { get; set; }
     }
+
     public class ArticleUser
     {
         public string Avatar { get; set; } = string.Empty;

@@ -6,7 +6,10 @@ using Ams.Repository;
 namespace Ams.Kernel.Services.Monitor
 {
     /// <summary>
-    /// 在线时长Service业务层处理
+    /// 在线时长
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(ILogOnlineTimeService), ServiceLifetime = LifeTime.Transient)]
     public class LogOnlineTimeService : BaseService<LogOnlineTime>, ILogOnlineTimeService

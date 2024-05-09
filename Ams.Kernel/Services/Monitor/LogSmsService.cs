@@ -6,7 +6,10 @@ using Ams.Repository;
 namespace Ams.Kernel.Services.Monitor
 {
     /// <summary>
-    /// 验证码记录Service业务层处理
+    /// 短信验证码
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(ILogSmsService), ServiceLifetime = LifeTime.Transient)]
     public class LogSmsService : BaseService<LogSms>, ILogSmsService

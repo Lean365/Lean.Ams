@@ -6,7 +6,10 @@ using Ams.Repository;
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
-    /// 定时任务
+    /// 计划任务
+    /// 业务层处理
+    /// Lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(ITasksQzService), ServiceLifetime = LifeTime.Transient)]
     public class TasksQzService : BaseService<TasksQz>, ITasksQzService

@@ -2,13 +2,9 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
       <el-form-item :label="$t('m.parentMenu')" prop="parentId">
-        <el-cascader
-          class="w100"
-          :options="menuQueryOptions"
-          :props="{ checkStrictly: true, value: 'menuId', label: 'menuName', emitPath: false }"
-          placeholder="请选择上级菜单"
-          clearable
-          v-model="queryParams.parentId">
+        <el-cascader class="w100" :options="menuQueryOptions"
+          :props="{ checkStrictly: true, value: 'menuId', label: 'menuName', emitPath: false }" placeholder="请选择上级菜单"
+          clearable v-model="queryParams.parentId">
           <template #default="{ node, data }">
             <span>{{ data.menuName }}</span>
             <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -18,14 +14,16 @@
       <el-form-item :label="$t('m.menuName')" prop="menuName">
         <el-input v-model="queryParams.menuName" placeholder="请输入菜单名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item :label="$t('m.menuState')" prop="status">
-        <el-select v-model="queryParams.status" placeholder="菜单状态" clearable>
-          <el-option v-for="dict in sys_normal_disable" :key="dict.dictValue" :label="dict.dictLabel" :value="dict.dictValue" />
+      <el-form-item :label="$t('m.menuState')" prop="isStated">
+        <el-select v-model="queryParams.isStated" placeholder="菜单状态" clearable>
+          <el-option v-for="dict in sys_normal_disable" :key="dict.dictValue" :label="dict.dictLabel"
+            :value="dict.dictValue" />
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('m.isShow')" prop="visible">
         <el-select v-model="queryParams.visible" placeholder="显示状态" clearable>
-          <el-option v-for="dict in sys_show_hide" :key="dict.dictValue" :label="dict.dictLabel" :value="dict.dictValue" />
+          <el-option v-for="dict in sys_show_hide" :key="dict.dictValue" :label="dict.dictLabel"
+            :value="dict.dictValue" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -36,29 +34,23 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['system:menu:add']">{{ $t('btn.add') }}</el-button>
+        <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['system:menu:add']">{{ $t('btn.add')
+          }}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="info" plain icon="Sort" @click="toggleExpandAll">{{ $t('btn.expand') }}/{{ $t('btn.collapse') }}</el-button>
+        <el-button type="info" plain icon="Sort" @click="toggleExpandAll">{{ $t('btn.expand') }}/{{ $t('btn.collapse')
+          }}</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
 
-    <vxe-table
-      :height="tableHeight"
-      show-overflow
-      ref="listRef"
-      :loading="loading"
-      :column-config="{ resizable: true }"
+    <vxe-table :height="tableHeight" show-overflow ref="listRef" :loading="loading" :column-config="{ resizable: true }"
       :tree-config="{
         parentField: 'parentId',
         reserve: true
-      }"
-      :row-config="{
+      }" :row-config="{
         keyField: 'menuId'
-      }"
-      :scroll-y="{ enabled: true, gt: 20 }"
-      :data="menuList">
+      }" :scroll-y="{ enabled: true, gt: 20 }" :data="menuList">
       <vxe-column field="menuName" :title="$t('m.menuName')" tree-node width="160"> </vxe-column>
       <vxe-column field="menuId" :title="$t('m.menuid')" width="90"></vxe-column>
       <vxe-column field="icon" :title="$t('m.icon')" align="center" width="60">
@@ -68,19 +60,21 @@
       </vxe-column>
       <vxe-column field="menuType" :title="$t('m.menuType')" align="center" width="80">
         <template #default="scope">
-          <el-tag :disable-transitions="true" type="danger" v-if="scope.row.menuType == 'M' && scope.row.isFrame == 1">{{ $t('m.link') }}</el-tag>
+          <el-tag :disable-transitions="true" type="danger"
+            v-if="scope.row.menuType == 'M' && scope.row.isFrame == 1">{{ $t('m.link') }}</el-tag>
           <el-tag :disable-transitions="true" v-else-if="scope.row.menuType == 'C'">{{ $t('m.menu') }}</el-tag>
-          <el-tag :disable-transitions="true" type="success" v-else-if="scope.row.menuType == 'M'">{{ $t('m.directory') }}</el-tag>
-          <el-tag :disable-transitions="true" type="warning" v-else-if="scope.row.menuType == 'F'">{{ $t('m.button') }}</el-tag>
+          <el-tag :disable-transitions="true" type="success" v-else-if="scope.row.menuType == 'M'">{{ $t('m.directory')
+            }}</el-tag>
+          <el-tag :disable-transitions="true" type="warning" v-else-if="scope.row.menuType == 'F'">{{ $t('m.button')
+            }}</el-tag>
         </template>
       </vxe-column>
-      <vxe-column field="orderNum" :title="$t('m.sort')" width="90" sortable align="center" v-if="columns.showColumn('orderNum')">
+      <vxe-column field="orderNum" :title="$t('m.sort')" width="90" sortable align="center"
+        v-if="columns.showColumn('orderNum')">
         <template #default="scope">
-          <span v-show="editIndex != scope.row.menuId" @click="editCurrRow(scope.row.menuId)">{{ scope.row.orderNum }}</span>
-          <el-input
-            :ref="setColumnsRef"
-            v-show="editIndex == scope.row.menuId"
-            v-model="scope.row.orderNum"
+          <span v-show="editIndex != scope.row.menuId" @click="editCurrRow(scope.row.menuId)">{{ scope.row.orderNum
+            }}</span>
+          <el-input :ref="setColumnsRef" v-show="editIndex == scope.row.menuId" v-model="scope.row.orderNum"
             @blur="handleChangeSort(scope.row)"></el-input>
         </template>
       </vxe-column>
@@ -91,12 +85,13 @@
           <dict-tag :options="sys_show_hide" :value="scope.row.visible" />
         </template>
       </vxe-column>
-      <vxe-column field="status" :title="$t('m.menuState')" width="80" align="center">
+      <vxe-column field="isStated" :title="$t('m.menuState')" width="80" align="center">
         <template #default="scope">
-          <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
+          <dict-tag :options="sys_normal_disable" :value="scope.row.isStated" />
         </template>
       </vxe-column>
-      <vxe-column :title="$t('common.addTime')" align="center" field="createTime" show-overflow v-if="columns.showColumn('createTime')">
+      <vxe-column :title="$t('common.addTime')" align="center" field="createTime" show-overflow
+        v-if="columns.showColumn('createTime')">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
@@ -104,27 +99,27 @@
       <vxe-column :title="$t('btn.operate')" align="center" width="140">
         <template #default="scope">
           <el-button-group>
-            <el-button text size="small" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:menu:edit']"></el-button>
-            <el-button text size="small" icon="Plus" @click="handleAdd(scope.row)" v-hasPermi="['system:menu:add']"></el-button>
-            <el-button text size="small" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:menu:remove']"></el-button>
-            <el-button text type="danger" plain size="small" icon="Delete" @click="handleDeleteAll(scope.row)"> 所有</el-button>
+            <el-button text size="small" icon="Edit" @click="handleUpdate(scope.row)"
+              v-hasPermi="['system:menu:edit']"></el-button>
+            <el-button text size="small" icon="Plus" @click="handleAdd(scope.row)"
+              v-hasPermi="['system:menu:add']"></el-button>
+            <el-button text size="small" icon="Delete" @click="handleDelete(scope.row)"
+              v-hasPermi="['system:menu:remove']"></el-button>
+            <el-button text type="danger" plain size="small" icon="Delete" @click="handleDeleteAll(scope.row)">
+              所有</el-button>
           </el-button-group>
         </template>
       </vxe-column>
     </vxe-table>
 
     <el-dialog :title="title" v-model="open" width="720px" append-to-body>
-      <el-form ref="menuRef" :model="form" :rules="rules" label-width="110px">
+      <el-form ref="menuRef" :model="form" :rules="rules" label-width="auto">
         <el-row>
           <el-col :lg="24">
             <el-form-item :label="$t('m.parentMenu')">
-              <el-cascader
-                class="w100"
-                :options="menuOptions"
+              <el-cascader class="w100" :options="menuOptions"
                 :props="{ checkStrictly: true, value: 'menuId', label: 'menuName', emitPath: false }"
-                placeholder="请选择上级菜单"
-                clearable
-                v-model="form.parentId">
+                placeholder="请选择上级菜单" clearable v-model="form.parentId">
                 <template #default="{ node, data }">
                   <span>{{ data.menuName }}</span>
                   <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -240,7 +235,8 @@
               <el-input v-model="form.perms" placeholder="请输入权限标识" maxlength="100" />
               <template #label>
                 <span>
-                  <el-tooltip content="控制器中定义的权限字符，如：[ActionPermissionFilter(Permission = 'system:user:delete')])" placement="top">
+                  <el-tooltip content="控制器中定义的权限字符，如：[ActionPermissionFilter(Permission = 'system:user:delete')])"
+                    placement="top">
                     <el-icon :size="15">
                       <questionFilled />
                     </el-icon>
@@ -294,7 +290,8 @@
                 </span>
               </template>
               <el-radio-group v-model="form.visible">
-                <el-radio v-for="dict in sys_show_hide" :key="dict.dictValue" :value="dict.dictValue">{{ dict.dictLabel }}</el-radio>
+                <el-radio v-for="dict in sys_show_hide" :key="dict.dictValue" :value="dict.dictValue">{{ dict.dictLabel
+                  }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -310,8 +307,9 @@
                   {{ $t('m.menuState') }}
                 </span>
               </template>
-              <el-radio-group v-model="form.status">
-                <el-radio v-for="dict in sys_normal_disable" :key="dict.dictValue" :value="dict.dictValue">{{ dict.dictLabel }}</el-radio>
+              <el-radio-group v-model="form.isStated">
+                <el-radio v-for="dict in sys_normal_disable" :key=" dict.dictValue"
+                  :value="parseInt (dict.dictValue)">{{ dict.dictLabel }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -326,256 +324,256 @@
 </template>
 
 <script setup name="menu">
-import { addMenu, delMenu, getMenu, listMenu, updateMenu, changeMenuSort as changeSort, delAllMenu } from '@/api/system/menu'
-import SvgIcon from '@/components/SvgIcon'
-import IconSelect from '@/components/IconSelect'
-const { proxy } = getCurrentInstance()
+  import { addMenu, delMenu, getMenu, listMenu, updateMenu, changeMenuSort as changeSort, delAllMenu } from '@/api/system/menu'
+  import SvgIcon from '@/components/SvgIcon'
+  import IconSelect from '@/components/IconSelect'
+  const { proxy } = getCurrentInstance()
 
-var dictParams = [{ dictType: 'sys_show_hide' }, { dictType: 'sys_normal_disable' }]
-const menuList = ref([])
-const open = ref(false)
-const loading = ref(true)
-const showSearch = ref(true)
-const title = ref('')
-const menuOptions = ref([])
-const menuQueryOptions = ref([])
-const isExpandAll = ref(false)
-const iconSelectRef = ref(null)
-const menuRef = ref(null)
-const listRef = ref(null)
-const state = reactive({
-  form: {},
-  queryParams: {
-    menuName: undefined,
-    visible: undefined,
-    menuTypeIds: 'M,C',
-    parentId: undefined
-  },
-  rules: {
-    menuName: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
-    menuNameKey: [{ pattern: /^[A-Za-z].+$/, message: '输入格式不正确', trigger: 'blur' }],
-    orderNum: [{ required: true, message: '菜单顺序不能为空', trigger: 'blur' }],
-    path: [
-      { required: false, message: '路由地址不能为空', trigger: 'blur' },
-      { pattern: /^[/A-Za-z].+$/, message: '输入格式不正确，字母开头', trigger: 'blur' }
-    ],
-    visible: [{ required: true, message: '显示状态不能为空', trigger: 'blur' }]
-  },
-  sys_show_hide: [],
-  sys_normal_disable: []
-})
-
-proxy.getDicts(dictParams).then((response) => {
-  response.data.forEach((element) => {
-    state[element.dictType] = element.list
+  var dictParams = [{ dictType: 'sys_show_hide' }, { dictType: 'sys_normal_disable' }]
+  const menuList = ref([])
+  const open = ref(false)
+  const loading = ref(true)
+  const showSearch = ref(true)
+  const title = ref('')
+  const menuOptions = ref([])
+  const menuQueryOptions = ref([])
+  const isExpandAll = ref(false)
+  const iconSelectRef = ref(null)
+  const menuRef = ref(null)
+  const listRef = ref(null)
+  const state = reactive({
+    form: {},
+    queryParams: {
+      menuName: undefined,
+      visible: undefined,
+      menuTypeIds: 'M,C',
+      parentId: undefined
+    },
+    rules: {
+      menuName: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
+      menuNameKey: [{ pattern: /^[A-Za-z].+$/, message: '输入格式不正确', trigger: 'blur' }],
+      orderNum: [{ required: true, message: '菜单顺序不能为空', trigger: 'blur' }],
+      path: [
+        { required: false, message: '路由地址不能为空', trigger: 'blur' },
+        { pattern: /^[/A-Za-z].+$/, message: '输入格式不正确，字母开头', trigger: 'blur' }
+      ],
+      visible: [{ required: true, message: '显示状态不能为空', trigger: 'blur' }]
+    },
+    sys_show_hide: [],
+    sys_normal_disable: []
   })
-})
-// 列显隐信息
-const columns = ref([
-  { label: `添加时间`, visible: false, prop: 'createTime' },
-  { label: `排序`, visible: true, prop: 'orderNum' }
-])
 
-const tableHeight = ref(document.documentElement.scrollHeight - 245 + 'px')
-const { queryParams, form, rules, sys_show_hide, sys_normal_disable } = toRefs(state)
-
-/** 查询菜单列表 */
-function getList(type) {
-  loading.value = true
-  if (queryParams.value.parentId != undefined || queryParams.value.menuName != undefined) {
-    queryParams.value.menuTypeIds = ''
-  } else {
-    queryParams.value.menuTypeIds = 'M,C,F'
-  }
-  listMenu(queryParams.value).then((response) => {
-    menuList.value = response.data
-    if (type == 1) {
-      menuQueryOptions.value = response.data
-    }
-    loading.value = false
+  proxy.getDicts(dictParams).then((response) => {
+    response.data.forEach((element) => {
+      state[element.dictType] = element.list
+    })
   })
-}
-/** 查询菜单下拉树结构 */
-function getTreeselect() {
-  listMenu({ menuTypeIds: 'M,C,F' }).then((response) => {
-    menuOptions.value = response.data
-  })
-}
-/** 取消按钮 */
-function cancel() {
-  open.value = false
-  reset()
-}
-/** 表单重置 */
-function reset() {
-  form.value = {
-    menuId: undefined,
-    parentId: 0,
-    menuName: undefined,
-    icon: undefined,
-    menuType: 'M',
-    orderNum: 999,
-    isFrame: '0',
-    isCache: '0',
-    visible: '0',
-    status: '0'
-  }
-  proxy.resetForm('menuRef')
-}
+  // 列显隐信息
+  const columns = ref([
+    { label: `添加时间`, visible: false, prop: 'createTime' },
+    { label: `排序`, visible: true, prop: 'orderNum' }
+  ])
 
-/** 选择图标 */
-function selected(name) {
-  form.value.icon = name
-}
-/** 搜索按钮操作 */
-function handleQuery() {
-  getList()
-}
-/** 重置按钮操作 */
-function resetQuery() {
-  proxy.resetForm('queryRef')
-  handleQuery()
-}
-/** 新增按钮操作 */
-function handleAdd(row) {
-  reset()
-  getTreeselect()
-  if (row != null && row.menuId != undefined) {
-    form.value.parentId = row.menuId
-  } else {
-    form.value.parentId = 0
-  }
-  open.value = true
-  title.value = proxy.$t('btn.add')
-}
-/** 展开/折叠操作 */
-function toggleExpandAll() {
-  // refreshTable.value = false
-  isExpandAll.value = !isExpandAll.value
-  // nextTick(() => {
-  //   refreshTable.value = true
-  // })
-  const $table = listRef.value
-  if ($table) {
-    if (isExpandAll.value) {
-      $table.setAllTreeExpand(true)
+  const tableHeight = ref(document.documentElement.scrollHeight - 245 + 'px')
+  const { queryParams, form, rules, sys_show_hide, sys_normal_disable } = toRefs(state)
+
+  /** 查询菜单列表 */
+  function getList(type) {
+    loading.value = true
+    if (queryParams.value.parentId != undefined || queryParams.value.menuName != undefined) {
+      queryParams.value.menuTypeIds = ''
     } else {
-      $table.clearTreeExpand()
+      queryParams.value.menuTypeIds = 'M,C,F'
     }
+    listMenu(queryParams.value).then((response) => {
+      menuList.value = response.data
+      if (type == 1) {
+        menuQueryOptions.value = response.data
+      }
+      loading.value = false
+    })
   }
-}
-const hasExpandRow = (row) => {
-  const $table = listRef.value
-  if ($table) {
-    return $table.isTreeExpandByRow(row)
+  /** 查询菜单下拉树结构 */
+  function getTreeselect() {
+    listMenu({ menuTypeIds: 'M,C,F' }).then((response) => {
+      menuOptions.value = response.data
+    })
   }
-  return false
-}
-/** 修改按钮操作 */
-async function handleUpdate(row) {
-  reset()
-  getTreeselect()
-  getMenu(row.menuId).then((response) => {
-    form.value = response.data
+  /** 取消按钮 */
+  function cancel() {
+    open.value = false
+    reset()
+  }
+  /** 表单重置 */
+  function reset() {
+    form.value = {
+      menuId: undefined,
+      parentId: 0,
+      menuName: undefined,
+      icon: undefined,
+      menuType: 'M',
+      orderNum: 999,
+      isFrame: '0',
+      isCache: '0',
+      visible: '0',
+      isStated: 0
+    }
+    proxy.resetForm('menuRef')
+  }
+
+  /** 选择图标 */
+  function selected(name) {
+    form.value.icon = name
+  }
+  /** 搜索按钮操作 */
+  function handleQuery() {
+    getList()
+  }
+  /** 重置按钮操作 */
+  function resetQuery() {
+    proxy.resetForm('queryRef')
+    handleQuery()
+  }
+  /** 新增按钮操作 */
+  function handleAdd(row) {
+    reset()
+    getTreeselect()
+    if (row != null && row.menuId != undefined) {
+      form.value.parentId = row.menuId
+    } else {
+      form.value.parentId = 0
+    }
     open.value = true
-    title.value = proxy.$t('btn.edit')
-  })
-}
-/** 提交按钮 */
-function submitForm() {
-  proxy.$refs['menuRef'].validate((valid) => {
-    if (valid) {
-      if (form.value.menuId != undefined) {
-        updateMenu(form.value).then(() => {
-          proxy.$modal.msgSuccess('修改成功')
-          open.value = false
-          refreshMenu(form.value.parentId)
-        })
+    title.value = proxy.$t('btn.add')
+  }
+  /** 展开/折叠操作 */
+  function toggleExpandAll() {
+    // refreshTable.value = false
+    isExpandAll.value = !isExpandAll.value
+    // nextTick(() => {
+    //   refreshTable.value = true
+    // })
+    const $table = listRef.value
+    if ($table) {
+      if (isExpandAll.value) {
+        $table.setAllTreeExpand(true)
       } else {
-        addMenu(form.value).then(() => {
-          proxy.$modal.msgSuccess('新增成功')
-          open.value = false
-          refreshMenu(form.value.parentId)
-        })
+        $table.clearTreeExpand()
       }
     }
-  })
-}
-/** 删除按钮操作 */
-function handleDelete(row) {
-  proxy.$modal
-    .confirm('是否确认删除名称为"' + row.menuName + '"的数据项?')
-    .then(function () {
-      return delMenu(row.menuId)
-    })
-    .then(() => {
-      // getList()
-      refreshMenu(row.parentId)
-      proxy.$modal.msgSuccess('删除成功')
-    })
-    .catch(() => {})
-}
-/** 删除按钮操作 */
-function handleDeleteAll(row) {
-  proxy.$modal
-    .confirm('是否确认删除名称为"' + row.menuName + '"的所有数据项?')
-    .then(function () {
-      return delAllMenu(row.menuId)
-    })
-    .then(() => {
-      // getList()
-      refreshMenu(row.parentId)
-      proxy.$modal.msgSuccess('删除成功')
-    })
-    .catch(() => {})
-}
-// ******************自定义编辑 start **********************
-// 动态ref设置值
-const columnRefs = ref([])
-const setColumnsRef = (el) => {
-  if (el) {
-    columnRefs.value.push(el)
   }
-}
-const editIndex = ref(-1)
-// 显示编辑排序
-function editCurrRow(rowId) {
-  editIndex.value = rowId
-
-  setTimeout(() => {
-    columnRefs.value[rowId].focus()
-  }, 100)
-}
-// 保存排序
-function handleChangeSort(info) {
-  editIndex.value = -1
-  proxy
-    .$confirm('是否保存数据?')
-    .then(function () {
-      return changeSort({ value: info.orderNum, id: info.menuId })
+  const hasExpandRow = (row) => {
+    const $table = listRef.value
+    if ($table) {
+      return $table.isTreeExpandByRow(row)
+    }
+    return false
+  }
+  /** 修改按钮操作 */
+  async function handleUpdate(row) {
+    reset()
+    getTreeselect()
+    getMenu(row.menuId).then((response) => {
+      form.value = response.data
+      open.value = true
+      title.value = proxy.$t('btn.edit')
     })
-    .then(() => {
-      handleQuery()
-      refreshMenu(info.parentId)
-      proxy.$modal.msgSuccess('修改成功')
+  }
+  /** 提交按钮 */
+  function submitForm() {
+    proxy.$refs['menuRef'].validate((valid) => {
+      if (valid) {
+        if (form.value.menuId != undefined) {
+          updateMenu(form.value).then(() => {
+            proxy.$modal.msgSuccess('修改成功')
+            open.value = false
+            refreshMenu(form.value.parentId)
+          })
+        } else {
+          addMenu(form.value).then(() => {
+            proxy.$modal.msgSuccess('新增成功')
+            open.value = false
+            refreshMenu(form.value.parentId)
+          })
+        }
+      }
     })
-    .catch(() => {
-      handleQuery()
-    })
-}
-// ******************自定义编辑 end **********************
-// 刷新懒加载后的数据
-function refreshMenu(pid) {
-  loading.value = true
+  }
+  /** 删除按钮操作 */
+  function handleDelete(row) {
+    proxy.$modal
+      .confirm('是否确认删除名称为"' + row.menuName + '"的数据项?')
+      .then(function () {
+        return delMenu(row.menuId)
+      })
+      .then(() => {
+        // getList()
+        refreshMenu(row.parentId)
+        proxy.$modal.msgSuccess('删除成功')
+      })
+      .catch(() => { })
+  }
+  /** 删除按钮操作 */
+  function handleDeleteAll(row) {
+    proxy.$modal
+      .confirm('是否确认删除名称为"' + row.menuName + '"的所有数据项?')
+      .then(function () {
+        return delAllMenu(row.menuId)
+      })
+      .then(() => {
+        // getList()
+        refreshMenu(row.parentId)
+        proxy.$modal.msgSuccess('删除成功')
+      })
+      .catch(() => { })
+  }
+  // ******************自定义编辑 start **********************
+  // 动态ref设置值
+  const columnRefs = ref([])
+  const setColumnsRef = (el) => {
+    if (el) {
+      columnRefs.value.push(el)
+    }
+  }
+  const editIndex = ref(-1)
+  // 显示编辑排序
+  function editCurrRow(rowId) {
+    editIndex.value = rowId
 
-  getList()
-}
+    setTimeout(() => {
+      columnRefs.value[rowId].focus()
+    }, 100)
+  }
+  // 保存排序
+  function handleChangeSort(info) {
+    editIndex.value = -1
+    proxy
+      .$confirm('是否保存数据?')
+      .then(function () {
+        return changeSort({ value: info.orderNum, id: info.menuId })
+      })
+      .then(() => {
+        handleQuery()
+        refreshMenu(info.parentId)
+        proxy.$modal.msgSuccess('修改成功')
+      })
+      .catch(() => {
+        handleQuery()
+      })
+  }
+  // ******************自定义编辑 end **********************
+  // 刷新懒加载后的数据
+  function refreshMenu(pid) {
+    loading.value = true
 
-listMenu({ menuTypeIds: 'M,C' }).then((response) => {
-  menuQueryOptions.value = response.data
-})
+    getList()
+  }
 
-// 首次列表加载（只加载一层）
-// getList(1)
-handleQuery()
+  listMenu({ menuTypeIds: 'M,C' }).then((response) => {
+    menuQueryOptions.value = response.data
+  })
+
+  // 首次列表加载（只加载一层）
+  // getList(1)
+  handleQuery()
 </script>

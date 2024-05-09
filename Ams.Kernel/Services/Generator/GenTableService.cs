@@ -5,7 +5,10 @@ using Ams.Model;
 namespace Ams.Kernel.Services.Generator
 {
     /// <summary>
-    /// 代码生成表
+    /// 生成表
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(IGenTableService), ServiceLifetime = LifeTime.Transient)]
     public class GenTableService : BaseService<GenTable>, IGenTableService

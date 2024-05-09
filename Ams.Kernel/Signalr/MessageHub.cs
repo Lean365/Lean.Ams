@@ -1,8 +1,8 @@
 ﻿using System.Web;
 using Ams.Infrastructure.Model;
 using Ams.Kernel.Model.Dto.Login;
-using Ams.Kernel.Services;
 using Ams.Kernel.Services.IService.Monitor;
+using Ams.Kernel.Services.IService.Routine;
 using Ams.Kernel.Services.IService.System;
 using IPTools.Core;
 using Mapster;
@@ -12,7 +12,10 @@ using UAParser;
 namespace Ams.Kernel.Signalr
 {
     /// <summary>
-    /// msghub
+    /// 消息中心
+    /// 服务定义
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public class MessageHub : Hub
     {

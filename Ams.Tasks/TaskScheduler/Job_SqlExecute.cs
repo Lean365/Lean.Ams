@@ -10,6 +10,12 @@ using SqlSugar.IOC;
 
 namespace Ams.Tasks.TaskScheduler
 {
+    /// <summary>
+    /// 任务Quartz
+    /// http服务接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(Job_SqlExecute), ServiceLifetime = LifeTime.Scoped)]
     public class Job_SqlExecute : JobBase, IJob
     {

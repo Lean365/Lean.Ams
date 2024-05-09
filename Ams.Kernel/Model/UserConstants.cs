@@ -1,5 +1,10 @@
 ﻿namespace Ams.Kernel.Model
 {
+    /// 常量信息
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class UserConstants
     {
         /// <summary>

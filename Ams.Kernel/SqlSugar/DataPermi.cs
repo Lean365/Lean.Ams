@@ -1,34 +1,43 @@
-﻿using Ams.Infrastructure;
-using SqlSugar.IOC;
-using Ams.Kernel.Model.Monitor;
-using Ams.Kernel.Model.System;
+﻿using SqlSugar.IOC;
 
 namespace Ams.Kernel.SqlSugar
 {
+    /// <summary>
+    /// 数据权限
+    /// 枚举
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public enum DataPermiEnum
     {
         None = 0,
+
         /// <summary>
         /// 全部数据权限
         /// </summary>
         All = 1,
+
         /// <summary>
         /// 仅本人数据权限
         /// </summary>
         SELF = 5,
+
         /// <summary>
         /// 部门数据权限
         /// </summary>
         DEPT = 3,
+
         /// <summary>
         /// 自定数据权限
         /// </summary>
         CUSTOM = 2,
+
         /// <summary>
         /// 部门及以下数据权限
         /// </summary>
         DEPT_CHILD = 4
     }
+
     /// <summary>
     /// 数据权限
     /// </summary>

@@ -1,7 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
 using Ams.Model.Dto;
 using Ams.Model.Logistics;
 using Ams.Service.Logistics.ILogisticsService;
-using Microsoft.AspNetCore.Mvc;
 using MiniExcelLibs;
 
 namespace Ams.WebApi.Controllers
@@ -10,7 +10,7 @@ namespace Ams.WebApi.Controllers
     /// 生产工单
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/9 8:42:56
+    /// @Date: 2024/5/9 15:36:42
     /// </summary>
     [Verify]
     [Route("logistics/PpOrder")]
@@ -40,6 +40,7 @@ namespace Ams.WebApi.Controllers
             return SUCCESS(response);
         }
 
+
         /// <summary>
         /// 查询生产工单详情
         /// </summary>
@@ -50,7 +51,7 @@ namespace Ams.WebApi.Controllers
         public IActionResult GetPpOrder(long MoSFID)
         {
             var response = _PpOrderService.GetInfo(MoSFID);
-
+            
             var info = response.Adapt<PpOrderDto>();
             return SUCCESS(info);
         }
@@ -64,11 +65,11 @@ namespace Ams.WebApi.Controllers
         [Log(Title = "生产工单", BusinessType = BusinessType.INSERT)]
         public IActionResult AddPpOrder([FromBody] PpOrderDto parm)
         {
-            // 校验输入项目唯一性
+           // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpOrderService.CheckInputUnique(parm.MoOrderNo.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpOrderService.CheckInputUnique(parm.MoSFID.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增生产工单 '{parm.MoOrderNo}'失败(New failed)，输入的生产工单已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增生产工单 '{parm.MoSFID}'失败(New failed)，输入的生产工单已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpOrder>().ToCreate(HttpContext);
 
@@ -99,7 +100,7 @@ namespace Ams.WebApi.Controllers
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "pp:order:delete")]
         [Log(Title = "生产工单", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeletePpOrder([FromRoute] string ids)
+        public IActionResult DeletePpOrder([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -159,5 +160,6 @@ namespace Ams.WebApi.Controllers
             var result = DownloadImportTemplate(new List<PpOrderImportTpl>() { }, "pp_order_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
+
     }
 }

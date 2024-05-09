@@ -1,9 +1,14 @@
 ﻿using Ams.Kernel.Model.Dto.Login;
-using Ams.Kernel.Model.System;
 using Ams.Model;
 
 namespace Ams.Kernel.Services.IService.System
 {
+    /// <summary>
+    /// 用户信息
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
+    /// </summary>
     public interface ISysUserService : IBaseService<SysUser>
     {
         public PagedInfo<SysUser> SelectUserList(SysUserQueryDto user, PagerInfo pager);
@@ -37,12 +42,14 @@ namespace Ams.Kernel.Services.IService.System
         public int UpdateUser(SysUser user);
 
         public int ChangeUser(SysUser user);
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="phoneNum"></param>
         /// <returns></returns>
         List<long> CheckPhoneBind(string phoneNum);
+
         int ChangePhoneNum(long userid, string phoneNum);
 
         /// <summary>
@@ -75,7 +82,9 @@ namespace Ams.Kernel.Services.IService.System
         /// <param name="dto"></param>
         /// <returns></returns>
         SysUser Register(RegisterDto dto);
+
         void CheckUserAllowed(SysUser user);
+
         void CheckUserDataScope(long userid, long loginUserId);
 
         /// <summary>

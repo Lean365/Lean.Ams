@@ -1,14 +1,16 @@
+using System.Threading.Tasks;
 using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Model.System;
 using Quartz;
 using SqlSugar.IOC;
-using System.Threading.Tasks;
-using Ams.Kernel.Model.System;
 
 namespace Ams.Tasks.TaskScheduler
 {
     /// <summary>
     /// 定时任务测试
     /// 使用如下注册后TaskExtensions里面不用再注册了
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(Job_SyncTest), ServiceLifetime = LifeTime.Scoped)]
     public class Job_SyncTest : JobBase, IJob
@@ -17,7 +19,7 @@ namespace Ams.Tasks.TaskScheduler
 
         public async Task Execute(IJobExecutionContext context)
         {
-            await ExecuteJob(context, Run);            
+            await ExecuteJob(context, Run);
         }
 
         /// <summary>

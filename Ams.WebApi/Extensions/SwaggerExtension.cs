@@ -41,9 +41,13 @@ namespace Ams.WebApi.Extensions
             });
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("sys/swagger.json", "系统管理");
-                c.SwaggerEndpoint("article/swagger.json", "文章管理");
-                c.SwaggerEndpoint("v1/swagger.json", "business");
+                c.SwaggerEndpoint("accounting/swagger.json", "会计核算");
+                c.SwaggerEndpoint("logistics/swagger.json", "后勤管理");
+                c.SwaggerEndpoint("routine/swagger.json", "日常事务");
+                c.SwaggerEndpoint("system/swagger.json", "系统管理");
+                c.SwaggerEndpoint("tool/swagger.json", "系统工具");
+                c.SwaggerEndpoint("v1/swagger.json", "Lean365.Ams");
+
                 c.DocExpansion(DocExpansion.None); //->修改界面打开时自动折叠
             });
         }
@@ -55,25 +59,47 @@ namespace Ams.WebApi.Extensions
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("sys", new OpenApiInfo
+                c.SwaggerDoc("accounting", new OpenApiInfo
+                {
+                    Title = "Lean365.NET Api",
+                    Version = "v1",
+                    Description = "会计核算",
+                    Contact = new OpenApiContact { Name = "Davis.Cheng", Email = "itsup@lean365.cn", Url = new Uri("https://leansoft365.github.io/") }
+                });
+                c.SwaggerDoc("logistics", new OpenApiInfo
+                {
+                    Title = "Lean365.NET Api",
+                    Version = "v1",
+                    Description = "后勤管理",
+                    Contact = new OpenApiContact { Name = "Davis.Cheng", Email = "itsup@lean365.cn", Url = new Uri("https://leansoft365.github.io/") }
+                });
+                c.SwaggerDoc("routine", new OpenApiInfo
+                {
+                    Title = "Lean365.NET Api",
+                    Version = "v1",
+                    Description = "日常事务",
+                    Contact = new OpenApiContact { Name = "Davis.Cheng", Email = "itsup@lean365.cn", Url = new Uri("https://leansoft365.github.io/") }
+                });
+                c.SwaggerDoc("system", new OpenApiInfo
                 {
                     Title = "Lean365.NET Api",
                     Version = "v1",
                     Description = "系统管理",
-                    Contact = new OpenApiContact { Name = "Lean365 doc", Url = new Uri("https://www.izhaorui.cn/doc") }
+                    Contact = new OpenApiContact { Name = "Davis.Cheng", Email = "itsup@lean365.cn", Url = new Uri("https://leansoft365.github.io/") }
                 });
-                c.SwaggerDoc("article", new OpenApiInfo
+                c.SwaggerDoc("tool", new OpenApiInfo
                 {
                     Title = "Lean365.NET Api",
                     Version = "v1",
-                    Description = "文章管理",
-                    Contact = new OpenApiContact { Name = "Lean365 doc", Url = new Uri("https://www.izhaorui.cn/doc") }
+                    Description = "系统工具",
+                    Contact = new OpenApiContact { Name = "Davis.Cheng", Email = "itsup@lean365.cn", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Lean365.NET Api",
                     Version = "v1",
-                    Description = "",
+                    Description = "Lean365.Ams",
+                    Contact = new OpenApiContact { Name = "Davis.Cheng", Email = "itsup@lean365.cn", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 try
                 {

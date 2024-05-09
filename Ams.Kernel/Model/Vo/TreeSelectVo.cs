@@ -2,6 +2,8 @@
 {
     /// <summary>
     /// Treeselect树结构实体类
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public class TreeSelectVo
     {

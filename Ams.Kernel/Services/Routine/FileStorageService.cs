@@ -13,7 +13,10 @@ using Microsoft.Extensions.Options;
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
-    /// 文件管理
+    /// 文件存储
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(IFileStorageService), ServiceLifetime = LifeTime.Transient)]
     public class FileStorageService : BaseService<FileStorage>, IFileStorageService

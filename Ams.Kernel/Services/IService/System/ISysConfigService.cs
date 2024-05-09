@@ -1,13 +1,10 @@
-using System;
-using Ams.Kernel.Model.System;
-
 namespace Ams.Kernel.Services.IService.System
 {
     /// <summary>
-    /// 参数配置service接口
-    ///
-    /// @author mr.zhao
-    /// @date 2021-09-29
+    /// 参数配置
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
     /// </summary>
     public interface ISysConfigService : IBaseService<SysConfig>
     {

@@ -1,15 +1,15 @@
-﻿using MiniExcelLibs;
-using SqlSugar.IOC;
-using Ams.Common;
+﻿using Ams.Common;
 using Ams.Model.Content;
-using Ams.Kernel.Model;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Model.System;
+using MiniExcelLibs;
+using SqlSugar.IOC;
 
 namespace Ams.Kernel.Services
 {
     /// <summary>
-    /// 种子数据处理
+    /// 种子数据
+    /// 业务层处理
+    /// Lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     public class SeedDataService
     {
@@ -54,10 +54,11 @@ namespace Ams.Kernel.Services
                 .WhereColumns(it => it.MenuId)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.OffIdentity().ExecuteCommand();//插入可插入部分;
-            
+
             string msg = $"[菜单数据] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
+
         /// <summary>
         /// 角色菜单数据
         /// </summary>
@@ -75,6 +76,7 @@ namespace Ams.Kernel.Services
             string msg = $"[角色菜单] 插入{x.InsertList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
             return (msg, x.ErrorList, x.IgnoreList);
         }
+
         /// <summary>
         /// 初始化部门数据
         /// </summary>

@@ -1,11 +1,12 @@
 using Ams.Model;
-using Ams.Kernel.Model.Monitor;
-using Ams.Kernel.Model.Dto.Monitor;
 
 namespace Ams.Kernel.Services.IService.Monitor
 {
     /// <summary>
-    /// 在线时长service接口
+    /// 在线时长
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
     /// </summary>
     public interface ILogOnlineTimeService : IBaseService<LogOnlineTime>
     {

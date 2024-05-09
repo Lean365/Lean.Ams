@@ -1,11 +1,13 @@
 using Ams.Infrastructure.Model;
-using Ams.Kernel.Model;
 using Ams.Model;
 
 namespace Ams.Kernel.Services.IService.Routine
 {
     /// <summary>
-    /// 邮件发送记录service接口
+    /// 发送记录
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
     /// </summary>
     public interface IEmailSentItemsService : IBaseService<EmailSentItems>
     {

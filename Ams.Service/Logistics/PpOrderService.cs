@@ -1,9 +1,11 @@
 using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.Extensions;
 using Ams.Model;
 using Ams.Model.Dto;
 using Ams.Model.Logistics;
 using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
+using System.Linq;
 
 namespace Ams.Service.Logistics
 {
@@ -11,7 +13,7 @@ namespace Ams.Service.Logistics
     /// 生产工单
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/9 8:42:56
+    /// @Date: 2024/5/9 15:36:42
     /// </summary>
     [AppService(ServiceType = typeof(IPpOrderService), ServiceLifetime = LifeTime.Transient)]
     public class PpOrderService : BaseService<PpOrder>, IPpOrderService
@@ -27,6 +29,7 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("MoOrderDate asc")
                 .Where(predicate.ToExpression())
                 .ToPage<PpOrder, PpOrderDto>(parm);
 
@@ -40,13 +43,14 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.MoOrderNo.ToString() == enterString);
+            int count = Count(it => it. MoSFID.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
             }
             return UserConstants.UNIQUE;
         }
+
 
         /// <summary>
         /// 获取详情
@@ -107,10 +111,10 @@ namespace Ams.Service.Logistics
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
 
-            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";
+            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";                    
             Console.WriteLine(msg);
 
-            //输出错误信息
+            //输出错误信息               
             foreach (var item in x.ErrorList)
             {
                 Console.WriteLine("错误" + item.StorageMessage);
@@ -160,7 +164,10 @@ namespace Ams.Service.Logistics
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoOrderNo), it => it.MoOrderNo.Contains(parm.MoOrderNo));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoOrderItem), it => it.MoOrderItem.Contains(parm.MoOrderItem));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoOrderlot), it => it.MoOrderlot.Contains(parm.MoOrderlot));
-            predicate = predicate.AndIF(parm.BeginMoOrderDate == null, it => it.MoOrderDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //当日期条件为空时，默认查询大于今天的所有数据
+            //predicate = predicate.AndIF(parm.BeginMoOrderDate == null, it => it.MoOrderDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //当日期条件为空时，默认查询大于今年的所有数据
+            predicate = predicate.AndIF(parm.BeginMoOrderDate == null, it => it.MoOrderDate >= new DateTime(DateTime.Now.Year, 1, 1));
             predicate = predicate.AndIF(parm.BeginMoOrderDate != null, it => it.MoOrderDate >= parm.BeginMoOrderDate);
             predicate = predicate.AndIF(parm.EndMoOrderDate != null, it => it.MoOrderDate <= parm.EndMoOrderDate);
             return predicate;

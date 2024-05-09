@@ -1,14 +1,20 @@
 namespace Ams.Model.Dto
 {
     /// <summary>
-    /// 文章话题查询对象
+    /// 文章话题
+    /// 查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024/01/01
     /// </summary>
-    public class ArticleTopicQueryDto : PagerInfo 
+    public class ArticleTopicQueryDto : PagerInfo
     {
     }
 
     /// <summary>
-    /// 文章话题输入输出对象
+    /// 文章话题
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024/01/01
     /// </summary>
     public class ArticleTopicDto
     {
@@ -33,6 +39,7 @@ namespace Ams.Model.Dto
         [ExcelColumn(Name = "创建时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("创建时间")]
         public DateTime? createTime { get; set; }
+
         /// <summary>
         /// 浏览次数
         /// </summary>

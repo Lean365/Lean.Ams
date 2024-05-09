@@ -7,7 +7,10 @@ using Ams.Model.System.Vo;
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 菜单
+    /// 系统菜单
+    /// 业务层处理
+    /// Lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(ISysMenuService), ServiceLifetime = LifeTime.Transient)]
     public class SysMenuService : BaseService<SysMenu>, ISysMenuService

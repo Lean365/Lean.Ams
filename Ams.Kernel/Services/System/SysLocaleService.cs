@@ -6,10 +6,10 @@ using Ams.Repository;
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 本地语言Service业务层处理
-    ///
-    /// @author zr
-    /// @date 2022-05-06
+    /// 本地语言
+    /// 业务层处理
+    /// Lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(ISysLocaleService), ServiceLifetime = LifeTime.Transient)]
     public class SysLocaleService : BaseService<SysLocale>, ISysLocaleService

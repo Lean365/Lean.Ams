@@ -3,6 +3,7 @@
  * @Version: ${ReplaceDto.EndVersion}
  * @Author: ${ReplaceDto.Author}(Davis.Ching)
  * @Date: ${ReplaceDto.CreateTime}
+ * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
   <div>

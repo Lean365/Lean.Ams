@@ -1,11 +1,13 @@
 ﻿using Ams.Infrastructure.Attribute;
-using Ams.Kernel.Model.System;
 using Ams.Kernel.Services.IService.System;
 
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 角色菜单
+    /// 角色 菜单
+    /// 业务层处理
+    /// Lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(ISysRoleMenuService), ServiceLifetime = LifeTime.Transient)]
     public class SysRoleMenuService : BaseService<SysRoleMenu>, ISysRoleMenuService
@@ -24,10 +26,12 @@ namespace Ams.Kernel.Services.System
         {
             return Delete(roleId);
         }
+
         public bool DeleteRoleMenuByRoleIdMenuIds(long roleId, long[] menuIds)
         {
             return Delete(f => f.Role_id == roleId && menuIds.Contains(f.Menu_id));
         }
+
         /// <summary>
         /// 根据角色获取菜单id
         /// </summary>

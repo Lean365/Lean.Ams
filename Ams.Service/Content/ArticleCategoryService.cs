@@ -1,5 +1,4 @@
 ﻿using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.Extensions;
 using Ams.Model;
 using Ams.Model.Content;
 using Ams.Model.Dto;
@@ -9,7 +8,10 @@ using Ams.Service.Content.IService;
 namespace Ams.Service.Content
 {
     /// <summary>
-    /// 文章目录Service业务层处理
+    /// 文章目录
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(IArticleCategoryService), ServiceLifetime = LifeTime.Transient)]
     public class ArticleCategoryService : BaseService<ArticleCategory>, IArticleCategoryService

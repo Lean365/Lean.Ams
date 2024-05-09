@@ -1,5 +1,4 @@
 ﻿using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.WebExtensions;
 using Ams.Kernel.Model.System;
 using Ams.Kernel.Services.IService.Routine;
 using Ams.Kernel.Services.IService.System;
@@ -11,6 +10,12 @@ using Ams.Service.Content.IService;
 
 namespace Ams.Service.Content
 {
+    /// <summary>
+    /// 评论记录
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(IArticleCommentService), ServiceLifetime = LifeTime.Transient)]
     public class ArticleCommentService : BaseService<ArticleComment>, IArticleCommentService
     {

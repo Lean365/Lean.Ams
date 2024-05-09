@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace Ams.Model
+﻿namespace Ams.Model
 {
     /// <summary>
-    /// 分页参数
+    /// 分布式分页信息
+    /// 参数
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public class PagedInfo<T>
     {
@@ -11,14 +12,17 @@ namespace Ams.Model
         /// 每页行数
         /// </summary>
         public int PageSize { get; set; } = 10;
+
         /// <summary>
         /// 当前页
         /// </summary>
         public int PageIndex { get; set; } = 1;
+
         /// <summary>
         /// 总记录数
         /// </summary>
         public int TotalNum { get; set; }
+
         /// <summary>
         /// 总页数
         /// </summary>
@@ -37,8 +41,10 @@ namespace Ams.Model
             }
             set { }
         }
+
         public List<T> Result { get; set; }
         public Dictionary<string, object> Extra { get; set; } = new Dictionary<string, object>();
+
         public PagedInfo()
         {
         }

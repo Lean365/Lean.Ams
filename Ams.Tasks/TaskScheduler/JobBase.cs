@@ -12,6 +12,11 @@ using Quartz;
 
 namespace Ams.Tasks
 {
+    /// <summary>
+    /// 任务基类
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class JobBase
     {
         /// <summary>

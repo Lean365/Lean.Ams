@@ -57,9 +57,9 @@
           <dict-tag :options="typeOptions" :value="scope.row.noticeType" />
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="status" width="100">
+      <el-table-column label="状态" align="center" prop="isStated" width="100">
         <template #default="scope">
-          <dict-tag :options="statusOptions" :value="scope.row.status" />
+          <dict-tag :options="statusOptions" :value="scope.row.isStated" />
         </template>
       </el-table-column>
       <el-table-column label="创建者" align="center" prop="createBy" width="100" />
@@ -86,7 +86,7 @@
 
     <!-- 添加或修改公告对话框 -->
     <zr-dialog :title="title" draggable v-model="open" width="580px">
-      <el-form ref="noticeRef" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="noticeRef" :model="form" :rules="rules" label-width="auto">
         <el-row>
           <el-col :lg="24">
             <el-form-item label="公告标题" prop="noticeTitle">
@@ -106,7 +106,7 @@
           </el-col>
           <el-col :lg="12">
             <el-form-item label="状态">
-              <el-radio-group v-model="form.status">
+              <el-radio-group v-model="form.isStated">
                 <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                   dict.dictLabel }}</el-radio>
               </el-radio-group>
@@ -164,7 +164,7 @@
       pageSize: 10,
       noticeTitle: undefined,
       createBy: undefined,
-      status: undefined
+      isStated: undefined
     },
     rules: {
       noticeTitle: [{ required: true, message: '公告标题不能为空', trigger: 'blur' }],
@@ -200,10 +200,10 @@
   })
   const statusOptions = ref([])
   const typeOptions = ref([])
-  proxy.getDicts('sys_notice_status').then((response) => {
+  proxy.getDicts('app_notice_status').then((response) => {
     statusOptions.value = response.data
   })
-  proxy.getDicts('sys_notice_type').then((response) => {
+  proxy.getDicts('app_notice_type').then((response) => {
     typeOptions.value = response.data
   })
 
@@ -230,7 +230,7 @@
       noticeTitle: undefined,
       noticeType: 1,
       noticeContent: undefined,
-      status: 0
+      isStated: 0
     }
     proxy.resetForm('noticeRef')
   }

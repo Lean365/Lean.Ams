@@ -1,16 +1,13 @@
-﻿using SqlSugar.IOC;
-using Ams.Model.Content;
-using Ams.Model.System;
-using Ams.Kernel.Model.Generator;
-using Ams.Kernel.Model;
-using Ams.Kernel.Model.Monitor;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Model.System;
+﻿using Ams.Model.Content;
+using SqlSugar.IOC;
 
 namespace Ams.Kernel.SqlSugar
 {
     /// <summary>
     /// 初始化表
+    /// 服务
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     public class InitTable
     {
@@ -22,11 +19,10 @@ namespace Ams.Kernel.SqlSugar
             var db = DbScoped.SugarScope;
             //TODO 可在此处单独更新某个表的结构
             //例如：db.CodeFirst.InitTables(typeof(EmailSentItems));
-            
 
             if (!init) return;
-            //建库：如果不存在创建数据库存在不会重复创建 
-            db.DbMaintenance.CreateDatabase();// 注意 ：Oracle和个别国产库需不支持该方法，需要手动建库 
+            //建库：如果不存在创建数据库存在不会重复创建
+            db.DbMaintenance.CreateDatabase();// 注意 ：Oracle和个别国产库需不支持该方法，需要手动建库
 
             //27个表,建议先使用下面方法初始化表，方便排查问题
             db.CodeFirst.InitTables(typeof(SysUser));
@@ -62,6 +58,7 @@ namespace Ams.Kernel.SqlSugar
             db.CodeFirst.InitTables(typeof(ArticleTopic));
             //db.CodeFirst.InitTables(typeof(LogOnlineTime));
         }
+
         public static void InitNewTb()
         {
             var db = DbScoped.SugarScope;

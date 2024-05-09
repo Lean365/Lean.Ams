@@ -1,12 +1,15 @@
-﻿using Ams.Model;
-using Ams.Kernel.Model.Dto;
-using Ams.Kernel.Model.Monitor;
-using Ams.Kernel.Model.System;
+﻿using Ams.Kernel.Model.Dto;
 using Ams.Kernel.Model.Dto.Login;
-using Ams.Kernel.Model.Dto.Monitor;
+using Ams.Model;
 
 namespace Ams.Kernel.Services.IService.System
 {
+    /// <summary>
+    /// 登录日志
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
+    /// </summary>
     public interface ISysLoginService : IBaseService<LogLogin>
     {
         /// <summary>
@@ -16,6 +19,7 @@ namespace Ams.Kernel.Services.IService.System
         /// <param name="logininfor"></param>
         /// <returns></returns>
         public SysUser Login(LoginBodyDto loginBody, LogLogin logininfor);
+
         /// <summary>
         /// 手机号登录
         /// </summary>
@@ -24,6 +28,7 @@ namespace Ams.Kernel.Services.IService.System
         /// <param name="user"></param>
         /// <returns></returns>
         SysUser PhoneLogin(PhoneLoginDto loginBody, LogLogin logininfor, SysUser user);
+
         /// <summary>
         /// 查询操作日志
         /// </summary>
@@ -52,6 +57,7 @@ namespace Ams.Kernel.Services.IService.System
         public int DeleteLogininforByIds(long[] ids);
 
         void CheckLockUser(string userName);
+
         /// <summary>
         /// 查询登录日志统计
         /// </summary>

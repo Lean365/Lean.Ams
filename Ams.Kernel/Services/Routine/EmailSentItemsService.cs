@@ -1,6 +1,5 @@
 using Ams.Infrastructure.Attribute;
 using Ams.Infrastructure.Model;
-using Ams.Kernel.Model;
 using Ams.Kernel.Services.IService.Routine;
 using Ams.Model;
 using Ams.Repository;
@@ -8,7 +7,10 @@ using Ams.Repository;
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
-    /// 邮件发送记录Service业务层处理
+    /// 发送记录
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(IEmailSentItemsService), ServiceLifetime = LifeTime.Transient)]
     public class EmailSentItemsService : BaseService<EmailSentItems>, IEmailSentItemsService

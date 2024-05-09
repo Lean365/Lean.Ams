@@ -7,6 +7,12 @@ using SqlSugar.IOC;
 
 namespace Ams.Kernel.SqlSugar
 {
+    /// <summary>
+    /// SqlSugar
+    /// 初始化
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public static class SqlsugarSetup
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();

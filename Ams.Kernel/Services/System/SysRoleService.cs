@@ -7,7 +7,10 @@ using Ams.Repository;
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 角色
+    /// 角色信息
+    /// 业务层处理
+    /// Lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(ISysRoleService), ServiceLifetime = LifeTime.Transient)]
     public class SysRoleService : BaseService<SysRole>, ISysRoleService

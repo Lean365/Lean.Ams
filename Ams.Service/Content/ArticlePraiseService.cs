@@ -4,6 +4,12 @@ using Ams.Service.Content.IService;
 
 namespace Ams.Service.Content
 {
+    /// <summary>
+    /// 点赞记录
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-01-01
+    /// </summary>
     [AppService(ServiceType = typeof(IArticlePraiseService), ServiceLifetime = LifeTime.Transient)]
     public class ArticlePraiseService : BaseService<ArticlePraise>, IArticlePraiseService
     {

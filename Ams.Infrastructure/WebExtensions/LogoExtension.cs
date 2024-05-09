@@ -20,10 +20,10 @@ namespace Ams.Infrastructure.WebExtensions
             var url = AppSettings.GetConfig("urls");
             Console.WriteLine(content);
             Console.ForegroundColor = ConsoleColor.Blue;
-            //Console.WriteLine("🎉源码地址: https://gitee.com/izory/Lean365NetCore");
-            Console.WriteLine("📖官方文档：http://www.izhaorui.cn");
-            Console.WriteLine("💰打赏作者：http://www.izhaorui.cn/vip");
-            Console.WriteLine("📱移动端体验：http://demo.izhaorui.cn/h5");
+            //Console.WriteLine("🎉源码地址: https://github.com/Lean365/Lean.Ams");
+            Console.WriteLine("📖官方文档：https://leansoft365.github.io/");
+            Console.WriteLine("💰打赏作者：https://leansoft365.github.io/docs/others/donate.html");
+            //Console.WriteLine("📱移动端体验：http://demo.leansoft365.cn/h5");
             Console.WriteLine($"Swagger地址：{url}/swagger/index.html");
             Console.WriteLine($"初始化种子数据地址：{url}/common/InitSeedData");
         }

@@ -1,14 +1,15 @@
 using Ams.Infrastructure.Attribute;
+using Ams.Kernel.Services.IService.Routine;
 using Ams.Model;
 using Ams.Repository;
 
 namespace Ams.Kernel.Services.Routine
 {
     /// <summary>
-    /// 通知公告Service业务层处理
-    ///
-    /// @author zr
-    /// @date 2021-12-15
+    /// 通知公告
+    /// 业务层处理
+    /// Lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(INoticeService), ServiceLifetime = LifeTime.Transient)]
     public class NoticeService : BaseService<Notice>, INoticeService

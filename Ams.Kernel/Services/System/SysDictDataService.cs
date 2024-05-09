@@ -5,7 +5,10 @@ using Ams.Model;
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 字典数据类
+    /// 数据字典
+    /// 业务层处理
+    /// Lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(ISysDictDataService), ServiceLifetime = LifeTime.Transient)]
     public class SysDictDataService : BaseService<SysDictData>, ISysDictDataService

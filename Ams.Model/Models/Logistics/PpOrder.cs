@@ -5,7 +5,7 @@ namespace Ams.Model.Logistics
     /// 生产工单
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/9 8:42:56
+    /// @Date: 2024/5/9 15:36:42
     /// </summary>
     [SugarTable("pp_order")]
     public class PpOrder

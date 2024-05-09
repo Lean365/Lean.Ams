@@ -16,13 +16,17 @@ using Ams.Kernel.Model.Routine;
 namespace Ams.Tasks
 {
     /// <summary>
-    /// 计划任务中心
+    /// 任务调度
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
     /// </summary>
     //[AppService]
     public class TaskSchedulerServer : ITaskSchedulerServer
     {
         private Task<IScheduler> _scheduler;
         private readonly IJobFactory _jobFactory;
+
         /// <summary>
         /// 日志接口
         /// </summary>
@@ -127,6 +131,7 @@ namespace Ams.Tasks
                 {
                     return ApiResult.Error(500, $"结束时间小于当前时间计划将不会被执行");
                 }
+
                 #region 设置开始时间和结束时间
 
                 tasksQz.BeginTime = tasksQz.BeginTime == null ? DateTime.Now : tasksQz.BeginTime;
@@ -135,14 +140,15 @@ namespace Ams.Tasks
                 DateTimeOffset starRunTime = DateBuilder.NextGivenSecondDate(tasksQz.BeginTime, 1);//设置开始时间
                 DateTimeOffset endRunTime = DateBuilder.NextGivenSecondDate(tasksQz.EndTime, 1);//设置暂停时间
 
-                #endregion
+                #endregion 设置开始时间和结束时间
 
-                #region 通过反射获取程序集类型和类   
+                #region 通过反射获取程序集类型和类
 
                 Assembly assembly = Assembly.Load(new AssemblyName(tasksQz.AssemblyName));
                 Type jobType = assembly.GetType(tasksQz.AssemblyName + "." + tasksQz.ClassName);
 
-                #endregion
+                #endregion 通过反射获取程序集类型和类
+
                 //2、开启调度器。判断任务调度是否开启
                 if (!_scheduler.Result.IsStarted)
                 {
@@ -360,7 +366,6 @@ namespace Ams.Tasks
                    .Build();
         }
 
-        #endregion
-
+        #endregion 创建触发器帮助方法
     }
 }

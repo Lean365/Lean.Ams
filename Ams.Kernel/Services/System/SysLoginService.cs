@@ -12,7 +12,10 @@ using UAParser;
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 登录
+    /// 登录日志
+    /// 业务层处理
+    /// Lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(ISysLoginService), ServiceLifetime = LifeTime.Transient)]
     public class SysLoginService : BaseService<LogLogin>, ISysLoginService

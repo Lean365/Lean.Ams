@@ -2,6 +2,12 @@
 
 namespace Ams.Kernel.SqlSugar
 {
+    /// <summary>
+    /// 数据权限
+    /// 服务
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     public class DataPermiSevice
     {
         /// <summary>

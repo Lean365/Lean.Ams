@@ -1,5 +1,4 @@
 ﻿using Ams.Kernel.Model.Dto;
-using Ams.Model.System;
 using Ams.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -44,8 +43,9 @@ namespace Ams.WebApi.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok("看到这里页面说明你已经成功启动了本项目:)\n\n" +
-                "如果觉得项目有用，打赏作者喝杯咖啡作为奖励\n☛☛http://www.izhaorui.cn/vip\n");
+            return new RedirectResult("/swagger/");//返回API界面
+            //return Ok("看到这里页面说明你已经成功启动了本项目:)\n\n" +
+            //    "如果觉得项目有用，打赏作者喝杯咖啡作为奖励\n☛☛https://leansoft365.github.io/\n");
         }
 
         /// <summary>

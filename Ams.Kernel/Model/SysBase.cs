@@ -2,6 +2,12 @@
 
 namespace Ams.Kernel.Model
 {
+    /// <summary>
+    /// 基础信息
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date 2024-01-01
+    /// </summary>
     //[EpplusTable(PrintHeaders = true, AutofitColumns = true, AutoCalculate = true, ShowTotal = true)]
     public class SysBase
     {

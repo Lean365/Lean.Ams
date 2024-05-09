@@ -9,7 +9,10 @@ using SqlSugar.IOC;
 namespace Ams.Service
 {
     /// <summary>
-    /// 注意：下面的AppService不要漏了
+    /// Hello
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024/5/9 8:42:56
     /// </summary>
     [AppService(ServiceType = typeof(IHelloService), ServiceLifetime = LifeTime.Transient)]
     public class HelloService : BaseService<ArticleCategory>, IHelloService

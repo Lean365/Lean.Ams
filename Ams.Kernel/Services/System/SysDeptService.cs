@@ -6,7 +6,10 @@ using Ams.Model.System.Vo;
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 部门管理
+    /// 部门信息
+    /// 业务层处理
+    /// Lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(ISysDeptService), ServiceLifetime = LifeTime.Transient)]
     public class SysDeptService : BaseService<SysDept>, ISysDeptService

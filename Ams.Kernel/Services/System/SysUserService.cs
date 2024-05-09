@@ -10,7 +10,10 @@ using IPTools.Core;
 namespace Ams.Kernel.Services.System
 {
     /// <summary>
-    /// 系统用户
+    /// 用户信息
+    /// 业务层处理
+    /// Lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     [AppService(ServiceType = typeof(ISysUserService), ServiceLifetime = LifeTime.Transient)]
     public class SysUserService : BaseService<SysUser>, ISysUserService
