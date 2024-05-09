@@ -82,6 +82,12 @@ $if(replaceDto.ShowBtnAdd)
         [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.INSERT)]
         public IActionResult Add${replaceDto.ModelTypeName}([FromBody] ${replaceDto.ModelTypeName}Dto parm)
         {
+           // 校验输入项目唯一性
+
+            if (UserConstants.NOT_UNIQUE.Equals(_${replaceDto.ModelTypeName}Service.CheckInputUnique(parm.${replaceDto.PKName}.ToString())))
+            {
+                return ToResponse(ApiResult.Error($"新增${genTable.FunctionName} '{parm.${replaceDto.PKName}}'失败(New failed)，输入的${genTable.FunctionName}已存在(The entered already exists)"));
+            }
             var modal = parm.Adapt<${replaceDto.ModelTypeName}>().ToCreate(HttpContext);
 
             var response = _${replaceDto.ModelTypeName}Service.Add${replaceDto.ModelTypeName}(modal);

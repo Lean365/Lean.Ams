@@ -2,39 +2,74 @@
 namespace Ams.Model.Logistics
 {
     /// <summary>
-    /// 生产班组
+    /// 生产工单
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/9 8:42:35
+    /// @Date: 2024/5/9 8:42:56
     /// </summary>
-    [SugarTable("pp_line")]
-    public class PpLine
+    [SugarTable("pp_order")]
+    public class PpOrder
     {
         /// <summary>
         /// SFID 
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long PlSFID { get; set; }
+        public long MoSFID { get; set; }
 
         /// <summary>
-        /// 班组类别 
+        /// 生产工厂 
         /// </summary>
-        public string PlLineType { get; set; }
+        public string MoPlant { get; set; }
 
         /// <summary>
-        /// 班组代码 
+        /// 订单类型 
         /// </summary>
-        public string PlLineCode { get; set; }
+        public string MoOrderType { get; set; }
 
         /// <summary>
-        /// 语言Key 
+        /// 生产订单 
         /// </summary>
-        public string PlLineLangCode { get; set; }
+        public string MoOrderNo { get; set; }
 
         /// <summary>
-        /// 班组名称 
+        /// 物料 
         /// </summary>
-        public string PlLineName { get; set; }
+        public string MoOrderItem { get; set; }
+
+        /// <summary>
+        /// 批次 
+        /// </summary>
+        public string MoOrderlot { get; set; }
+
+        /// <summary>
+        /// 工单数量 
+        /// </summary>
+        public decimal MoOrderQty { get; set; }
+
+        /// <summary>
+        /// 生产数量 
+        /// </summary>
+        public decimal MoOrderProQty { get; set; }
+
+        /// <summary>
+        /// 订单日期 
+        /// </summary>
+        public DateTime? MoOrderDate { get; set; }
+
+        /// <summary>
+        /// 工艺路线 
+        /// </summary>
+        public string MoOrderRoute { get; set; }
+
+        /// <summary>
+        /// 序列号 
+        /// </summary>
+        public string MoOrderSerial { get; set; }
+
+        /// <summary>
+        /// 状态 
+        /// </summary>
+        public int IsStated { get; set; }
 
         /// <summary>
         /// 软删除 

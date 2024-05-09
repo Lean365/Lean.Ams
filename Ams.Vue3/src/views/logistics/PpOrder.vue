@@ -1,26 +1,53 @@
 <!--
- * @Descripttion: 生产班组/pp_line
+ * @Descripttion: 生产工单/pp_order
  * @Version: 0.24.495.15670
  * @Author: Lean365(Davis.Ching)(Davis.Ching)
- * @Date: 2024/5/9 8:42:35
+ * @Date: 2024/5/9 8:42:56
 -->
 <template>
   <div>
     <!-- 查询区域 -->
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
-      <el-form-item label="班组类别" prop="plLineType">
-        <el-select filterable clearable   remote remote-show-suffix :remote-method="remoteMethod" :loading="loading " v-model="queryParams.plLineType" :placeholder="$t('btn.select')+'班组类别'">
-          <el-option v-for="item in   remotequery_sys_line_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="生产工厂" prop="moPlant">
+        <el-select filterable clearable   v-model="queryParams.moPlant" :placeholder="$t('btn.select')+'生产工厂'">
+          <el-option v-for="item in   options.app_plant_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="班组代码" prop="plLineCode">
-        <el-input v-model="queryParams.plLineCode" :placeholder="$t('btn.enter')+'班组代码'" />
+      <el-form-item label="订单类型" prop="moOrderType">
+        <el-select filterable clearable   v-model="queryParams.moOrderType" :placeholder="$t('btn.select')+'订单类型'">
+          <el-option v-for="item in   options.app_mo_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="班组名称" prop="plLineName">
-        <el-input v-model="queryParams.plLineName" :placeholder="$t('btn.enter')+'班组名称'" />
+      <el-form-item label="生产订单" prop="moOrderNo">
+        <el-input v-model="queryParams.moOrderNo" :placeholder="$t('btn.enter')+'生产订单'" />
+      </el-form-item>
+      <el-form-item label="物料" prop="moOrderItem">
+        <el-select filterable clearable   remote remote-show-suffix :remote-method="remoteMethod" :loading="loading " v-model="queryParams.moOrderItem" :placeholder="$t('btn.select')+'物料'">
+          <el-option v-for="item in   remotequery_sql_mats_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="批次" prop="moOrderlot">
+        <el-input v-model="queryParams.moOrderlot" :placeholder="$t('btn.enter')+'批次'" />
+      </el-form-item>
+      <el-form-item label="订单日期">
+        <el-date-picker
+          v-model="dateRangeMoOrderDate" 
+          type="datetimerange"
+          :start-placeholder="$t('btn.dateStart')"
+          :end-placeholder="$t('btn.dateEnd')"
+          value-format="YYYY-MM-DD HH:mm:ss"
+          :default-time="defaultTime"
+          :shortcuts="dateOptions">
+        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
@@ -30,22 +57,22 @@
     <!-- 工具区域 -->
     <el-row :gutter="15" class="mb10">
       <el-col :span="1.5">
-        <el-button type="primary" v-hasPermi="['pp:line:add']" plain icon="plus" @click="handleAdd">
+        <el-button type="primary" v-hasPermi="['pp:order:add']" plain icon="plus" @click="handleAdd">
           {{ $t('btn.add') }}
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="success" :disabled="single" v-hasPermi="['pp:line:edit']" plain icon="edit" @click="handleUpdate">
+        <el-button type="success" :disabled="single" v-hasPermi="['pp:order:edit']" plain icon="edit" @click="handleUpdate">
           {{ $t('btn.edit') }}
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" :disabled="multiple" v-hasPermi="['pp:line:delete']" plain icon="delete" @click="handleDelete">
+        <el-button type="danger" :disabled="multiple" v-hasPermi="['pp:order:delete']" plain icon="delete" @click="handleDelete">
           {{ $t('btn.delete') }}
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-dropdown trigger="click" v-hasPermi="['pp:line:import']">
+        <el-dropdown trigger="click" v-hasPermi="['pp:order:import']">
           <el-button color="#626aef" plain icon="Upload">
             {{ $t('btn.import') }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
           </el-button>
@@ -53,8 +80,8 @@
             <el-dropdown-menu>
               <el-dropdown-item command="upload">
                 <importData
-                  templateUrl="logistics/PpLine/importTemplate"
-                  importUrl="/logistics/PpLine/importData"
+                  templateUrl="logistics/PpOrder/importTemplate"
+                  importUrl="/logistics/PpOrder/importData"
                   @success="handleFileSuccess"></importData>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -62,7 +89,7 @@
         </el-dropdown>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['pp:line:export']">
+        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['pp:order:export']">
           {{ $t('btn.export') }}
         </el-button>
       </el-col>
@@ -80,15 +107,30 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="plSFID" label="SFID" align="center" v-if="columns.showColumn('plSFID')"/>
-      <el-table-column prop="plLineType" label="班组类别" align="center" v-if="columns.showColumn('plLineType')">
+      <el-table-column prop="moSFID" label="SFID" align="center" v-if="columns.showColumn('moSFID')"/>
+      <el-table-column prop="moPlant" label="生产工厂" align="center" v-if="columns.showColumn('moPlant')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_line_type " :value="scope.row.plLineType"  />
+          <dict-tag :options=" options.app_plant_list " :value="scope.row.moPlant"  />
         </template>
       </el-table-column>
-      <el-table-column prop="plLineCode" label="班组代码" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('plLineCode')"/>
-      <el-table-column prop="plLineLangCode" label="语言Key" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('plLineLangCode')"/>
-      <el-table-column prop="plLineName" label="班组名称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('plLineName')"/>
+      <el-table-column prop="moOrderType" label="订单类型" align="center" v-if="columns.showColumn('moOrderType')">
+        <template #default="scope">
+          <dict-tag :options=" options.app_mo_type " :value="scope.row.moOrderType"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="moOrderNo" label="生产订单" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('moOrderNo')"/>
+      <el-table-column prop="moOrderItem" label="物料" align="center" v-if="columns.showColumn('moOrderItem')">
+        <template #default="scope">
+          <dict-tag :options=" options.sql_mats_list " :value="scope.row.moOrderItem"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="moOrderlot" label="批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('moOrderlot')"/>
+      <el-table-column prop="moOrderQty" label="工单数量" align="center" v-if="columns.showColumn('moOrderQty')"/>
+      <el-table-column prop="moOrderProQty" label="生产数量" align="center" v-if="columns.showColumn('moOrderProQty')"/>
+      <el-table-column prop="moOrderDate" label="订单日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('moOrderDate')"/>
+      <el-table-column prop="moOrderRoute" label="工艺路线" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('moOrderRoute')"/>
+      <el-table-column prop="moOrderSerial" label="序列号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('moOrderSerial')"/>
+      <el-table-column prop="isStated" label="状态" align="center" v-if="columns.showColumn('isStated')"/>
       <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
       <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
@@ -96,15 +138,15 @@
       <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
-          <el-button type="success" plain size="small" icon="edit" :title="$t('btn.edit')" v-hasPermi="['pp:line:edit']" @click="handleUpdate(scope.row)"></el-button>
-          <el-button type="danger" plain size="small" icon="delete" :title="$t('btn.delete')" v-hasPermi="['pp:line:delete']" @click="handleDelete(scope.row)"></el-button>
+          <el-button type="success" plain size="small" icon="edit" :title="$t('btn.edit')" v-hasPermi="['pp:order:edit']" @click="handleUpdate(scope.row)"></el-button>
+          <el-button type="danger" plain size="small" icon="delete" :title="$t('btn.delete')" v-hasPermi="['pp:order:delete']" @click="handleDelete(scope.row)"></el-button>
         </template>
       </el-table-column>
     </el-table>
     <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
 
 
-    <!-- 添加或修改生产班组对话框 -->
+    <!-- 添加或修改生产工单对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" >
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
@@ -112,17 +154,16 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="SFID" prop="plSFID">
-              <el-input v-model.number="form.plSFID" :placeholder="$t('btn.enter')+'SFID'" :disabled="opertype != 1"/>
+            <el-form-item label="SFID" prop="moSFID">
+              <el-input v-model.number="form.moSFID" :placeholder="$t('btn.enter')+'SFID'" :disabled="opertype != 1"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="班组类别" prop="plLineType">
-              <el-select filterable clearable  remote remote-show-suffix :remote-method="remoteMethod" 
-              :loading="loading " v-model="form.plLineType"  :placeholder="$t('btn.select')+'班组类别'">
+            <el-form-item label="生产工厂" prop="moPlant">
+              <el-select filterable clearable   v-model="form.moPlant"  :placeholder="$t('btn.select')+'生产工厂'">
                 <el-option
-                  v-for="item in  remotequery_sys_line_type" 
+                  v-for="item in  options.app_plant_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -132,20 +173,77 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="班组代码" prop="plLineCode">
-              <el-input v-model="form.plLineCode" :placeholder="$t('btn.enter')+'班组代码'" />
+            <el-form-item label="订单类型" prop="moOrderType">
+              <el-select filterable clearable   v-model="form.moOrderType"  :placeholder="$t('btn.select')+'订单类型'">
+                <el-option
+                  v-for="item in  options.app_mo_type" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+
+          <el-col :lg="12">
+            <el-form-item label="生产订单" prop="moOrderNo">
+              <el-input v-model="form.moOrderNo" :placeholder="$t('btn.enter')+'生产订单'" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="语言Key" prop="plLineLangCode">
-              <el-input v-model="form.plLineLangCode" :placeholder="$t('btn.enter')+'语言Key'" />
+            <el-form-item label="物料" prop="moOrderItem">
+              <el-select filterable clearable  remote remote-show-suffix :remote-method="remoteMethod" 
+              :loading="loading " v-model="form.moOrderItem"  :placeholder="$t('btn.select')+'物料'">
+                <el-option
+                  v-for="item in  remotequery_sql_mats_list" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+
+          <el-col :lg="12">
+            <el-form-item label="批次" prop="moOrderlot">
+              <el-input v-model="form.moOrderlot" :placeholder="$t('btn.enter')+'批次'" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="班组名称" prop="plLineName">
-              <el-input v-model="form.plLineName" :placeholder="$t('btn.enter')+'班组名称'" />
+            <el-form-item label="工单数量" prop="moOrderQty">
+              <el-input-number v-model.number="form.moOrderQty" :controls="true" controls-position="right" :placeholder="$t('btn.enter')+'工单数量'" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="生产数量" prop="moOrderProQty">
+              <el-input-number v-model.number="form.moOrderProQty" :controls="true" controls-position="right" :placeholder="$t('btn.enter')+'生产数量'" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="订单日期" prop="moOrderDate">
+              <el-date-picker v-model="form.moOrderDate" type="datetime" :teleported="false" :placeholder="$t('btn.select')"></el-date-picker>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="工艺路线" prop="moOrderRoute">
+              <el-input v-model="form.moOrderRoute" :placeholder="$t('btn.enter')+'工艺路线'" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="序列号" prop="moOrderSerial">
+              <el-input v-model="form.moOrderSerial" :placeholder="$t('btn.enter')+'序列号'" />
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="状态" prop="isStated">
+              <el-input-number v-model.number="form.isStated" :controls="true" controls-position="right" :placeholder="$t('btn.enter')+'状态'" />
             </el-form-item>
           </el-col>
             
@@ -255,13 +353,13 @@
   </div>
 </template>
 
-<script setup name="ppline">
+<script setup name="pporder">
 //后台操作函数
-import { listPpLine,
- addPpLine, delPpLine, 
- updatePpLine,getPpLine, 
+import { listPpOrder,
+ addPpOrder, delPpOrder, 
+ updatePpOrder,getPpOrder, 
  } 
-from '@/api/logistics/ppline.js'
+from '@/api/logistics/pporder.js'
 import importData from '@/components/ImportData'
 //防抖处理函数 import { debounce } from 'lodash';
 import { debounce } from 'lodash';
@@ -285,21 +383,34 @@ const queryParams = reactive({
   sort: '',
   sortType: 'asc',
 //是否查询（1是）
-  plLineType: undefined,
+  moPlant: undefined,
 //是否查询（1是）
-  plLineCode: undefined,
+  moOrderType: undefined,
 //是否查询（1是）
-  plLineName: undefined,
+  moOrderNo: undefined,
+//是否查询（1是）
+  moOrderItem: undefined,
+//是否查询（1是）
+  moOrderlot: undefined,
+//是否查询（1是）
+  moOrderDate: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'plSFID', label: 'SFID' },
-  { visible: true, prop: 'plLineType', label: '班组类别' },
-  { visible: true, prop: 'plLineCode', label: '班组代码' },
-  { visible: true, prop: 'plLineLangCode', label: '语言Key' },
-  { visible: true, prop: 'plLineName', label: '班组名称' },
-  { visible: true, prop: 'remark', label: '备注' },
-  { visible: true, prop: 'createBy', label: '创建者' },
+  { visible: true, prop: 'moSFID', label: 'SFID' },
+  { visible: true, prop: 'moPlant', label: '生产工厂' },
+  { visible: true, prop: 'moOrderType', label: '订单类型' },
+  { visible: true, prop: 'moOrderNo', label: '生产订单' },
+  { visible: true, prop: 'moOrderItem', label: '物料' },
+  { visible: true, prop: 'moOrderlot', label: '批次' },
+  { visible: true, prop: 'moOrderQty', label: '工单数量' },
+  { visible: true, prop: 'moOrderProQty', label: '生产数量' },
+  { visible: false, prop: 'moOrderDate', label: '订单日期' },
+  { visible: false, prop: 'moOrderRoute', label: '工艺路线' },
+  { visible: false, prop: 'moOrderSerial', label: '序列号' },
+  { visible: false, prop: 'isStated', label: '状态' },
+  { visible: false, prop: 'remark', label: '备注' },
+  { visible: false, prop: 'createBy', label: '创建者' },
   { visible: false, prop: 'createTime', label: '创建时间' },
   { visible: false, prop: 'updateBy', label: '更新者' },
   { visible: false, prop: 'updateTime', label: '更新时间' },
@@ -315,15 +426,18 @@ const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23,
 
 
 
+
+
+
 //定义远程搜索变量
 const remotequeryList=ref([])
 //定义远程搜索变量
-const remotequery_sys_line_type=ref([])
+const remotequery_sql_mats_list=ref([])
 
   //远程字典参数
   var remotedictParams = [
 
-    { dictType: "sys_line_type" },
+    { dictType: "sql_mats_list" },
 
   ]
 //远程搜索组件实例
@@ -341,14 +455,14 @@ const remoteMethod = debounce((query) => {
       loading.value = true
       setTimeout(() => {
         loading.value = false
-        // remotequery_sys_line_type.value = remotequeryList.value.filter((item) => {
+        // remotequery_sql_mats_list.value = remotequeryList.value.filter((item) => {
         //   return item.dictValue.toLowerCase().includes(query.toLowerCase())
         // })
         filterMethod(query)
       }, 2000)
     } else {
      //默认显示前15条记录
-      remotequery_sys_line_type.value.slice(0, 15)
+      remotequery_sql_mats_list.value.slice(0, 15)
     }
   }, 300)
 // 筛选方法
@@ -357,10 +471,10 @@ const filterMethod = debounce((query) => {
       return item.dictValue.toLowerCase().includes(query) || item.dictLabel.toLowerCase().includes(query);
     })
     if (arr.length > 5) {
-      remotequery_sys_line_type.value = arr.slice(0, 5)
+      remotequery_sql_mats_list.value = arr.slice(0, 5)
       addFilterOptions(query)
     } else {
-      remotequery_sys_line_type.value = arr
+      remotequery_sql_mats_list.value = arr
     }
   }, 300)
 // 精准筛选方法
@@ -369,11 +483,18 @@ const addFilterOptions =debounce((dictValue) => {
       return item.dictValue === dictValue
     })
     if (target) {
-      if (remotequery_sys_line_type.value.toLowerCase().every(item => item.dictValue !== target.dictValue)) {
-        remotequery_sys_line_type.value.toLowerCase().unshift(target)
+      if (remotequery_sql_mats_list.value.toLowerCase().every(item => item.dictValue !== target.dictValue)) {
+        remotequery_sql_mats_list.value.toLowerCase().unshift(target)
       }
     }
   }, 300)
+
+
+
+
+// 订单日期时间范围
+const dateRangeMoOrderDate = ref([])
+
 
 
 
@@ -386,7 +507,9 @@ const addFilterOptions =debounce((dictValue) => {
 
 //字典参数
 var dictParams = [
-  { dictType: "sys_line_type" },
+  { dictType: "app_plant_list" },
+  { dictType: "app_mo_type" },
+  { dictType: "sql_mats_list" },
 ]
 
 //字典加载
@@ -395,10 +518,11 @@ proxy.getDicts(dictParams).then((response) => {
     state.options[element.dictType] = element.list
   })
 })
-//API获取从生产班组/pp_line表记录数据
+//API获取从生产工单/pp_order表记录数据
 function getList(){
+  proxy.addDateRange(queryParams, dateRangeMoOrderDate.value, 'MoOrderDate');
   loading.value = true
-  listPpLine(queryParams).then(res => {
+  listPpOrder(queryParams).then(res => {
     const { code, data } = res
     if (code == 200) {
       dataList.value = data.result
@@ -416,12 +540,14 @@ function handleQuery() {
 
 // 重置查询操作
 function resetQuery(){
+  // 订单日期时间范围
+  dateRangeMoOrderDate.value = []
   proxy.resetForm("queryRef")
   handleQuery()
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.plSFID);
+  ids.value = selection.map((item) => item.moSFID);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -457,15 +583,23 @@ const state = reactive({
   multiple: true,
   form: {},
   rules: {
-    plSFID: [{ required: true, message: "SFID不能为空", trigger: "blur" }],
-    plLineType: [{ required: true, message: "班组类别不能为空", trigger: "blur"     }],
-    plLineCode: [{ required: true, message: "班组代码不能为空", trigger: "blur"     }],
-    plLineLangCode: [{ required: true, message: "语言Key不能为空", trigger: "blur"     }],
-    plLineName: [{ required: true, message: "班组名称不能为空", trigger: "blur"     }],
+    moSFID: [{ required: true, message: "SFID不能为空", trigger: "blur" }],
+    moPlant: [{ required: true, message: "生产工厂不能为空", trigger: "change"     }],
+    moOrderType: [{ required: true, message: "订单类型不能为空", trigger: "change"     }],
+    moOrderNo: [{ required: true, message: "生产订单不能为空", trigger: "blur"     }],
+    moOrderItem: [{ required: true, message: "物料不能为空", trigger: "blur"     }],
+    moOrderQty: [{ required: true, message: "工单数量不能为空", trigger: "blur"     }],
+    moOrderProQty: [{ required: true, message: "生产数量不能为空", trigger: "blur"     }],
+    moOrderDate: [{ required: true, message: "订单日期不能为空", trigger: "blur"     }],
+    isStated: [{ required: true, message: "状态不能为空", trigger: "blur"    , type: "number"  }],
   },
   options: {
-    // 班组类别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_line_type: [],
+    // 生产工厂 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+app_plant_list: [],
+    // 订单类型 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+app_mo_type: [],
+    // 物料 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_mats_list: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -480,16 +614,30 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    plSFID: 0,
-    plSFID: null,
-    plLineType: null,
-    plLineType: null,
-    plLineCode: null,
-    plLineCode: null,
-    plLineLangCode: null,
-    plLineLangCode: null,
-    plLineName: null,
-    plLineName: null,
+    moSFID: 0,
+    moSFID: null,
+    moPlant: null,
+    moPlant: null,
+    moOrderType: null,
+    moOrderType: null,
+    moOrderNo: null,
+    moOrderNo: null,
+    moOrderItem: null,
+    moOrderItem: null,
+    moOrderlot: null,
+    moOrderlot: null,
+    moOrderQty: 0,
+    moOrderQty: null,
+    moOrderProQty: 0,
+    moOrderProQty: null,
+    moOrderDate: null,
+    moOrderDate: null,
+    moOrderRoute: null,
+    moOrderRoute: null,
+    moOrderSerial: null,
+    moOrderSerial: null,
+    isStated: 0,
+    isStated: null,
     isDeleted: 0,
     isDeleted: null,
     remark: null,
@@ -511,20 +659,26 @@ function reset() {
 function handleAdd() {
   reset();
   open.value = true
-  title.value = proxy.$t('btn.add')+'生产班组'
+  title.value = proxy.$t('btn.add')+'生产工单'
   opertype.value = 1
+  form.value.moPlant= []
+  form.value.moOrderType= []
+  form.value.moOrderQty= 0
+  form.value.moOrderProQty= 0
+  form.value.moOrderDate= new Date()
+  form.value.isStated= 0
   form.value.createTime= new Date()
   form.value.updateTime= new Date()
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.plSFID || ids.value
-  getPpLine(id).then((res) => {
+  const id = row.moSFID || ids.value
+  getPpOrder(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
       open.value = true
-      title.value = proxy.$t('btn.edit')+ '生产班组'
+      title.value = proxy.$t('btn.edit')+ '生产工单'
       opertype.value = 2
 
       form.value = {
@@ -539,14 +693,14 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.plSFID != undefined && opertype.value === 2) {
-        updatePpLine(form.value).then((res) => {
+      if (form.value.moSFID != undefined && opertype.value === 2) {
+        updatePpOrder(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.Modicompleted'))
           open.value = false
           getList()
         })
       } else {
-        addPpLine(form.value).then((res) => {
+        addPpOrder(form.value).then((res) => {
              proxy.$modal.msgSuccess(proxy.$t('common.Newcompleted'))
             open.value = false
             getList()
@@ -558,7 +712,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.plSFID || ids.value
+  const Ids = row.moSFID || ids.value
 
   proxy
     .$confirm(proxy.$t('common.confirmDel') + Ids + proxy.$t('common.confirmDelDataitems'), proxy.$t('common.warningTips'), {
@@ -567,7 +721,7 @@ function handleDelete(row) {
       type: "warning",
     })
     .then(function () {
-      return delPpLine(Ids)
+      return delPpOrder(Ids)
     })
     .then(() => {
       getList()
@@ -592,13 +746,13 @@ const handleFileSuccess = (response) => {
 // 导出按钮操作
 function handleExport() {
   proxy
-    .$confirm(proxy.$t('common.confirmExport')+"生产班组", proxy.$t('common.warningTips'), {
+    .$confirm(proxy.$t('common.confirmExport')+"生产工单", proxy.$t('common.warningTips'), {
       confirmButtonText: proxy.$t('btn.submit'),
       cancelButtonText: proxy.$t('btn.cancel'),
       type: "warning",
     })
     .then(async () => {
-      await proxy.downFile('/logistics/PpLine/export', { ...queryParams })
+      await proxy.downFile('/logistics/PpOrder/export', { ...queryParams })
     })
 }
 

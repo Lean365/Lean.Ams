@@ -158,6 +158,7 @@
             <template #default="scope">
               <el-select v-model="scope.row.dictType" clearable filterable placeholder="请选择字典类型" v-if="
                   scope.row.htmlType == 'selectMulti' ||
+                  scope.row.htmlType == 'selectRemote' ||
                   scope.row.htmlType == 'select' ||
                   scope.row.htmlType == 'radio' ||
                   scope.row.htmlType == 'checkbox' ||

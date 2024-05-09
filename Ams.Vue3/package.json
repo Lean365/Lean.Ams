@@ -1,19 +1,18 @@
 {
-  "name": "zr.admin",
-  "version": "v20240105",
-  "description": "ZRAdmin.NET管理系统",
-  "author": "ZR",
+  "name": "lean365.ams",
+  "version": "0.24.495",
+  "description": "灵兰软件.Lean365",
+  "author": "Lean365",
   "license": "MIT",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build:prod": "vite build",
+    "dev": "node.exe --max-old-space-size=10240 node_modules/vite/bin/vite.js",
+    "build:prod": "node.exe --max-old-space-size=10240 node_modules/vite/bin/vite.js build",
     "build:stage": "vite build --mode staging",
     "preview": "vite preview"
   },
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/izory/ZrAdminNetCore"
+    "url": "https://github.com/Lean365/Lean.Ams.git"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",

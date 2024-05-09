@@ -5,26 +5,26 @@ using Ams.Model.Logistics;
 namespace Ams.Service.Logistics.ILogisticsService
 {
     /// <summary>
-    /// 生产班组
+    /// 生产工单
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/9 8:42:35
+    /// @Date: 2024/5/9 8:42:56
     /// </summary>
-    public interface IPpLineService : IBaseService<PpLine>
+    public interface IPpOrderService : IBaseService<PpOrder>
     {
         /// <summary>
-        /// 获取生产班组列表
+        /// 获取生产工单列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        PagedInfo<PpLineDto> GetList(PpLineQueryDto parm);
+        PagedInfo<PpOrderDto> GetList(PpOrderQueryDto parm);
 
         /// <summary>
-        /// 获取生产班组信息
+        /// 获取生产工单信息
         /// </summary>
-        /// <param name="PlSFID"></param>
+        /// <param name="MoSFID"></param>
         /// <returns></returns>
-        PpLine GetInfo(long PlSFID);
+        PpOrder GetInfo(long MoSFID);
 
         /// <summary>
         /// 校验输入项目唯一性
@@ -36,33 +36,33 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 新增
-        /// 生产班组
+        /// 生产工单
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        PpLine AddPpLine(PpLine parm);
+        PpOrder AddPpOrder(PpOrder parm);
         /// <summary>
         /// 更新
-        /// 生产班组
+        /// 生产工单
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        int UpdatePpLine(PpLine parm);
+        int UpdatePpOrder(PpOrder parm);
 
         /// <summary>
         /// 批量导入
-        /// 生产班组
+        /// 生产工单
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        (string, object, object) ImportPpLine(List<PpLine> list);
+        (string, object, object) ImportPpOrder(List<PpOrder> list);
 
         /// <summary>
         /// 导出
-        /// 生产班组
+        /// 生产工单
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        PagedInfo<PpLineDto> ExportList(PpLineQueryDto parm);
+        PagedInfo<PpOrderDto> ExportList(PpOrderQueryDto parm);
     }
 }

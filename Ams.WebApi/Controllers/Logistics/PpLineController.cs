@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc;
 using Ams.Model.Dto;
 using Ams.Model.Logistics;
 using Ams.Service.Logistics.ILogisticsService;
+using Microsoft.AspNetCore.Mvc;
 using MiniExcelLibs;
 
 namespace Ams.WebApi.Controllers
@@ -10,7 +10,7 @@ namespace Ams.WebApi.Controllers
     /// 生产班组
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/8 15:24:51
+    /// @Date: 2024/5/9 8:42:35
     /// </summary>
     [Verify]
     [Route("logistics/PpLine")]
@@ -40,7 +40,6 @@ namespace Ams.WebApi.Controllers
             return SUCCESS(response);
         }
 
-
         /// <summary>
         /// 查询生产班组详情
         /// </summary>
@@ -51,7 +50,7 @@ namespace Ams.WebApi.Controllers
         public IActionResult GetPpLine(long PlSFID)
         {
             var response = _PpLineService.GetInfo(PlSFID);
-            
+
             var info = response.Adapt<PpLineDto>();
             return SUCCESS(info);
         }
@@ -65,6 +64,12 @@ namespace Ams.WebApi.Controllers
         [Log(Title = "生产班组", BusinessType = BusinessType.INSERT)]
         public IActionResult AddPpLine([FromBody] PpLineDto parm)
         {
+            // 校验输入项目唯一性
+
+            if (UserConstants.NOT_UNIQUE.Equals(_PpLineService.CheckInputUnique(parm.PlLineType.ToString() + parm.PlLineCode.ToString())))
+            {
+                return ToResponse(ApiResult.Error($"新增生产班组 '{parm.PlLineType + "," + parm.PlLineCode}'失败(New failed)，输入的生产班组已存在(The entered already exists)"));
+            }
             var modal = parm.Adapt<PpLine>().ToCreate(HttpContext);
 
             var response = _PpLineService.AddPpLine(modal);
@@ -94,7 +99,7 @@ namespace Ams.WebApi.Controllers
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "pp:line:delete")]
         [Log(Title = "生产班组", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeletePpLine([FromRoute]string ids)
+        public IActionResult DeletePpLine([FromRoute] string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -154,6 +159,5 @@ namespace Ams.WebApi.Controllers
             var result = DownloadImportTemplate(new List<PpLineImportTpl>() { }, "pp_line_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
-
     }
 }

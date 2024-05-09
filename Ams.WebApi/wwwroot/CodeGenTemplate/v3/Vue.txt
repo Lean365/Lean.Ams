@@ -565,7 +565,7 @@ const showSearch = ref(true)
 //使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
 const queryParams = reactive({
   pageNum: 1,
-  pageSize: 5000,
+  pageSize: 50,
   sort: '${genTable.Options.SortField}',
   sortType: '${genTable.Options.SortType}',
 $foreach(item in genTable.Columns)
