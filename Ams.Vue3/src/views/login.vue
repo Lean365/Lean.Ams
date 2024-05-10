@@ -1,40 +1,45 @@
 <template>
-  <starBackground></starBackground>
-  <div class="login-wrap">
+  <vanta></vanta>
+  <LangSelect title="多语言设置" class="langSet" />
+  <img :src='imgsrc' class="logoSet" />
+  <h6 class="sloganSet">{{ $t('layout.slogan') }}</h6>
+  <div class="login-wrap-vanta">
     <div class="login">
       <h3 class="title">{{ defaultSettings.title }}</h3>
 
-      <LangSelect title="多语言设置" class="langSet" />
-
       <div style="padding: 0 25px 5px 25px">
         <el-tabs v-model="loginType" @tab-click="handleLoginType">
-          <el-tab-pane :label="$t('login.loginway1')" :name="1"></el-tab-pane>
-          <el-tab-pane :label="$t('login.loginway2')" :name="2" v-if="defaultSettings.showPhoneLogin"></el-tab-pane>
-          <el-tab-pane :label="$t('login.loginway3')" :name="3" v-if="defaultSettings.showQrLogin"></el-tab-pane>
+          <el-tab-pane :label="$t('plogin.methodaccount')" :name="1"></el-tab-pane>
+          <el-tab-pane :label="$t('plogin.methodphone')" :name="2" v-if="defaultSettings.showPhoneLogin"></el-tab-pane>
+          <el-tab-pane :label="$t('plogin.methodqrcode')" :name="3" v-if="defaultSettings.showQrLogin"></el-tab-pane>
         </el-tabs>
       </div>
 
       <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form" v-if="loginType == 1">
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username" type="text" auto-complete="off" :placeholder="$t('login.account')">
+          <el-input v-model="loginForm.username" type="text" auto-complete="off" :placeholder="$t('plogin.account')">
             <template #prefix>
-              <svg-icon name="user" class="input-icon" />
+              <i class="fas fa-user fa-beat-fade"
+                style="--fa-animation-duration: 3s;font-size: 1em; color: rgb(0,97,174);"></i>
+
             </template>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input v-model="loginForm.password" show-password type="password" auto-complete="off"
-            :placeholder="$t('login.password')" @keyup.enter="handleLogin">
+            :placeholder="$t('plogin.password')" @keyup.enter="handleLogin">
             <template #prefix>
-              <svg-icon name="password" class="input-icon" />
+              <i class="fas fa-key fa-beat-fade"
+                style="--fa-animation-duration: 3s;font-size: 1em; color: rgb(245, 164, 6);"></i>
             </template>
           </el-input>
         </el-form-item>
         <el-form-item prop="code" v-if="captchaOnOff != 'off'">
-          <el-input v-model="loginForm.code" auto-complete="off" :placeholder="$t('login.captcha')" style="width: 63%"
+          <el-input v-model="loginForm.code" auto-complete="off" :placeholder="$t('plogin.captcha')" style="width: 63%"
             @keyup.enter="handleLogin">
             <template #prefix>
-              <svg-icon name="validCode" class="input-icon" />
+              <i class="fas fa-shield fa-beat-fade"
+                style="--fa-animation-duration: 3s;font-size: 1em; color: rgb(0, 149, 99);"></i>
             </template>
           </el-input>
           <div class="login-code">
@@ -45,16 +50,18 @@
         <el-form-item style="width: 100%" :style="{ 'margin-top': captchaOnOff == 'off' ? '40px' : '' }">
           <el-button :loading="loading" size="default" round type="primary" style="width: 100%"
             @click.prevent="handleLogin">
-            <span v-if="!loading">{{ $t('login.btnLogin') }}</span>
+            <span v-if="!loading">{{ $t('plogin.btnLogin') }}</span>
             <span v-else>登 录 中...</span>
           </el-button>
         </el-form-item>
 
         <div style="display: flex; justify-content: space-between; align-items: center">
-          <el-checkbox v-model="loginForm.rememberMe">{{ $t('login.rememberMe') }}</el-checkbox>
+          <el-checkbox v-model="loginForm.rememberMe">{{ $t('plogin.rememberMe') }}</el-checkbox>
           <span style="font-size: 12px">
-            <router-link class="link-type" :to="'/register'">{{ $t('login.register') }}</router-link>
-            <span @click="handleForgetPwd()" class="forget-pwd">{{ $t('login.forgotPwd') }}</span>
+            <router-link class="link-type" :to="'/register'" v-if="defaultSettings.ShowRegister">{{
+              $t('plogin.register')
+              }}</router-link>
+            <span @click="handleForgetPwd()" class="forget-pwd">{{ $t('plogin.forgotPwd') }}</span>
           </span>
         </div>
       </el-form>
@@ -75,13 +82,18 @@
   import Cookies from 'js-cookie'
   import { encrypt, decrypt } from '@/utils/jsencrypt'
   import defaultSettings from '@/settings'
-  import starBackground from '@/views/components/starBackground.vue'
-  import LangSelect from '@/components/LangSelect/index.vue'
+  import vanta from '@/views/components/backGround/vanta.vue'
+  import particles from '@/views/components/backGround/particles.vue'
+  import star from '@/views/components/backGround/star.vue'
+  import waterfall from '@/views/components/backGround/waterfall.vue'
+  import three from '@/views/components/backGround/three.vue'
+  import LangSelect from '@/components/LocaleSelect/index.vue'
   import useUserStore from '@/store/modules/user'
   import oauthLogin from './components/Login/oauthLogin.vue'
   import phoneLogin from './components/Login/phoneLogin.vue'
   import qrLogin from './components/Login/qrLogin.vue'
-
+  import '@fortawesome/fontawesome-free/css/all.min.css';
+  const imgsrc = 'src/assets/logo/Agile_w.png'
   var visitorId = ''
   const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3').then((FingerprintJS) => FingerprintJS.load())
 

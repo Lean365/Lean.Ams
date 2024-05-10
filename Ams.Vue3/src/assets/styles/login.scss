@@ -1,12 +1,42 @@
-.login-wrap {
-  background: radial-gradient(220% 105% at top center, #1b2947 10%, #4b76a7 40%, #81acae 65%, #f7f7b6);
+.login-wrap-vanta {
+  //background: radial-gradient(220% 105% at top center, #1b2947 10%, #4b76a7 40%, #81acae 65%, #f7f7b6);
   background-attachment: fixed;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  //视频背景时启用margin
+  margin: -1000px auto 3000px auto;
+  //particles动画粒子启用时使用height.
   height: 100%;
   // background-image: url('@/assets/images/login-bg.jpg');
+  //margin: 10px auto 15px auto;
+  background-size: cover;
+  flex-direction: column;
+
+  .login {
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 6px;
+    width: var(--base-login-width);
+    position: relative;
+    // height: 420px;
+  }
+}
+
+.login-wrap-particles {
+  //background: radial-gradient(220% 105% at top center, #1b2947 10%, #4b76a7 40%, #81acae 65%, #f7f7b6);
+  background-attachment: fixed;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //视频背景时启用margin
+  //margin: -1000px auto 3000px auto;
+  //particles动画粒子启用时使用height.
+  height: 100%;
+  // background-image: url('@/assets/images/login-bg.jpg');
+  //margin: 10px auto 15px auto;
   background-size: cover;
   flex-direction: column;
 
@@ -73,10 +103,27 @@
   height: 40px;
   padding-left: 12px;
 }
+
 .langSet {
   position: absolute;
-  left: 20px;
-  top: 10px;
+  right: 2%;
+  top: 3%;
+}
+
+.logoSet {
+  position: absolute;
+  left: 2%;
+  top: 2%;
+  height: 48px
+}
+
+.sloganSet {
+  position: absolute;
+  transform: perspective(1000px) rotateY(10deg);
+  left: 8%;
+  top: -2%;
+  font-size: 1.3em;
+  color: #fff;
 }
 
 .scan-wrap {
@@ -98,6 +145,7 @@
     right: 1px;
     top: 0px;
   }
+
   .scan-delta {
     position: absolute;
     width: 35px;
@@ -119,5 +167,4 @@
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: 500px) {
-}
+@media screen and (max-width: 500px) {}

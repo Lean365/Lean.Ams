@@ -44,7 +44,7 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
+    <el-table height="650px" v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="序号" align="center" prop="noticeId" width="100" />
       <el-table-column label="公告标题" prop="noticeTitle" :show-overflow-tooltip="true">
@@ -70,13 +70,17 @@
       </el-table-column>
       <el-table-column label="操作" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button text icon="view" @click="handleOpenPre(scope.row)"> 预览</el-button>
-          <el-button text icon="bell" @click="handleNotice(scope.row)" v-hasPermi="['system:notice:update']">
-            通知</el-button>
-          <el-button text icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:notice:update']">
-            修改</el-button>
-          <el-button text icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:notice:delete']">
-            删除</el-button>
+          <el-button color="#626aef" :dark="isDark" plain size="small" icon="view" @click="handleOpenPre(scope.row)"
+            :title="$t('btn.view')"></el-button>
+          <el-button type="warning" plain size="small" icon="bell" @click="handleNotice(scope.row)"
+            :title="$t('layout.notice')" v-if="scope.row.isStated !== 1" v-hasPermi="['system:notice:update']">
+          </el-button>
+          <el-button type="success" plain size="small" icon="Edit" @click="handleUpdate(scope.row)"
+            :title="$t('btn.edit')" v-hasPermi="['system:notice:update']">
+          </el-button>
+          <el-button type="danger" plain size="small" icon="Delete" @click="handleDelete(scope.row)"
+            :title="$t('btn.delete')" v-hasPermi="['system:notice:delete']">
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -161,7 +165,7 @@
     form: {},
     queryParams: {
       pageNum: 1,
-      pageSize: 10,
+      pageSize: 50,
       noticeTitle: undefined,
       createBy: undefined,
       isStated: undefined

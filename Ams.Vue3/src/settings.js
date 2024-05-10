@@ -2,7 +2,7 @@ export default {
   /**
    * 框架版本号
    */
-  version: '20240105',
+  version: '0.24.495',
   /**
    * 网页标题
    */
@@ -103,5 +103,9 @@ export default {
   /**
    * 导航模式 1、侧边栏 2、混合 3、纯顶部
    */
-  navType: 1
+  navType: 1,
+  /**
+ * 显示注册按钮 false 不显示 true 显示
+ */
+  showRegister: true,
 }

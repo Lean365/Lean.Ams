@@ -22,6 +22,9 @@ import 'virtual:svg-icons-register'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import elementIcons from '@/components/SvgIcon/svgicon'
 
+//粒子特效
+import Particles from "vue3-particles";
+//import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
 import './permission' // permission control
 
 import { getConfigKey } from '@/api/system/config'
@@ -72,4 +75,10 @@ app.component('ZrDialog', Dialog)
 
 directive(app)
 vxetb(app)
-app.use(pinia).use(router).use(plugins).use(ElementPlus, {}).use(elementIcons).use(vueI18n).mount('#app')
+app.use(pinia)
+  .use(router)
+  .use(plugins)
+  .use(ElementPlus, {})
+  .use(elementIcons)
+  .use(vueI18n)
+  .use(Particles).mount('#app')
