@@ -134,6 +134,7 @@
     "layoutSetting": "布局设置",
     "showWatermark": "开启水印",
     "myToken": "复制token",
+    "cleanCache": "清空缓存",
     "myTokenCopy": "复制token完成",
     "mybrowserNg": "当前浏览器不支持！",
     "logOut": "退出登录",

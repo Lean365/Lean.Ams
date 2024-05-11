@@ -18,7 +18,7 @@
 
 ## 🎉Overview
 
-- Production Kanban focusing on small and medium-sized manufacturing companies.
+- Production Kanban focusing on small and medium-sized manufacturing companies.(Easy,Flexible,Practical)
 - Integration of [ZR.Admin](https://gitee.com/izory) framework technology efficient and rapid development.
 - Focus on your business, easy development starts now!
 
@@ -53,7 +53,7 @@ Due to being a personal project, funds are limited!!!
 ## 🍆Back-end 
 - Core:C#、.Net7.0、Web API、sqlsugar、swagger、signalR、IpRateLimit、Quartz.net、Redis,using vs2022 tools.
 
-## ✨ LeanManufacturing Management
+## ✨ Manufacturing Management
 1. Budget management
    - Personnel
    - Equipment
@@ -89,19 +89,96 @@ Due to being a personal project, funds are limited!!!
 
 
 ## 🔰Project Structure
-
+### Agile Manufacturing
 ```
-├─La.Infra                          -> [base layer class library]: data types, I/O and other class libraries;
-├─La.Common                         -> [public layer class library]: Helper including data, regular, strings, etc;
-├─La.Service                        -> [service layer class library]: provides WebApi interface calls;
-├─La.Repository                     -> [Repository layer class library]: facilitates the provision of operations with executing stored procedures;
-├─La.Model                          -> [entity layer class library]: provides database tables, data transfer objects in the project;
-├─La.WebApi                         -> [webapi interface]: provides interface services for Vue version or other three-party systems.
-├─La.Tasks                          -> [timed task library]: provides project timed task implementation functions;
-├─La.CodeGenerator                  -> [code generation function]: contains templates, methods, code, downloads.
-├─La.Vue                            -> [front-end UI]: vue3.0 version UI layer.
+├─Ams.Common                         ->[public layer class library]: Helper including data, regular, strings, etc;
+├─Ams.Generator                      ->[code generation function]: contains templates, methods, code, downloads.
+├─Ams.Infrastructure                 ->[base layer class library]: data types, I/O and other class libraries;
+├─Ams.Kernel                         ->[Built-in Function Library]: System administration-related
+├─Ams.Model                          ->[entity layer class library]: provides database tables, data transfer objects in the project;
+├─Ams.Repository                     ->[Repository layer class library]: facilitates the provision of operations with executing stored procedures;
+├─Ams.Service                        ->[service layer class library]: provides WebApi interface calls;
+├─Ams.Tasks                          ->[Timed Tasks library]: provide project timed tasks to achieve functionality
+├─Ams.WebApi                         ->[webapi interface]: provides interface services for Vue version or other three-party systems.
+├─Ams.Vue                            ->[front-end UI]: vue2.0 version UI layer
+├─Ams.Vue3                           ->[front-end UI]: vue3.0 version UI layer
 ```
-
+### Flexible Manufacturing
+```
+├─Fms.Common                         ->[public layer class library]: Helper including data, regular, strings, etc;
+├─Fms.Generator                      ->[code generation function]: contains templates, methods, code, downloads.
+├─Fms.Infrastructure                 ->[base layer class library]: data types, I/O and other class libraries;
+├─Fms.Kernel                         ->[Built-in Function Library]: System administration-related
+├─Fms.Model                          ->[entity layer class library]: provides database tables, data transfer objects in the project;
+├─Fms.Repository                     ->[Repository layer class library]: facilitates the provision of operations with executing stored procedures;
+├─Fms.Service                        ->[service layer class library]: provides WebApi interface calls;
+├─Fms.Tasks                          ->[Timed Tasks library]: provide project timed tasks to achieve functionality
+├─Fms.WebApi                         ->[webapi interface]: provides interface services for Vue version or other three-party systems.
+├─Fms.Vue                            ->[front-end UI]: vue2.0 version UI layer
+├─Fms.Vue3                           ->[front-end UI]: vue3.0 version UI layer
+```
+### Jit Manufacturing
+```
+├─Jms.Common                         ->[public layer class library]: Helper including data, regular, strings, etc;
+├─Jms.Generator                      ->[code generation function]: contains templates, methods, code, downloads.
+├─Jms.Infrastructure                 ->[base layer class library]: data types, I/O and other class libraries;
+├─Jms.Kernel                         ->[Built-in Function Library]: System administration-related
+├─Jms.Model                          ->[entity layer class library]: provides database tables, data transfer objects in the project;
+├─Jms.Repository                     ->[Repository layer class library]: facilitates the provision of operations with executing stored procedures;
+├─Jms.Service                        ->[service layer class library]: provides WebApi interface calls;
+├─Jms.Tasks                          ->[Timed Tasks library]: provide project timed tasks to achieve functionality
+├─Jms.WebApi                         ->[webapi interface]: provides interface services for Vue version or other three-party systems.
+├─Jms.Vue                            ->[front-end UI]: vue2.0 version UI layer
+├─Jms.Vue3                           ->[front-end UI]: vue3.0 version UI layer
+```
+### Lean Manufacturing
+```
+├─La.Common                         ->[public layer class library]: Helper including data, regular, strings, etc;
+├─La.Generator                      ->[code generation function]: contains templates, methods, code, downloads.
+├─La.Infrastructure                 ->[base layer class library]: data types, I/O and other class libraries;
+├─La.Kernel                         ->[Built-in Function Library]: System administration-related
+├─La.Model                          ->[entity layer class library]: provides database tables, data transfer objects in the project;
+├─La.Repository                     ->[Repository layer class library]: facilitates the provision of operations with executing stored procedures;
+├─La.Service                        ->[service layer class library]: provides WebApi interface calls;
+├─La.Tasks                          ->[Timed Tasks library]: provide project timed tasks to achieve functionality
+├─La.WebApi                         ->[webapi interface]: provides interface services for Vue version or other three-party systems.
+├─La.Vue                            ->[front-end UI]: vue2.0 version UI layer
+├─La.Vue3                           ->[front-end UI]: vue3.0 version UI layer
+```
+### Lean Production
+```
+├─Lps.Common                         ->[public layer class library]: Helper including data, regular, strings, etc;
+├─Lps.Generator                      ->[code generation function]: contains templates, methods, code, downloads.
+├─Lps.Infrastructure                 ->[base layer class library]: data types, I/O and other class libraries;
+├─Lps.Kernel                         ->[Built-in Function Library]: System administration-related
+├─Lps.Model                          ->[entity layer class library]: provides database tables, data transfer objects in the project;
+├─Lps.Repository                     ->[Repository layer class library]: facilitates the provision of operations with executing stored procedures;
+├─Lps.Service                        ->[service layer class library]: provides WebApi interface calls;
+├─Lps.Tasks                          ->[Timed Tasks library]: provide project timed tasks to achieve functionality
+├─Lps.WebApi                         ->[webapi interface]: provides interface services for Vue version or other three-party systems.
+├─Lps.Vue                            ->[front-end UI]: vue2.0 version UI layer
+├─Lps.Vue3                           ->[front-end UI]: vue3.0 version UI layer
+```
+### front-end overall structure
+```
+├-bat           -> Command line
+├-dist          ->Project Packaging
+├─html          ->
+├-public        -> Static resources independent of business logic
+├-src           -> Source code for applications
+│ ├-api         ->Background interface package
+│ ├-assets      -> for storing various static files
+│ ├-components ->Common components
+│ ├-directive ->Custom Instructions
+│ ├-i18n      ->Internationalization
+│ ├-layout    ->Layout
+│ ├-plugins   ->Plugins
+│ ├-router    -> Routing Configuration
+│ ├-store     ->vuex Status Management Tool
+│ ├-utils     -> Global Common Methods
+│ └-views     ->Page
+└-vite        ->Building Tools
+```
 ## 📌Demo Images
 
 <table>

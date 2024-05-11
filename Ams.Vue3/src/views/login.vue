@@ -1,8 +1,8 @@
 <template>
   <vanta></vanta>
-  <LangSelect title="多语言设置" class="langSet" />
-  <img :src='imgsrc' class="logoSet" />
-  <h6 class="sloganSet">{{ $t('layout.slogan') }}</h6>
+  <LangSelect :title="$t('layout.multiLanguage') " class="langSet" />
+  <el-image :src='imgsrc' class="logoSet" />
+  <el-text class="sloganSet">{{ $t('layout.slogan') }}</el-text>
   <div class="login-wrap-vanta">
     <div class="login">
       <h3 class="title">{{ defaultSettings.title }}</h3>
@@ -110,9 +110,9 @@
     uuid: ''
   })
   const loginRules = {
-    username: [{ required: true, trigger: 'blur', message: '请输入您的账号' }],
-    password: [{ required: true, trigger: 'blur', message: '请输入您的密码' }],
-    code: [{ required: true, trigger: 'change', message: '请输入验证码' }]
+    username: [{ required: true, trigger: 'blur', message: proxy.$t('btn.enter') + proxy.$t('plogin.account') }],
+    password: [{ required: true, trigger: 'blur', message: proxy.$t('btn.enter') + proxy.$t('plogin.password') }],
+    code: [{ required: true, trigger: 'change', message: proxy.$t('btn.enter') + proxy.$t('plogin.captcha') }]
   }
   const loginType = computed({
     get: () => userStore.loginType,
@@ -204,7 +204,7 @@
     }
   }
   function handleForgetPwd() {
-    proxy.$modal.msg('请联系管理员')
+    proxy.$modal.msg(proxy.$t('btn.contactAdmin'))
   }
 
   function handleLoginType(t) {

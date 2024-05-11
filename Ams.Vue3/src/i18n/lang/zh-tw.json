@@ -133,6 +133,7 @@
     "layoutSetting": "佈局設置",
     "showWatermark": "開啟浮水印",
     "myToken": "複製token",
+    "cleanCache": "清空緩存",
     "myTokenCopy": "複製token完成",
     "mybrowserNg": "當前瀏覽器不支援！",
     "logOut": "退出登錄",

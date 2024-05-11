@@ -1,8 +1,8 @@
 <template>
   <particles></particles>
-  <LangSelect title="多语言设置" class="langSet" />
-  <img :src='imgsrc' class="logoSet" />
-  <h6 class="sloganSet">{{ $t('layout.slogan') }}</h6>
+  <LangSelect :title="$t('layout.multiLanguage')" class="langSet" />
+  <el-image :src='imgsrc' class="logoSet" />
+  <el-text class="sloganSet">{{ $t('layout.slogan') }}</el-text>
   <div class="login-wrap-particles">
     <div class="login">
       <el-form ref="registerFormRef" :model="registerForm" :rules="registerRules" class="login-form">

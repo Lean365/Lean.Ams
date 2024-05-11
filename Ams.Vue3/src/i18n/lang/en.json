@@ -133,6 +133,7 @@
     "layoutSetting": "Layout setting",
     "showWatermark": "Water Mark",
     "myToken": "Copy myToken",
+    "cleanCache": "empty cache",
     "myTokenCopy": "Copy succeeded",
     "mybrowserNg": "The current browser does not support Token！",
     "logOut": "Login out",

@@ -132,6 +132,7 @@
     "layoutSetting": "レイアウト設定",
     "showWatermark": "ウォーターマーク",
     "myToken": "Tokenコーヒー",
+    "cleanCache": "キャッシュクリア",
     "myTokenCopy": "Tokenコピー完了",
     "mybrowserNg": "現在のBrowserはTokenをサポートしていません！",
     "logOut": "ログアウト",

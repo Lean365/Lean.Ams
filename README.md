@@ -55,7 +55,7 @@
 ## 🍆 后端
 - 核心框架：C#、Net7.0 、 Web API 、 sqlsugar 、 swagger 、 signalR 、 IpRateLimit 、 Quartz.net 、 Redis，后端采用vs2022工具开发
 
-## 🐼 精益生产管理
+## 🐼 生产管理
 1. 预算管理
    - 人员
    - 设备
@@ -91,31 +91,77 @@
 
 
 ## 🔰项目结构
-
+### Agile Manufacturing
 ```
-├─La.Infra                          ->[基础层类库]：数据类型，I/O以及其他类库
+├─Ams.Common                         ->[公共层类库]：包括数据、正则、字符串等的Helper
+├─Ams.Generator                      ->[代码生成功能]：包含模板、方法、代码、下载
+├─Ams.Infrastructure                 ->[基础层类库]：数据类型，I/O以及其他类库
+├─Ams.Kernel                         ->[内置功能库]：系统管理相关
+├─Ams.Model                          ->[实体层类库]：提供项目中的数据库表、数据传输对象
+├─Ams.Repository                     ->[仓库层类库]：方便提供有执行存储过程的操作
+├─Ams.Service                        ->[服务层类库]：提供WebApi接口调用
+├─Ams.Tasks                          ->[定时任务类库]：提供项目定时任务实现功能
+├─Ams.WebApi                         ->[webapi接口]：为Vue版或其他三方系统提供接口服务
+├─Ams.Vue                            ->[前端UI]：vue2.0版本UI层
+├─Ams.Vue3                           ->[前端UI]：vue3.0版本UI层
+```
+### Flexible Manufacturing
+```
+├─Fms.Common                         ->[公共层类库]：包括数据、正则、字符串等的Helper
+├─Fms.Generator                      ->[代码生成功能]：包含模板、方法、代码、下载
+├─Fms.Infrastructure                 ->[基础层类库]：数据类型，I/O以及其他类库
+├─Fms.Kernel                         ->[内置功能库]：系统管理相关
+├─Fms.Model                          ->[实体层类库]：提供项目中的数据库表、数据传输对象
+├─Fms.Repository                     ->[仓库层类库]：方便提供有执行存储过程的操作
+├─Fms.Service                        ->[服务层类库]：提供WebApi接口调用
+├─Fms.Tasks                          ->[定时任务类库]：提供项目定时任务实现功能
+├─Fms.WebApi                         ->[webapi接口]：为Vue版或其他三方系统提供接口服务
+├─Fms.Vue                            ->[前端UI]：vue2.0版本UI层
+├─Fms.Vue3                           ->[前端UI]：vue3.0版本UI层
+```
+### Jit Manufacturing
+```
+├─Jms.Common                         ->[公共层类库]：包括数据、正则、字符串等的Helper
+├─Jms.Generator                      ->[代码生成功能]：包含模板、方法、代码、下载
+├─Jms.Infrastructure                 ->[基础层类库]：数据类型，I/O以及其他类库
+├─Jms.Kernel                         ->[内置功能库]：系统管理相关
+├─Jms.Model                          ->[实体层类库]：提供项目中的数据库表、数据传输对象
+├─Jms.Repository                     ->[仓库层类库]：方便提供有执行存储过程的操作
+├─Jms.Service                        ->[服务层类库]：提供WebApi接口调用
+├─Jms.Tasks                          ->[定时任务类库]：提供项目定时任务实现功能
+├─Jms.WebApi                         ->[webapi接口]：为Vue版或其他三方系统提供接口服务
+├─Jms.Vue                            ->[前端UI]：vue2.0版本UI层
+├─Jms.Vue3                           ->[前端UI]：vue3.0版本UI层
+```
+### Lean Manufacturing
+```
 ├─La.Common                         ->[公共层类库]：包括数据、正则、字符串等的Helper
-├─La.Service                        ->[服务层类库]：提供WebApi接口调用
-├─La.Repository                     ->[仓库层类库]：方便提供有执行存储过程的操作
+├─La.Generator                      ->[代码生成功能]：包含模板、方法、代码、下载
+├─La.Infrastructure                 ->[基础层类库]：数据类型，I/O以及其他类库
+├─La.Kernel                         ->[内置功能库]：系统管理相关
 ├─La.Model                          ->[实体层类库]：提供项目中的数据库表、数据传输对象
-├─La.WebApi                         ->[webapi接口]：为Vue版或其他三方系统提供接口服务
+├─La.Repository                     ->[仓库层类库]：方便提供有执行存储过程的操作
+├─La.Service                        ->[服务层类库]：提供WebApi接口调用
 ├─La.Tasks                          ->[定时任务类库]：提供项目定时任务实现功能
-├─La.CodeGenerator                  ->[代码生成功能]：包含模板、方法、代码、下载
-├─La.Vue                            ->[前端UI]：vue3.0版本UI层
+├─La.WebApi                         ->[webapi接口]：为Vue版或其他三方系统提供接口服务
+├─La.Vue                            ->[前端UI]：vue2.0版本UI层
+├─La.Vue3                           ->[前端UI]：vue3.0版本UI层
 ```
-
+### Lean Production
 ```
-├─Lps.Infrastructure                 ->[基础层类库]：数据类型，I/O以及其他类库
 ├─Lps.Common                         ->[公共层类库]：包括数据、正则、字符串等的Helper
-├─Lps.Service                        ->[服务层类库]：提供WebApi接口调用
-├─Lps.Repository                     ->[仓库层类库]：方便提供有执行存储过程的操作
+├─Lps.Generator                      ->[代码生成功能]：包含模板、方法、代码、下载
+├─Lps.Infrastructure                 ->[基础层类库]：数据类型，I/O以及其他类库
+├─Lps.Kernel                         ->[内置功能库]：系统管理相关
 ├─Lps.Model                          ->[实体层类库]：提供项目中的数据库表、数据传输对象
-├─Lps.WebApi                         ->[webapi接口]：为Vue版或其他三方系统提供接口服务
+├─Lps.Repository                     ->[仓库层类库]：方便提供有执行存储过程的操作
+├─Lps.Service                        ->[服务层类库]：提供WebApi接口调用
 ├─Lps.Tasks                          ->[定时任务类库]：提供项目定时任务实现功能
-├─Lps.CodeGenerator                  ->[代码生成功能]：包含模板、方法、代码、下载
-├─Lps.Vue                            ->[前端UI]：vue3.0版本UI层
+├─Lps.WebApi                         ->[webapi接口]：为Vue版或其他三方系统提供接口服务
+├─Lps.Vue                            ->[前端UI]：vue2.0版本UI层
+├─Lps.Vue3                           ->[前端UI]：vue3.0版本UI层
 ```
-
+### 前端总体结构
 ```
 ├─bat			          ->命令行
 ├─dist			        ->项目打包
