@@ -168,17 +168,17 @@
 ├─html			            	->
 ├─public			          	->与业务逻辑无关的静态资源
 ├─src			              	->应用程序的源代码
-│	├─api		              	->后台接口封装
-│	├─assets		          	->用于存放各种静态文件
-│	├─components		      	->公共组件
-│	├─directive		        	->自定义指令
-│ 	├─i18n		            	->国际化
-│	├─layout		          	->布局
-│	├─plugins		          	->插件
-│ 	├─router		          	->路由配置
-│	├─store		            	->vuex 状态管理工具
-│ 	├─utils		            	->全局公用方法
-│ 	└─views		            	->页面
+│   ├─api		              	->后台接口封装
+│   ├─assets		          	->用于存放各种静态文件
+│   ├─components		      	->公共组件
+│   ├─directive		        	->自定义指令
+│   ├─i18n		            	->国际化
+│   ├─layout		          	->布局
+│   ├─plugins		          	->插件
+│   ├─router		          	->路由配置
+│   ├─store		            	->vuex 状态管理工具
+│   ├─utils		            	->全局公用方法
+│   └─views		            	->页面
 └─vite			            	->构建工具
 ```
 
