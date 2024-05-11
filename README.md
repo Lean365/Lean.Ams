@@ -18,7 +18,7 @@
 
 ## 🍁 概述
 
-- 侧重中小制造企业的生产看板。
+- 侧重中小制造企业的生产看板。简单、灵活、实用(Easy,Flexible,Practical)
 - 整合[ZR.Admin](https://gitee.com/izory)框架技术高效快速开发，前后端分离模式，开箱即用。
 - 专注您的业务，轻松开发从现在开始！
 
@@ -163,23 +163,23 @@
 ```
 ### 前端总体结构
 ```
-├─bat			          ->命令行
-├─dist			        ->项目打包
-├─html			        ->
-├─public			      ->与业务逻辑无关的静态资源
-├─src			          ->应用程序的源代码
-│	├─api		          ->后台接口封装
-│	├─assets		      ->用于存放各种静态文件
-│	├─components		  ->公共组件
-│	├─directive		    ->自定义指令
-│ 	├─i18n		      ->国际化
-│	├─layout		      ->布局
-│	├─plugins		      ->插件
-│ 	├─router		    ->路由配置
-│	├─store		        ->vuex 状态管理工具
-│ 	├─utils		      ->全局公用方法
-│ 	└─views		      ->页面
-└─vite			        ->构建工具
+├─bat			              ->命令行
+├─dist			            ->项目打包
+├─html			            ->
+├─public			          ->与业务逻辑无关的静态资源
+├─src			              ->应用程序的源代码
+│	├─api		              ->后台接口封装
+│	├─assets		          ->用于存放各种静态文件
+│	├─components		      ->公共组件
+│	├─directive		        ->自定义指令
+│ ├─i18n		            ->国际化
+│	├─layout		          ->布局
+│	├─plugins		          ->插件
+│ ├─router		          ->路由配置
+│	├─store		            ->vuex 状态管理工具
+│ ├─utils		            ->全局公用方法
+│ └─views		            ->页面
+└─vite			            ->构建工具
 ```
 
 ## 🌻 演示图
