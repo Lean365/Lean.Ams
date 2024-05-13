@@ -21,8 +21,8 @@ namespace Ams.Kernel.Services.Routine
         public List<Notice> GetNotices()
         {
             var predicate = Expressionable.Create<Notice>();
-
-            predicate = predicate.And(m => m.IsStated == 0);
+            var now = DateTime.Now;
+            predicate = predicate.And(m => m.IsStated == 0 || m.BeginTime != null && m.BeginTime >= now);
             return Queryable()
                 .Where(predicate.ToExpression())
                 .OrderByDescending(f => f.Create_time)

@@ -80,16 +80,7 @@ namespace Ams.WebApi.Controllers.Routine
         {
             var modal = parm.Adapt<Notice>().ToCreate(HttpContext);
 
-            int result = _NoticeService.Insert(modal, it => new
-            {
-                it.NoticeTitle,
-                it.NoticeType,
-                it.NoticeContent,
-                it.IsStated,
-                it.Remark,
-                it.Create_by,
-                it.Create_time
-            });
+            int result = _NoticeService.InsertReturnIdentity(modal);
 
             return SUCCESS(result);
         }
@@ -104,17 +95,7 @@ namespace Ams.WebApi.Controllers.Routine
         public IActionResult UpdateNotice([FromBody] NoticeDto parm)
         {
             var model = parm.Adapt<Notice>().ToUpdate(HttpContext);
-            model.Update_by = HttpContext.GetName();
-            var response = _NoticeService.Update(w => w.NoticeId == model.NoticeId, it => new Notice()
-            {
-                NoticeTitle = model.NoticeTitle,
-                NoticeType = model.NoticeType,
-                NoticeContent = model.NoticeContent,
-                IsStated = model.IsStated,
-                Remark = model.Remark,
-                Update_by = HttpContext.GetName(),
-                Update_time = DateTime.Now
-            });
+            var response = _NoticeService.Update(model);
 
             return SUCCESS(response);
         }

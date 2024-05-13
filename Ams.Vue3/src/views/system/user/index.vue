@@ -82,7 +82,7 @@
           <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
         </el-row>
 
-        <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
+        <el-table height="600" v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" :selectable="checkSelectable" />
           <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns.showColumn('userId')" />
           <el-table-column label="登录名" align="center" key="userName" prop="userName"
@@ -114,15 +114,20 @@
           </el-table-column>
           <el-table-column prop="email" label="用户邮箱" align="center" v-if="columns.showColumn('email')" />
           <el-table-column prop="loginDate" label="最后登录时间" align="center" v-if="columns.showColumn('loginDate')" />
-          <el-table-column label="操作" align="left" width="110" class-name="small-padding fixed-width">
+          <el-table-column :label="$t('btn.operation')" align="center" width="160"
+            class-name="small-padding fixed-width">
             <template #default="scope">
-              <el-button text icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:user:edit']">
-              </el-button>
-              <el-button v-if="!scope.row.isAdmin" text icon="Delete" @click="handleDelete(scope.row)"
-                v-hasPermi="['system:user:remove']">
-              </el-button>
-              <el-button v-if="scope.row.userId !== 1" text icon="Key" title="重置密码" @click="handleResetPwd(scope.row)"
-                v-hasPermi="['system:user:resetPwd']"></el-button>
+              <el-button-group class="ml-1">
+                <el-button type="success" plain size="small" icon="Edit" @click="handleUpdate(scope.row)"
+                  v-hasPermi="['system:user:edit']" :title="$t('btn.edit')">
+                </el-button>
+                <el-button v-if="!scope.row.isAdmin" type="danger" plain size="small" icon="Delete"
+                  @click="handleDelete(scope.row)" v-hasPermi="['system:user:remove']" :title="$t('btn.delete')">
+                </el-button>
+                <el-button v-if="scope.row.userId !== 1" color="#c45656" plain size="small" icon="Key" title="重置密码"
+                  @click="handleResetPwd(scope.row)" v-hasPermi="['system:user:resetPwd']"
+                  ：title="$t('btn.resetPwd')"></el-button>
+              </el-button-group>
             </template>
           </el-table-column>
         </el-table>

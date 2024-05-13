@@ -1,4 +1,5 @@
 using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.Helper;
 using Ams.Kernel.Services.IService.Monitor;
 using Ams.Model;
 using Ams.Repository;
@@ -58,9 +59,28 @@ namespace Ams.Kernel.Services.Monitor
         /// <returns></returns>
         public LogSms AddLogSms(LogSms model)
         {
-            var httpContext = App.HttpContext;
-            model.Create_by = HttpContextExtension.GetName(httpContext); //获取当前登录用户
+            model.Create_time = Context.GetDate();
+
+            var smsCode = RandomHelper.GeneratorNum(6);
+            var smsContent = $"验证码{smsCode},有效期10分钟。";
+
+            var oneMinus = Queryable().Any(f => f.PhoneNum == model.PhoneNum && SqlFunc.DateDiff(DateType.Minute, f.Create_time, model.Create_time) <= 1);
+            if (oneMinus)
+            {
+                throw new CustomException("请稍后再试");
+            }
+            var oneMinusIP = Queryable().Any(f => f.UserIP == model.UserIP && SqlFunc.DateDiff(DateType.Minute, f.Create_time, model.Create_time) <= 1);
+            if (oneMinusIP)
+            {
+                throw new CustomException("请稍后再试");
+            }
+            model.SmsCode = smsCode;
+            model.SmsContent = smsContent;
             model.Id = Context.Insertable(model).ExecuteReturnSnowflakeId();
+            //TODO 发送验证码
+
+            CacheService.SetPhoneCode(model.PhoneNum.ToString(), smsCode);
+
             return model;
         }
     }

@@ -8,7 +8,7 @@
 <template>
   <div>
     <!-- 查询区域 -->
-    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
+    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
 $foreach(column in genTable.Columns)
 $set(labelName = "")
 $set(columnName = "")
@@ -203,6 +203,7 @@ $end
 $end
       <el-table-column :label="${t}t('btn.operation')" width="160" align="center">
         <template #default="scope">
+          <el-button-group>
 $if(ReplaceDto.OperBtnStyle == 2)
         <el-button-group>
 $if(ReplaceDto.ShowBtnView)
@@ -226,6 +227,7 @@ $if(ReplaceDto.ShowBtnDelete)
           <el-button type="danger" plain size="small" icon="delete" :title="${t}t('btn.delete')" v-hasPermi="['${ReplaceDto.PermissionPrefix}:delete']" @click="handleDelete(scope.row)"></el-button>
 $end
 $end
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
@@ -881,7 +883,7 @@ $if(ReplaceDto.ShowBtnAdd)
 function handleAdd() {
   reset();
   open.value = true
-  title.value = proxy.${t}t('btn.add')+'${genTable.functionName}'
+  title.value = proxy.${t}t('btn.add')+" "+'${genTable.functionName}'
   opertype.value = 1
 $foreach(item in genTable.Columns)
 $if(item.IsList==true)
@@ -909,7 +911,7 @@ function handleUpdate(row) {
     const { code, data } = res
     if (code == 200) {
       open.value = true
-      title.value = proxy.${t}t('btn.edit')+ '${genTable.functionName}'
+      title.value = proxy.${t}t('btn.edit')+" "+ '${genTable.functionName}'
       opertype.value = 2
 
       form.value = {
@@ -944,7 +946,7 @@ $end
       if (form.value.${ReplaceDto.FistLowerPk} != undefined && opertype.value === 2) {
 $if(ReplaceDto.ShowBtnEdit)
         update${genTable.BusinessName}(form.value).then((res) => {
-         proxy.${modal}modal.msgSuccess(proxy.${t}t('common.Modicompleted'))
+         proxy.${modal}modal.msgSuccess(proxy.${t}t('common.editSucceed'))
           open.value = false
           getList()
         })
@@ -952,7 +954,7 @@ $end
       } else {
 $if(ReplaceDto.ShowBtnAdd)
         add${genTable.BusinessName}(form.value).then((res) => {
-             proxy.${modal}modal.msgSuccess(proxy.${t}t('common.Newcompleted'))
+             proxy.${modal}modal.msgSuccess(proxy.${t}t('common.addSucceed'))
             open.value = false
             getList()
           })
@@ -978,7 +980,7 @@ function handleDelete(row) {
     })
     .then(() => {
       getList()
-      proxy.${modal}modal.msgSuccess(proxy.${t}t('common.Delcompleted'))
+      proxy.${modal}modal.msgSuccess(proxy.${t}t('common.deleteSucceed'))
     })
 }
 $end
@@ -997,7 +999,7 @@ function handleClear() {
     })
     .then(() => {
       handleQuery()
-      proxy.${modal}modal.msgSuccess(proxy.${t}t('common.Cleancompleted'))
+      proxy.${modal}modal.msgSuccess(proxy.${t}t('common.cleanSucceed'))
     })
 }
 $end

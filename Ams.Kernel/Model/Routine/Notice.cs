@@ -51,5 +51,20 @@ namespace Ams.Kernel.Model.Routine
         /// </summary>
         [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public int IsDeleted { get; set; } = 0;
+
+        /// <summary>
+        /// 发布人
+        /// </summary>
+        public string Publisher { get; set; }
+
+        /// <summary>
+        /// 开始时间
+        /// </summary>
+        public DateTime? BeginTime { get; set; }
+
+        /// <summary>
+        /// 结束时间
+        /// </summary>
+        public DateTime? EndTime { get; set; }
     }
 }

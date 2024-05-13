@@ -17,8 +17,12 @@ import vxeTableCn from 'vxe-table/lib/locale/lang/zh-CN'
 import vxeTableTw from 'vxe-table/lib/locale/lang/zh-TW'
 import vxeTableJa from 'vxe-table/lib/locale/lang/ja-JP'
 import vxeTableEn from 'vxe-table/lib/locale/lang/en-US'
+//组件
+import pageComponentsCn from './pages/components/zh-cn.json'
+import pageComponentsTw from './pages/components/zh-tw.json'
+import pageComponentsJa from './pages/components/ja.json'
+import pageComponentsEn from './pages/components/en.json'
 //工具栏
-
 import pageRightbarCn from './pages/rightbar/zh-cn.json'
 import pageRightbarTw from './pages/rightbar/zh-tw.json'
 import pageRightbarJa from './pages/rightbar/ja.json'
@@ -134,6 +138,7 @@ const i18n = createI18n({
     'zh-cn': {
       ...Cn,
       ...vxeTableCn,
+      ...pageComponentsCn,
       ...pageAboutCn,
       ...pageConfigCn,
       ...pageDeptCn,
@@ -159,6 +164,7 @@ const i18n = createI18n({
     'zh-tw': {
       ...Tw,
       ...vxeTableTw,
+      ...pageComponentsTw,
       ...pageAboutTw,
       ...pageConfigTw,
       ...pageDeptTw,
@@ -183,6 +189,7 @@ const i18n = createI18n({
     'ja': {
       ...Ja,
       ...vxeTableJa,
+      ...pageComponentsJa,
       ...pageAboutJa,
       ...pageConfigJa,
       ...pageDeptJa,
@@ -207,6 +214,7 @@ const i18n = createI18n({
     en: {
       ...En,
       ...vxeTableEn,
+      ...pageComponentsEn,
       ...pageAboutEn,
       ...pageConfigEn,
       ...pageDeptEn,

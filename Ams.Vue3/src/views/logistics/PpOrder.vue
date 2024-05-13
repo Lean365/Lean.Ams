@@ -8,7 +8,8 @@
 <template>
   <div>
     <!-- 查询区域 -->
-    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
+    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent
+      label-width="auto">
       <el-form-item label="生产工厂" prop="moPlant">
         <el-select filterable clearable v-model="queryParams.moPlant" :placeholder="$t('btn.select')+'生产工厂'">
           <el-option v-for="item in   options.app_plant_list " :key="item.dictValue" :label="item.dictLabel"

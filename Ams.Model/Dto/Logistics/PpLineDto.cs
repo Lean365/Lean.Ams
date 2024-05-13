@@ -5,7 +5,7 @@ namespace Ams.Model.Dto
     /// 生产班组
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/9 15:07:59
+    /// @Date: 2024/5/11 16:57:00
     /// </summary>
     public class PpLineQueryDto : PagerInfo 
     {
@@ -18,7 +18,7 @@ namespace Ams.Model.Dto
     /// 生产班组
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/9 15:07:59
+    /// @Date: 2024/5/11 16:57:00
     /// </summary>
     public class PpLineDto
     {
@@ -79,7 +79,7 @@ namespace Ams.Model.Dto
     /// 生产班组
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/9 15:07:59
+    /// @Date: 2024/5/11 16:57:00
     /// </summary>
     public class PpLineImportTpl
     {

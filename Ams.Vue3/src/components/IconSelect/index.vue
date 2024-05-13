@@ -1,6 +1,7 @@
 <template>
   <div class="icon-body">
-    <el-input v-model="iconName" style="position: relative" clearable placeholder="请输入图标名称" @clear="filterIcons" @input="filterIcons">
+    <el-input v-model="iconName" style="position: relative" clearable
+      :placeholder="$t('btn.enter')+'Icon'+$t('common.name')" @clear="filterIcons" @input="filterIcons">
       <template #prefix>
         <el-icon class="el-input__icon">
           <search />
@@ -13,7 +14,7 @@
       </template>
     </el-input>
     <el-tabs v-model="activeName">
-      <el-tab-pane label="svg-icon" name="1">
+      <el-tab-pane label="Awesome Icons" name="1">
         <div class="icon-list">
           <div class="icon-item mb10" v-for="(item, index) in iconList" :key="index" @click="selectedIcon(item, '')">
             <svg-icon :name="item" style="height: 20px; width: 20px" />
@@ -21,7 +22,7 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="Element-UI Icons" name="2">
+      <el-tab-pane label="Element Icons" name="2">
         <div class="icon-list">
           <div class="icon-item mb10" v-for="item of elementIcons" :key="item" @click="selectedIcon(item, 'ele-')">
             <svg-icon :name="'ele-' + item" style="height: 25px; width: 25px" />
@@ -29,10 +30,10 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="网络图" name="3">
-        <el-input v-model="iconName" placeholder="请输入网络路径">
+      <el-tab-pane :label="$t('pcomponents.networkIcon')" name="3">
+        <el-input v-model="iconName" :placeholder="$t('btn.enter')+$t('pcomponents.networkIconUrls')">
           <template #append>
-            <el-button type="primary" @click="selectedImgIcon()">确定</el-button>
+            <el-button type="primary" @click="selectedImgIcon()">{{$t('btn.submit')}}</el-button>
           </template>
         </el-input>
       </el-tab-pane>
@@ -41,70 +42,71 @@
 </template>
 
 <script setup>
-import icons from './requireIcons'
-import * as elIcons from '@element-plus/icons-vue'
+  import icons from './requireIcons'
+  import * as elIcons from '@element-plus/icons-vue'
 
-const elementIcons = ref([])
-const elementIconList = ref([])
-for (const key in elIcons) {
-  elementIcons.value.push(key)
-  elementIconList.value.push(key)
-}
-// 搜索的图标名
-const iconName = ref('')
-const iconList = ref(icons)
-const activeName = ref('1')
-const emit = defineEmits(['selected'])
-
-function filterIcons() {
-  if (iconName.value) {
-    iconList.value = icons.filter((item) => item.indexOf(iconName.value) !== -1)
-    elementIcons.value = elementIconList.value.filter((item) => item.toLocaleLowerCase().indexOf(iconName.value.toLocaleLowerCase()) !== -1)
-  } else {
-    iconList.value = icons
-    elementIcons.value = elementIconList.value
+  const elementIcons = ref([])
+  const elementIconList = ref([])
+  for (const key in elIcons) {
+    elementIcons.value.push(key)
+    elementIconList.value.push(key)
   }
-}
+  // 搜索的图标名
+  const iconName = ref('')
+  const iconList = ref(icons)
+  const activeName = ref('1')
+  const emit = defineEmits(['selected'])
 
-function selectedIcon(name, prefix) {
-  const iconName = prefix != undefined ? prefix + name : name
-  emit('selected', iconName)
-  document.body.click()
-}
+  function filterIcons() {
+    if (iconName.value) {
+      iconList.value = icons.filter((item) => item.indexOf(iconName.value) !== -1)
+      elementIcons.value = elementIconList.value.filter((item) => item.toLocaleLowerCase().indexOf(iconName.value.toLocaleLowerCase()) !== -1)
+    } else {
+      iconList.value = icons
+      elementIcons.value = elementIconList.value
+    }
+  }
 
-function selectedImgIcon() {
-  emit('selected', iconName.value)
-  document.body.click()
-}
-function reset() {
-  iconName.value = ''
-  iconList.value = icons
-}
+  function selectedIcon(name, prefix) {
+    const iconName = prefix != undefined ? prefix + name : name
+    emit('selected', iconName)
+    document.body.click()
+  }
 
-defineExpose({
-  reset
-})
+  function selectedImgIcon() {
+    emit('selected', iconName.value)
+    document.body.click()
+  }
+  function reset() {
+    iconName.value = ''
+    iconList.value = icons
+  }
+
+  defineExpose({
+    reset
+  })
 </script>
 
 <style lang="scss" scoped>
-.icon-body {
-  width: 100%;
-  padding: 10px;
-  .icon-list {
-    overflow-y: scroll;
-    display: grid;
-    flex-wrap: wrap;
-    height: 200px;
-    grid-template-columns: repeat(5, 90px);
+  .icon-body {
+    width: 100%;
+    padding: 10px;
 
-    .icon-item {
-      cursor: pointer;
-      text-align: center;
+    .icon-list {
+      overflow-y: scroll;
+      display: grid;
+      flex-wrap: wrap;
+      height: 200px;
+      grid-template-columns: repeat(5, 90px);
 
-      .name {
-        font-size: 11px;
+      .icon-item {
+        cursor: pointer;
+        text-align: center;
+
+        .name {
+          font-size: 11px;
+        }
       }
     }
   }
-}
 </style>

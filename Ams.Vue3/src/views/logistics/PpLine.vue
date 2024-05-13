@@ -1,13 +1,14 @@
 <!--
  * @Descripttion: 生产班组/pp_line
- * @Version: 0.24.495.26722
+ * @Version: 0.24.496.21025
  * @Author: Lean365(Davis.Ching)(Davis.Ching)
- * @Date: 2024/5/9 15:07:59
+ * @Date: 2024/5/11 16:57:00
+ * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
   <div>
     <!-- 查询区域 -->
-    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
+    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-form-item label="班组类别" prop="plLineType">
         <el-select filterable clearable   remote remote-show-suffix :remote-method="remoteMethod" :loading="loading " v-model="queryParams.plLineType" :placeholder="$t('btn.select')+'班组类别'">
           <el-option v-for="item in   remotequery_sys_line_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
@@ -96,8 +97,10 @@
       <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
+          <el-button-group>
           <el-button type="success" plain size="small" icon="edit" :title="$t('btn.edit')" v-hasPermi="['pp:line:edit']" @click="handleUpdate(scope.row)"></el-button>
           <el-button type="danger" plain size="small" icon="delete" :title="$t('btn.delete')" v-hasPermi="['pp:line:delete']" @click="handleDelete(scope.row)"></el-button>
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
@@ -511,7 +514,7 @@ function reset() {
 function handleAdd() {
   reset();
   open.value = true
-  title.value = proxy.$t('btn.add')+'生产班组'
+  title.value = proxy.$t('btn.add')+" "+'生产班组'
   opertype.value = 1
   form.value.createTime= new Date()
   form.value.updateTime= new Date()
@@ -524,7 +527,7 @@ function handleUpdate(row) {
     const { code, data } = res
     if (code == 200) {
       open.value = true
-      title.value = proxy.$t('btn.edit')+ '生产班组'
+      title.value = proxy.$t('btn.edit')+" "+ '生产班组'
       opertype.value = 2
 
       form.value = {
@@ -541,13 +544,13 @@ function submitForm() {
 
       if (form.value.plSFID != undefined && opertype.value === 2) {
         updatePpLine(form.value).then((res) => {
-         proxy.$modal.msgSuccess(proxy.$t('common.Modicompleted'))
+         proxy.$modal.msgSuccess(proxy.$t('common.editSucceed'))
           open.value = false
           getList()
         })
       } else {
         addPpLine(form.value).then((res) => {
-             proxy.$modal.msgSuccess(proxy.$t('common.Newcompleted'))
+             proxy.$modal.msgSuccess(proxy.$t('common.addSucceed'))
             open.value = false
             getList()
           })
@@ -571,7 +574,7 @@ function handleDelete(row) {
     })
     .then(() => {
       getList()
-      proxy.$modal.msgSuccess(proxy.$t('common.Delcompleted'))
+      proxy.$modal.msgSuccess(proxy.$t('common.deleteSucceed'))
     })
 }
 

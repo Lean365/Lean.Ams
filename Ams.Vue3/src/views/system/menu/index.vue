@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
-      <el-form-item :label="$t('m.parentMenu')" prop="parentId">
+      <el-form-item :label="$t('pmenu.parentMenu')" prop="parentId">
         <el-cascader class="w100" :options="menuQueryOptions"
           :props="{ checkStrictly: true, value: 'menuId', label: 'menuName', emitPath: false }" placeholder="请选择上级菜单"
           clearable v-model="queryParams.parentId">
@@ -11,16 +11,16 @@
           </template>
         </el-cascader>
       </el-form-item>
-      <el-form-item :label="$t('m.menuName')" prop="menuName">
+      <el-form-item :label="$t('pmenu.menuName')" prop="menuName">
         <el-input v-model="queryParams.menuName" placeholder="请输入菜单名称" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item :label="$t('m.menuState')" prop="isStated">
+      <el-form-item :label="$t('pmenu.menuState')" prop="isStated">
         <el-select v-model="queryParams.isStated" placeholder="菜单状态" clearable>
           <el-option v-for="dict in sys_normal_disable" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
       </el-form-item>
-      <el-form-item :label="$t('m.isShow')" prop="visible">
+      <el-form-item :label="$t('pmenu.isShow')" prop="visible">
         <el-select v-model="queryParams.visible" placeholder="显示状态" clearable>
           <el-option v-for="dict in sys_show_hide" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
@@ -51,25 +51,26 @@
       }" :row-config="{
         keyField: 'menuId'
       }" :scroll-y="{ enabled: true, gt: 20 }" :data="menuList">
-      <vxe-column field="menuName" :title="$t('m.menuName')" tree-node width="160"> </vxe-column>
-      <vxe-column field="menuId" :title="$t('m.menuid')" width="90"></vxe-column>
-      <vxe-column field="icon" :title="$t('m.icon')" align="center" width="60">
+      <vxe-column field="menuName" :title="$t('pmenu.menuName')" tree-node width="160"> </vxe-column>
+      <vxe-column field="menuId" :title="$t('pmenu.menuid')" width="90"></vxe-column>
+      <vxe-column field="icon" :title="$t('pmenu.icon')" align="center" width="60">
         <template #default="{ row }">
           <svg-icon :name="row.icon"></svg-icon>
         </template>
       </vxe-column>
-      <vxe-column field="menuType" :title="$t('m.menuType')" align="center" width="80">
+      <vxe-column field="menuType" :title="$t('pmenu.menuType')" align="center" width="80">
         <template #default="scope">
           <el-tag :disable-transitions="true" type="danger"
-            v-if="scope.row.menuType == 'M' && scope.row.isFrame == 1">{{ $t('m.link') }}</el-tag>
-          <el-tag :disable-transitions="true" v-else-if="scope.row.menuType == 'C'">{{ $t('m.menu') }}</el-tag>
-          <el-tag :disable-transitions="true" type="success" v-else-if="scope.row.menuType == 'M'">{{ $t('m.directory')
+            v-if="scope.row.menuType == 'M' && scope.row.isFrame == 1">{{ $t('pmenu.link') }}</el-tag>
+          <el-tag :disable-transitions="true" v-else-if="scope.row.menuType == 'C'">{{ $t('pmenu.menu') }}</el-tag>
+          <el-tag :disable-transitions="true" type="success" v-else-if="scope.row.menuType == 'M'">{{
+            $t('pmenu.directory')
             }}</el-tag>
-          <el-tag :disable-transitions="true" type="warning" v-else-if="scope.row.menuType == 'F'">{{ $t('m.button')
+          <el-tag :disable-transitions="true" type="warning" v-else-if="scope.row.menuType == 'F'">{{ $t('pmenu.button')
             }}</el-tag>
         </template>
       </vxe-column>
-      <vxe-column field="orderNum" :title="$t('m.sort')" width="90" sortable align="center"
+      <vxe-column field="orderNum" :title="$t('pmenu.sort')" width="90" sortable align="center"
         v-if="columns.showColumn('orderNum')">
         <template #default="scope">
           <span v-show="editIndex != scope.row.menuId" @click="editCurrRow(scope.row.menuId)">{{ scope.row.orderNum
@@ -78,14 +79,14 @@
             @blur="handleChangeSort(scope.row)"></el-input>
         </template>
       </vxe-column>
-      <vxe-column field="perms" :title="$t('m.authorityID')" show-overflow="title"></vxe-column>
-      <vxe-column field="component" :title="$t('m.componentPath')" show-overflow></vxe-column>
-      <vxe-column field="visible" :title="$t('m.isShow')" width="90" align="center">
+      <vxe-column field="perms" :title="$t('pmenu.authorityID')" show-overflow="title"></vxe-column>
+      <vxe-column field="component" :title="$t('pmenu.componentPath')" show-overflow></vxe-column>
+      <vxe-column field="visible" :title="$t('pmenu.isShow')" width="90" align="center">
         <template #default="scope">
           <dict-tag :options="sys_show_hide" :value="scope.row.visible" />
         </template>
       </vxe-column>
-      <vxe-column field="isStated" :title="$t('m.menuState')" width="80" align="center">
+      <vxe-column field="isStated" :title="$t('pmenu.menuState')" width="80" align="center">
         <template #default="scope">
           <dict-tag :options="sys_normal_disable" :value="scope.row.isStated" />
         </template>
@@ -96,17 +97,18 @@
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </vxe-column>
-      <vxe-column :title="$t('btn.operate')" align="center" width="140">
+      <vxe-column :title="$t('btn.operation')" align="center" width="200">
         <template #default="scope">
           <el-button-group>
-            <el-button text size="small" icon="Edit" @click="handleUpdate(scope.row)"
-              v-hasPermi="['system:menu:edit']"></el-button>
-            <el-button text size="small" icon="Plus" @click="handleAdd(scope.row)"
-              v-hasPermi="['system:menu:add']"></el-button>
-            <el-button text size="small" icon="Delete" @click="handleDelete(scope.row)"
-              v-hasPermi="['system:menu:remove']"></el-button>
-            <el-button text type="danger" plain size="small" icon="Delete" @click="handleDeleteAll(scope.row)">
-              所有</el-button>
+            <el-button type="success" plain size="small" icon="Edit" @click="handleUpdate(scope.row)"
+              v-hasPermi="['system:menu:edit']" :title="$t('btn.edit')"></el-button>
+            <el-button type="primary" plain size="small" icon="Plus" @click="handleAdd(scope.row)"
+              v-hasPermi="['system:menu:add']" :title="$t('btn.add')"></el-button>
+            <el-button type="danger" plain size="small" icon="Delete" @click="handleDelete(scope.row)"
+              v-hasPermi="['system:menu:remove']" :title="$t('btn.delete')"></el-button>
+            <el-button color="#c45656" plain size="small" icon="DeleteFilled" @click="handleDeleteAll(scope.row)"
+              :title="$t('layout.all')">
+            </el-button>
           </el-button-group>
         </template>
       </vxe-column>
@@ -116,7 +118,7 @@
       <el-form ref="menuRef" :model="form" :rules="rules" label-width="auto">
         <el-row>
           <el-col :lg="24">
-            <el-form-item :label="$t('m.parentMenu')">
+            <el-form-item :label="$t('pmenu.parentMenu')">
               <el-cascader class="w100" :options="menuOptions"
                 :props="{ checkStrictly: true, value: 'menuId', label: 'menuName', emitPath: false }"
                 placeholder="请选择上级菜单" clearable v-model="form.parentId">
@@ -128,16 +130,16 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item :label="$t('m.menuType')" prop="menuType">
+            <el-form-item :label="$t('pmenu.menuType')" prop="menuType">
               <el-radio-group v-model="form.menuType">
-                <el-radio value="M">{{ $t('m.directory') }}</el-radio>
-                <el-radio value="C">{{ $t('m.menu') }}</el-radio>
-                <el-radio value="F">{{ $t('m.button') }}</el-radio>
+                <el-radio value="M">{{ $t('pmenu.directory') }}</el-radio>
+                <el-radio value="C">{{ $t('pmenu.menu') }}</el-radio>
+                <el-radio value="F">{{ $t('pmenu.button') }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item :label="$t('m.menuName')" prop="menuName">
+            <el-form-item :label="$t('pmenu.menuName')" prop="menuName">
               <el-input v-model="form.menuName" placeholder="请输入菜单名称" />
             </el-form-item>
           </el-col>
@@ -150,14 +152,14 @@
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  {{ $t('m.menuNameKey') }}
+                  {{ $t('pmenu.menuNameKey') }}
                 </span>
               </template>
               <el-input v-model="form.menuNameKey" placeholder="请输入菜单名翻译key" />
             </el-form-item>
           </el-col>
           <el-col :lg="12" v-if="form.menuType != 'F'">
-            <el-form-item :label="$t('m.icon')" prop="icon">
+            <el-form-item :label="$t('pmenu.icon')" prop="icon">
               <el-popover placement="bottom-start" :width="540" trigger="click">
                 <template #reference>
                   <el-input v-model="form.icon" placeholder="点击选择图标" readonly>
@@ -174,7 +176,7 @@
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item :label="$t('m.sort')" prop="orderNum">
+            <el-form-item :label="$t('pmenu.sort')" prop="orderNum">
               <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
             </el-form-item>
           </el-col>
@@ -187,7 +189,7 @@
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  {{ $t('m.isFrame') }}
+                  {{ $t('pmenu.isFrame') }}
                 </span>
               </template>
               <el-radio-group v-model="form.isFrame">
@@ -205,7 +207,7 @@
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  {{ $t('m.routePath') }}
+                  {{ $t('pmenu.routePath') }}
                 </span>
               </template>
               <el-input v-model="form.path" placeholder="请输入路由地址" />
@@ -220,7 +222,7 @@
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  {{ $t('m.componentPath') }}
+                  {{ $t('pmenu.componentPath') }}
                 </span>
               </template>
               <el-input v-model="form.component" placeholder="请输入组件路径">
@@ -241,7 +243,7 @@
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  {{ $t('m.permissionStr') }}
+                  {{ $t('pmenu.permissionStr') }}
                 </span>
               </template>
             </el-form-item>
@@ -268,7 +270,7 @@
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  {{ $t('m.isCache') }}
+                  {{ $t('pmenu.isCache') }}
                 </span>
               </template>
               <el-radio-group v-model="form.isCache">
@@ -286,7 +288,7 @@
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  {{ $t('m.isShow') }}
+                  {{ $t('pmenu.isShow') }}
                 </span>
               </template>
               <el-radio-group v-model="form.visible">
@@ -304,7 +306,7 @@
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  {{ $t('m.menuState') }}
+                  {{ $t('pmenu.menuState') }}
                 </span>
               </template>
               <el-radio-group v-model="form.isStated">

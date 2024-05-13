@@ -12,8 +12,8 @@
       <header-search class="right-menu-item" />
       <Notice :title="$t('layout.notice')" class="right-menu-item" />
       <template v-if="appStore.device == 'desktop'">
-        <zr-git :title="$t('layout.codeSourceAddress')" class="right-menu-item" />
-        <zr-doc :title="$t('layout.helpguide')" class="right-menu-item" />
+        <AmsGit :title="$t('layout.codeSourceAddress')" class="right-menu-item" />
+        <AmsDoc :title="$t('layout.helpguide')" class="right-menu-item" />
         <screenfull :title="$t('layout.fullscreen')" class="right-menu-item" />
       </template>
       <size-select :title="$t('layout.sizeSelect')" class="right-menu-item" />
@@ -48,9 +48,7 @@
         </el-dropdown>
       </div>
       <div class="right-menu-item mr10" @click="handleCommand('setLayout')">
-        <el-icon>
-          <Setting />
-        </el-icon>
+        <svg-icon name="theme"></svg-icon>
       </div>
     </div>
   </div>
@@ -63,8 +61,8 @@
   import Screenfull from '@/components/Screenfull'
   import SizeSelect from '@/components/SizeSelect'
   import HeaderSearch from '@/components/HeaderSearch'
-  import ZrGit from '@/components/Zr/Git'
-  import ZrDoc from '@/components/Zr/Doc'
+  import AmsGit from '@/components/Ams/Git'
+  import AmsDoc from '@/components/Ams/Doc'
   import Notice from '@/components/Notice/Index'
   import LangSelect from '@/components/LangSelect/index'
   import useAppStore from '@/store/modules/app'

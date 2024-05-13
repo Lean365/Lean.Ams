@@ -1,5 +1,4 @@
-﻿using Ams.Infrastructure.Helper;
-using Ams.Kernel.Model.Dto;
+﻿using Ams.Kernel.Model.Dto;
 using Ams.Kernel.Model.Dto.Login;
 using Lazy.Captcha.Core;
 using Microsoft.AspNetCore.Mvc;
@@ -288,21 +287,22 @@ namespace Ams.WebApi.Controllers.System
 
             string location = HttpContextExtension.GetIpInfo(dto.LoginIP);
 
-            var smsCode = RandomHelper.GeneratorNum(6);
-            var smsContent = $"验证码{smsCode},有效期10分钟。";
-            //TODO 发送短息验证码,1分钟内允许一次
-            _LogSmsService.AddLogSms(new Kernel.Model.Monitor.LogSms()
+            //var smsCode = RandomHelper.GeneratorNum(6);
+            //var smsContent = $"验证码{smsCode},有效期10分钟。";
+            ////TODO 发送短息验证码,1分钟内允许一次
+            //_LogSmsService.AddLogSms(new Kernel.Model.Monitor.LogSms()
+            _LogSmsService.AddLogSms(new LogSms()
             {
                 Userid = uid,
                 PhoneNum = dto.PhoneNum.ParseToLong(),
                 SendType = dto.SendType,
-                SmsCode = smsCode,
-                SmsContent = smsContent,
+                //SmsCode = smsCode,
+                //SmsContent = smsContent,
                 UserIP = dto.LoginIP,
                 Location = location,
             });
 
-            CacheService.SetPhoneCode(dto.PhoneNum, smsCode);
+            //CacheService.SetPhoneCode(dto.PhoneNum, smsCode);
 
             return SUCCESS(1);
         }

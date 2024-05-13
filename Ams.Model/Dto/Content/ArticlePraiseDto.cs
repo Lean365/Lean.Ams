@@ -1,4 +1,4 @@
-﻿namespace Ams.Model.Dto
+﻿namespace Ams.Model.Dto.Content
 {
     /// <summary>
     /// 点赞记录

@@ -67,5 +67,14 @@ namespace Ams.Kernel.Model.Dto.Routine
 
         [ExcelColumn(Name = "公告状态")]
         public string StatusLabel { get; set; }
+
+        [ExcelColumn(Name = "开始时间")]
+        public DateTime BeginTime { get; set; }
+
+        [ExcelColumn(Name = "结束时间")]
+        public DateTime EndTime { get; set; }
+
+        [ExcelColumn(Name = "发布者")]
+        public string Publisher { get; set; }
     }
 }

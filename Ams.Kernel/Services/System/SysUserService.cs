@@ -89,7 +89,7 @@ namespace Ams.Kernel.Services.System
         /// <returns></returns>
         public string CheckUserNameUnique(string userName)
         {
-            int count = Count(it => it.UserName == userName);
+            int count = Count(it => it.UserName == userName && it.IsDeleted == 0);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;

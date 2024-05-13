@@ -4,7 +4,7 @@
     <el-dialog v-model="open" width="500" @close="close">
       <el-select style="width: 100%" ref="headerSearchSelectRef" size="large" v-model="search"
         :remote-method="querySearch" filterable default-first-option remote popper-class="header-search-select"
-        placement="bottom" placeholder="菜单搜索，支持标题、URL模糊查询" @change="change">
+        placement="bottom" :placeholder="$t('layout.headerSearch')" @change="change">
         <template #prefix>
           <el-icon color="#409EFC" class="no-inherit">
             <Search />

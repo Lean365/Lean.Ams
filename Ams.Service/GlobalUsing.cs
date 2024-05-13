@@ -7,5 +7,8 @@ global using Ams.Infrastructure.Extensions;
 global using Ams.Infrastructure.WebExtensions;
 global using Ams.Kernel;
 global using Ams.Kernel.Model;
+
+global using Ams.Model.Content;
+global using Ams.Model.Dto.Content;
 global using Newtonsoft.Json;
 global using SqlSugar;

@@ -147,7 +147,7 @@ namespace Ams.Kernel.Signalr
                         Location = user?.Location,
                         OnlineTime = user.OnlineTime,
                         UserIP = user.UserIP,
-                        TodayOnlineTime = userInfo.TodayOnlineTime,
+                        TodayOnlineTime = Math.Round(userInfo.TodayOnlineTime, 2),
                         Platform = user.Platform,
                         Remark = user.Browser,
                         LoginTime = user.LoginTime,
