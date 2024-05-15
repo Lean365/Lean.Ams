@@ -40,7 +40,7 @@
     "monitorOperLog": "業務ログ",
     "monitorService": "サービス",
     "monitorSmsLog": "SMS認証",
-    "monitorSqldiffLog": "SQL",
+    "monitorSqldiffLog": "SQL差分",
     "monitorTaskLog": "タスク",
     "montiorCache": "キャッシュ",
     "routine": "オフィス",
