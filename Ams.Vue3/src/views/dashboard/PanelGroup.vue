@@ -7,7 +7,7 @@
             style="--fa-animation-duration: 3s;font-size: 3em; color: rgb(245, 164, 6);"></i>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text" v-waves>{{ $t('layout.onlineUsers') }}</div>
+          <div class="card-panel-text" v-waves>{{ $t('layout.loginOnlineUsers') }}</div>
           <div id="onlineNum" class="card-panel-num">{{ state.onlineUserNum }}</div>
         </div>
       </div>
@@ -19,12 +19,12 @@
             style="--fa-animation-duration: 3s;font-size: 3em; color: rgb(23, 2, 82);"></i>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text" v-waves>{{ $t('layout.costTotal') }}</div>
+          <div class="card-panel-text" v-waves>{{ $t('layout.echartCostTotal') }}</div>
           <div id="costTotal" class="card-panel-num">{{ state.costTotal }}</div>
         </div>
 
         <div class="card-panel-description">
-          <div class="card-panel-text" v-waves>{{ $t('layout.stockAmount') }}</div>
+          <div class="card-panel-text" v-waves>{{ $t('layout.echartStockAmount') }}</div>
           <div class="card-panel-num" id="stockAmount">{{ state.stockAmount }}</div>
         </div>
       </div>
@@ -36,11 +36,11 @@
             style="--fa-animation-duration: 3s;font-size: 3em; color: rgb(129, 6, 245);"></i>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text" v-waves>{{ $t('layout.shipment') }}</div>
+          <div class="card-panel-text" v-waves>{{ $t('layout.echartShipment') }}</div>
           <div id="Shipment" class="card-panel-num">{{ state.shipment }}</div>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text" v-waves>{{ $t('layout.salesAmount') }}</div>
+          <div class="card-panel-text" v-waves>{{ $t('layout.echartSalesAmount') }}</div>
           <div class="card-panel-num" id="salesAmount">{{ state.salesAmount }}</div>
         </div>
       </div>
@@ -52,15 +52,15 @@
             style="--fa-animation-duration: 3s;font-size: 3em; color: rgb(2, 65, 23);"></i>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text" v-waves>{{ $t('layout.poorProduction') }}</div>
+          <div class="card-panel-text" v-waves>{{ $t('layout.echartPoorProduction') }}</div>
           <div id="PoorProduction" class="card-panel-num">{{ state.poorProduction }}</div>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text" v-waves>{{ $t('layout.production') }}</div>
+          <div class="card-panel-text" v-waves>{{ $t('layout.echartProduction') }}</div>
           <div id="production" class="card-panel-num">{{ state.production }}</div>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text" v-waves>{{ $t('layout.ecCount') }}</div>
+          <div class="card-panel-text" v-waves>{{ $t('layout.echartEcCount') }}</div>
           <div id="ecCount" class="card-panel-num">{{ state.ecCount }}</div>
         </div>
       </div>

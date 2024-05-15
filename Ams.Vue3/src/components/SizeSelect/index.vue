@@ -21,13 +21,13 @@
 
   const { proxy } = getCurrentInstance()
   const sizeOptions = ref([
-    { label: proxy.$t('layout.large'), value: 'large' },
+    { label: proxy.$t('layout.headerLarge'), value: 'large' },
     { label: proxy.$t('layout.default'), value: 'default' },
-    { label: proxy.$t('layout.small'), value: 'small' }
+    { label: proxy.$t('layout.headerSmall'), value: 'small' }
   ])
 
   function handleSetSize(size) {
-    proxy.$modal.loading('正在设置布局大小，请稍候...')
+    proxy.$modal.loading(proxy.$t('layout.headerSizeSetting'))
     appStore.setSize(size)
     setTimeout('window.location.reload()', 1000)
   }

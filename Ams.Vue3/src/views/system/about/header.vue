@@ -4,15 +4,15 @@
       <i class="el-icon-time mr5"></i>
       <!-- <span>{{ state.time.txt }}</span> -->
 
-      <span>{{ $t('layout.nowMoment') }}:</span>
+      <span>{{ $t('layout.dateNowMoment') }}:</span>
       <span> {{ nowTime }} </span>
-      <span> [{{ $t('layout.cst') }} ({{ timezone }}): </span>
+      <span> [{{ $t('layout.dateCst') }} ({{ timezone }}): </span>
       <span> {{ nowDate }} ]</span>
-      <span> ({{ nowYear }},{{ $t('layout.quarterth') }}{{ nowQuarter }}{{ $t('layout.quarteris') }}{{
-        $t('layout.weekth')}}{{ nowWeek }}{{
-        $t('layout.weekis')}}{{
-        $t('layout.dayth')}}{{ nowDay }}{{
-        $t('layout.dayis')}})</span>
+      <span> ({{ nowYear }},{{ $t('layout.dateQuarterth') }}{{ nowQuarter }}{{ $t('layout.dateQuarteris') }}{{
+        $t('layout.dateWeekth')}}{{ nowWeek }}{{
+        $t('layout.dateWeekis')}}{{
+        $t('layout.dateDayth')}}{{ nowDay }}{{
+        $t('layout.dateDayis')}})</span>
     </div>
 
   </div>

@@ -6,38 +6,38 @@
     <div class="card mb10">
       <h4 class="title"> {{ $t('layout.projectInfo') }}</h4>
       <el-descriptions :column="2" border>
-        <el-descriptions-item :label=" $t('layout.currentVersion')" label-align="left">
+        <el-descriptions-item :label=" $t('layout.projectCurrentVersion')" label-align="left">
           <el-tag type="danger">
             {{ version }}
           </el-tag>
         </el-descriptions-item>
-        <el-descriptions-item :label=" $t('layout.lastBulid')" label-align="left">
+        <el-descriptions-item :label=" $t('layout.projectLastBulid')" label-align="left">
           <el-tag type="success">
             {{ lastBuildTime }}
           </el-tag>
         </el-descriptions-item>
         <el-descriptions-item label="Gitee" label-align="left">
-          <el-link type="warning" :underline="false" href="https://gitee.com/leansoft365/LaplaceNet" target="_blank">
+          <el-link type="warning" :underline="false" href="https://gitee.com/leansoft365/Lean.Ams" target="_blank">
             Gitee
           </el-link>
         </el-descriptions-item>
         <el-descriptions-item label="Github" label-align="left">
-          <el-link type="warning" :underline="false" href="https://github.com/Lean365/LaplaceNet" target="_blank">
+          <el-link type="warning" :underline="false" href="https://github.com/Lean365/Lean.Ams" target="_blank">
             Github </el-link>
         </el-descriptions-item>
-        <el-descriptions-item :label=" $t('layout.helpguide')" label-align="left">
+        <el-descriptions-item :label=" $t('layout.headerGuide')" label-align="left">
           <el-link type="primary" :underline="false" href="https://leansoft365.github.io/" target="_blank">
-            Leansoft365
+            Lean365
           </el-link>
         </el-descriptions-item>
         <el-descriptions-item :label=" $t('btn.preview')" label-align="left">
-          <el-link type="primary" :underline="false" href="leansoft365" target="_blank">
+          <el-link type="primary" :underline="false" href="https://lean365.cn/ams" target="_blank">
             Ams</el-link>
         </el-descriptions-item>
       </el-descriptions>
     </div>
     <div class="card mb10">
-      <h4 class="title">{{ $t('layout.dependencies') }}</h4>
+      <h4 class="title">{{ $t('layout.projectDependencies') }}</h4>
       <el-descriptions :column="4" border>
         <el-descriptions-item v-for="(value, key) in dependencies" :key="key" width="400px" :label="key">
           <el-tag type="warning">
@@ -47,7 +47,7 @@
       </el-descriptions>
     </div>
     <div class="card">
-      <h4 class="title">{{ $t('layout.devDependencies') }}</h4>
+      <h4 class="title">{{ $t('layout.projectDevDependencies') }}</h4>
       <el-descriptions :column="4" border>
         <el-descriptions-item v-for="(value, key) in devDependencies" :key="key" width="400px" :label="key">
           <el-tag type="danger">

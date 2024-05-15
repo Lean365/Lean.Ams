@@ -10,14 +10,14 @@
 
     <div class="right-menu">
       <header-search class="right-menu-item" />
-      <Notice :title="$t('layout.notice')" class="right-menu-item" />
+      <Notice :title="$t('layout.headerNotice')" class="right-menu-item" />
       <template v-if="appStore.device == 'desktop'">
-        <AmsGit :title="$t('layout.codeSourceAddress')" class="right-menu-item" />
-        <AmsDoc :title="$t('layout.helpguide')" class="right-menu-item" />
-        <screenfull :title="$t('layout.fullscreen')" class="right-menu-item" />
+        <AmsGit :title="$t('layout.headerGithub')" class="right-menu-item" />
+        <AmsDoc :title="$t('layout.headerGuide')" class="right-menu-item" />
+        <screenfull :title="$t('layout.headerFullscreen')" class="right-menu-item" />
       </template>
-      <size-select :title="$t('layout.sizeSelect')" class="right-menu-item" />
-      <LangSelect :title="$t('layout.multiLanguage')" class="right-menu-item" />
+      <size-select :title="$t('layout.headerSizeSelect')" class="right-menu-item" />
+      <LangSelect :title="$t('layout.headerMultiLanguage')" class="right-menu-item" />
 
       <div class="right-menu-item">
         <el-dropdown @command="handleCommand" trigger="click" style="vertical-align: middle">
@@ -29,16 +29,16 @@
           <template #dropdown>
             <el-dropdown-menu>
               <router-link to="/user/profile">
-                <el-dropdown-item>{{ $t('layout.personalCenter') }}</el-dropdown-item>
+                <el-dropdown-item>{{ $t('layout.headerPersonalCenter') }}</el-dropdown-item>
               </router-link>
               <!-- <el-dropdown-item command="setLayout">
                 <span>{{ $t('layout.layoutSetting') }}</span>
               </el-dropdown-item> -->
               <el-dropdown-item command="copyToken" v-if="dev">
-                <span>{{ $t('layout.myToken') }}</span>
+                <span>{{ $t('layout.headerMyToken') }}</span>
               </el-dropdown-item>
               <el-dropdown-item command="clear">
-                <span>{{ $t('layout.cleanCache') }}</span>
+                <span>{{ $t('btn.emptyCache') }}</span>
               </el-dropdown-item>
               <el-dropdown-item divided command="logout">
                 <span>{{ $t('layout.logOut') }}</span>

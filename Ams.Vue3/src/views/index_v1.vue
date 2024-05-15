@@ -19,7 +19,7 @@
               </el-row>
               <el-row>
                 <el-button icon="edit">
-                  <router-link to="/user/profile">{{ $t('layout.modifyInformation') }}</router-link>
+                  <router-link to="/user/profile">{{ $t('layout.headerPersonalModify') }}</router-link>
                 </el-button>
               </el-row>
             </div>
@@ -28,13 +28,13 @@
       </el-col>
       <el-col :lg="6" class="mb10">
         <el-card style="height: 100%">
-          <div class="text-information mb10">{{ $t('layout.localTimeZone') }}:CST UTC+8({{timezone}})
+          <div class="text-information mb10">{{ $t('layout.dateLocalTimeZone') }}:CST UTC+8({{timezone}})
           </div>
-          <div class="text-warning mb10">{{ $t('layout.nowLoginTime') }}:{{nowTime}}
+          <div class="text-warning mb10">{{ $t('layout.loginNowTime') }}:{{nowTime}}
           </div>
-          <div class="text-information mb10">{{ $t('layout.lastLoginTime') }}{{ userInfo.loginDate }}</div>
-          <div class="text-danger mb10">{{ $t('layout.workTime') }}:{{ onlineInfo.todayOnlineTime }}</div>
-          <div class="text-information mb10">{{ $t('layout.onlineClientNum') }}:{{ onlineInfo.clientNum }}</div>
+          <div class="text-information mb10">{{ $t('layout.loginLastTime') }}{{ userInfo.loginDate }}</div>
+          <div class="text-danger mb10">{{ $t('layout.loginDuration') }}:{{ onlineInfo.todayOnlineTime }}</div>
+          <div class="text-information mb10">{{ $t('layout.loginPlatform') }}:{{ onlineInfo.clientNum }}</div>
 
         </el-card>
       </el-col>
@@ -217,7 +217,7 @@
       url: 'system/menu'
     },
     {
-      label: proxy.$t('menu.Accounting'),//'',,menu.accounting
+      label: proxy.$t('menu.accounting'),//'',,menu.accounting
       icon: 'Money',
       name: 'about',
       color: '#706caa',
@@ -266,7 +266,7 @@
       url: 'system/menu'
     },
     {
-      label: proxy.$t('menu.About'),//'',menu.production
+      label: proxy.$t('menu.about'),//'',menu.production
       icon: 'HelpFilled',
       name: 'about',
       color: '#674598',
