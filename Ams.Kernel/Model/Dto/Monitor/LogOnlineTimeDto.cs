@@ -42,9 +42,6 @@ namespace Ams.Kernel.Model.Dto.Monitor
         [ExcelColumnName("在线时长(分)")]
         public double OnlineTime { get; set; }
 
-        [ExcelColumn(Name = "结束时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("结束时间")]
-        public DateTime? createTime { get; set; }
 
         [ExcelColumn(Name = "地址位置")]
         [ExcelColumnName("地址位置")]

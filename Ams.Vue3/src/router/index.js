@@ -73,7 +73,7 @@ export const constantRoutes = [
         path: '/index',
         component: () => import('@/views/index'),
         name: 'Index',
-        meta: { title: '首页', icon: 'm-house', affix: true, titleKey: 'menu.Home' }
+        meta: { title: '首页', icon: 'm-house', affix: true, titleKey: 'menu.home' }
       }
     ]
   },
@@ -87,7 +87,7 @@ export const constantRoutes = [
         path: 'profile',
         component: () => import('@/views/system/user/profile/index'),
         name: 'Profile',
-        meta: { title: '个人中心', icon: 'user', titleKey: 'menu.personalCenter' }
+        meta: { title: '个人中心', icon: 'user', titleKey: 'menu.systempersonalCenter' }
       }
     ]
   }

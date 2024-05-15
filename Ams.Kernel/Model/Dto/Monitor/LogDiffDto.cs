@@ -25,7 +25,7 @@ namespace Ams.Kernel.Model.Dto.Monitor
     /// @Author: Lean365(Davis.Ching)
     /// @Date 2024-01-01
     /// </summary>
-    public class LogDiffDto
+    public class LogDiffDto : SysBase
     {
         [Required(ErrorMessage = "主键不能为空")]
         [ExcelColumn(Name = "主键", Width = 15)]
@@ -52,9 +52,6 @@ namespace Ams.Kernel.Model.Dto.Monitor
 
         [ExcelColumn(Name = "操作用户名")]
         public string UserName { get; set; }
-
-        [ExcelColumn(Name = "记录时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        public DateTime? createTime { get; set; }
 
         [ExcelColumn(Name = "数据库配置id")]
         public string ConfigId { get; set; }

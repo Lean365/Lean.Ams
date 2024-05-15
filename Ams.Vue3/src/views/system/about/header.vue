@@ -6,13 +6,13 @@
 
       <span>{{ $t('layout.nowMoment') }}:</span>
       <span> {{ nowTime }} </span>
-      <span> [{{ $t('layout.CST') }} ({{ timezone }}): </span>
+      <span> [{{ $t('layout.cst') }} ({{ timezone }}): </span>
       <span> {{ nowDate }} ]</span>
       <span> ({{ nowYear }},{{ $t('layout.quarterth') }}{{ nowQuarter }}{{ $t('layout.quarteris') }}{{
         $t('layout.weekth')}}{{ nowWeek }}{{
         $t('layout.weekis')}}{{
-        $t('layout.Dayth')}}{{ nowDay }}{{
-        $t('layout.Dayis')}})</span>
+        $t('layout.dayth')}}{{ nowDay }}{{
+        $t('layout.dayis')}})</span>
     </div>
 
   </div>

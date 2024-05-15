@@ -970,7 +970,7 @@ function handleDelete(row) {
   const Ids = row.${ReplaceDto.FistLowerPk} || ids.value
 
   proxy
-    .${confirm}confirm(proxy.${t}t('common.confirmDel') + Ids + proxy.${t}t('common.confirmDelDataitems'), proxy.${t}t('common.warningTips'), {
+    .${confirm}confirm(proxy.${t}t('common.confirmDel') + Ids + proxy.${t}t('common.confirmDelDataitems'), proxy.${t}t('btn.delete')+' '+proxy.${t}t('common.tips'), {
       confirmButtonText: proxy.${t}t('btn.submit'),
       cancelButtonText: proxy.${t}t('btn.cancel'),
       type: "warning",
@@ -989,7 +989,7 @@ $if(ReplaceDto.ShowBtnTruncate)
 // 清空
 function handleClear() {
   proxy
-     .${confirm}confirm(proxy.${t}t('common.confirmClean'), proxy.${t}t('common.warningTips'), {
+     .${confirm}confirm(proxy.${t}t('common.confirmClean'), proxy.${t}t('btn.truncate')+' '+proxy.${t}t('common.tips'), {
       confirmButtonText: proxy.${t}t('btn.submit'),
       cancelButtonText: proxy.${t}t('btn.cancel'),
       type: "warning",
@@ -1023,7 +1023,7 @@ $if(ReplaceDto.ShowBtnExport)
 // 导出按钮操作
 function handleExport() {
   proxy
-    .${confirm}confirm(proxy.${t}t('common.confirmExport')+"${genTable.functionName}", proxy.${t}t('common.warningTips'), {
+    .${confirm}confirm(proxy.${t}t('common.confirmExport')+"${genTable.functionName}", proxy.${t}t('btn.export')+' '+proxy.${t}t('common.tips'), {
       confirmButtonText: proxy.${t}t('btn.submit'),
       cancelButtonText: proxy.${t}t('btn.cancel'),
       type: "warning",

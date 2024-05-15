@@ -29,6 +29,9 @@
     }
   })
   const { proxy } = getCurrentInstance()
+  /*
+   * 语言选项
+   */
   const langOptions = ref([
     { label: '简体中文', value: 'zh-cn' },
     { label: '繁體中文', value: 'zh-tw' },
@@ -36,7 +39,9 @@
     { label: 'English', value: 'en' },
 
   ])
-
+  /*
+   * 切换语言
+   */
   function handleLanguageChange(lang) {
     proxy.$modal.loading(proxy.$t('layout.switchingLanguage'))
     appStore.setLang(lang)

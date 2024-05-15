@@ -1,71 +1,74 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="登录地址" prop="ipaddr">
-        <el-input v-model="queryParams.ipaddr" placeholder="请输入登录地址" clearable @keyup.enter="handleQuery" />
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="auto">
+      <el-form-item :label="$t('ploginlog.ipaddr')" prop="ipaddr">
+        <el-input v-model="queryParams.ipaddr" :placeholder="$t('btn.enter')+$t('ploginlog.ipaddr')" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="用户名称" prop="userName">
-        <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('ploginlog.userName')" prop="userName">
+        <el-input v-model="queryParams.userName" :placeholder="$t('btn.enter')+$t('ploginlog.userName')" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="登录状态" clearable>
+      <el-form-item :label="$t('ploginlog.isStated')" prop="isStated">
+        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('ploginlog.isStated')" clearable>
           <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
       </el-form-item>
-      <el-form-item label="登录时间">
-        <el-date-picker v-model="dateRange" type="daterange" range-separator="-" start-placeholder="开始日期"
-          end-placeholder="结束日期"></el-date-picker>
+      <el-form-item :label="$t('ploginlog.loginTime')">
+        <el-date-picker v-model="dateRange" type="daterange" range-separator="-"
+          :start-placeholder="$t('btn.dateStart')" :end-placeholder="$t('btn.dateEnd')"></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="search" @click="handleQuery">搜索</el-button>
-        <el-button icon="refresh" @click="resetQuery">重置</el-button>
+        <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+        <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="danger" plain icon="delete" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['monitor:logininfor:remove']">删除</el-button>
+          v-hasPermi="['monitor:logininfor:remove']" :title="$t('btn.delete')">{{$t('btn.delete')}}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" plain icon="delete" @click="handleClean"
-          v-hasPermi="['monitor:logininfor:remove']">清空</el-button>
+        <el-button type="info" plain icon="delete" @click="handleClean" v-hasPermi="['monitor:logininfor:remove']"
+          :title="$t('btn.truncate')">{{$t('btn.truncate')}}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="download" @click="handleExport"
-          v-hasPermi="['system:logininfor:export']">导出</el-button>
+        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['system:logininfor:export']"
+          :title="$t('btn.export')">{{$t('btn.export')}}</el-button>
       </el-col>
       <right-toolbar :showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="list" border @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="访问编号" align="center" prop="infoId" width="80" />
-      <el-table-column label="用户名称" align="center" prop="userName" />
-      <el-table-column label="登录地址" align="center" prop="ipaddr" width="130">
+      <el-table-column label="ID" align="center" prop="infoId" width="80" />
+      <el-table-column :label="$t('ploginlog.userName')" align="center" prop="userName" />
+      <el-table-column :label="$t('ploginlog.ipaddr')" align="center" prop="ipaddr" width="130">
         <template #default="{ row }">
           <div>{{ row.loginLocation }}</div>
           <div>{{ row.ipaddr }}</div>
         </template>
       </el-table-column>
       <!-- <el-table-column label="登录地点" align="center" prop="loginLocation"  /> -->
-      <el-table-column label="浏览器" align="center" prop="browser" />
-      <el-table-column label="操作系统" align="center" prop="os" />
-      <el-table-column label="操作状态" align="center" prop="status">
+      <el-table-column :label="$t('ploginlog.browser')" align="center" prop="browser" />
+      <el-table-column :label="$t('ploginlog.os')" align="center" prop="os" />
+      <el-table-column :label="$t('ploginlog.isStated')" align="center" prop="isStated">
         <template #default="{ row }">
-          <dict-tag :options="statusOptions" :value="row.status"></dict-tag>
+          <dict-tag :options="statusOptions" :value="row.isStated"></dict-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作信息" align="center" prop="msg" />
-      <el-table-column label="登录日期" align="center" prop="loginTime" width="180">
+      <el-table-column :label="$t('ploginlog.msg')" align="center" prop="msg" />
+      <el-table-column :label="$t('ploginlog.loginTime')" align="center" prop="loginTime" width="180">
         <template #default="scope">
           <span>{{ scope.row.loginTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="100" align="center">
+      <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
-          <el-button type="danger" text plain icon="delete" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button type="danger" plain size="small" icon="delete" @click="handleDelete(scope.row)"
+            :title="$t('btn.delete')"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -147,42 +150,42 @@
   function handleDelete(row) {
     const infoIds = row.infoId || ids.value
     proxy
-      .$confirm('是否确认删除访问编号为"' + infoIds + '"的数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.confirmDel') + infoIds + proxy.$t('common.confirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tips'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return delLogLogin(infoIds)
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.deleteSucceed'))
       })
   }
   /** 清空按钮操作 */
   function handleClean() {
     proxy
-      .$confirm('是否确认清空所有登录日志数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.confirmEmpty'), proxy.$t('btn.empty') + ' ' + proxy.$t('common.tips'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return cleanLogLogin()
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess('清空成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.emptySucceed'))
       })
   }
   /** 导出按钮操作 */
   function handleExport() {
     proxy
-      .$confirm('是否确认导出所有操作日志数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.confirmExport') + proxy.$t('ploginlog.loginLog'), proxy.$t('btn.export') + ' ' + proxy.$t('common.tips'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return exportLogLogin(queryParams)

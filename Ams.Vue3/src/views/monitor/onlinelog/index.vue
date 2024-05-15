@@ -6,15 +6,16 @@
 <template>
   <div>
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
-      <el-form-item label="用户id" prop="userId">
-        <el-input v-model.number="queryParams.userId" placeholder="请输入用户id" />
+      <el-form-item :label="$t('psms.userid')" prop="userId">
+        <el-input v-model.number="queryParams.userId" :placeholder="$t('btn.enter')+$t('psms.userid')" />
       </el-form-item>
-      <el-form-item label="用户IP" prop="userIP">
-        <el-input v-model="queryParams.userIP" placeholder="请输入用户IP" />
+      <el-form-item :label="$t('psms.userIP')" prop="userIP">
+        <el-input v-model="queryParams.userIP" :placeholder="$t('btn.enter')+$t('psms.userIP')" />
       </el-form-item>
-      <el-form-item label="结束时间">
-        <el-date-picker v-model="dateRangeAddTime" type="datetimerange" start-placeholder="开始日期" end-placeholder="结束日期"
-          value-format="YYYY-MM-DD HH:mm:ss" :default-time="defaultTime" :shortcuts="dateOptions">
+      <el-form-item :label="$t('btn.datetime')">
+        <el-date-picker v-model="dateRangeAddTime" type="datetimerange" :start-placeholder="$t('btn.dateStart')"
+          :end-placeholder="$t('btn.dateEnd')" value-format="YYYY-MM-DD HH:mm:ss" :default-time="defaultTime"
+          :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -35,23 +36,27 @@
     <el-table :data="dataList" v-loading="loading" ref="table" border header-cell-class-name="el-table-header-cell"
       highlight-current-row @sort-change="sortChange">
       <el-table-column prop="connnectionId" label="Id" v-if="columns.showColumn('id')" />
-      <el-table-column prop="userid" label="用户id" align="center" v-if="columns.showColumn('userId')" />
-      <el-table-column prop="name" label="用户昵称" align="center" />
-      <el-table-column prop="platform" label="登录平台" align="center" />
-      <el-table-column prop="onlineTime" label="在线时长(分)" align="center" v-if="columns.showColumn('onlineTime')" />
-      <el-table-column prop="todayOnlineTime" label="今日在线时长" align="center" v-if="columns.showColumn('onlineTime')" />
-      <el-table-column prop="loginTime" label="结束时间" width="170" :show-overflow-tooltip="true"
+      <el-table-column prop="userid" :label="$t('psms.userid')" align="center" v-if="columns.showColumn('userId')" />
+      <el-table-column prop="name" :label="$t('ploginlog.userName')" align="center" />
+      <el-table-column prop="platform" :label="$t('ploginlog.platform')" align="center" />
+      <el-table-column prop="onlineTime" :label="$t('ploginlog.duration')" align="center"
+        v-if="columns.showColumn('onlineTime')" />
+      <el-table-column prop="todayOnlineTime" :label="$t('ploginlog.todayDuration')" align="center"
+        v-if="columns.showColumn('onlineTime')" />
+      <el-table-column prop="loginTime" :label="$t('ploginlog.loginTime')" width="170" :show-overflow-tooltip="true"
         v-if="columns.showColumn('loginTime')" />
-      <el-table-column prop="location" label="地址位置" align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="createTime" :label="$t('ploginlog.loginTime')" width="170" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('loginTime')" />
+      <el-table-column prop="location" :label="$t('psms.location')" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('location')" />
-      <el-table-column prop="userIP" label="用户IP" align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="userIP" :label="$t('psms.userIP')" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('userIP')" />
-      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="remark" :label="$t('layout.description')" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('remark')" />
-      <el-table-column label="操作" width="90" align="center">
+      <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
-          <el-button type="danger" size="small" icon="delete" title="删除" v-hasPermi="['useronlinelog:delete']"
-            @click="handleDelete(scope.row)"></el-button>
+          <el-button type="danger" plain size="small" icon="delete" :title="$t('btn.delete')"
+            v-hasPermi="['useronlinelog:delete']" @click="handleDelete(scope.row)"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -78,7 +83,7 @@
     { visible: false, prop: 'id', label: 'Id' },
     { visible: true, prop: 'userId', label: '用户id' },
     { visible: true, prop: 'onlineTime', label: '在线时长(分)' },
-    { visible: true, prop: 'addTime', label: '结束时间' },
+    { visible: true, prop: 'loginTime', label: '登录时间' },
     { visible: true, prop: 'location', label: '地址位置' },
     { visible: true, prop: 'userIP', label: '用户IP' },
     { visible: true, prop: 'remark', label: '备注' }
@@ -101,7 +106,7 @@
         dataList.value = data.result
         total.value = data.totalNum
         loading.value = false
-        console.log(dataList.value)
+        //console.log(dataList.value)
       }
     })
   }

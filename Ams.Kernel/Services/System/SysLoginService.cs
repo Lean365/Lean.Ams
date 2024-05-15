@@ -113,7 +113,7 @@ namespace Ams.Kernel.Services.System
         {
             var exp = Expressionable.Create<LogLogin>();
 
-            exp.AndIF(logininfoDto.BeginTime == null, it => it.LoginTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            exp.AndIF(logininfoDto.BeginTime == null, it => it.LoginTime >= new DateTime(DateTime.Now.Year, 1, 1));
             exp.AndIF(logininfoDto.BeginTime != null, it => it.LoginTime >= logininfoDto.BeginTime && it.LoginTime <= logininfoDto.EndTime);
             exp.AndIF(logininfoDto.Ipaddr.IfNotEmpty(), f => f.Ipaddr == logininfoDto.Ipaddr);
             exp.AndIF(logininfoDto.UserName.IfNotEmpty(), f => f.UserName.Contains(logininfoDto.UserName));

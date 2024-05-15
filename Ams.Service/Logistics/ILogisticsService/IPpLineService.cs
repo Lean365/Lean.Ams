@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 生产班组
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/11 16:57:00
+    /// @Date: 2024/5/14 17:35:44
     /// </summary>
     public interface IPpLineService : IBaseService<PpLine>
     {

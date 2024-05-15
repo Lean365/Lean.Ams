@@ -15,7 +15,7 @@
     </el-tooltip>
 
     <el-tooltip class="item" effect="dark"
-      :content="showSearch ? $t('pcomponents.hideSearch') : $t('pcomponents.showSearch')" placement="top">
+      :content="showSearch ? $t('pcomponents.hiddenSearch') : $t('pcomponents.showSearch')" placement="top">
       <el-button circle icon="Search" @click="toggleSearch()" />
     </el-tooltip>
     <el-tooltip class="item" effect="dark" :content="$t('tagsView.refresh')" placement="top">

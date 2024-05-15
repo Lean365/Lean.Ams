@@ -6,10 +6,12 @@
     "noticeType": "Type",
     "noticeContent": "Content",
     "isState": "State",
+    "publisher": "Publisher",
+    "displayTime": "Display Time",
     "createBy": "Creator",
-    "createTime": "Creationdate",
+    "createTime": "Create time",
     "UpdateBy": "Modifier",
-    "UpdateTime": "Modificationdate",
+    "UpdateTime": "Update time",
     "remark": "Remarks",
     "noticeSend": "Notification sent successfully"
   }

@@ -6,6 +6,8 @@
     "noticeType": "类型",
     "noticeContent": "内容",
     "isState": "状态",
+    "publisher": "发布者",
+    "displayTime": "显示时间",
     "createBy": "创建者",
     "createTime": "创建日期",
     "UpdateBy": "修改者",

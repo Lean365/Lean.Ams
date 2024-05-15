@@ -2,17 +2,17 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true">
       <el-form-item>
-        <el-button plain type="primary" @click="onLockAll()" icon="lock"
-          v-hasPermi="['monitor:online:forceLogout']">全部强退</el-button>
+        <el-button plain type="danger" @click="onLockAll()" icon="lock"
+          v-hasPermi="['monitor:online:forceLogout']">{{$t('btn.accountAllForced')}}</el-button>
       </el-form-item>
       <el-form-item>
         <el-radio-group v-model="viewSwitch">
-          <el-radio-button value="1">表格</el-radio-button>
-          <el-radio-button value="2">卡片</el-radio-button>
+          <el-radio-button value="1">{{$t('btn.gird')}}</el-radio-button>
+          <el-radio-button value="2">{{$t('btn.card')}}</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery">刷新</el-button>
+        <el-button type="primary" icon="Search" @click="handleQuery">{{$t('btn.refresh')}}</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="onlineUsers" v-loading="loading" ref="tableRef" border highlight-current-row
@@ -22,22 +22,23 @@
           <span>{{ (queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="用户名" align="center" />
-      <el-table-column prop="location" label="登录地点" align="center"> </el-table-column>
-      <el-table-column prop="userIP" label="登录IP" align="center"></el-table-column>
-      <el-table-column prop="browser" label="登录浏览器" width="210"></el-table-column>
-      <el-table-column prop="platform" label="登录平台" align="center"></el-table-column>
-      <el-table-column prop="loginTime" label="登录时间" witdh="280px">
+      <el-table-column prop="name" :label="$t('ploginlog.userName')" align="center" />
+      <el-table-column prop="location" :label="$t('psms.location')" align="center"> </el-table-column>
+      <el-table-column prop="userIP" :label="$t('ploginlog.ipaddr')" align="center"></el-table-column>
+      <el-table-column prop="browser" :label="$t('ploginlog.browser')" width="210"></el-table-column>
+      <el-table-column prop="platform" :label="$t('ploginlog.platform')" align="center"></el-table-column>
+      <el-table-column prop="loginTime" :label="$t('ploginlog.loginTime')" witdh="280px">
         <template #default="scope">
           {{ dayjs(scope.row.loginTime).format('MM/DD日HH:mm:ss') }}
-          <div>在线时长：{{ scope.row.onlineTime }}分钟</div>
+          <div>{{$t('ploginlog.duration')}}{{ scope.row.onlineTime }}{{$t('ploginlog.minutes')}}</div>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="160">
+      <el-table-column :label="$t('btn.operation')" align="center" width="160">
         <template #default="scope">
-          <el-button text @click="onChat(scope.row)" icon="ChatDotRound" v-hasRole="['admin']">私信</el-button>
-          <el-button text @click="onLock(scope.row)" icon="lock"
-            v-hasPermi="['monitor:online:forceLogout']">强退</el-button>
+          <el-button plain size="small" type="primary" @click="onChat(scope.row)" icon="ChatDotRound"
+            v-hasRole="['admin']" :title="$t('btn.privateChat')"></el-button>
+          <el-button plain size="small" type="warning" @click="onLock(scope.row)" icon="lock"
+            v-hasPermi="['monitor:online:forceLogout']" :title="$t('btn.accountForced')"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -46,18 +47,19 @@
       <el-col v-for="item in onlineUsers" :lg="4" :span="24">
         <el-card :body-style="{ padding: '15px 15px 0' }">
           <el-descriptions :column="1" :title="item.name">
-            <el-descriptions-item label="登录平台">{{ item.platform }}</el-descriptions-item>
-            <el-descriptions-item label="登录地点">{{ item.location }}</el-descriptions-item>
-            <el-descriptions-item label="在线时长" :span="2">
-              <el-tag type="success">{{ item.onlineTime }}分钟</el-tag>
+            <el-descriptions-item :label="$t('ploginlog.platform')">{{ item.platform }}</el-descriptions-item>
+            <el-descriptions-item :label="$t('psms.location')">{{ item.location }}</el-descriptions-item>
+            <el-descriptions-item :label="$t('ploginlog.duration')" :span="2">
+              <el-tag type="success">{{ item.onlineTime }}{{$t('ploginlog.minutes')}}</el-tag>
             </el-descriptions-item>
           </el-descriptions>
           <el-text truncated>{{ item.browser }}</el-text>
           <div>
-            <el-button text @click="onChat(item)" size="small" icon="ChatDotRound" title="私信"
-              v-hasRole="['admin']">私信</el-button>
-            <el-button text @click="onLock(item)" size="small" icon="lock" title="强退"
-              v-hasPermi="['monitor:online:forceLogout']">强退</el-button>
+            <el-button plain size="small" type="primary" @click="onChat(item)" icon="ChatDotRound"
+              :title="$t('btn.privateChat')" v-hasRole="['admin']">{{$t('btn.privateChat')}}</el-button>
+            <el-button plain size="small" type="warning" @click="onLock(item)" icon="lock"
+              :title="$t('btn.accountForced')"
+              v-hasPermi="['monitor:online:forceLogout']">{{$t('btn.accountForced')}}</el-button>
           </div>
         </el-card>
       </el-col>
@@ -101,18 +103,18 @@
           loading.value = false
         }, 200)
       }
-      console.log(res)
+      //console.log(res)
     })
   }
   getList()
 
   function onChat(item) {
     proxy
-      .$prompt('请输入消息内容', '', {
-        confirmButtonText: '发送',
-        cancelButtonText: '取消',
+      .$prompt(proxy.$t('ploginlog.messageContent'), '', {
+        confirmButtonText: proxy.$t('btn.sendMessage'),
+        cancelButtonText: proxy.$t('btn.cancel'),
         inputPattern: /\S/,
-        inputErrorMessage: '消息内容不能为空'
+        inputErrorMessage: proxy.$t('ploginlog.messageCcontentNotempty')
       })
       .then(({ value }) => {
         proxy.signalr.SR.invoke('sendMessage', item.userid, value).catch(function (err) {
@@ -123,13 +125,13 @@
   }
   function onLock(row) {
     proxy
-      .$prompt('请输入强退原因', '', {
-        confirmButtonText: '发送',
-        cancelButtonText: '取消'
+      .$prompt(proxy.$t('btn.reasonForced'), '', {
+        confirmButtonText: proxy.$t('btn.sendMessage'),
+        cancelButtonText: proxy.$t('btn.cancel'),
       })
       .then((val) => {
         forceLogout({ ...row, time: 10, reason: val.value, clientId: row.clientId }).then(() => {
-          proxy.$modal.msgSuccess('强退成功')
+          proxy.$modal.msgSuccess(proxy.$t('btn.successfulForced'))
         })
       })
   }
@@ -137,13 +139,13 @@
   // 批量强退
   function onLockAll() {
     proxy
-      .$prompt('请输入强退原因', '', {
-        confirmButtonText: '发送',
-        cancelButtonText: '取消'
+      .$prompt(proxy.$t('btn.reasonForced'), '', {
+        confirmButtonText: proxy.$t('btn.sendMessage'),
+        cancelButtonText: proxy.$t('btn.cancel'),
       })
       .then((val) => {
         forceLogoutAll({ time: 10, reason: val.value }).then((res) => {
-          proxy.$modal.msgSuccess('强退成功')
+          proxy.$modal.msgSuccess(proxy.$t('btn.successfulForced'))
         })
       })
   }

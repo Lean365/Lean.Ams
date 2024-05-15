@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="card mb10">
-      <h4 class="title">{{ $t('layout.ProjectInformation') }}</h4>
+      <h4 class="title">{{ $t('layout.projectInformation') }}</h4>
     </div>
     <div class="card mb10">
       <h4 class="title"> {{ $t('layout.projectInfo') }}</h4>
