@@ -1,11 +1,11 @@
 {
   "ppost": {
-    "post": "ジョブ",
-    "postName": "ジョブ名",
-    "postCode": "ジョブ番号",
+    "post": "役職",
+    "postName": "役職名",
+    "postCode": "役職番号",
     "postSort": "順番",
-    "isStatus": "ステータス",
-    "createTime": "作成時刻",
+    "postMembership": "メンバーの数",
+    "isStated": "ステータス",
     "reMarks": "備考"
   }
 }

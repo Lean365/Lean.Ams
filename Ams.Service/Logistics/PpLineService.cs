@@ -13,7 +13,7 @@ namespace Ams.Service.Logistics
     /// 生产班组
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/14 17:35:44
+    /// @Date: 2024/5/16 9:12:13
     /// </summary>
     [AppService(ServiceType = typeof(IPpLineService), ServiceLifetime = LifeTime.Transient)]
     public class PpLineService : BaseService<PpLine>, IPpLineService

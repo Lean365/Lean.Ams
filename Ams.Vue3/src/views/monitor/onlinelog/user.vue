@@ -3,7 +3,7 @@
     <el-form :model="queryParams" ref="queryRef" :inline="true">
       <el-form-item>
         <el-button plain type="danger" @click="onLockAll()" icon="lock"
-          v-hasPermi="['monitor:online:forceLogout']">{{$t('btn.accountAllForced')}}</el-button>
+          v-hasPermi="['monitor:online:forceLogout']">{{$t('btn.accountForcedAll')}}</el-button>
       </el-form-item>
       <el-form-item>
         <el-radio-group v-model="viewSwitch">
@@ -125,7 +125,7 @@
   }
   function onLock(row) {
     proxy
-      .$prompt(proxy.$t('btn.reasonForced'), '', {
+      .$prompt(proxy.$t('common.tipForcedReasons'), '', {
         confirmButtonText: proxy.$t('btn.sendMessage'),
         cancelButtonText: proxy.$t('btn.cancel'),
       })
@@ -139,7 +139,7 @@
   // 批量强退
   function onLockAll() {
     proxy
-      .$prompt(proxy.$t('btn.reasonForced'), '', {
+      .$prompt(proxy.$t('common.tipForcedReasons'), '', {
         confirmButtonText: proxy.$t('btn.sendMessage'),
         cancelButtonText: proxy.$t('btn.cancel'),
       })

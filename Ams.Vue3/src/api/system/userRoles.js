@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询角色用户
 export function getRoleUsers(query) {
   return request({
-    url: '/system/userRole/list',
+    url: 'system/user/role/list',
     method: 'get',
     params: query,
   })
@@ -12,7 +12,7 @@ export function getRoleUsers(query) {
 // 添加角色用户
 export function createRoleUsers(data) {
   return request({
-    url: '/system/userRole/create',
+    url: 'system/user/role/create',
     method: 'post',
     data
   })
@@ -20,7 +20,7 @@ export function createRoleUsers(data) {
 // 删除角色用户
 export function deleteRoleUsers(data) {
   return request({
-    url: '/system/userRole/delete',
+    url: 'system/user/role/delete',
     method: 'post',
     data
   })
@@ -28,7 +28,7 @@ export function deleteRoleUsers(data) {
 // 查询角色未添加用户列表
 export function getExcludeUsers(query) {
   return request({
-    url: '/system/userRole/getExcludeUsers',
+    url: 'system/user/role/getExcludeUsers',
     method: 'get',
     params: query,
   })

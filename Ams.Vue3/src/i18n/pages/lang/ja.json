@@ -1,7 +1,7 @@
 {
   "plang": {
-    "language": "言語",
-    "languageKey": "言語key",
+    "language": "ローカライズ",
+    "languageKey": "翻訳key",
     "languageName": "翻訳値",
     "languageContent": "翻訳内容",
     "showWay": "表示方法",

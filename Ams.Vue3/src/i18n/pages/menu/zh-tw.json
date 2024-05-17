@@ -18,7 +18,7 @@
     "routePath": "路由地址",
     "permissionStr": "權限字符",
     "isCache": "是否緩存",
-    "menuNameKey": "菜單名(key)",
+    "menuNameKey": "菜單翻譯Key",
     "menuNameKeymemo": "多語言翻譯key:eg:menu.system，不需要多語言的可不用填寫",
     "selectIcon": "點擊選擇圖示",
     "linkMemo": "選擇是外鏈則路由位址需要以'HTTP(s)://'開頭",

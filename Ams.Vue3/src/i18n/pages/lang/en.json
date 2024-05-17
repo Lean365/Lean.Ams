@@ -1,7 +1,7 @@
 {
   "plang": {
-    "language": "Language",
-    "languageKey": "LanguageKey",
+    "language": "Localization",
+    "languageKey": "TranslationKey",
     "languageName": "value",
     "languageContent": "content",
     "showWay": "Show Way",

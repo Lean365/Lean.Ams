@@ -290,7 +290,7 @@
     const Ids = row.pId || ids.value
 
     proxy
-      .$confirm(proxy.$t('common.confirmDel') + Ids + proxy.$t('common.confirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tips'), {
+      .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
         confirmButtonText: proxy.$t('btn.submit'),
         cancelButtonText: proxy.$t('btn.cancel'),
         type: "warning",
@@ -300,7 +300,7 @@
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess(proxy.$t('common.deleteSucceed'))
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
       .catch(() => { })
   }
@@ -320,7 +320,7 @@
   // 导出按钮操作
   function handleExport() {
     proxy
-      .$confirm(proxy.$t('common.confirmExport') + proxy.$t('psqldiff.logDiff'), proxy.$t('btn.export') + ' ' + proxy.$t('common.tips'), {
+      .$confirm(proxy.$t('common.tipConfirmExport') + proxy.$t('psqldiff.logDiff'), proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
         confirmButtonText: proxy.$t('btn.submit'),
         cancelButtonText: proxy.$t('btn.cancel'),
         type: "warning",

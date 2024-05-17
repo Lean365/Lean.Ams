@@ -1,7 +1,7 @@
 {
   "plang": {
-    "language": "语言",
-    "languageKey": "语言key",
+    "language": "本地化",
+    "languageKey": "翻译key",
     "languageName": "翻译值",
     "languageContent": "语言内容",
     "showWay": "显示方式",

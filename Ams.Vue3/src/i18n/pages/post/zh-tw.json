@@ -4,8 +4,8 @@
     "postName": "崗位名稱",
     "postCode": "崗位編碼",
     "postSort": "崗位排序",
-    "isStatus": "崗位狀態",
-    "createTime": "創建時間",
+    "postMembership": "成員人數",
+    "isStated": "崗位狀態",
     "reMarks": "備註"
   }
 }

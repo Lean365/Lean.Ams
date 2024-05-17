@@ -3,9 +3,9 @@
     "dict": "資料字典",
     "dictType": "字典類型",
     "dictName": "字典名稱",
-    "isStatus": "狀態",
-    "type": "是否內置",
-    "createTime": "創建時間",
+    "isStated": "狀態",
+    "langKey": "翻譯key",
+    "builtin": "是否內置",
     "dictId": "字典編號",
     "reMarks": "備註",
     "customSql": "自定義sql",
@@ -30,10 +30,10 @@
     "textinfo": "資訊",
     "textwarning": "警告",
     "textdanger": "危險",
-    "textorange": "橘紅色",
-    "texthotpink": "粉紅色",
+    "textorange": "橘紅",
+    "texthotpink": "粉紅",
     "textgreen": "綠色",
-    "textgreenyellow": "黃綠色",
+    "textgreenyellow": "黃綠",
     "textpurple": "紫色"
   }
 }

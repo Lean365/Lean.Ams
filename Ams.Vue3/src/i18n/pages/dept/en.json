@@ -2,13 +2,13 @@
   "pdept": {
     "parentDepartment": "parent",
     "deptName": "Name",
-    "isStatus": "Status",
+    "isStated": "Status",
     "deptId": "id",
     "leader": "leader",
     "orderNum": "sort",
-    "createTime": "create time",
     "phone": "phone",
     "email": "email",
-    "dept": "dept"
+    "dept": "dept",
+    "deptMembership": "Membership"
   }
 }

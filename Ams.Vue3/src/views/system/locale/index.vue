@@ -92,7 +92,7 @@
       <el-table-column prop="langKey" :label="$t('plang.languageKey')" align="center" :show-overflow-tooltip="true" />
       <el-table-column prop="langName" :label="$t('plang.languageContent')" align="center"
         :show-overflow-tooltip="true" />
-      <el-table-column prop="createTime" :label="$t('common.createTime')" align="center"
+      <el-table-column prop="createTime" :label="$t('common.tipCreateTime')" align="center"
         :show-overflow-tooltip="true" />
 
       <el-table-column :label="$t('btn.operation')" align="center" width="200">
@@ -134,14 +134,14 @@
       v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改多语言配置对话框 -->
-    <el-dialog :title="title" :lock-scroll="false" v-model="open" width="550px">
-      <el-form ref="formRef" :model="form" :rules="rules" label-width="140px">
+    <el-dialog :title="title" :lock-scroll="false" v-model="open" width="650px">
+      <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-row :gutter="20">
           <el-col :lg="24">
             <el-form-item prop="langKey">
               <template #label>
                 <span>
-                  <el-tooltip content="翻译key，eg：message.title" placement="top">
+                  <el-tooltip :content="$t('plang.langKeycontent')" placement="top">
                     <el-icon :size="15">
                       <questionFilled />
                     </el-icon>
@@ -149,13 +149,13 @@
                 </span>
                 {{ $t('plang.languageKey') }}
               </template>
-              <el-input v-model="form.langKey" placeholder="请输入语言key" />
+              <el-input v-model="form.langKey" :placeholder="$t('plang.languageKey')" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-table :data="form.langList">
-            <el-table-column :label="$t('plang.language')" align="center" prop="langCode" width="100">
+            <el-table-column :label="$t('plang.language')" align="center" prop="langCode" width="200">
               <template #default="scope">
                 {{ scope.row.label }} <br />
                 {{ scope.row.langCode }}
@@ -221,10 +221,10 @@
   const state = reactive({
     form: {},
     rules: {
-      id: [{ required: true, message: 'id不能为空', trigger: 'blur', type: 'number' }],
+      id: [{ required: true, message: 'ID' + proxy.$t('btn.isEmpty'), trigger: 'blur', type: 'number' }],
       // langCode: [{ required: true, message: '语言code不能为空', trigger: 'change' }],
-      langKey: [{ required: true, pattern: /^[A-Za-z].+$/, message: '语言key不能为空', trigger: 'change' }],
-      langName: [{ required: true, message: '内容不能为空', trigger: 'blur' }]
+      langKey: [{ required: true, pattern: /^[A-Za-z].+$/, message: proxy.$t('common.tipInputLangKeyError'), trigger: 'change' }],
+      langName: [{ required: true, message: proxy.$t('plang.languageName') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
     },
     options: {}
   })

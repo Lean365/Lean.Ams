@@ -17,7 +17,7 @@
             :value="dict.dictValue" />
         </el-select>
       </el-form-item>
-      <el-form-item :label="$t('poperlog.isStatus')" prop="isStated">
+      <el-form-item :label="$t('poperlog.isStated')" prop="isStated">
         <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('poperlog.isStatus')" clearable>
           <el-option v-for="dict in options.sys_common_status" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
@@ -59,7 +59,7 @@
     <!-- 数据区域 -->
     <el-table height="600" v-loading="loading" border :data="list" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
-      <el-table-column label="操作id" align="center" prop="operId" width="60px" :show-overflow-tooltip="true"
+      <el-table-column label="ID" align="center" prop="operId" width="60px" :show-overflow-tooltip="true"
         v-if="columns.showColumn('operId')" />
       <el-table-column :label="$t('poperlog.title')" align="center" prop="title" :show-overflow-tooltip="true"
         v-if="columns.showColumn('title')" />
@@ -80,7 +80,7 @@
           <div>{{ row.operIp }}</div>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('poperlog.isStatus')" align="center" prop="isStated"
+      <el-table-column :label="$t('poperlog.isStated')" align="center" prop="isStated"
         v-if="columns.showColumn('isStated')">
         <template #default="{ row }">
           <dict-tag :options="options.sys_common_status" :value="row.isStated"></dict-tag>
@@ -149,7 +149,7 @@
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item :label="$t('poperlog.isStatus')">
+            <el-form-item :label="$t('poperlog.isStated')">
               <dict-tag :options="options.sys_common_status" :value="form.isStated"></dict-tag>
             </el-form-item>
           </el-col>
@@ -314,7 +314,7 @@
   function handleDelete(row) {
     const operIds = row.operId || ids.value
     proxy
-      .$confirm(proxy.$t('common.confirmDel') + operIds + proxy.$t('common.confirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tips'), {
+      .$confirm(proxy.$t('common.tipConfirmDel') + operIds + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
         confirmButtonText: proxy.$t('btn.submit'),
         cancelButtonText: proxy.$t('btn.cancel'),
         type: "warning",
@@ -324,13 +324,13 @@
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess(proxy.$t('common.deleteSucceed'))
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
   }
   /** 清空按钮操作 */
   function handleClean() {
     proxy
-      .$confirm(proxy.$t('common.confirmEmpty'), proxy.$t('btn.empty') + ' ' + proxy.$t('common.tips'), {
+      .$confirm(proxy.$t('common.tipConfirmEmpty'), proxy.$t('btn.empty') + ' ' + proxy.$t('common.tip'), {
         confirmButtonText: proxy.$t('btn.submit'),
         cancelButtonText: proxy.$t('btn.cancel'),
         type: 'warning'
@@ -340,13 +340,13 @@
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess(proxy.$t('common.emptySucceed'))
+        proxy.$modal.msgSuccess(proxy.$t('common.tipEmptySucceed'))
       })
   }
   /** 导出按钮操作 */
   function handleExport() {
     proxy
-      .$confirm(proxy.$t('common.confirmExport') + proxy.$t('poperlog.operLog'), proxy.$t('btn.export') + ' ' + proxy.$t('common.tips'), {
+      .$confirm(proxy.$t('common.tipConfirmExport') + proxy.$t('poperlog.operLog'), proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
         confirmButtonText: proxy.$t('btn.submit'),
         cancelButtonText: proxy.$t('btn.cancel'),
         type: "warning",

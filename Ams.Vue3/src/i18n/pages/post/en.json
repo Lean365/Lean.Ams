@@ -4,8 +4,8 @@
     "postName": "Name",
     "postCode": "Code",
     "postSort": "Sort",
-    "isStatus": "Status",
-    "createTime": "CreateTime",
+    "postMembership": "Membership",
+    "isStated": "Status",
     "reMarks": "Remarks"
   }
 }

@@ -2,13 +2,13 @@
   "pdept": {
     "parentDepartment": "親部門",
     "deptName": "部署名",
-    "isStatus": "ステータス",
+    "isStated": "ステータス",
     "deptId": "部門ID",
     "leader": "リーダー",
     "orderNum": "順番",
-    "createTime": "作成時刻",
     "phone": "連絡先番号",
     "email": "電子メール",
-    "dept": "部門"
+    "dept": "部門",
+    "deptMembership": "メンバーの数"
   }
 }

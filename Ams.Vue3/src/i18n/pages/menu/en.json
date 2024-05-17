@@ -18,7 +18,7 @@
     "routePath": "routePath",
     "permissionStr": "Permission",
     "isCache": "isCache",
-    "menuNameKey": "menuKey",
+    "menuNameKey": "Menu Translation Key",
     "menuNameKeymemo": "multilingual translation key:eg:menu.system, do not need to fill in multilingual can be filled in",
     "selectIcon": "Click to select icon",
     "linkMemo": "If you select a backlink, the routing address needs to start with 'http(s)://'",

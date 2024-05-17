@@ -3,9 +3,9 @@
     "dict": "データ辞書",
     "dictType": "辞書タイプ",
     "dictName": "辞書名",
-    "isStatus": "ステータス",
-    "type": "組み込み",
-    "createTime": "作成時刻",
+    "isStated": "ステータス",
+    "langKey": "翻訳key",
+    "builtin": "組み込み",
     "dictId": "辞書番号",
     "reMarks": "備考",
     "customSql": "カスタマイズsql",
@@ -33,7 +33,7 @@
     "textorange": "オレンジ",
     "texthotpink": "ピンク",
     "textgreen": "グリーン",
-    "textgreenyellow": "イエローグリーン",
+    "textgreenyellow": "イエロー",
     "textpurple": "パープル"
   }
 }

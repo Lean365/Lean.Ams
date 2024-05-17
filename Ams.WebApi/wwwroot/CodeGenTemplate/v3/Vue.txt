@@ -946,7 +946,7 @@ $end
       if (form.value.${ReplaceDto.FistLowerPk} != undefined && opertype.value === 2) {
 $if(ReplaceDto.ShowBtnEdit)
         update${genTable.BusinessName}(form.value).then((res) => {
-         proxy.${modal}modal.msgSuccess(proxy.${t}t('common.editSucceed'))
+         proxy.${modal}modal.msgSuccess(proxy.${t}t('common.tipEditSucceed'))
           open.value = false
           getList()
         })
@@ -954,7 +954,7 @@ $end
       } else {
 $if(ReplaceDto.ShowBtnAdd)
         add${genTable.BusinessName}(form.value).then((res) => {
-             proxy.${modal}modal.msgSuccess(proxy.${t}t('common.addSucceed'))
+             proxy.${modal}modal.msgSuccess(proxy.${t}t('common.tipAddSucceed'))
             open.value = false
             getList()
           })
@@ -970,7 +970,7 @@ function handleDelete(row) {
   const Ids = row.${ReplaceDto.FistLowerPk} || ids.value
 
   proxy
-    .${confirm}confirm(proxy.${t}t('common.confirmDel') + Ids + proxy.${t}t('common.confirmDelDataitems'), proxy.${t}t('btn.delete')+' '+proxy.${t}t('common.tips'), {
+    .${confirm}confirm(proxy.${t}t('common.tipConfirmDel') + Ids + proxy.${t}t('common.tipConfirmDelDataitems'), proxy.${t}t('btn.delete')+' '+proxy.${t}t('common.tip'), {
       confirmButtonText: proxy.${t}t('btn.submit'),
       cancelButtonText: proxy.${t}t('btn.cancel'),
       type: "warning",
@@ -980,7 +980,7 @@ function handleDelete(row) {
     })
     .then(() => {
       getList()
-      proxy.${modal}modal.msgSuccess(proxy.${t}t('common.deleteSucceed'))
+      proxy.${modal}modal.msgSuccess(proxy.${t}t('common.tipDeleteSucceed'))
     })
 }
 $end
@@ -989,7 +989,7 @@ $if(ReplaceDto.ShowBtnTruncate)
 // 清空
 function handleClear() {
   proxy
-     .${confirm}confirm(proxy.${t}t('common.confirmClean'), proxy.${t}t('btn.truncate')+' '+proxy.${t}t('common.tips'), {
+     .${confirm}confirm(proxy.${t}t('common.tipConfirmEmpty'), proxy.${t}t('btn.truncate')+' '+proxy.${t}t('common.tip'), {
       confirmButtonText: proxy.${t}t('btn.submit'),
       cancelButtonText: proxy.${t}t('btn.cancel'),
       type: "warning",
@@ -999,7 +999,7 @@ function handleClear() {
     })
     .then(() => {
       handleQuery()
-      proxy.${modal}modal.msgSuccess(proxy.${t}t('common.cleanSucceed'))
+      proxy.${modal}modal.msgSuccess(proxy.${t}t('common.tipEmptySucceed'))
     })
 }
 $end
@@ -1023,7 +1023,7 @@ $if(ReplaceDto.ShowBtnExport)
 // 导出按钮操作
 function handleExport() {
   proxy
-    .${confirm}confirm(proxy.${t}t('common.confirmExport')+"${genTable.functionName}", proxy.${t}t('btn.export')+' '+proxy.${t}t('common.tips'), {
+    .${confirm}confirm(proxy.${t}t('common.tipConfirmExport')+"<${genTable.functionName}.xlsx>", proxy.${t}t('btn.export')+' '+proxy.${t}t('common.tip'), {
       confirmButtonText: proxy.${t}t('btn.submit'),
       cancelButtonText: proxy.${t}t('btn.cancel'),
       type: "warning",

@@ -4,8 +4,8 @@
       <!--部门数据-->
       <el-col :span="4" :xs="24">
         <div class="head-container">
-          <el-input v-model="deptName" placeholder="请输入部门名称" clearable prefix-icon="search"
-            style="margin-bottom: 20px" />
+          <el-input v-model="deptName" :placeholder="$t('btn.enter')+$t('puser.deptName')" clearable
+            prefix-icon="search" style="margin-bottom: 20px" />
         </div>
         <div class="head-container">
           <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false"
@@ -25,24 +25,25 @@
       <!--用户数据-->
       <el-col :lg="20" :xm="24">
         <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-          <el-form-item label="用户名称" prop="userName">
-            <el-input v-model="queryParams.userName" placeholder="请输入用户名称" clearable style="width: 240px"
-              @keyup.enter="handleQuery" />
+          <el-form-item :label="$t('puser.userName')" prop="userName">
+            <el-input v-model="queryParams.userName" :placeholder="$t('btn.enter')+$t('puser.userName')" clearable
+              style="width: 240px" @keyup.enter="handleQuery" />
           </el-form-item>
-          <el-form-item label="手机号码" prop="phonenumber">
-            <el-input v-model="queryParams.phonenumber" placeholder="请输入手机号码" clearable style="width: 240px"
-              @keyup.enter="handleQuery" />
+          <el-form-item :label="$t('puser.userMobile')" prop="phonenumber">
+            <el-input v-model="queryParams.phonenumber" :placeholder="$t('btn.enter')+$t('puser.userMobile')" clearable
+              style="width: 240px" @keyup.enter="handleQuery" />
           </el-form-item>
-          <el-form-item label="状态" prop="isStated">
-            <el-select v-model="queryParams.isStated" placeholder="用户状态" clearable style="width: 240px">
-              <el-option label="全部" :value="-1" />
+          <el-form-item :label="$t('puser.userStat')" prop="isStated">
+            <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('puser.userStat')" clearable
+              style="width: 240px">
+              <el-option :label="$t('common.all')" :value="-1" />
               <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
                 :value="dict.dictValue" />
             </el-select>
           </el-form-item>
-          <el-form-item label="创建时间">
+          <el-form-item :label="$t('puser.Createdate')">
             <el-date-picker v-model="dateRange" style="width: 240px" type="daterange" range-separator="-"
-              start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+              :start-placeholder="$t('btn.dateStart')" :end-placeholder="$t('btn.dateEnd')"></el-date-picker>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" icon="search" @click="handleQuery">{{ $t('btn.search') }}</el-button>
@@ -84,36 +85,39 @@
 
         <el-table height="600" v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" :selectable="checkSelectable" />
-          <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns.showColumn('userId')" />
-          <el-table-column label="登录名" align="center" key="userName" prop="userName"
+          <el-table-column :label="$t('puser.userID')" align="center" key="userId" prop="userId"
+            v-if="columns.showColumn('userId')" />
+          <el-table-column :label="$t('puser.userName')" align="center" key="userName" prop="userName"
             v-if="columns.showColumn('userName')" :show-overflow-tooltip="true" />
-          <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName"
+          <el-table-column :label="$t('puser.userNick')" align="center" key="nickName" prop="nickName"
             v-if="columns.showColumn('nickName')" :show-overflow-tooltip="true" />
-          <el-table-column label="部门" align="center" key="deptName" prop="deptName"
+          <el-table-column :label="$t('puser.deptName')" align="center" key="deptName" prop="deptName"
             v-if="columns.showColumn('deptName')" :show-overflow-tooltip="true" />
-          <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber"
+          <el-table-column :label="$t('puser.userMobile')" align="center" key="phonenumber" prop="phonenumber"
             v-if="columns.showColumn('phonenumber')" width="120" />
-          <el-table-column label="启用" align="center" key="isStated" v-if="columns.showColumn('isStated')">
+          <el-table-column :label="$t('puser.userStat')" align="center" key="isStated"
+            v-if="columns.showColumn('isStated')">
             <template #default="scope">
               <el-switch v-model="scope.row.isStated" :disabled="scope.row.userName == 'admin'" :active-value="0"
-                :inactive-value="1" active-text="是" inactive-text="否" inline-prompt
+                :inactive-value="1" :active-text="$t('common.yes')" :inactive-text="$t('common.no')" inline-prompt
                 @change="handleStatusChange(scope.row)"></el-switch>
             </template>
           </el-table-column>
-          <el-table-column label="创建时间" align="center" prop="createTime" v-if="columns.showColumn('createTime')"
-            width="160"></el-table-column>
-          <el-table-column prop="sex" label="性别" align="center" v-if="columns.showColumn('sex')">
+          <el-table-column :label="$t('puser.Createdate')" align="center" prop="createTime"
+            v-if="columns.showColumn('createTime')" width="160"></el-table-column>
+          <el-table-column prop="sex" :label="$t('puser.sex')" align="center" v-if="columns.showColumn('sex')">
             <template #default="scope">
               <dict-tag :options="sexOptions" :value="scope.row.sex" />
             </template>
           </el-table-column>
-          <el-table-column prop="avatar" label="头像" align="center" v-if="columns.showColumn('avatar')">
+          <el-table-column prop="avatar" :label="$t('puser.avatar')" align="center" v-if="columns.showColumn('avatar')">
             <template #default="scope">
               <el-avatar :src="scope.row.avatar" />
             </template>
           </el-table-column>
-          <el-table-column prop="email" label="用户邮箱" align="center" v-if="columns.showColumn('email')" />
-          <el-table-column prop="loginDate" label="最后登录时间" align="center" v-if="columns.showColumn('loginDate')" />
+          <el-table-column prop="email" :label="$t('puser.email')" align="center" v-if="columns.showColumn('email')" />
+          <el-table-column prop="loginDate" :label="$t('puser.loginDate')" align="center"
+            v-if="columns.showColumn('loginDate')" />
           <el-table-column :label="$t('btn.operation')" align="center" width="160"
             class-name="small-padding fixed-width">
             <template #default="scope">
@@ -124,9 +128,9 @@
                 <el-button v-if="!scope.row.isAdmin" type="danger" plain size="small" icon="Delete"
                   @click="handleDelete(scope.row)" v-hasPermi="['system:user:remove']" :title="$t('btn.delete')">
                 </el-button>
-                <el-button v-if="scope.row.userId !== 1" color="#c45656" plain size="small" icon="Key" title="重置密码"
-                  @click="handleResetPwd(scope.row)" v-hasPermi="['system:user:resetPwd']"
-                  ：title="$t('btn.resetPwd')"></el-button>
+                <el-button v-if="scope.row.userId !== 1" color="#c45656" plain size="small" icon="Key"
+                  :title="$t('btn.resetPassword')" @click="handleResetPwd(scope.row)"
+                  v-hasPermi="['system:user:resetPwd']"></el-button>
               </el-button-group>
             </template>
           </el-table-column>
@@ -137,51 +141,54 @@
     </el-row>
 
     <!-- 添加或修改用户配置对话框 -->
-    <el-dialog :title="title" v-model="open" width="600px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="750px" append-to-body>
       <el-form :model="form" :rules="rules" ref="userRef" label-width="auto">
         <el-row :gutter="20">
-          <el-col :lg="12">
-            <el-form-item label="用户名" prop="userName">
-              <el-input :disabled="form.userId != undefined" v-model="form.userName" placeholder="请输入用户名(用于登陆)" />
+          <el-col :lg="24">
+            <el-form-item :label="$t('puser.userName')" prop="userName">
+              <el-input :disabled="form.userId != undefined" v-model="form.userName"
+                :placeholder="$t('btn.enter')+$t('puser.userName')+$t('puser.loginOnly')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12" v-if="form.userId == undefined">
-            <el-form-item label="用户密码" prop="password">
-              <el-input v-model="form.password" show-password placeholder="请输入用户密码" type="password" />
+            <el-form-item :label="$t('puser.loginPwd')" prop="password">
+              <el-input v-model="form.password" show-password :placeholder="$t('btn.enter')+$t('puser.loginPwd')"
+                type="password" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="用户昵称" prop="nickName">
-              <el-input v-model="form.nickName" placeholder="请输入用户昵称" />
+            <el-form-item :label="$t('puser.userNick')" prop="nickName">
+              <el-input v-model="form.nickName" :placeholder="$t('btn.enter')+$t('puser.userNick')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="归属部门" prop="deptId">
+            <el-form-item :label="$t('puser.deptName')" prop="deptId">
               <el-tree-select v-model="form.deptId" :data="deptOptions"
-                :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id" placeholder="请选择归属部门"
-                check-strictly :render-after-expand="false" />
+                :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id"
+                :placeholder="$t('btn.select')+$t('puser.deptName')" check-strictly :render-after-expand="false" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="手机号码" prop="phonenumber">
-              <el-input v-model="form.phonenumber" placeholder="请输入手机号码" maxlength="11" />
+            <el-form-item :label="$t('puser.userMobile')" prop="phonenumber">
+              <el-input v-model="form.phonenumber" :placeholder="$t('btn.enter')+$t('puser.userMobile')"
+                maxlength="11" />
+            </el-form-item>
+          </el-col>
+          <el-col :lg="24">
+            <el-form-item :label="$t('puser.email')" prop="email">
+              <el-input v-model="form.email" :placeholder="$t('btn.enter')+$t('puser.email')" maxlength="50" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
-            </el-form-item>
-          </el-col>
-          <el-col :lg="12">
-            <el-form-item label="用户性别">
-              <el-radio-group v-model="form.sex" placeholder="请选择用户性别">
+            <el-form-item :label="$t('puser.sex')">
+              <el-radio-group v-model="form.sex" :placeholder="$t('btn.select')+$t('puser.sex')">
                 <el-radio v-for="dict in sexOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                   dict.dictLabel }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="用户状态">
+            <el-form-item :label="$t('puser.userStat')">
               <el-radio-group v-model="form.isStated">
                 <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                   dict.dictLabel }}</el-radio>
@@ -189,8 +196,9 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="岗位">
-              <el-select v-model="form.postIds" multiple placeholder="请选择岗位" style="width: 100%">
+            <el-form-item :label="$t('puser.userPost')">
+              <el-select v-model="form.postIds" multiple :placeholder="$t('btn.enter')+$t('puser.userPost')"
+                style="width: 100%">
                 <el-option v-for="item in postOptions" :key="item.postId" :label="item.postName" :value="item.postId"
                   :disabled="item.isStated == 1">
                 </el-option>
@@ -198,9 +206,9 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="角色">
-              <el-select v-model="form.roleIds" multiple placeholder="请选择角色" style="width: 100%"
-                @change="selectRole($event)">
+            <el-form-item :label="$t('puser.userRole')">
+              <el-select v-model="form.roleIds" multiple :placeholder="$t('btn.enter')+$t('puser.userRole')"
+                style="width: 100%" @change="selectRole($event)">
                 <el-option v-for="item in roleOptions" :key="item.roleId" :label="item.roleName" :value="item.roleId"
                   :disabled="item.isStated == 1 || form.userId == 1">
                   <span style="float: left">{{ item.roleName }}</span>
@@ -210,8 +218,9 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="备注">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+            <el-form-item :label="$t('puser.memo')">
+              <el-input v-model="form.remark" type="textarea"
+                :placeholder="$t('btn.enter')+$t('puser.memo')"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -230,15 +239,15 @@
         <el-icon class="el-icon--upload">
           <upload-filled />
         </el-icon>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__text">{{$t('upload.Drag')}}<em>{{$t('upload.Clickupload')}}</em></div>
         <template #tip>
           <div class="el-upload__tip text-center">
             <!-- <div class="el-upload__tip">
               <el-checkbox v-model="upload.updateSupport" /> 是否更新已经存在的用户数据
             </div> -->
-            <span>仅允许导入xls、xlsx格式文件。</span>
+            <span>{{$t('pcomponents.uploadType')}}</span>
             <el-link type="primary" :underline="false" style="font-size: 12px; vertical-align: baseline"
-              @click="importTemplate">下载模板</el-link>
+              @click="importTemplate">{{$t('pcomponents.downloadTpl')}}</el-link>
           </div>
         </template>
       </el-upload>
@@ -297,17 +306,17 @@
   })
   // 列显隐信息
   const columns = ref([
-    { key: 0, label: `用户编号`, visible: true, prop: 'userId' },
-    { key: 1, label: `用户名称`, visible: true, prop: 'userName' },
-    { key: 2, label: `用户昵称`, visible: true, prop: 'nickName' },
-    { key: 3, label: `部门`, visible: true, prop: 'deptName' },
-    { key: 4, label: `手机号码`, visible: true, prop: 'phonenumber' },
-    { key: 5, label: `状态`, visible: true, prop: 'status' },
-    { key: 6, label: `创建时间`, visible: false, prop: 'createTime' },
-    { key: 7, label: `性别`, visible: true, prop: 'sex' },
-    { key: 8, label: `头像`, visible: true, prop: 'avatar' },
-    { key: 9, label: `邮箱`, visible: false, prop: 'email' },
-    { key: 10, label: `最后登录时间`, visible: false, prop: 'loginDate' }
+    { key: 0, label: proxy.$t('puser.userID'), visible: true, prop: 'userId' },
+    { key: 1, label: proxy.$t('puser.userName'), visible: true, prop: 'userName' },
+    { key: 2, label: proxy.$t('puser.userNick'), visible: true, prop: 'nickName' },
+    { key: 3, label: proxy.$t('puser.deptName'), visible: true, prop: 'deptName' },
+    { key: 4, label: proxy.$t('puser.userMobile'), visible: true, prop: 'phonenumber' },
+    { key: 5, label: proxy.$t('puser.userStat'), visible: true, prop: 'isStated' },
+    { key: 6, label: proxy.$t('puser.Createdate'), visible: false, prop: 'createTime' },
+    { key: 7, label: proxy.$t('puser.sex'), visible: true, prop: 'sex' },
+    { key: 8, label: proxy.$t('puser.avatar'), visible: true, prop: 'avatar' },
+    { key: 9, label: proxy.$t('puser.email'), visible: false, prop: 'email' },
+    { key: 10, label: proxy.$t('puser.loginDate'), visible: false, prop: 'loginDate' }
   ])
 
   const data = reactive({
@@ -322,21 +331,21 @@
     },
     rules: {
       userName: [
-        { required: true, message: '用户名称不能为空', trigger: 'blur' },
-        {
-          min: 2,
-          max: 20,
-          message: '用户名称长度必须介于 2 和 20 之间',
-          trigger: 'blur'
-        }
-      ],
-      nickName: [{ required: true, message: '用户昵称不能为空', trigger: 'blur' }],
-      password: [
-        { required: true, message: '用户密码不能为空', trigger: 'blur' },
+        { required: true, message: proxy.$t('puser.userName') + proxy.$t('btn.isEmpty'), trigger: 'blur' },
         {
           min: 5,
           max: 20,
-          message: '用户密码长度必须介于 5 和 20 之间',
+          message: proxy.$t('puser.userNameMemo'),
+          trigger: 'blur'
+        }
+      ],
+      nickName: [{ required: true, message: proxy.$t('puser.userNick') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
+      password: [
+        { required: true, message: proxy.$t('puser.loginPwd') + proxy.$t('btn.isEmpty'), trigger: 'blur' },
+        {
+          min: 5,
+          max: 20,
+          message: proxy.$t('puser.loginPwdMemo'),
           trigger: 'blur'
         }
       ],
@@ -344,14 +353,14 @@
         {
           required: true,
           type: 'email',
-          message: '请输入正确的邮箱地址',
+          message: proxy.$t('puser.emailMemo'),
           trigger: ['blur', 'change']
         }
       ],
       phonenumber: [
         {
           pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-          message: '请输入正确的手机号码',
+          message: proxy.$t('puser.userMobileMemo'),
           trigger: 'blur'
         }
       ]
@@ -409,23 +418,27 @@
   /** 删除按钮操作 */
   function handleDelete(row) {
     const userIds = row.userId || ids.value
-    proxy.$modal
-      .confirm('是否确认删除用户编号为"' + userIds + '"的数据项？')
+    proxy
+      .$confirm(proxy.$t('common.tipConfirmDel') + userIds + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
+      })
       .then(function () {
         return delUser(userIds)
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
       .catch(() => { })
   }
   /** 导出按钮操作 */
   function handleExport() {
     proxy.$modal
-      .confirm('是否确认导出所有用户数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      .confirm(proxy.$t('common.tipConfirmExport') + '<' + proxy.$t('puser.bulkExport') + '.xlsx>', proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
         type: 'warning'
       })
       .then(async () => {
@@ -434,14 +447,14 @@
   }
   /** 用户状态修改  */
   function handleStatusChange(row) {
-    let text = row.isStated === 0 ? '启用' : '停用'
+    let text = row.isStated === 0 ? proxy.$t('puser.statStart') : proxy.$t('puser.statStop')
     proxy.$modal
-      .confirm('确认要"' + text + '""' + row.userName + '"用户吗?')
+      .confirm(proxy.$t('puser.statMemo') + text + row.userName + proxy.$t('puser.statconfirmMemo'))
       .then(function () {
         return changeUserStatus(row.userId, row.isStated)
       })
       .then(() => {
-        proxy.$modal.msgSuccess(text + '成功')
+        proxy.$modal.msgSuccess(text + proxy.$t('puser.statSucceed'))
       })
       .catch(function () {
         row.isStated = row.isStated == 1 ? 0 : 1
@@ -450,16 +463,17 @@
   /** 重置密码按钮操作 */
   function handleResetPwd(row) {
     proxy
-      .$prompt('请输入"' + row.userName + '"的新密码', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      .$prompt(proxy.$t('puser.loginPwdinput') + row.userName + proxy.$t('puser.loginPwdinputMemo'), proxy.$t('btn.resetPassword') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: 'warning',
         closeOnClickModal: false,
         inputPattern: /^.{5,20}$/,
-        inputErrorMessage: '用户密码长度必须介于 5 和 20 之间'
+        inputErrorMessage: proxy.$t('puser.loginPwdMemo')
       })
       .then(({ value }) => {
         resetUserPwd(row.userId, value).then((response) => {
-          proxy.$modal.msgSuccess('修改成功，新密码是：' + value)
+          proxy.$modal.msgSuccess(proxy.$t('puser.loginPwdNew') + value)
         })
       })
       .catch(() => { })
@@ -472,12 +486,12 @@
   }
   /** 导入按钮操作 */
   function handleImport() {
-    upload.title = '用户导入'
+    upload.title = proxy.$t('puser.bulkImport')
     upload.open = true
   }
   /** 下载模板操作 */
   function importTemplate() {
-    proxy.download('/system/user/importTemplate', '用户数据导入模板')
+    proxy.download('/system/user/importTemplate', proxy.$t('puser.importTmpl'))
   }
   /**文件上传中处理 */
   const handleFileUploadProgress = (event, file, fileList) => {
@@ -489,7 +503,7 @@
     upload.open = false
     upload.isUploading = false
     proxy.$refs['uploadRef'].clearFiles()
-    proxy.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + data.item1 + '</div>', '导入结果', {
+    proxy.$alert("<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" + data.item1 + '</div>', proxy.$t('puser.importResults'), {
       dangerouslyUseHTMLString: true
     })
     getList()
@@ -538,7 +552,7 @@
       postOptions.value = response.data.posts
       roleOptions.value = response.data.roles
       open.value = true
-      title.value = '添加用户'
+      title.value = proxy.$t('btn.add') + ' ' + proxy.$t('puser.userName')
       form.value.password = initPassword.value
     })
   }
@@ -567,7 +581,7 @@
       roleOptions.value = response.data.roles
       postOptions.value = response.data.posts
       open.value = true
-      title.value = '修改用户'
+      title.value = proxy.$t('btn.edit') + ' ' + proxy.$t('puser.userName')
       form.password = ''
     })
   }
@@ -577,13 +591,13 @@
       if (valid) {
         if (form.value.userId != undefined) {
           updateUser(form.value).then((response) => {
-            proxy.$modal.msgSuccess('修改成功')
+            proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
             open.value = false
             getList()
           })
         } else {
           addUser(form.value).then((response) => {
-            proxy.$modal.msgSuccess('新增成功')
+            proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
             open.value = false
             getList()
           })

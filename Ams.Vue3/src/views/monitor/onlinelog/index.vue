@@ -45,14 +45,14 @@
         v-if="columns.showColumn('onlineTime')" />
       <el-table-column prop="loginTime" :label="$t('ploginlog.loginTime')" width="170" :show-overflow-tooltip="true"
         v-if="columns.showColumn('loginTime')" />
-      <el-table-column prop="createTime" :label="$t('ploginlog.loginTime')" width="170" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('loginTime')" />
+      <!-- <el-table-column prop="createTime" :label="$t('common.tipCreateTime')" width="170" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('loginTime')" /> -->
       <el-table-column prop="location" :label="$t('psms.location')" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('location')" />
       <el-table-column prop="userIP" :label="$t('psms.userIP')" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('userIP')" />
-      <el-table-column prop="remark" :label="$t('layout.description')" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('remark')" />
+      <!-- <el-table-column prop="remark" :label="$t('ploginlog.reMarks')" align="center" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('remark')" /> -->
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button type="danger" plain size="small" icon="delete" :title="$t('btn.delete')"
@@ -81,12 +81,12 @@
   })
   const columns = ref([
     { visible: false, prop: 'id', label: 'Id' },
-    { visible: true, prop: 'userId', label: '用户id' },
-    { visible: true, prop: 'onlineTime', label: '在线时长(分)' },
-    { visible: true, prop: 'loginTime', label: '登录时间' },
-    { visible: true, prop: 'location', label: '地址位置' },
-    { visible: true, prop: 'userIP', label: '用户IP' },
-    { visible: true, prop: 'remark', label: '备注' }
+    { visible: true, prop: 'userId', label: proxy.$t('psms.userid') },
+    { visible: true, prop: 'onlineTime', label: proxy.$t('ploginlog.duration') },
+    { visible: true, prop: 'loginTime', label: proxy.$t('ploginlog.loginTime') },
+    { visible: true, prop: 'location', label: proxy.$t('psms.location') },
+    { visible: true, prop: 'userIP', label: proxy.$t('psms.userIP') },
+    // { visible: true, prop: 'remark', label: proxy.$t('common.tipConfirmDel') }
   ])
   const total = ref(0)
   const dataList = ref([])
@@ -98,7 +98,7 @@
   var dictParams = []
 
   function getList() {
-    proxy.addDateRange(queryParams, dateRangeAddTime.value, 'AddTime')
+    proxy.addDateRange(queryParams, dateRangeAddTime.value, 'CreateTime')
     loading.value = true
     listOnlineLog(queryParams).then((res) => {
       const { code, data } = res
@@ -158,30 +158,30 @@
 
   // 删除按钮操作
   function handleDelete(row) {
-    const Ids = row.id || ids.value
-
+    // const Ids = row.userid || ids.value
+    // console.log(row, Ids)
     proxy
-      .$confirm('是否确认删除参数编号为"' + Ids + '"的数据项？', '警告', {
-        confirmButtonText: proxy.$t('common.ok'),
-        cancelButtonText: proxy.$t('common.cancel'),
-        type: 'warning'
+      .$confirm(proxy.$t('common.tipConfirmDel') + row.userid + ',' + row.name + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return delOnlineLog(Ids)
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
   }
 
   // 导出按钮操作
   function handleExport() {
     proxy
-      .$confirm('是否确认导出用户在线时长数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.tipConfirmExport') + "<" + proxy.$t('ploginlog.userName') + proxy.$t('ploginlog.duration') + ".xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(async () => {
         await proxy.downFile('/monitor/UserOnlineLog/export', { ...queryParams })

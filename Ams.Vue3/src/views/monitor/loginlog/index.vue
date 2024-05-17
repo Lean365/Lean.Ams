@@ -32,7 +32,7 @@
       </el-col>
       <el-col :span="1.5">
         <el-button type="info" plain icon="delete" @click="handleClean" v-hasPermi="['monitor:logininfor:remove']"
-          :title="$t('btn.truncate')">{{$t('btn.truncate')}}</el-button>
+          :title="$t('btn.empty')">{{$t('btn.empty')}}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['system:logininfor:export']"
@@ -150,7 +150,7 @@
   function handleDelete(row) {
     const infoIds = row.infoId || ids.value
     proxy
-      .$confirm(proxy.$t('common.confirmDel') + infoIds + proxy.$t('common.confirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tips'), {
+      .$confirm(proxy.$t('common.tipConfirmDel') + infoIds + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
         confirmButtonText: proxy.$t('btn.submit'),
         cancelButtonText: proxy.$t('btn.cancel'),
         type: "warning",
@@ -160,13 +160,13 @@
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess(proxy.$t('common.deleteSucceed'))
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
   }
   /** 清空按钮操作 */
   function handleClean() {
     proxy
-      .$confirm(proxy.$t('common.confirmEmpty'), proxy.$t('btn.empty') + ' ' + proxy.$t('common.tips'), {
+      .$confirm(proxy.$t('common.tipConfirmEmpty'), proxy.$t('btn.empty') + ' ' + proxy.$t('common.tip'), {
         confirmButtonText: proxy.$t('btn.submit'),
         cancelButtonText: proxy.$t('btn.cancel'),
         type: "warning",
@@ -176,13 +176,13 @@
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess(proxy.$t('common.emptySucceed'))
+        proxy.$modal.msgSuccess(proxy.$t('common.tipEmptySucceed'))
       })
   }
   /** 导出按钮操作 */
   function handleExport() {
     proxy
-      .$confirm(proxy.$t('common.confirmExport') + proxy.$t('ploginlog.loginLog'), proxy.$t('btn.export') + ' ' + proxy.$t('common.tips'), {
+      .$confirm(proxy.$t('common.tipConfirmExport') + '<' + proxy.$t('ploginlog.loginLog') + '.xlsx>', proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
         confirmButtonText: proxy.$t('btn.submit'),
         cancelButtonText: proxy.$t('btn.cancel'),
         type: "warning",

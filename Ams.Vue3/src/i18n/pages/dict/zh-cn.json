@@ -3,9 +3,9 @@
     "dict": "数据字典",
     "dictType": "字典类型",
     "dictName": "字典名称",
-    "isStatus": "状态",
-    "type": "是否内置",
-    "createTime": "创建时间",
+    "isStated": "状态",
+    "langKey": "翻译key",
+    "builtin": "是否内置",
     "dictId": "字典编号",
     "reMarks": "备注",
     "customSql": "自定义sql",
@@ -30,10 +30,10 @@
     "textinfo": "信息",
     "textwarning": "警告",
     "textdanger": "危险",
-    "textorange": "橘红色",
-    "texthotpink": "粉红色",
+    "textorange": "橘红",
+    "texthotpink": "粉红",
     "textgreen": "绿色",
-    "textgreenyellow": "黄绿色",
+    "textgreenyellow": "黄绿",
     "textpurple": "紫色"
   }
 }
