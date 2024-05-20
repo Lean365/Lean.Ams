@@ -25,13 +25,13 @@ namespace Ams.WebApi.Controllers.Monitor
         /// <summary>
         /// 查询登录日志
         /// </summary>
-        /// <param name="sysLogininfoDto"></param>
+        /// <param name="SysLoginDto"></param>
         /// <param name="pagerInfo"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        public IActionResult LoignLogList([FromQuery] LogLogin sysLogininfoDto, [FromQuery] PagerInfo pagerInfo)
+        public IActionResult LoignLogList([FromQuery] LogLogin SysLoginDto, [FromQuery] PagerInfo pagerInfo)
         {
-            var list = _SysLoginService.GetLoginLog(sysLogininfoDto, pagerInfo);
+            var list = _SysLoginService.GetLoginLog(SysLoginDto, pagerInfo);
 
             return SUCCESS(list);
         }

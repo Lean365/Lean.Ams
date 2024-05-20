@@ -14,14 +14,14 @@ namespace Ams.WebApi.Controllers.System
     public class SysUserRoleController : BaseController
     {
         private readonly ISysUserRoleService _SysUserRoleService;
-        private readonly ISysUserService _SysUserService;
+        //private readonly ISysUserService _SysUserService;
 
         public SysUserRoleController(
-            ISysUserRoleService sysUserRoleService,
-            ISysUserService userService)
+            ISysUserRoleService SysUserRoleService)
+        //ISysUserService userService)
         {
-            _SysUserRoleService = sysUserRoleService;
-            _SysUserService = userService;
+            _SysUserRoleService = SysUserRoleService;
+            //_SysUserService = userService;
         }
 
         /// <summary>

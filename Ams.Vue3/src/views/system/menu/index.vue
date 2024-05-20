@@ -107,8 +107,8 @@
               v-hasPermi="['system:menu:add']" :title="$t('btn.add')"></el-button>
             <el-button type="danger" plain size="small" icon="Delete" @click="handleDelete(scope.row)"
               v-hasPermi="['system:menu:remove']" :title="$t('btn.delete')"></el-button>
-            <el-button color="#c45656" plain size="small" icon="DeleteFilled" @click="handleDeleteAll(scope.row)"
-              :title="$t('common.all')">
+            <el-button type="warning" plain size="small" icon="DeleteFilled" @click="handleDeleteAll(scope.row)"
+              :title="$t('btn.delete')+' '+$t('common.all')">
             </el-button>
           </el-button-group>
         </template>

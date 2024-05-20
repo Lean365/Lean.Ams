@@ -32,8 +32,10 @@
 
   ])
 
+
   function handleLanguageChange(lang) {
-    proxy.$modal.loading(proxy.$t('layout.switchingLanguage'))
+    //console.log(lang)
+    proxy.$modal.loading(proxy.$t('layout.headerMultiLanguageChange') + proxy.$t('common.tipWaitingfor'))
     appStore.setLang(lang)
     setTimeout('window.location.reload()', 1000)
   }

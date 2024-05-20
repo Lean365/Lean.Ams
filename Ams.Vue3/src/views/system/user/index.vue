@@ -124,12 +124,12 @@
                 <el-button type="success" plain size="small" icon="Edit" @click="handleUpdate(scope.row)"
                   v-hasPermi="['system:user:edit']" :title="$t('btn.edit')">
                 </el-button>
+                <el-button v-if="scope.row.userId !== 1" type="warning" plain size="small" icon="Key"
+                  :title="$t('btn.resetPassword')" @click="handleResetPwd(scope.row)"
+                  v-hasPermi="['system:user:resetPwd']"></el-button>
                 <el-button v-if="!scope.row.isAdmin" type="danger" plain size="small" icon="Delete"
                   @click="handleDelete(scope.row)" v-hasPermi="['system:user:remove']" :title="$t('btn.delete')">
                 </el-button>
-                <el-button v-if="scope.row.userId !== 1" color="#c45656" plain size="small" icon="Key"
-                  :title="$t('btn.resetPassword')" @click="handleResetPwd(scope.row)"
-                  v-hasPermi="['system:user:resetPwd']"></el-button>
               </el-button-group>
             </template>
           </el-table-column>

@@ -127,7 +127,8 @@
           <template #label>
             {{$t('gencode.useSnowflakeId')}}
             <span>
-              <el-tooltip :content="$t('gencode.useSnowflakeIdMemo')" placement="top">
+              <el-tooltip :content="$t('gencode.useSnowflakeIdMemo')+$t('gencode.useSnowflakeIdForexample')"
+                placement="top">
                 <el-icon>
                   <question-filled />
                 </el-icon>
@@ -161,7 +162,7 @@
           <template #label>
             {{$t('gencode.genType')}}
             <span>
-              <el-tooltip :content="$t('gencode.genTypeMemo')" placement="top">
+              <el-tooltip :content="$t('gencode.defCustomPath')" placement="top">
                 <el-icon>
                   <question-filled />
                 </el-icon>

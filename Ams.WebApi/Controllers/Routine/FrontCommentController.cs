@@ -22,7 +22,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <summary>
         ///
         /// </summary>
-        /// <param name="messageService"></param>
+        /// <param name="ArticleCommentService"></param>
         public FrontCommentController(IArticleCommentService ArticleCommentService)
         {
             this._ArticleCommentService = ArticleCommentService;

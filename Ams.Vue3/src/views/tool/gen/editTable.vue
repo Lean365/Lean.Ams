@@ -1,27 +1,29 @@
 <template>
   <div>
     <el-tabs v-model="activeName" tab-position="top">
-      <el-tab-pane label="基本信息" name="basic">
+      <el-tab-pane :label="$t('gencode.basic')" name="basic">
         <basic-info-form ref="basicInfo" :info="info" />
       </el-tab-pane>
-      <el-tab-pane label="生成信息" name="genInfo">
+      <el-tab-pane :label="$t('gencode.genInfo')" name="genInfo">
         <gen-info-form ref="genInfo" :info="info" :tables="tables" :columns="columns" />
       </el-tab-pane>
-      <el-tab-pane label="字段信息" name="cloum">
+      <el-tab-pane :label="$t('gencode.cloum')" name="cloum">
         <el-table ref="dragTableRef" v-loading="loading" :data="columns" row-key="columnId" min-height="80px"
           :max-height="tableHeight">
           <el-table-column label="#" type="index" class-name="allowDrag" width="60" fixed />
-          <el-table-column label="字段列名" prop="columnName" :show-overflow-tooltip="true" width="90" fixed />
-          <el-table-column label="字段描述" fixed width="120">
+          <el-table-column :label="$t('gencode.columnName')" prop="columnName" :show-overflow-tooltip="true" width="90"
+            fixed />
+          <el-table-column :label="$t('gencode.columnComment')" fixed width="120">
             <template #default="scope">
               <el-input v-model="scope.row.columnComment" :ref="setColumnsRef"
                 @keydown="nextFocus(scope.row, scope.$index, $event)"> </el-input>
             </template>
           </el-table-column>
-          <el-table-column label="物理类型" prop="columnType" :show-overflow-tooltip="true" width="90" />
-          <el-table-column label="C#类型" width="100">
+          <el-table-column :label="$t('gencode.columnType')" prop="columnType" :show-overflow-tooltip="true"
+            width="90" />
+          <el-table-column :label="$t('gencode.csharpType')" width="140">
             <template #default="scope">
-              <el-select v-model="scope.row.csharpType">
+              <el-select v-model="scope.row.csharpType" style="width:120px">
                 <el-option label="int" value="int" />
                 <el-option label="long" value="long" />
                 <el-option label="string" value="string" />
@@ -32,90 +34,91 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="C#属性" width="100">
+          <el-table-column :label="$t('gencode.csharpField')" width="100">
             <template #default="scope">
               <el-input v-model="scope.row.csharpField"></el-input>
             </template>
           </el-table-column>
-          <el-table-column label="必填" width="60" align="center">
+          <el-table-column :label="$t('gencode.isRequired')" width="60" align="center">
             <template #default="scope">
               <!-- <el-checkbox v-model="scope.row.isRequired"></el-checkbox> -->
               <el-switch v-model="scope.row.isRequired" />
             </template>
           </el-table-column>
-          <el-table-column label="前端" align="center" label-class-name="text-info">
+          <el-table-column :label="$t('gencode.front')" align="center" label-class-name="text-info">
             <template #header>
               <span>
-                <el-tooltip content="前端表单会显示所有列，如不需要请手动删除即可" placement="top">
+                <el-tooltip :content="$t('gencode.frontMemo')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
                 </el-tooltip>
-                前端
+                {{$t('gencode.front')}}
               </span>
             </template>
-            <el-table-column label="列表" width="60" align="center">
+            <el-table-column :label="$t('gencode.isList')" width="60" align="center">
               <template #default="scope">
                 <el-checkbox v-model="scope.row.isList"></el-checkbox>
               </template>
             </el-table-column>
-            <el-table-column label="排序" width="60" align="center">
+            <el-table-column :label="$t('gencode.isSort')" width="60" align="center">
               <template #default="scope">
                 <el-checkbox v-model="scope.row.isSort"
                   :disabled="scope.row.htmlType == 'imageUpload' || scope.row.htmlType == 'fileUpload'"></el-checkbox>
               </template>
             </el-table-column>
           </el-table-column>
-          <el-table-column label="后端" align="center" label-class-name="text-hotpink">
+          <el-table-column :label="$t('gencode.back')" align="center" label-class-name="text-hotpink">
             <!-- <el-table-column label="插入" width="60" align="center" v-if="info.tplCategory != 'select'">
               <template #default="scope">
                 <el-checkbox v-model="scope.row.isInsert" :disabled="scope.row.isIncrement"></el-checkbox>
               </template>
             </el-table-column> -->
-            <el-table-column label="编辑" width="60" align="center" v-if="info.tplCategory != 'select'">
+            <el-table-column :label="$t('gencode.isEdit')" width="60" align="center"
+              v-if="info.tplCategory != 'select'">
               <template #default="scope">
                 <el-checkbox v-model="scope.row.isEdit"
                   :disabled="scope.row.isPk || scope.row.isIncrement"></el-checkbox>
               </template>
             </el-table-column>
-            <el-table-column label="自动填充" width="90" align="center">
+            <el-table-column :label="$t('gencode.autoFillType')" align="center">
               <template #header>
                 <span>
-                  <el-tooltip content="如果数据库有默认值，选择后会自动插入默认值" placement="top">
+                  <el-tooltip :content="$t('gencode.autoFillMemo')" placement="top">
                     <el-icon :size="15">
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  自动填充
+                  {{$t('gencode.autoFillType')}}
                 </span>
               </template>
               <template #default="scope">
-                <el-select v-model="scope.row.autoFillType">
+                <el-select v-model="scope.row.autoFillType" style="width:100px" clearable filterable>
                   <el-option label=" " :value="0" />
-                  <el-option label="插入" :value="1" />
-                  <el-option label="编辑" :value="2" />
-                  <el-option label="插入编辑" :value="3" />
+                  <el-option :label="$t('gencode.autoFillInsert')" :value="1" />
+                  <el-option :label="$t('gencode.isEdit')" :value="2" />
+                  <el-option :label="$t('gencode.autoFillInsertEdit')" :value="3" />
                 </el-select>
               </template>
             </el-table-column>
-            <el-table-column label="导出" width="60" align="center">
+            <el-table-column :label="$t('gencode.isExport')" width="60" align="center">
               <template #default="scope">
                 <el-checkbox v-model="scope.row.isExport"> </el-checkbox>
               </template>
             </el-table-column>
           </el-table-column>
-          <el-table-column label="查询" align="center" label-class-name="text-green">
-            <el-table-column label="查询" width="60" align="center">
+          <el-table-column :label="$t('gencode.query')" align="center" label-class-name="text-green">
+            <el-table-column :label="$t('gencode.isQuery')" width="60" align="center">
               <template #default="scope">
                 <el-checkbox v-model="scope.row.isQuery"
                   :disabled="scope.row.htmlType == 'imageUpload' || scope.row.htmlType == 'fileUpload'">
                 </el-checkbox>
               </template>
             </el-table-column>
-            <el-table-column label="查询方式" width="90" align="center">
+            <el-table-column :label="$t('gencode.queryType')" align="center">
               <template #default="scope">
-                <el-select v-model="scope.row.queryType" :disabled="scope.row.htmlType == 'datetime'"
-                  v-if="scope.row.isQuery">
+                <el-select v-model="scope.row.queryType" :disabled="scope.row.htmlType == 'datetime'" clearable
+                  filterable v-if="scope.row.isQuery" style="width:100px">
                   <el-option label="=" value="EQ" />
                   <el-option label="!=" value="NE" />
                   <el-option label=">" value="GT" />
@@ -129,9 +132,9 @@
             </el-table-column>
           </el-table-column>
 
-          <el-table-column label="表单显示类型" width="140">
+          <el-table-column :label="$t('gencode.htmlType')" width='160px'>
             <template #default="scope">
-              <el-select v-model="scope.row.htmlType">
+              <el-select v-model="scope.row.htmlType" clearable filterable style="width:140px">
                 <el-option :label="$t('gencode.forminput')" value="input" />
                 <el-option :label="$t('gencode.forminputNumber')" value="inputNumber" />
                 <el-option :label="$t('gencode.formtextarea')" value="textarea" />
@@ -150,13 +153,14 @@
                 <el-option :label="$t('gencode.formcolorPicker')" value="colorPicker" />
                 <el-option :label="$t('gencode.formmonth')" value="month" />
                 <el-option :label="$t('gencode.formswitch')" value="switch" />
-                <el-option :label="$t('gencode.slider')" value="slider" />
+                <el-option :label="$t('gencode.formslider')" value="slider" />
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="字典类型" min-width="140">
+          <el-table-column :label="$t('gencode.dictType')" width='160px'>
             <template #default="scope">
-              <el-select v-model="scope.row.dictType" clearable filterable placeholder="请选择字典类型" v-if="
+              <el-select v-model="scope.row.dictType" clearable filterable style="width:140px"
+                :placeholder="$t('btn.select')+$t('gencode.dictType')" v-if="
                   scope.row.htmlType == 'selectMulti' ||
                   scope.row.htmlType == 'selectRemote' ||
                   scope.row.htmlType == 'select' ||
@@ -172,19 +176,20 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="备注" align="center" width="200">
+          <el-table-column :label="$t('common.tipRemarks')" align="center">
             <template #default="scope">
               <el-input v-model="scope.row.remark"> </el-input>
             </template>
           </el-table-column>
         </el-table>
-        <div style="font-size: 12px; color: #8492a6">提示：拖动单元格可排序</div>
+        <div style="font-size: 12px; color: #f57004">{{$t('gencode.sortMemo')}}</div>
       </el-tab-pane>
     </el-tabs>
     <footer class="mt20" style="text-align: center">
-      <el-button type="primary" icon="check" :loading="submitLoading" @click="submitForm()">提交</el-button>
-      <el-button type="success" icon="refresh" @click="handleQuery()">刷新</el-button>
-      <el-button icon="back" @click="close()">返回</el-button>
+      <el-button type="primary" icon="check" :loading="submitLoading"
+        @click="submitForm()">{{$t('btn.submit')}}</el-button>
+      <el-button type="success" icon="refresh" @click="handleQuery()">{{$t('btn.refresh')}}</el-button>
+      <el-button icon="back" @click="close()">{{$t('btn.return')}}</el-button>
     </footer>
   </div>
 </template>

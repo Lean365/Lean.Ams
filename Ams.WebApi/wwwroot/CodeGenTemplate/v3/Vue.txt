@@ -115,7 +115,7 @@ $end
 $if(ReplaceDto.ShowBtnImport)
       <el-col :span="1.5">
         <el-dropdown trigger="click" v-hasPermi="['${ReplaceDto.PermissionPrefix}:import']">
-          <el-button color="#626aef" plain icon="Upload">
+          <el-button plain icon="Upload">
             {{ ${t}t('btn.import') }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
           </el-button>
           <template #dropdown>
