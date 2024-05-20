@@ -6,8 +6,6 @@
     "isStated": "狀態",
     "langKey": "翻譯key",
     "builtin": "是否內置",
-    "dictId": "字典編號",
-    "reMarks": "備註",
     "customSql": "自定義sql",
     "dictTypememo": "如果從資料庫載入數據,請使用sql_開頭字串",
     "customSqlmemo": "如果從資料庫載入數據,請按此格式配置sql語句:SELECT userId as dictValue, userName as dictLabel FROM sys_user",

@@ -31,13 +31,10 @@
     "Accounting": "会計"
   },
   "fupload": {
-    "fileID": "id",
     "fileDown": "ファイル--ダウン",
     "fileSize": "サイズ",
     "fileExt": "拡張子",
     "fileStorageType": "ストレージ",
-    "fileOperator": "作成",
-    "fileCreatedate": "作成日",
     "filePreview": "略図",
     "fileOperation": "操作",
     "storageType": "ストレージタイプ",

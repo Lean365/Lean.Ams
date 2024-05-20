@@ -11,7 +11,6 @@
     "runTimes": "実行回数",
     "intervalSecond": "実行間隔 (秒)",
     "cron": "表示式",
-    "reMarks": "備考",
     "jobParams": "パラメータ",
     "lastRunTime": "最終実行時間",
     "apiUrl": "Api Url",

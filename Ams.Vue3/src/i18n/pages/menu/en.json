@@ -1,9 +1,7 @@
 {
   "pmenu": {
     "menuName": "Name",
-    "menuState": "Status",
     "icon": "Icon",
-    "menuid": "ID",
     "menuType": "Type",
     "sort": "Sort",
     "authorityID": "Authority",
@@ -27,6 +25,6 @@
     "permissionStrmemo": "permission characters defined in the controller, such as: [ActionPermissionFilter(Permission = 'system:user:delete')]",
     "isCachememo": "Select Yes and it will be cached by 'keep-alive', and the 'name' and address of the matching component need to be consistent",
     "isShowmemo": "Select hide and the route will not appear in the sidebar, but will still be accessible",
-    "menuStatememo": "Select Deactivate and the route will not appear in the sidebar and cannot be accessed"
+    "menuIsStatedTip": "Select Deactivate and the route will not appear in the sidebar and cannot be accessed"
   }
 }

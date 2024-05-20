@@ -31,13 +31,10 @@
     "Accounting": "Accounting"
   },
   "fupload": {
-    "fileID": "file id",
     "fileDown": "filename--download",
     "fileSize": "file size",
     "fileExt": "extension",
     "fileStorageType": "Storage Type",
-    "fileOperator": "Operator",
-    "fileCreatedate": "Date Created",
     "filePreview": "Thumbnail",
     "fileOperation": "Action",
     "storageType": "storage type",

@@ -11,7 +11,6 @@
     "runTimes": "Runs",
     "intervalSecond": "Execution interval (s)",
     "cron": "Formula",
-    "reMarks": "Remarks",
     "jobParams": "Task parameters",
     "lastRunTime": "Last run time",
     "apiUrl": "Api request address",

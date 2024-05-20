@@ -33,12 +33,12 @@
     <el-table v-if="refreshTable" v-loading="loading" :data="deptList" row-key="deptId"
       :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
       <el-table-column prop="deptName" :label="$t('pdept.deptName')" width="240"></el-table-column>
-      <el-table-column prop="deptId" :label="$t('pdept.deptId')"></el-table-column>
+      <el-table-column prop="deptId" label="Id"></el-table-column>
       <el-table-column prop="leader" :label="$t('pdept.leader')" width="100"></el-table-column>
       <el-table-column prop="phone" :label="$t('pdept.phone')" width="120"></el-table-column>
       <el-table-column prop="email" :label="$t('pdept.email')" width="120"></el-table-column>
       <el-table-column prop="userNum" :label="$t('pdept.deptMembership')" width="100"></el-table-column>
-      <el-table-column prop="orderNum" :label="$t('pdept.orderNum')"></el-table-column>
+      <el-table-column prop="orderNum" :label="$t('pdept.sort')"></el-table-column>
       <el-table-column prop="isStated" :label="$t('pdept.isStated')" align="center">
         <template #default="scope">
           <dict-tag :options="statusOptions" :value="scope.row.isStated" />
@@ -99,7 +99,7 @@
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item :label="$t('pdept.orderNum')" prop="orderNum">
+            <el-form-item :label="$t('pdept.sort')" prop="orderNum">
               <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
             </el-form-item>
           </el-col>

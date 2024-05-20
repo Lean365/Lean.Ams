@@ -33,15 +33,15 @@
             <el-input v-model="queryParams.phonenumber" :placeholder="$t('btn.enter')+$t('puser.userMobile')" clearable
               style="width: 240px" @keyup.enter="handleQuery" />
           </el-form-item>
-          <el-form-item :label="$t('puser.userStat')" prop="isStated">
-            <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('puser.userStat')" clearable
+          <el-form-item :label="$t('common.tipIsStated')" prop="isStated">
+            <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('common.tipIsStated')" clearable
               style="width: 240px">
               <el-option :label="$t('common.all')" :value="-1" />
               <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
                 :value="dict.dictValue" />
             </el-select>
           </el-form-item>
-          <el-form-item :label="$t('puser.Createdate')">
+          <el-form-item :label="$t('common.tipCreateTime')">
             <el-date-picker v-model="dateRange" style="width: 240px" type="daterange" range-separator="-"
               :start-placeholder="$t('btn.dateStart')" :end-placeholder="$t('btn.dateEnd')"></el-date-picker>
           </el-form-item>
@@ -85,8 +85,7 @@
 
         <el-table height="600" v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" :selectable="checkSelectable" />
-          <el-table-column :label="$t('puser.userID')" align="center" key="userId" prop="userId"
-            v-if="columns.showColumn('userId')" />
+          <el-table-column label="ID" align="center" key="userId" prop="userId" v-if="columns.showColumn('userId')" />
           <el-table-column :label="$t('puser.userName')" align="center" key="userName" prop="userName"
             v-if="columns.showColumn('userName')" :show-overflow-tooltip="true" />
           <el-table-column :label="$t('puser.userNick')" align="center" key="nickName" prop="nickName"
@@ -95,7 +94,7 @@
             v-if="columns.showColumn('deptName')" :show-overflow-tooltip="true" />
           <el-table-column :label="$t('puser.userMobile')" align="center" key="phonenumber" prop="phonenumber"
             v-if="columns.showColumn('phonenumber')" width="120" />
-          <el-table-column :label="$t('puser.userStat')" align="center" key="isStated"
+          <el-table-column :label="$t('common.tipIsStated')" align="center" key="isStated"
             v-if="columns.showColumn('isStated')">
             <template #default="scope">
               <el-switch v-model="scope.row.isStated" :disabled="scope.row.userName == 'admin'" :active-value="0"
@@ -103,7 +102,7 @@
                 @change="handleStatusChange(scope.row)"></el-switch>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('puser.Createdate')" align="center" prop="createTime"
+          <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime"
             v-if="columns.showColumn('createTime')" width="160"></el-table-column>
           <el-table-column prop="sex" :label="$t('puser.sex')" align="center" v-if="columns.showColumn('sex')">
             <template #default="scope">
@@ -188,7 +187,7 @@
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item :label="$t('puser.userStat')">
+            <el-form-item :label="$t('common.tipIsStated')">
               <el-radio-group v-model="form.isStated">
                 <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                   dict.dictLabel }}</el-radio>
@@ -218,9 +217,9 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item :label="$t('puser.memo')">
+            <el-form-item :label="$t('common.tipRemarks')">
               <el-input v-model="form.remark" type="textarea"
-                :placeholder="$t('btn.enter')+$t('puser.memo')"></el-input>
+                :placeholder="$t('btn.enter')+$t('common.tipRemarks')"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -306,13 +305,13 @@
   })
   // 列显隐信息
   const columns = ref([
-    { key: 0, label: proxy.$t('puser.userID'), visible: true, prop: 'userId' },
+    { key: 0, label: 'ID', visible: true, prop: 'userId' },
     { key: 1, label: proxy.$t('puser.userName'), visible: true, prop: 'userName' },
     { key: 2, label: proxy.$t('puser.userNick'), visible: true, prop: 'nickName' },
     { key: 3, label: proxy.$t('puser.deptName'), visible: true, prop: 'deptName' },
     { key: 4, label: proxy.$t('puser.userMobile'), visible: true, prop: 'phonenumber' },
-    { key: 5, label: proxy.$t('puser.userStat'), visible: true, prop: 'isStated' },
-    { key: 6, label: proxy.$t('puser.Createdate'), visible: false, prop: 'createTime' },
+    { key: 5, label: proxy.$t('common.tipIsStated'), visible: true, prop: 'isStated' },
+    { key: 6, label: proxy.$t('common.tipCreateTime'), visible: false, prop: 'createTime' },
     { key: 7, label: proxy.$t('puser.sex'), visible: true, prop: 'sex' },
     { key: 8, label: proxy.$t('puser.avatar'), visible: true, prop: 'avatar' },
     { key: 9, label: proxy.$t('puser.email'), visible: false, prop: 'email' },

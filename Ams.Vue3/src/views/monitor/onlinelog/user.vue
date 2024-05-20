@@ -7,7 +7,7 @@
       </el-form-item>
       <el-form-item>
         <el-radio-group v-model="viewSwitch">
-          <el-radio-button value="1">{{$t('btn.gird')}}</el-radio-button>
+          <el-radio-button value="1">{{$t('btn.grid')}}</el-radio-button>
           <el-radio-button value="2">{{$t('btn.card')}}</el-radio-button>
         </el-radio-group>
       </el-form-item>

@@ -8,7 +8,7 @@
       <!-- <el-form-item label="权限字符" prop="roleKey">
         <el-input v-model="queryParams.roleKey" placeholder="请输入权限字符" clearable  style="width: 240px" @keyup.enter.native="handleQuery" />
       </el-form-item> -->
-      <el-form-item :label="$t('prole.isStated')" prop="isStated">
+      <el-form-item :label="$t('common.tipIsStated')" prop="isStated">
         <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('prole.roleName')" clearable>
           <el-option :label="$t('common.all')" :value="-1" />
           <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
@@ -35,7 +35,7 @@
       <el-table-column :label="$t('prole.troleSort')" prop="roleSort"></el-table-column>
       <el-table-column :label="$t('prole.troleKey')" prop="roleKey" />
       <el-table-column :label="$t('prole.troleScope')" prop="dataScope" :formatter="dataScopeFormat"></el-table-column>
-      <el-table-column :label="$t('prole.isStated')" width="90">
+      <el-table-column :label="$t('common.tipIsStated')" width="90">
         <template #default="scope">
           <el-switch v-model="scope.row.isStated" :disabled="scope.row.roleKey == 'admin'" :active-value="0"
             :inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
@@ -46,8 +46,8 @@
           <el-link type="primary" @click="handleAuthUser(scope.row)">{{ scope.row.userNum }}</el-link>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('prole.createTime')" prop="createTime" width="150" />
-      <el-table-column :label="$t('prole.reMarks')" align="center" prop="remark" width="150"
+      <el-table-column :label="$t('common.tipCreateTime')" prop="createTime" width="150" />
+      <el-table-column :label="$t('common.tipRemarks')" align="center" prop="remark" width="150"
         :show-overflow-tooltip="true" />
       <el-table-column :label="$t('btn.operation')" align="center" width="200">
         <template #default="scope">
@@ -86,7 +86,7 @@
       v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 角色菜单弹框 -->
-    <zr-dialog :title="$t('menu.drolePermi')" key="role" top="0vh" draggable="" v-model="showRoleScope" width="700px"
+    <zr-dialog :title="$t('prole.drolePermi')" key="role" top="0vh" draggable="" v-model="showRoleScope" width="700px"
       @close="cancel">
       <el-form :model="form" label-width="auto">
         <el-form-item :label="$t('prole.droleQuery')">
@@ -163,7 +163,7 @@
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item :label="$t('prole.isStated')">
+            <el-form-item :label="$t('common.tipIsStated')">
               <el-radio-group v-model="form.isStated">
                 <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                   dict.dictLabel }}</el-radio>
@@ -190,9 +190,9 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item :label="$t('prole.reMarks')">
+            <el-form-item :label="$t('common.tipRemarks')">
               <el-input v-model="form.remark" type="textarea"
-                :placeholder="$t('btn.enter')+$t('prole.reMarks')"></el-input>
+                :placeholder="$t('btn.enter')+$t('common.tipRemarks')"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -349,19 +349,19 @@
   }
   // 角色状态修改
   function handleStatusChange(row) {
-    const text = row.isStated == 0 ? '启用' : '停用'
+    const text = row.isStated == 0 ? proxy.$t('prole.statStart') : proxy.$t('prole.statStop')
 
     proxy
-      .$confirm('确认要"' + text + '""' + row.roleName + '"角色吗?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('prole.statMemo') + text + '"' + row.roleName + '"' + proxy.$t('prole.statconfirmMemo'), proxy.$t('common.tipIsStated') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return changeRoleStatus(row.roleId, row.isStated)
       })
       .then(() => {
-        proxy.$modal.msgSuccess(text + '成功')
+        proxy.$modal.msgSuccess(text + proxy.$t('common.tipUpdateSucceed'))
       })
       .catch(function () {
         row.isStated = row.isStated == 0 ? 1 : 0
@@ -473,7 +473,7 @@
     reset()
     getDeptTreeselect()
     open.value = true
-    title.value = '添加角色'
+    title.value = proxy.$t('btn.add') + ' ' + proxy.$t('prole.role')
     showRoleScope.value = false
   }
 
@@ -486,7 +486,7 @@
     getRole(roleId).then((response) => {
       form.value = response.data
       open.value = true
-      title.value = '修改角色'
+      title.value = proxy.$t('btn.edit') + ' ' + proxy.$t('prole.role')
 
       nextTick(() => {
         roleDeptTreeselect.then((res) => {

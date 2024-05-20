@@ -58,7 +58,7 @@
     </div>
 
     <div class="card">
-      <h4 class="title">{{ $t('layout.license') }}</h4>
+      <h4 class="title">{{ $t('layout.projectLicense') }}</h4>
       <a target="_blank" style="color: #5c6b77" href="/src/views/system/about/license.html">MIT</a>
     </div>
   </div>

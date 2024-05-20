@@ -11,6 +11,6 @@
     "showColumn": "列非表示",
     "hiddenSearch": "検索非表示",
     "showSearch": "検索表示",
-    "showHide": "表示/非表示"
+    "showHidden": "表示/非表示"
   }
 }

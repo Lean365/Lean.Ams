@@ -1,7 +1,6 @@
 {
   "prole": {
     "check": "檢查父節點是否也選擇了子節點",
-    "createTime": "創建時間",
     "customization": "定製",
     "dataPermi": "數據許可權",
     "dataScope": "數據範圍",
@@ -13,14 +12,12 @@
     "drolePermi": "角色权限分配",
     "droleQuery": "菜单搜索",
     "exportMenu": "導出功能表",
-    "isStated": "狀態",
     "keywords": "關鍵字過濾",
     "linkage": "父子聯動",
-    "linkageMemo": "勾選父節點是否同時選中子節點",
+    "linkageTip": "勾選父節點是否同時選中子節點",
     "loading": "加載中,請稍後",
     "noPermission": "你沒有訪問許可權",
     "onlyme": "我",
-    "reMarks": "備註",
     "role": "角色",
     "roleName": "角色名稱",
     "selectAllorNo": "全選/反選",

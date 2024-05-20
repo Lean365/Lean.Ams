@@ -3,12 +3,11 @@
     "parentDepartment": "parent",
     "deptName": "Name",
     "isStated": "Status",
-    "deptId": "id",
     "leader": "leader",
-    "orderNum": "sort",
-    "phone": "phone",
-    "email": "email",
-    "dept": "dept",
+    "sort": "Sort",
+    "phone": "Phone",
+    "email": "Email",
+    "dept": "Dept",
     "deptMembership": "Membership"
   }
 }

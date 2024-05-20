@@ -9,8 +9,8 @@
         <el-input v-model="queryParams.postName" :placeholder="$t('btn.enter')+$t('ppost.postName')"
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item :label="$t('ppost.isStated')" prop="isStated">
-        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('ppost.isStated')">
+      <el-form-item :label="$t('common.tipIsStated')" prop="isStated">
+        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('common.tipIsStated')">
           <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -52,7 +52,7 @@
       <el-table-column :label="$t('ppost.postName')" align="center" prop="postName" />
       <el-table-column :label="$t('ppost.postMembership')" align="center" prop="userNum" sortable />
       <el-table-column :label="$t('ppost.postSort')" align="center" prop="postSort" sortable />
-      <el-table-column :label="$t('ppost.isStated')" align="center" prop="isStated">
+      <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStated">
         <template #default="scope">
           <dict-tag :options="statusOptions" :value="scope.row.isStated" />
         </template>
@@ -93,15 +93,15 @@
         <el-form-item :label="$t('ppost.postSort')" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
         </el-form-item>
-        <el-form-item :label="$t('ppost.isStated')" prop="isStated">
+        <el-form-item :label="$t('common.tipIsStated')" prop="isStated">
           <el-radio-group v-model="form.isStated">
             <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt( dict.dictValue)">{{
               dict.dictLabel
               }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item :label="$t('ppost.reMarks')" prop="remark">
-          <el-input v-model="form.remark" type="textarea" :placeholder="$t('btn.enter')+$t('ppost.reMarks')" />
+        <el-form-item :label="$t('common.tipRemarks')" prop="remark">
+          <el-input v-model="form.remark" type="textarea" :placeholder="$t('btn.enter')+$t('common.tipRemarks')" />
         </el-form-item>
       </el-form>
       <template #footer>

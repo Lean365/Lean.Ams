@@ -21,7 +21,7 @@
       <el-form-item :label="$t('psqldiff.userName')" prop="userName">
         <el-input v-model="queryParams.userName" :placeholder="$t('btn.enter')+$t('psqldiff.userName')" />
       </el-form-item>
-      <el-form-item :label="$t('psqldiff.createTime')">
+      <el-form-item :label="$t('common.tipCreateTime')">
         <el-date-picker v-model="dateRangecreateTime" type="datetimerange" :start-placeholder="$t('btn.dateStart')"
           :end-placeholder="$t('btn.dateEnd')" value-format="YYYY-MM-DD HH:mm:ss" :default-time="defaultTime"
           :shortcuts="dateOptions">
@@ -63,7 +63,7 @@
         v-if="columns.showColumn('afterData')" />
       <el-table-column prop="userName" :label="$t('psqldiff.userName')" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('userName')" />
-      <el-table-column prop="createTime" :label="$t('psqldiff.createTime')" :show-overflow-tooltip="true"
+      <el-table-column prop="createTime" :label="$t('common.tipCreateTime')" :show-overflow-tooltip="true"
         v-if="columns.showColumn('createTime')" />
       <el-table-column prop="configId" :label="$t('psqldiff.configId')" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('configId')" />
@@ -137,7 +137,7 @@
           </el-col>
 
           <el-col :lg="8">
-            <el-form-item :label="$t('psqldiff.createTime')" prop="createTime">
+            <el-form-item :label="$t('common.tipCreateTime')" prop="createTime">
               <el-date-picker v-model="form.createTime" disabled type="datetime" :teleported="false"></el-date-picker>
             </el-form-item>
           </el-col>
@@ -186,7 +186,7 @@
     { visible: true, prop: 'beforeData', label: proxy.$t('psqldiff.beforeData') },
     { visible: true, prop: 'afterData', label: proxy.$t('psqldiff.afterData') },
     { visible: true, prop: 'userName', label: proxy.$t('psqldiff.userName') },
-    { visible: false, prop: 'createTime', label: proxy.$t('psqldiff.createTime') },
+    { visible: false, prop: 'createTime', label: proxy.$t('common.tipCreateTime') },
     { visible: false, prop: 'configId', label: proxy.$t('psqldiff.configId') }
   ])
   const total = ref(0)

@@ -1,7 +1,6 @@
 {
   "prole": {
     "check": "勾选父节点是否同时选中子节点",
-    "createTime": "创建时间",
     "customization": "自定义",
     "dataPermi": "数据权限",
     "dataScope": "数据范围",
@@ -13,14 +12,12 @@
     "droleQuery": "菜单搜索",
     "expandCollapse": "展开/折叠",
     "exportMenu": "导出菜单",
-    "isStated": "状态",
     "keywords": "关键字进行过滤",
     "linkage": "父子联动",
     "linkageTip": "勾选父节点是否同时选中子节点",
     "loading": "加载中,请稍后",
     "noPermission": "你没有权限访问",
     "onlyme": "仅本人",
-    "reMarks": "备注",
     "role": "角色",
     "roleName": "角色名称",
     "selectAllorNo": "全选/全不选",

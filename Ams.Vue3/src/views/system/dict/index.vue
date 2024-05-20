@@ -71,7 +71,7 @@
           <dict-tag :options="statusOptions" :value="scope.row.isStated" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('pdict.reMarks')" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('common.tipRemarks')" align="center" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ scope.row.createTime }}</span>
@@ -127,8 +127,9 @@
               }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item :label="$t('pdict.reMarks')" prop="remark">
-          <el-input v-model="form.remark" type="textarea" :placeholder="$t('btn.enter')+$t('pdict.reMarks')"></el-input>
+        <el-form-item :label="$t('common.tipRemarks')" prop="remark">
+          <el-input v-model="form.remark" type="textarea"
+            :placeholder="$t('btn.enter')+$t('common.tipRemarks')"></el-input>
         </el-form-item>
         <el-form-item :label="$t('pdict.customSql')" prop="customSql">
           <template #label>

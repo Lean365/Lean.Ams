@@ -21,14 +21,14 @@
       </el-form-item>
       <el-form-item :label="$t('plang.showWay')">
         <el-radio-group v-model="queryParams.showMode">
-          <el-radio-button value="1">{{$t('plang.grid')}}</el-radio-button>
-          <el-radio-button value="2">{{$t('plang.transposing')}}</el-radio-button>
+          <el-radio-button value="1">{{$t('btn.grid')}}</el-radio-button>
+          <el-radio-button value="2">{{$t('btn.transpose')}}</el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item :label="$t('common.createTime')">
+      <el-form-item :label="$t('common.tipCreateTime')">
         <el-date-picker v-model="dateRangeAddtime" style="width: 240px" type="daterange" range-separator="-"
           :start-placeholder="$t('btn.dateStart')" :end-placeholder="$t('btn.dateEnd')"
-          :placeholder="$t('btn.enter')+$t('common.createTime')" value-format="YYYY-MM-DD HH:mm:ss"
+          :placeholder="$t('btn.enter')+$t('common.tipCreateTime')" value-format="YYYY-MM-DD HH:mm:ss"
           :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
@@ -254,7 +254,7 @@
     { immediate: true }
   )
   function getList() {
-    proxy.addDateRange(queryParams, proxy.dateRangeAddtime, 'Addtime')
+    proxy.addDateRange(queryParams, proxy.dateRangeAddtime, 'CreateTime')
     loading.value = true
     listLocaleLang(queryParams).then((res) => {
       if (res.code == 200) {
@@ -320,26 +320,36 @@
     const Ids = row.id || ids.value
 
     proxy
-      .$confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
+      .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
+      })
       .then(function () {
         return delLocaleLang(Ids)
       })
       .then(() => {
         handleQuery()
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
       .catch(() => { })
   }
 
   function handleDeleteByKey(row) {
+    console.log(row)
     proxy
-      .$confirm('是否确认删除key为"' + row.langKey + '"的数据项？')
+
+      .$confirm(proxy.$t('common.tipConfirmDel') + row.langKey + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
+      })
       .then(function () {
         return delLocaleLangByKey(row.langKey)
       })
       .then(() => {
         handleQuery()
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
   }
 

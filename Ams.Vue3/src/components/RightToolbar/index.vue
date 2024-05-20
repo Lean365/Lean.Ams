@@ -18,7 +18,7 @@
       :content="showSearch ? $t('pcomponents.hiddenSearch') : $t('pcomponents.showSearch')" placement="top">
       <el-button circle icon="Search" @click="toggleSearch()" />
     </el-tooltip>
-    <el-tooltip class="item" effect="dark" :content="$t('tagsView.refresh')" placement="top">
+    <el-tooltip class="item" effect="dark" :content="$t('btn.refresh')" placement="top">
       <el-button circle icon="Refresh" @click="refresh()" />
     </el-tooltip>
 
@@ -56,7 +56,7 @@
   // 显隐数据
   const value = ref([])
   // 弹出层标题
-  const title = ref(proxy.$t('pcomponents.showHide'))
+  const title = ref(proxy.$t('pcomponents.showHidden'))
   // 是否显示弹出层
   const open = ref(false)
 

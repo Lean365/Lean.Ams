@@ -8,11 +8,6 @@
     "isState": "State",
     "publisher": "Publisher",
     "displayTime": "Display Time",
-    "createBy": "Creator",
-    "createTime": "Create time",
-    "UpdateBy": "Modifier",
-    "UpdateTime": "Update time",
-    "remark": "Remarks",
     "noticeSend": "Notification sent successfully"
   }
 }

@@ -1,9 +1,7 @@
 {
   "pmenu": {
     "menuName": "菜单名称",
-    "menuState": "菜单状态",
     "icon": "图标",
-    "menuid": "菜单id",
     "menuType": "菜单类型",
     "sort": "排序",
     "authorityID": "权限标识",
@@ -27,6 +25,6 @@
     "permissionStrmemo": "控制器中定义的权限字符，如：[ActionPermissionFilter(Permission = 'system:user:delete')])",
     "isCachememo": "选择是则会被`keep-alive`缓存，需要匹配组件的`name`和地址保持一致",
     "isShowmemo": "选择隐藏则路由将不会出现在侧边栏，但仍然可以访问",
-    "menuStatememo": "选择停用则路由将不会出现在侧边栏，也不能被访问"
+    "menuIsStatedTip": "选择停用则路由将不会出现在侧边栏，也不能被访问"
   }
 }

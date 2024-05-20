@@ -15,7 +15,7 @@
             :value="dict.dictValue" />
         </el-select>
       </el-form-item>
-      <el-form-item :label="$t('pconfig.createTime')">
+      <el-form-item :label="$t('common.tipCreateTime')">
         <el-date-picker v-model="dateRange" type="daterange" range-separator="-"
           :start-placeholder="$t('btn.dateStart')" :end-placeholder="$t('btn.dateEnd')"></el-date-picker>
       </el-form-item>
@@ -52,7 +52,7 @@
     <!-- 数据列表 -->
     <el-table height="600" v-loading="loading" :data="configList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column :label="$t('pconfig.configId')" align="center" prop="configId" />
+      <el-table-column label="Id" align="center" prop="configId" />
       <el-table-column :label="$t('pconfig.configName')" align="center" prop="configName" />
       <el-table-column :label="$t('pconfig.configKey')" align="center" prop="configKey" />
       <el-table-column :label="$t('pconfig.configValue')" align="center" prop="configValue" />
@@ -61,8 +61,8 @@
           <dict-tag :options="sysYesNoOptions" :value="scope.row.configType" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('pconfig.reMarks')" align="center" prop="remark" :show-overflow-tooltip="true" />
-      <el-table-column :label="$t('pconfig.createTime')" align="center" prop="createTime" width="180">
+      <el-table-column :label="$t('common.tipRemarks')" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
@@ -102,8 +102,8 @@
               }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item :label="$t('pconfig.reMarks')" prop="remark">
-          <el-input v-model="form.remark" type="textarea" :placeholder="$t('btn.enter')+$t('pconfig.reMarks')" />
+        <el-form-item :label="$t('common.tipRemarks')" prop="remark">
+          <el-input v-model="form.remark" type="textarea" :placeholder="$t('btn.enter')+$t('common.tipRemarks')" />
         </el-form-item>
       </el-form>
       <template #footer>

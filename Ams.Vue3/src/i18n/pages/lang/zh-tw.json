@@ -5,14 +5,12 @@
     "languageName": "翻譯值",
     "languageContent": "翻譯內容",
     "showWay": "顯示方式",
-    "grid": "表格",
-    "transposing": "行列轉置",
     "simplified": "簡體",
     "traditional": "繁體",
     "japanese": "日本語",
     "korean": "韓国語",
     "english": "英語",
     "langKeycontent": "翻譯key,eg:message.title,menu.title",
-    "lang": "多語言錶"
+    "lang": "本地化語言"
   }
 }

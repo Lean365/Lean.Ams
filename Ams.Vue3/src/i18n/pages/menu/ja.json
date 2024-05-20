@@ -1,11 +1,9 @@
 {
   "pmenu": {
     "menuName": "メニュー名",
-    "menuState": "テータス",
     "icon": "Icon",
-    "menuid": "ID",
     "menuType": "タイプ",
-    "sort": "ソート",
+    "sort": "並べ替え",
     "authorityID": "権限",
     "componentPath": "コンポーネント",
     "isShow": "表示否",
@@ -27,6 +25,6 @@
     "permissionStrmemo": "コントローラで定義されている権限文字: [ActionPermissionFilter(Permission = 'system:user:delete')]",
     "isCachememo": "はいを選択すると、「キープアライブ」によってキャッシュされ、一致するコンポーネントの「名前」とアドレスが一貫している必要があります",
     "isShowmemo": "非表示を選択すると、ルートはサイドバーに表示されませんが、引き続きアクセスできます",
-    "menuStatememo": "非アクティブ化を選択すると、ルートはサイドバーに表示されず、アクセスできなくなります"
+    "menuIsStatedTip": "非アクティブ化を選択すると、ルートはサイドバーに表示されず、アクセスできなくなります"
   }
 }

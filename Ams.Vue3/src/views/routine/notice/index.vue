@@ -39,7 +39,7 @@
 
     <el-table height="650" v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column :label="$t('pnotice.noticeId')" align="center" prop="noticeId" />
+      <el-table-column label="Id" align="center" prop="noticeId" />
       <el-table-column :label="$t('pnotice.noticeTitle')" prop="noticeTitle" :show-overflow-tooltip="true">
         <template #default="{ row }">
           <el-link type="primary" @click="handleOpenPre(row)">{{ row.noticeTitle }}</el-link>
@@ -50,7 +50,7 @@
           <dict-tag :options="options.app_notice_type" :value="scope.row.noticeType" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('pnotice.isState')" align="center" prop="isStated">
+      <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStated">
         <template #default="scope">
           <dict-tag :options="options.app_notice_status" :value="scope.row.isStated" />
         </template>
@@ -63,8 +63,8 @@
         </template>
       </el-table-column>
       <el-table-column :label="$t('pnotice.publisher')" align="center" prop="publisher" />
-      <el-table-column :label="$t('pnotice.createBy')" align="center" prop="createBy" />
-      <el-table-column :label="$t('pnotice.createTime')" align="center" prop="createTime">
+      <el-table-column :label="$t('common.tipCreateBy')" align="center" prop="createBy" />
+      <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime, 'YYYY-MM-DD') }}</span>
         </template>
@@ -73,7 +73,7 @@
         <template #default="scope">
           <el-button-group>
             <el-button plain size="small" type="info" icon="bell" @click="handleNotice(scope.row)"
-              :title="$t('layout.notice')" v-hasPermi="['system:notice:update']">
+              :title="$t('layout.headerNotice')" v-hasPermi="['system:notice:update']">
             </el-button>
             <el-button plain size="small" type="success" icon="Edit" @click="handleUpdate(scope.row)"
               :title="$t('btn.edit')" v-hasPermi="['system:notice:update']">

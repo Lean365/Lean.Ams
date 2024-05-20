@@ -5,14 +5,12 @@
     "languageName": "value",
     "languageContent": "content",
     "showWay": "Show Way",
-    "grid": "Grid",
-    "transposing": "Transposing",
     "simplified": "Simplified",
     "traditional": "Traditional",
     "japanese": "Japanese",
     "korean": "Korean",
     "english": "English",
     "langKeycontent": "Translation key,eg:message.title,menu.title",
-    "lang": "Multilingual table"
+    "lang": "LocalizationLanguage"
   }
 }

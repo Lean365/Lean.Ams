@@ -15,8 +15,8 @@
         <el-input v-model="queryParams.menuName" :placeholder="$t('btn.enter')+$t('pmenu.menuName')" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item :label="$t('pmenu.menuState')" prop="isStated">
-        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('pmenu.menuState')" clearable>
+      <el-form-item :label="$t('common.tipIsStated')" prop="isStated">
+        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('common.tipIsStated')" clearable>
           <el-option v-for="dict in sys_normal_disable" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -53,7 +53,7 @@
         keyField: 'menuId'
       }" :scroll-y="{ enabled: true, gt: 20 }" :data="menuList">
       <vxe-column field="menuName" :title="$t('pmenu.menuName')" tree-node width="160"> </vxe-column>
-      <vxe-column field="menuId" :title="$t('pmenu.menuid')" width="90"></vxe-column>
+      <vxe-column field="menuId" title="ID" width="90"></vxe-column>
       <vxe-column field="icon" :title="$t('pmenu.icon')" align="center" width="60">
         <template #default="{ row }">
           <svg-icon :name="row.icon"></svg-icon>
@@ -71,7 +71,7 @@
             }}</el-tag>
         </template>
       </vxe-column>
-      <vxe-column field="orderNum" :title="$t('pmenu.sort')" width="90" sortable align="center"
+      <vxe-column field="orderNum" :title="$t('btn.sort')" width="90" sortable align="center"
         v-if="columns.showColumn('orderNum')">
         <template #default="scope">
           <span v-show="editIndex != scope.row.menuId" @click="editCurrRow(scope.row.menuId)">{{ scope.row.orderNum
@@ -87,7 +87,7 @@
           <dict-tag :options="sys_show_hide" :value="scope.row.visible" />
         </template>
       </vxe-column>
-      <vxe-column field="isStated" :title="$t('pmenu.menuState')" width="80" align="center">
+      <vxe-column field="isStated" :title="$t('common.tipIsStated')" width="80" align="center">
         <template #default="scope">
           <dict-tag :options="sys_normal_disable" :value="scope.row.isStated" />
         </template>
@@ -108,7 +108,7 @@
             <el-button type="danger" plain size="small" icon="Delete" @click="handleDelete(scope.row)"
               v-hasPermi="['system:menu:remove']" :title="$t('btn.delete')"></el-button>
             <el-button color="#c45656" plain size="small" icon="DeleteFilled" @click="handleDeleteAll(scope.row)"
-              :title="$t('layout.all')">
+              :title="$t('common.all')">
             </el-button>
           </el-button-group>
         </template>
@@ -177,7 +177,7 @@
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item :label="$t('pmenu.sort')" prop="orderNum">
+            <el-form-item :label="$t('btn.sort')" prop="orderNum">
               <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
             </el-form-item>
           </el-col>
@@ -301,12 +301,12 @@
             <el-form-item>
               <template #label>
                 <span>
-                  <el-tooltip :content="$t('pmenu.menuStatememo')" placement="top">
+                  <el-tooltip :content="$t('pmenu.menuIsStatedTip')" placement="top">
                     <el-icon :size="15">
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  {{ $t('pmenu.menuState') }}
+                  {{ $t('common.tipIsStated') }}
                 </span>
               </template>
               <el-radio-group v-model="form.isStated">

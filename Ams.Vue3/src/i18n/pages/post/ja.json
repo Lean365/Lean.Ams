@@ -4,8 +4,6 @@
     "postName": "役職名",
     "postCode": "役職番号",
     "postSort": "順番",
-    "postMembership": "メンバーの数",
-    "isStated": "ステータス",
-    "reMarks": "備考"
+    "postMembership": "メンバーの数"
   }
 }

@@ -126,7 +126,7 @@
       url: 'Logistics/Materials'
     },
     {
-      label: proxy.$t('menu.Accounting'),//'',,menu.accounting
+      label: proxy.$t('menu.accounting'),//'',,menu.accounting
       icon: 'Money',
       name: 'about',
       color: '#706caa',
@@ -175,7 +175,7 @@
       url: 'system/menu'
     },
     {
-      label: proxy.$t('menu.About'),//'',menu.production
+      label: proxy.$t('menu.about'),//'',menu.production
       icon: 'HelpFilled',
       name: 'about',
       color: '#674598',

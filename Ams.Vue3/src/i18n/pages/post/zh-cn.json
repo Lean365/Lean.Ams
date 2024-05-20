@@ -1,11 +1,9 @@
 {
   "ppost": {
     "post": "岗位",
-    "postName": "岗位名称",
-    "postCode": "岗位编码",
-    "postSort": "岗位排序",
-    "postMembership": "成员人数",
-    "isStated": "岗位状态",
-    "reMarks": "备注"
+    "postName": "名称",
+    "postCode": "编码",
+    "postSort": "排序",
+    "postMembership": "成员人数"
   }
 }

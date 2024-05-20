@@ -8,11 +8,6 @@
     "isState": "狀態",
     "publisher": "發佈者",
     "displayTime": "顯示時間",
-    "createBy": "建立者",
-    "createTime": "建立日期",
-    "UpdateBy": "修改者",
-    "UpdateTime": "修改日期",
-    "remark": "備註",
     "noticeSend": "通知發送成功"
   }
 }

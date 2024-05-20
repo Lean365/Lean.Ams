@@ -11,7 +11,6 @@
     "runTimes": "運行次數",
     "intervalSecond": "執行間隔(s)",
     "cron": "運行表達式",
-    "reMarks": "備註",
     "jobParams": "任務參數",
     "lastRunTime": "最後運行時間",
     "apiUrl": "網絡請求地址",

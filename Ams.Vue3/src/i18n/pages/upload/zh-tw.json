@@ -31,13 +31,10 @@
     "Accounting": "會計"
   },
   "fupload": {
-    "fileID": "檔案id",
     "fileDown": "檔案名--下載",
     "fileSize": "檔案大小",
     "fileExt": "擴展名",
     "fileStorageType": "存儲類型",
-    "fileOperator": "操作人",
-    "fileCreatedate": "創建日期",
     "filePreview": "縮圖",
     "fileOperation": "操作",
     "storageType": "存儲類型",

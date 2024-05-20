@@ -1,12 +1,9 @@
 {
   "pconfig": {
-    "configId": "ID",
     "configName": "Param name",
     "configKey": "Param Key",
     "configValue": "Param Value",
     "configType": "Built-in",
-    "reMarks": "Remarks",
-    "createTime": "Creation time",
     "config": "parameter"
   }
 }

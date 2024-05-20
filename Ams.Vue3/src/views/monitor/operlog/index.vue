@@ -17,8 +17,8 @@
             :value="dict.dictValue" />
         </el-select>
       </el-form-item>
-      <el-form-item :label="$t('poperlog.isStated')" prop="isStated">
-        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('poperlog.isStatus')" clearable>
+      <el-form-item :label="$t('common.tipIsStated')" prop="isStated">
+        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('common.tipIsStated')" clearable>
           <el-option v-for="dict in options.sys_common_status" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -80,7 +80,7 @@
           <div>{{ row.operIp }}</div>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('poperlog.isStated')" align="center" prop="isStated"
+      <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStated"
         v-if="columns.showColumn('isStated')">
         <template #default="{ row }">
           <dict-tag :options="options.sys_common_status" :value="row.isStated"></dict-tag>
@@ -149,7 +149,7 @@
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item :label="$t('poperlog.isStated')">
+            <el-form-item :label="$t('common.tipIsStated')">
               <dict-tag :options="options.sys_common_status" :value="form.isStated"></dict-tag>
             </el-form-item>
           </el-col>
@@ -230,7 +230,7 @@
     // { visible: true, prop: 'deptName', label: '部门' },
     // { visible: true, prop: 'operUrl', label: '请求地址' },
     // { visible: true, prop: 'operIP', label: '请求IP' },
-    { visible: true, prop: 'isStated', label: proxy.$t('poperlog.isStatus') },
+    { visible: true, prop: 'isStated', label: proxy.$t('common.tipIsStated') },
     // { visible: true, prop: 'operLocation', label: '操作人地址' },
     { visible: true, prop: 'operTime', label: proxy.$t('poperlog.operTime') },
     { visible: false, prop: 'method', label: proxy.$t('poperlog.method') },
