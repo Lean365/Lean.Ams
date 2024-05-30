@@ -5,7 +5,7 @@ namespace Ams.Model.Logistics
     /// 生产班组
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/16 9:12:13
+    /// @Date: 2024/5/28 8:07:55
     /// </summary>
     [SugarTable("pp_line")]
     public class PpLine
@@ -13,6 +13,7 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// SFID 
         /// </summary>
+        [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
         public long PlSFID { get; set; }
 

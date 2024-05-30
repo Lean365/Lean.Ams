@@ -2,11 +2,11 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true">
       <el-form-item>
-        <el-button plain type="danger" @click="onLockAll()" icon="lock"
+        <el-button plain type="forced" @click="onLockAll()" icon="lock"
           v-hasPermi="['monitor:online:forceLogout']">{{$t('btn.accountForcedAll')}}</el-button>
       </el-form-item>
       <el-form-item>
-        <el-radio-group v-model="viewSwitch">
+        <el-radio-group v-model="viewSwitch" fill="#e16c96">
           <el-radio-button value="1">{{$t('btn.grid')}}</el-radio-button>
           <el-radio-button value="2">{{$t('btn.card')}}</el-radio-button>
         </el-radio-group>
@@ -35,9 +35,9 @@
       </el-table-column>
       <el-table-column :label="$t('btn.operation')" align="center" width="160">
         <template #default="scope">
-          <el-button plain size="small" type="primary" @click="onChat(scope.row)" icon="ChatDotRound"
-            v-hasRole="['admin']" :title="$t('btn.privateChat')"></el-button>
-          <el-button plain size="small" type="warning" @click="onLock(scope.row)" icon="lock"
+          <el-button plain size="small" type="chat" @click="onChat(scope.row)" icon="ChatDotRound" v-hasRole="['admin']"
+            :title="$t('btn.privateChat')"></el-button>
+          <el-button plain size="small" type="forced" @click="onLock(scope.row)" icon="lock"
             v-hasPermi="['monitor:online:forceLogout']" :title="$t('btn.accountForced')"></el-button>
         </template>
       </el-table-column>
@@ -54,12 +54,13 @@
             </el-descriptions-item>
           </el-descriptions>
           <el-text truncated>{{ item.browser }}</el-text>
-          <div>
-            <el-button plain size="small" type="primary" @click="onChat(item)" icon="ChatDotRound"
-              :title="$t('btn.privateChat')" v-hasRole="['admin']">{{$t('btn.privateChat')}}</el-button>
-            <el-button plain size="small" type="warning" @click="onLock(item)" icon="lock"
-              :title="$t('btn.accountForced')"
-              v-hasPermi="['monitor:online:forceLogout']">{{$t('btn.accountForced')}}</el-button>
+          <div style="text-align: center">
+            <el-button-group>
+              <el-button plain size="small" type="chat" @click="onChat(item)" icon="ChatDotRound"
+                :title="$t('btn.privateChat')" v-hasRole="['admin']"></el-button>
+              <el-button plain size="small" type="forced" @click="onLock(item)" icon="lock"
+                :title="$t('btn.accountForced')" v-hasPermi="['monitor:online:forceLogout']"></el-button>
+            </el-button-group>
           </div>
         </el-card>
       </el-col>
@@ -110,11 +111,12 @@
 
   function onChat(item) {
     proxy
-      .$prompt(proxy.$t('ploginlog.messageContent'), '', {
+      .$prompt(proxy.$t('ploginlog.messageContent'), proxy.$t('layout.message') + ' ' + proxy.$t('common.tip'), {
         confirmButtonText: proxy.$t('btn.sendMessage'),
         cancelButtonText: proxy.$t('btn.cancel'),
         inputPattern: /\S/,
-        inputErrorMessage: proxy.$t('ploginlog.messageCcontentNotempty')
+        inputErrorMessage: proxy.$t('ploginlog.messageCcontentNotempty'),
+        type: "success",
       })
       .then(({ value }) => {
         proxy.signalr.SR.invoke('sendMessage', item.userid, value).catch(function (err) {
@@ -125,9 +127,10 @@
   }
   function onLock(row) {
     proxy
-      .$prompt(proxy.$t('common.tipForcedReasons'), '', {
+      .$prompt(proxy.$t('common.tipForcedReasons'), proxy.$t('btn.exit') + ' ' + proxy.$t('common.tip'), {
         confirmButtonText: proxy.$t('btn.sendMessage'),
         cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then((val) => {
         forceLogout({ ...row, time: 10, reason: val.value, clientId: row.clientId }).then(() => {
@@ -139,13 +142,14 @@
   // 批量强退
   function onLockAll() {
     proxy
-      .$prompt(proxy.$t('common.tipForcedReasons'), '', {
+      .$prompt(proxy.$t('common.tipForcedReasons'), proxy.$t('btn.exit') + ' ' + proxy.$t('common.tip'), {
         confirmButtonText: proxy.$t('btn.sendMessage'),
         cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then((val) => {
         forceLogoutAll({ time: 10, reason: val.value }).then((res) => {
-          proxy.$modal.msgSuccess(proxy.$t('btn.successfulForced'))
+          proxy.$modal.msgSuccess(proxy.$t('common.tipForcedSucceed'))
         })
       })
   }

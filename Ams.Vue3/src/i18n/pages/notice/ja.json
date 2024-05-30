@@ -1,5 +1,9 @@
 {
   "pnotice": {
+    "none": "まだありません",
+    "noticeCenter": "コールセンター",
+    "notification": "お知らせ",
+    "announcement": "公告",
     "notice": "お知らせ",
     "noticeId": "ID",
     "noticeTitle": "タイトル",

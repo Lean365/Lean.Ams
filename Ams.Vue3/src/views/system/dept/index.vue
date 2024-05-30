@@ -2,11 +2,12 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch">
       <el-form-item :label="$t('pdept.deptName')" prop="deptName">
-        <el-input v-model="queryParams.deptName" :placeholder="$t('btn.enter')+$t('pdept.deptName')"
-          @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.deptName"
+          :placeholder="$t('btn.enterPrefix')+$t('pdept.deptName')+$t('btn.enterSuffix')" @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('pdept.isStated')" prop="isStated">
-        <el-select v-model="queryParams.status" :placeholder="$t('btn.select')+$t('pdept.isStated')">
+        <el-select v-model="queryParams.status"
+          :placeholder="$t('btn.selectPrefix')+$t('pdept.isStated')+$t('btn.selectSuffix')">
           <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -85,7 +86,8 @@
                 :render-after-expand="false" /> -->
               <el-cascader class="w100" :options="deptOptions"
                 :props="{ checkStrictly: true, value: 'deptId', label: 'deptName', emitPath: false }"
-                :placeholder="$t('btn.select')+$t('pdept.parentDepartment')" clearable v-model="form.parentId">
+                :placeholder="$t('btn.selectPrefix')+$t('pdept.parentDepartment')+$t('btn.selectSuffix')" clearable
+                v-model="form.parentId">
                 <template #default="{ node, data }">
                   <span>{{ data.deptName }}</span>
                   <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -95,7 +97,8 @@
           </el-col>
           <el-col :lg="12">
             <el-form-item :label="$t('pdept.deptName')" prop="deptName">
-              <el-input v-model="form.deptName" :placeholder="$t('btn.enter')+$t('pdept.deptName')" />
+              <el-input v-model="form.deptName"
+                :placeholder="$t('btn.enterPrefix')+$t('pdept.deptName')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
@@ -105,17 +108,20 @@
           </el-col>
           <el-col :lg="12">
             <el-form-item :label="$t('pdept.leader')" prop="leader">
-              <el-input v-model="form.leader" :placeholder="$t('btn.enter')+$t('pdept.leader')" maxlength="20" />
+              <el-input v-model="form.leader"
+                :placeholder="$t('btn.enterPrefix')+$t('pdept.leader')+$t('btn.enterSuffix')" maxlength="20" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
             <el-form-item :label="$t('pdept.phone')" prop="phone">
-              <el-input v-model="form.phone" :placeholder="$t('btn.enter')+$t('pdept.phone')" maxlength="11" />
+              <el-input v-model="form.phone"
+                :placeholder="$t('btn.enterPrefix')+$t('pdept.phone')+$t('btn.enterSuffix')" maxlength="11" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
             <el-form-item :label="$t('pdept.email')" prop="email">
-              <el-input v-model="form.email" :placeholder="$t('btn.enter')+$t('pdept.email')" maxlength="50" />
+              <el-input v-model="form.email"
+                :placeholder="$t('btn.enterPrefix')+$t('pdept.email')+$t('btn.enterSuffix')" maxlength="50" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">

@@ -2,14 +2,16 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" v-show="showSearch" :inline="true">
       <el-form-item :label="$t('prole.roleName')" prop="roleName">
-        <el-input v-model="queryParams.roleName" :placeholder="$t('btn.enter')+$t('prole.roleName')" clearable
+        <el-input v-model="queryParams.roleName"
+          :placeholder="$t('btn.enterPrefix')+$t('prole.roleName')+$t('btn.enterSuffix')" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <!-- <el-form-item label="权限字符" prop="roleKey">
         <el-input v-model="queryParams.roleKey" placeholder="请输入权限字符" clearable  style="width: 240px" @keyup.enter.native="handleQuery" />
       </el-form-item> -->
       <el-form-item :label="$t('common.tipIsStated')" prop="isStated">
-        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('prole.roleName')" clearable>
+        <el-select v-model="queryParams.isStated"
+          :placeholder="$t('btn.selectPrefix')+$t('prole.roleName')+$t('btn.selectSuffix')" clearable>
           <el-option :label="$t('common.all')" :value="-1" />
           <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
@@ -23,7 +25,7 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="plus" @click="handleAdd" v-hasPermi="['system:role:add']">{{ $t('btn.add')
+        <el-button type="add" plain icon="plus" @click="handleAdd" v-hasPermi="['system:role:add']">{{ $t('btn.add')
           }}</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
@@ -61,18 +63,37 @@
                 @click.stop="handleDelete(scope.row)" v-hasPermi="['system:role:remove']">
               </el-button>
 
-              <el-dropdown split-button size="small" @command="(command) => handleCommand(command, scope.row)"
+              <el-dropdown @command="(command) => handleCommand(command, scope.row)"
                 v-hasPermi="['system:role:edit', 'system:role:authorize', 'system:roleusers:list']">
-
+                <el-button size="small" type="more">
+                  <el-icon class="el-icon--right">
+                    <arrow-down />
+                  </el-icon>
+                </el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item color="#fff" command="handleDataScope" icon="circle-check">{{
-                      $t('menu.systemMenuPermi')
-                      }}</el-dropdown-item>
-                    <el-dropdown-item command="handleAuthUser" icon="user">{{ $t('menu.systemUserAssignment')
-                      }}</el-dropdown-item>
-                    <el-dropdown-item command="handleExportMenu"
-                      icon="download">{{$t('btn.export')+$t('menu.systemMenu')}}</el-dropdown-item>
+                    <el-dropdown-menu>
+                      <div v-hasPermi="['system:role:edit']">
+                        <el-dropdown-item command="handleDataScope">
+                          <el-button icon="menu" type="generator" plain size="small"
+                            :title="$t('menu.systemMenuPermi')"></el-button>
+                        </el-dropdown-item>
+                      </div>
+                      <div v-hasPermi="['system:role:authorize']">
+                        <el-dropdown-item command="handleAuthUser">
+                          <el-button icon="avatar" type="refresh" plain size="small"
+                            :title="$t('menu.systemUserAssignment')">
+                          </el-button>
+                        </el-dropdown-item>
+                      </div>
+                      <div v-hasPermi="['system:roleusers:list']">
+                        <el-dropdown-item command="handleExportMenu">
+                          <el-button icon="download" type="export" plain size="small"
+                            :title="$t('btn.export')+' '+$t('prole.role')+$t('pmenu.menu')"> </el-button>
+                        </el-dropdown-item>
+                      </div>
+                    </el-dropdown-menu>
+
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
@@ -90,7 +111,8 @@
       @close="cancel">
       <el-form :model="form" label-width="auto">
         <el-form-item :label="$t('prole.droleQuery')">
-          <el-input :placeholder="$t('btn.enter')+$t('prole.keywords')" v-model="searchText"></el-input>
+          <el-input :placeholder="$t('btn.enterPrefix')+$t('prole.keywords')+$t('btn.enterSuffix')"
+            v-model="searchText"></el-input>
         </el-form-item>
         <el-form-item :label="$t('prole.troleKey')">
           {{ form.roleKey }}
@@ -101,7 +123,7 @@
           <el-checkbox v-model="menuNodeAll"
             @change="handleCheckedTreeNodeAll($event, 'menu')">{{$t('prole.selectAllorNo')}}</el-checkbox>
           <el-checkbox v-model="form.menuCheckStrictly"
-            @change="handleCheckedTreeConnect($event, 'menu')">{{$t('prole.Linkage')}}</el-checkbox>
+            @change="handleCheckedTreeConnect($event, 'menu')">{{$t('prole.linkage')}}</el-checkbox>
           <el-tree class="tree-border" :data="menuOptions" show-checkbox ref="menuRef" node-key="id"
             :check-strictly="!form.menuCheckStrictly" :empty-text="$t('prole.loading')" highlight-current
             :filter-node-method="menuFilterNode"
@@ -131,7 +153,8 @@
         <el-row>
           <el-col :lg="12">
             <el-form-item :label="$t('prole.roleName')" prop="roleName">
-              <el-input v-model="form.roleName" :placeholder="$t('btn.enter')+$t('prole.roleName')" />
+              <el-input v-model="form.roleName"
+                :placeholder="$t('btn.enterPrefix')+$t('prole.roleName')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
@@ -146,7 +169,8 @@
                   {{ $t('prole.troleKey') }}
                 </span>
               </template>
-              <el-input v-model="form.roleKey" :placeholder="$t('btn.enter')+$t('prole.troleKey')" />
+              <el-input v-model="form.roleKey"
+                :placeholder="$t('btn.enterPrefix')+$t('prole.troleKey')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
@@ -192,7 +216,7 @@
           <el-col :lg="24">
             <el-form-item :label="$t('common.tipRemarks')">
               <el-input v-model="form.remark" type="textarea"
-                :placeholder="$t('btn.enter')+$t('common.tipRemarks')"></el-input>
+                :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -206,6 +230,7 @@
 </template>
 
 <script setup name="role">
+
   import { listRole, getRole, delRole, addRole, updateRole, exportRole, dataScope, changeRoleStatus, exportRoleMenu } from '@/api/system/role'
   import { roleMenuTreeselect } from '@/api/system/menu'
   import { treeselect as deptTreeselect, roleDeptTreeselect } from '@/api/system/dept'
@@ -551,7 +576,7 @@
           form.value.type = 'edit'
           form.value.deptIds = getDeptAllCheckedKeys()
           updateRole(form.value).then((response) => {
-            proxy.$modal.msgSuccess('修改成功')
+            proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
             open.value = false
             getList()
           })
@@ -561,7 +586,7 @@
           addRole(form.value).then((response) => {
             open.value = false
             if (response.code == 200) {
-              proxy.$modal.msgSuccess('新增成功')
+              proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
               getList()
             } else {
               proxy.$modal.msgError(response.msg)
@@ -577,12 +602,12 @@
     if (form.value.roleId != undefined) {
       form.value.menuIds = getMenuAllCheckedKeys()
       dataScope(form.value).then((response) => {
-        proxy.$modal.msgSuccess('修改成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipModifySucceed'))
         getList()
         cancel()
       })
     } else {
-      proxy.$modal.msgError('请选择角色')
+      proxy.$modal.msgError(proxy.$t('prole.selectRole'))
     }
   }
 
@@ -590,27 +615,27 @@
   function handleDelete(row) {
     const roleIds = row.roleId || ids.value
     proxy
-      .$confirm('是否确认删除角色编号为"' + roleIds + '"的数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.tipConfirmDel') + roleIds + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return delRole(roleIds)
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
   }
 
   /** 导出按钮操作 */
   function handleExport() {
     proxy
-      .$confirm('是否确认导出所有角色数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.tipConfirmExport') + "<" + proxy.$t('prole.role') + ".xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return exportRole(queryParams)
@@ -622,9 +647,9 @@
   // 导出角色菜单
   function handleExportMenu(row) {
     proxy.$modal
-      .confirm('是否确认导出所有角色菜单数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      .confirm(proxy.$t('common.tipConfirmExport') + "<" + proxy.$t('prole.role') + proxy.$t('pmenu.menu') + ".xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
         type: 'warning'
       })
       .then(async () => {

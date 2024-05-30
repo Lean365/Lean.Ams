@@ -85,7 +85,7 @@ export function del${genTable.BusinessName}(pid) {
   })
 }
 $end
-$if(replaceDto.ShowBtnTruncate)
+$if(replaceDto.ShowBtnEmpty)
 // 清空${genTable.functionName}
 export function clear${genTable.BusinessName}() {
   return request({

@@ -58,7 +58,7 @@ $if(replaceDto.ShowBtnEdit)
         /// <returns></returns>
         int Update${replaceDto.ModelTypeName}(${replaceDto.ModelTypeName} parm);
 $end
-$if(replaceDto.ShowBtnTruncate)   
+$if(replaceDto.ShowBtnEmpty)   
         /// <summary>
         /// 清空
         /// ${genTable.FunctionName}

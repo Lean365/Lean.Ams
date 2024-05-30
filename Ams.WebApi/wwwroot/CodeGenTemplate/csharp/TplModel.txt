@@ -18,6 +18,7 @@ ${foreach(item in genTable.Columns)}
         /// ${item.ColumnComment} ${item.Remark}
         /// </summary>
 $if(item.IsPk || item.IsIncrement)
+        [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = ${item.IsPk.ToString().ToLower()}, IsIdentity = ${item.IsIncrement.ToString().ToLower()}$if(item.CsharpField.ToLower() != item.ColumnName.ToLower()), ColumnName = "$item.ColumnName"$end)]
 $elseif(item.CsharpField.ToLower() != item.ColumnName.ToLower())
         [SugarColumn(ColumnName = "$item.ColumnName")]

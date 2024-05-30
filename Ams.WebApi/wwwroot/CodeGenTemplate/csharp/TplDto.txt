@@ -52,7 +52,7 @@ $else
         [ExcelIgnore]
 $end
 $end
-$if(item.CsharpType == "long" && replaceDto.useSnowflakeId == true && item.IsPk)
+$if(item.CsharpType == "long")
         [JsonConverter(typeof(ValueToStringConverter))]
 $end
         public $item.CsharpType$item.RequiredStr $item.CsharpField { get; set; }
@@ -74,6 +74,7 @@ $end
 $end
 $foreach(column in dicts)
 $if(column.IsExport)
+        [ExcelIgnore]
         [ExcelColumn(Name = "$if(column.ColumnComment == "")${column.CsharpField}${else}${column.ColumnComment}${end}")]
         public string ${column.CsharpField}Label { get; set; }
 $end

@@ -1,21 +1,23 @@
 {
   "ptabs": {
-    "basicInfo": "Basic",
-    "Onboarding": "Online",
-    "qualifications": "Qualifications",
-    "annex": "Annex",
-    "customization": "Customization",
-    "subInfo": "Subsidiary",
-    "content": "Content",
-    "trade": "Trade",
-    "bank": "Bank",
-    "contact": "Contact",
-    "purchase": "Purchasing",
-    "warehouse": "Storage",
     "accounting": "Accounting",
+    "attachment": "Annex",
+    "bank": "Bank",
+    "basicInfo": "Basic",
+    "contact": "Contact",
+    "content": "Content",
+    "customization": "Customization",
     "depreciation": "Depreciation",
+    "incoming": "IQC",
+    "onboarding": "Onboarding",
+    "outgoing": "QA",
+    "oper": "Operation",
+    "production": "Production",
+    "purchase": "Purchasing",
+    "qualifications": "Qualifications",
+    "sales": "Sales",
     "stocktaking": "Stocktaking",
-    "sale": "Sales",
-    "production": "Production"
+    "trade": "Trade",
+    "warehouse": "Storage"
   }
 }

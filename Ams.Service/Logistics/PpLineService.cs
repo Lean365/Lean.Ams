@@ -13,7 +13,7 @@ namespace Ams.Service.Logistics
     /// 生产班组
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/16 9:12:13
+    /// @Date: 2024/5/28 8:07:55
     /// </summary>
     [AppService(ServiceType = typeof(IPpLineService), ServiceLifetime = LifeTime.Transient)]
     public class PpLineService : BaseService<PpLine>, IPpLineService
@@ -89,6 +89,21 @@ namespace Ams.Service.Logistics
         }
 
         /// <summary>
+        /// 清空
+        /// 生产班组
+        /// </summary>
+        /// <returns></returns>
+        public bool TruncatePpLine()
+        {
+            var newTableName = $"pp_line_{DateTime.Now:yyyyMMdd}";
+            if (Queryable().Any() && !Context.DbMaintenance.IsAnyTable(newTableName))
+            {
+                Context.DbMaintenance.BackupTable("pp_line", newTableName);
+            }
+            
+            return Truncate();
+        }
+        /// <summary>
         /// 批量导入
         /// 生产班组
         /// </summary>
@@ -152,15 +167,9 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpLine>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PlLineType), it => it.PlLineType == parm.PlLineType);
+            predicate = predicate.AndIF(parm.PlLineType != null, it => parm.PlLineType.Contains(it.PlLineType));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PlLineCode), it => it.PlLineCode.Contains(parm.PlLineCode));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PlLineName), it => it.PlLineName.Contains(parm.PlLineName));
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginCreateTime == null, it => it.CreateTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginCreateTime == null, it => it.CreateTime >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginCreateTime != null, it => it.CreateTime >= parm.BeginCreateTime);
-            predicate = predicate.AndIF(parm.EndCreateTime != null, it => it.CreateTime <= parm.EndCreateTime);
             return predicate;
         }
     }

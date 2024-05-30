@@ -11,7 +11,7 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
       <el-form-item>
         <el-radio-group v-model="queryParams.categoryType" @change="handleQuery()">
-          <el-radio-button value="">全部</el-radio-button>
+          <el-radio-button value="">{{$t('common.all')}}</el-radio-button>
           <el-radio-button v-for="item in categoryTypeOptions" :key="item.dictValue" :value="item.dictValue">
             {{ item.dictLabel }}
           </el-radio-button>
@@ -26,21 +26,22 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" v-hasPermi="['articlecategory:add']" plain icon="plus" @click="handleAdd">
+        <el-button type="add" v-hasPermi="['articlecategory:add']" plain icon="plus" @click="handleAdd">
           {{ $t('btn.add') }}
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="info" plain icon="sort" @click="toggleExpandAll">展开/折叠</el-button>
+        <el-button type="infos" plain icon="sort"
+          @click="toggleExpandAll">{{$t('btn.expand')+'/'+$t('btn.collapse')}}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" :disabled="multiple" v-hasPermi="['articlecategory:delete']" plain icon="delete"
+        <el-button type="delete" :disabled="multiple" v-hasPermi="['articlecategory:delete']" plain icon="delete"
           @click="handleDelete">
           {{ $t('btn.delete') }}
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['articlecategory:export']">
+        <el-button type="export" plain icon="download" @click="handleExport" v-hasPermi="['articlecategory:export']">
           {{ $t('btn.export') }}
         </el-button>
       </el-col>

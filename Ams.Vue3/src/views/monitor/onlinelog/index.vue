@@ -7,10 +7,12 @@
   <div>
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
       <el-form-item :label="$t('psms.userid')" prop="userId">
-        <el-input v-model.number="queryParams.userId" :placeholder="$t('btn.enter')+$t('psms.userid')" />
+        <el-input v-model.number="queryParams.userId"
+          :placeholder="$t('btn.enterSearchPrefix')+$t('psms.userid')+$t('btn.enterSearchSuffix')" />
       </el-form-item>
       <el-form-item :label="$t('psms.userIP')" prop="userIP">
-        <el-input v-model="queryParams.userIP" :placeholder="$t('btn.enter')+$t('psms.userIP')" />
+        <el-input v-model="queryParams.userIP"
+          :placeholder="$t('btn.enterSearchPrefix')+$t('psms.userIP')+$t('btn.enterSearchSuffix')" />
       </el-form-item>
       <el-form-item :label="$t('btn.datetime')">
         <el-date-picker v-model="dateRangeAddTime" type="datetimerange" :start-placeholder="$t('btn.dateStart')"

@@ -152,7 +152,7 @@
       noticeList.value = response.data.result
       total.value = response.data.totalNum
       loading.value = false
-      console.log(response)
+      //console.log(response)
     })
   }
   /** 搜索按钮操作 */

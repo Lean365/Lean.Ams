@@ -7,10 +7,12 @@
   <div>
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
       <el-form-item :label="$t('psqldiff.tableName')" prop="tableName">
-        <el-input v-model="queryParams.tableName" :placeholder="$t('btn.enter')+$t('psqldiff.tableName')" />
+        <el-input v-model="queryParams.tableName"
+          :placeholder="$t('btn.enterPrefix')+$t('psqldiff.tableName')+$t('btn.enterSuffix')" />
       </el-form-item>
       <el-form-item :label="$t('psqldiff.diffType')" prop="diffType">
-        <el-select clearable v-model="queryParams.diffType" :placeholder="$t('btn.select')+$t('psqldiff.diffType')">
+        <el-select clearable v-model="queryParams.diffType"
+          :placeholder="$t('btn.selectPrefix')+$t('psqldiff.diffType')+$t('btn.selectSuffix')">
           <el-option v-for="item in options.diffTypeOptions" :key="item.dictValue" :label="item.dictLabel"
             :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
@@ -19,7 +21,8 @@
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('psqldiff.userName')" prop="userName">
-        <el-input v-model="queryParams.userName" :placeholder="$t('btn.enter')+$t('psqldiff.userName')" />
+        <el-input v-model="queryParams.userName"
+          :placeholder="$t('btn.enterPrefix')+$t('psqldiff.userName')+$t('btn.enterSuffix')" />
       </el-form-item>
       <el-form-item :label="$t('common.tipCreateTime')">
         <el-date-picker v-model="dateRangecreateTime" type="datetimerange" :start-placeholder="$t('btn.dateStart')"
@@ -35,7 +38,7 @@
     <!-- 工具区域 -->
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['sqldifflog:export']">
+        <el-button type="export" plain icon="download" @click="handleExport" v-hasPermi="['sqldifflog:export']">
           {{ $t('btn.export') }}
         </el-button>
       </el-col>
@@ -69,10 +72,12 @@
         v-if="columns.showColumn('configId')" />
       <el-table-column :label="$t('btn.operation')" width="160">
         <template #default="scope">
-          <el-button plain size="small" color="#626aef" icon="view" :title="$t('btn.view')"
-            @click="handlePreview(scope.row)"></el-button>
-          <el-button v-hasPermi="['sqldifflog:delete']" plain size="small" type="danger" icon="delete"
-            :title="$t('btn.delete')" @click="handleDelete(scope.row)"></el-button>
+          <el-button-group>
+            <el-button plain size="small" type="view" icon="view" :title="$t('btn.view')"
+              @click="handlePreview(scope.row)"></el-button>
+            <el-button v-hasPermi="['sqldifflog:delete']" plain size="small" type="danger" icon="delete"
+              :title="$t('btn.delete')" @click="handleDelete(scope.row)"></el-button>
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
@@ -158,6 +163,7 @@
 </template>
 
 <script setup name="difflog">
+
   import { listSqlDiffLog, delSqlDiffLog, exportSqlDiffLog } from '@/api/monitor/difflog.js'
   import { CodeDiff } from 'v-code-diff'
   import hljs from 'highlight.js'

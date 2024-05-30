@@ -2,15 +2,18 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="auto">
       <el-form-item :label="$t('pconfig.configName')" prop="configName">
-        <el-input v-model="queryParams.configName" :placeholder="$t('btn.enter')+$t('pconfig.configName')" clearable
+        <el-input v-model="queryParams.configName"
+          :placeholder="$t('btn.enterPrefix')+$t('pconfig.configName')+$t('btn.enterSuffix')" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('pconfig.configKey')" prop="configKey">
-        <el-input v-model="queryParams.configKey" :placeholder="$t('btn.enter')+$t('pconfig.configKey')" clearable
+        <el-input v-model="queryParams.configKey"
+          :placeholder="$t('btn.enterPrefix')+$t('pconfig.configKey')+$t('btn.enterSuffix')" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('pconfig.configType')" prop="configType">
-        <el-select v-model="queryParams.configType" :placeholder="$t('btn.select')+$t('pconfig.configType')" clearable>
+        <el-select v-model="queryParams.configType"
+          :placeholder="$t('btn.selectPrefix')+$t('pconfig.configType')+$t('btn.selectSuffix')" clearable>
           <el-option v-for="dict in sysYesNoOptions" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -88,13 +91,16 @@
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-form-item :label="$t('pconfig.configName')" prop="configName">
-          <el-input v-model="form.configName" :placeholder="$t('btn.enter')+$t('pconfig.configName')" />
+          <el-input v-model="form.configName"
+            :placeholder="$t('btn.enterPrefix')+$t('pconfig.configName')+$t('btn.enterSuffix')" />
         </el-form-item>
         <el-form-item :label="$t('pconfig.configKey')" prop="configKey">
-          <el-input v-model="form.configKey" :placeholder="$t('btn.enter')+$t('pconfig.configName')" />
+          <el-input v-model="form.configKey"
+            :placeholder="$t('btn.enterPrefix')+$t('pconfig.configName')+$t('btn.enterSuffix')" />
         </el-form-item>
         <el-form-item :label="$t('pconfig.configValue')" prop="configValue">
-          <el-input v-model="form.configValue" :placeholder="$t('btn.enter')+$t('pconfig.configName')" />
+          <el-input v-model="form.configValue"
+            :placeholder="$t('btn.enterPrefix')+$t('pconfig.configName')+$t('btn.enterSuffix')" />
         </el-form-item>
         <el-form-item :label="$t('pconfig.configType')" prop="configType">
           <el-radio-group v-model="form.configType">
@@ -103,7 +109,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item :label="$t('common.tipRemarks')" prop="remark">
-          <el-input v-model="form.remark" type="textarea" :placeholder="$t('btn.enter')+$t('common.tipRemarks')" />
+          <el-input v-model="form.remark" type="textarea"
+            :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')" />
         </el-form-item>
       </el-form>
       <template #footer>

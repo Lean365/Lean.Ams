@@ -1,7 +1,7 @@
 // import XEUtils from 'xe-utils'
 import {
   // 全局对象
-  // VXETable,
+  //VXETable,
   Icon,
   Column,
   // 表格
@@ -21,7 +21,9 @@ export default function useTable(app) {
 
   // 可选组件
   app
+    //.use(VXETable)
     .use(Column)
+    .use(Icon)
     // .use(Colgroup)
     // .use(Grid)
     .use(Tooltip)

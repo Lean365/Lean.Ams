@@ -67,7 +67,7 @@ namespace Ams.Generator
                 ShowBtnImport = dto.GenTable.Options.CheckedBtn.Any(f => f == 5),
                 ShowBtnExport = dto.GenTable.Options.CheckedBtn.Any(f => f == 6),
                 ShowBtnView = dto.GenTable.Options.CheckedBtn.Any(f => f == 7),
-                ShowBtnTruncate = dto.GenTable.Options.CheckedBtn.Any(f => f == 8),
+                ShowBtnEmpty = dto.GenTable.Options.CheckedBtn.Any(f => f == 8),
                 ShowBtnPreview = dto.GenTable.Options.CheckedBtn.Any(f => f == 9),
                 ShowBtnPrint = dto.GenTable.Options.CheckedBtn.Any(f => f == 10),
                 ShowBtnAudit = dto.GenTable.Options.CheckedBtn.Any(f => f == 11),

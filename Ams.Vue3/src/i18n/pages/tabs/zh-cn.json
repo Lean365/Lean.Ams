@@ -1,21 +1,23 @@
 {
   "ptabs": {
-    "basicInfo": "基本",
-    "Onboarding": "入职",
-    "qualifications": "学历",
-    "annex": "附件",
-    "customization": "自定义",
-    "subInfo": "附属",
-    "content": "内容",
-    "trade": "交易",
-    "bank": "银行",
-    "contact": "联系",
-    "purchase": "采购",
-    "warehouse": "库存",
     "accounting": "会计",
+    "attachment": "附件",
+    "bank": "银行",
+    "basicInfo": "基本",
+    "contact": "联系",
+    "content": "内容",
+    "customization": "自定义",
     "depreciation": "折旧信息",
+    "incoming": "IQC",
+    "onboarding": "入职",
+    "outgoing": "QA",
+    "oper": "操作相关",
+    "production": "生产",
+    "purchase": "采购",
+    "qualifications": "学历",
+    "sales": "销售",
     "stocktaking": "盘点信息",
-    "sale": "销售",
-    "production": "生产"
+    "trade": "交易",
+    "warehouse": "库存"
   }
 }

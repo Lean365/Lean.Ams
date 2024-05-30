@@ -3,23 +3,27 @@
     <el-row>
       <el-col :lg="6">
         <el-form-item :label="$t('gencode.tableName')" prop="tableName">
-          <el-input :placeholder="$t('btn.enter')+$t('gencode.tableName')" v-model="info.tableName" />
+          <el-input :placeholder="$t('btn.enterPrefix')+$t('gencode.tableName')+$t('btn.enterSuffix')"
+            v-model="info.tableName" />
         </el-form-item>
       </el-col>
       <el-col :lg="6">
         <el-form-item :label="$t('gencode.tableComment')" prop="tableComment">
-          <el-input :placeholder="$t('btn.enter')+$t('gencode.tableComment')" v-model="info.tableComment" />
+          <el-input :placeholder="$t('btn.enterPrefix')+$t('gencode.tableComment')+$t('btn.enterSuffix')"
+            v-model="info.tableComment" />
         </el-form-item>
       </el-col>
 
       <el-col :lg="6">
         <el-form-item :label="$t('gencode.className')" prop="className">
-          <el-input :placeholder="$t('btn.enter')+$t('gencode.className')" v-model="info.className" />
+          <el-input :placeholder="$t('btn.enterPrefix')+$t('gencode.className')+$t('btn.enterSuffix')"
+            v-model="info.className" />
         </el-form-item>
       </el-col>
       <el-col :lg="6">
         <el-form-item :label="$t('gencode.functionAuthor')" prop="functionAuthor">
-          <el-input :placeholder="$t('btn.enter')+$t('gencode.functionAuthor')" v-model="info.functionAuthor" />
+          <el-input :placeholder="$t('btn.enterPrefix')+$t('gencode.functionAuthor')+$t('btn.enterSuffix')"
+            v-model="info.functionAuthor" />
         </el-form-item>
       </el-col>
       <el-col :lg="24">

@@ -2,15 +2,16 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch">
       <el-form-item :label="$t('ppost.postCode')" prop="postCode">
-        <el-input v-model="queryParams.postCode" :placeholder="$t('btn.enter')+$t('ppost.postCode')"
-          @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.postCode"
+          :placeholder="$t('btn.enterPrefix')+$t('ppost.postCode')+$t('btn.enterSuffix')" @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('ppost.postName')" prop="postName">
-        <el-input v-model="queryParams.postName" :placeholder="$t('btn.enter')+$t('ppost.postName')"
-          @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.postName"
+          :placeholder="$t('btn.enterPrefix')+$t('ppost.postName')+$t('btn.enterSuffix')" @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('common.tipIsStated')" prop="isStated">
-        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('common.tipIsStated')">
+        <el-select v-model="queryParams.isStated"
+          :placeholder="$t('btn.selectPrefix')+$t('common.tipIsStated')+$t('btn.selectSuffix')">
           <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -85,10 +86,12 @@
     <el-dialog :title="title" v-model="open" width="500px">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-form-item :label="$t('ppost.postName')" prop="postName">
-          <el-input v-model="form.postName" :placeholder="$t('btn.enter')+$t('ppost.postName')" />
+          <el-input v-model="form.postName"
+            :placeholder="$t('btn.enterPrefix')+$t('ppost.postName')+$t('btn.enterSuffix')" />
         </el-form-item>
         <el-form-item :label="$t('ppost.postCode')" prop="postCode">
-          <el-input v-model="form.postCode" :placeholder="$t('btn.enter')+$t('ppost.postCode')" />
+          <el-input v-model="form.postCode"
+            :placeholder="$t('btn.enterPrefix')+$t('ppost.postCode')+$t('btn.enterSuffix')" />
         </el-form-item>
         <el-form-item :label="$t('ppost.postSort')" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
@@ -101,7 +104,8 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item :label="$t('common.tipRemarks')" prop="remark">
-          <el-input v-model="form.remark" type="textarea" :placeholder="$t('btn.enter')+$t('common.tipRemarks')" />
+          <el-input v-model="form.remark" type="textarea"
+            :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')" />
         </el-form-item>
       </el-form>
       <template #footer>

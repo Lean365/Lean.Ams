@@ -11,16 +11,18 @@
     <!-- :model属性用于表单验证使用 比如下面的el-form-item 的 prop属性用于对表单值进行验证操作 -->
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
       <el-form-item :label="$t('plang.language')" prop="langCode">
-        <el-select v-model="queryParams.langCode" :placeholder="$t('btn.select')+$t('plang.language')">
+        <el-select v-model="queryParams.langCode"
+          :placeholder="$t('btn.selectPrefix')+$t('plang.language')+$t('btn.selectSuffix')">
           <el-option v-for="item in options.sys_lang_type" :key="item.dictValue" :label="item.dictLabel"
             :value="item.dictValue"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('plang.languageKey')" prop="langKey">
-        <el-input v-model="queryParams.langKey" :placeholder="$t('btn.enter')+$t('plang.languageKey')" />
+        <el-input v-model="queryParams.langKey"
+          :placeholder="$t('btn.enterPrefix')+$t('plang.languageKey')+$t('btn.enterSuffix')" />
       </el-form-item>
       <el-form-item :label="$t('plang.showWay')">
-        <el-radio-group v-model="queryParams.showMode">
+        <el-radio-group v-model="queryParams.showMode" fill="#e16c96">
           <el-radio-button value="1">{{$t('btn.grid')}}</el-radio-button>
           <el-radio-button value="2">{{$t('btn.transpose')}}</el-radio-button>
         </el-radio-group>
@@ -28,8 +30,8 @@
       <el-form-item :label="$t('common.tipCreateTime')">
         <el-date-picker v-model="dateRangeAddtime" style="width: 240px" type="daterange" range-separator="-"
           :start-placeholder="$t('btn.dateStart')" :end-placeholder="$t('btn.dateEnd')"
-          :placeholder="$t('btn.enter')+$t('common.tipCreateTime')" value-format="YYYY-MM-DD HH:mm:ss"
-          :shortcuts="dateOptions">
+          :placeholder="$t('btn.enterPrefix')+$t('common.tipCreateTime')+$t('btn.enterSuffix')"
+          value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
 
@@ -93,7 +95,9 @@
       <el-table-column prop="langName" :label="$t('plang.languageContent')" align="center"
         :show-overflow-tooltip="true" />
       <el-table-column prop="createTime" :label="$t('common.tipCreateTime')" align="center"
-        :show-overflow-tooltip="true" />
+        :show-overflow-tooltip="true">
+        <template #default="scope"> {{ parseTime(scope.row.createTime, 'YYYY-MM-DD') }} </template>
+      </el-table-column>
 
       <el-table-column :label="$t('btn.operation')" align="center" width="200">
         <template #default="scope">
@@ -104,7 +108,8 @@
         </template>
       </el-table-column>
     </el-table>
-
+    <pagination v-if="queryParams.showMode == 1" :total="total" v-model:page="queryParams.pageNum"
+      v-model:limit="queryParams.pageSize" @pagination="getList" />
     <!-- 行列显示 -->
     <el-table v-if="queryParams.showMode == 2" :data="dataList" v-loading="loading" ref="table" border height="700px"
       highlight-current-row @sort-change="sortChange" @selection-change="handleSelectionChange">
@@ -129,10 +134,8 @@
         </template>
       </el-table-column>
     </el-table>
-
-    <pagination v-if="queryParams.showMode == 1" :total="total" v-model:page="queryParams.pageNum"
+    <pagination v-if="queryParams.showMode == 0" :total="total" v-model:page="queryParams.pageNum"
       v-model:limit="queryParams.pageSize" @pagination="getList" />
-
     <!-- 添加或修改多语言配置对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" width="650px">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
@@ -149,7 +152,8 @@
                 </span>
                 {{ $t('plang.languageKey') }}
               </template>
-              <el-input v-model="form.langKey" :placeholder="$t('plang.languageKey')" />
+              <el-input v-model="form.langKey"
+                :placeholder="$t('btn.enterPrefix')+$t('plang.languageKey')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -469,3 +473,20 @@
   handleQuery()
   reset()
 </script>
+<style lang="scss" scoped>
+  /* 覆盖Element UI的默认选中颜色 */
+  .el-radio-button__inner:focus.is-checked,
+  .el-radio-button__inner.is-checked {
+    border-color: #ff4900;
+    /* 你想要的默认选中颜色 */
+    box-shadow: -1px 0 0 0 #ff4900;
+    /* 同样可以更改阴影颜色 */
+  }
+
+  .el-radio-button__origina:checked+.el-radio-button__inner {
+    background-color: #ff4900;
+    /* 更改原始按钮的背景颜色 */
+    border-color: #ff4900;
+    /* 更改原始按钮的边框颜色 */
+  }
+</style>

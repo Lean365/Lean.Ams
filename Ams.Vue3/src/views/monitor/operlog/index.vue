@@ -3,16 +3,18 @@
     <!-- 查询区域 -->
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="auto">
       <el-form-item :label="$t('poperlog.title')" prop="title">
-        <el-input v-model="queryParams.title" :placeholder="$t('btn.enter')+$t('poperlog.title')" clearable
+        <el-input v-model="queryParams.title"
+          :placeholder="$t('btn.enterPrefix')+$t('poperlog.title')+$t('btn.enterSuffix')" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('poperlog.operName')" prop="operName">
-        <el-input v-model="queryParams.operName" :placeholder="$t('btn.enter')+$t('poperlog.operName')" clearable
+        <el-input v-model="queryParams.operName"
+          :placeholder="$t('btn.enterPrefix')+$t('poperlog.operName')+$t('btn.enterSuffix')" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('poperlog.businessType')" prop="businessType">
-        <el-select v-model="queryParams.businessType" :placeholder="$t('btn.select')+$t('poperlog.businessType')"
-          clearable>
+        <el-select v-model="queryParams.businessType"
+          :placeholder="$t('btn.selectPrefix')+$t('poperlog.businessType')+$t('btn.selectSuffix')" clearable>
           <el-option v-for="dict in options.sys_oper_type" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -46,11 +48,11 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="info" plain icon="delete" @click="handleClean" v-hasPermi="['monitor:operlog:remove']"
+        <el-button type="empty" plain icon="brush" @click="handleClean" v-hasPermi="['monitor:operlog:remove']"
           :title="$t('btn.empty')">{{$t('btn.empty')}}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['system:operlog:export']"
+        <el-button type="export" plain icon="download" @click="handleExport" v-hasPermi="['system:operlog:export']"
           :title="$t('btn.export')">{{$t('btn.export')}}
         </el-button>
       </el-col>
@@ -113,12 +115,14 @@
         v-if="columns.showColumn('jsonResult')" />
       <el-table-column :label="$t('btn.operation')" align="center" class-name="small-padding fixed-width" width="140">
         <template #default="scope">
-          <el-button color="#626aef" size="small" plain icon="view" @click="handleView(scope.row, scope.index)"
-            v-hasPermi="['monitor:operlog:query']" :title="$t('btn.details')">
+          <el-button-group>
+            <el-button type="view" size="small" plain icon="view" @click="handleView(scope.row, scope.index)"
+              v-hasPermi="['monitor:operlog:query']" :title="$t('btn.details')">
 
-          </el-button>
-          <el-button type="danger" size="small" plain icon="delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['monitor:operlog:remove']" :title="$t('btn.delete')"> </el-button>
+            </el-button>
+            <el-button type="danger" size="small" plain icon="delete" @click="handleDelete(scope.row)"
+              v-hasPermi="['monitor:operlog:remove']" :title="$t('btn.delete')"> </el-button>
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
@@ -181,6 +185,7 @@
 </template>
 
 <script setup name="operlog">
+
   import { list as listOperLog, delOperlog, cleanOperlog } from '@/api/monitor/operlog'
   import dayjs from 'dayjs'
   const { proxy } = getCurrentInstance()

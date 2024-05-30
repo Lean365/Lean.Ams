@@ -22,7 +22,7 @@
   </div>
 </template>
 <script setup name="socialLogin">
-  import starBackground from '@/views/components/backGround/starBackground.vue'
+  import starBackground from '@/views/components/backGround/star.vue'
   import { getQueryObject } from '@/utils/index'
   import useUserStore from '@/store/modules/user'
   import defaultSettings from '@/settings'

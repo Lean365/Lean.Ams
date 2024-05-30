@@ -20,7 +20,7 @@ export default {
     this.SR = connection
     // 断线重连
     connection.onclose(async (error) => {
-      console.error('断开连接了' + error)
+      console.error('断开连接了(Disconnected.)' + error)
       console.assert(connection.state === signalR.HubConnectionState.Disconnected)
       // 建议用户重新刷新浏览器
       await this.start()
@@ -28,15 +28,15 @@ export default {
 
     connection.onreconnected((connectionId) => {
       ElMessage({
-        message: '与服务器通讯已连接成功',
+        message: '与服务器通讯已连接成功(Communication with the server has been successfully connected)',
         type: 'success',
         duration: 2000
       })
-      console.log('断线重新连接成功' + connectionId)
+      console.log('断线重新连接成功(Reconnected successfully)' + connectionId)
     })
 
     connection.onreconnecting(async () => {
-      console.log('断线重新连接中... ')
+      console.log('Reconnecting... ')
 
       await this.start()
     })

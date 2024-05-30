@@ -1,5 +1,9 @@
 {
   "pnotice": {
+    "none": "None",
+    "noticeCenter": "Notification Center",
+    "notification": "Notification",
+    "announcement": "Announcement",
     "notice": "Notice",
     "noticeId": "ID",
     "noticeTitle": "Title",

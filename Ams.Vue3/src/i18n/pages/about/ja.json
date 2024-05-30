@@ -1,16 +1,11 @@
 {
   "pabout": {
-    "account": "アカウント",
-    "password": "パスワード",
-    "captcha": "認証コード",
-    "btnLogin": "ログイン",
-    "rememberMe": "パスワードを記憶する",
-    "loginSuccess": "ログイン成功",
-    "loginTimeOut": "ログインステータスが期限切れの場合は再ログインしてください",
-    "reLogin": "再ログイン",
-    "invalidSession": "無効なセッションまたはセッションが期限切れになっている場合は再ログインしてください。",
-    "otherLoginWay": "その他のログイン方法",
-    "register": "今すぐ登録",
-    "forgotPwd": "パスワードを忘れる"
+    "projectCurrentVersion": "現在のバージョン",
+    "projectDependencies": "依存関係",
+    "projectDevDependencies": "依存関係の開発",
+    "projectInfo": "リーンソフト--アジャイル生産管理(Lean365.Ams),フロントエンドとバックエンドの分離(.Net7.0 + Vue3.x)。",
+    "projectInformation": "Lean365情報",
+    "projectLastBulid": "最后更新日期",
+    "projectLicense": "著作権"
   }
 }

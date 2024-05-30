@@ -1,5 +1,9 @@
 {
   "pnotice": {
+    "none": "暂无",
+    "noticeCenter": "前往通知中心",
+    "notification": "通知",
+    "announcement": "公告",
     "notice": "公告通知",
     "noticeTitle": "公告标题",
     "noticeType": "类型",

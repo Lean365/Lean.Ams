@@ -174,7 +174,7 @@ namespace Ams.Infrastructure.Controllers
         protected (string, string) ExportExcelMini<T>(List<T> list, string sheetName, string fileName)
         {
             IWebHostEnvironment webHostEnvironment = (IWebHostEnvironment)App.ServiceProvider.GetService(typeof(IWebHostEnvironment));
-            string sFileName = $"{fileName}{DateTime.Now:MM-dd-HHmmss}.xlsx";
+            string sFileName = $"{fileName}_{DateTime.Now:yyyy-MM-dd-HHmmss}.xlsx";
             string fullPath = Path.Combine(webHostEnvironment.WebRootPath, "export", sFileName);
 
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
@@ -192,7 +192,7 @@ namespace Ams.Infrastructure.Controllers
         protected (string, string) ExportExcelMini(Dictionary<string, object> sheets, string fileName)
         {
             IWebHostEnvironment webHostEnvironment = (IWebHostEnvironment)App.ServiceProvider.GetService(typeof(IWebHostEnvironment));
-            string sFileName = $"{fileName}{DateTime.Now:MM-dd-HHmmss}.xlsx";
+            string sFileName = $"{fileName}_{DateTime.Now:yyyy-MM-dd-HHmmss}.xlsx";
             string fullPath = Path.Combine(webHostEnvironment.WebRootPath, "export", sFileName);
 
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));

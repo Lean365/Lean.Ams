@@ -124,6 +124,10 @@
   import moment from 'moment'
   import zonetime from 'moment-timezone'
   import dayjs from 'dayjs'
+  import WelcomeContentCN from '@/i18n/pages/welcome/zh-cn.json'
+  import WelcomeContentTW from '@/i18n/pages/welcome/zh-tw.json'
+  import WelcomeContentJA from '@/i18n/pages/welcome/ja.json'
+  import WelcomeContentEN from '@/i18n/pages/welcome/en.json'
   // 时间插件
   import duration from 'dayjs/plugin/duration'
   dayjs.extend(duration)
@@ -337,6 +341,7 @@
   });
 
   const WelcomeContent = [
+    //console.log(WelcomeContentCN.length),
     proxy.$t('WelcomeContent.ContentA'),
     proxy.$t('WelcomeContent.ContentB'),
     proxy.$t('WelcomeContent.ContentC'),

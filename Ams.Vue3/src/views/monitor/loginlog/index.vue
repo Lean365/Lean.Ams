@@ -2,15 +2,18 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="auto">
       <el-form-item :label="$t('ploginlog.ipaddr')" prop="ipaddr">
-        <el-input v-model="queryParams.ipaddr" :placeholder="$t('btn.enter')+$t('ploginlog.ipaddr')" clearable
+        <el-input v-model="queryParams.ipaddr"
+          :placeholder="$t('btn.enterPrefix')+$t('ploginlog.ipaddr')+$t('btn.enterSuffix')" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('ploginlog.userName')" prop="userName">
-        <el-input v-model="queryParams.userName" :placeholder="$t('btn.enter')+$t('ploginlog.userName')" clearable
+        <el-input v-model="queryParams.userName"
+          :placeholder="$t('btn.enterPrefix')+$t('ploginlog.userName')+$t('btn.enterSuffix')" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('ploginlog.isStated')" prop="isStated">
-        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('ploginlog.isStated')" clearable>
+        <el-select v-model="queryParams.isStated"
+          :placeholder="$t('btn.selectPrefix')+$t('ploginlog.isStated')+$t('btn.selectSuffix')" clearable>
           <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -31,11 +34,11 @@
           v-hasPermi="['monitor:logininfor:remove']" :title="$t('btn.delete')">{{$t('btn.delete')}}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="info" plain icon="delete" @click="handleClean" v-hasPermi="['monitor:logininfor:remove']"
+        <el-button type="empty" plain icon="delete" @click="handleClean" v-hasPermi="['monitor:logininfor:remove']"
           :title="$t('btn.empty')">{{$t('btn.empty')}}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['system:logininfor:export']"
+        <el-button type="export" plain icon="download" @click="handleExport" v-hasPermi="['system:logininfor:export']"
           :title="$t('btn.export')">{{$t('btn.export')}}</el-button>
       </el-col>
       <right-toolbar :showSearch="showSearch" @queryTable="getList"></right-toolbar>

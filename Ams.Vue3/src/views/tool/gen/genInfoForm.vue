@@ -101,8 +101,7 @@
           </template>
           <el-cascader class="w100" :options="menuOptions"
             :props="{ checkStrictly: true, value: 'menuId', label: 'menuName', emitPath: false }"
-            :placeholder="$t('btn.select')+$t('gencode.Parentmenu')" clearable @change="clearParentMent($event)"
-            v-model="info.parentMenuId">
+            :placeholder="$t('btn.select')" clearable @change="clearParentMent($event)" v-model="info.parentMenuId">
             <template #default="{ node, data }">
               <span>{{ data.menuName }}</span>
               <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -112,14 +111,13 @@
       </el-col>
       <el-col :lg="24">
         <el-form-item :label="$t('gencode.sortField')">
-          <el-select v-model="info.sortField" :placeholder="$t('btn.select')+$t('gencode.sortField')" class="mr10"
-            clearable="">
+          <el-select v-model="info.sortField" :placeholder="$t('btn.select')" class="mr10" clearable="">
             <el-option v-for="item in columns" :key="item.columnId" :label="item.csharpField" :value="item.csharpField">
             </el-option>
           </el-select>
 
-          <el-radio v-model="info.sortType" value="asc">{{$t('gencode.sortAsc')}}</el-radio>
-          <el-radio v-model="info.sortType" value="desc">{{$t('gencode.sortDesc')}}</el-radio>
+          <el-radio v-model="info.sortType" label="asc">{{$t('gencode.sortAsc')}}</el-radio>
+          <el-radio v-model="info.sortType" label="desc">{{$t('gencode.sortDesc')}}</el-radio>
         </el-form-item>
       </el-col>
       <el-col :lg="12">
@@ -127,8 +125,7 @@
           <template #label>
             {{$t('gencode.useSnowflakeId')}}
             <span>
-              <el-tooltip :content="$t('gencode.useSnowflakeIdMemo')+$t('gencode.useSnowflakeIdForexample')"
-                placement="top">
+              <el-tooltip :content="$t('gencode.useSnowflakeIdMemo')" placement="top">
                 <el-icon>
                   <question-filled />
                 </el-icon>
@@ -136,8 +133,8 @@
             </span>
           </template>
           <el-radio-group :disabled="info.tplCategory != 'crud'" v-model="info.useSnowflakeId">
-            <el-radio :value="true">{{$t('gencode.Repyes')}}</el-radio>
-            <el-radio :value="false">{{$t('gencode.Repno')}}</el-radio>
+            <el-radio :label="true">{{$t('gencode.Repyes')}}</el-radio>
+            <el-radio :label="false">{{$t('gencode.Repno')}}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>
@@ -153,8 +150,7 @@
               </el-tooltip>
             </span>
           </template>
-          <el-input v-model="info.permissionPrefix"
-            :placeholder="$t('btn.enter')+$t('gencode.permissionPrefix')"></el-input>
+          <el-input v-model="info.permissionPrefix" :placeholder="$t('btn.enter')"></el-input>
         </el-form-item>
       </el-col>
       <el-col :lg="12">
@@ -169,15 +165,15 @@
               </el-tooltip>
             </span>
           </template>
-          <el-radio v-model="info.genType" value="0">{{$t('gencode.Zip')}}</el-radio>
-          <el-radio v-model="info.genType" value="1">{{$t('gencode.CustomPath')}}</el-radio>
+          <el-radio v-model="info.genType" label="0">{{$t('gencode.Zip')}}</el-radio>
+          <el-radio v-model="info.genType" label="1">{{$t('gencode.defCustomPath')}}</el-radio>
         </el-form-item>
       </el-col>
 
       <el-col :lg="12" v-if="info.genType == '1'">
         <el-form-item prop="genPath">
           <template #label>
-            {{$t('gencode.CustomPath')}}
+            {{$t('gencode.defCustomPath')}}
             <span>
               <el-tooltip :content="$t('gencode.CustomPathMemo')" placement="top">
                 <el-icon>
@@ -202,8 +198,8 @@
             </span>
           </template>
           <el-radio-group v-model="info.generateRepo">
-            <el-radio :value="1">{{$t('gencode.Repyes')}}</el-radio>
-            <el-radio :value="0">{{$t('gencode.Repno')}}</el-radio>
+            <el-radio :label="1">{{$t('gencode.Repyes')}}</el-radio>
+            <el-radio :label="0">{{$t('gencode.Repno')}}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>
@@ -226,43 +222,55 @@
 
       <el-col :lg="12">
         <el-form-item prop="colNum" :label="$t('gencode.oneRowDisp')">
-          <el-radio v-model="info.colNum" :value="12">{{$t('gencode.col2')}}</el-radio>
-          <el-radio v-model="info.colNum" :value="24">{{$t('gencode.col1')}}</el-radio>
+          <template #label>
+            {{$t('gencode.oneRowDisp')}}
+            <span>
+              <el-tooltip :content="$t('gencode.oneRowDispMemo')" placement="top">
+                <el-icon>
+                  <question-filled />
+                </el-icon>
+              </el-tooltip>
+            </span>
+          </template>
+          <el-radio v-model="info.colNum" :label="12">{{$t('gencode.col2')}}</el-radio>
+          <el-radio v-model="info.colNum" :label="24">{{$t('gencode.col1')}}</el-radio>
         </el-form-item>
       </el-col>
       <el-col :lg="12">
         <el-form-item prop="operBtnStyle" :label="$t('gencode.buttonStyle')">
-          <el-radio v-model="info.operBtnStyle" :value="1">{{$t('gencode.styleBase')}}</el-radio>
-          <el-radio v-model="info.operBtnStyle" :value="2">{{$t('gencode.styleText')}}</el-radio>
+          <el-radio v-model="info.operBtnStyle" :label="1">{{$t('gencode.styleBase')}}</el-radio>
+          <el-radio v-model="info.operBtnStyle" :label="2">{{$t('gencode.styleText')}}</el-radio>
         </el-form-item>
       </el-col>
       <el-col :lg="24" v-show="info.tplCategory != 'select'">
         <el-form-item :label="$t('gencode.Buildfunction')">
           <el-checkbox-group v-model="info.checkedBtn" @change="checkedBtnSelect">
             <el-checkbox :label="1">
-              <el-tag>{{$t('gencode.funadd')}}</el-tag>
+              <el-tag type="add">{{$t('gencode.funadd')}}</el-tag>
             </el-checkbox>
             <el-checkbox :label="2">
-              <el-tag type="success">{{$t('gencode.funedit')}}</el-tag>
+              <el-tag type="edit">{{$t('gencode.funedit')}}</el-tag>
             </el-checkbox>
             <el-checkbox :label="3">
-              <el-tag type="danger">{{$t('gencode.fundelete')}}</el-tag>
+              <el-tag type="delete">{{$t('gencode.fundelete')}}</el-tag>
             </el-checkbox>
             <el-checkbox :label="4">
-              <el-tag type="danger">{{$t('gencode.fundelmutil')}}</el-tag>
+              <el-tag type="deletebatch">{{$t('gencode.fundelmutil')}}</el-tag>
             </el-checkbox>
             <el-checkbox :label="5">
-              <el-tag>{{$t('gencode.funimport')}}</el-tag>
+              <el-tag type="import">{{$t('gencode.funimport')}}</el-tag>
             </el-checkbox>
             <el-checkbox :label="6">
-              <el-tag type="warning">{{$t('gencode.funexport')}}</el-tag>
+              <el-tag type="export">{{$t('gencode.funexport')}}</el-tag>
             </el-checkbox>
             <el-checkbox :label="7">
-              <el-tag type="info">{{$t('gencode.funview')}}</el-tag>
+              <el-tag type="view">{{$t('gencode.funview')}}</el-tag>
             </el-checkbox>
             <el-checkbox :label="8">
-              <el-tag type="danger">{{$t('gencode.funtruncate')}}</el-tag>
+              <el-tag type="empty">{{$t('gencode.funempty')}}</el-tag>
             </el-checkbox>
+
+
           </el-checkbox-group>
         </el-form-item>
       </el-col>
@@ -279,8 +287,8 @@
             </span>
           </template>
           <el-radio-group v-model="info.enableLog">
-            <el-radio :value="true">{{$t('gencode.Repyes')}}</el-radio>
-            <el-radio :value="false">{{$t('gencode.Repno')}}</el-radio>
+            <el-radio :label="true">{{$t('gencode.Repyes')}}</el-radio>
+            <el-radio :label="false">{{$t('gencode.Repno')}}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>
@@ -289,21 +297,21 @@
     <!-- 树表配置 -->
     <el-row v-if="info.tplCategory == 'tree'">
       <el-col :lg="24">
-        <h4 class="form-header">{{$t('gencode.treetable')}}</h4>
+        <h4 class="form-header">树表信息</h4>
       </el-col>
       <el-col :lg="12">
         <el-form-item prop="treeCode">
           <template #label>
-            {{$t('gencode.treeCode')}}
+            树编码字段
             <span>
-              <el-tooltip :content="$t('gencode.treeCodeMemo')" placement="top">
+              <el-tooltip content="树显示的编码字段名， 如：dept_id" placement="top">
                 <el-icon>
                   <question-filled />
                 </el-icon>
               </el-tooltip>
             </span>
           </template>
-          <el-select v-model="info.treeCode" :placeholder="$t('btn.select')+$t('gencode.treeCode')">
+          <el-select v-model="info.treeCode" placeholder="请选择树编码字段">
             <el-option v-for="(column, index) in columns" :key="index" :label="column.columnComment"
               :value="column.csharpField">
               <span style="float: left">{{ column.csharpField }}</span>
@@ -316,16 +324,16 @@
       <el-col :lg="12">
         <el-form-item prop="treeName">
           <template #label>
-            {{$t('gencode.treeName')}}
+            树名称字段
             <span>
-              <el-tooltip :content="$t('gencode.treeNameMemo')" placement="top">
+              <el-tooltip content="树节点的显示名称字段名， 如：dept_name" placement="top">
                 <el-icon>
                   <question-filled />
                 </el-icon>
               </el-tooltip>
             </span>
           </template>
-          <el-select v-model="info.treeName" :placeholder="$t('btn.select')+$t('gencode.treeName')">
+          <el-select v-model="info.treeName" placeholder="请选择树名称字段">
             <el-option v-for="(column, index) in columns" :key="index" :label="column.csharpField"
               :value="column.csharpField">
               <span style="float: left">{{ column.csharpField }}</span>
@@ -337,16 +345,16 @@
       <el-col :lg="24">
         <el-form-item prop="treeParentCode">
           <template #label>
-            {{$t('gencode.treeParentCode')}}
+            树父编码字段
             <span>
-              <el-tooltip :content="$t('gencode.treeParentCodeMemo')" placement="top">
+              <el-tooltip content="树显示的父编码字段名， 如：parent_Id" placement="top">
                 <el-icon>
                   <question-filled />
                 </el-icon>
               </el-tooltip>
             </span>
           </template>
-          <el-select v-model="info.treeParentCode" :placeholder="$t('btn.select')+$t('gencode.treeParentCode')">
+          <el-select v-model="info.treeParentCode" placeholder="请选择树父编码字段">
             <el-option v-for="(column, index) in columns" :key="index"
               :label="column.csharpField + '：' + column.columnComment" :value="column.csharpField">
               <span style="float: left">{{ column.csharpField }}</span>
@@ -360,23 +368,22 @@
     <!-- 主子表配置 -->
     <el-row v-if="info.tplCategory == 'sub' || info.tplCategory == 'subNav' || info.tplCategory == 'subNavMore'">
       <el-col :lg="24">
-        <h4 class="form-header">{{$t('gencode.associatedTable')}}</h4>
+        <h4 class="form-header">关联信息</h4>
       </el-col>
 
       <el-col :lg="12">
         <el-form-item prop="subTableName">
           <template #label>
-            {{$t('gencode.subTableName')}}
+            关联子表的表名
             <span>
-              <el-tooltip :content="$t('gencode.subTableNameMemo')" placement="top">
+              <el-tooltip content="关联子表的表名， 如：sys_user" placement="top">
                 <el-icon>
                   <question-filled />
                 </el-icon>
               </el-tooltip>
             </span>
           </template>
-          <el-select v-model="info.subTableName" filterable :placeholder="$t('btn.select')+$t('gencode.subTableName')"
-            @change="subSelectChange(this)">
+          <el-select v-model="info.subTableName" filterable placeholder="请选择" @change="subSelectChange(this)">
             <el-option v-for="(table, index) in tables" :disabled="table.tableName == info.tableName" :key="index"
               :label="table.tableName + '：' + table.tableComment" :value="table.tableName">
             </el-option>
@@ -386,9 +393,9 @@
       <el-col :lg="12">
         <el-form-item prop="subTableFkName">
           <template #label>
-            {{$t('gencode.subTableFkName')}}
+            子表关联的外键名
             <span>
-              <el-tooltip :content="$t('gencode.subTableFkNameMemo')" placement="top">
+              <el-tooltip content="子表关联的外键名， 如：user_id" placement="top">
                 <el-icon>
                   <question-filled />
                 </el-icon>
@@ -411,7 +418,7 @@
 <script setup name="genInfoForm">
   import { listMenu } from '@/api/system/menu'
   import { queryColumnInfo } from '@/api/tool/gen'
-  const { proxy } = getCurrentInstance()
+
   const subColumns = ref([])
   const menuOptions = ref([])
 
@@ -433,11 +440,11 @@
   })
   // 表单校验
   const rules = ref({
-    tplCategory: [{ required: true, message: proxy.$t('btn.select') + proxy.$t('gencode.tplCategory'), trigger: 'blur' }],
+    tplCategory: [{ required: true, message: '请选择生成模板', trigger: 'blur' }],
     moduleName: [
       {
         required: true,
-        message: proxy.$t('btn.enter') + proxy.$t('gencode.moduleName'),
+        message: '请输入生成模块名',
         trigger: 'blur',
         pattern: /^[A-Za-z]+$/
       }
@@ -445,22 +452,22 @@
     businessName: [
       {
         required: true,
-        message: proxy.$t('btn.enter') + proxy.$t('gencode.businessName'),
+        message: '请输入生成业务名',
         trigger: 'blur',
         pattern: /^[A-Za-z]+$/
       }
     ],
-    functionName: [{ required: true, message: proxy.$t('btn.enter') + proxy.$t('gencode.functionName'), trigger: 'blur' }],
+    functionName: [{ required: true, message: '请输入生成功能名', trigger: 'blur' }],
     permissionPrefix: {
       required: true,
-      message: proxy.$t('btn.enter') + proxy.$t('gencode.permissionPrefix'),
+      message: '请输入权限前缀',
       trigger: 'blur'
     },
-    genType: [{ required: true, message: proxy.$t('btn.enter') + proxy.$t('gencode.genType'), trigger: 'blur' }],
-    treeCode: [{ required: true, message: proxy.$t('btn.enter') + proxy.$t('gencode.treeCode'), trigger: 'blur' }],
-    treeParentCode: [{ required: true, message: proxy.$t('btn.enter') + proxy.$t('gencode.treeParentCode'), trigger: 'blur' }],
-    subTableName: [{ required: true, message: proxy.$t('btn.enter') + proxy.$t('gencode.subTableName'), trigger: 'blur' }],
-    subTableFkName: [{ required: true, message: proxy.$t('btn.enter') + proxy.$t('gencode.subTableFkName'), trigger: 'blur' }]
+    genType: [{ required: true, message: '请选择代码生成方式', trigger: 'blur' }],
+    treeCode: [{ required: true, message: '请选择树编码字段', trigger: 'blur' }],
+    treeParentCode: [{ required: true, message: '请选择树父编码字段', trigger: 'blur' }],
+    subTableName: [{ required: true, message: '请选择关联的子表表名', trigger: 'blur' }],
+    subTableFkName: [{ required: true, message: '请选择子表关联的外键名', trigger: 'blur' }]
   })
   function subSelectChange(value) {
     props.info.subTableFkName = ''

@@ -1,6 +1,6 @@
 <template>
   <vanta></vanta>
-  <LangSelect :title="$t('layout.multiLanguage') " class="langSet" />
+  <LangSelect :title="$t('layout.headerMultiLanguage') " class="langSet" />
   <el-image :src='imgsrc' class="logoSet" />
   <el-text class="sloganSet">{{ $t('layout.slogan') }}</el-text>
   <div class="login-wrap-vanta">
@@ -51,7 +51,7 @@
           <el-button :loading="loading" size="default" round type="primary" style="width: 100%"
             @click.prevent="handleLogin">
             <span v-if="!loading">{{ $t('plogin.btnLogin') }}</span>
-            <span v-else>登 录 中...</span>
+            <span v-else>{{$t('plogin.loggingIn')}}</span>
           </el-button>
         </el-form-item>
 
@@ -162,7 +162,7 @@
         userStore
           .login(loginForm.value)
           .then(() => {
-            proxy.$modal.msgSuccess(proxy.$t('login.loginSuccess'))
+            proxy.$modal.msgSuccess(proxy.$t('plogin.loginSuccess'))
             const query = route.query
             const otherQueryParams = Object.keys(query).reduce((acc, cur) => {
               if (cur !== 'redirect') {
@@ -236,7 +236,7 @@
   getCookie()
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import '@/assets/styles/login.scss';
 
   .forget-pwd {

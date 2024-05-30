@@ -4,7 +4,8 @@
       <el-form-item :label="$t('pmenu.parentMenu')" prop="parentId">
         <el-cascader class="w100" :options="menuQueryOptions"
           :props="{ checkStrictly: true, value: 'menuId', label: 'menuName', emitPath: false }"
-          :placeholder="$t('btn.select')+$t('pmenu.parentMenu')" clearable v-model="queryParams.parentId">
+          :placeholder="$t('btn.selectPrefix')+$t('pmenu.parentMenu')+$t('btn.selectSuffix')" clearable
+          v-model="queryParams.parentId">
           <template #default="{ node, data }">
             <span>{{ data.menuName }}</span>
             <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -12,17 +13,20 @@
         </el-cascader>
       </el-form-item>
       <el-form-item :label="$t('pmenu.menuName')" prop="menuName">
-        <el-input v-model="queryParams.menuName" :placeholder="$t('btn.enter')+$t('pmenu.menuName')" clearable
+        <el-input v-model="queryParams.menuName"
+          :placeholder="$t('btn.enterPrefix')+$t('pmenu.menuName')+$t('btn.enterSuffix')" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('common.tipIsStated')" prop="isStated">
-        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('common.tipIsStated')" clearable>
+        <el-select v-model="queryParams.isStated"
+          :placeholder="$t('btn.selectPrefix')+$t('common.tipIsStated')+$t('btn.selectSuffix')" clearable>
           <el-option v-for="dict in sys_normal_disable" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('pmenu.isShow')" prop="visible">
-        <el-select v-model="queryParams.visible" :placeholder="$t('btn.select')+$t('pmenu.isShow')" clearable>
+        <el-select v-model="queryParams.visible"
+          :placeholder="$t('btn.selectPrefix')+$t('pmenu.isShow')+$t('btn.selectSuffix')" clearable>
           <el-option v-for="dict in sys_show_hide" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -122,7 +126,8 @@
             <el-form-item :label="$t('pmenu.parentMenu')">
               <el-cascader class="w100" :options="menuOptions"
                 :props="{ checkStrictly: true, value: 'menuId', label: 'menuName', emitPath: false }"
-                :placeholder="$t('btn.select')+$t('pmenu.parentMenu')" clearable v-model="form.parentId">
+                :placeholder="$t('btn.selectPrefix')+$t('pmenu.parentMenu')+$t('btn.selectSuffix')" clearable
+                v-model="form.parentId">
                 <template #default="{ node, data }">
                   <span>{{ data.menuName }}</span>
                   <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -141,7 +146,8 @@
           </el-col>
           <el-col :lg="12">
             <el-form-item :label="$t('pmenu.menuName')" prop="menuName">
-              <el-input v-model="form.menuName" :placeholder="$t('btn.enter')+$t('pmenu.menuName')" />
+              <el-input v-model="form.menuName"
+                :placeholder="$t('btn.enterPrefix')+$t('pmenu.menuName')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
@@ -156,14 +162,16 @@
                   {{ $t('pmenu.menuNameKey') }}
                 </span>
               </template>
-              <el-input v-model="form.menuNameKey" :placeholder="$t('pmenu.menuNameKey')" />
+              <el-input v-model="form.menuNameKey"
+                :placeholder="$t('btn.enterPrefix')+$t('pmenu.menuNameKey')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12" v-if="form.menuType != 'F'">
             <el-form-item :label="$t('pmenu.icon')" prop="icon">
               <el-popover placement="bottom-start" :width="540" trigger="click">
                 <template #reference>
-                  <el-input v-model="form.icon" :placeholder="$t('btn.select')+$t('pmenu.icon')" readonly>
+                  <el-input v-model="form.icon"
+                    :placeholder="$t('btn.selectPrefix')+$t('pmenu.icon')+$t('btn.selectSuffix')" readonly>
                     <template #prefix>
                       <svg-icon v-if="form.icon" :name="form.icon" />
                       <el-icon v-else>
@@ -211,7 +219,8 @@
                   {{ $t('pmenu.routePath') }}
                 </span>
               </template>
-              <el-input v-model="form.path" :placeholder="$t('btn.enter')+$t('pmenu.routePath')" />
+              <el-input v-model="form.path"
+                :placeholder="$t('btn.enterPrefix')+$t('pmenu.routePath')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12" v-if="form.menuType == 'C'">
@@ -226,7 +235,8 @@
                   {{ $t('pmenu.componentPath') }}
                 </span>
               </template>
-              <el-input v-model="form.component" :placeholder="$t('btn.enter')+$t('pmenu.componentPath')">
+              <el-input v-model="form.component"
+                :placeholder="$t('btn.enterPrefix')+$t('pmenu.componentPath')+$t('btn.enterSuffix')">
                 <template #prepend>
                   <span style="width: 40px">src/views/</span>
                 </template>
@@ -235,7 +245,8 @@
           </el-col>
           <el-col :lg="12" v-if="form.menuType != 'M'">
             <el-form-item>
-              <el-input v-model="form.perms" :placeholder="$t('btn.enter')+$t('pmenu.permissionStr')" maxlength="100" />
+              <el-input v-model="form.perms"
+                :placeholder="$t('btn.enterPrefix')+$t('pmenu.permissionStr')+$t('btn.enterSuffix')" maxlength="100" />
               <template #label>
                 <span>
                   <el-tooltip :content="$t('pmenu.permissionStrmemo')" placement="top">

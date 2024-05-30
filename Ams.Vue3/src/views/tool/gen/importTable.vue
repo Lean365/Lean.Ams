@@ -2,13 +2,14 @@
   <el-dialog :title="$t('btn.import')" v-model="visible" width="900px" top="5vh" append-to-body>
     <el-form ref="queryRef" :inline="true" :rules="rules" :model="queryParams">
       <el-form-item :label="$t('gencode.dbName')" prop="dbName">
-        <el-select v-model="queryParams.dbName" clearable :placeholder="$t('btn.select')+$t('gencode.dbName')"
-          @change="handleQuery">
+        <el-select v-model="queryParams.dbName" clearable
+          :placeholder="$t('btn.selectPrefix')+$t('gencode.dbName')+$t('btn.selectSuffix')" @change="handleQuery">
           <el-option v-for="item in dbList" :key="item" :label="item" :value="item" />
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('gencode.tableName')">
-        <el-input v-model="queryParams.tableName" clearable :placeholder="$t('btn.enter')+$t('gencode.tableName')" />
+        <el-input v-model="queryParams.tableName" clearable
+          :placeholder="$t('btn.enterPrefix')+$t('gencode.tableName')+$t('btn.enterSuffix')" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="search" @click="handleQuery()">{{$t('btn.search')}}</el-button>

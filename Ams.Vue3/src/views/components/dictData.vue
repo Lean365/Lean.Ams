@@ -1,12 +1,13 @@
 <template>
-  <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+  <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="auto">
     <el-form-item :label="$t('pdict.dictName')" prop="dictType">
       <el-select v-model="queryParams.dictType">
         <el-option v-for="item in typeOptions" :key="item.dictId" :label="item.dictName" :value="item.dictType" />
       </el-select>
     </el-form-item>
     <el-form-item :label="$t('pdict.isStated')" prop="isStated">
-      <el-select v-model="queryParams.status" :placeholder="$t('btn.select')+$t('pdict.isStated')" clearable>
+      <el-select v-model="queryParams.status"
+        :placeholder="$t('btn.selectPrefix')+$t('pdict.isStated')+$t('btn.selectSuffix')" clearable>
         <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
           :value="dict.dictValue" />
       </el-select>
@@ -43,7 +44,7 @@
         <dict-tag :options="statusOptions" :value="scope.row.isStated" />
       </template>
     </el-table-column>
-    <el-table-column :label="$t('pdict.reMarks')" align="center" prop="remark" :show-overflow-tooltip="true" />
+    <el-table-column :label="$t('common.tipRemarks')" align="center" prop="remark" :show-overflow-tooltip="true" />
     <el-table-column :label="$t('btn.operation')" align="center" class-name="small-padding fixed-width" width="130px">
       <template #default="scope">
         <div v-if="scope.row.dictCode > 0">
@@ -72,17 +73,20 @@
 
         <el-col :lg="12">
           <el-form-item :label="$t('pdict.dictLabel')" prop="dictLabel">
-            <el-input v-model="form.dictLabel" :placeholder="$t('btn.enter')+$t('pdict.dictLabel')" />
+            <el-input v-model="form.dictLabel"
+              :placeholder="$t('btn.enterPrefix')+$t('pdict.dictLabel')+$t('btn.enterSuffix')" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
           <el-form-item :label="$t('pdict.langKey')" prop="langKey">
-            <el-input v-model="form.langKey" :placeholder="$t('btn.enter')+$t('pdict.langKey')" />
+            <el-input v-model="form.langKey"
+              :placeholder="$t('btn.enterPrefix')+$t('pdict.langKey')+$t('btn.enterSuffix')" />
           </el-form-item>
         </el-col>
         <el-col :lg="24">
           <el-form-item :label="$t('pdict.dictValue')" prop="dictValue">
-            <el-input v-model="form.dictValue" :placeholder="$t('btn.enter')+$t('pdict.dictValue')" />
+            <el-input v-model="form.dictValue"
+              :placeholder="$t('btn.enterPrefix')+$t('pdict.dictValue')+$t('btn.enterSuffix')" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
@@ -120,9 +124,9 @@
         </el-col>
 
         <el-col :lg="24">
-          <el-form-item :label="$t('pdict.reMarks')" prop="remark">
+          <el-form-item :label="$t('common.tipRemarks')" prop="remark">
             <el-input v-model="form.remark" type="textarea"
-              :placeholder="$t('btn.enter')+$t('pdict.reMarks')"></el-input>
+              :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

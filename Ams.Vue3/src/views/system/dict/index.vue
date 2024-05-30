@@ -2,21 +2,25 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="auto">
       <el-form-item :label="$t('pdict.dictType')" prop="dictType">
-        <el-input v-model="queryParams.dictType" :placeholder="$t('btn.enter')+$t('pdict.dictType')" clearable
+        <el-input v-model="queryParams.dictType"
+          :placeholder="$t('btn.enterPrefix')+$t('pdict.dictType')+$t('btn.enterSuffix')" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('pdict.dictName')" prop="dictName">
-        <el-input v-model="queryParams.dictName" :placeholder="$t('btn.enter')+$t('pdict.dictType')" clearable
+        <el-input v-model="queryParams.dictName"
+          :placeholder="$t('btn.enterPrefix')+$t('pdict.dictType')+$t('btn.enterSuffix')" clearable
           @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('pdict.isStated')" prop="isStated">
-        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('pdict.dictType')" clearable>
+        <el-select v-model="queryParams.isStated"
+          :placeholder="$t('btn.selectPrefix')+$t('pdict.dictType')+$t('btn.selectSuffix')" clearable>
           <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('pdict.builtin')" prop="type">
-        <el-select v-model="queryParams.type" :placeholder="$t('btn.select')+$t('pdict.builtin')" clearable>
+        <el-select v-model="queryParams.type"
+          :placeholder="$t('btn.selectPrefix')+$t('pdict.builtin')+$t('btn.selectSuffix')" clearable>
           <el-option v-for="dict in typeOptions" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -74,7 +78,8 @@
       <el-table-column :label="$t('common.tipRemarks')" align="center" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime" width="180">
         <template #default="scope">
-          <span>{{ scope.row.createTime }}</span>
+          {{ parseTime(scope.row.createTime, 'YYYY-MM-DD') }}
+          <!-- <span>{{ scope.row.createTime }}</span> -->
         </template>
       </el-table-column>
       <el-table-column :label="$t('btn.operation')" align="center" class-name="small-padding fixed-width">
@@ -100,7 +105,8 @@
     <el-dialog :title="title" v-model="open" draggable width="500px" append-to-body>
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-form-item :label="$t('pdict.dictName')" prop="dictName">
-          <el-input v-model="form.dictName" :placeholder="$t('btn.enter')+$t('pdict.dictName')" />
+          <el-input v-model="form.dictName"
+            :placeholder="$t('btn.enterPrefix')+$t('pdict.dictName')+$t('btn.enterSuffix')" />
         </el-form-item>
         <el-form-item :label="$t('pdict.dictType')" prop="dictType">
           <template #label>
@@ -113,7 +119,8 @@
               {{$t('pdict.dictType')}}
             </span>
           </template>
-          <el-input v-model="form.dictType" :placeholder="$t('btn.enter')+$t('pdict.dictType')" />
+          <el-input v-model="form.dictType"
+            :placeholder="$t('btn.enterPrefix')+$t('pdict.dictType')+$t('btn.enterSuffix')" />
         </el-form-item>
         <el-form-item :label="$t('pdict.isStated')" prop="isStated">
           <el-radio-group v-model="form.isStated">
@@ -127,10 +134,6 @@
               }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item :label="$t('common.tipRemarks')" prop="remark">
-          <el-input v-model="form.remark" type="textarea"
-            :placeholder="$t('btn.enter')+$t('common.tipRemarks')"></el-input>
-        </el-form-item>
         <el-form-item :label="$t('pdict.customSql')" prop="customSql">
           <template #label>
             <span>
@@ -143,8 +146,14 @@
             </span>
           </template>
           <el-input v-model="form.customSql" type="textarea"
-            :placeholder="$t('btn.enter')+$t('pdict.customSql')"></el-input>
+            :placeholder="$t('btn.enterPrefix')+$t('pdict.customSql')+$t('btn.enterSuffix')"></el-input>
         </el-form-item>
+        <el-form-item :label="$t('common.tipRemarks')" prop="remark">
+          <el-input v-model="form.remark" type="textarea"
+            :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')"></el-input>
+        </el-form-item>
+
+
       </el-form>
       <template #footer>
         <el-button text @click="cancel">{{ $t('btn.cancel') }}</el-button>

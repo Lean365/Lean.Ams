@@ -1,4 +1,5 @@
-﻿using Ams.Model.Content;
+﻿using Ams.Model.Advertising;
+using Ams.Model.Content;
 using SqlSugar.IOC;
 
 namespace Ams.Kernel.SqlSugar
@@ -29,26 +30,31 @@ namespace Ams.Kernel.SqlSugar
             db.CodeFirst.InitTables(typeof(SysRole));
             db.CodeFirst.InitTables(typeof(SysDept));
             db.CodeFirst.InitTables(typeof(SysPost));
-            db.CodeFirst.InitTables(typeof(FileStorage));
-            db.CodeFirst.InitTables(typeof(SysConfig));
-            db.CodeFirst.InitTables(typeof(Notice));
-            db.CodeFirst.InitTables(typeof(LogLogin));
-            db.CodeFirst.InitTables(typeof(LogOper));
             db.CodeFirst.InitTables(typeof(SysMenu));
             db.CodeFirst.InitTables(typeof(SysRoleMenu));
             db.CodeFirst.InitTables(typeof(SysRoleDept));
             db.CodeFirst.InitTables(typeof(SysUserRole));
             db.CodeFirst.InitTables(typeof(SysUserPost));
-            db.CodeFirst.InitTables(typeof(TasksQz));
-            db.CodeFirst.InitTables(typeof(LogTasksQz));
-            db.CodeFirst.InitTables(typeof(SysLocale));
-            db.CodeFirst.InitTables(typeof(GenTable));
-            db.CodeFirst.InitTables(typeof(GenTableColumn));
+            db.CodeFirst.InitTables(typeof(SysConfig));
             db.CodeFirst.InitTables(typeof(SysDictData));
             db.CodeFirst.InitTables(typeof(SysDictType));
-            db.CodeFirst.InitTables(typeof(LogDiff));
-            db.CodeFirst.InitTables(typeof(EmailTpl));
+
+            db.CodeFirst.InitTables(typeof(SysLocale));
+
+            db.CodeFirst.InitTables(typeof(LogLogin));
+            db.CodeFirst.InitTables(typeof(LogOper));
+            db.CodeFirst.InitTables(typeof(LogTasksQz));
             db.CodeFirst.InitTables(typeof(LogSms));
+            db.CodeFirst.InitTables(typeof(LogDiff));
+            db.CodeFirst.InitTables(typeof(LogOnlineTime));
+
+            db.CodeFirst.InitTables(typeof(GenTable));
+            db.CodeFirst.InitTables(typeof(GenTableColumn));
+
+            db.CodeFirst.InitTables(typeof(FileStorage));
+            db.CodeFirst.InitTables(typeof(Notice));
+            db.CodeFirst.InitTables(typeof(TasksQz));
+            db.CodeFirst.InitTables(typeof(EmailTpl));
             db.CodeFirst.InitTables(typeof(EmailSentItems));
             db.CodeFirst.InitTables(typeof(Article));
             db.CodeFirst.InitTables(typeof(ArticleCategory));
@@ -56,7 +62,8 @@ namespace Ams.Kernel.SqlSugar
             db.CodeFirst.InitTables(typeof(ArticlePraise));
             db.CodeFirst.InitTables(typeof(ArticleComment));
             db.CodeFirst.InitTables(typeof(ArticleTopic));
-            //db.CodeFirst.InitTables(typeof(LogOnlineTime));
+
+            db.CodeFirst.InitTables(typeof(Banner));
         }
 
         public static void InitNewTb()

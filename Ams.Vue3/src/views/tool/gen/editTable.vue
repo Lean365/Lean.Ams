@@ -160,7 +160,7 @@
           <el-table-column :label="$t('gencode.dictType')" width='160px'>
             <template #default="scope">
               <el-select v-model="scope.row.dictType" clearable filterable style="width:140px"
-                :placeholder="$t('btn.select')+$t('gencode.dictType')" v-if="
+                :placeholder="$t('btn.selectPrefix')+$t('gencode.dictType')+$t('btn.selectSuffix')" v-if="
                   scope.row.htmlType == 'selectMulti' ||
                   scope.row.htmlType == 'selectRemote' ||
                   scope.row.htmlType == 'select' ||

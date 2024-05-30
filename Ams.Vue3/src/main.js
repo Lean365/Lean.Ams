@@ -15,7 +15,8 @@ import { downFile } from '@/utils/request'
 import signalR from '@/signalr/signalr'
 import vueI18n from './i18n/index'
 import pinia from '@/store/index'
-
+//自定义Button 按钮样式
+import '@/assets/styles/btn-custom.scss';
 // svg图标
 import '@/assets/iconfont/iconfont.js' //iconfont
 import 'virtual:svg-icons-register'

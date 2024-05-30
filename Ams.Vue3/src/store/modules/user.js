@@ -132,7 +132,7 @@ const useUserStore = defineStore('user', {
           })
           .catch((error) => {
             console.warn(error)
-            reject('获取用户信息失败')
+            reject('获取用户信息失败(Failed to get user info)')
           })
       })
     },

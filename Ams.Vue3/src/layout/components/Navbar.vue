@@ -29,18 +29,34 @@
           <template #dropdown>
             <el-dropdown-menu>
               <router-link to="/user/profile">
-                <el-dropdown-item>{{ $t('layout.headerPersonalCenter') }}</el-dropdown-item>
+
+                <el-dropdown-item>
+                  <el-icon color="#529b2e" class="no-inherit">
+                    <Avatar />
+                  </el-icon>
+                  {{ $t('layout.headerPersonalCenter') }}
+
+                </el-dropdown-item>
               </router-link>
               <!-- <el-dropdown-item command="setLayout">
                 <span>{{ $t('layout.layoutSetting') }}</span>
               </el-dropdown-item> -->
-              <el-dropdown-item command="copyToken" v-if="dev">
+              <el-dropdown-item divided command="copyToken" v-if="dev">
+                <el-icon color="#409EFF" class="no-inherit">
+                  <DocumentCopy />
+                </el-icon>
                 <span>{{ $t('layout.headerMyToken') }}</span>
               </el-dropdown-item>
-              <el-dropdown-item command="clear">
+              <el-dropdown-item divided command="clear">
+                <el-icon color="#E6A23C" class="no-inherit">
+                  <BrushFilled />
+                </el-icon>
                 <span>{{ $t('btn.emptyCache') }}</span>
               </el-dropdown-item>
               <el-dropdown-item divided command="logout">
+                <el-icon color="#F56C6C" class="no-inherit">
+                  <CloseBold />
+                </el-icon>
                 <span>{{ $t('layout.logOut') }}</span>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -113,7 +129,7 @@
   }
   function logout() {
     proxy
-      .$confirm(proxy.$t('layout.logOutConfirm'), proxy.$t('common.tips'), {
+      .$confirm(proxy.$t('layout.logOutConfirm'), proxy.$t('common.tipWarnning'), {
         confirmButtonText: proxy.$t('btn.submit'),
         cancelButtonText: proxy.$t('btn.cancel'),
         type: 'warning'

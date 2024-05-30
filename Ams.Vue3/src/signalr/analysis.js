@@ -8,7 +8,6 @@ export default {
     connection.on(MsgType.M001, (data) => {
       useSocketStore().setOnlineUsers(data)
     })
-
     connection.on(MsgType.M002, (data) => {
       // useUserStore().saveConnId(data)
     })
@@ -46,7 +45,8 @@ export default {
 
       //   }
       // })
-      useSocketStore().setGlobalError({ code: 0, msg: `你的账号已被强退，原因：${data.reason || '无'}` })
+      useSocketStore().setGlobalError({ code: 0, msg: `你的账号已被强退，原因:(Your account has been forced quit, for a reason)${data.reason || '无(None)'}` })
+
       useUserStore()
         .logOut()
         .then(() => {
@@ -78,8 +78,9 @@ export default {
       useUserStore()
         .logOut()
         .then(() => {
-          ElMessageBox.alert(`你的账号已在其他设备登录，如果不是你的操作请尽快修改密码`, '提示', {
-            confirmButtonText: '确定',
+          ElMessageBox.alert(`你的账号已在其他设备登录，如果不是你的操作请尽快修改密码(Your account has been logged in on another device, if it is not your operation please change your password as soon as possible)`, 'Warnning', {
+            confirmButtonText: '确定(Confirm)',
+            type: 'warning',
             callback: () => {
               location.href = import.meta.env.VITE_APP_ROUTER_PREFIX + 'index'
             }

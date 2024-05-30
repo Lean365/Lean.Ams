@@ -8,11 +8,12 @@
         </el-badge>
       </template>
       <div class="layout-navbars-breadcrumb-user-news">
-        <div class="read" @click="onAllReadClick">全部已读</div>
+        <div class="read" @click="onAllReadClick">{{$t('layout.headerNoticeAllread')}}</div>
         <el-tabs v-model="noticeType">
           <el-tab-pane name="0">
             <template #label>
-              <el-badge :hidden="newsDot <= 0" :value="newsDot" class="new-item"> 通知 </el-badge>
+              <el-badge :hidden="newsDot <= 0" :value="newsDot" class="new-item"> {{$t('layout.headerNotice')}}
+              </el-badge>
             </template>
             <div class="content-box">
               <div class="content-box-item" v-for="item in noticeList" @click="handleDetails(item, 0)">
@@ -21,21 +22,24 @@
                 </div>
                 <div class="content">
                   <div class="title">
-                    <el-tag size="small" v-if="item.noticeType == 1">通知</el-tag>
-                    <el-tag size="small" type="warning" v-if="item.noticeType == 2">公告</el-tag>
+                    <el-tag size="small" v-if="item.noticeType == 1">{{$t('pnotice.notification')}}</el-tag>
+                    <el-tag size="small" type="warning"
+                      v-if="item.noticeType == 2">{{$t('pnotice.announcement')}}</el-tag>
                     {{ item.noticeTitle }}
                   </div>
                   <div class="content-box-time">{{ dayjs(item.create_time).format('YYYY-MM-DD') }}</div>
                 </div>
               </div>
 
-              <el-empty v-if="noticeList.length <= 0" :image-size="60" description="暂无通知"></el-empty>
+              <el-empty v-if="noticeList.length <= 0" :image-size="60"
+                description="{{$t('pnotice.none')+$t('pnotice.notice')}}"></el-empty>
             </div>
           </el-tab-pane>
 
           <el-tab-pane name="1">
             <template #label>
-              <el-badge :hidden="chatDotNum <= 0" :value="chatDotNum" class="new-item"> 私信 </el-badge>
+              <el-badge :hidden="chatDotNum <= 0" :value="chatDotNum" class="new-item"> {{$t('common.privateChat')}}
+              </el-badge>
             </template>
             <div class="content-box">
               <div class="content-box-item" v-for="item in chatList" @click="handleDetails(item, 1)">
@@ -48,13 +52,14 @@
                   <div class="content-box-time">{{ formatTime(item.chatTime) }}</div>
                 </div>
               </div>
-              <el-empty v-if="chatList.length <= 0" :image-size="60" description="暂无私信"></el-empty>
+              <el-empty v-if="chatList.length <= 0" :image-size="60"
+                :description="$t('pnotice.none')+$t('common.privateChat')"></el-empty>
             </div>
           </el-tab-pane>
         </el-tabs>
 
         <div class="foot-box">
-          <div @click="onGoToGiteeClick" v-if="noticeList.length > 0">前往通知中心</div>
+          <div @click="onGoToGiteeClick" v-if="noticeList.length > 0">{{$t('pnotice.noticeCenter')}}</div>
         </div>
       </div>
     </el-popover>
@@ -103,7 +108,7 @@
   }
   // 前往通知中心点击
   function onGoToGiteeClick() {
-    window.open('https://gitee.com/izory/ZrAdminNetCore')
+    window.open('/notice')
   }
 </script>
 

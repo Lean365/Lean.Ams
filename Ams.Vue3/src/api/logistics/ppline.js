@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import QS from 'qs'
 import { downFile } from '@/utils/request'
 
 /**
@@ -10,6 +11,9 @@ export function listPpLine(query) {
     url: 'logistics/PpLine/list',
     method: 'get',
     params: query,
+    paramsSerializer: function (params) {
+      return QS.stringify(params, { indices: false })
+    }
   })
 }
 
@@ -53,6 +57,13 @@ export function getPpLine(id) {
 export function delPpLine(pid) {
   return request({
     url: 'logistics/PpLine/delete/' + pid,
+    method: 'delete'
+  })
+}
+// 清空生产班组
+export function clearPpLine() {
+  return request({
+    url: 'logistics/PpLine/clean',
     method: 'delete'
   })
 }

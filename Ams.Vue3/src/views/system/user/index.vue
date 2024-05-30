@@ -4,8 +4,8 @@
       <!--部门数据-->
       <el-col :span="4" :xs="24">
         <div class="head-container">
-          <el-input v-model="deptName" :placeholder="$t('btn.enter')+$t('puser.deptName')" clearable
-            prefix-icon="search" style="margin-bottom: 20px" />
+          <el-input v-model="deptName" :placeholder="$t('btn.enterPrefix')+$t('puser.deptName')+$t('btn.enterSuffix')"
+            clearable prefix-icon="search" style="margin-bottom: 20px" />
         </div>
         <div class="head-container">
           <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false"
@@ -24,17 +24,20 @@
       </el-col>
       <!--用户数据-->
       <el-col :lg="20" :xm="24">
-        <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+        <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="auto">
           <el-form-item :label="$t('puser.userName')" prop="userName">
-            <el-input v-model="queryParams.userName" :placeholder="$t('btn.enter')+$t('puser.userName')" clearable
+            <el-input v-model="queryParams.userName"
+              :placeholder="$t('btn.enterPrefix')+$t('puser.userName')+$t('btn.enterSuffix')" clearable
               style="width: 240px" @keyup.enter="handleQuery" />
           </el-form-item>
           <el-form-item :label="$t('puser.userMobile')" prop="phonenumber">
-            <el-input v-model="queryParams.phonenumber" :placeholder="$t('btn.enter')+$t('puser.userMobile')" clearable
+            <el-input v-model="queryParams.phonenumber"
+              :placeholder="$t('btn.enterPrefix')+$t('puser.userMobile')+$t('btn.enterSuffix')" clearable
               style="width: 240px" @keyup.enter="handleQuery" />
           </el-form-item>
           <el-form-item :label="$t('common.tipIsStated')" prop="isStated">
-            <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('common.tipIsStated')" clearable
+            <el-select v-model="queryParams.isStated"
+              :placeholder="$t('btn.selectPrefix')+$t('common.tipIsStated')+$t('btn.selectSuffix')" clearable
               style="width: 240px">
               <el-option :label="$t('common.all')" :value="-1" />
               <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel"
@@ -70,12 +73,12 @@
             </el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button type="info" plain icon="Upload" @click="handleImport" v-hasPermi="['system:user:import']">
+            <el-button type="import" plain icon="Upload" @click="handleImport" v-hasPermi="['system:user:import']">
               {{ $t('btn.import') }}
             </el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button type="warning" plain icon="Download" @click="handleExport" v-hasPermi="['system:user:export']">
+            <el-button type="export" plain icon="Download" @click="handleExport" v-hasPermi="['system:user:export']">
               {{ $t('btn.export') }}
             </el-button>
           </el-col>
@@ -146,41 +149,45 @@
           <el-col :lg="24">
             <el-form-item :label="$t('puser.userName')" prop="userName">
               <el-input :disabled="form.userId != undefined" v-model="form.userName"
-                :placeholder="$t('btn.enter')+$t('puser.userName')+$t('puser.loginOnly')" />
+                :placeholder="$t('btn.enterPrefix')+$t('puser.userName')+$t('puser.loginOnly')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12" v-if="form.userId == undefined">
             <el-form-item :label="$t('puser.loginPwd')" prop="password">
-              <el-input v-model="form.password" show-password :placeholder="$t('btn.enter')+$t('puser.loginPwd')"
-                type="password" />
+              <el-input v-model="form.password" show-password
+                :placeholder="$t('btn.enterPrefix')+$t('puser.loginPwd')+$t('btn.enterSuffix')" type="password" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
             <el-form-item :label="$t('puser.userNick')" prop="nickName">
-              <el-input v-model="form.nickName" :placeholder="$t('btn.enter')+$t('puser.userNick')" />
+              <el-input v-model="form.nickName"
+                :placeholder="$t('btn.enterPrefix')+$t('puser.userNick')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
             <el-form-item :label="$t('puser.deptName')" prop="deptId">
               <el-tree-select v-model="form.deptId" :data="deptOptions"
                 :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id"
-                :placeholder="$t('btn.select')+$t('puser.deptName')" check-strictly :render-after-expand="false" />
+                :placeholder="$t('btn.selectPrefix')+$t('puser.deptName')+$t('btn.selectSuffix')" check-strictly
+                :render-after-expand="false" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
             <el-form-item :label="$t('puser.userMobile')" prop="phonenumber">
-              <el-input v-model="form.phonenumber" :placeholder="$t('btn.enter')+$t('puser.userMobile')"
-                maxlength="11" />
+              <el-input v-model="form.phonenumber"
+                :placeholder="$t('btn.enterPrefix')+$t('puser.userMobile')+$t('btn.enterSuffix')" maxlength="11" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
             <el-form-item :label="$t('puser.email')" prop="email">
-              <el-input v-model="form.email" :placeholder="$t('btn.enter')+$t('puser.email')" maxlength="50" />
+              <el-input v-model="form.email"
+                :placeholder="$t('btn.enterPrefix')+$t('puser.email')+$t('btn.enterSuffix')" maxlength="50" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
             <el-form-item :label="$t('puser.sex')">
-              <el-radio-group v-model="form.sex" :placeholder="$t('btn.select')+$t('puser.sex')">
+              <el-radio-group v-model="form.sex"
+                :placeholder="$t('btn.selectPrefix')+$t('puser.sex')+$t('btn.selectSuffix')">
                 <el-radio v-for="dict in sexOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                   dict.dictLabel }}</el-radio>
               </el-radio-group>
@@ -196,8 +203,8 @@
           </el-col>
           <el-col :lg="24">
             <el-form-item :label="$t('puser.userPost')">
-              <el-select v-model="form.postIds" multiple :placeholder="$t('btn.enter')+$t('puser.userPost')"
-                style="width: 100%">
+              <el-select v-model="form.postIds" multiple
+                :placeholder="$t('btn.selectPrefix')+$t('puser.userPost')+$t('btn.selectSuffix')" style="width: 100%">
                 <el-option v-for="item in postOptions" :key="item.postId" :label="item.postName" :value="item.postId"
                   :disabled="item.isStated == 1">
                 </el-option>
@@ -206,8 +213,9 @@
           </el-col>
           <el-col :lg="24">
             <el-form-item :label="$t('puser.userRole')">
-              <el-select v-model="form.roleIds" multiple :placeholder="$t('btn.enter')+$t('puser.userRole')"
-                style="width: 100%" @change="selectRole($event)">
+              <el-select v-model="form.roleIds" multiple
+                :placeholder="$t('btn.selectPrefix')+$t('puser.userRole')+$t('btn.selectSuffix')" style="width: 100%"
+                @change="selectRole($event)">
                 <el-option v-for="item in roleOptions" :key="item.roleId" :label="item.roleName" :value="item.roleId"
                   :disabled="item.isStated == 1 || form.userId == 1">
                   <span style="float: left">{{ item.roleName }}</span>
@@ -219,7 +227,7 @@
           <el-col :lg="24">
             <el-form-item :label="$t('common.tipRemarks')">
               <el-input v-model="form.remark" type="textarea"
-                :placeholder="$t('btn.enter')+$t('common.tipRemarks')"></el-input>
+                :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -259,10 +267,10 @@
 </template>
 
 <script setup name="user">
+
   import { getToken } from '@/utils/auth'
   import { treeselect } from '@/api/system/dept'
   import { changeUserStatus, listUser, resetUserPwd, delUser, getUser, updateUser, addUser, exportUser } from '@/api/system/user'
-
   const { proxy } = getCurrentInstance()
 
   const statusOptions = ref([])

@@ -10,7 +10,7 @@ namespace Ams.WebApi.Controllers
     /// 生产班组
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/16 9:12:13
+    /// @Date: 2024/5/28 8:07:55
     /// </summary>
     [Verify]
     [Route("logistics/PpLine")]
@@ -125,6 +125,22 @@ namespace Ams.WebApi.Controllers
             }
             var result = ExportExcelMini(list, "生产班组", "生产班组");
             return ExportExcel(result.Item2, result.Item1);
+        }
+
+        /// <summary>
+        /// 清空生产班组
+        /// </summary>
+        /// <returns></returns>
+        [Log(Title = "生产班组", BusinessType = BusinessType.CLEAN)]
+        [ActionPermissionFilter(Permission = "pp:line:delete")]
+        [HttpDelete("clean")]
+        public IActionResult Clear()
+        {
+            if (!HttpContextExtension.IsAdmin(HttpContext))
+            {
+                return ToResponse(ResultCode.FAIL, "操作失败");
+            }
+            return SUCCESS(_PpLineService.TruncatePpLine());
         }
 
         /// <summary>

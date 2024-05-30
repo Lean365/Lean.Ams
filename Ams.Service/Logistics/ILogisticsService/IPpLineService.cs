@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 生产班组
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/16 9:12:13
+    /// @Date: 2024/5/28 8:07:55
     /// </summary>
     public interface IPpLineService : IBaseService<PpLine>
     {
@@ -48,6 +48,13 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <param name="parm"></param>
         /// <returns></returns>
         int UpdatePpLine(PpLine parm);
+   
+        /// <summary>
+        /// 清空
+        /// 生产班组
+        /// </summary>
+        /// <returns></returns>     
+        bool TruncatePpLine();
 
         /// <summary>
         /// 批量导入

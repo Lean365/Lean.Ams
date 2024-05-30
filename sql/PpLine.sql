@@ -23,6 +23,10 @@ INSERT INTO sys_menu(menuName, parentId, orderNum, path, component, isFrame, isC
 VALUES ('导出', @menuId, 5, '#', NULL, 0, 0, 'F', '0', '0', 'pp:line:export', '', 'Lean365', GETDATE(), 'btn.export');
 INSERT INTO sys_menu(menuName, parentId, orderNum, path, component, isFrame, isCache, menuType, visible, IsStated, perms, icon, Create_by,Create_time,menuName_key) 
 VALUES ('导入', @menuId, 6, '#', NULL, 0, 0, 'F', '0', '0', 'pp:line:import', '', 'Lean365', GETDATE(), 'btn.import');
+INSERT INTO sys_menu(menuName, parentId, orderNum, path, component, isFrame, isCache, menuType, visible, IsStated, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('查看', @menuId, 9, '#', NULL, 0, 0, 'F', '0', '0', 'pp:line:view', '', 'Lean365', GETDATE(), 'btn.view');
+INSERT INTO sys_menu(menuName, parentId, orderNum, path, component, isFrame, isCache, menuType, visible, IsStated, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('清空', @menuId, 12, '#', NULL, 0, 0, 'F', '0', '0', 'pp:line:truncate', '', 'Lean365', GETDATE(), 'btn.truncate');
 
 SELECT * FROM sys_menu WHERE parentId = @menuId;
 SELECT * FROM sys_menu WHERE menuId = @menuId;

@@ -3,7 +3,7 @@
     <el-form ref="codeform" :inline="true" :model="queryParams">
       <el-form-item :label="$t('gencode.tableName')" prop="tableName">
         <el-input v-model="queryParams.tableName" style="width: 200px" clearable
-          :placeholder="$t('btn.enter')+$t('gencode.tableName')" />
+          :placeholder="$t('btn.enterPrefix')+$t('gencode.tableName')+$t('btn.enterSuffix')" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="search" @click="getList()">{{ $t('btn.search') }}</el-button>
@@ -13,26 +13,29 @@
 
     <el-row :gutter="10" class="mb10">
       <el-col :span="1.5">
-        <el-button type="info" plain icon="upload" @click="openImportTable"
+        <el-button type="import" plain icon="upload" @click="openImportTable"
           v-hasPermi="['tool:gen:import']">{{$t('btn.import')}}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" :disabled="multiple" plain icon="delete" @click="handleDelete"
+        <el-button type="delete" :disabled="multiple" plain icon="delete" @click="handleDelete"
           v-hasPermi="['tool:gen:remove']"> {{$t('btn.delete')}}</el-button>
       </el-col>
     </el-row>
     <el-table ref="gridtable" v-loading="tableloading" :data="tableList" border
-      @selection-change="handleSelectionChange" highlight-current-row height="400px">
+      @selection-change="handleSelectionChange" highlight-current-row height="650px">
       <el-table-column type="selection" align="center" width="55"></el-table-column>
-      <el-table-column prop="tableId" label="Id" width="80" sortable="" />
+      <el-table-column prop="tableId" label="Id" width="80" sortable />
       <el-table-column prop="dbName" :label="$t('gencode.dbName')" width="90" :show-overflow-tooltip="true" />
-      <el-table-column prop="tplCategory" :label="$t('gencode.tplCategory')" width="90" sortable="" />
-      <el-table-column prop="tableName" :label="$t('gencode.tableName')" width="120" :show-overflow-tooltip="true" />
-      <el-table-column prop="tableComment" :label="$t('gencode.tableComment')" :show-overflow-tooltip="true"
-        width="120" />
+      <el-table-column prop="tplCategory" :label="$t('gencode.tplCategory')" width="120" sortable />
+      <el-table-column prop="tableName" :label="$t('gencode.tableName')" width="200" :show-overflow-tooltip="true" />
+      <el-table-column prop="tableComment" :label="$t('gencode.tableComment')" :show-overflow-tooltip="true" />
       <el-table-column prop="className" :label="$t('gencode.className')" :show-overflow-tooltip="true" />
-      <el-table-column prop="createTime" :label="$t('common.tipCreateTime')" sortable />
-      <el-table-column prop="updateTime" :label="$t('common.tipUpdateTime')" sortable />
+      <el-table-column prop="createTime" :label="$t('common.tipCreateTime')" sortable width="150">
+        <template #default="scope"> {{ parseTime(scope.row.createTime, 'YYYY-MM-DD') }} </template>
+      </el-table-column>
+      <el-table-column prop="updateTime" :label="$t('common.tipUpdateTime')" sortable width="150">
+        <template #default="scope"> {{ parseTime(scope.row.updateTime, 'YYYY-MM-DD') }} </template>
+      </el-table-column>
       <el-table-column :label="$t('btn.operation')" align="center" width="200">
         <template #default="scope">
           <el-button-group>
@@ -44,8 +47,7 @@
             </el-button>
 
             <el-dropdown @command="handleCommand($event, scope.row)">
-              <el-button text>
-                {{ $t('btn.more') }}
+              <el-button size="small" type="more">
                 <el-icon class="el-icon--right">
                   <arrow-down />
                 </el-icon>
@@ -55,13 +57,13 @@
                 <el-dropdown-menu>
                   <div v-hasPermi="['tool:gen:code']">
                     <el-dropdown-item command="generate">
-                      <el-button icon="download" type="primary" plain size="small"
+                      <el-button icon="Tools" type="generator" plain size="small"
                         :title="$t('btn.generator')"></el-button>
                     </el-dropdown-item>
                   </div>
                   <div v-hasPermi="['tool:gen:edit']">
                     <el-dropdown-item command="sync">
-                      <el-button icon="refresh" type="warning" plain size="small" :title="$t('btn.synchronize')">
+                      <el-button icon="refresh" type="refresh" plain size="small" :title="$t('btn.synchronize')">
                       </el-button>
                     </el-dropdown-item>
                   </div>
@@ -96,6 +98,7 @@
 </template>
 
 <script setup name="gen">
+
   import { codeGenerator, listTable, delTable, previewTable, synchDb } from '@/api/tool/gen'
   import { useRouter } from 'vue-router'
   import importTable from './importTable'

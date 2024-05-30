@@ -142,7 +142,7 @@ $end
         }
 
 $end
-$if(replaceDto.ShowBtnTruncate)
+$if(replaceDto.ShowBtnEmpty)
         /// <summary>
         /// 清空
         /// ${genTable.FunctionName}
@@ -212,7 +212,7 @@ $if(replaceDto.ShowBtnExport)
                 {
 $foreach(column in dicts)
 $if(column.DictType != "")
-                    ${column.CsharpField}Label = it.${column.CsharpField}.GetConfigValue<Kernel.Model.System.SysDictData>("${column.DictType}"),
+                    //${column.CsharpField}Label = it.${column.CsharpField}.GetConfigValue<Kernel.Model.System.SysDictData>("${column.DictType}"),
 $end
 $end
                 }, true)

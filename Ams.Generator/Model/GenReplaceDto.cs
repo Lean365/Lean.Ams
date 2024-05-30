@@ -115,7 +115,7 @@ namespace Ams.Generator.Model
         /// <summary>
         /// 清空
         /// </summary>
-        public bool ShowBtnTruncate { get; set; }
+        public bool ShowBtnEmpty { get; set; }
 
         /// <summary>
         /// 删除

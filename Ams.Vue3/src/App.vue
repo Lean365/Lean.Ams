@@ -4,6 +4,7 @@
   </el-config-provider>
 </template>
 <script setup>
+
   import useUserStore from './store/modules/user'
   import useAppStore from './store/modules/app'
   import { ElConfigProvider } from 'element-plus'

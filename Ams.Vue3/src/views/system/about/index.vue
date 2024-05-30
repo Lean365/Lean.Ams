@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="card mb10">
-      <h4 class="title">{{ $t('layout.projectInformation') }}</h4>
+      <h4 class="title">{{ $t('pabout.projectInformation') }}</h4>
     </div>
     <div class="card mb10">
-      <h4 class="title"> {{ $t('layout.projectInfo') }}</h4>
+      <h4 class="title"> {{ $t('pabout.projectInfo') }}</h4>
       <el-descriptions :column="2" border>
-        <el-descriptions-item :label=" $t('layout.projectCurrentVersion')" label-align="left">
+        <el-descriptions-item :label=" $t('pabout.projectCurrentVersion')" label-align="left">
           <el-tag type="danger">
             {{ version }}
           </el-tag>
         </el-descriptions-item>
-        <el-descriptions-item :label=" $t('layout.projectLastBulid')" label-align="left">
+        <el-descriptions-item :label=" $t('pabout.projectLastBulid')" label-align="left">
           <el-tag type="success">
             {{ lastBuildTime }}
           </el-tag>
@@ -37,7 +37,7 @@
       </el-descriptions>
     </div>
     <div class="card mb10">
-      <h4 class="title">{{ $t('layout.projectDependencies') }}</h4>
+      <h4 class="title">{{ $t('pabout.projectDependencies') }}</h4>
       <el-descriptions :column="4" border>
         <el-descriptions-item v-for="(value, key) in dependencies" :key="key" width="400px" :label="key">
           <el-tag type="warning">
@@ -47,7 +47,7 @@
       </el-descriptions>
     </div>
     <div class="card">
-      <h4 class="title">{{ $t('layout.projectDevDependencies') }}</h4>
+      <h4 class="title">{{ $t('pabout.projectDevDependencies') }}</h4>
       <el-descriptions :column="4" border>
         <el-descriptions-item v-for="(value, key) in devDependencies" :key="key" width="400px" :label="key">
           <el-tag type="danger">
@@ -58,7 +58,7 @@
     </div>
 
     <div class="card">
-      <h4 class="title">{{ $t('layout.projectLicense') }}</h4>
+      <h4 class="title">{{ $t('pabout.projectLicense') }}</h4>
       <a target="_blank" style="color: #5c6b77" href="/src/views/system/about/license.html">MIT</a>
     </div>
   </div>
