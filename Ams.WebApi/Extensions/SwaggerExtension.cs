@@ -57,21 +57,21 @@ namespace Ams.Admin.WebApi.Extensions
             {
                 c.SwaggerDoc("accounting", new OpenApiInfo
                 {
-                    Title = "Ams.NET Api",
+                    Title = "Lean.Ams Api",
                     Version = "v1",
                     Description = "会计核算(accounting)",
                     Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("advertising", new OpenApiInfo
                 {
-                    Title = "Ams.NET Api",
+                    Title = "Lean.Ams Api",
                     Version = "v1",
                     Description = "广告(advertising)",
                     Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("logistics", new OpenApiInfo
                 {
-                    Title = "Ams.NET Api",
+                    Title = "Lean.Ams Api",
                     Version = "v1",
                     Description = "后勤(logistics)",
                     Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
@@ -79,28 +79,28 @@ namespace Ams.Admin.WebApi.Extensions
 
                 c.SwaggerDoc("monitor", new OpenApiInfo
                 {
-                    Title = "Ams.NET Api",
+                    Title = "Lean.Ams Api",
                     Version = "v1",
                     Description = "系统监控(monitor)",
                     Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("routine", new OpenApiInfo
                 {
-                    Title = "Ams.NET Api",
+                    Title = "Lean.Ams Api",
                     Version = "v1",
                     Description = "日常办公(routine)",
                     Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("statistics", new OpenApiInfo
                 {
-                    Title = "Ams.NET Api",
+                    Title = "Lean.Ams Api",
                     Version = "v1",
                     Description = "统计(statistics)",
                     Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("system", new OpenApiInfo
                 {
-                    Title = "Ams.NET Api",
+                    Title = "Lean.Ams Api",
                     Version = "v1",
                     Description = "系统管理(system)",
                     Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
@@ -108,14 +108,14 @@ namespace Ams.Admin.WebApi.Extensions
 
                 c.SwaggerDoc("tool", new OpenApiInfo
                 {
-                    Title = "Ams.NET Api",
+                    Title = "Lean.Ams Api",
                     Version = "v1",
                     Description = "系统工具(tool)",
                     Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Ams.NET Api",
+                    Title = "Lean.Ams Api",
                     Version = "v1",
                     Description = "",
                 });

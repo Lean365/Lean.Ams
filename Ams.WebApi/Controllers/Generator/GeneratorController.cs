@@ -263,7 +263,7 @@ namespace Ams.Admin.WebApi.Controllers.Generator
             dto.DbType = OptionsSetting.CodeGenDbConfig.DbType;
             dto.GenTable = GenTableService.GetGenTableInfo(dto.TableId);
             //生成压缩包
-            string zipReturnFileName = $"Ams.NET-{dto.GenTable.TableName}-{DateTime.Now:MMddHHmmss}.zip";
+            string zipReturnFileName = $"Lean.Ams-{dto.GenTable.TableName}-{DateTime.Now:MMddHHmmss}.zip";
 
             //生成代码到指定文件夹
             GeneratorTool.Generate(dto);
