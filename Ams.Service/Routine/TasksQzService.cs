@@ -46,13 +46,13 @@ namespace Ams.Service.Routine
         {
             if (parm.ApiUrl.IfNotEmpty() && parm.TaskType == 2)
             {
-                parm.AssemblyName = "ZR.Tasks";
+                parm.AssemblyName = "Ams.Tasks";
                 parm.ClassName = "TaskScheduler.Job_HttpRequest";
             }
 
             if (parm.SqlText.IfNotEmpty() && parm.TaskType == 3)
             {
-                parm.AssemblyName = "ZR.Tasks";
+                parm.AssemblyName = "Ams.Tasks";
                 parm.ClassName = "TaskScheduler.Job_SqlExecute";
             }
         }

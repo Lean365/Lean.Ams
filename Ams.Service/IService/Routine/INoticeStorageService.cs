@@ -3,7 +3,7 @@ namespace Ams.Service.IService.Routine
     /// <summary>
     /// 通知公告表service接口
     ///
-    /// @author zr
+    /// @author Davis.Ching
     /// @date 2021-12-15
     /// </summary>
     public interface INoticeStorageService : IBaseService<NoticeStorage>

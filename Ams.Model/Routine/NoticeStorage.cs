@@ -3,7 +3,7 @@ namespace Ams.Model.Routine
     /// <summary>
     /// 通知公告表
     ///
-    /// @author zr
+    /// @author Davis.Ching
     /// @date 2021-12-15
     /// </summary>
     [SugarTable("routine_notice", "通知公告")]

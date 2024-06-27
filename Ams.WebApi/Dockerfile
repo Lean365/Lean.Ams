@@ -8,25 +8,25 @@ EXPOSE 8888
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["ZR.Admin.WebApi/ZR.Admin.WebApi.csproj", "ZR.Admin.WebApi/"]
-COPY ["ZR.CodeGenerator/ZR.CodeGenerator.csproj", "ZR.CodeGenerator/"]
-COPY ["Infrastructure/ZR.Infrastructure.csproj", "Infrastructure/"]
-COPY ["ZR.Common/ZR.Common.csproj", "ZR.Common/"]
-COPY ["ZR.Service/ZR.Service.csproj", "ZR.Service/"]
-COPY ["ZR.Repository/ZR.Repository.csproj", "ZR.Repository/"]
-COPY ["ZR.Model/ZR.Model.csproj", "ZR.Model/"]
-COPY ["ZR.Service/ZR.Service.csproj", "ZR.Service/"]
-COPY ["ZR.Tasks/ZR.Tasks.csproj", "ZR.Tasks/"]
-RUN dotnet restore "./ZR.Admin.WebApi/ZR.Admin.WebApi.csproj"
+COPY ["Ams.Admin.WebApi/Ams.Admin.WebApi.csproj", "Ams.Admin.WebApi/"]
+COPY ["Ams.CodeGenerator/Ams.CodeGenerator.csproj", "Ams.CodeGenerator/"]
+COPY ["Infrastructure/Ams.Infrastructure.csproj", "Infrastructure/"]
+COPY ["Ams.Common/Ams.Common.csproj", "Ams.Common/"]
+COPY ["Ams.Service/Ams.Service.csproj", "Ams.Service/"]
+COPY ["Ams.Repository/Ams.Repository.csproj", "Ams.Repository/"]
+COPY ["Ams.Model/Ams.Model.csproj", "Ams.Model/"]
+COPY ["Ams.Service/Ams.Service.csproj", "Ams.Service/"]
+COPY ["Ams.Tasks/Ams.Tasks.csproj", "Ams.Tasks/"]
+RUN dotnet restore "./Ams.Admin.WebApi/Ams.Admin.WebApi.csproj"
 COPY . .
-WORKDIR "/src/ZR.Admin.WebApi"
-RUN dotnet build "./ZR.Admin.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Ams.Admin.WebApi"
+RUN dotnet build "./Ams.Admin.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./ZR.Admin.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Ams.Admin.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ZR.Admin.WebApi.dll"]
+ENTRYPOINT ["dotnet", "Ams.Admin.WebApi.dll"]

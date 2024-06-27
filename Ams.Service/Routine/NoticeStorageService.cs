@@ -5,7 +5,7 @@ namespace Ams.Service.Routine
     /// <summary>
     /// 通知公告表Service业务层处理
     ///
-    /// @author zr
+    /// @author Davis.Ching
     /// @date 2021-12-15
     /// </summary>
     [AppService(ServiceType = typeof(INoticeStorageService), ServiceLifetime = LifeTime.Transient)]

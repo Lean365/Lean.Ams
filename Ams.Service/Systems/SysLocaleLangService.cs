@@ -5,7 +5,7 @@ namespace Ams.Service.Systems
     /// <summary>
     /// 本地语言Service业务层处理
     ///
-    /// @author zr
+    /// @author Davis.Ching
     /// @date 2022-05-06
     /// </summary>
     [AppService(ServiceType = typeof(ISysLocaleLangService), ServiceLifetime = LifeTime.Transient)]

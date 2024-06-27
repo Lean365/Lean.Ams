@@ -124,10 +124,9 @@ namespace Ams.Admin.WebApi.Extensions
                     //var tempPath = hostEnvironment.ContentRootPath;
                     //添加文档注释
                     var baseDir = AppContext.BaseDirectory;
-                    c.IncludeXmlComments(Path.Combine(baseDir, "ZR.Model.xml"), true);
-                    c.IncludeXmlComments(Path.Combine(baseDir, "ZR.Service.xml"), true);
-                    c.IncludeXmlComments(Path.Combine(baseDir, "ZR.Service.xml"), true);
-                    c.IncludeXmlComments(Path.Combine(baseDir, "ZR.Admin.WebApi.xml"), true);
+                    c.IncludeXmlComments(Path.Combine(baseDir, "Ams.Model.xml"), true);
+                    c.IncludeXmlComments(Path.Combine(baseDir, "Ams.Service.xml"), true);
+                    c.IncludeXmlComments(Path.Combine(baseDir, "Ams.WebApi.xml"), true);
 
                     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                     var xmlPath = Path.Combine(baseDir, xmlFile);

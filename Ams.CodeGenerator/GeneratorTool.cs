@@ -441,7 +441,7 @@ namespace Ams.CodeGenerator
             GenTable genTable = new()
             {
                 DbName = dto.DbName,
-                BaseNameSpace = "ZR.",//导入默认命名空间前缀
+                BaseNameSpace = "Ams.",//导入默认命名空间前缀
                 ModuleName = dto.CodeGen.ModuleName,//导入默认模块名
                 ClassName = className,
                 BusinessName = className,
