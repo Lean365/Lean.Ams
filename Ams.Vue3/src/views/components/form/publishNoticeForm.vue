@@ -1,17 +1,17 @@
 <template>
-  <!-- 添加或修改公告对话框 -->
-  <zr-dialog :title="title" draggable v-model="open" width="580px">
+  <zr-dialog :title="title" draggable v-model="open" width="680px">
     <el-form ref="noticeRef" :model="form" :rules="rules" label-width="80px">
       <el-row>
         <el-col :lg="24">
-          <el-form-item :label="$t('pnotice.noticeTitle')" prop="noticeTitle">
-            <el-input v-model="form.noticeTitle" :placeholder="$t('btn.enter')+$t('pnotice.noticeTitle')" />
+          <el-form-item label="公告标题" prop="noticeTitle">
+            <el-input v-model="form.noticeTitle" placeholder="请输入公告标题" />
           </el-form-item>
         </el-col>
+
         <el-col :lg="12">
-          <el-form-item :label="$t('pnotice.noticeType')" prop="noticeType">
+          <el-form-item label="公告类型" prop="noticeType">
             <el-radio-group v-model="form.noticeType">
-              <el-radio v-for="dict in props.options.app_notice_type" :key="dict.dictValue"
+              <el-radio v-for="dict in props.options.sys_notice_type" :key="dict.dictValue"
                 :value="parseInt(dict.dictValue)">{{
                 dict.dictLabel
                 }}</el-radio>
@@ -19,30 +19,33 @@
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item :label="$t('pnotice.isState')">
-            <el-radio-group v-model="form.isStated">
-              <el-radio v-for="dict in props.options.app_notice_status" :key="dict.dictValue"
+          <el-form-item label="状态">
+            <el-radio-group v-model="form.status">
+              <el-radio v-for="dict in props.options.sys_notice_status" :key="dict.dictValue"
                 :value="parseInt(dict.dictValue)">{{
                 dict.dictLabel
                 }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :lg="24">
-          <el-form-item :label="$t('pnotice.publisher')" prop="publisher">
-            <el-input v-model="form.publisher" :placeholder="$t('btn.enter')+$t('pnotice.publisher')" />
+        <el-col :lg="12">
+          <el-form-item label="发布者" prop="publisher">
+            <el-input v-model="form.publisher" placeholder="请输入发布者" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item :label="$t('btn.dateStart')" prop="beginTime">
-            <el-date-picker v-model="form.beginTime" type="datetime" :placeholder="$t('btn.dateselect')">
-            </el-date-picker>
+          <el-form-item label="是否弹出" prop="popup">
+            <el-switch v-model="form.popup" :inactiveValue="0" :activeValue="1" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item :label="$t('btn.dateEnd')" prop="endTime">
-            <el-date-picker v-model="form.endTime" :disabled-date="disabledDate" type="datetime"
-              :placeholder="$t('btn.dateselect')">
+          <el-form-item label="开始时间" prop="beginTime">
+            <el-date-picker v-model="form.beginTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12">
+          <el-form-item label="结束时间" prop="endTime">
+            <el-date-picker v-model="form.endTime" :disabled-date="disabledDate" type="datetime" placeholder="选择日期时间">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -67,8 +70,8 @@
   const emit = defineEmits()
   const props = defineProps({
     options: {
-      app_notice_type: [],
-      app_notice_status: []
+      sys_notice_type: [],
+      sys_notice_status: []
     }
   })
 
@@ -77,10 +80,10 @@
   const data = reactive({
     form: {},
     rules: {
-      noticeTitle: [{ required: true, message: proxy.$t('pnotice.noticeTitle') + proxy.$t('btn.empty'), trigger: 'blur' }],
-      noticeType: [{ required: true, message: proxy.$t('pnotice.noticeType') + proxy.$t('btn.empty'), trigger: 'change' }],
-      beginTime: [{ required: false, message: proxy.$t('btn.dateStart') + proxy.$t('btn.empty'), trigger: 'change' }],
-      endTime: [{ required: false, message: proxy.$t('btn.dateEnd') + proxy.$t('btn.empty'), trigger: 'change' }]
+      noticeTitle: [{ required: true, message: '公告标题不能为空', trigger: 'blur' }],
+      noticeType: [{ required: true, message: '公告类型不能为空', trigger: 'change' }],
+      beginTime: [{ required: false, message: '开始时间不能为空', trigger: 'change' }],
+      endTime: [{ required: false, message: '结束时间不能为空', trigger: 'change' }]
     }
   })
   const { form, rules } = toRefs(data)
@@ -108,6 +111,7 @@
       'justifyJustify', // 两端对齐
       'justifyLeft', // 左对齐
       'justifyRight', // 右对齐
+      'emotion',
       'fullScreen' // 全屏
     ]
   })
@@ -124,10 +128,11 @@
       noticeTitle: undefined,
       noticeType: 1,
       noticeContent: undefined,
-      isStated: 0,
+      status: 0,
       beginTime: undefined,
       endTime: undefined,
-      publisher: undefined
+      publisher: undefined,
+      popup: 0
     }
     proxy.resetForm('noticeRef')
   }
@@ -136,7 +141,7 @@
   function handleAdd() {
     reset()
     open.value = true
-    title.value = proxy.$t('btn.add') + ' ' + proxy.$t('pnotice.notice')
+    title.value = '添加公告'
 
     form.value.publisher = useUserStore().name
   }
@@ -147,7 +152,7 @@
     getNotice(noticeId).then((response) => {
       form.value = response.data
       open.value = true
-      title.value = proxy.$t('btn.edit') + ' ' + proxy.$t('pnotice.notice')
+      title.value = '修改公告'
     })
   }
   /** 提交按钮 */
@@ -156,13 +161,13 @@
       if (valid) {
         if (form.value.noticeId != undefined) {
           updateNotice(form.value).then(() => {
-            proxy.$modal.msgSuccess(proxy.$t('common.editSucceed'))
+            proxy.$modal.msgSuccess('修改成功')
             open.value = false
             emit('success')
           })
         } else {
           addNotice(form.value).then(() => {
-            proxy.$modal.msgSuccess(proxy.$t('common.addSucceed'))
+            proxy.$modal.msgSuccess('新增成功')
             open.value = false
             emit('success')
           })

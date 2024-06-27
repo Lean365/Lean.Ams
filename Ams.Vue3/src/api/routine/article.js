@@ -21,7 +21,7 @@ export function listNewArticle(query) {
 export function getArticle(Id) {
   return request({
     url: 'routine/article/' + Id,
-    method: 'get',
+    method: 'get'
   })
 }
 
@@ -30,7 +30,7 @@ export function addArticle(data) {
   return request({
     url: 'routine/article/add',
     method: 'post',
-    data: data,
+    data: data
   })
 }
 
@@ -43,48 +43,54 @@ export function updateArticle(data) {
   })
 }
 
-// 删除菜单
+// 删除文章
 export function delArticle(id) {
   return request({
     url: 'routine/article/' + id,
     method: 'delete'
   })
 }
-// 查询菜单目录
+// 查询目录
 export function listArticleCategory() {
   return request({
     url: 'routine/article/CategoryList',
     method: 'get'
   })
 }
-// 查询菜单目录树
+// 查询文章目录树
 export function listArticleCategoryTree() {
   return request({
     url: 'routine/article/CategoryTreeList',
     menubar: 'get'
   })
 }
+
 // 置顶
 export function topArticle(data) {
   return request({
-    url: '/Article/top',
+    url: 'routine/article/top',
     method: 'put',
     data: data
   })
 }
-// 是否公开
+// 修改是否公开
 export function changeArticlePublic(data) {
   return request({
-    url: '/Article/ChangePublic',
+    url: 'routine/article/ChangePublic',
     method: 'put',
     data: data
   })
 }
-//排序
-export function changeSort(data) {
+
+/**
+ * 审核
+ * @param type 审核类型 pass ,reject
+ * @param ids id
+ */
+export function auditArticle(type, ids, data) {
   return request({
-    url: 'article/ArticleCategory/ChangeSort',
-    method: 'get',
+    url: `article/${type}/${ids}`,
+    method: 'PUT',
     params: data
   })
 }

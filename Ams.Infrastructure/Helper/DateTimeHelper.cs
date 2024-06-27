@@ -1,16 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Ams.Infrastructure
 {
-    /// <summary>
-    /// 时间处理类
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
-    /// </summary>
     public class DateTimeHelper
     {
         /// <summary>
-        ///
+        /// 
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
@@ -22,12 +19,11 @@ namespace Ams.Infrastructure
             }
             return dateTime ?? DateTime.Now;
         }
-
         #region 时间戳转换
 
         /// <summary>
         ///  时间戳转本地时间-时间戳精确到秒
-        /// </summary>
+        /// </summary> 
         public static DateTime ToLocalTimeDateBySeconds(long unix)
         {
             var dto = DateTimeOffset.FromUnixTimeSeconds(unix);
@@ -36,7 +32,7 @@ namespace Ams.Infrastructure
 
         /// <summary>
         ///  时间转时间戳Unix-时间戳精确到秒
-        /// </summary>
+        /// </summary> 
         public static long ToUnixTimestampBySeconds(DateTime dt)
         {
             DateTimeOffset dto = new DateTimeOffset(dt);
@@ -45,7 +41,7 @@ namespace Ams.Infrastructure
 
         /// <summary>
         ///  时间戳转本地时间-时间戳精确到毫秒
-        /// </summary>
+        /// </summary> 
         public static DateTime ToLocalTimeDateByMilliseconds(long unix)
         {
             var dto = DateTimeOffset.FromUnixTimeMilliseconds(unix);
@@ -54,17 +50,16 @@ namespace Ams.Infrastructure
 
         /// <summary>
         ///  时间转时间戳Unix-时间戳精确到毫秒
-        /// </summary>
+        /// </summary> 
         public static long ToUnixTimestampByMilliseconds(DateTime dt)
         {
             DateTimeOffset dto = new DateTimeOffset(dt);
             return dto.ToUnixTimeMilliseconds();
         }
 
-        #endregion 时间戳转换
+        #endregion
 
         #region 毫秒转天时分秒
-
         /// <summary>
         /// 毫秒转天时分秒
         /// </summary>
@@ -92,11 +87,9 @@ namespace Ams.Infrastructure
 
             return string.Format("{0} 天 {1} 小时 {2} 分 {3} 秒", sDay, sHour, sMinute, sSecond);
         }
-
-        #endregion 毫秒转天时分秒
+        #endregion
 
         #region 获取unix时间戳
-
         /// <summary>
         /// 获取unix时间戳(毫秒)
         /// </summary>
@@ -113,31 +106,25 @@ namespace Ams.Infrastructure
             long unixTime = ((DateTimeOffset)dt).ToUnixTimeSeconds();
             return unixTime;
         }
-
-        #endregion 获取unix时间戳
+        #endregion
 
         #region 获取日期天的最小时间
-
         public static DateTime GetDayMinDate(DateTime dt)
         {
             DateTime min = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
             return min;
         }
-
-        #endregion 获取日期天的最小时间
+        #endregion
 
         #region 获取日期天的最大时间
-
         public static DateTime GetDayMaxDate(DateTime dt)
         {
             DateTime max = new DateTime(dt.Year, dt.Month, dt.Day, 23, 59, 59);
             return max;
         }
-
-        #endregion 获取日期天的最大时间
+        #endregion
 
         #region 获取日期天的最大时间
-
         public static string FormatDateTime(DateTime? dt)
         {
             if (dt != null)
@@ -153,7 +140,6 @@ namespace Ams.Infrastructure
             }
             return string.Empty;
         }
-
-        #endregion 获取日期天的最大时间
+        #endregion
     }
 }

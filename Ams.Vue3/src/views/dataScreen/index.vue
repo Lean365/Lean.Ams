@@ -76,7 +76,7 @@
   import simpleGauge from '@/views/components/dataScreen/simpleGauge.vue'
   import doughnutCharts from '@/views/components/dataScreen/doughnutCharts.vue'
   import migrationCharts from '@/views/components/dataScreen/migrationCharts'
-  import starBackground from '@/views/components/backGround/starBackground.vue'
+  import starBackground from '@/views/components/backGround/star.vue'
 
   const timeDate = ref()
   const hourTime = ref()

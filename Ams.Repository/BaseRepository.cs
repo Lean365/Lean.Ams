@@ -1,12 +1,12 @@
-using Ams.Infrastructure.Extensions;
-using Mapster;
-using SqlSugar;
-using SqlSugar.IOC;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
 using System.Reflection;
+using Mapster;
+using SqlSugar;
+using SqlSugar.IOC;
+using Ams.Infrastructure.Extensions;
 using Ams.Model;
 
 namespace Ams.Repository
@@ -18,6 +18,7 @@ namespace Ams.Repository
     public class BaseRepository<T> : SimpleClient<T> where T : class, new()
     {
         public ITenant itenant = null;//多租户事务
+
         public BaseRepository(ISqlSugarClient context = null) : base(context)
         {
             //通过特性拿到ConfigId
@@ -50,17 +51,21 @@ namespace Ams.Repository
         {
             return InsertRange(t) ? 1 : 0;
         }
+
         public int Insert(T parm, Expression<Func<T, object>> iClumns = null, bool ignoreNull = true)
         {
             return Context.Insertable(parm).InsertColumns(iClumns).IgnoreColumns(ignoreNullColumn: ignoreNull).ExecuteCommand();
         }
+
         public IInsertable<T> Insertable(T t)
         {
             return Context.Insertable(t);
         }
+
         #endregion add
 
         #region update
+
         //public IUpdateable<T> Updateable(T entity)
         //{
         //    return Context.Updateable(entity);
@@ -80,7 +85,7 @@ namespace Ams.Repository
 
         /// <summary>
         /// 实体根据主键更新指定字段
-        /// return Update(new SysUser(){ IsStated = 1 }, t => new { t.NickName, }, true);
+        /// return Update(new SysUser(){ Status = 1 }, t => new { t.NickName, }, true);
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="expression"></param>
@@ -92,7 +97,7 @@ namespace Ams.Repository
         }
 
         /// <summary>
-        /// 根据指定条件更新指定列 eg：Update(new SysUser(){ IsStated = 1 }, it => new { it.Status }, f => f.Userid == 1));
+        /// 根据指定条件更新指定列 eg：Update(new SysUser(){ Status = 1 }, it => new { it.Status }, f => f.Userid == 1));
         /// 只更新Status列，条件是包含
         /// </summary>
         /// <param name="entity">实体类</param>
@@ -105,7 +110,7 @@ namespace Ams.Repository
         }
 
         /// <summary>
-        /// 更新指定列 eg：Update(w => w.NoticeId == model.NoticeId, it => new Notice(){ Update_time = DateTime.Now, Title = "通知标题" });
+        /// 更新指定列 eg：Update(w => w.NoticeId == model.NoticeId, it => new SysNotice(){ Update_time = DateTime.Now, Title = "通知标题" });
         /// </summary>
         /// <param name="where"></param>
         /// <param name="columns"></param>
@@ -114,6 +119,7 @@ namespace Ams.Repository
         {
             return Context.Updateable<T>().SetColumns(columns).Where(where).RemoveDataCache().ExecuteCommand();
         }
+
         #endregion update
 
         public DbResult<bool> UseTran(Action action)
@@ -132,7 +138,7 @@ namespace Ams.Repository
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="client"></param>
         /// <param name="action">增删改查方法</param>
@@ -166,6 +172,7 @@ namespace Ams.Repository
         }
 
         #region delete
+
         public IDeleteable<T> Deleteable()
         {
             return Context.Deleteable<T>();
@@ -175,14 +182,17 @@ namespace Ams.Repository
         {
             return Context.Deleteable<T>(id).EnableDiffLogEventIF(title.IsNotEmpty(), title).ExecuteCommand();
         }
+
         public int DeleteTable()
         {
             return Context.Deleteable<T>().ExecuteCommand();
         }
+
         public bool Truncate()
         {
             return Context.DbMaintenance.TruncateTable<T>();
         }
+
         #endregion delete
 
         #region query
@@ -211,6 +221,7 @@ namespace Ams.Repository
         {
             return Context.Queryable<T>().InSingle(pkValue);
         }
+
         /// <summary>
         /// 根据条件查询分页数据
         /// </summary>

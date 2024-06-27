@@ -19,7 +19,7 @@ export function listSmsLog(query) {
  */
 export function getSmsLog(id) {
   return request({
-    url: '/monitor/sms/' + id,
+    url: 'monitor/sms/' + id,
     method: 'get'
   })
 }
@@ -30,11 +30,11 @@ export function getSmsLog(id) {
  */
 export function delSmsLog(pid) {
   return request({
-    url: '/monitor/sms/' + pid,
+    url: 'monitor/sms/' + pid,
     method: 'delete'
   })
 }
 // 导出短信验证码记录
 export async function exportSmsLog(query) {
-  await downFile('/monitor/sms/export', { ...query })
+  await downFile('monitor/sms/export', { ...query })
 }

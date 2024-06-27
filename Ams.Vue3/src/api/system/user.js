@@ -69,10 +69,10 @@ export function resetUserPwd(userId, password) {
 }
 
 // 用户状态修改
-export function changeUserStatus(userId, status) {
+export function changeUserStatus(userId, isStatus) {
   const data = {
     userId,
-    status
+    isStatus
   }
   return request({
     url: '/system/user/changeStatus',
@@ -117,6 +117,7 @@ export function uploadAvatar(data) {
     url: '/system/user/profile/avatar',
     method: 'post',
     data: data,
+    headers: { 'Access-Control-Allow-Origin': 'post' },
     headers: { 'Content-Type': 'multipart/form-data' }
   })
 }

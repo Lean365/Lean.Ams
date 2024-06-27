@@ -1,16 +1,15 @@
 ﻿using System.Web;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ams.WebApi.Controllers
+namespace Ams.Admin.WebApi.Controllers
 {
     /// <summary>
-    /// 微信公众号
+    /// 公众号
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Route("[controller]/[action]")]
-    [ApiExplorerSettings(GroupName = "system")]
     [AllowAnonymous]
     public class WxOpenController : BaseController
     {

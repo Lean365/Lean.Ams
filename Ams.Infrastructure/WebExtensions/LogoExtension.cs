@@ -1,15 +1,10 @@
-﻿using System;
-using Ams.Infrastructure.Helper;
+﻿using Ams.Infrastructure.Helper;
 using JinianNet.JNTemplate;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
-namespace Ams.Infrastructure.WebExtensions
+namespace Ams.Infrastructure
 {
-    /// <summary>
-    /// LogoExtension
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
-    /// </summary>
     public static class LogoExtension
     {
         public static void AddLogo(this IServiceCollection services)
@@ -20,10 +15,10 @@ namespace Ams.Infrastructure.WebExtensions
             var url = AppSettings.GetConfig("urls");
             Console.WriteLine(content);
             Console.ForegroundColor = ConsoleColor.Blue;
-            //Console.WriteLine("🎉源码地址: https://github.com/Lean365/Lean.Ams");
-            Console.WriteLine("📖官方文档：https://leansoft365.github.io/");
-            Console.WriteLine("💰打赏作者：https://leansoft365.github.io/docs/others/donate.html");
-            //Console.WriteLine("📱移动端体验：http://demo.leansoft365.cn/h5");
+            //Console.WriteLine("🎉源码地址: https://gitee.com/izory/AmsNetCore");
+            Console.WriteLine("📖官方文档：http://www.izhaorui.cn");
+            Console.WriteLine("💰打赏作者：http://www.izhaorui.cn/vip");
+            Console.WriteLine("📱移动端体验：http://demo.izhaorui.cn/h5");
             Console.WriteLine($"Swagger地址：{url}/swagger/index.html");
             Console.WriteLine($"初始化种子数据地址：{url}/common/InitSeedData");
         }

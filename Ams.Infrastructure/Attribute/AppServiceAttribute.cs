@@ -8,8 +8,6 @@ namespace Ams.Infrastructure.Attribute
     /// 如何使用？
     /// 1、如果服务是本身 直接在类上使用[AppService]
     /// 2、如果服务是接口 在类上使用 [AppService(ServiceType = typeof(实现接口))]
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public class AppServiceAttribute : System.Attribute
@@ -19,12 +17,10 @@ namespace Ams.Infrastructure.Attribute
         /// 不给默认值的话注册的是AddSingleton
         /// </summary>
         public LifeTime ServiceLifetime { get; set; } = LifeTime.Scoped;
-
         /// <summary>
         /// 指定服务类型
         /// </summary>
         public Type ServiceType { get; set; }
-
         /// <summary>
         /// 是否可以从第一个接口获取服务类型
         /// </summary>

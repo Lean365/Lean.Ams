@@ -3,11 +3,6 @@ using System.Text;
 
 namespace Ams.Infrastructure.Helper
 {
-    /// <summary>
-    /// 随机数帮助类
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
-    /// </summary>
     public class RandomHelper
     {
         /// <summary>
@@ -15,7 +10,7 @@ namespace Ams.Infrastructure.Helper
         /// </summary>
         /// <param name="Length"></param>
         /// <returns></returns>
-        public static string GeneratorNum(int Length)
+        public static string GenerateNum(int Length)
         {
             char[] constant = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
             StringBuilder newRandom = new(constant.Length);

@@ -1,16 +1,14 @@
-using Ams.Model.Content;
-using Ams.Model.Dto;
-using Ams.Service.Content.IService;
 using Microsoft.AspNetCore.Mvc;
+using Ams.Service.Filters;
+using Ams.Service.IService.Routine;
 
-//创建时间：2024-04-29
-namespace Ams.WebApi.Controllers.Routine
+namespace Ams.Admin.WebApi.Controllers
 {
     /// <summary>
     /// 文章话题
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
     [ApiExplorerSettings(GroupName = "routine")]
@@ -33,7 +31,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "routine:articletopic:list")]
+        [ActionPermissionFilter(Permission = "article:topic:list")]
         public IActionResult QueryArticleTopic([FromQuery] ArticleTopicQueryDto parm)
         {
             var response = _ArticleTopicService.GetList(parm);
@@ -46,7 +44,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="TopicId"></param>
         /// <returns></returns>
         [HttpGet("{TopicId}")]
-        [ActionPermissionFilter(Permission = "routine:articletopic:query")]
+        [ActionPermissionFilter(Permission = "article:topic:query")]
         public IActionResult GetArticleTopic(long TopicId)
         {
             var response = _ArticleTopicService.GetInfo(TopicId);
@@ -60,8 +58,8 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [ActionPermissionFilter(Permission = "routine:articletopic:add")]
-        [Log(Title = "文章话题", BusinessType = BusinessType.INSERT)]
+        [ActionPermissionFilter(Permission = "article:topic:add")]
+        [Log(Title = "文章话题", BusinessType = BusinessType.ADD)]
         public IActionResult AddArticleTopic([FromBody] ArticleTopicDto parm)
         {
             var modal = parm.Adapt<ArticleTopic>().ToCreate(HttpContext);
@@ -76,8 +74,8 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "routine:articletopic:update")]
-        [Log(Title = "文章话题", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "article:topic:edit")]
+        [Log(Title = "文章话题", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateArticleTopic([FromBody] ArticleTopicDto parm)
         {
             var modal = parm.Adapt<ArticleTopic>().ToUpdate(HttpContext);
@@ -91,7 +89,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
-        [ActionPermissionFilter(Permission = "routine:articletopic:delete")]
+        [ActionPermissionFilter(Permission = "article:topic:delete")]
         [Log(Title = "文章话题", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteArticleTopic([FromRoute] string ids)
         {
@@ -106,7 +104,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [Log(Title = "文章话题", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "routine:articletopic:export")]
+        [ActionPermissionFilter(Permission = "article:topic:export")]
         public IActionResult Export([FromQuery] ArticleTopicQueryDto parm)
         {
             parm.PageNum = 1;

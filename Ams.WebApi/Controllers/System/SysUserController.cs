@@ -1,16 +1,17 @@
-using Ams.Model;
-using Ams.Model.System;
 using Microsoft.AspNetCore.Mvc;
 using MiniExcelLibs;
 using SqlSugar;
+using Ams.Model;
+using Ams.Service.Filters;
+using Ams.Service.IService.Systems;
 
-namespace Ams.WebApi.Controllers.System
+namespace Ams.Admin.WebApi.Controllers.System
 {
     /// <summary>
-    /// 用户管理
+    /// 系统用户
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
     [Route("system/user")]
@@ -82,7 +83,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpPost("add")]
-        [Log(Title = "用户管理", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "用户管理", BusinessType = BusinessType.ADD)]
         [ActionPermissionFilter(Permission = "system:user:add")]
         public IActionResult AddUser([FromBody] SysUserDto parm)
         {
@@ -104,8 +105,8 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpPut("edit")]
-        [Log(Title = "用户管理", BusinessType = BusinessType.UPDATE)]
-        [ActionPermissionFilter(Permission = "system:user:update")]
+        [Log(Title = "用户管理", BusinessType = BusinessType.EDIT)]
+        [ActionPermissionFilter(Permission = "system:user:edit")]
         public IActionResult UpdateUser([FromBody] SysUserDto parm)
         {
             var user = parm.Adapt<SysUser>().ToUpdate(HttpContext);
@@ -122,7 +123,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut("changeStatus")]
-        [Log(Title = "修改用户状态", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "修改用户状态", BusinessType = BusinessType.EDIT)]
         [ActionPermissionFilter(Permission = "system:user:update")]
         public IActionResult ChangeStatus([FromBody] SysUser user)
         {
@@ -154,7 +155,7 @@ namespace Ams.WebApi.Controllers.System
         /// </summary>
         /// <returns></returns>
         [HttpPut("resetPwd")]
-        [Log(Title = "重置密码", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "重置密码", BusinessType = BusinessType.EDIT)]
         [ActionPermissionFilter(Permission = "system:user:resetPwd")]
         public IActionResult ResetPwd([FromBody] SysUserDto sysUser)
         {

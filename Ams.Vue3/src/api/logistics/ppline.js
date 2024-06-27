@@ -1,73 +1,57 @@
 import request from '@/utils/request'
-import QS from 'qs'
-import { downFile } from '@/utils/request'
 
 /**
-* 生产班组分页查询
-* @param {查询条件} data
-*/
+ * 生产班组分页查询
+ * @param {查询条件} data
+ */
 export function listPpLine(query) {
   return request({
-    url: 'logistics/PpLine/list',
+    url: 'Logistics/PpLine/list',
     method: 'get',
     params: query,
-    paramsSerializer: function (params) {
-      return QS.stringify(params, { indices: false })
-    }
   })
 }
 
 /**
-* 新增生产班组
-* @param data
-*/
+ * 新增生产班组
+ * @param data
+ */
 export function addPpLine(data) {
   return request({
-    url: 'logistics/PpLine',
+    url: 'Logistics/PpLine',
     method: 'post',
     data: data,
   })
 }
 /**
-* 修改生产班组
-* @param data
-*/
+ * 修改生产班组
+ * @param data
+ */
 export function updatePpLine(data) {
   return request({
-    url: 'logistics/PpLine',
+    url: 'Logistics/PpLine',
     method: 'PUT',
     data: data,
   })
 }
 /**
-* 获取生产班组详情
-* @param {Id}
-*/
+ * 获取生产班组详情
+ * @param {Id}
+ */
 export function getPpLine(id) {
   return request({
-    url: 'logistics/PpLine/' + id,
+    url: 'Logistics/PpLine/' + id,
     method: 'get'
   })
 }
 
 /**
-* 删除生产班组
-* @param {主键} pid
-*/
+ * 删除生产班组
+ * @param {主键} pid
+ */
 export function delPpLine(pid) {
   return request({
-    url: 'logistics/PpLine/delete/' + pid,
+    url: 'Logistics/PpLine/delete/' + pid,
     method: 'delete'
   })
-}
-// 清空生产班组
-export function clearPpLine() {
-  return request({
-    url: 'logistics/PpLine/clean',
-    method: 'delete'
-  })
-}
-// 导出生产班组
-export async function exportPpLine(query) {
-  await downFile('logistics/PpLine/export', { ...query })
 }

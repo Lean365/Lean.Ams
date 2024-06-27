@@ -1,31 +1,34 @@
-﻿using Ams.Model;
-using Ams.Model.Content;
-using Ams.Model.Dto;
-using Ams.Service.Content.IService;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Ams.Model;
+using Ams.Service.Filters;
+using Ams.Service.IService.Routine;
 
-namespace Ams.WebApi.Controllers.Routine
+namespace Ams.Admin.WebApi.Controllers
 {
     /// <summary>
-    /// 评论
+    /// 评论记录
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
-    [Route("routine/article/front/comment")]
-    [ApiExplorerSettings(GroupName = "article")]
+    [Route("rouitne/article/front/comment")]
+    [ApiExplorerSettings(GroupName = "rouitne")]
     [ApiController]
     public class FrontCommentController : BaseController
     {
-        private readonly IArticleCommentService _ArticleCommentService;
+        private readonly IArticleCommentService messageService;
+        private readonly IArticleService articleService;
 
         /// <summary>
         ///
         /// </summary>
-        /// <param name="ArticleCommentService"></param>
-        public FrontCommentController(IArticleCommentService ArticleCommentService)
+        /// <param name="messageService"></param>
+        /// <param name="articleService"></param>
+        public FrontCommentController(
+            IArticleCommentService messageService, IArticleService articleService)
         {
-            this._ArticleCommentService = ArticleCommentService;
+            this.messageService = messageService;
+            this.articleService = articleService;
         }
 
         /// <summary>
@@ -41,11 +44,11 @@ namespace Ams.WebApi.Controllers.Routine
             //查询二级评论
             if (parm.CommentId > 0)
             {
-                response = _ArticleCommentService.GetReplyComments(parm.CommentId, parm);
+                response = messageService.GetReplyComments(parm.CommentId, parm);
             }
             else
             {
-                response = _ArticleCommentService.GetMessageList(parm);
+                response = messageService.GetMessageList(parm);
             }
 
             return SUCCESS(response);
@@ -60,13 +63,13 @@ namespace Ams.WebApi.Controllers.Routine
         [ActionPermissionFilter(Permission = "common")]
         public IActionResult Create([FromBody] ArticleCommentDto parm)
         {
-            var uid = HttpContext.GetUId();
+            var uid = HttpContextExtension.GetUId(HttpContext);
             if (uid <= 0) { return ToResponse(ResultCode.DENY); }
 
             var addModel = parm.Adapt<ArticleComment>().ToCreate(context: HttpContext);
-            addModel.UserIP = HttpContext.GetClientUserIp();
+            addModel.UserIP = HttpContextExtension.GetClientUserIp(HttpContext);
             addModel.UserId = uid;
-            return SUCCESS(_ArticleCommentService.AddMessage(addModel).Adapt<ArticleCommentDto>());
+            return SUCCESS(messageService.AddMessage(addModel).Adapt<ArticleCommentDto>());
         }
 
         /// <summary>
@@ -82,7 +85,7 @@ namespace Ams.WebApi.Controllers.Routine
             if (dto == null || dto.CommentId <= 0) return ToResponse(ResultCode.PARAM_ERROR);
             //var uid = HttpContextExtension.GetUId(HttpContext);
 
-            return SUCCESS(_ArticleCommentService.PraiseMessage(dto.CommentId));
+            return SUCCESS(messageService.PraiseMessage(dto.CommentId));
         }
 
         /// <summary>
@@ -95,9 +98,9 @@ namespace Ams.WebApi.Controllers.Routine
         [Verify]
         public IActionResult Delete(long mid)
         {
-            var uid = HttpContext.GetUId();
+            var uid = HttpContextExtension.GetUId(HttpContext);
             if (uid <= 0) { return ToResponse(ResultCode.DENY); }
-            return SUCCESS(_ArticleCommentService.DeleteMessage(mid.ParseToLong(), uid));
+            return SUCCESS(messageService.DeleteMessage(mid.ParseToLong(), uid));
         }
 
         /// <summary>
@@ -109,9 +112,25 @@ namespace Ams.WebApi.Controllers.Routine
         [Verify]
         public IActionResult QueryMyCommentList([FromQuery] MessageQueryDto parm)
         {
-            PagedInfo<ArticleCommentDto> response = _ArticleCommentService.GetMyMessageList(parm);
+            PagedInfo<ArticleCommentDto> response = messageService.GetMyMessageList(parm);
 
             return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 评论置顶
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("top")]
+        [Verify]
+        [ActionPermissionFilter(Permission = "common")]
+        public IActionResult Top([FromBody] ArticleCommentDto parm)
+        {
+            var uid = HttpContextExtension.GetUId(HttpContext);
+            if (uid <= 0) { return ToResponse(ResultCode.DENY); }
+            var contentInfo = articleService.GetArticle(parm.TargetId, uid);
+            if (contentInfo == null) { return ToResponse(ResultCode.CUSTOM_ERROR, "操作失败"); }
+            return SUCCESS(messageService.TopMessage(parm.CommentId, parm.Top));
         }
     }
 }

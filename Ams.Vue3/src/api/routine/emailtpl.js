@@ -40,7 +40,7 @@ export function updateEmailTpl(data) {
 */
 export function getEmailTpl(id) {
   return request({
-    url: 'routine/email/tpl' + id,
+    url: 'routine/email/tpl/' + id,
     method: 'get'
   })
 }
@@ -51,7 +51,7 @@ export function getEmailTpl(id) {
 */
 export function delEmailTpl(pid) {
   return request({
-    url: 'routine/email/tpl' + pid,
+    url: 'routine/email/tpl/' + pid,
     method: 'delete'
   })
 }

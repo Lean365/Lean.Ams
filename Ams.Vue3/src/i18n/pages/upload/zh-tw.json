@@ -1,5 +1,6 @@
 {
   "upload": {
+    "fileStorage": "文件存儲",
     "Drag": "將文件拖到此處，或",
     "Clickupload": "點擊上傳",
     "Selectfile": "選取檔",
@@ -26,9 +27,9 @@
     "autoFilename": "自動生成",
     "avatarFolder": "頭像",
     "videoFolder": "視訊",
-    "Logistics": "後勤",
-    "Routine": "公辦",
-    "Accounting": "會計"
+    "logisticsFolder": "後勤",
+    "routineFolder": "公辦",
+    "accountingFolder": "會計"
   },
   "fupload": {
     "fileDown": "檔案名--下載",
@@ -47,6 +48,7 @@
     "viewFilesize": "檔案大小:",
     "viewFilecreate": "創建人:",
     "viewFileview": "縮圖:",
+    "viewQRCode": "二維碼:",
     "viewFileurl": "訪問",
     "viewFilestoragepath": "路徑:",
     "uploadFile": "上傳檔案",

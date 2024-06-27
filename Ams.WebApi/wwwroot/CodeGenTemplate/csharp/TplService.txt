@@ -1,11 +1,9 @@
 ﻿using Ams.Infrastructure.Attribute;
 using Ams.Infrastructure.Extensions;
-using ${options.BaseNamespace}Model;
-using ${options.DtosNamespace};
+using ${options.DtosNamespace}.${options.SubNamespace}.Dto;
 using ${options.ModelsNamespace}.${options.SubNamespace};
 using ${options.RepositoriesNamespace};
 using ${options.IServicsNamespace}.${options.SubNamespace}.I${options.SubNamespace}Service;
-using System.Linq;
 $if(genTable.TplCategory == "tree")
 using System.Collections.Generic;
 $end
@@ -13,17 +11,13 @@ $end
 namespace ${options.ServicesNamespace}.${options.SubNamespace}
 {
     /// <summary>
-    /// ${genTable.FunctionName}
-    /// 业务层处理
-    /// @Author: ${ReplaceDto.Author}
-    /// @Date: ${ReplaceDto.createTime}
+    /// ${genTable.FunctionName}Service业务层处理
     /// </summary>
     [AppService(ServiceType = typeof(I${replaceDto.ModelTypeName}Service), ServiceLifetime = LifeTime.Transient)]
     public class ${replaceDto.ModelTypeName}Service : BaseService<${replaceDto.ModelTypeName}>, I${replaceDto.ModelTypeName}Service
     {
         /// <summary>
-        /// 查询
-        /// ${genTable.FunctionName}列表
+        /// 查询${genTable.FunctionName}列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -44,25 +38,9 @@ $end
             return response;
         }
 
-        /// <summary>
-        /// 校验输入项目唯一性
-        /// </summary>
-        /// <param name="enterString"></param>
-        /// <returns></returns>
-        public string CheckInputUnique(string enterString)
-        {
-            int count = Count(it => it. ${replaceDto.PKName}.ToString() == enterString);
-            if (count > 0)
-            {
-                return UserConstants.NOT_UNIQUE;
-            }
-            return UserConstants.UNIQUE;
-        }
-
 $if(genTable.TplCategory == "tree")
         /// <summary>
-        /// 查询
-        /// ${genTable.FunctionName}树列表
+        /// 查询${genTable.FunctionName}树列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -106,8 +84,7 @@ $end
         }
 
         /// <summary>
-        /// 添加
-        /// ${genTable.FunctionName}
+        /// 添加${genTable.FunctionName}
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -127,8 +104,7 @@ $end
 
 $if(replaceDto.ShowBtnEdit)
         /// <summary>
-        /// 修改
-        /// ${genTable.FunctionName}
+        /// 修改${genTable.FunctionName}
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -142,10 +118,9 @@ $end
         }
 
 $end
-$if(replaceDto.ShowBtnEmpty)
+$if(replaceDto.ShowBtnTruncate)
         /// <summary>
-        /// 清空
-        /// ${genTable.FunctionName}
+        /// 清空${genTable.FunctionName}
         /// </summary>
         /// <returns></returns>
         public bool Truncate${replaceDto.ModelTypeName}()
@@ -161,8 +136,7 @@ $if(replaceDto.ShowBtnEmpty)
 $end
 $if(replaceDto.ShowBtnImport)
         /// <summary>
-        /// 批量导入
-        /// ${genTable.FunctionName}
+        /// 导入${genTable.FunctionName}
         /// </summary>
         /// <returns></returns>
         public (string, object, object) Import${replaceDto.ModelTypeName}(List<${replaceDto.ModelTypeName}> list)
@@ -197,8 +171,7 @@ $end
 $end
 $if(replaceDto.ShowBtnExport)
         /// <summary>
-        /// 批量导出
-        /// ${genTable.FunctionName}
+        /// 导出${genTable.FunctionName}
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -212,7 +185,7 @@ $if(replaceDto.ShowBtnExport)
                 {
 $foreach(column in dicts)
 $if(column.DictType != "")
-                    //${column.CsharpField}Label = it.${column.CsharpField}.GetConfigValue<Kernel.Model.System.SysDictData>("${column.DictType}"),
+                    ${column.CsharpField}Label = it.${column.CsharpField}.GetConfigValue<Model.System.SysDictData>("${column.DictType}"),
 $end
 $end
                 }, true)
@@ -223,7 +196,7 @@ $end
 
 $end
         /// <summary>
-        /// 查询表达式
+        /// 查询导出表达式
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -242,10 +215,7 @@ $if(column.HtmlType == "month")
             DateTime monthEnd = Convert.ToDateTime(parm.${column.CsharpField}).AddMonths(1);
             predicate = predicate.AndIF(parm.${column.CsharpField} != null, it => it.${column.CsharpField} >= parm.${column.CsharpField} && it.${column.CsharpField} < monthEnd);
 $else
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.Begin${column.CsharpField} == null, it => it.${column.CsharpField} >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.Begin${column.CsharpField} == null, it => it.${column.CsharpField} >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.Begin${column.CsharpField} == null, it => it.${column.CsharpField} >= DateTime.Now.ToShortDateString().ParseToDateTime());
             predicate = predicate.AndIF(parm.Begin${column.CsharpField} != null, it => it.${column.CsharpField} >= parm.Begin${column.CsharpField});
             predicate = predicate.AndIF(parm.End${column.CsharpField} != null, it => it.${column.CsharpField} <= parm.End${column.CsharpField});
 $end

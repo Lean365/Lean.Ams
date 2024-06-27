@@ -8,7 +8,7 @@
     "smscode": "認証コード",
     "sendsmscode": "認証コードを送信",
     "uniappscan": "QRコードを読み取り、携帯アプリでログイン。",
-    "account": "アカウント",
+    "account": "アカウント「半角英数字」",
     "password": "パスワード「半角英数字」",
     "confirmPassword": "パスワード(確認用)",
     "captcha": "計算をここに入力",

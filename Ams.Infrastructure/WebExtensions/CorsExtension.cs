@@ -1,13 +1,11 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
-namespace Ams.Infrastructure.WebExtensions
+namespace Ams.Infrastructure
 {
     /// <summary>
     /// 跨域扩展
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
     /// </summary>
     public static class CorsExtension
     {

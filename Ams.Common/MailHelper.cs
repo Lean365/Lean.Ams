@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Ams.Infrastructure;
+﻿using Ams.Infrastructure;
 using Ams.Infrastructure.Model;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Ams.Common
 {
-    /// <summary>
-    /// 邮件发送帮助类
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
-    /// </summary>
     public class MailHelper
     {
         /// <summary>
@@ -29,12 +24,10 @@ namespace Ams.Common
             AppSettings.Bind("MailOptions", options);
             mailOptions = options.First();
         }
-
         public MailHelper(MailOptions _mailOptions)
         {
             mailOptions = _mailOptions;
         }
-
         /// <summary>
         /// 发送一个
         /// </summary>

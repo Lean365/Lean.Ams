@@ -1,0 +1,29 @@
+{
+  "pmailtpl": {
+    "name": "テンプレート名前",
+    "content": "テンプレートの内容"
+  },
+  "pmailsend": {
+    "fromName": "差出人名",
+    "fromEmail": "差出先",
+    "toName": "受信者",
+    "toEmails": "宛先",
+    "subject": "件名",
+    "emailTpl": "テンプレート",
+    "isSend": "即時送信",
+    "sendTime": "送信時間",
+    "htmlContent": "内容",
+    "sendMe": "自分宛の返信",
+    "fileUrl": "添付",
+    "leastOneContact": "受信者を少なくとも 1 人指定する必要があります。",
+    "unsuccessful": "うまくいかない",
+    "upToLabels": "最大5つのラベル",
+    "validEmailAddress": "有効なメールアドレスを入力してください"
+  },
+  "pmailitem": {
+    "sendTime": "送信時刻",
+    "Sent": "発送",
+    "unsent": "未発",
+    "sendResult": "送信の結果"
+  }
+}

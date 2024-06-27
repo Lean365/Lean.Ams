@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 导航栏查询公告列表
 export function queryNotice(query) {
   return request({
-    url: '/routine/notice/queryNotice',
+    url: 'routine/notice/queryNotice',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function queryNotice(query) {
 // 查询公告列表
 export function listNotice(query) {
   return request({
-    url: '/routine/notice/list',
+    url: 'routine/notice/list',
     method: 'get',
     params: query
   })
@@ -21,7 +21,7 @@ export function listNotice(query) {
 // 查询公告详细
 export function getNotice(noticeId) {
   return request({
-    url: '/routine/notice/' + noticeId,
+    url: 'routine/notice/' + noticeId,
     method: 'get'
   })
 }
@@ -29,7 +29,7 @@ export function getNotice(noticeId) {
 // 新增公告
 export function addNotice(data) {
   return request({
-    url: '/routine/notice',
+    url: 'routine/notice',
     method: 'post',
     data: data
   })
@@ -38,7 +38,7 @@ export function addNotice(data) {
 // 修改公告
 export function updateNotice(data) {
   return request({
-    url: '/routine/notice',
+    url: 'routine/notice',
     method: 'put',
     data: data
   })
@@ -47,7 +47,7 @@ export function updateNotice(data) {
 // 删除公告
 export function delNotice(noticeId) {
   return request({
-    url: '/routine/notice/' + noticeId,
+    url: 'routine/notice/' + noticeId,
     method: 'delete'
   })
 }
@@ -55,7 +55,7 @@ export function delNotice(noticeId) {
 // 发送通知公告
 export function sendNotice(noticeId) {
   return request({
-    url: '/routine/notice/send/' + noticeId,
+    url: 'routine/notice/send/' + noticeId,
     method: 'PUT'
   })
 }

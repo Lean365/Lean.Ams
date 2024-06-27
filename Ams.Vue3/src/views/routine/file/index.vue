@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-    <!-- :model属性用于表单验证使用 比如下面的el-form-item 的 prop属性用于对表单值进行验证操作 -->
     <el-form :model="queryParams" label-position="left" inline ref="queryForm" v-show="showSearch" @submit.prevent>
       <el-form-item label="" prop="fileId">
         <el-input v-model="queryParams.fileId" placeholder="请输入文件id" clearable />
@@ -35,14 +34,14 @@
           {{ $t('btn.delete') }}
         </el-button>
       </el-col>
-      <right-toolbar :showSearch="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch="showSearch" @queryTable="getList"> </right-toolbar>
     </el-row>
 
     <!-- 数据区域 -->
     <el-table :data="dataList" v-loading="loading" ref="table" border highlight-current-row
       @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
-      <el-table-column prop="id" label="文件id" align="center" width="150" />
+      <el-table-column prop="id" label="文件id" width="150" :show-overflow-tooltip="true" />
       <el-table-column prop="fileName" label="文件名" align="left" width="180" :show-overflow-tooltip="true">
         <template #default="scope">
           <el-link type="primary" :href="scope.row.accessUrl" target="_blank">{{ scope.row.fileName }}</el-link>
@@ -69,7 +68,11 @@
       </el-table-column> -->
       <el-table-column prop="storePath" label="存储目录"></el-table-column>
       <el-table-column prop="create_by" label="操作人" align="center" />
-      <el-table-column prop="create_time" label="创建日期" align="center" width="150" />
+      <el-table-column prop="create_time" label="创建日期" align="center">
+        <template #default="{ row }">
+          {{ showTime(row.create_time) }}
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" width="160">
         <template #default="scope">
           <el-button text size="small" icon="view" title="查看" @click="handleView(scope.row)"></el-button>
@@ -86,7 +89,6 @@
     <pagination background :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
       @pagination="getList" />
 
-    <!-- 添加或修改文件存储对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" width="400px" draggable>
       <el-form ref="formRef" :model="form" :rules="rules" label-width="90px" label-position="left">
         <el-row>
@@ -148,9 +150,8 @@
       </template>
     </el-dialog>
 
-    <!-- 添加或修改文件存储对话框 -->
-    <el-dialog title="查看" :lock-scroll="false" v-model="openView">
-      <el-form ref="form" :model="formView" :rules="rules" label-width="100px">
+    <el-dialog :lock-scroll="false" v-model="openView">
+      <el-form ref="form" :model="formView" :rules="rules" label-width="90px" label-position="left">
         <el-row>
           <el-col :lg="12">
             <el-form-item label="文件id">{{ formView.id }}</el-form-item>
@@ -211,10 +212,10 @@
   </div>
 </template>
 <script setup name="file">
-  import { listSysfile, delSysfile, getSysfile } from '@/api/routine/filestorage.js'
+  import { listFileStorage, delFileStorage, getFileStorage } from '@/api/routine/file'
   import { useClipboard } from '@vueuse/core'
   import QRCode from 'qrcodejs2-fixes'
-
+  import { showTime } from '@/utils'
   // 选中id数组
   const ids = ref([])
   // 非单个禁用
@@ -299,7 +300,7 @@
   function getList() {
     proxy.addDateRange(queryParams.value, dateRangeAddTime.value, 'Create_time')
     loading.value = true
-    listSysfile(queryParams.value).then((res) => {
+    listFileStorage(queryParams.value).then((res) => {
       if (res.code == 200) {
         dataList.value = res.data.result
         total.value = res.data.totalNum
@@ -358,7 +359,7 @@
     proxy
       .$confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
       .then(function () {
-        return delSysfile(Ids)
+        return delFileStorage(Ids)
       })
       .then(() => {
         handleQuery()
@@ -369,7 +370,7 @@
   /** 查看按钮操作 */
   function handleView(row) {
     const id = row.id || ids.value
-    getSysfile(id).then((res) => {
+    getFileStorage(id).then((res) => {
       const { code, data } = res
       if (code == 200) {
         openView.value = true
@@ -384,8 +385,8 @@
     document.getElementById('imgContainer').innerHTML = ''
     new QRCode(document.getElementById('imgContainer'), {
       text: url,
-      width: 130,
-      height: 130
+      width: 100,
+      height: 100
     })
   }
   // 上传成功方法

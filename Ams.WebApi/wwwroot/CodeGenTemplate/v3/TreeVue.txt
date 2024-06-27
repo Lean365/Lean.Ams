@@ -1,7 +1,7 @@
 ﻿<!--
  * @Descripttion: (${genTable.functionName}/${genTable.tableName})
  * @Author: (${replaceDto.Author})
- * @Date: (${replaceDto.createTime})
+ * @Date: (${replaceDto.AddTime})
 -->
 <template>
   <div>
@@ -142,7 +142,7 @@ $end
       <el-table-column label="操作" align="center" width="140">
         <template #default="scope">
 $if(replaceDto.ShowBtnEdit)
-          <el-button v-hasPermi="['${replaceDto.PermissionPrefix}:update']" type="success" icon="edit" title="编辑" 
+          <el-button v-hasPermi="['${replaceDto.PermissionPrefix}:edit']" type="success" icon="edit" title="编辑" 
             @click="handleUpdate(scope.row)"></el-button>      
 $end
 $if(replaceDto.ShowBtnDelete)

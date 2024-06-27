@@ -1,27 +1,29 @@
-﻿using Ams.Model;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Ams.Model;
+using Ams.Service.Filters;
+using Ams.Service.IService.Systems;
 
-namespace Ams.WebApi.Controllers.System
+namespace Ams.Admin.WebApi.Controllers.System
 {
     /// <summary>
-    /// 数据字典
+    /// 字典数据
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
     [Route("system/dict/data")]
     [ApiExplorerSettings(GroupName = "system")]
     public class SysDictDataController : BaseController
     {
-        private readonly ISysDictDataService _SysDictDataService;
-        private readonly ISysDictTypeService _SysDictTypeService;
+        private readonly ISysDictDataService SysDictDataService;
+        private readonly ISysDictTypeService SysDictService;
 
-        public SysDictDataController(ISysDictTypeService SysDictTypeService, ISysDictDataService SysDictDataService)
+        public SysDictDataController(ISysDictTypeService sysDictService, ISysDictDataService sysDictDataService)
         {
-            _SysDictTypeService = SysDictTypeService;
-            _SysDictDataService = SysDictDataService;
+            SysDictService = sysDictService;
+            SysDictDataService = sysDictDataService;
         }
 
         /// <summary>
@@ -34,11 +36,11 @@ namespace Ams.WebApi.Controllers.System
         [HttpGet("list")]
         public IActionResult List([FromQuery] SysDictData dictData, [FromQuery] PagerInfo pagerInfo)
         {
-            var list = _SysDictDataService.SelectDictDataList(dictData, pagerInfo);
+            var list = SysDictDataService.SelectDictDataList(dictData, pagerInfo);
 
             if (dictData.DictType.StartsWith("sql_"))
             {
-                var result = _SysDictTypeService.SelectDictDataByCustomSql(dictData.DictType);
+                var result = SysDictService.SelectDictDataByCustomSql(dictData.DictType);
 
                 list.Result.AddRange(result.Adapt<List<SysDictData>>());
                 list.TotalNum += result.Count;
@@ -47,7 +49,7 @@ namespace Ams.WebApi.Controllers.System
         }
 
         /// <summary>
-        /// 根据字典类型查询字典数据信息
+        /// 根据字典类别查询字典数据信息
         /// </summary>
         /// <param name="dictType"></param>
         /// <returns></returns>
@@ -55,19 +57,19 @@ namespace Ams.WebApi.Controllers.System
         [HttpGet("type/{dictType}")]
         public IActionResult DictType(string dictType)
         {
-            return SUCCESS(_SysDictDataService.SelectDictDataByType(dictType));
+            return SUCCESS(SysDictDataService.SelectDictDataByType(dictType));
         }
 
         /// <summary>
-        /// 根据字典类型查询字典数据信息
+        /// 根据字典类别查询字典数据信息
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("types")]
-        public IActionResult DictTypes([FromBody] List<SysDictDataParamDto> dto)
+        public IActionResult DictTypes([FromBody] List<SysdictDataParamDto> dto)
         {
-            var list = _SysDictDataService.SelectDictDataByTypes(dto.Select(f => f.DictType).ToArray());
+            var list = SysDictDataService.SelectDictDataByTypes(dto.Select(f => f.DictType).ToArray());
             var dataVos = GetDicts(dto.Select(f => f.DictType).ToArray());
 
             return SUCCESS(dataVos);
@@ -85,21 +87,21 @@ namespace Ams.WebApi.Controllers.System
             return SUCCESS(GetDicts(JsonConvert.DeserializeObject<string[]>(data)));
         }
 
-        private List<SysDictDataParamDto> GetDicts([FromBody] string[] dicts)
+        private List<SysdictDataParamDto> GetDicts([FromBody] string[] dicts)
         {
-            List<SysDictDataParamDto> dataVos = new();
-            var list = _SysDictDataService.SelectDictDataByTypes(dicts);
+            List<SysdictDataParamDto> dataVos = new();
+            var list = SysDictDataService.SelectDictDataByTypes(dicts);
 
             foreach (var dic in dicts)
             {
-                SysDictDataParamDto vo = new()
+                SysdictDataParamDto vo = new()
                 {
                     DictType = dic,
                     List = list.FindAll(f => f.DictType == dic)
                 };
                 if (dic.StartsWith("cus_") || dic.StartsWith("sql_"))
                 {
-                    vo.List.AddRange(_SysDictTypeService.SelectDictDataByCustomSql(dic));
+                    vo.List.AddRange(SysDictService.SelectDictDataByCustomSql(dic));
                 }
                 dataVos.Add(vo);
             }
@@ -115,7 +117,7 @@ namespace Ams.WebApi.Controllers.System
         [HttpGet("info/{dictCode}")]
         public IActionResult GetInfo(long dictCode)
         {
-            return SUCCESS(_SysDictDataService.SelectDictDataById(dictCode));
+            return SUCCESS(SysDictDataService.SelectDictDataById(dictCode));
         }
 
         /// <summary>
@@ -124,13 +126,13 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="dict"></param>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:dict:add")]
-        [Log(Title = "字典数据", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "字典数据", BusinessType = BusinessType.ADD)]
         [HttpPost()]
         public IActionResult Add([FromBody] SysDictData dict)
         {
             dict.Create_by = HttpContext.GetName();
             dict.Create_time = DateTime.Now;
-            return SUCCESS(_SysDictDataService.InsertDictData(dict));
+            return SUCCESS(SysDictDataService.InsertDictData(dict));
         }
 
         /// <summary>
@@ -138,28 +140,28 @@ namespace Ams.WebApi.Controllers.System
         /// </summary>
         /// <param name="dict"></param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "system:dict:update")]
-        [Log(Title = "字典数据", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "system:dict:edit")]
+        [Log(Title = "字典数据", BusinessType = BusinessType.EDIT)]
         [HttpPut()]
         public IActionResult Edit([FromBody] SysDictData dict)
         {
             dict.Update_by = HttpContext.GetName();
-            return SUCCESS(_SysDictDataService.UpdateDictData(dict));
+            return SUCCESS(SysDictDataService.UpdateDictData(dict));
         }
 
         /// <summary>
-        /// 删除字典类型
+        /// 删除字典类别
         /// </summary>
         /// <param name="dictCode"></param>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:dict:delete")]
-        [Log(Title = "字典类型", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "字典类别", BusinessType = BusinessType.DELETE)]
         [HttpDelete("{dictCode}")]
         public IActionResult Remove(string dictCode)
         {
             long[] dictCodes = Common.Tools.SpitLongArrary(dictCode);
 
-            return SUCCESS(_SysDictDataService.DeleteDictDataByIds(dictCodes));
+            return SUCCESS(SysDictDataService.DeleteDictDataByIds(dictCodes));
         }
     }
 }

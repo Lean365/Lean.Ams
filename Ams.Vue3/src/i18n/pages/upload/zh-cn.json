@@ -1,5 +1,6 @@
 {
   "upload": {
+    "fileStorage": "文件存储",
     "Drag": "将文件拖到此处，或",
     "Clickupload": "点击上传",
     "Selectfile": "选取文件",
@@ -26,9 +27,9 @@
     "autoFilename": "自动生成",
     "avatarFolder": "头像",
     "videoFolder": "视频",
-    "Logistics": "后勤",
-    "Routine": "公办",
-    "Accounting": "核算"
+    "logisticsFolder": "后勤",
+    "routineFolder": "公办",
+    "accountingFolder": "核算"
   },
   "fupload": {
     "fileDown": "文件名--下载",
@@ -47,6 +48,7 @@
     "viewFilesize": "文件大小:",
     "viewFilecreate": "创建人:",
     "viewFilethumbnail": "缩略图:",
+    "viewQRCode": "二维码:",
     "viewFileurl": "访问路径:",
     "viewFilestoragepath": "存储路径:",
     "uploadFile": "上传文件",

@@ -1,15 +1,12 @@
-﻿using Ams.Tasks;
-using Quartz.Spi;
+﻿using Quartz.Spi;
 using SqlSugar;
 using SqlSugar.IOC;
+using Ams.Tasks;
 
-namespace Ams.WebApi.Extensions
+namespace Ams.Admin.WebApi.Extensions
 {
     /// <summary>
     /// 定时任务扩展方法
-    /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
     /// </summary>
     public static class TasksExtension
     {
@@ -36,7 +33,7 @@ namespace Ams.WebApi.Extensions
         {
             ITaskSchedulerServer _schedulerServer = app.ApplicationServices.GetRequiredService<ITaskSchedulerServer>();
 
-            var tasks = DbScoped.SugarScope.Queryable<TasksQz>()
+            var tasks = DbScoped.SugarScope.Queryable<Model.Routine.TasksQz>()
                 .Where(m => m.IsStart == 1).ToListAsync();
 
             //程序启动后注册所有定时任务
@@ -62,7 +59,7 @@ namespace Ams.WebApi.Extensions
             //Console.WriteLine("初始化字典数据...");
             var db = DbScoped.SugarScope;
             var types = db.Queryable<SysDictType>()
-                .Where(it => it.IsStated == 0)
+                .Where(it => it.IsStatus == 0)
                 .Select(it => it.DictType)
                 .ToList();
 

@@ -1,22 +1,19 @@
-﻿using System;
+﻿using Ams.Infrastructure.Extensions;
+using Ams.Infrastructure.Model;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Ams.Infrastructure.Extensions;
-using Ams.Infrastructure.Model;
-using Ams.Infrastructure.WebExtensions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 
 namespace Ams.Infrastructure
 {
     /// <summary>
-    /// JwtUtil
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
+    /// 2023-8-29已从WebApi移至此
     /// </summary>
     public class JwtUtil
     {
@@ -41,7 +38,7 @@ namespace Ams.Infrastructure
         /// </summary>
         /// <param name="claims"></param>
         /// <returns></returns>
-        public static string GeneratorJwtToken(List<Claim> claims)
+        public static string GenerateJwtToken(List<Claim> claims)
         {
             JwtSettings jwtSettings = new();
             AppSettings.Bind("JwtSettings", jwtSettings);
@@ -68,7 +65,6 @@ namespace Ams.Infrastructure
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-
         /// <summary>
         /// 验证Token
         /// </summary>
@@ -98,7 +94,6 @@ namespace Ams.Infrastructure
             };
             return tokenDescriptor;
         }
-
         /// <summary>
         /// 从令牌中获取数据声明
         /// </summary>
@@ -169,5 +164,6 @@ namespace Ams.Infrastructure
 
             return claims;
         }
+
     }
 }

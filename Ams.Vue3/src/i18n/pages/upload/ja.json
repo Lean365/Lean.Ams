@@ -1,12 +1,13 @@
 {
   "upload": {
+    "fileStorage": "ファイルストレージ",
     "Drag": "ファイルをここにドラッグするか、",
     "Clickupload": "アップロードをクリック",
     "Selectfile": "ファイルの選択",
     "Pleaseupload": "",
     "Size": "最大",
     "Format": "の",
-    "Filesfor": "のファイル",
+    "Filesfor": "ファイル",
     "Formatincorrect": "フォーマットエラー、",
     "FileType": "ファイルをアップロードしてください!",
     "Uloading": "ファイルをアップロードしています。お待ちください…",
@@ -26,9 +27,9 @@
     "autoFilename": "自動生成",
     "avatarFolder": "アバター",
     "videoFolder": "ビデオ",
-    "Logistics": "ロジスティクス",
-    "Routine": "事務",
-    "Accounting": "会計"
+    "logisticsFolder": "ロジスティクス",
+    "routineFolder": "事務",
+    "accountingFolder": "会計"
   },
   "fupload": {
     "fileDown": "ファイル--ダウン",
@@ -47,6 +48,7 @@
     "viewFilesize": "サイズ:",
     "viewFilecreate": "作成:",
     "viewFilethumbnail": "略図:",
+    "viewQRCode": "QRCode:",
     "viewFileurl": "URL:",
     "viewFilestoragepath": "Path:",
     "uploadFile": "ファイルをアップロード",

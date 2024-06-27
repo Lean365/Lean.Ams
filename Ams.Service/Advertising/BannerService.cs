@@ -1,29 +1,20 @@
-using Ams.Infrastructure.Attribute;
-using Ams.Kernel.Model.System;
-using Ams.Model;
-using Ams.Model.Advertising;
-using Ams.Model.Dto.Advertising;
-using Ams.Repository;
-using Ams.Service.Advertising.IAdvertisingService;
 using Mapster;
+using Ams.Service.IService.Advertising;
 
 namespace Ams.Service.Advertising
 {
     /// <summary>
-    /// 广告管理
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/23 9:01:20
+    /// 横幅广告Service业务层处理
     /// </summary>
     [AppService(ServiceType = typeof(IBannerService), ServiceLifetime = LifeTime.Transient)]
     public class BannerService : BaseService<Banner>, IBannerService
     {
         /// <summary>
-        /// 查询广告管理列表
+        /// 查询横幅广告列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<BannerDto> GetList(BannerQueryDto parm)
+        public PagedInfo<BannerDto> GetList(BannerConfigQueryDto parm)
         {
             var predicate = QueryExp(parm);
 
@@ -49,31 +40,31 @@ namespace Ams.Service.Advertising
         }
 
         /// <summary>
-        /// 添加广告管理
+        /// 添加横幅广告
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public Banner AddBanner(Banner model)
+        public Banner AddBannerConfig(Banner model)
         {
             return Insertable(model).ExecuteReturnEntity();
         }
 
         /// <summary>
-        /// 修改广告管理
+        /// 修改横幅广告
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public int UpdateBanner(Banner model)
+        public int UpdateBannerConfig(Banner model)
         {
-            return Update(model, false, "修改广告管理");
+            return Update(model, false, "修改横幅广告");
         }
 
         /// <summary>
-        /// 导出广告管理
+        /// 导出横幅广告
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<BannerDto> ExportList(BannerQueryDto parm)
+        public PagedInfo<BannerDto> ExportList(BannerConfigQueryDto parm)
         {
             var predicate = QueryExp(parm);
 
@@ -81,7 +72,7 @@ namespace Ams.Service.Advertising
                 .Where(predicate.ToExpression())
                 .Select((it) => new BannerDto()
                 {
-                    IsShowLabel = it.IsShow.GetConfigValue<SysDictData>("sys_common_status"),
+                    ShowStatusLabel = it.ShowStatus.GetConfigValue<SysDictData>("sys_common_status"),
                 }, true)
                 .ToPage(parm);
 
@@ -93,27 +84,27 @@ namespace Ams.Service.Advertising
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        private static Expressionable<Banner> QueryExp(BannerQueryDto parm)
+        private static Expressionable<Banner> QueryExp(BannerConfigQueryDto parm)
         {
             var predicate = Expressionable.Create<Banner>();
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Title), it => it.Title.Contains(parm.Title));
             predicate = predicate.AndIF(parm.JumpType != null, it => it.JumpType == parm.JumpType);
-            predicate = predicate.AndIF(parm.IsShow != null, it => it.IsShow == parm.IsShow);
+            predicate = predicate.AndIF(parm.ShowStatus != null, it => it.ShowStatus == parm.ShowStatus);
             predicate = predicate.AndIF(parm.AdType != null, it => it.AdType == parm.AdType);
             return predicate;
         }
 
         /// <summary>
-        /// 查询广告管理列表
+        /// 查询横幅广告列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public List<BannerDto> GetBannerList(BannerQueryDto parm)
+        public List<BannerDto> GetBannerList(BannerConfigQueryDto parm)
         {
             var predicate = Expressionable.Create<Banner>();
             var now = DateTime.Now;
-            predicate = predicate.And(it => it.IsShow == 0);
+            predicate = predicate.And(it => it.ShowStatus == 0);
             predicate = predicate.AndIF(parm.AdType != null, it => it.AdType == parm.AdType);
             predicate = predicate.And(it => it.BeginTime <= now && it.EndTime >= now);
 

@@ -1,22 +1,20 @@
 using Microsoft.AspNetCore.Mvc;
-using ${options.DtosNamespace};
+using ${options.DtosNamespace}.${options.SubNamespace}.Dto;
 using ${options.ModelsNamespace}.${options.SubNamespace};
 using ${options.IServicsNamespace}.${options.SubNamespace}.I${options.SubNamespace}Service;
+using ${options.ApiControllerNamespace}.Filters;
 $if(replaceDto.ShowBtnImport)
 using MiniExcelLibs;
 $end
 
-namespace ${options.ApiControllerNamespace}.Controllers
+//创建时间：${replaceDto.AddTime}
+namespace ${options.ApiControllerNamespace}.Controllers.${options.SubNamespace}
 {
     /// <summary>
     /// ${genTable.functionName}
-    /// API控制器
-    /// @Author: ${replaceDto.Author}
-    /// @Date: ${replaceDto.createTime}
     /// </summary>
     [Verify]
     [Route("${genTable.ModuleName}/${genTable.BusinessName}")]
-    [ApiExplorerSettings(GroupName = "${genTable.ModuleName}")]
     public class ${replaceDto.ModelTypeName}Controller : BaseController
     {
         /// <summary>
@@ -79,15 +77,9 @@ $if(replaceDto.ShowBtnAdd)
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:add")]
-        [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.ADD)]
         public IActionResult Add${replaceDto.ModelTypeName}([FromBody] ${replaceDto.ModelTypeName}Dto parm)
         {
-           // 校验输入项目唯一性
-
-            if (UserConstants.NOT_UNIQUE.Equals(_${replaceDto.ModelTypeName}Service.CheckInputUnique(parm.${replaceDto.PKName}.ToString())))
-            {
-                return ToResponse(ApiResult.Error($"新增${genTable.FunctionName} '{parm.${replaceDto.PKName}}'失败(Add failed)，输入的${genTable.FunctionName}已存在(The entered already exists)"));
-            }
             var modal = parm.Adapt<${replaceDto.ModelTypeName}>().ToCreate(HttpContext);
 
             var response = _${replaceDto.ModelTypeName}Service.Add${replaceDto.ModelTypeName}(modal);
@@ -102,8 +94,8 @@ $if(replaceDto.ShowBtnEdit)
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:update")]
-        [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:edit")]
+        [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.EDIT)]
         public IActionResult Update${replaceDto.ModelTypeName}([FromBody] ${replaceDto.ModelTypeName}Dto parm)
         {
             var modal = parm.Adapt<${replaceDto.ModelTypeName}>().ToUpdate(HttpContext);
@@ -151,7 +143,7 @@ $if(replaceDto.ShowBtnExport)
         }
 
 $end
-$if(replaceDto.ShowBtnEmpty)
+$if(replaceDto.ShowBtnTruncate)
         /// <summary>
         /// 清空${genTable.FunctionName}
         /// </summary>
@@ -171,8 +163,7 @@ $if(replaceDto.ShowBtnEmpty)
 $end
 $if(replaceDto.ShowBtnImport)
         /// <summary>
-        /// 批量导入
-        /// ${genTable.FunctionName}数据
+        /// 导入
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
@@ -191,8 +182,7 @@ $if(replaceDto.ShowBtnImport)
         }
 
         /// <summary>
-        /// 导入模板下载
-        /// ${genTable.FunctionName}
+        /// ${genTable.FunctionName}导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
@@ -200,7 +190,7 @@ $if(replaceDto.ShowBtnImport)
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<${replaceDto.ModelTypeName}ImportTpl>() { }, "${genTable.TableName}_tpl");
+            var result = DownloadImportTemplate(new List<${replaceDto.ModelTypeName}Dto>() { }, "${replaceDto.ModelTypeName}");
             return ExportExcel(result.Item2, result.Item1);
         }
 
@@ -212,9 +202,9 @@ $if(showCustomInput)
         /// <param name="id">主键</param>
         /// <param name="value">排序值</param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:update")]
+        [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:edit")]
         [HttpGet("ChangeSort")]
-        [Log(Title = "保存排序", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "保存排序", BusinessType = BusinessType.EDIT)]
         public IActionResult ChangeSort(int id = 0, int value = 0)
         {
             if (id <= 0) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }

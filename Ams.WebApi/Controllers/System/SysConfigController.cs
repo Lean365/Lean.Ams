@@ -1,13 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using SqlSugar;
+using Ams.Service.Filters;
+using Ams.Service.IService.Systems;
 
-namespace Ams.WebApi.Controllers
+namespace Ams.Admin.WebApi.Controllers
 {
     /// <summary>
-    /// 参数配置
+    /// 系统参数
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
     [Route("system/config")]
@@ -79,7 +81,7 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "system:config:add")]
-        [Log(Title = "参数配置添加", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "参数配置添加", BusinessType = BusinessType.ADD)]
         public IActionResult AddSysConfig([FromBody] SysConfigDto parm)
         {
             if (parm == null)
@@ -106,7 +108,7 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "system:config:update")]
-        [Log(Title = "参数配置修改", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "参数配置修改", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateSysConfig([FromBody] SysConfigDto parm)
         {
             if (parm == null)

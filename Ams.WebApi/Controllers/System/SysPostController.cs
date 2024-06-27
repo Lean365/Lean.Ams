@@ -1,15 +1,16 @@
-﻿using Ams.Model.System;
-using Ams.Repository;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SqlSugar;
+using Ams.Repository;
+using Ams.Service.Filters;
+using Ams.Service.IService.Systems;
 
-namespace Ams.WebApi.Controllers.System
+namespace Ams.Admin.WebApi.Controllers.System
 {
     /// <summary>
-    /// 岗位管理
+    /// 系统岗位
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
     [Route("system/post")]
@@ -32,7 +33,7 @@ namespace Ams.WebApi.Controllers.System
         public IActionResult List([FromQuery] SysPostQueryDto dto)
         {
             var predicate = Expressionable.Create<SysPost>();
-            predicate = predicate.AndIF(dto.IsStated.ToString().IfNotEmpty(), it => it.IsStated == dto.IsStated);
+            predicate = predicate.AndIF(dto.IsStatus.ToString().IfNotEmpty(), it => it.IsStatus == dto.IsStatus);
             predicate = predicate.AndIF(dto.PostName.IfNotEmpty(), it => it.PostName.Contains(dto.PostName));
             predicate = predicate.AndIF(dto.PostCode.IfNotEmpty(), it => it.PostCode.Contains(dto.PostCode));
 
@@ -66,7 +67,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "system:post:add")]
-        [Log(Title = "岗位添加", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "岗位添加", BusinessType = BusinessType.ADD)]
         public IActionResult Add([FromBody] SysPost post)
         {
             if (UserConstants.NOT_UNIQUE.Equals(PostService.CheckPostNameUnique(post)))
@@ -88,8 +89,8 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="post"></param>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "system:post:update")]
-        [Log(Title = "岗位编辑", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "system:post:edit")]
+        [Log(Title = "岗位编辑", BusinessType = BusinessType.EDIT)]
         public IActionResult Update([FromBody] SysPost post)
         {
             if (UserConstants.NOT_UNIQUE.Equals(PostService.CheckPostNameUnique(post)))

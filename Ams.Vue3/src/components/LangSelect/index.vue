@@ -28,14 +28,16 @@
     { label: '简体中文', value: 'zh-cn' },
     { label: '繁體中文', value: 'zh-tw' },
     { label: '日本語', value: 'ja' },
+    { label: '한국어', value: 'ko' },
+    { label: 'العربية', value: 'ar' },
+    { label: 'русский', value: 'ru' },
+    { label: 'Español', value: 'es' },
+    { label: 'Français', value: 'fr' },
     { label: 'English', value: 'en' },
-
   ])
 
-
   function handleLanguageChange(lang) {
-    //console.log(lang)
-    proxy.$modal.loading(proxy.$t('layout.headerMultiLanguageChange') + proxy.$t('common.tipWaitingfor'))
+    proxy.$modal.loading('正在设置语言，请稍候...')
     appStore.setLang(lang)
     setTimeout('window.location.reload()', 1000)
   }

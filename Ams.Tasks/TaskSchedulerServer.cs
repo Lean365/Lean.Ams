@@ -1,25 +1,22 @@
-﻿using Ams.Infrastructure.Model;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using NLog;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Matchers;
 using Quartz.Impl.Triggers;
 using Quartz.Spi;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Ams.Kernel.Model.Routine;
+using Ams.Infrastructure.Model;
+using Ams.Model.Routine;
 
 namespace Ams.Tasks
 {
     /// <summary>
-    /// 任务调度
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 计划任务中心
     /// </summary>
     //[AppService]
     public class TaskSchedulerServer : ITaskSchedulerServer

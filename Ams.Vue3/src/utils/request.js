@@ -89,7 +89,9 @@ service.interceptors.response.use(
     var duration = 3000
     let { message, response } = error
 
-    if (response.status == 403) {
+    if (response.status == 404) {
+      message = '接口404'
+    } else if (response.status == 403) {
       window.location.href = import.meta.env.VITE_APP_ROUTER_PREFIX + '401'
     } else if (message == 'Network Error') {
       message = '后端接口连接异常'
@@ -112,7 +114,7 @@ service.interceptors.response.use(
       showClose: true,
       grouping: true
     })
-    return Promise.reject()
+    return Promise.reject({ code: 500, msg: message })
   }
 )
 
@@ -123,12 +125,12 @@ service.interceptors.response.use(
  */
 export function get(url, params) {
   return new Promise((resolve, reject) => {
-    axios
+    service
       .get(url, {
         params: params
       })
       .then((res) => {
-        resolve(res.data)
+        resolve(res)
       })
       .catch((err) => {
         reject(err)
@@ -138,12 +140,12 @@ export function get(url, params) {
 
 export function post(url, params) {
   return new Promise((resolve, reject) => {
-    axios
+    service
       .post(url, {
         params: params
       })
       .then((res) => {
-        resolve(res.data)
+        resolve(res)
       })
       .catch((err) => {
         reject(err)
@@ -158,10 +160,10 @@ export function post(url, params) {
  */
 export function postForm(url, data, config) {
   return new Promise((resolve, reject) => {
-    axios
+    service
       .post(url, data, config)
       .then((res) => {
-        resolve(res.data)
+        resolve(res)
       })
       .catch((err) => {
         reject(err)

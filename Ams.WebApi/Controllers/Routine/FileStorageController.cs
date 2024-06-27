@@ -1,28 +1,29 @@
-using Ams.Model.System;
 using Microsoft.AspNetCore.Mvc;
 using SqlSugar;
+using Ams.Service.Filters;
+using Ams.Service.IService.Routine;
 
-namespace Ams.WebApi.Controllers.Routine
+namespace Ams.Admin.WebApi.Controllers
 {
     /// <summary>
-    /// 文件存储Controller
+    /// 文件存储
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
-    [Route("routine/filestorage")]
+    [Route("routine/file")]
     [ApiExplorerSettings(GroupName = "routine")]
     public class FileStorageController : BaseController
     {
         /// <summary>
         /// 文件存储接口
         /// </summary>
-        private readonly IFileStorageService _FileStorageService;
+        private readonly IFileStorageService _SysFileService;
 
-        public FileStorageController(IFileStorageService FileStorageService)
+        public FileStorageController(IFileStorageService SysFileService)
         {
-            _FileStorageService = FileStorageService;
+            _SysFileService = SysFileService;
         }
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpGet("list")]
         [ActionPermissionFilter(Permission = "routine:file:list")]
-        public IActionResult QueryFileStorage([FromQuery] FileStorageQueryDto parm)
+        public IActionResult QuerySysFile([FromQuery] FileStorageQueryDto parm)
         {
             var predicate = Expressionable.Create<FileStorage>();
 
@@ -41,7 +42,7 @@ namespace Ams.WebApi.Controllers.Routine
             predicate = predicate.AndIF(parm.StoreType != null, m => m.StoreType == parm.StoreType);
             predicate = predicate.AndIF(parm.FileId != null, m => m.Id == parm.FileId);
 
-            var response = _FileStorageService.GetPages(predicate.ToExpression(), parm, x => x.Id, OrderByType.Desc);
+            var response = _SysFileService.GetPages(predicate.ToExpression(), parm, x => x.Id, OrderByType.Desc);
             return SUCCESS(response);
         }
 
@@ -52,9 +53,9 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "routine:file:query")]
-        public IActionResult GetFileStorage(long Id)
+        public IActionResult GetSysFile(long Id)
         {
-            var response = _FileStorageService.GetFirst(x => x.Id == Id);
+            var response = _SysFileService.GetFirst(x => x.Id == Id);
 
             return SUCCESS(response);
         }
@@ -66,17 +67,14 @@ namespace Ams.WebApi.Controllers.Routine
         [HttpDelete("{ids}")]
         [ActionPermissionFilter(Permission = "routine:file:delete")]
         [Log(Title = "文件存储", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteFileStorage(string ids)
+        public IActionResult DeleteSysFile(string ids)
         {
             long[] idsArr = Tools.SpitLongArrary(ids);
             if (idsArr.Length <= 0) { return ToResponse(ApiResult.Error($"删除失败Id 不能为空")); }
 
+            var response = _SysFileService.Delete(idsArr);
             //TODO 删除本地资源
-            foreach (var id in idsArr)
-            {
-                FileUtil.deleteFile(_FileStorageService.GetById(id).FileUrl.Substring(0, _FileStorageService.GetById(id).FileUrl.LastIndexOf("/") + 1), _FileStorageService.GetById(id).FileName);
-            }
-            var response = _FileStorageService.Delete(idsArr);
+
             return ToResponse(response);
         }
 
@@ -89,7 +87,7 @@ namespace Ams.WebApi.Controllers.Routine
         [ActionPermissionFilter(Permission = "routine:file:export")]
         public IActionResult Export()
         {
-            var list = _FileStorageService.GetAll();
+            var list = _SysFileService.GetAll();
 
             string sFileName = ExportExcel(list, "FileStorage", "文件存储");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });

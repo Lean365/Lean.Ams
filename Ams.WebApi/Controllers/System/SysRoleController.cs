@@ -1,14 +1,15 @@
-﻿using Ams.Model;
-using Ams.Model.System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Ams.Model;
+using Ams.Service.Filters;
+using Ams.Service.IService.Systems;
 
-namespace Ams.WebApi.Controllers.System
+namespace Ams.Admin.WebApi.Controllers.System
 {
     /// <summary>
-    /// 角色信息
+    /// 系统角色
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
     [Route("system/role")]
@@ -59,7 +60,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "system:role:add")]
-        [Log(Title = "角色管理", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "角色管理", BusinessType = BusinessType.ADD)]
         [Route("edit")]
         public IActionResult RoleAdd([FromBody] SysRoleDto dto)
         {
@@ -82,8 +83,8 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "system:role:update")]
-        [Log(Title = "角色管理", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "system:role:edit")]
+        [Log(Title = "角色管理", BusinessType = BusinessType.EDIT)]
         [Route("edit")]
         public IActionResult RoleEdit([FromBody] SysRoleDto dto)
         {
@@ -117,7 +118,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPut("dataScope")]
         [ActionPermissionFilter(Permission = "system:role:authorize")]
-        [Log(Title = "角色管理", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "角色管理", BusinessType = BusinessType.EDIT)]
         public IActionResult DataScope([FromBody] SysRoleDto sysRoleDto)
         {
             if (sysRoleDto == null || sysRoleDto.RoleId <= 0) return ToResponse(ApiResult.Error(101, "请求参数错误"));
@@ -152,8 +153,8 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="roleDto">角色对象</param>
         /// <returns></returns>
         [HttpPut("changeStatus")]
-        [Log(Title = "修改角色状态", BusinessType = BusinessType.UPDATE)]
-        [ActionPermissionFilter(Permission = "system:role:update")]
+        [Log(Title = "修改角色状态", BusinessType = BusinessType.EDIT)]
+        [ActionPermissionFilter(Permission = "system:role:edit")]
         public IActionResult ChangeStatus([FromBody] SysRole roleDto)
         {
             sysRoleService.CheckRoleAllowed(roleDto);
@@ -187,7 +188,7 @@ namespace Ams.WebApi.Controllers.System
         [ActionPermissionFilter(Permission = "system:role:export")]
         public IActionResult ExportRoleMenu(int roleId)
         {
-            SysMenuQueryDto dto = new() { IsStated = 0, MenuTypeIds = "M,C,F" };
+            MenuQueryDto dto = new() { IsStatus = 0, MenuTypeIds = "M,C,F" };
 
             var list = sysMenuService.SelectRoleMenuListByRole(dto, roleId);
 

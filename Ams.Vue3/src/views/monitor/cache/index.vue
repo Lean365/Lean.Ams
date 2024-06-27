@@ -54,8 +54,7 @@
                     <div class="cell">使用CPU</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="cache.info">{{ parseFloat(cache.info.used_cpu_user_children).toFixed(2) }}
-                    </div>
+                    <div class="cell" v-if="cache.info">{{ parseFloat(cache.info.used_cpu_user_children).toFixed(2) }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell">内存配置</div>
@@ -119,7 +118,10 @@
             </div>
           </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
-            <gauge name="内存消耗" :max="100" :data="[
+            <gauge
+              name="内存消耗"
+              :max="100"
+              :data="[
                 {
                   value: (parseFloat(cache.info.used_memory_human) / parseFloat(cache.info.total_system_memory_human)).toFixed(2),
                   name: '内存消耗',
@@ -136,8 +138,7 @@
             </div>
           </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
-            <gauge name="CPU" :max="100"
-              :data="[{ value: parseFloat(cache.info.used_cpu_user_children * 100).toFixed(0), name: 'CPU消耗' }]" />
+            <gauge name="CPU" :max="100" :data="[{ value: parseFloat(cache.info.used_cpu_user_children * 100).toFixed(0), name: 'CPU消耗' }]" />
           </div>
         </el-card>
       </el-col>
@@ -146,49 +147,49 @@
 </template>
 
 <script setup name="cache">
-  import { getCache } from '@/api/monitor/cache'
-  import * as echarts from 'echarts'
-  import Gauge from '@/components/Echarts/Gauge.vue'
+import { getCache } from '@/api/monitor/cache'
+import * as echarts from 'echarts'
+import Gauge from '@/components/Echarts/Gauge.vue'
 
-  // 统计命令信息
-  const commandstats = ref(null)
-  // 使用内存
-  const usedmemory = ref(null)
-  // cache信息
-  const cache = ref([])
-  const commandstatsRef = ref(null)
-  const { proxy } = getCurrentInstance()
+// 统计命令信息
+const commandstats = ref(null)
+// 使用内存
+const usedmemory = ref(null)
+// cache信息
+const cache = ref([])
+const commandstatsRef = ref(null)
+const { proxy } = getCurrentInstance()
 
-  /** 查缓存询信息 */
-  function getList() {
-    getCache().then((response) => {
-      cache.value = response.data
-      // this.$modal.closeLoading();
-      console.log(response.data)
-      // 命令使用占比
-      commandstats.value = echarts.init(proxy.$refs.commandstatsRef)
-      commandstats.value.setOption({
-        tooltip: {
-          trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)',
+/** 查缓存询信息 */
+function getList() {
+  getCache().then((response) => {
+    cache.value = response.data
+    // this.$modal.closeLoading();
+
+    // 命令使用占比
+    commandstats.value = echarts.init(proxy.$refs.commandstatsRef)
+    commandstats.value.setOption({
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c} ({d}%)',
+      },
+      series: [
+        {
+          name: '命令',
+          type: 'pie',
+          roseType: 'radius',
+          radius: [15, 95],
+          center: ['50%', '38%'],
+          data: response.data.commandStats,
+          animationEasing: 'cubicInOut',
+          animationDuration: 1000,
         },
-        series: [
-          {
-            name: '命令',
-            type: 'pie',
-            roseType: 'radius',
-            radius: [15, 95],
-            center: ['50%', '38%'],
-            data: response.data.commandStats,
-            animationEasing: 'cubicInOut',
-            animationDuration: 1000,
-          },
-        ],
-      })
+      ],
     })
-  }
-
-  onMounted(() => {
-    getList()
   })
+}
+
+onMounted(() => {
+  getList()
+})
 </script>

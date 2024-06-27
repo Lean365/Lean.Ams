@@ -2,9 +2,9 @@
  * @Descripttion: (${genTable.functionName}/${genTable.tableName})
  * @version: (1.0)
  * @Author: (${replaceDto.Author})
- * @Date: (${replaceDto.createTime})
+ * @Date: (${replaceDto.AddTime})
  * @LastEditors: (${replaceDto.Author})
- * @LastEditTime: (${replaceDto.createTime})
+ * @LastEditTime: (${replaceDto.AddTime})
 -->
 <template>
   <div class="app-container">
@@ -26,7 +26,7 @@ $if(replaceDto.ShowBtnAdd)
 $end
 $if(replaceDto.ShowBtnEdit)
       <el-col :span="1.5">
-        <el-button type="success" :disabled="single" v-hasPermi="['${replaceDto.PermissionPrefix}:update']" plain icon="el-icon-edit" size="mini" @click="handleUpdate">修改</el-button>
+        <el-button type="success" :disabled="single" v-hasPermi="['${replaceDto.PermissionPrefix}:edit']" plain icon="el-icon-edit" size="mini" @click="handleUpdate">修改</el-button>
       </el-col>
 $end
 $if(replaceDto.ShowBtnDelete)
@@ -49,7 +49,7 @@ ${replaceDto.VueViewListHtml}
       <el-table-column label="操作" align="center" width="140">
         <template slot-scope="scope">
 $if(replaceDto.ShowBtnEdit)
-          <el-button size="mini" v-hasPermi="['${replaceDto.PermissionPrefix}:update']" type="success" icon="el-icon-edit" title="编辑" 
+          <el-button size="mini" v-hasPermi="['${replaceDto.PermissionPrefix}:edit']" type="success" icon="el-icon-edit" title="编辑" 
             @click="handleUpdate(scope.row)"></el-button>      
 $end
 $if(replaceDto.ShowBtnDelete)

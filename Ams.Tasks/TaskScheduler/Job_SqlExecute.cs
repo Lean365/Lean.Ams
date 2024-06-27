@@ -1,21 +1,15 @@
 ﻿using System.Threading.Tasks;
-using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.CustomExceptions;
-using Ams.Infrastructure.Extensions;
-using Ams.Kernel.Services.IService.Routine;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Triggers;
 using SqlSugar.IOC;
+using Ams.Infrastructure;
+using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.Extensions;
+using Ams.Service.IService.Monitor;
 
 namespace Ams.Tasks.TaskScheduler
 {
-    /// <summary>
-    /// 任务Quartz
-    /// http服务接口
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
-    /// </summary>
     [AppService(ServiceType = typeof(Job_SqlExecute), ServiceLifetime = LifeTime.Scoped)]
     public class Job_SqlExecute : JobBase, IJob
     {

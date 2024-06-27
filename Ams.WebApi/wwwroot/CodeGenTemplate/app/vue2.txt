@@ -46,7 +46,7 @@ $end
 $if(replaceDto.ShowBtnEdit)
         <view class="tag-item">
           <u-tag text="编辑" plain shape="circle" icon="edit-pen" @click="handleEdit(item)"
-            v-if="checkPermi(['${replaceDto.PermissionPrefix}:update'])"></u-tag>
+            v-if="checkPermi(['${replaceDto.PermissionPrefix}:edit'])"></u-tag>
         </view>
 $end
 $if(replaceDto.ShowBtnDelete || replaceDto.ShowBtnMultiDel)

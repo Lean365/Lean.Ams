@@ -1,0 +1,29 @@
+{
+  "pmailtpl": {
+    "name": "模板名稱",
+    "content": "模板內容"
+  },
+  "pmailsend": {
+    "fromName": "發送者",
+    "fromEmail": "發送郵箱",
+    "toName": "接收者",
+    "toEmails": "接收郵箱",
+    "subject": "主題",
+    "emailTpl": "模板",
+    "isSend": "是否立即送出",
+    "sendTime": "發送時間",
+    "htmlContent": "內容",
+    "sendMe": "發送自己",
+    "fileUrl": "附件",
+    "leastOneContact": "請至少保留一位聯繫人",
+    "unsuccessful": "未通過",
+    "upToLabels": "最多5個標籤",
+    "validEmailAddress": "請輸入有效的郵箱"
+  },
+  "pmailitem": {
+    "sendTime": "發送時間",
+    "Sent": "已發",
+    "unsent": "未發",
+    "sendResult": "發送結果"
+  }
+}

@@ -2,27 +2,28 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Ams.Service.Filters;
 
-namespace Ams.WebApi.Controllers.Monitor
+namespace Ams.Admin.WebApi.Controllers.Monitor
 {
     /// <summary>
-    /// 系统监控
+    /// 服务监控
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [ApiExplorerSettings(GroupName = "monitor")]
     [Verify]
     public class MonitorController : BaseController
     {
-        private OptionsSetting _OptionsSetting;
-        private IWebHostEnvironment _WebHostEnvironment;
+        private OptionsSetting Options;
+        private IWebHostEnvironment HostEnvironment;
         private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public MonitorController(IOptions<OptionsSetting> OptionsSetting, IWebHostEnvironment WebHostEnvironment)
+        public MonitorController(IOptions<OptionsSetting> options, IWebHostEnvironment hostEnvironment)
         {
-            _WebHostEnvironment = WebHostEnvironment;
-            _OptionsSetting = OptionsSetting.Value;
+            this.HostEnvironment = hostEnvironment;
+            this.Options = options.Value;
         }
 
         /// <summary>
@@ -62,9 +63,9 @@ namespace Ams.WebApi.Controllers.Monitor
                 sys = new { cpuNum, computerName, osName, osArch, serverIP, runTime = sysRunTime },
                 app = new
                 {
-                    name = _WebHostEnvironment.EnvironmentName,
-                    rootPath = _WebHostEnvironment.ContentRootPath,
-                    webRootPath = _WebHostEnvironment.WebRootPath,
+                    name = HostEnvironment.EnvironmentName,
+                    rootPath = HostEnvironment.ContentRootPath,
+                    webRootPath = HostEnvironment.WebRootPath,
                     version,
                     appRAM,
                     startTime,

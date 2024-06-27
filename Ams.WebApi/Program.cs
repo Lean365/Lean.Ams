@@ -1,22 +1,26 @@
+using System.Text.Json;
 using AspNetCoreRateLimit;
-using Ams.Infrastructure.Converter;
 using Microsoft.AspNetCore.DataProtection;
 using NLog.Web;
 using SqlSugar;
-using System.Text.Json;
-using Ams.WebApi.Extensions;
+using Ams.Admin.WebApi.Extensions;
 using Ams.Common.Cache;
+using Ams.Common.DynamicApiSimple.Extens;
+using Ams.Infrastructure.Converter;
 using Ams.Infrastructure.WebExtensions;
-using Ams.Kernel.Signalr;
-using Ams.Kernel.SqlSugar;
+using Ams.Service.Filters;
+using Ams.Service.Signalr;
+using Ams.Service.SqlSugar;
 
 var builder = WebApplication.CreateBuilder(args);
 // NLog: Setup NLog for Dependency injection
 //builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 
+builder.Services.AddDynamicApi();
 // Add services to the container.
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -108,7 +112,7 @@ app.Use((context, next) =>
     context.Request.EnableBuffering();
     if (context.Request.Query.TryGetValue("access_token", out var token))
     {
-        context.Request.Headers.Add("Authorization", $"Bearer {token}");
+        context.Request.Headers.Append("Authorization", $"Bearer {token}");
     }
     return next();
 });

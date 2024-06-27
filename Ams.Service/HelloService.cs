@@ -1,21 +1,23 @@
-﻿using Ams.Infrastructure.Attribute;
-using Ams.Kernel.Model.System;
-using Ams.Kernel.Services.IService.System;
-using Ams.Model.Content;
-using Ams.Repository;
-using Ams.Service.IService;
+﻿using Ams.Infrastructure;
+using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.Model;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SqlSugar.IOC;
+using Ams.Service.Filters;
+using Ams.Common.DynamicApiSimple;
+
+
+using Ams.Service.IService;
+using Ams.Service.IService.Systems;
 
 namespace Ams.Service
 {
     /// <summary>
-    /// Hello
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/9 8:42:56
+    /// 动态api示例，继承IDynamicApi，使用看swagger生成的地址
     /// </summary>
     [AppService(ServiceType = typeof(IHelloService), ServiceLifetime = LifeTime.Transient)]
-    public class HelloService : BaseService<ArticleCategory>, IHelloService
+    public class HelloService : BaseService<ArticleCatalog>, IHelloService, IDynamicApi
     {
         /// <summary>
         /// 引用User服务
@@ -58,6 +60,34 @@ namespace Ams.Service
             Context.Queryable<SysUser>().First(f => f.UserId == 1);
 
             return "Hello:" + name;
+        }
+
+        /// <summary>
+        /// 返回json内容
+        /// </summary>
+        /// <param name="userDto"></param>
+        /// <returns></returns>
+        [Verify]
+        public ApiResult SayHello2([FromBody] SysUserDto userDto)
+        {
+            var user = userService.GetFirst(f => f.UserId == 2);
+            return new ApiResult(100, "success", user);
+        }
+
+        public ApiResult SayHello3()
+        {
+            throw new CustomException("自定义异常");
+        }
+
+        /// <summary>
+        /// 返回json内容
+        /// </summary>
+        /// <param name="userDto"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        public ApiResult SayHelloJson([FromBody] SysUserDto userDto)
+        {
+            return new ApiResult(100, "success", userDto);
         }
     }
 }

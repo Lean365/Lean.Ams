@@ -1,19 +1,17 @@
 <!--
- * @Descripttion: 广告管理/advertising_banner
- * @Version: 0.24.509.29861
- * @Author: Lean365(Davis.Ching)
- * @Date: 2024/5/24 17:37:36
- * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
+ * @Descripttion: (广告管理/banner_config)
+ * @Author: (admin)
+ * @Date: (2024-05-11)
 -->
 <template>
   <div>
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
-      <el-form-item :label="$t('padvert.title')" prop="title">
+      <el-form-item label="标题" prop="title">
         <el-input v-model="queryParams.title" placeholder="请输入标题" />
       </el-form-item>
-      <el-form-item label="是否显示" prop="isShow">
-        <el-radio-group v-model="queryParams.isShow">
-          <el-radio-button>{{$t('common.all')}}</el-radio-button>
+      <el-form-item label="是否显示" prop="showStatus">
+        <el-radio-group v-model="queryParams.showStatus">
+          <el-radio-button>全部</el-radio-button>
           <el-radio-button v-for="item in options.sys_show_hide" :key="item.dictValue" :value="item.dictValue">{{
             item.dictLabel
             }}</el-radio-button>
@@ -21,7 +19,7 @@
       </el-form-item>
       <el-form-item label="广告类型" prop="adType">
         <el-radio-group v-model="queryParams.adType" @change="handleQuery()">
-          <el-radio-button>{{$t('common.all')}}</el-radio-button>
+          <el-radio-button>全部</el-radio-button>
           <el-radio-button v-for="item in options.sys_ad_type" :key="item.dictValue" :value="item.dictValue">{{
             item.dictLabel }}</el-radio-button>
         </el-radio-group>
@@ -46,64 +44,30 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
 
-    <el-table :data="dataList" v-loading="loading" ref="table" border header-cell-class-name="el-table-header-cell"
-      highlight-current-row @sort-change="sortChange">
-      <el-table-column prop="id" label="广告id" align="center" v-if="columns.showColumn('id')" />
-      <el-table-column prop="title" label="标题" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('title')" />
-      <el-table-column prop="content" label="说明" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('content')" />
-      <el-table-column prop="link" label="链接" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('link')" />
-      <el-table-column prop="imgUrl" label="图片" align="center" v-if="columns.showColumn('imgUrl')">
-        <template #default="scope">
-          <ImagePreview :src="scope.row.imgUrl" v-if="scope.row.imgUrl"></ImagePreview>
-        </template>
-      </el-table-column>
-      <el-table-column prop="jumpType" label="跳转类型" align="center" v-if="columns.showColumn('jumpType')">
-        <template #default="scope">
-          <dict-tag :options="options.jumpTypeOptions" :value="scope.row.jumpType" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="addTime" label="添加时间" :show-overflow-tooltip="true" v-if="columns.showColumn('addTime')" />
-      <el-table-column prop="clicksNumber" label="点击次数" align="center" v-if="columns.showColumn('clicksNumber')" />
-      <el-table-column prop="isShow" label="是否显示" align="center" v-if="columns.showColumn('isShow')">
-        <template #default="scope">
-          <dict-tag :options="options.sys_show_hide" :value="scope.row.isShow" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="adType" label="广告类型" align="center" v-if="columns.showColumn('adType')">
-        <template #default="scope">
-          <dict-tag :options="options.sys_ad_type" :value="scope.row.adType" />
-        </template>
-      </el-table-column>
-      <el-table-column label="显示时间" width="130" v-if="columns.showColumn('beginTime')">
-        <template #default="{ row }">
-          <div>{{ row.beginTime }}</div>
-          <div>{{ row.endTime }}</div>
-        </template>
-      </el-table-column>
-      <el-table-column prop="sortId" label="排序id" width="90" sortable align="center"
-        v-if="columns.showColumn('sortId')">
-        <template #default="scope">
-          <span v-show="editIndex != scope.$index" @click="editCurrRow(scope.$index)">{{ scope.row.sortId }}</span>
-          <el-input :ref="setColumnsRef" v-show="editIndex == scope.$index" v-model="scope.row.sortId"
-            @blur="handleChangeSort(scope.row)"></el-input>
-        </template>
-      </el-table-column>
-      <el-table-column :label="$t('btn.operation')" width="120">
-        <template #default="scope">
-          <el-button type="success" size="small" icon="edit" title="编辑" v-hasPermi="['Banner:edit']"
-            @click="handleUpdate(scope.row)"></el-button>
-          <el-button type="danger" size="small" icon="delete" title="删除" v-hasPermi="['Banner:delete']"
-            @click="handleDelete(scope.row)"></el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <myTable row-key="id" v-loading="loading" :columns="columns" :data="dataList" :dicts="options"
+      header-cell-class-name="el-table-header-cell" @sort-change="sortChange">
+      <!-- <template #tableColumn>
+        <el-table-column type="selection" width="50" align="center" :selectable="checkSelectable" />
+      </template> -->
+      <template #beginTime="{ row }">
+        <div>{{ showTime(row.beginTime) }}</div>
+        <div>{{ showTime(row.endTime) }}</div>
+      </template>
+      <template #sortId="{ scope }">
+        <span v-show="editIndex != scope.$index" @click="editCurrRow(scope.$index)">{{ scope.row.sortId }}</span>
+        <el-input :ref="setColumnsRef" v-show="editIndex == scope.$index" v-model="scope.row.sortId"
+          @blur="handleChangeSort(scope.row)"></el-input>
+      </template>
+      <template #actions="{ scope }">
+        <el-button type="success" size="small" icon="edit" title="编辑" v-hasPermi="['Banner:edit']"
+          @click="handleUpdate(scope.row)"></el-button>
+        <el-button type="danger" size="small" icon="delete" title="删除" v-hasPermi="['Banner:delete']"
+          @click="handleDelete(scope.row)"></el-button>
+      </template>
+    </myTable>
     <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
       @pagination="getList" />
 
-    <!-- 添加或修改广告管理对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" width="600">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="100px">
         <el-row :gutter="20">
@@ -170,8 +134,8 @@
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="是否显示" prop="isShow">
-              <el-radio-group v-model="form.isShow">
+            <el-form-item label="是否显示" prop="showStatus">
+              <el-radio-group v-model="form.showStatus">
                 <el-radio v-for="item in options.sys_show_hide" :key="item.dictValue" :value="parseInt(item.dictValue)">
                   {{ item.dictLabel }}
                 </el-radio>
@@ -191,32 +155,40 @@
 <script setup name="Banner">
   import { listBanner, addBanner, delBanner, updateBanner, getBanner, changeSort } from '@/api/advertising/banner.js'
   const { proxy } = getCurrentInstance()
+  import { showTime } from '@/utils'
   const ids = ref([])
   const loading = ref(false)
   const showSearch = ref(true)
   const queryParams = reactive({
     pageNum: 1,
     pageSize: 10,
-    sort: '',
-    sortType: 'asc',
+    sort: 'id',
+    sortType: 'desc',
     title: undefined,
     jumpType: undefined,
-    isShow: undefined,
+    showStatus: undefined,
     adType: undefined
   })
   const columns = ref([
     { visible: true, prop: 'id', label: 'id' },
     { visible: true, prop: 'title', label: '标题' },
     { visible: true, prop: 'content', label: '说明' },
-    { visible: true, prop: 'link', label: '链接' },
-    { visible: true, prop: 'imgUrl', label: '图片' },
-    { visible: true, prop: 'jumpType', label: '跳转类型' },
+    { visible: true, prop: 'link', label: '链接', showOverflowTooltip: true },
+    { visible: true, prop: 'imgUrl', label: '图片', type: 'img' },
+    { visible: true, prop: 'jumpType', label: '跳转类型', type: 'dict', dictType: 'jumpTypeOptions' },
     { visible: false, prop: 'addTime', label: '添加时间' },
     { visible: true, prop: 'clicksNumber', label: '点击次数' },
-    { visible: true, prop: 'isShow', label: '是否显示' },
-    { visible: true, prop: 'adType', label: '广告类型' },
-    { visible: true, prop: 'beginTime', label: '显示时间' },
-    { visible: true, prop: 'sortId', label: '排序id' }
+    { visible: true, prop: 'showStatus', label: '是否显示', type: 'dict', dictType: 'sys_show_hide' },
+    { visible: true, prop: 'adType', label: '广告类型', type: 'dict', dictType: 'sys_ad_type' },
+    { visible: true, prop: 'beginTime', label: '显示时间', type: 'slot', width: '130', align: 'left' },
+    { visible: true, prop: 'sortId', label: '排序id', type: 'slot' },
+    {
+      visible: true,
+      prop: 'actions',
+      label: '操作',
+      type: 'slot',
+      width: '120'
+    }
   ])
   const total = ref(0)
   const dataList = ref([])
@@ -312,7 +284,7 @@
     rules: {
       title: [{ required: true, message: 'Title不能为空', trigger: 'blur' }],
       jumpType: [{ required: true, message: '跳转类型不能为空', trigger: 'change', type: 'number' }],
-      isShow: [{ required: true, message: '是否显示不能为空', trigger: 'blur', type: 'number' }],
+      showStatus: [{ required: true, message: '是否显示不能为空', trigger: 'blur', type: 'number' }],
       adType: [{ required: true, message: '广告类型不能为空', trigger: 'change', type: 'number' }],
       beginTime: [{ required: true, message: '广告显示时间不能为空', trigger: 'change' }],
       endTime: [{ required: true, message: '广告显示时间不能为空', trigger: 'change' }],
@@ -351,7 +323,7 @@
       jumpType: null,
       addTime: null,
       clicksNumber: null,
-      isShow: 1,
+      showStatus: 1,
       adType: null,
       beginTime: null,
       endTime: null,
@@ -434,7 +406,7 @@
         type: 'warning'
       })
       .then(async () => {
-        await proxy.downFile('/public/Banner/export', { ...queryParams })
+        await proxy.downFile('/advertising/banner/export', { ...queryParams })
       })
   }
 

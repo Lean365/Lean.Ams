@@ -4,14 +4,8 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace Ams.WebApi.Extensions
+namespace Ams.Admin.WebApi.Extensions
 {
-    /// <summary>
-    /// Swagger扩展
-    /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
-    /// </summary>
     public static class SwaggerExtension
     {
         /// <summary>
@@ -41,13 +35,15 @@ namespace Ams.WebApi.Extensions
             });
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("accounting/swagger.json", "会计核算");
-                c.SwaggerEndpoint("logistics/swagger.json", "后勤管理");
-                c.SwaggerEndpoint("routine/swagger.json", "日常事务");
-                c.SwaggerEndpoint("system/swagger.json", "系统管理");
-                c.SwaggerEndpoint("tool/swagger.json", "系统工具");
-                c.SwaggerEndpoint("v1/swagger.json", "Lean365.Ams");
-
+                c.SwaggerEndpoint("accounting/swagger.json", "会计核算(accounting)");
+                c.SwaggerEndpoint("advertising/swagger.json", "广告(advertising)");
+                c.SwaggerEndpoint("logistics/swagger.json", "后勤(logistics)");
+                c.SwaggerEndpoint("monitor/swagger.json", "系统监控(monitor)");
+                c.SwaggerEndpoint("routine/swagger.json", "日常办公(routine)");
+                c.SwaggerEndpoint("statistics/swagger.json", "统计(statistics)");
+                c.SwaggerEndpoint("system/swagger.json", "系统管理(system)");
+                c.SwaggerEndpoint("tool/swagger.json", "系统工具(tool)");
+                c.SwaggerEndpoint("v1/swagger.json", "其它");
                 c.DocExpansion(DocExpansion.None); //->修改界面打开时自动折叠
             });
         }
@@ -61,55 +57,77 @@ namespace Ams.WebApi.Extensions
             {
                 c.SwaggerDoc("accounting", new OpenApiInfo
                 {
-                    Title = "Lean365.NET Api",
+                    Title = "Ams.NET Api",
                     Version = "v1",
-                    Description = "会计核算",
-                    Contact = new OpenApiContact { Name = "Davis.Cheng", Email = "itsup@lean365.cn", Url = new Uri("https://leansoft365.github.io/") }
+                    Description = "会计核算(accounting)",
+                    Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
+                });
+                c.SwaggerDoc("advertising", new OpenApiInfo
+                {
+                    Title = "Ams.NET Api",
+                    Version = "v1",
+                    Description = "广告(advertising)",
+                    Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("logistics", new OpenApiInfo
                 {
-                    Title = "Lean365.NET Api",
+                    Title = "Ams.NET Api",
                     Version = "v1",
-                    Description = "后勤管理",
-                    Contact = new OpenApiContact { Name = "Davis.Cheng", Email = "itsup@lean365.cn", Url = new Uri("https://leansoft365.github.io/") }
+                    Description = "后勤(logistics)",
+                    Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
+                });
+
+                c.SwaggerDoc("monitor", new OpenApiInfo
+                {
+                    Title = "Ams.NET Api",
+                    Version = "v1",
+                    Description = "系统监控(monitor)",
+                    Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("routine", new OpenApiInfo
                 {
-                    Title = "Lean365.NET Api",
+                    Title = "Ams.NET Api",
                     Version = "v1",
-                    Description = "日常事务",
-                    Contact = new OpenApiContact { Name = "Davis.Cheng", Email = "itsup@lean365.cn", Url = new Uri("https://leansoft365.github.io/") }
+                    Description = "日常办公(routine)",
+                    Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
+                });
+                c.SwaggerDoc("statistics", new OpenApiInfo
+                {
+                    Title = "Ams.NET Api",
+                    Version = "v1",
+                    Description = "统计(statistics)",
+                    Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("system", new OpenApiInfo
                 {
-                    Title = "Lean365.NET Api",
+                    Title = "Ams.NET Api",
                     Version = "v1",
-                    Description = "系统管理",
-                    Contact = new OpenApiContact { Name = "Davis.Cheng", Email = "itsup@lean365.cn", Url = new Uri("https://leansoft365.github.io/") }
+                    Description = "系统管理(system)",
+                    Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
+
                 c.SwaggerDoc("tool", new OpenApiInfo
                 {
-                    Title = "Lean365.NET Api",
+                    Title = "Ams.NET Api",
                     Version = "v1",
-                    Description = "系统工具",
-                    Contact = new OpenApiContact { Name = "Davis.Cheng", Email = "itsup@lean365.cn", Url = new Uri("https://leansoft365.github.io/") }
+                    Description = "系统工具(tool)",
+                    Contact = new OpenApiContact { Name = "Ams doc", Url = new Uri("https://leansoft365.github.io/") }
                 });
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Lean365.NET Api",
+                    Title = "Ams.NET Api",
                     Version = "v1",
-                    Description = "Lean365.Ams",
-                    Contact = new OpenApiContact { Name = "Davis.Cheng", Email = "itsup@lean365.cn", Url = new Uri("https://leansoft365.github.io/") }
+                    Description = "",
                 });
                 try
                 {
                     //var tempPath = hostEnvironment.ContentRootPath;
                     //添加文档注释
                     var baseDir = AppContext.BaseDirectory;
-                    c.IncludeXmlComments(Path.Combine(baseDir, "Ams.Model.xml"), true);
-                    c.IncludeXmlComments(Path.Combine(baseDir, "Ams.Kernel.xml"), true);
-                    c.IncludeXmlComments(Path.Combine(baseDir, "Ams.Service.xml"), true);
-                    c.IncludeXmlComments(Path.Combine(baseDir, "Ams.WebApi.xml"), true);
+                    c.IncludeXmlComments(Path.Combine(baseDir, "ZR.Model.xml"), true);
+                    c.IncludeXmlComments(Path.Combine(baseDir, "ZR.Service.xml"), true);
+                    c.IncludeXmlComments(Path.Combine(baseDir, "ZR.Service.xml"), true);
+                    c.IncludeXmlComments(Path.Combine(baseDir, "ZR.Admin.WebApi.xml"), true);
 
                     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                     var xmlPath = Path.Combine(baseDir, xmlFile);
@@ -150,19 +168,27 @@ namespace Ams.WebApi.Extensions
                     }
                 });
 
-                //判断接口归于哪个分组
-                c.DocInclusionPredicate((docName, apiDescription) =>
+                try
                 {
-                    if (docName == "v1")
+                    //判断接口归于哪个分组
+                    c.DocInclusionPredicate((docName, apiDescription) =>
                     {
-                        //当分组为NoGroup时，只要没加特性的都属于这个组
-                        return string.IsNullOrEmpty(apiDescription.GroupName);
-                    }
-                    else
-                    {
-                        return apiDescription.GroupName == docName;
-                    }
-                });
+                        if (docName == "v1")
+                        {
+                            //当分组为NoGroup时，只要没加特性的都属于这个组
+                            return string.IsNullOrEmpty(apiDescription.GroupName);
+                        }
+                        else
+                        {
+                            return apiDescription.GroupName == docName;
+                        }
+                    });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             });
         }
     }

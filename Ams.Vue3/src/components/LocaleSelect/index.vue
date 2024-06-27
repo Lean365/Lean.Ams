@@ -5,7 +5,6 @@
         style="display: inline-block; margin: 0.25em; border: 1px solid silver; border-radius: 0.25em; padding: .25em 0.5em"><i
           class="fas fa-language fa-flip" :title="$t('layout.headerMultiLanguage')"
           style="--fa-animation-duration: 3s;font-size: 2em; color: rgb(52, 168, 83);"></i></span>
-
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="item of langOptions" :key="item.value" :disabled="lang === item.value"
@@ -20,7 +19,6 @@
 
 <script setup>
   import useAppStore from '@/store/modules/app'
-  import '@fortawesome/fontawesome-free/css/all.min.css';
   const appStore = useAppStore()
   const lang = computed(() => useAppStore().lang)
   const props = defineProps({
@@ -29,21 +27,20 @@
     }
   })
   const { proxy } = getCurrentInstance()
-  /*
-   * 语言选项
-   */
   const langOptions = ref([
     { label: '简体中文', value: 'zh-cn' },
     { label: '繁體中文', value: 'zh-tw' },
     { label: '日本語', value: 'ja' },
+    { label: '한국어', value: 'ko' },
+    { label: 'العربية', value: 'ar' },
+    { label: 'русский', value: 'ru' },
+    { label: 'Español', value: 'es' },
+    { label: 'Français', value: 'fr' },
     { label: 'English', value: 'en' },
-
   ])
-  /*
-   * 切换语言
-   */
+
   function handleLanguageChange(lang) {
-    proxy.$modal.loading(proxy.$t('layout.headerMultiLanguageChange') + proxy.$t('common.tipWaitingfor'))
+    proxy.$modal.loading('正在设置语言，请稍候...')
     appStore.setLang(lang)
     setTimeout('window.location.reload()', 1000)
   }

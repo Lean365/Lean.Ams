@@ -10,8 +10,6 @@ namespace Ams.Infrastructure.Converter
     /// Json任何类型读取到字符串属性
     /// 因为 System.Text.Json 必须严格遵守类型一致，当非字符串读取到字符属性时报错：
     /// The JSON value could not be converted to System.String.
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
     /// </summary>
     public class StringConverter : System.Text.Json.Serialization.JsonConverter<string>
     {
@@ -34,7 +32,6 @@ namespace Ams.Infrastructure.Converter
         {
             writer.WriteStringValue(value);
         }
-
         /// <summary>
         /// 非字符类型，返回原生内容
         /// </summary>

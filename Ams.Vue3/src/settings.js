@@ -67,7 +67,7 @@ export default {
   /**
    * 水印文案
    */
-  watermarkText: 'Lean365.Ams',
+  watermarkText: 'Lean.Ams',
   /**
    * 是否显示其他登录
    */
@@ -105,7 +105,12 @@ export default {
    */
   navType: 1,
   /**
- * 显示注册按钮 false 不显示 true 显示
- */
-  showRegister: true,
+   * 前往通知地址
+   */
+  noticeUrl: 'https://gitee.com/izory/ZrAdminNetCore',
+
+  /**
+* 显示注册按钮 false 不显示 true 显示
+*/
+  showRegister: false,
 }

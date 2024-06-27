@@ -1,0 +1,35 @@
+{
+  "particle": {
+    "article": "內容",
+    "title": "標題",
+    "abstractText": "摘要",
+    "content": "內容",
+    "type": "類別",
+    "isPublic": "公開",
+    "isPublicTip": "不公開僅自己可見",
+    "isTop": "置頂",
+    "coverUrl": "封面",
+    "hits": "點擊量",
+    "commentNum": "評論數",
+    "praiseNum": "點贊數",
+    "topic": "話題",
+    "charactersNum": "最多8个字符",
+    "tags": "標籤"
+  },
+  "pcategory": {
+    "category": "類別",
+    "name": "名稱",
+    "icon": "圖標",
+    "bgImg": "背景",
+    "type": "類別",
+    "introduce": "介紹",
+    "parentMenu": "父菜單",
+    "parentId": "父ID"
+  },
+  "ppublish": {
+    "succeed": "成功",
+    "failed": "失敗",
+    "draft": "草稿",
+    "publish": "發佈"
+  }
+}

@@ -1,39 +1,41 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Ams.Service.Filters;
+using Ams.Service.IService.Systems;
 
-namespace Ams.WebApi.Controllers.System
+namespace Ams.Admin.WebApi.Controllers.System
 {
     /// <summary>
-    /// 用户角色管理
+    /// 用户角色
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
     [Route("system/user/role")]
     [ApiExplorerSettings(GroupName = "system")]
     public class SysUserRoleController : BaseController
     {
-        private readonly ISysUserRoleService _SysUserRoleService;
-        //private readonly ISysUserService _SysUserService;
+        private readonly ISysUserRoleService SysUserRoleService;
+        private readonly ISysUserService UserService;
 
         public SysUserRoleController(
-            ISysUserRoleService SysUserRoleService)
-        //ISysUserService userService)
+            ISysUserRoleService sysUserRoleService,
+            ISysUserService userService)
         {
-            _SysUserRoleService = SysUserRoleService;
-            //_SysUserService = userService;
+            SysUserRoleService = sysUserRoleService;
+            UserService = userService;
         }
 
         /// <summary>
         /// 根据角色编号获取已分配的用户
         /// </summary>
-        /// <param name="SysRoleUserQueryDto"></param>
+        /// <param name="roleUserQueryDto"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "system:roleusers:list")]
-        public IActionResult GetList([FromQuery] SysRoleUserQueryDto SysRoleUserQueryDto)
+        [ActionPermissionFilter(Permission = "system:userrole:list")]
+        public IActionResult GetList([FromQuery] RoleUserQueryDto roleUserQueryDto)
         {
-            var list = _SysUserRoleService.GetSysUsersByRoleId(SysRoleUserQueryDto);
+            var list = SysUserRoleService.GetSysUsersByRoleId(roleUserQueryDto);
 
             return SUCCESS(list, TIME_FORMAT_FULL);
         }
@@ -43,11 +45,11 @@ namespace Ams.WebApi.Controllers.System
         /// </summary>
         /// <returns></returns>
         [HttpPost("create")]
-        [ActionPermissionFilter(Permission = "system:roleusers:add")]
-        [Log(Title = "添加角色用户", BusinessType = BusinessType.INSERT)]
-        public IActionResult Create([FromBody] SysRoleUsersCreateDto SysRoleUsersCreateDto)
+        [ActionPermissionFilter(Permission = "system:userrole:add")]
+        [Log(Title = "添加角色用户", BusinessType = BusinessType.ADD)]
+        public IActionResult Create([FromBody] RoleUsersCreateDto roleUsersCreateDto)
         {
-            var response = _SysUserRoleService.InsertRoleUser(SysRoleUsersCreateDto);
+            var response = SysUserRoleService.InsertRoleUser(roleUsersCreateDto);
 
             return SUCCESS(response);
         }
@@ -55,31 +57,31 @@ namespace Ams.WebApi.Controllers.System
         /// <summary>
         /// 删除角色用户
         /// </summary>
-        /// <param name="SysRoleUsersCreateDto"></param>
+        /// <param name="roleUsersCreateDto"></param>
         /// <returns></returns>
         [HttpPost("delete")]
-        [ActionPermissionFilter(Permission = "system:roleusers:delete")]
+        [ActionPermissionFilter(Permission = "system:userrole:delete")]
         [Log(Title = "删除角色用户", BusinessType = BusinessType.DELETE)]
-        public IActionResult Delete([FromBody] SysRoleUsersCreateDto SysRoleUsersCreateDto)
+        public IActionResult Delete([FromBody] RoleUsersCreateDto roleUsersCreateDto)
         {
-            return SUCCESS(_SysUserRoleService.DeleteRoleUserByUserIds(SysRoleUsersCreateDto.RoleId, SysRoleUsersCreateDto.UserIds));
+            return SUCCESS(SysUserRoleService.DeleteRoleUserByUserIds(roleUsersCreateDto.RoleId, roleUsersCreateDto.UserIds));
         }
 
         /// <summary>
         /// 获取未分配用户角色
         /// </summary>
-        /// <param name="SysRoleUserQueryDto"></param>
+        /// <param name="roleUserQueryDto"></param>
         /// <returns></returns>
         [HttpGet("GetExcludeUsers")]
-        public IActionResult GetExcludeUsers([FromQuery] SysRoleUserQueryDto SysRoleUserQueryDto)
+        public IActionResult GetExcludeUsers([FromQuery] RoleUserQueryDto roleUserQueryDto)
         {
-            if (SysRoleUserQueryDto.RoleId <= 0)
+            if (roleUserQueryDto.RoleId <= 0)
             {
                 throw new CustomException(ResultCode.PARAM_ERROR, "roleId不能为空");
             }
 
             // 获取未添加用户
-            var list = _SysUserRoleService.GetExcludedSysUsersByRoleId(SysRoleUserQueryDto);
+            var list = SysUserRoleService.GetExcludedSysUsersByRoleId(roleUserQueryDto);
 
             return SUCCESS(list, TIME_FORMAT_FULL);
         }

@@ -1,46 +1,46 @@
-﻿using Ams.Kernel.Model.Dto;
-using Ams.Kernel.Model.Dto.Login;
-using Lazy.Captcha.Core;
+﻿using Lazy.Captcha.Core;
 using Microsoft.AspNetCore.Mvc;
+using Ams.Service.Filters;
+using Ams.Service.IService.Systems;
 
-namespace Ams.WebApi.Controllers.System
+namespace Ams.Admin.WebApi.Controllers.System
 {
     /// <summary>
-    /// 登录
+    /// 登录信息
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [ApiExplorerSettings(GroupName = "system")]
     public class SysLoginController : BaseController
     {
-        private readonly ISysUserService _SysUserService;
-        private readonly ISysMenuService _SysMenuService;
-        private readonly ISysLoginService _SysLoginService;
-        private readonly ISysPermissionService _SysPermissionService;
-        private readonly ICaptcha _Captcha;
-        private readonly ISysConfigService _SysConfigService;
-        private readonly ISysRoleService _SysRoleService;
-        private readonly ILogSmsService _LogSmsService;
+        private readonly ISysUserService sysUserService;
+        private readonly ISysMenuService sysMenuService;
+        private readonly ISysLoginService sysLoginService;
+        private readonly ISysPermissionService permissionService;
+        private readonly ICaptcha SecurityCodeHelper;
+        private readonly ISysConfigService sysConfigService;
+        private readonly ISysRoleService roleService;
+        private readonly ISmsLogService smsCodeLogService;
 
         public SysLoginController(
-            ISysMenuService SysMenuService,
-            ISysUserService SysUserService,
-            ISysLoginService SysLoginService,
-            ISysPermissionService SysPermissionService,
-            ISysConfigService SysConfigService,
-            ISysRoleService SysRoleService,
-            ILogSmsService LogSmsService,
-            ICaptcha Captcha)
+            ISysMenuService sysMenuService,
+            ISysUserService sysUserService,
+            ISysLoginService sysLoginService,
+            ISysPermissionService permissionService,
+            ISysConfigService configService,
+            ISysRoleService sysRoleService,
+            ISmsLogService smsCodeLogService,
+            ICaptcha captcha)
         {
-            this._Captcha = Captcha;
-            this._SysMenuService = SysMenuService;
-            this._SysUserService = SysUserService;
-            this._SysLoginService = SysLoginService;
-            this._SysPermissionService = SysPermissionService;
-            this._SysConfigService = SysConfigService;
-            this._LogSmsService = LogSmsService;
-            this._SysRoleService = SysRoleService;
+            SecurityCodeHelper = captcha;
+            this.sysMenuService = sysMenuService;
+            this.sysUserService = sysUserService;
+            this.sysLoginService = sysLoginService;
+            this.permissionService = permissionService;
+            this.sysConfigService = configService;
+            this.smsCodeLogService = smsCodeLogService;
+            roleService = sysRoleService;
         }
 
         /// <summary>
@@ -55,23 +55,23 @@ namespace Ams.WebApi.Controllers.System
         {
             if (loginBody == null) { throw new CustomException("请求参数错误"); }
             loginBody.LoginIP = HttpContextExtension.GetClientUserIp(HttpContext);
-            SysConfig sysConfig = _SysConfigService.GetSysConfigByKey("sys.account.captchaOnOff");
-            if (sysConfig?.ConfigValue != "off" && !_Captcha.Validate(loginBody.Uuid, loginBody.Code))
+            SysConfig sysConfig = sysConfigService.GetSysConfigByKey("sys.account.captchaOnOff");
+            if (sysConfig?.ConfigValue != "off" && !SecurityCodeHelper.Validate(loginBody.Uuid, loginBody.Code))
             {
                 return ToResponse(ResultCode.CAPTCHA_ERROR, "验证码错误");
             }
 
-            _SysLoginService.CheckLockUser(loginBody.Username);
+            sysLoginService.CheckLockUser(loginBody.Username);
             string location = HttpContextExtension.GetIpInfo(loginBody.LoginIP);
-            var user = _SysLoginService.Login(loginBody, new LogLogin() { LoginLocation = location });
+            var user = sysLoginService.Login(loginBody, new LoginLog() { LoginLocation = location });
 
-            List<SysRole> roles = _SysRoleService.SelectUserRoleListByUserId(user.UserId);
+            List<SysRole> roles = roleService.SelectUserRoleListByUserId(user.UserId);
             //权限集合 eg *:*:*,system:user:list
-            List<string> permissions = _SysPermissionService.GetMenuPermission(user);
+            List<string> permissions = permissionService.GetMenuPermission(user);
 
             TokenModel loginUser = new(user.Adapt<TokenModel>(), roles.Adapt<List<Roles>>());
             CacheService.SetUserPerms(GlobalConstant.UserPermKEY + user.UserId, permissions);
-            return SUCCESS(JwtUtil.GeneratorJwtToken(JwtUtil.AddClaims(loginUser)));
+            return SUCCESS(JwtUtil.GenerateJwtToken(JwtUtil.AddClaims(loginUser)));
         }
 
         /// <summary>
@@ -103,13 +103,13 @@ namespace Ams.WebApi.Controllers.System
         public IActionResult GetUserInfo()
         {
             long userid = HttpContext.GetUId();
-            var user = _SysUserService.SelectUserById(userid);
+            var user = sysUserService.SelectUserById(userid);
 
             //前端校验按钮权限使用
             //角色集合 eg: admin,yunying,common
-            List<string> roles = _SysPermissionService.GetRolePermission(user);
+            List<string> roles = permissionService.GetRolePermission(user);
             //权限集合 eg *:*:*,system:user:list
-            List<string> permissions = _SysPermissionService.GetMenuPermission(user);
+            List<string> permissions = permissionService.GetMenuPermission(user);
             user.WelcomeContent = GlobalConstant.WelcomeMessages[new Random().Next(0, GlobalConstant.WelcomeMessages.Length)];
             user.Password = string.Empty;
             return SUCCESS(new { user = user.Adapt<SysUserDto>(), roles, permissions });
@@ -124,9 +124,23 @@ namespace Ams.WebApi.Controllers.System
         public IActionResult GetRouters()
         {
             long uid = HttpContext.GetUId();
-            var menus = _SysMenuService.SelectMenuTreeByUserId(uid);
+            var menus = sysMenuService.SelectMenuTreeByUserId(uid);
 
-            return SUCCESS(_SysMenuService.BuildMenus(menus));
+            return SUCCESS(sysMenuService.BuildMenus(menus));
+        }
+
+        /// <summary>
+        /// 获取路由信息
+        /// </summary>
+        /// <returns></returns>
+        [Verify]
+        [HttpGet("getAppRouters")]
+        public IActionResult GetAppRouters()
+        {
+            long uid = HttpContext.GetUId();
+            var perms = permissionService.GetMenuPermission(new SysUser() { UserId = uid });
+
+            return SUCCESS(sysMenuService.GetAppMenus(perms));
         }
 
         /// <summary>
@@ -138,9 +152,9 @@ namespace Ams.WebApi.Controllers.System
         {
             string uuid = Guid.NewGuid().ToString().Replace("-", "");
 
-            SysConfig sysConfig = _SysConfigService.GetSysConfigByKey("sys.account.captchaOnOff");
+            SysConfig sysConfig = sysConfigService.GetSysConfigByKey("sys.account.captchaOnOff");
             var captchaOff = sysConfig?.ConfigValue ?? "0";
-            var info = _Captcha.Generate(uuid, 60);
+            var info = SecurityCodeHelper.Generate(uuid, 60);
             var obj = new { captchaOff, uuid, img = info.Base64 };// File(stream, "image/png")
 
             return SUCCESS(obj);
@@ -153,21 +167,21 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPost("/register")]
         [AllowAnonymous]
-        [Log(Title = "注册", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "注册", BusinessType = BusinessType.ADD)]
         public IActionResult Register([FromBody] RegisterDto dto)
         {
-            SysConfig config = _SysConfigService.GetSysConfigByKey("sys.account.register");
+            SysConfig config = sysConfigService.GetSysConfigByKey("sys.account.register");
             if (config?.ConfigValue != "true")
             {
                 return ToResponse(ResultCode.CUSTOM_ERROR, "当前系统没有开启注册功能！");
             }
-            SysConfig sysConfig = _SysConfigService.GetSysConfigByKey("sys.account.captchaOnOff");
-            if (sysConfig?.ConfigValue != "off" && !_Captcha.Validate(dto.Uuid, dto.Code))
+            SysConfig sysConfig = sysConfigService.GetSysConfigByKey("sys.account.captchaOnOff");
+            if (sysConfig?.ConfigValue != "off" && !SecurityCodeHelper.Validate(dto.Uuid, dto.Code))
             {
                 return ToResponse(ResultCode.CAPTCHA_ERROR, "验证码错误");
             }
             dto.UserIP = HttpContext.GetClientUserIp();
-            SysUser user = _SysUserService.Register(dto);
+            SysUser user = sysUserService.Register(dto);
             if (user.UserId > 0)
             {
                 return SUCCESS(user);
@@ -183,8 +197,8 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="uuid"></param>
         /// <param name="deviceId"></param>
         /// <returns></returns>
-        [HttpGet("/GeneratorQrcode")]
-        public IActionResult GeneratorQrcode(string uuid, string deviceId)
+        [HttpGet("/GenerateQrcode")]
+        public IActionResult GenerateQrcode(string uuid, string deviceId)
         {
             var state = Guid.NewGuid().ToString();
             var dict = new Dictionary<string, object>
@@ -194,7 +208,7 @@ namespace Ams.WebApi.Controllers.System
             CacheService.SetScanLogin(uuid, dict);
             return SUCCESS(new
             {
-                IsStated = 1,
+                status = 1,
                 state,
                 uuid,
                 codeContent = new { uuid, deviceId }// "https://qm.qq.com/cgi-bin/qm/qr?k=kgt4HsckdljU0VM-0kxND6d_igmfuPlL&authKey=r55YUbruiKQ5iwC/folG7KLCmZ++Y4rQVgNlvLbUniUMkbk24Y9+zNuOmOnjAjRc&noverify=0"
@@ -239,14 +253,14 @@ namespace Ams.WebApi.Controllers.System
             if (dto == null) { return ToResponse(ResultCode.CUSTOM_ERROR, "扫码失败"); }
             var name = App.HttpContext.GetName();
 
-            _SysLoginService.CheckLockUser(name);
+            sysLoginService.CheckLockUser(name);
 
             TokenModel tokenModel = JwtUtil.GetLoginUser(HttpContext);
             if (CacheService.GetScanLogin(dto.Uuid) is not null)
             {
                 Dictionary<string, object> dict = new() { };
                 dict.Add("status", "success");
-                dict.Add("token", JwtUtil.GeneratorJwtToken(JwtUtil.AddClaims(tokenModel)));
+                dict.Add("token", JwtUtil.GenerateJwtToken(JwtUtil.AddClaims(tokenModel)));
                 CacheService.SetScanLogin(dto.Uuid, dict);
 
                 return SUCCESS(1);
@@ -262,7 +276,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost("/checkMobile")]
-        [Log(Title = "发送短息", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "发送短息", BusinessType = BusinessType.ADD)]
         public IActionResult CheckMobile([FromBody] PhoneLoginDto dto)
         {
             dto.LoginIP = HttpContextExtension.GetClientUserIp(HttpContext);
@@ -274,12 +288,12 @@ namespace Ams.WebApi.Controllers.System
             //}
             if (dto.SendType == 0)
             {
-                var info = _SysUserService.GetFirst(f => f.Phonenumber == dto.PhoneNum) ?? throw new CustomException(ResultCode.CUSTOM_ERROR, "该手机号不存在", false);
+                var info = sysUserService.GetFirst(f => f.Phonenumber == dto.PhoneNum) ?? throw new CustomException(ResultCode.CUSTOM_ERROR, "该手机号不存在", false);
                 uid = info.UserId;
             }
             if (dto.SendType == 1)
             {
-                if (_SysUserService.CheckPhoneBind(dto.PhoneNum).Count > 0)
+                if (sysUserService.CheckPhoneBind(dto.PhoneNum).Count > 0)
                 {
                     return ToResponse(ResultCode.CUSTOM_ERROR, "手机号已绑定其他账号");
                 }
@@ -287,22 +301,14 @@ namespace Ams.WebApi.Controllers.System
 
             string location = HttpContextExtension.GetIpInfo(dto.LoginIP);
 
-            //var smsCode = RandomHelper.GeneratorNum(6);
-            //var smsContent = $"验证码{smsCode},有效期10分钟。";
-            ////TODO 发送短息验证码,1分钟内允许一次
-            //_LogSmsService.AddLogSms(new Kernel.Model.Monitor.LogSms()
-            _LogSmsService.AddLogSms(new LogSms()
+            smsCodeLogService.AddSmscodeLog(new SmsLog()
             {
                 Userid = uid,
                 PhoneNum = dto.PhoneNum.ParseToLong(),
                 SendType = dto.SendType,
-                //SmsCode = smsCode,
-                //SmsContent = smsContent,
                 UserIP = dto.LoginIP,
                 Location = location,
             });
-
-            //CacheService.SetPhoneCode(dto.PhoneNum, smsCode);
 
             return SUCCESS(1);
         }
@@ -324,18 +330,18 @@ namespace Ams.WebApi.Controllers.System
             {
                 return ToResponse(ResultCode.CUSTOM_ERROR, "短信验证码错误");
             }
-            var info = _SysUserService.GetFirst(f => f.Phonenumber == loginBody.PhoneNum) ?? throw new CustomException(ResultCode.CUSTOM_ERROR, "该手机号不存在", false);
-            _SysLoginService.CheckLockUser(info.UserName);
+            var info = sysUserService.GetFirst(f => f.Phonenumber == loginBody.PhoneNum) ?? throw new CustomException(ResultCode.CUSTOM_ERROR, "该手机号不存在", false);
+            sysLoginService.CheckLockUser(info.UserName);
             string location = HttpContextExtension.GetIpInfo(loginBody.LoginIP);
-            var user = _SysLoginService.PhoneLogin(loginBody, new LogLogin() { LoginLocation = location }, info);
+            var user = sysLoginService.PhoneLogin(loginBody, new LoginLog() { LoginLocation = location }, info);
 
-            List<SysRole> roles = _SysRoleService.SelectUserRoleListByUserId(user.UserId);
+            List<SysRole> roles = roleService.SelectUserRoleListByUserId(user.UserId);
             //权限集合 eg *:*:*,system:user:list
-            List<string> permissions = _SysPermissionService.GetMenuPermission(user);
+            List<string> permissions = permissionService.GetMenuPermission(user);
 
             TokenModel loginUser = new(user.Adapt<TokenModel>(), roles.Adapt<List<Roles>>());
             CacheService.SetUserPerms(GlobalConstant.UserPermKEY + user.UserId, permissions);
-            return SUCCESS(JwtUtil.GeneratorJwtToken(JwtUtil.AddClaims(loginUser)));
+            return SUCCESS(JwtUtil.GenerateJwtToken(JwtUtil.AddClaims(loginUser)));
         }
 
         /// <summary>
@@ -355,7 +361,7 @@ namespace Ams.WebApi.Controllers.System
             {
                 return ToResponse(ResultCode.CUSTOM_ERROR, "短信验证码错误");
             }
-            var result = _SysUserService.ChangePhoneNum(uid, loginBody.PhoneNum);
+            var result = sysUserService.ChangePhoneNum(uid, loginBody.PhoneNum);
 
             return SUCCESS(result);
         }

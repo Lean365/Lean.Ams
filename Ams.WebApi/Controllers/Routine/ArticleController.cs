@@ -1,15 +1,15 @@
-﻿using Ams.Model.Content;
-using Ams.Model.Dto;
-using Ams.Service.Content.IService;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Ams.Service.Filters;
 
-namespace Ams.WebApi.Controllers.Routine
+using Ams.Service.IService.Routine;
+
+namespace Ams.Admin.WebApi.Controllers
 {
     /// <summary>
-    /// 内容管理
+    /// 文章内容
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
     [Route("routine/article")]
@@ -21,14 +21,15 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         private readonly IArticleService _ArticleService;
 
-        private readonly IArticleCategoryService _ArticleCategoryService;
+        private readonly IArticleCatalogService _ArticleCategoryService;
 
         public ArticleController(
             IArticleService ArticleService,
-            IArticleCategoryService ArticleCategoryService)
+            IArticleCatalogService articleCategoryService)
         {
             _ArticleService = ArticleService;
-            _ArticleCategoryService = ArticleCategoryService;
+            _ArticleCategoryService = articleCategoryService;
+            _ArticleService = ArticleService;
         }
 
         /// <summary>
@@ -42,6 +43,37 @@ namespace Ams.WebApi.Controllers.Routine
             var response = _ArticleService.GetList(parm);
 
             return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 内容批量审核通过
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("pass/{ids}")]
+        [ActionPermissionFilter(Permission = "routine:article:audit")]
+        [Log(Title = "内容审核", BusinessType = BusinessType.AUDIT)]
+        public IActionResult PassedMonents(string ids)
+        {
+            long[] idsArr = Tools.SpitLongArrary(ids);
+            if (idsArr.Length <= 0) { return ToResponse(ApiResult.Error($"审核通过失败Id 不能为空")); }
+
+            return ToResponse(_ArticleService.Passed(idsArr));
+        }
+
+        /// <summary>
+        /// 内容批量审核拒绝
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("reject/{ids}")]
+        [ActionPermissionFilter(Permission = "routine:article:reject")]
+        [Log(Title = "内容审核", BusinessType = BusinessType.REJECT)]
+        public IActionResult RejectMonents(string ids, string reason = "")
+        {
+            long[] idsArr = Tools.SpitLongArrary(ids);
+            if (idsArr.Length <= 0) { return ToResponse(ApiResult.Error($"審核拒绝失败Id 不能为空")); }
+
+            int result = _ArticleService.Reject(reason, idsArr);
+            return ToResponse(result);
         }
 
         /// <summary>
@@ -78,7 +110,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPost("add")]
-        [ActionPermissionFilter(Permission = "routine:article:add")]
+        [ActionPermissionFilter(Permission = "routine:article:publish")]
         public IActionResult Create([FromBody] ArticleDto parm)
         {
             var addModel = parm.Adapt<Article>().ToCreate(context: HttpContext);
@@ -86,6 +118,7 @@ namespace Ams.WebApi.Controllers.Routine
             addModel.UserId = HttpContext.GetUId();
             addModel.UserIP = HttpContext.GetClientUserIp();
             addModel.Location = HttpContextExtension.GetIpInfo(addModel.UserIP);
+            addModel.AuditStatus = Model.Enum.AuditStatusEnum.Passed;
 
             return SUCCESS(_ArticleService.InsertReturnIdentity(addModel));
         }
@@ -95,7 +128,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPut("edit")]
-        [ActionPermissionFilter(Permission = "routine:article:update")]
+        [ActionPermissionFilter(Permission = "system:article:update")]
         public IActionResult Update([FromBody] ArticleDto parm)
         {
             parm.AuthorName = HttpContext.GetName();
@@ -110,7 +143,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPut("top")]
-        [ActionPermissionFilter(Permission = "routine:article:update")]
+        [ActionPermissionFilter(Permission = "system:article:update")]
         [Log(Title = "置顶文章", BusinessType = BusinessType.UPDATE)]
         public IActionResult Top([FromBody] Article parm)
         {
@@ -124,7 +157,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPut("changePublic")]
-        [ActionPermissionFilter(Permission = "routine:article:update")]
+        [ActionPermissionFilter(Permission = "system:article:update")]
         [Log(Title = "是否公开", BusinessType = BusinessType.UPDATE)]
         public IActionResult ChangePublic([FromBody] Article parm)
         {
@@ -138,7 +171,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [ActionPermissionFilter(Permission = "routine:article:delete")]
+        [ActionPermissionFilter(Permission = "system:article:delete")]
         [Log(Title = "文章删除", BusinessType = BusinessType.DELETE)]
         public IActionResult Delete(int id = 0)
         {

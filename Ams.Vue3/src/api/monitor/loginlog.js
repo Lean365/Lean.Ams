@@ -3,42 +3,42 @@ import request from '@/utils/request'
 // 查询登录日志列表
 export function list(query) {
   return request({
-    url: '/monitor/login/list',
+    url: 'monitor/login/list',
+    method: 'get',
+    params: query
+  })
+}
+
+// 查询我的登录日志列表
+export function queryMylist(query) {
+  return request({
+    url: 'monitor/login/mylist',
     method: 'get',
     params: query
   })
 }
 
 // 删除登录日志
-export function delLogLogin(infoId) {
+export function delLoginLog(infoId) {
   return request({
-    url: '/monitor/login/' + infoId,
+    url: 'monitor/login/' + infoId,
     method: 'delete'
   })
 }
 
 // 清空登录日志
-export function cleanLogLogin() {
+export function cleanLoginLog() {
   return request({
-    url: '/monitor/login/clean',
+    url: 'monitor/login/clean',
     method: 'delete'
   })
 }
 
 // 导出登录日志
-export function exportLogLogin(query) {
+export function exportLoginLog(query) {
   return request({
-    url: '/monitor/login/export',
+    url: 'monitor/login/export',
     method: 'get',
     params: query
   })
 }
-// 登录日志统计查询
-export function statiLogLogin(query) {
-  return request({
-    url: '/monitor/login/statiLogLogin',
-    method: 'get',
-    params: query
-  })
-}
-

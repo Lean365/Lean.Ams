@@ -7,7 +7,7 @@
 <script setup name="particles">
   //背景动画
   import { loadFull } from "tsparticles"
-  import { loadFireworksPreset } from "tsparticles-preset-fireworks"
+  import { loadFireworksPreset } from "@tsparticles/preset-fireworks"
 
   //import particlesConfig from "@/views/components/particles-bkg.json"
   //import particlesConfig from "@/views/components/particles-nasa.json"

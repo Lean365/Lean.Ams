@@ -1,19 +1,18 @@
-﻿using Ams.Model.Content;
-using Ams.Model.Dto;
+﻿using Microsoft.AspNetCore.Mvc;
 using Ams.Model.Enum;
-using Ams.Service.Content.IService;
-using Microsoft.AspNetCore.Mvc;
+using Ams.Service.Filters;
+using Ams.Service.IService.Routine;
 
-namespace Ams.WebApi.Controllers.Routine
+namespace Ams.Admin.WebApi.Controllers
 {
     /// <summary>
-    /// 动态接口
+    /// 文章动态
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
-    [Route("routine/article/moment")]
+    [Route("moment")]
     [ApiExplorerSettings(GroupName = "routine")]
     public class MomentsController : BaseController
     {

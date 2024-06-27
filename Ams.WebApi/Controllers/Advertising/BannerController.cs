@@ -1,15 +1,14 @@
-using Ams.Model.Advertising;
-using Ams.Model.Dto.Advertising;
-using Ams.Service.Advertising.IAdvertisingService;
 using Microsoft.AspNetCore.Mvc;
+using Ams.Service.Filters;
+using Ams.Service.IService.Advertising;
 
-namespace Ams.WebApi.Controllers
+namespace Ams.Admin.WebApi.Controllers.Public
 {
     /// <summary>
-    /// 广告管理
+    /// 横幅广告
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/23 9:01:20
+    /// @author Lean365(Davis.Ching)
+    /// @date 2021-08-25
     /// </summary>
     [Verify]
     [Route("advertising/banner")]
@@ -17,105 +16,105 @@ namespace Ams.WebApi.Controllers
     public class BannerController : BaseController
     {
         /// <summary>
-        /// 广告管理接口
+        /// 横幅广告接口
         /// </summary>
-        private readonly IBannerService _BannerService;
+        private readonly IBannerService _BannerConfigService;
 
-        public BannerController(IBannerService BannerService)
+        public BannerController(IBannerService BannerConfigService)
         {
-            _BannerService = BannerService;
+            _BannerConfigService = BannerConfigService;
         }
 
         /// <summary>
-        /// 查询广告管理列表
+        /// 查询横幅广告列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "Banner:list")]
-        public IActionResult QueryBanner([FromQuery] BannerQueryDto parm)
+        [ActionPermissionFilter(Permission = "ad:banner:list")]
+        public IActionResult QueryBannerConfig([FromQuery] BannerConfigQueryDto parm)
         {
-            var response = _BannerService.GetList(parm);
+            var response = _BannerConfigService.GetList(parm);
             return SUCCESS(response);
         }
 
         /// <summary>
-        /// 查询广告管理详情
+        /// 查询横幅广告详情
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        [ActionPermissionFilter(Permission = "Banner:query")]
-        public IActionResult GetBanner(int Id)
+        [ActionPermissionFilter(Permission = "ad:banner:query")]
+        public IActionResult GetBannerConfig(int Id)
         {
-            var response = _BannerService.GetInfo(Id);
+            var response = _BannerConfigService.GetInfo(Id);
 
             var info = response.Adapt<BannerDto>();
             return SUCCESS(info);
         }
 
         /// <summary>
-        /// 添加广告管理
+        /// 添加横幅广告
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [ActionPermissionFilter(Permission = "Banner:add")]
-        [Log(Title = "广告管理", BusinessType = BusinessType.INSERT)]
-        public IActionResult AddBanner([FromBody] BannerDto parm)
+        [ActionPermissionFilter(Permission = "ad:banner:add")]
+        [Log(Title = "横幅广告", BusinessType = BusinessType.ADD)]
+        public IActionResult AddBannerConfig([FromBody] BannerDto parm)
         {
             var modal = parm.Adapt<Banner>().ToCreate(HttpContext);
 
-            var response = _BannerService.AddBanner(modal);
+            var response = _BannerConfigService.AddBannerConfig(modal);
 
             return SUCCESS(response);
         }
 
         /// <summary>
-        /// 更新广告管理
+        /// 更新横幅广告
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "Banner:edit")]
-        [Log(Title = "广告管理", BusinessType = BusinessType.UPDATE)]
-        public IActionResult UpdateBanner([FromBody] BannerDto parm)
+        [ActionPermissionFilter(Permission = "ad:banner:edit")]
+        [Log(Title = "横幅广告", BusinessType = BusinessType.EDIT)]
+        public IActionResult UpdateBannerConfig([FromBody] BannerDto parm)
         {
             var modal = parm.Adapt<Banner>();
-            var response = _BannerService.UpdateBanner(modal);
+            var response = _BannerConfigService.UpdateBannerConfig(modal);
 
             return ToResponse(response);
         }
 
         /// <summary>
-        /// 删除广告管理
+        /// 删除横幅广告
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
-        [ActionPermissionFilter(Permission = "Banner:delete")]
-        [Log(Title = "广告管理", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteBanner([FromRoute] string ids)
+        [ActionPermissionFilter(Permission = "ad:banner:delete")]
+        [Log(Title = "横幅广告", BusinessType = BusinessType.DELETE)]
+        public IActionResult DeleteBannerConfig([FromRoute] string ids)
         {
             var idArr = Tools.SplitAndConvert<int>(ids);
 
-            return ToResponse(_BannerService.Delete(idArr, "删除广告管理"));
+            return ToResponse(_BannerConfigService.Delete(idArr, "删除横幅广告"));
         }
 
         /// <summary>
-        /// 导出广告管理
+        /// 导出横幅广告
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "广告管理", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "横幅广告", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "Banner:export")]
-        public IActionResult Export([FromQuery] BannerQueryDto parm)
+        [ActionPermissionFilter(Permission = "ad:banner:export")]
+        public IActionResult Export([FromQuery] BannerConfigQueryDto parm)
         {
             parm.PageNum = 1;
             parm.PageSize = 100000;
-            var list = _BannerService.ExportList(parm).Result;
+            var list = _BannerConfigService.ExportList(parm).Result;
             if (list == null || list.Count <= 0)
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "广告管理", "广告管理");
+            var result = ExportExcelMini(list, "横幅广告", "横幅广告");
             return ExportExcel(result.Item2, result.Item1);
         }
 
@@ -125,13 +124,13 @@ namespace Ams.WebApi.Controllers
         /// <param name="id">主键</param>
         /// <param name="value">排序值</param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "Banner:edit")]
+        [ActionPermissionFilter(Permission = "ad:banner:sort")]
         [HttpGet("ChangeSort")]
-        [Log(Title = "保存排序", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "保存排序", BusinessType = BusinessType.SORT)]
         public IActionResult ChangeSort(int id = 0, int value = 0)
         {
             if (id <= 0) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }
-            var response = _BannerService.Update(w => w.Id == id, it => new Banner()
+            var response = _BannerConfigService.Update(w => w.Id == id, it => new Banner()
             {
                 SortId = value,
             });
@@ -140,15 +139,15 @@ namespace Ams.WebApi.Controllers
         }
 
         /// <summary>
-        /// 查询广告管理列表
+        /// 查询横幅广告列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("bannerList")]
         [AllowAnonymous]
-        public IActionResult QueryBannerList([FromQuery] BannerQueryDto parm)
+        public IActionResult QueryBannerList([FromQuery] BannerConfigQueryDto parm)
         {
-            var response = _BannerService.GetBannerList(parm);
+            var response = _BannerConfigService.GetBannerList(parm);
             return SUCCESS(new { list = response });
         }
     }

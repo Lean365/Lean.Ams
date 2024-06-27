@@ -6,7 +6,7 @@ import request from '@/utils/request'
  */
 export function listLocaleLang(query) {
   return request({
-    url: 'system/locale/list',
+    url: 'system/locale/lang/list',
     method: 'get',
     params: query
   })
@@ -17,7 +17,7 @@ export function listLocaleLang(query) {
  */
 export function listLangByLocale(locale) {
   return request({
-    url: 'system/locale/list/' + locale,
+    url: 'system/locale/lang/list/' + locale,
     method: 'get'
   })
 }
@@ -28,7 +28,7 @@ export function listLangByLocale(locale) {
  */
 export function addLocaleLang(data) {
   return request({
-    url: 'system/locale',
+    url: 'system/locale/lang',
     method: 'post',
     data: data
   })
@@ -40,7 +40,7 @@ export function addLocaleLang(data) {
  */
 export function updateLocaleLang(data) {
   return request({
-    url: 'system/locale',
+    url: 'system/locale/lang',
     method: 'PUT',
     data: data
   })
@@ -52,7 +52,7 @@ export function updateLocaleLang(data) {
  */
 export function getLocaleLang(id) {
   return request({
-    url: 'system/locale/' + id,
+    url: 'system/locale/lang/' + id,
     method: 'get'
   })
 }
@@ -62,7 +62,7 @@ export function getLocaleLang(id) {
  */
 export function getLocaleLangByKey(key) {
   return request({
-    url: 'system/locale/key/' + key,
+    url: 'system/locale/lang/key/' + key,
     method: 'get'
   })
 }
@@ -73,7 +73,7 @@ export function getLocaleLangByKey(key) {
  */
 export function delLocaleLang(pid) {
   return request({
-    url: 'system/locale/' + pid,
+    url: 'system/locale/lang/' + pid,
     method: 'delete'
   })
 }
@@ -84,7 +84,7 @@ export function delLocaleLang(pid) {
  */
 export function delLocaleLangByKey(langkey) {
   return request({
-    url: 'system/locale/ByKey',
+    url: 'system/locale/lang/ByKey',
     method: 'delete',
     params: { langkey }
   })
@@ -93,7 +93,7 @@ export function delLocaleLangByKey(langkey) {
 // 导出多语言配置
 export function exportLocaleLang(query) {
   return request({
-    url: 'system/locale/export',
+    url: 'system/locale/lang/export',
     method: 'get',
     params: query
   })

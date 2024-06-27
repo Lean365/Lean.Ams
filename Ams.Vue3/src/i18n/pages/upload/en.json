@@ -1,5 +1,6 @@
 {
   "upload": {
+    "fileStorage": "FileStorage",
     "Drag": "Drag files here, or ",
     "Clickupload": "Click upload",
     "Selectfile": "Select file",
@@ -17,18 +18,18 @@
     "StorageType": "Storage Type",
     "StorageFolder": "Storage Folder",
     "Filenamerules": "Filename rules",
-    "Customfilenames": "Custom filenames",
+    "Customfilenames": "CustomFileName",
     "defaultStorageFolder": "used by default: yyyy/MMdd",
     "localStorage": "Local",
     "aliyunStorage": "Alibaba Cloud",
-    "originalFilename": "Original filename",
-    "customizationFilename": "custom",
-    "autoFilename": "Auto-generated",
+    "originalFilename": "Original File Name",
+    "customizationFilename": "Custom File Name",
+    "autoFilename": "Automatic File Name",
     "avatarFolder": "Avatar",
     "videoFolder": "Video",
-    "Logistics": "Logistics",
-    "Routine": "Routine",
-    "Accounting": "Accounting"
+    "logisticsFolder": "Logistics",
+    "routineFolder": "Routine",
+    "accountingFolder": "Accounting"
   },
   "fupload": {
     "fileDown": "filename--download",
@@ -47,6 +48,7 @@
     "viewFilesize": "File size:",
     "viewFilecreate": "Created by:",
     "viewFilethumbnail": "Thumbnail:",
+    "viewQRCode": "QRCode:",
     "viewFileurl": "Access path:",
     "viewFilestoragepath": "Storage path:",
     "uploadFile": "Upload file",

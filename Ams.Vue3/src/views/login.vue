@@ -17,7 +17,8 @@
 
       <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form" v-if="loginType == 1">
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username" type="text" auto-complete="off" :placeholder="$t('plogin.account')">
+          <el-input v-model="loginForm.username" type="text" auto-complete="off"
+            :placeholder="proxy.$t('btn.enterPrefix') + proxy.$t('plogin.account') + proxy.$t('btn.enterSuffix')">
             <template #prefix>
               <i class="fas fa-user fa-beat-fade"
                 style="--fa-animation-duration: 3s;font-size: 1em; color: rgb(0,97,174);"></i>
@@ -27,7 +28,8 @@
         </el-form-item>
         <el-form-item prop="password">
           <el-input v-model="loginForm.password" show-password type="password" auto-complete="off"
-            :placeholder="$t('plogin.password')" @keyup.enter="handleLogin">
+            :placeholder="proxy.$t('btn.enterPrefix') + proxy.$t('plogin.account') + proxy.$t('btn.enterSuffix')"
+            @keyup.enter="handleLogin">
             <template #prefix>
               <i class="fas fa-key fa-beat-fade"
                 style="--fa-animation-duration: 3s;font-size: 1em; color: rgb(245, 164, 6);"></i>
@@ -110,9 +112,9 @@
     uuid: ''
   })
   const loginRules = {
-    username: [{ required: true, trigger: 'blur', message: proxy.$t('btn.enter') + proxy.$t('plogin.account') }],
-    password: [{ required: true, trigger: 'blur', message: proxy.$t('btn.enter') + proxy.$t('plogin.password') }],
-    code: [{ required: true, trigger: 'change', message: proxy.$t('btn.enter') + proxy.$t('plogin.captcha') }]
+    username: [{ required: true, trigger: 'blur', message: proxy.$t('plogin.account') + proxy.$t('btn.isEmpty') }],
+    password: [{ required: true, trigger: 'blur', message: proxy.$t('plogin.password') + proxy.$t('btn.isEmpty') }],
+    code: [{ required: true, trigger: 'change', message: proxy.$t('plogin.captcha') + proxy.$t('btn.isEmpty') }]
   }
   const loginType = computed({
     get: () => userStore.loginType,

@@ -1,18 +1,22 @@
 import request from '@/utils/request'
+import QS from 'qs'
 
 // 查询操作日志列表
 export function list(query) {
   return request({
-    url: '/monitor/oper/list',
+    url: 'monitor/oper/list',
     method: 'get',
-    params: query
+    params: query,
+    paramsSerializer: function (params) {
+      return QS.stringify(params, { indices: false })
+    }
   })
 }
 
 // 删除操作日志
 export function delOperlog(operId) {
   return request({
-    url: '/monitor/oper/' + operId,
+    url: 'monitor/oper/' + operId,
     method: 'delete'
   })
 }
@@ -20,7 +24,7 @@ export function delOperlog(operId) {
 // 清空操作日志
 export function cleanOperlog() {
   return request({
-    url: '/monitor/oper/clean',
+    url: 'monitor/oper/clean',
     method: 'delete'
   })
 }
@@ -28,7 +32,7 @@ export function cleanOperlog() {
 // 导出操作日志
 export function exportOperlog(query) {
   return request({
-    url: '/monitor/oper/export',
+    url: 'monitor/oper/export',
     method: 'get',
     params: query
   })

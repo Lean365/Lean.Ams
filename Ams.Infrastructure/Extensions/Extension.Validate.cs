@@ -2,11 +2,6 @@
 
 namespace Ams.Infrastructure.Extensions
 {
-    /// <summary>
-    /// Extension methods for validating objects.
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
-    /// </summary>
     public static partial class Extensions
     {
         public static bool IsEmpty(this object value)
@@ -20,12 +15,10 @@ namespace Ams.Infrastructure.Extensions
                 return true;
             }
         }
-
         public static bool IsNotEmpty(this object value)
         {
             return !IsEmpty(value);
         }
-
         public static bool IsNullOrZero(this object value)
         {
             if (value == null || value.ParseToString().Trim() == "0")

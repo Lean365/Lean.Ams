@@ -1,51 +1,28 @@
 import request from '@/utils/request'
-import { downFile } from '@/utils/request'
 
-/**
-* 用户在线时长分页查询
-* @param {查询条件} data
-*/
-export function listOnlineLog(query) {
+// 查询在线用户列表
+export function listOnline(query) {
   return request({
-    url: '/monitor/onlineuser/list',
+    url: '/monitor/online/list',
     method: 'get',
-    params: query,
+    params: query
   })
 }
 
-/**
-* 新增用户在线时长
-* @param data
-*/
-export function addOnlineLog(data) {
+// 强退用户
+export function forceLogout(data) {
   return request({
-    url: '/monitor/onlineuser',
-    method: 'post',
-    data: data,
-  })
-}
-/**
-* 获取用户在线时长详情
-* @param {Id}
-*/
-export function getOnlineLog(id) {
-  return request({
-    url: '/monitor/onlineuser/' + id,
-    method: 'get'
+    url: '/monitor/online/force',
+    method: 'delete',
+    data: data
   })
 }
 
-/**
-* 删除用户在线时长
-* @param {主键} pid
-*/
-export function delOnlineLog(pid) {
+// 批量强退用户
+export function forceLogoutAll(data) {
   return request({
-    url: '/monitor/onlineuser/delete/' + pid,
-    method: 'delete'
+    url: '/monitor/online/batchForce',
+    method: 'delete',
+    data: data
   })
-}
-// 导出用户在线时长
-export async function exportOnlineLog(query) {
-  await downFile('/monitor/onlineuser/export', { ...query })
 }

@@ -4,7 +4,7 @@
   </div>
 </template>
 <script setup>
-  const url = ref('http://leansoft365.github.io');
+  const url = ref('https://leansoft365.github.io/');
 
   function goto() {
     window.open(url.value)

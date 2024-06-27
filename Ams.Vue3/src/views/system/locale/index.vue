@@ -10,40 +10,44 @@
   <div class="app-container">
     <!-- :model属性用于表单验证使用 比如下面的el-form-item 的 prop属性用于对表单值进行验证操作 -->
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
-      <el-form-item :label="$t('plang.language')" prop="langCode">
-        <el-select v-model="queryParams.langCode"
-          :placeholder="$t('btn.selectPrefix')+$t('plang.language')+$t('btn.selectSuffix')">
-          <el-option v-for="item in options.sys_lang_type" :key="item.dictValue" :label="item.dictLabel"
-            :value="item.dictValue"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item :label="$t('plang.languageKey')" prop="langKey">
-        <el-input v-model="queryParams.langKey"
-          :placeholder="$t('btn.enterPrefix')+$t('plang.languageKey')+$t('btn.enterSuffix')" />
-      </el-form-item>
-      <el-form-item :label="$t('plang.showWay')">
-        <el-radio-group v-model="queryParams.showMode" fill="#e16c96">
-          <el-radio-button value="1">{{$t('btn.grid')}}</el-radio-button>
-          <el-radio-button value="2">{{$t('btn.transpose')}}</el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item :label="$t('common.tipCreateTime')">
-        <el-date-picker v-model="dateRangeAddtime" style="width: 240px" type="daterange" range-separator="-"
-          :start-placeholder="$t('btn.dateStart')" :end-placeholder="$t('btn.dateEnd')"
-          :placeholder="$t('btn.enterPrefix')+$t('common.tipCreateTime')+$t('btn.enterSuffix')"
-          value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="dateOptions">
-        </el-date-picker>
-      </el-form-item>
+      <el-row :gutter="20">
+        <el-col :lg="24">
+          <el-form-item :label="$t('plang.language')" prop="langCode">
+            <el-select v-model="queryParams.langCode" placeholder="请选择语言code">
+              <el-option v-for="item in options.sys_lang_type" :key="item.dictValue" :label="item.dictLabel"
+                :value="item.dictValue"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('plang.languageKey')" prop="langKey">
+            <el-input v-model="queryParams.langKey" placeholder="请输入语言key" />
+          </el-form-item>
 
-      <el-form-item>
-        <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
-        <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
-      </el-form-item>
+          <el-form-item :label="$t('common.tipCreateTime')">
+            <el-date-picker v-model="dateRangeAddtime" style="width: 240px" type="daterange" range-separator="-"
+              start-placeholder="开始日期" end-placeholder="结束日期" placeholder="请选择添加时间" value-format="YYYY-MM-DD HH:mm:ss"
+              :shortcuts="dateOptions">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item :label="$t('plang.showWay')">
+            <el-radio-group v-model="queryParams.showMode">
+              <el-radio-button value="1">表格</el-radio-button>
+              <el-radio-button value="2">行列</el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :lg="24" :offset="12">
+          <el-form-item>
+            <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+            <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <!-- 工具区域 -->
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" v-hasPermi="['system:lang:add']" plain icon="plus" @click="handleAdd">{{ $t('btn.add')
+        <el-button type="primary" v-hasPermi="['system:lang:add']" plain icon="plus" @click="handleAdd">{{
+          $t('btn.add')
           }}</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -66,7 +70,7 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="upload">
-                <importData templateUrl="system/CommonLang/importTemplate" importUrl="/system/CommonLang/importData"
+                <importData templateUrl="system/locale/lang/importTemplate" importUrl="/system/locale/lang/importData"
                   @success="handleFileSuccess"></importData>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -81,37 +85,33 @@
     </el-row>
 
     <!-- 数据区域 -->
-    <el-table v-if="queryParams.showMode == 1" :data="dataList" v-loading="loading" ref="table" border height="650px"
+    <el-table v-if="queryParams.showMode == 1" :data="dataList" v-loading="loading" ref="table" height="620px" border
       highlight-current-row @sort-change="sortChange" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
 
-      <el-table-column prop="id" label="id" align="center" />
+      <!-- <el-table-column prop="id" label="id" align="center" /> -->
       <el-table-column prop="langCode" :label="$t('plang.language')" align="center">
         <template #default="scope">
           <dict-tag :options="options.sys_lang_type" :value="scope.row.langCode" />
         </template>
       </el-table-column>
       <el-table-column prop="langKey" :label="$t('plang.languageKey')" align="center" :show-overflow-tooltip="true" />
-      <el-table-column prop="langName" :label="$t('plang.languageContent')" align="center"
-        :show-overflow-tooltip="true" />
+      <el-table-column prop="langName" :label="$t('plang.languageName')" align="center" :show-overflow-tooltip="true" />
       <el-table-column prop="createTime" :label="$t('common.tipCreateTime')" align="center"
-        :show-overflow-tooltip="true">
-        <template #default="scope"> {{ parseTime(scope.row.createTime, 'YYYY-MM-DD') }} </template>
-      </el-table-column>
+        :show-overflow-tooltip="true" />
 
-      <el-table-column :label="$t('btn.operation')" align="center" width="200">
+      <el-table-column :label="$t('btn.operation')" align="center" width="140">
         <template #default="scope">
-          <el-button v-hasPermi="['system:lang:edit']" plain size="small" type="success" icon="edit"
-            :title="$t('btn.edit')" @click="handleUpdate(scope.row)"></el-button>
-          <el-button v-hasPermi="['system:lang:delete']" plain size="small" type="danger" icon="delete"
-            :title="$t('btn.delete')" @click="handleDelete(scope.row)"></el-button>
+          <el-button v-hasPermi="['system:lang:edit']" text size="small" icon="edit" title="编辑"
+            @click="handleUpdate(scope.row)"></el-button>
+          <el-button v-hasPermi="['system:lang:delete']" text size="small" icon="delete" title="删除"
+            @click="handleDelete(scope.row)"></el-button>
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-if="queryParams.showMode == 1" :total="total" v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize" @pagination="getList" />
+
     <!-- 行列显示 -->
-    <el-table v-if="queryParams.showMode == 2" :data="dataList" v-loading="loading" ref="table" border height="700px"
+    <el-table v-if="queryParams.showMode == 2" :data="dataList" v-loading="loading" ref="table" border
       highlight-current-row @sort-change="sortChange" @selection-change="handleSelectionChange">
       <el-table-column prop="langKey" :label="$t('plang.languageKey')" align="center" :show-overflow-tooltip="true" />
 
@@ -119,32 +119,32 @@
       <el-table-column prop="zh-tw" :label="$t('plang.traditional')" align="center" :show-overflow-tooltip="true" />
       <el-table-column prop="ja" :label="$t('plang.japanese')" align="center" :show-overflow-tooltip="true" />
       <el-table-column prop="en" :label="$t('plang.english')" align="center" :show-overflow-tooltip="true" />
-
-
-      <el-table-column :label="$t('btn.operation')" align="center" width="200">
+      <el-table-column :label="$t('btn.operation')" align="center" width="140">
         <template #default="scope">
-          <el-button v-hasPermi="['system:lang:edit']" plain size="small" type="success" icon="edit"
-            :title="$t('btn.edit')" @click="handleUpdateP(scope.row)">
-
+          <el-button v-hasPermi="['system:lang:edit']" text size="small" icon="edit" title="编辑"
+            @click="handleUpdateP(scope.row)">
+            {{ $t('btn.edit') }}
           </el-button>
-          <el-button v-hasPermi="['system:lang:delete']" plain size="small" type="danger" icon="delete"
-            :title="$t('btn.delete')" @click="handleDeleteByKey(scope.row)">
-
+          <el-button v-hasPermi="['system:lang:delete']" text type="danger" icon="delete" title="删除"
+            @click="handleDeleteByKey(scope.row)">
+            {{ $t('btn.delete') }}
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-if="queryParams.showMode == 0" :total="total" v-model:page="queryParams.pageNum"
+
+    <pagination v-if="queryParams.showMode == 1" :total="total" v-model:page="queryParams.pageNum"
       v-model:limit="queryParams.pageSize" @pagination="getList" />
+
     <!-- 添加或修改多语言配置对话框 -->
-    <el-dialog :title="title" :lock-scroll="false" v-model="open" width="650px">
+    <el-dialog :title="title" :lock-scroll="false" v-model="open" width="550px">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-row :gutter="20">
           <el-col :lg="24">
             <el-form-item prop="langKey">
               <template #label>
                 <span>
-                  <el-tooltip :content="$t('plang.langKeycontent')" placement="top">
+                  <el-tooltip content="翻译key，eg：message.title" placement="top">
                     <el-icon :size="15">
                       <questionFilled />
                     </el-icon>
@@ -152,20 +152,20 @@
                 </span>
                 {{ $t('plang.languageKey') }}
               </template>
-              <el-input v-model="form.langKey"
-                :placeholder="$t('btn.enterPrefix')+$t('plang.languageKey')+$t('btn.enterSuffix')" />
+              <el-input v-model="form.langKey" placeholder="请输入语言key" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-table :data="form.langList">
-            <el-table-column :label="$t('plang.language')" align="center" prop="langCode" width="200">
+            <el-table-column :label="$t('plang.language')" align="center" prop="langCode" width="100">
               <template #default="scope">
                 {{ scope.row.label }} <br />
                 {{ scope.row.langCode }}
+
               </template>
             </el-table-column>
-            <el-table-column :label="$t('plang.languageContent')" align="center">
+            <el-table-column :label="$t('plang.languageName')" align="center">
               <template #default="scope">
                 <el-input type="textarea" rows="2" prop="langName" v-model="scope.row.langName"></el-input>
               </template>
@@ -181,7 +181,7 @@
   </div>
 </template>
 
-<script setup name="Localelang">
+<script setup name="commonlang">
   import {
     listLocaleLang,
     delLocaleLang,
@@ -207,12 +207,12 @@
   // 查询参数
   const queryParams = reactive({
     pageNum: 1,
-    pageSize: 15,
+    pageSize: 14,
     sort: undefined,
     sortType: undefined,
     langCode: undefined,
     langKey: undefined,
-    addtime: undefined,
+    createTime: undefined,
     showMode: 2 // 显示模式 1、table显示 2、行列显示
   })
   // 弹出层标题
@@ -225,10 +225,10 @@
   const state = reactive({
     form: {},
     rules: {
-      id: [{ required: true, message: 'ID' + proxy.$t('btn.isEmpty'), trigger: 'blur', type: 'number' }],
+      id: [{ required: true, message: 'id不能为空', trigger: 'blur', type: 'number' }],
       // langCode: [{ required: true, message: '语言code不能为空', trigger: 'change' }],
-      langKey: [{ required: true, pattern: /^[A-Za-z].+$/, message: proxy.$t('common.tipInputLangKeyError'), trigger: 'change' }],
-      langName: [{ required: true, message: proxy.$t('plang.languageName') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
+      langKey: [{ required: true, pattern: /^[A-Za-z].+$/, message: '语言key不能为空', trigger: 'change' }],
+      langName: [{ required: true, message: '内容不能为空', trigger: 'blur' }]
     },
     options: {}
   })
@@ -283,7 +283,7 @@
         {
           langCode: 'zh-cn',
           label: proxy.$t('plang.simplified'),
-          langName: undefined
+          langName: undefined,
         },
         {
           langCode: 'zh-tw',
@@ -324,36 +324,26 @@
     const Ids = row.id || ids.value
 
     proxy
-      .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
-        confirmButtonText: proxy.$t('btn.submit'),
-        cancelButtonText: proxy.$t('btn.cancel'),
-        type: "warning",
-      })
+      .$confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
       .then(function () {
         return delLocaleLang(Ids)
       })
       .then(() => {
         handleQuery()
-        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
+        proxy.$modal.msgSuccess('删除成功')
       })
       .catch(() => { })
   }
 
   function handleDeleteByKey(row) {
-    console.log(row)
     proxy
-
-      .$confirm(proxy.$t('common.tipConfirmDel') + row.langKey + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
-        confirmButtonText: proxy.$t('btn.submit'),
-        cancelButtonText: proxy.$t('btn.cancel'),
-        type: "warning",
-      })
+      .$confirm('是否确认删除key为"' + row.langKey + '"的数据项？')
       .then(function () {
         return delLocaleLangByKey(row.langKey)
       })
       .then(() => {
         handleQuery()
-        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
+        proxy.$modal.msgSuccess('删除成功')
       })
   }
 
@@ -473,20 +463,10 @@
   handleQuery()
   reset()
 </script>
-<style lang="scss" scoped>
-  /* 覆盖Element UI的默认选中颜色 */
-  .el-radio-button__inner:focus.is-checked,
-  .el-radio-button__inner.is-checked {
-    border-color: #ff4900;
-    /* 你想要的默认选中颜色 */
-    box-shadow: -1px 0 0 0 #ff4900;
-    /* 同样可以更改阴影颜色 */
-  }
 
-  .el-radio-button__origina:checked+.el-radio-button__inner {
-    background-color: #ff4900;
-    /* 更改原始按钮的背景颜色 */
-    border-color: #ff4900;
-    /* 更改原始按钮的边框颜色 */
+<style>
+  /* 左对齐表单项 */
+  .item-left-align .el-form-item__label {
+    text-align: right;
   }
 </style>

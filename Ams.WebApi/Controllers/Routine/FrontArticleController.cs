@@ -1,18 +1,19 @@
-﻿using Ams.Model.Content;
-using Ams.Model.Dto;
-using Ams.Service.Content.IService;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SqlSugar;
+using Ams.Service.Filters;
 
-namespace Ams.WebApi.Controllers.Routine
+using Ams.Service.IService.Routine;
+using Ams.Service.IService.Systems;
+
+namespace Ams.Admin.WebApi.Controllers
 {
     /// <summary>
-    /// 内容管理前端接口
+    /// 内容前端
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
-    [Route("routine/article/front")]
+    [Route("routine/articel/front")]
     [ApiExplorerSettings(GroupName = "routine")]
     [Verify]
     public class FrontArticleController : BaseController
@@ -22,24 +23,32 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         private readonly IArticleService _ArticleService;
 
-        private readonly IArticleCategoryService _ArticleCategoryService;
+        private readonly IArticleCatalogService _ArticleCategoryService;
         private readonly IArticlePraiseService _ArticlePraiseService;
         private readonly ISysUserService _SysUserService;
         private readonly IArticleTopicService _ArticleTopicService;
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="ArticleService"></param>
+        /// <param name="articleCategoryService"></param>
+        /// <param name="articlePraiseService"></param>
+        /// <param name="sysUserService"></param>
+        /// <param name="articleTopicService"></param>
         public FrontArticleController(
             IArticleService ArticleService,
-            IArticleCategoryService ArticleCategoryService,
-            IArticlePraiseService ArticlePraiseService,
-            ISysUserService SysUserService,
-            IArticleTopicService ArticleTopicService)
+            IArticleCatalogService articleCategoryService,
+            IArticlePraiseService articlePraiseService,
+            ISysUserService sysUserService,
+            IArticleTopicService articleTopicService)
         {
             _ArticleService = ArticleService;
-            _ArticleCategoryService = ArticleCategoryService;
+            _ArticleCategoryService = articleCategoryService;
             _ArticleService = ArticleService;
-            _ArticlePraiseService = ArticlePraiseService;
-            _SysUserService = SysUserService;
-            _ArticleTopicService = ArticleTopicService;
+            _ArticlePraiseService = articlePraiseService;
+            _SysUserService = sysUserService;
+            _ArticleTopicService = articleTopicService;
         }
 
         /// <summary>
@@ -65,15 +74,16 @@ namespace Ams.WebApi.Controllers.Routine
         public IActionResult QueryNew()
         {
             var predicate = Expressionable.Create<Article>();
-            predicate = predicate.And(m => m.IsStated == 1);
+            predicate = predicate.And(m => m.IsStatus == 1);
             predicate = predicate.And(m => m.IsPublic == 1);
             predicate = predicate.And(m => m.ArticleType == 0);
+            predicate = predicate.And(m => m.AuditStatus == Model.Enum.AuditStatusEnum.Passed);
 
             var response = _ArticleService.Queryable()
                 .Where(predicate.ToExpression())
                 .Includes(x => x.ArticleCategoryNav) //填充子对象
                 .Take(10)
-                .OrderBy(f => f.Update_time, OrderByType.Desc).ToList();
+                .OrderBy(f => f.UpdateTime, OrderByType.Desc).ToList();
 
             return SUCCESS(response);
         }
@@ -133,12 +143,31 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
+        /// 修改评论权限
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("changeComment")]
+        [ActionPermissionFilter(Permission = "common")]
+        public IActionResult ChangeComment([FromBody] Article parm)
+        {
+            if (parm == null) { return ToResponse(ResultCode.CUSTOM_ERROR); }
+            var userId = HttpContext.GetUId();
+            if (userId != parm.UserId)
+            {
+                return ToResponse(ResultCode.CUSTOM_ERROR, "操作失败");
+            }
+            var response = _ArticleService.ChangeComment(parm);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
         /// 删除
         /// </summary>
         /// <returns></returns>
         [HttpDelete("del/{id}")]
         [ActionPermissionFilter(Permission = "common")]
-        public IActionResult Delete(int id = 0)
+        public IActionResult Delete(long id = 0)
         {
             var userId = HttpContext.GetUId();
             var info = _ArticleService.GetId(id);

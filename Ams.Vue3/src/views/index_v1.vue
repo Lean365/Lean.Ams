@@ -2,7 +2,7 @@
   <div class="home">
     <!-- 用户信息 -->
     <el-row :gutter="15">
-      <el-col :md="24" :lg="18" :xl="24" class="mb10">
+      <el-col :md="12" :lg="12" :xl="12" class="mb10">
         <el-card shadow="hover" style="height: 100%">
           <div class="user-item">
             <div class="user-item-left">
@@ -26,7 +26,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :lg="6" class="mb10">
+      <el-col :lg="12" class="mb10">
         <el-card style="height: 100%">
           <div class="text-information mb10">{{ $t('layout.dateLocalTimeZone') }}:CST UTC+8({{timezone}})
           </div>
@@ -42,38 +42,19 @@
 
     <el-row :gutter="15">
       <el-col :md="24" :lg="24" :xl="24" class="mb10">
-        <el-card>
+        <el-card shadow="hover">
           <template #header>
-            <div>
-              <el-icon>
-                <DArrowRight />
-              </el-icon>
-              <h8>{{ $t('layout.shortCut') }}</h8>
+            <span><svg-icon name="tool" /> {{ $t('layout.shortCut') }}</span>
+            <div class="home-card-more">
+              <el-button text @click="handleAdd()">{{ $t('btn.add') }}</el-button>
             </div>
           </template>
-
-          <el-row :gutter="24" type="flex">
-            <el-col v-for="(card, key) in toolCards" :key="key" :span="2" :xs="8" @click="toTarget(card.name)">
-              <el-card shadow="hover" style="cursor:pointer;text-align: center;">
-                <div style=" height: 100%;border-radius: 50%;">
-                  <div @click="navigateToPage( card.url)" :style="{ backgroundColor: card.bg  }"
-                    style="border-radius: 50%;">
-                    <el-icon :style="{ backgroundColor: card.bg  }"
-                      style="height: 64px; width: 64px;border-radius: 50%;">
-                      <component :is="card.icon" :style="{ color: card.color }"
-                        style="height: 32px; width: 32px;border-radius: 50%;" />
-                    </el-icon>
-                  </div>
-
-                  <br>{{ card.label }}
-                </div>
-              </el-card>
-            </el-col>
-
-          </el-row>
-
+          <div>
+            <el-scrollbar wrap-class="scrollbar-wrapper">
+              <CommonMenu v-model="showEdit"></CommonMenu>
+            </el-scrollbar>
+          </div>
         </el-card>
-
       </el-col>
     </el-row>
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
@@ -179,108 +160,108 @@
   const timezone = moment.tz.guess()
   const langselect = lang
   const nowTime = ref('')
-  const toolCards = ref([
-    {
-      label: proxy.$t('menu.systemUser'),
-      icon: 'Avatar',
-      name: 'user',
-      color: '#8491c3',
-      bg: 'rgba(65,105,225,.3)',//皇家蓝
-      url: 'system/user'
-    },
-    {
-      label: proxy.$t('menu.systemRole'),//'',
-      icon: 'setting',
-      name: 'authority',
-      color: '#8491c3',
-      bg: 'rgba(100,149,237,.3)',//矢车菊的蓝色
-      url: 'system/role'
-    },
-    {
-      label: proxy.$t('menu.systemMenu'),//'',
-      icon: 'menu',
-      name: 'menu',
-      color: '#4d5aaf',
-      bg: 'rgba(176,196,222,.3)',//淡钢蓝
-      url: 'system/menu'
-    },
-    {
-      label: proxy.$t('menu.logisticsSales'),//'',
-      icon: 'ShoppingCartFull',
-      name: 'about',
-      color: '#4d4398',
-      bg: 'rgba(135,206,235,.3)',//天蓝色
-      url: 'system/menu'
-    },
-    {
-      label: proxy.$t('menu.logisticsMaterials'),//'',
-      icon: 'aim',
-      name: 'about',
-      color: '#5654a2',
-      bg: 'rgba(0,191,255,.3)',//深天蓝
-      url: 'system/menu'
-    },
-    {
-      label: proxy.$t('menu.accounting'),//'',,menu.accounting
-      icon: 'Money',
-      name: 'about',
-      color: '#706caa',
-      bg: 'rgba(173,216,230,.3)',//淡蓝
-      url: 'system/menu'
-    },
-    {
-      label: proxy.$t('menu.logisticsProductionLaborhours'),//'',menu.production
-      icon: 'Wallet',
-      name: 'about',
-      color: '#68699b',
-      bg: 'rgba(176,224,230,.3)',//火药蓝
-      url: 'system/menu'
-    },
-    {
-      label: proxy.$t('menu.logisticsQuality'),//'', 
-      icon: 'Magnet',
-      name: 'about',
-      color: '#4d5aaf',
-      bg: 'rgba(132, 145, 195,.3)',//紅掛空色
-      url: 'system/menu'
-    },
-    {
-      label: proxy.$t('menu.logisticsProductionEc'),//'', menu.ec
-      icon: 'Grid',
-      name: 'about',
-      color: '#867ba9',
-      bg: 'rgba(160, 216, 239,.3)',//【空色
-      url: 'pp/ec'
-    },
+  // const toolCards = ref([
+  //   {
+  //     label: proxy.$t('menu.systemUser'),
+  //     icon: 'Avatar',
+  //     name: 'user',
+  //     color: '#8491c3',
+  //     bg: 'rgba(65,105,225,.3)',//皇家蓝
+  //     url: 'system/user'
+  //   },
+  //   {
+  //     label: proxy.$t('menu.systemRole'),//'',
+  //     icon: 'setting',
+  //     name: 'authority',
+  //     color: '#8491c3',
+  //     bg: 'rgba(100,149,237,.3)',//矢车菊的蓝色
+  //     url: 'system/role'
+  //   },
+  //   {
+  //     label: proxy.$t('menu.systemMenu'),//'',
+  //     icon: 'menu',
+  //     name: 'menu',
+  //     color: '#4d5aaf',
+  //     bg: 'rgba(176,196,222,.3)',//淡钢蓝
+  //     url: 'system/menu'
+  //   },
+  //   {
+  //     label: proxy.$t('menu.logisticsSales'),//'',
+  //     icon: 'ShoppingCartFull',
+  //     name: 'about',
+  //     color: '#4d4398',
+  //     bg: 'rgba(135,206,235,.3)',//天蓝色
+  //     url: 'system/menu'
+  //   },
+  //   {
+  //     label: proxy.$t('menu.logisticsMaterials'),//'',
+  //     icon: 'aim',
+  //     name: 'about',
+  //     color: '#5654a2',
+  //     bg: 'rgba(0,191,255,.3)',//深天蓝
+  //     url: 'system/menu'
+  //   },
+  //   {
+  //     label: proxy.$t('menu.accounting'),//'',,menu.accounting
+  //     icon: 'Money',
+  //     name: 'about',
+  //     color: '#706caa',
+  //     bg: 'rgba(173,216,230,.3)',//淡蓝
+  //     url: 'system/menu'
+  //   },
+  //   {
+  //     label: proxy.$t('menu.logisticsProductionLaborhours'),//'',menu.production
+  //     icon: 'Wallet',
+  //     name: 'about',
+  //     color: '#68699b',
+  //     bg: 'rgba(176,224,230,.3)',//火药蓝
+  //     url: 'system/menu'
+  //   },
+  //   {
+  //     label: proxy.$t('menu.logisticsQuality'),//'', 
+  //     icon: 'Magnet',
+  //     name: 'about',
+  //     color: '#4d5aaf',
+  //     bg: 'rgba(132, 145, 195,.3)',//紅掛空色
+  //     url: 'system/menu'
+  //   },
+  //   {
+  //     label: proxy.$t('menu.logisticsProductionEc'),//'', menu.ec
+  //     icon: 'Grid',
+  //     name: 'about',
+  //     color: '#867ba9',
+  //     bg: 'rgba(160, 216, 239,.3)',//【空色
+  //     url: 'pp/ec'
+  //   },
 
-    {
-      label: proxy.$t('menu.logisticsProductionOutput'),//'',menu.production
-      icon: 'TakeawayBox',
-      name: 'about',
-      color: '#a59aca',
-      bg: 'rgba(220, 214, 217,.3)',//薄梅鼠
-      url: 'production/pp/output/ppoutputmaster'
-    },
-    {
-      label: proxy.$t('menu.logisticsProductionDefective'),//'',menu.production
-      icon: 'Operation',
-      name: 'about',
-      color: '#7058a3',
-      bg: 'rgba(214, 236, 240,.3)',//月白
-      url: 'system/menu'
-    },
-    {
-      label: proxy.$t('menu.about'),//'',menu.production
-      icon: 'HelpFilled',
-      name: 'about',
-      color: '#674598',
-      bg: 'rgba(211, 224, 243,.3)',//淡青
-      url: 'about'
-    },
+  //   {
+  //     label: proxy.$t('menu.logisticsProductionOutput'),//'',menu.production
+  //     icon: 'TakeawayBox',
+  //     name: 'about',
+  //     color: '#a59aca',
+  //     bg: 'rgba(220, 214, 217,.3)',//薄梅鼠
+  //     url: 'production/pp/output/ppoutputmaster'
+  //   },
+  //   {
+  //     label: proxy.$t('menu.logisticsProductionDefective'),//'',menu.production
+  //     icon: 'Operation',
+  //     name: 'about',
+  //     color: '#7058a3',
+  //     bg: 'rgba(214, 236, 240,.3)',//月白
+  //     url: 'system/menu'
+  //   },
+  //   {
+  //     label: proxy.$t('menu.about'),//'',menu.production
+  //     icon: 'HelpFilled',
+  //     name: 'about',
+  //     color: '#674598',
+  //     bg: 'rgba(211, 224, 243,.3)',//淡青
+  //     url: 'about'
+  //   },
 
 
 
-  ])
+  // ])
   // 使用 useRouter 获取路由实例
   const router = useRouter();
   // 声明组件局部状态和方法
@@ -383,7 +364,7 @@
   handleSetLineChartData('newVisitis')
 
   function handleAdd() {
-    proxy.$modal.msg('请通过搜索添加')
+    proxy.$modal.msg(proxy.$t('btn.shortCut'))
   }
   //getTimeState()
 </script>
@@ -420,6 +401,19 @@
     .info {
       height: 200px;
       // overflow-y: scroll;
+    }
+
+    .work-wrap {
+      display: grid;
+      grid-template-columns: repeat(2, 50%);
+
+      .item {
+        text-align: center;
+
+        .name {
+          color: #606666;
+        }
+      }
     }
   }
 

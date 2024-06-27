@@ -1,0 +1,36 @@
+{
+  "particle": {
+    "article": "内容",
+    "title": "标题",
+    "abstractText": "摘要",
+    "content": "内容",
+    "type": "类别",
+    "isPublic": "公开",
+    "isPublicTip": "不公开仅自己可见",
+    "isTop": "置顶",
+    "coverUrl": "封面",
+    "hits": "点击量",
+    "commentNum": "评论数",
+    "praiseNum": "点赞数",
+    "topic": "话题",
+    "charactersNum": "最多8个字符",
+    "tagsNum": "最多5个标签",
+    "tags": "标签"
+  },
+  "pcategory": {
+    "category": "类别",
+    "name": "名称",
+    "icon": "图标",
+    "bgImg": "背景",
+    "type": "类别",
+    "introduce": "介绍",
+    "parentMenu": "父菜单",
+    "parentId": "父ID"
+  },
+  "ppublish": {
+    "succeed": "成功",
+    "failed": "失败",
+    "draft": "草稿",
+    "publish": "发布"
+  }
+}

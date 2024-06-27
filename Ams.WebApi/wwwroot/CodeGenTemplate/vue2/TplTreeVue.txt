@@ -2,7 +2,7 @@
  * @Descripttion: (${genTable.functionName}/${genTable.remark})
  * @version: (1.0)
  * @Author: (${replaceDto.Author})
- * @Date: (${replaceDto.createTime})
+ * @Date: (${replaceDto.AddTime})
  * @LastEditors: (最后更新作者)
  * @LastEditTime: (最后更新时间)
 -->
@@ -43,7 +43,7 @@ $end
 ${replaceDto.VueViewListHtml}
       <el-table-column label="操作" align="center" width="140">
         <template slot-scope="scope">
-          <el-button size="mini" v-hasPermi="['${replaceDto.PermissionPrefix}:update']" type="success" icon="el-icon-edit" title="编辑" 
+          <el-button size="mini" v-hasPermi="['${replaceDto.PermissionPrefix}:edit']" type="success" icon="el-icon-edit" title="编辑" 
             @click="handleUpdate(scope.row)"></el-button>
           <el-button size="mini" v-hasPermi="['${replaceDto.PermissionPrefix}:delete']" type="danger" icon="el-icon-delete" title="删除" 
             @click="handleDelete(scope.row)"></el-button>

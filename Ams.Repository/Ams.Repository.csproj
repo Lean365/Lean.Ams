@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
-		<Deterministic>false</Deterministic>
+		<TargetFramework>net8.0</TargetFramework>
 		<Lastyear>$([System.DateTime]::get_Now().Year)</Lastyear>
 		<Lastmonth>$([System.DateTime]::get_Now().Month)</Lastmonth>
 		<Lastday>$([System.DateTime]::Now.ToString(`yyMMDD`))</Lastday>
@@ -38,8 +37,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Mapster" Version="7.4.0" />
-		<PackageReference Include="MySqlConnector" Version="2.3.1" />
+		<PackageReference Include="MySqlConnector" Version="2.3.7" />
 		<PackageReference Include="SqlSugar.IOC" Version="2.0.0" />
-		<PackageReference Include="SqlSugarCoreNoDrive" Version="5.1.4.143" />
+		<PackageReference Include="SqlSugarCoreNoDrive" Version="5.1.4.157" />
 	</ItemGroup>
 </Project>

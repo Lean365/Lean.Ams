@@ -26,7 +26,7 @@
           <dict-tag :options="options.sys_oper_type" :value="scope.row.businessType" />
         </template>
       </el-table-column>
-      <el-table-column label="请求方式" align="center" prop="requestMethod" />
+      <!-- <el-table-column label="请求方式" align="center" prop="requestMethod" /> -->
       <el-table-column label="操作地点" align="center" prop="operLocation" :show-overflow-tooltip="true" />
       <el-table-column label="操作状态" align="center" prop="status">
         <template #default="{ row }">
@@ -34,7 +34,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="日志内容" align="center" prop="errorMsg" :show-overflow-tooltip="true" />
+      <!-- <el-table-column label="日志内容" align="center" prop="errorMsg" :show-overflow-tooltip="true" /> -->
       <el-table-column label="操作日期" align="center" prop="operTime" width="180">
         <template #default="scope">
           <span>{{ scope.row.operTime }}</span>

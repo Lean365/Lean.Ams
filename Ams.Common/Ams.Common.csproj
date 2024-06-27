@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
-		<Deterministic>false</Deterministic>
+		<TargetFramework>net8.0</TargetFramework>
 		<Lastyear>$([System.DateTime]::get_Now().Year)</Lastyear>
 		<Lastmonth>$([System.DateTime]::get_Now().Month)</Lastmonth>
 		<Lastday>$([System.DateTime]::Now.ToString(`yyMMDD`))</Lastday>
@@ -34,9 +33,10 @@
 	<ItemGroup>
 		<PackageReference Include="Aliyun.OSS.SDK.NetCore" Version="2.13.0" />
 		<PackageReference Include="MailKit" Version="4.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.19" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Ams.Infrastructure\Ams.Infrastructure.csproj" />
+	  <ProjectReference Include="..\Ams.Infrastructure\Ams.Infrastructure.csproj" />
 	</ItemGroup>
 </Project>

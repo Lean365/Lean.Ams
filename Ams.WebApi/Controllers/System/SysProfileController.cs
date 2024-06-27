@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
+using Ams.Service.Filters;
+using Ams.Service.IService.Routine;
+using Ams.Service.IService.Systems;
 
-namespace Ams.WebApi.Controllers.System
+namespace Ams.Admin.WebApi.Controllers.System
 {
     /// <summary>
     /// 个人中心
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
     [Route("system/user/profile")]
@@ -25,14 +28,14 @@ namespace Ams.WebApi.Controllers.System
             ISysRoleService roleService,
             ISysUserPostService postService,
             ISysDeptService deptService,
-            IFileStorageService FileStorageService,
+            IFileStorageService sysFileService,
             IWebHostEnvironment hostEnvironment)
         {
             UserService = userService;
             RoleService = roleService;
             UserPostService = postService;
             DeptService = deptService;
-            FileService = FileStorageService;
+            FileService = sysFileService;
             this.hostEnvironment = hostEnvironment;
         }
 
@@ -60,7 +63,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "common")]
-        [Log(Title = "修改信息", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "修改信息", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateProfile([FromBody] SysUserDto userDto)
         {
             if (userDto == null)
@@ -79,7 +82,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPut("updatePwd")]
         [ActionPermissionFilter(Permission = "common")]
-        [Log(Title = "修改密码", BusinessType = BusinessType.UPDATE, IsSaveRequestData = false)]
+        [Log(Title = "修改密码", BusinessType = BusinessType.EDIT, IsSaveRequestData = false)]
         public IActionResult UpdatePwd(string oldPassword, string newPassword)
         {
             long userId = HttpContext.GetUId();
@@ -112,7 +115,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPost("Avatar")]
         [ActionPermissionFilter(Permission = "common")]
-        [Log(Title = "修改头像", BusinessType = BusinessType.UPDATE, IsSaveRequestData = false)]
+        [Log(Title = "修改头像", BusinessType = BusinessType.EDIT, IsSaveRequestData = false)]
         public async Task<IActionResult> Avatar([FromForm(Name = "picture")] IFormFile formFile)
         {
             long userId = HttpContext.GetUId();

@@ -1,0 +1,35 @@
+{
+  "particle": {
+    "article": "コンテンツ",
+    "title": "タイトル",
+    "abstractText": "概要",
+    "content": "コンテンツ",
+    "type": "カテゴリ",
+    "isPublic": "公開",
+    "isPublicTip": "非公開にして自分だけ見ることができます",
+    "isTop": "一番上",
+    "coverUrl": "カバー",
+    "hits": "クリック",
+    "commentNum": "コメント",
+    "praiseNum": "高く評価",
+    "topic": "トピック",
+    "charactersNum": "最大8文字",
+    "tags": "タグ"
+  },
+  "pcategory": {
+    "category": "カテゴリー",
+    "name": "名前",
+    "icon": "アイコン",
+    "bgImg": "バックグラウンド",
+    "type": "カテゴリ",
+    "introduce": "紹介",
+    "parentMenu": "親メニュー",
+    "parentId": "父ID"
+  },
+  "ppublish": {
+    "succeed": "完了",
+    "failed": "失敗した",
+    "draft": "下書き",
+    "publish": "発表"
+  }
+}

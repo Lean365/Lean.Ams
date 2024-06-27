@@ -22,6 +22,7 @@
     "loginOnly": "(For login)",
     "sex": "Gender",
     "avatar": "Avatar",
+    "updateAvatar": "Update Avatar",
     "email": "Mail",
     "loginDate": "LastloginTime",
     "loginPwd": "Password",

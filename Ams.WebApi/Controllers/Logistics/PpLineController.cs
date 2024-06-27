@@ -1,20 +1,18 @@
-using Microsoft.AspNetCore.Mvc;
-using Ams.Model.Dto;
 using Ams.Model.Logistics;
+using Ams.Model.Logistics.Dto;
+using Ams.Service.Filters;
 using Ams.Service.Logistics.ILogisticsService;
+using Microsoft.AspNetCore.Mvc;
 using MiniExcelLibs;
 
-namespace Ams.WebApi.Controllers
+//创建时间：2024-06-27
+namespace Ams.WebApi.Controllers.Logistics
 {
     /// <summary>
     /// 生产班组
-    /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/28 8:07:55
     /// </summary>
     [Verify]
-    [Route("logistics/PpLine")]
-    [ApiExplorerSettings(GroupName = "logistics")]
+    [Route("Logistics/PpLine")]
     public class PpLineController : BaseController
     {
         /// <summary>
@@ -33,13 +31,12 @@ namespace Ams.WebApi.Controllers
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "pp:line:list")]
+        [ActionPermissionFilter(Permission = "ppline:list")]
         public IActionResult QueryPpLine([FromQuery] PpLineQueryDto parm)
         {
             var response = _PpLineService.GetList(parm);
             return SUCCESS(response);
         }
-
 
         /// <summary>
         /// 查询生产班组详情
@@ -47,11 +44,11 @@ namespace Ams.WebApi.Controllers
         /// <param name="PlSFID"></param>
         /// <returns></returns>
         [HttpGet("{PlSFID}")]
-        [ActionPermissionFilter(Permission = "pp:line:query")]
+        [ActionPermissionFilter(Permission = "ppline:query")]
         public IActionResult GetPpLine(long PlSFID)
         {
             var response = _PpLineService.GetInfo(PlSFID);
-            
+
             var info = response.Adapt<PpLineDto>();
             return SUCCESS(info);
         }
@@ -61,16 +58,10 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [ActionPermissionFilter(Permission = "pp:line:add")]
-        [Log(Title = "生产班组", BusinessType = BusinessType.INSERT)]
+        [ActionPermissionFilter(Permission = "ppline:add")]
+        [Log(Title = "生产班组", BusinessType = BusinessType.ADD)]
         public IActionResult AddPpLine([FromBody] PpLineDto parm)
         {
-           // 校验输入项目唯一性
-
-            if (UserConstants.NOT_UNIQUE.Equals(_PpLineService.CheckInputUnique(parm.PlSFID.ToString())))
-            {
-                return ToResponse(ApiResult.Error($"新增生产班组 '{parm.PlSFID}'失败(New failed)，输入的生产班组已存在(The entered already exists)"));
-            }
             var modal = parm.Adapt<PpLine>().ToCreate(HttpContext);
 
             var response = _PpLineService.AddPpLine(modal);
@@ -83,8 +74,8 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "pp:line:update")]
-        [Log(Title = "生产班组", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "ppline:edit")]
+        [Log(Title = "生产班组", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdatePpLine([FromBody] PpLineDto parm)
         {
             var modal = parm.Adapt<PpLine>().ToUpdate(HttpContext);
@@ -98,60 +89,23 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
-        [ActionPermissionFilter(Permission = "pp:line:delete")]
+        [ActionPermissionFilter(Permission = "ppline:delete")]
         [Log(Title = "生产班组", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeletePpLine([FromRoute]string ids)
+        public IActionResult DeletePpLine([FromRoute] string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
-            return ToResponse(_PpLineService.Delete(idArr, "删除生产班组"));
+            return ToResponse(_PpLineService.Delete(idArr));
         }
 
         /// <summary>
-        /// 导出生产班组
-        /// </summary>
-        /// <returns></returns>
-        [Log(Title = "生产班组", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
-        [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "pp:line:export")]
-        public IActionResult Export([FromQuery] PpLineQueryDto parm)
-        {
-            parm.PageNum = 1;
-            parm.PageSize = 100000;
-            var list = _PpLineService.ExportList(parm).Result;
-            if (list == null || list.Count <= 0)
-            {
-                return ToResponse(ResultCode.FAIL, "没有要导出的数据");
-            }
-            var result = ExportExcelMini(list, "生产班组", "生产班组");
-            return ExportExcel(result.Item2, result.Item1);
-        }
-
-        /// <summary>
-        /// 清空生产班组
-        /// </summary>
-        /// <returns></returns>
-        [Log(Title = "生产班组", BusinessType = BusinessType.CLEAN)]
-        [ActionPermissionFilter(Permission = "pp:line:delete")]
-        [HttpDelete("clean")]
-        public IActionResult Clear()
-        {
-            if (!HttpContextExtension.IsAdmin(HttpContext))
-            {
-                return ToResponse(ResultCode.FAIL, "操作失败");
-            }
-            return SUCCESS(_PpLineService.TruncatePpLine());
-        }
-
-        /// <summary>
-        /// 批量导入
-        /// 生产班组数据
+        /// 导入
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
         [HttpPost("importData")]
         [Log(Title = "生产班组导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
-        [ActionPermissionFilter(Permission = "pp:line:import")]
+        [ActionPermissionFilter(Permission = "ppline:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
         {
             List<PpLineDto> list = new();
@@ -164,8 +118,7 @@ namespace Ams.WebApi.Controllers
         }
 
         /// <summary>
-        /// 导入模板下载
-        /// 生产班组
+        /// 生产班组导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
@@ -173,9 +126,8 @@ namespace Ams.WebApi.Controllers
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<PpLineImportTpl>() { }, "pp_line_tpl");
+            var result = DownloadImportTemplate(new List<PpLineDto>() { }, "PpLine");
             return ExportExcel(result.Item2, result.Item1);
         }
-
     }
 }

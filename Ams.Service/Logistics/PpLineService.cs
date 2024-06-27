@@ -1,26 +1,20 @@
 using Ams.Infrastructure.Attribute;
 using Ams.Infrastructure.Extensions;
-using Ams.Model;
-using Ams.Model.Dto;
+using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
 using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
-using System.Linq;
 
 namespace Ams.Service.Logistics
 {
     /// <summary>
-    /// 生产班组
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/28 8:07:55
+    /// 生产班组Service业务层处理
     /// </summary>
     [AppService(ServiceType = typeof(IPpLineService), ServiceLifetime = LifeTime.Transient)]
     public class PpLineService : BaseService<PpLine>, IPpLineService
     {
         /// <summary>
-        /// 查询
-        /// 生产班组列表
+        /// 查询生产班组列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -33,21 +27,6 @@ namespace Ams.Service.Logistics
                 .ToPage<PpLine, PpLineDto>(parm);
 
             return response;
-        }
-
-        /// <summary>
-        /// 校验输入项目唯一性
-        /// </summary>
-        /// <param name="enterString"></param>
-        /// <returns></returns>
-        public string CheckInputUnique(string enterString)
-        {
-            int count = Count(it => it. PlSFID.ToString() == enterString);
-            if (count > 0)
-            {
-                return UserConstants.NOT_UNIQUE;
-            }
-            return UserConstants.UNIQUE;
         }
 
 
@@ -66,46 +45,27 @@ namespace Ams.Service.Logistics
         }
 
         /// <summary>
-        /// 添加
-        /// 生产班组
+        /// 添加生产班组
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         public PpLine AddPpLine(PpLine model)
         {
-            Insertable(model).ExecuteReturnSnowflakeId();
-            return model;
+            return Insertable(model).ExecuteReturnEntity();
         }
 
         /// <summary>
-        /// 修改
-        /// 生产班组
+        /// 修改生产班组
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         public int UpdatePpLine(PpLine model)
         {
-            return Update(model, true, "修改生产班组");
+            return Update(model, true);
         }
 
         /// <summary>
-        /// 清空
-        /// 生产班组
-        /// </summary>
-        /// <returns></returns>
-        public bool TruncatePpLine()
-        {
-            var newTableName = $"pp_line_{DateTime.Now:yyyyMMdd}";
-            if (Queryable().Any() && !Context.DbMaintenance.IsAnyTable(newTableName))
-            {
-                Context.DbMaintenance.BackupTable("pp_line", newTableName);
-            }
-            
-            return Truncate();
-        }
-        /// <summary>
-        /// 批量导入
-        /// 生产班组
+        /// 导入生产班组
         /// </summary>
         /// <returns></returns>
         public (string, object, object) ImportPpLine(List<PpLine> list)
@@ -117,6 +77,7 @@ namespace Ams.Service.Logistics
                 .SplitError(x => x.Item.PlLineCode.IsEmpty(), "班组代码不能为空")
                 .SplitError(x => x.Item.PlLineLangCode.IsEmpty(), "语言Key不能为空")
                 .SplitError(x => x.Item.PlLineName.IsEmpty(), "班组名称不能为空")
+                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -138,28 +99,7 @@ namespace Ams.Service.Logistics
         }
 
         /// <summary>
-        /// 批量导出
-        /// 生产班组
-        /// </summary>
-        /// <param name="parm"></param>
-        /// <returns></returns>
-        public PagedInfo<PpLineDto> ExportList(PpLineQueryDto parm)
-        {
-            var predicate = QueryExp(parm);
-
-            var response = Queryable()
-                .Where(predicate.ToExpression())
-                .Select((it) => new PpLineDto()
-                {
-                    PlLineTypeLabel = it.PlLineType.GetConfigValue<Kernel.Model.System.SysDictData>("sys_line_type"),
-                }, true)
-                .ToPage(parm);
-
-            return response;
-        }
-
-        /// <summary>
-        /// 查询表达式
+        /// 查询导出表达式
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -167,9 +107,6 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpLine>();
 
-            predicate = predicate.AndIF(parm.PlLineType != null, it => parm.PlLineType.Contains(it.PlLineType));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PlLineCode), it => it.PlLineCode.Contains(parm.PlLineCode));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PlLineName), it => it.PlLineName.Contains(parm.PlLineName));
             return predicate;
         }
     }

@@ -21,7 +21,7 @@
       <el-col :lg="2" :md="2">
         <el-upload action="#" :http-request="requestUpload" :show-file-list="false" :before-upload="beforeUpload">
           <el-button>
-            选择
+            {{$t('btn.select')}}
             <el-icon class="el-icon--right">
               <Upload />
             </el-icon>
@@ -41,7 +41,7 @@
         <el-button icon="RefreshRight" @click="rotateRight()"></el-button>
       </el-col>
       <el-col :lg="{ span: 2, offset: 6 }" :md="2">
-        <el-button type="primary" @click="uploadImg()">提 交</el-button>
+        <el-button type="primary" @click="uploadImg()">{{$t('btn.confirm')}}</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -64,7 +64,7 @@
 
       const open = ref(false)
       const visible = ref(false)
-      const title = ref('修改头像')
+      const title = ref(proxy.$t('puser.updateAvatar'))
       const fileName = ref('')
       //图片裁剪数据
       const options = reactive({

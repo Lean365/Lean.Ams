@@ -1,29 +1,25 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.CustomExceptions;
-using Ams.Kernel.Model.Routine;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Triggers;
 using SqlSugar.IOC;
+using Ams.Infrastructure;
+using Ams.Infrastructure.Attribute;
+using Ams.Model.Routine;
 
 namespace Ams.Tasks.TaskScheduler
 {
     /// <summary>
-    /// 任务Quartz
-    /// http服务接口
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// 定时任务http请求
     /// </summary>
     [AppService(ServiceType = typeof(Job_HttpRequest), ServiceLifetime = LifeTime.Scoped)]
     internal class Job_HttpRequest : JobBase, IJob
     {
-        //private readonly ITasksQzService tasksQzService;
+        //private readonly ISysTasksQzService tasksQzService;
         private readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        //public Job_HttpRequest(ITasksQzService tasksQzService)
+        //public Job_HttpRequest(ISysTasksQzService tasksQzService)
         //{
         //    this.tasksQzService = tasksQzService;
         //}

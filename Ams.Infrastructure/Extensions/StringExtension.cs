@@ -1,16 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Ams.Infrastructure.Extensions
 {
-    /// <summary>
-    /// 字符串扩展类
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
-    /// </summary>
     public static class StringExtension
     {
+
         /// <summary>
         /// SQL条件拼接
         /// </summary>
@@ -21,7 +18,6 @@ namespace Ams.Infrastructure.Extensions
         {
             return condition ? str : string.Empty;
         }
-
         /// <summary>
         /// 判断是否为空
         /// </summary>

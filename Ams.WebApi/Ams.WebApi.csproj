@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<Deterministic>false</Deterministic>
-		<Lastyear>$([System.DateTime]::get_Now().Year)</Lastyear>
+		<UserSecretsId>ab105cb4-b03c-419a-bd44-303b90114268</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+				<Lastyear>$([System.DateTime]::get_Now().Year)</Lastyear>
 		<Lastmonth>$([System.DateTime]::get_Now().Month)</Lastmonth>
 		<Lastday>$([System.DateTime]::Now.ToString(`yyMMDD`))</Lastday>
 		<Lasthour>$([System.DateTime]::Now.ToString(`HH`))</Lasthour>
@@ -30,24 +31,26 @@
 		<Version>0.$(Build).$(Minor).$(Alpha)</Version>
 		<!--<Version>0.$(Build).$(Minor).$(Beta)</Version>-->
 		<!--<Version>4.1.$(Minor).$(Release)</Version>-->
-		<!--<Version>4.2.$(Minor).$(Stable)</Version>-->
+		<!--<Version>4.2.$(Minor).$(Stable)</Version>-->		
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<NoWarn>1701;1702;1591,8603,8602,8604,8600,8618</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Ams.Generator\Ams.Generator.csproj" />
+		<ProjectReference Include="..\Ams.CodeGenerator\Ams.CodeGenerator.csproj" />
+		<ProjectReference Include="..\Ams.Infrastructure\Ams.Infrastructure.csproj" />
 		<ProjectReference Include="..\Ams.Service\Ams.Service.csproj" />
 		<ProjectReference Include="..\Ams.Tasks\Ams.Tasks.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Lazy.Captcha.Core" Version="2.0.7" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.12" />
-		<PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
+		<PackageReference Include="NLog.Web.AspNetCore" Version="5.3.11" />
 		<PackageReference Include="Mapster" Version="7.4.0" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.7" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.8" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -55,10 +58,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="ip2region.db">
+		<None Update="ip2region.xdb">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<Content Update="wwwroot\Generatorcode\**\*">
+		<Content Update="wwwroot\Generatecode\**\*">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 		</Content>
 		<Content Update="wwwroot\export\**\*">

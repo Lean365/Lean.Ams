@@ -1,22 +1,28 @@
 <template>
-  <el-dialog draggable v-model="open" append-to-body>
-    <template #header> {{ info.title }} </template>
+  <zr-dialog draggable v-model="open" append-to-body>
     <template v-if="info">
+      <div class="text-center title">{{ info.title }}</div>
       <template v-if="showType == 0">
-        <div v-html="info.noticeContent"></div>
+        <el-scrollbar>
+          <div class="content-wrap" v-html="info.noticeContent"></div>
+        </el-scrollbar>
 
-        <div class="n_right">{{ info.create_by }}</div>
-        <div class="n_right">{{ dayjs(info.create_time).format('YYYY-MM-DD HH:mm') }}</div>
+        <div class="n_right">
+          {{ info.publisher }}
+        </div>
+        <div class="n_right">
+          {{ dayjs(info.create_time).format('YYYY-MM-DD HH:mm') }}
+        </div>
       </template>
       <msgList v-if="showType == 1" v-model="info.userId"> </msgList>
     </template>
     <template #footer v-if="showType == 0">
       <div class="text-center footer">
         <el-button class="next" @click="onNext" link v-if="openNoticeList.length > 1">下一条</el-button>
-        <el-button icon="check" plain type="primary" @click="onReadClick(info)">我已已读</el-button>
+        <el-button icon="check" plain type="primary" @click="onReadClick(info)">我已阅读</el-button>
       </div>
     </template>
-  </el-dialog>
+  </zr-dialog>
 </template>
 <script setup>
 import msgList from '@/views/components/msgList.vue'
@@ -29,6 +35,7 @@ const showType = ref(0)
 const openNoticeList = computed(() => {
   return useSocketStore().promptNoticeList
 })
+
 onMounted(() => {
   watch(
     () => openNoticeList.value,
@@ -84,9 +91,12 @@ defineExpose({
 })
 </script>
 <style lang="scss" scoped>
+.content-wrap {
+  height: 50vh;
+}
 .n_right {
   text-align: right;
-  margin: 10px;
+  margin: 5px;
 }
 
 .footer {
@@ -95,5 +105,9 @@ defineExpose({
     position: absolute;
     right: 0;
   }
+}
+.title {
+  font-size: 23px;
+  font-weight: bold;
 }
 </style>

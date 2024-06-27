@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Ams.Infrastructure.WebExtensions
 {
-    /// <summary>
-    /// JWT扩展
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
-    /// </summary>
     public static class JwtExtension
     {
         public static void AddJwt(this IServiceCollection services)
@@ -31,7 +27,7 @@ namespace Ams.Infrastructure.WebExtensions
                         if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
                         {
                             Console.WriteLine("jwt过期了");
-                            context.Response.Headers.Add("Token-Expired", "true");
+                            context.Response.Headers.Append("Token-Expired", "true");
                         }
 
                         return Task.CompletedTask;

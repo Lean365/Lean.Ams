@@ -1,24 +1,18 @@
 namespace Ams.Model.Dto.Advertising
 {
     /// <summary>
-    /// 广告管理
-    /// 查询对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/23 9:01:20
+    /// 横幅广告查询对象
     /// </summary>
-    public class BannerQueryDto : PagerInfo
+    public class BannerConfigQueryDto : PagerInfo
     {
         public string Title { get; set; }
         public int? JumpType { get; set; }
-        public int? IsShow { get; set; }
+        public int? ShowStatus { get; set; }
         public int? AdType { get; set; }
     }
 
     /// <summary>
-    /// 广告管理
-    /// 输入输出对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/5/23 9:01:20
+    /// 横幅广告输入输出对象
     /// </summary>
     public class BannerDto
     {
@@ -49,6 +43,10 @@ namespace Ams.Model.Dto.Advertising
         [ExcelColumnName("跳转类型")]
         public int JumpType { get; set; }
 
+        [ExcelColumn(Name = "添加时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("添加时间")]
+        public DateTime? AddTime { get; set; }
+
         [ExcelColumn(Name = "点击次数")]
         [ExcelColumnName("点击次数")]
         public int ClicksNumber { get; set; }
@@ -56,7 +54,7 @@ namespace Ams.Model.Dto.Advertising
         [Required(ErrorMessage = "是否显示不能为空")]
         [ExcelColumn(Name = "是否显示")]
         [ExcelColumnName("是否显示")]
-        public int IsShow { get; set; }
+        public int ShowStatus { get; set; }
 
         [Required(ErrorMessage = "广告类型不能为空")]
         [ExcelColumn(Name = "广告类型")]
@@ -79,6 +77,6 @@ namespace Ams.Model.Dto.Advertising
         public string JumpTypeLabel { get; set; }
 
         [ExcelColumn(Name = "是否显示")]
-        public string IsShowLabel { get; set; }
+        public string ShowStatusLabel { get; set; }
     }
 }

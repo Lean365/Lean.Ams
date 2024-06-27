@@ -1,13 +1,16 @@
 <template>
   <el-form ref="pwdRef" :model="user" :rules="rules" label-width="auto" label-position="left" style="max-width: 350px">
     <el-form-item :label="$t('user.oldPwd')" prop="oldPassword">
-      <el-input v-model="user.oldPassword" placeholder="请输入旧密码" type="password" show-password />
+      <el-input v-model="user.oldPassword" placeholder="请输入旧密码" type="password" show-password maxlength="8"
+        :show-word-limit="true" />
     </el-form-item>
     <el-form-item :label="$t('user.newPwd')" prop="newPassword">
-      <el-input v-model="user.newPassword" placeholder="请输入新密码" type="password" show-password />
+      <el-input v-model="user.newPassword" placeholder="请输入新密码" type="password" show-password maxlength="8"
+        :show-word-limit="true" />
     </el-form-item>
     <el-form-item :label="$t('user.confirmPwd')" prop="confirmPassword">
-      <el-input v-model="user.confirmPassword" placeholder="请确认密码" type="password" show-password />
+      <el-input v-model="user.confirmPassword" placeholder="请确认密码" type="password" show-password maxlength="8"
+        :show-word-limit="true" />
     </el-form-item>
     <el-form-item>
       <el-button type="danger" icon="Close" @click="close">{{ $t('btn.close') }}</el-button>
@@ -52,6 +55,7 @@
       if (valid) {
         updateUserPwd(user.oldPassword, user.newPassword).then((response) => {
           proxy.$modal.msgSuccess('修改成功')
+          close()
         })
       }
     })

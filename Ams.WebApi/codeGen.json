@@ -8,8 +8,7 @@
       "decimal": [ "money", "decimal", "smallmoney" ],
       "dateTime": [ "date", "datetime", "datetime2", "smalldatetime", "timestamp" ],
       "byte": [ "tinyint" ],
-      "bool": [ "bit" ],
-      "Guid": [ "uniqueidentifier" ]
+      "bool": [ "bit" ]
     }
   }
 }

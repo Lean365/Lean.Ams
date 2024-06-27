@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
+		<TargetFramework>net8.0</TargetFramework>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<Deterministic>false</Deterministic>
+		<NoWarn>1701;1702;1591;1570</NoWarn>
 		<Lastyear>$([System.DateTime]::get_Now().Year)</Lastyear>
 		<Lastmonth>$([System.DateTime]::get_Now().Month)</Lastmonth>
 		<Lastday>$([System.DateTime]::Now.ToString(`yyMMDD`))</Lastday>
@@ -31,13 +30,12 @@
 		<!--<Version>0.$(Build).$(Minor).$(Beta)</Version>-->
 		<!--<Version>4.1.$(Minor).$(Release)</Version>-->
 		<!--<Version>4.2.$(Minor).$(Stable)</Version>-->
-		<NoWarn>1701;1702;1591;1570</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MiniExcel" Version="1.31.3" />
+		<PackageReference Include="MiniExcel" Version="1.32.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="SqlSugarCoreNoDrive" Version="5.1.4.143" />
+		<PackageReference Include="SqlSugarCoreNoDrive" Version="5.1.4.157" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 	</ItemGroup>
 </Project>

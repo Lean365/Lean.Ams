@@ -15,17 +15,13 @@ import { downFile } from '@/utils/request'
 import signalR from '@/signalr/signalr'
 import vueI18n from './i18n/index'
 import pinia from '@/store/index'
-//自定义Button 按钮样式
-import '@/assets/styles/btn-custom.scss';
+
 // svg图标
 import '@/assets/iconfont/iconfont.js' //iconfont
 import 'virtual:svg-icons-register'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import elementIcons from '@/components/SvgIcon/svgicon'
 
-//粒子特效
-import Particles from "vue3-particles";
-//import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
 import './permission' // permission control
 
 import { getConfigKey } from '@/api/system/config'
@@ -48,6 +44,8 @@ import DictTag from '@/components/DictTag'
 import dateOptions from '@/utils/dateOptions'
 // Dialog组件
 import Dialog from '@/components/Dialog'
+// 自定义table
+import MyTable from '@/components/MyTable'
 
 const app = createApp(App)
 signalR.init(import.meta.env.VITE_APP_SOCKET_API)
@@ -73,13 +71,8 @@ app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
 app.component('svg-icon', SvgIcon)
 app.component('ZrDialog', Dialog)
+app.component('MyTable', MyTable)
 
 directive(app)
 vxetb(app)
-app.use(pinia)
-  .use(router)
-  .use(plugins)
-  .use(ElementPlus, {})
-  .use(elementIcons)
-  .use(vueI18n)
-  .use(Particles).mount('#app')
+app.use(pinia).use(router).use(plugins).use(ElementPlus, {}).use(elementIcons).use(vueI18n).mount('#app')

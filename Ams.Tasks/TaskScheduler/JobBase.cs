@@ -1,22 +1,14 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Ams.Common;
-using Ams.Infrastructure.Apps;
-using Ams.Kernel.Model.Monitor;
-using Ams.Kernel.Model.Routine;
-using Ams.Kernel.Services.IService.Monitor;
-using Ams.Kernel.Services.IService.Routine;
 using NLog;
 using Quartz;
+using Ams.Common;
+using Ams.Infrastructure;
+using Ams.Service.IService.Monitor;
 
 namespace Ams.Tasks
 {
-    /// <summary>
-    /// 任务基类
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
-    /// </summary>
     public class JobBase
     {
         /// <summary>
@@ -29,10 +21,10 @@ namespace Ams.Tasks
         /// </summary>
         /// <param name="context">作业上下文</param>
         /// <param name="job">业务逻辑方法</param>
-        public async Task<LogTasksQz> ExecuteJob(IJobExecutionContext context, Func<Task> job)
+        public async Task<Model.Monitor.TasksQzLog> ExecuteJob(IJobExecutionContext context, Func<Task> job)
         {
             double elapsed = 0;
-            int isStated = 0;
+            int status = 0;
             string logMsg;
             try
             {
@@ -53,15 +45,15 @@ namespace Ams.Tasks
                     //true  是立即重新执行任务
                     RefireImmediately = true
                 };
-                isStated = 1;
+                status = 1;
                 logMsg = $"Job Run Fail，Exception：{ex.Message}";
                 WxNoticeHelper.SendMsg("任务执行出错", logMsg);
             }
 
-            var logModel = new LogTasksQz()
+            var logModel = new Model.Monitor.TasksQzLog()
             {
                 Elapsed = elapsed,
-                IsStated = isStated,
+                IsStatus = status,
                 JobMessage = logMsg
             };
 
@@ -74,10 +66,10 @@ namespace Ams.Tasks
         /// </summary>
         /// <param name="context">作业上下文</param>
         /// <param name="job">业务逻辑方法</param>
-        public async Task<LogTasksQz> ExecuteJob(IJobExecutionContext context, Func<Task<string>> job)
+        public async Task<Model.Monitor.TasksQzLog> ExecuteJob(IJobExecutionContext context, Func<Task<string>> job)
         {
             double elapsed = 0;
-            int isStated = 0;
+            int status = 0;
             string logMsg;
             try
             {
@@ -98,15 +90,15 @@ namespace Ams.Tasks
                     //true  是立即重新执行任务
                     RefireImmediately = true
                 };
-                isStated = 1;
+                status = 1;
                 logMsg = $"Job Run Fail，Exception：{ex.Message}";
                 WxNoticeHelper.SendMsg("任务执行出错", logMsg);
             }
 
-            var logModel = new LogTasksQz()
+            var logModel = new Model.Monitor.TasksQzLog()
             {
                 Elapsed = elapsed,
-                IsStated = isStated,
+                IsStatus = status,
                 JobMessage = logMsg
             };
 
@@ -119,9 +111,9 @@ namespace Ams.Tasks
         /// </summary>
         /// <param name="context"></param>
         /// <param name="logModel"></param>
-        protected async Task RecordTaskLog(IJobExecutionContext context, LogTasksQz logModel)
+        protected async Task RecordTaskLog(IJobExecutionContext context, Model.Monitor.TasksQzLog logModel)
         {
-            var tasksLogService = (ILogTasksQzService)App.GetRequiredService(typeof(ILogTasksQzService));
+            var tasksLogService = (ITasksQzLogService)App.GetRequiredService(typeof(ITasksQzLogService));
             var taskQzService = (ITasksQzService)App.GetRequiredService(typeof(ITasksQzService));
 
             // 可以直接获取 JobDetail 的值
@@ -130,9 +122,9 @@ namespace Ams.Tasks
             logModel.InvokeTarget = job.JobType.FullName;
             logModel = await tasksLogService.AddTaskLog(job.Key.Name, logModel);
             //成功后执行次数+1
-            if (logModel.IsStated == 0)
+            if (logModel.IsStatus == 0)
             {
-                await taskQzService.UpdateAsync(f => new TasksQz()
+                await taskQzService.UpdateAsync(f => new Model.Routine.TasksQz()
                 {
                     RunTimes = f.RunTimes + 1,
                     LastRunTime = DateTime.Now

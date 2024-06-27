@@ -3,12 +3,12 @@
     <el-upload ref="uploadRef" :limit="1" name="file" accept=".xlsx,.xls" :data="uploadData" :headers="headers"
       :action="uploadFileUrl" :disabled="isUploading" :on-progress="handleFileUploadProgress"
       :on-success="handleFileSuccess" :on-error="handleFileError" :auto-upload="true">
-      <el-button type="primary" icon="Upload">{{$t('pcomponents.uploadFile')}}</el-button>
+      <el-button type="primary" icon="Upload">上传文件</el-button>
 
       <template #tip>
         <div class="el-upload__tip text-center">
-          <span>{{$t('pcomponents.uploadType')}}</span>
-          <el-link type="primary" @click="importTemplate" icon="Bottom"> {{$t('pcomponents.downloadTpl')}} </el-link>
+          <span>仅允许导入xls、xlsx格式文件。</span>
+          <el-link type="primary" @click="importTemplate" icon="Bottom"> 下载模板 </el-link>
         </div>
       </template>
     </el-upload>
@@ -53,13 +53,13 @@
     proxy.$refs['uploadRef'].handleRemove(file)
 
     if (code != 200) {
-      proxy.$modal.msgError(proxy.$t(pcomponents.importDataFailed) + msg)
+      proxy.$modal.msgError('导入数据失败,原因：' + msg)
     } else {
       emit('success', response)
     }
   }
   const handleFileError = function (error) {
-    proxy.$modal.msgError(proxy.$t(pcomponents.importDataFailed) + error)
+    proxy.$modal.msgError('导入数据失败,原因：' + error)
   }
   function importTemplate() {
     proxy.downFile(props.templateUrl)

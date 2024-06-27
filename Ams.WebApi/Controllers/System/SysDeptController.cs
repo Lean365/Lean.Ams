@@ -1,14 +1,15 @@
 ﻿using System.Collections;
-using Ams.Model.System;
 using Microsoft.AspNetCore.Mvc;
+using Ams.Service.Filters;
+using Ams.Service.IService.Systems;
 
-namespace Ams.WebApi.Controllers.System
+namespace Ams.Admin.WebApi.Controllers.System
 {
     /// <summary>
-    /// 部门信息
+    /// 系统部门
     /// API控制器
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date 2024-01-01
+    /// @author Lean365(Davis.Ching)
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
     [Route("system/dept")]
@@ -107,7 +108,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="dept"></param>
         /// <returns></returns>
         [HttpPost]
-        [Log(Title = "部门管理", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "部门管理", BusinessType = BusinessType.ADD)]
         [ActionPermissionFilter(Permission = "system:dept:add")]
         public IActionResult Add([FromBody] SysDept dept)
         {
@@ -125,7 +126,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="dept"></param>
         /// <returns></returns>
         [HttpPut]
-        [Log(Title = "部门管理", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "部门管理", BusinessType = BusinessType.EDIT)]
         [ActionPermissionFilter(Permission = "system:dept:update")]
         public IActionResult Update([FromBody] SysDept dept)
         {

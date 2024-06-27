@@ -22,6 +22,7 @@
     "loginOnly": "(用於登錄)",
     "sex": "性别",
     "avatar": "頭像位址",
+    "updateAvatar": "更新頭像",
     "email": "郵箱",
     "loginDate": "最後登入日",
     "loginPwd": "密碼",

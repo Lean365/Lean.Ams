@@ -17,6 +17,14 @@ import vxeTableCn from 'vxe-table/lib/locale/lang/zh-CN'
 import vxeTableTw from 'vxe-table/lib/locale/lang/zh-TW'
 import vxeTableJa from 'vxe-table/lib/locale/lang/ja-JP'
 import vxeTableEn from 'vxe-table/lib/locale/lang/en-US'
+//内容
+import pageArticleCn from './pages/article/zh-cn.json'
+import pageArticleTw from './pages/article/zh-tw.json'
+import pageArticleJa from './pages/article/ja.json'
+import pageArticleEn from './pages/article/en.json'
+
+//编辑组件
+
 //组件
 import pageComponentsCn from './pages/components/zh-cn.json'
 import pageComponentsTw from './pages/components/zh-tw.json'
@@ -74,6 +82,12 @@ import pageLoginCn from './pages/login/zh-cn.json'
 import pageLoginTw from './pages/login/zh-tw.json'
 import pageLoginJa from './pages/login/ja.json'
 import pageLoginEn from './pages/login/en.json'
+
+// 邮件菜单页面
+import pageMailCn from './pages/mail/zh-cn.json'
+import pageMailTw from './pages/mail/zh-tw.json'
+import pageMailJa from './pages/mail/ja.json'
+import pageMailEn from './pages/mail/en.json'
 
 // 菜单页面
 import pageMenuCn from './pages/menu/zh-cn.json'
@@ -138,16 +152,19 @@ const i18n = createI18n({
     'zh-cn': {
       ...Cn,
       ...vxeTableCn,
+      ...pageArticleCn,
       ...pageComponentsCn,
       ...pageAboutCn,
       ...pageConfigCn,
       ...pageDeptCn,
       ...pageDictCn,
+
       ...pageGenCn,
       ...pageTaskCn,
       ...pageLangCn,
       ...pageLogCn,
       ...pageLoginCn,
+      ...pageMailCn,
       ...pageMenuCn,
       ...pageNoticeCn,
       ...pageOnlineCn,
@@ -164,16 +181,19 @@ const i18n = createI18n({
     'zh-tw': {
       ...Tw,
       ...vxeTableTw,
+      ...pageArticleTw,
       ...pageComponentsTw,
       ...pageAboutTw,
       ...pageConfigTw,
       ...pageDeptTw,
       ...pageDictTw,
+
       ...pageGenTw,
       ...pageTaskTw,
       ...pageLangTw,
       ...pageLogTw,
       ...pageLoginTw,
+      ...pageMailTw,
       ...pageMenuTw,
       ...pageNoticeTw,
       ...pageOnlineTw,
@@ -189,16 +209,19 @@ const i18n = createI18n({
     'ja': {
       ...Ja,
       ...vxeTableJa,
+      ...pageArticleJa,
       ...pageComponentsJa,
       ...pageAboutJa,
       ...pageConfigJa,
       ...pageDeptJa,
       ...pageDictJa,
+
       ...pageTaskJa,
       ...pageGenJa,
       ...pageLangJa,
       ...pageLogJa,
       ...pageLoginJa,
+      ...pageMailJa,
       ...pageMenuJa,
       ...pageNoticeJa,
       ...pageOnlineJa,
@@ -214,16 +237,19 @@ const i18n = createI18n({
     en: {
       ...En,
       ...vxeTableEn,
+      ...pageArticleEn,
       ...pageComponentsEn,
       ...pageAboutEn,
       ...pageConfigEn,
       ...pageDeptEn,
       ...pageDictEn,
       ...pageTaskEn,
+
       ...pageGenEn,
       ...pageLangEn,
       ...pageLogEn,
       ...pageLoginEn,
+      ...pageMailEn,
       ...pageMenuEn,
       ...pageNoticeEn,
       ...pageOnlineEn,

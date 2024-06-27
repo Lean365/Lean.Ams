@@ -1,0 +1,35 @@
+{
+  "particle": {
+    "article": "Article",
+    "title": "Title",
+    "abstractText": "Abstract",
+    "content": "Content",
+    "type": "Category",
+    "isPublic": "Public",
+    "isPublicTip": "Not publicly visible only to themselves.",
+    "isTop": "Top",
+    "coverUrl": "Cover",
+    "hits": "clicks",
+    "commentNum": "Comments",
+    "praiseNum": "Likes",
+    "topic": "Topic",
+    "charactersNum": "Up to 8 characters",
+    "tags": "Tags"
+  },
+  "pcategory": {
+    "category": "Category",
+    "name": "Name",
+    "icon": "Icon",
+    "bgImg": "Background",
+    "type": "Type",
+    "introduce": "Introduce",
+    "parentMenu": "parent menu",
+    "parentId": "ParentId"
+  },
+  "ppublish": {
+    "succeed": "Successful",
+    "failed": "Failed",
+    "draft": "Draft",
+    "publish": "Publish"
+  }
+}

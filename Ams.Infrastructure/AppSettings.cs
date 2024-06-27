@@ -1,18 +1,13 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
 
 namespace Ams.Infrastructure
 {
-    /// <summary>
-    /// 读取配置文件
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
-    /// </summary>
     public class AppSettings
     {
-        private static IConfiguration Configuration { get; set; }
+        static IConfiguration Configuration { get; set; }
 
         public AppSettings(IConfiguration configuration)
         {
@@ -63,12 +58,12 @@ namespace Ams.Infrastructure
             }
             return list;
         }
-
         public static T Bind<T>(string key, T t)
         {
             Configuration.Bind(key, t);
             return t;
         }
+
 
         public static T GetAppConfig<T>(string key, T defaultValue = default)
         {
@@ -80,7 +75,7 @@ namespace Ams.Infrastructure
         }
 
         /// <summary>
-        /// 获取配置文件
+        /// 获取配置文件 
         /// </summary>
         /// <param name="key">eg: WeChat:Token</param>
         /// <returns></returns>

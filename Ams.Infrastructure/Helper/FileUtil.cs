@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
@@ -7,11 +8,6 @@ using System.Text;
 
 namespace Ams.Infrastructure
 {
-    /// <summary>
-    /// 文件操作工具类
-    /// @author Lean365(Davis Ching)
-    /// @date 2024-02-01
-    /// </summary>
     public class FileUtil
     {
         /// <summary>
@@ -47,31 +43,6 @@ namespace Ams.Infrastructure
         }
 
         /// <summary>
-        /// 查找并删除类
-        /// </summary>
-        /// <param name="srcPath"></param>
-        /// <param name="fileName"></param>
-        public static void DeleteDir(string srcPath, string fileName)
-        {
-            //string[] files = Directory.GetFiles(filepath + @"\", "*.xls");
-            //string[] files = Directory.GetFiles(filepath + @"\", filename);  //查找时不包括子目录
-            try
-            {
-                string[] files = Directory.GetFiles(srcPath + @"\\", "*" + fileName + "*.*", SearchOption.AllDirectories);   //查找时包括子目录
-                foreach (string file in files)
-                {
-                    File.Delete(file); //删除指定文件
-                }
-            }
-            catch (Exception ex)
-            {
-                var a = ex.Message; //a的值为：发生一个或多个错误。
-                var b = ex.GetBaseException(); //b的值为：Task异常测试
-                Console.WriteLine(a + "|*|" + b);
-            }
-        }
-
-        /// <summary>
         /// 删除指定目录下的所有文件及文件夹(保留目录)
         /// </summary>
         /// <param name="file">文件目录</param>
@@ -103,32 +74,11 @@ namespace Ams.Infrastructure
                     //删除空文件夹
                     Directory.Delete(file);
                 }
+
             }
             catch (Exception ex) // 异常处理
             {
                 Console.WriteLine("代码生成异常" + ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// 删除文件
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="name"></param>
-        public static void deleteFile(string filePath, string fileName)
-        {
-            try
-            {
-                if (File.Exists(filePath + fileName))
-                {
-                    File.Delete(filePath + fileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                var a = ex.Message; //a的值为：发生一个或多个错误。
-                var b = ex.GetBaseException(); //b的值为：Task异常测试
-                Console.WriteLine(a + "|*|" + b);
             }
         }
 
