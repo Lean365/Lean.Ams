@@ -1,6 +1,7 @@
 {
   "pdict": {
     "dict": "数据字典",
+    "dictCategory": "字典分类",
     "dictType": "字典类型",
     "dictName": "字典名称",
     "isStated": "状态",

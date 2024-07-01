@@ -50,7 +50,7 @@
         /// <summary>
         /// 用户性别（0男 1女 2未知）
         /// </summary>
-        public int Sex { get; set; }
+        public int Gender { get; set; }
 
         /// <summary>
         /// 帐号状态（0正常 1停用）

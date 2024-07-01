@@ -1,82 +1,87 @@
 <template>
   <div class="app-container">
-    <el-form :model="form" ref="formRef" :rules="rules" @submit.prevent>
+    <!-- :model属性用于表单验证使用 比如下面的el-form-item 的 prop属性用于对表单值进行验证操作 -->
+    <el-form :model="form" ref="formRef" label-width="100px" :rules="rules" @submit.prevent>
       <el-row class="mb10">
         <el-col :lg="24">
-          <el-form-item label="" prop="title">
-            <el-input v-model="form.title" placeholder="请输入文章标题（必须）" />
+          <el-form-item :label="$t('particle.title')" prop="title">
+            <el-input v-model="form.title"
+              :placeholder="$t('btn.enterPrefix')+$t('particle.title')+$t('btn.enterSuffix')" />
           </el-form-item>
         </el-col>
         <el-col :lg="24">
-          <el-form-item prop="content" label="">
-            <MdEditor v-model="form.content" :showToolbarName="true" :theme="settingsStore.codeMode"
-              :onUploadImg="onUploadImg" />
+          <el-form-item prop="content" :label="$t('particle.content')">
+            <MdEditor v-model="form.content" :theme="settingsStore.codeMode" :onUploadImg="onUploadImg" />
           </el-form-item>
         </el-col>
         <el-col :lg="24">
-          <el-form-item prop="abstractText">
+          <el-form-item prop="abstractText" :label="$t('particle.abstractText')">
             <el-input v-model="form.abstractText" type="textarea" show-word-limit maxlength="100"
-              placeholder="请输入文章摘要（必须）" />
+              :placeholder="$t('btn.enterPrefix')+$t('particle.abstractText')+$t('btn.enterSuffix')" />
           </el-form-item>
         </el-col>
 
         <el-col :lg="5">
-          <el-form-item prop="categoryId" label="分类" label-position="100px">
+          <el-form-item :label="$t('particle.type')" prop="categoryId">
             <el-cascader class="w100" :options="categoryOptions"
               :props="{ checkStrictly: true, value: 'categoryId', label: 'name', emitPath: false }"
-              placeholder="请选择文章分类" clearable v-model="form.categoryId" />
+              :placeholder="$t('btn.selectPrefix')+$t('particle.type')+$t('btn.selectSuffix')" clearable
+              v-model="form.categoryId" />
           </el-form-item>
         </el-col>
-        <el-col :lg="24">
-          <el-form-item label="标签">
+        <el-col :lg="11">
+          <el-form-item :label="$t('particle.tags')">
             <el-tag v-for="tag in form.dynamicTags" :key="tag" class="mr10" closable :disable-transitions="false"
               @close="handleCloseTag(tag)">
               {{ tag }}
             </el-tag>
             <el-input size="small" v-if="inputVisible" style="width: 150px" ref="inputRef" v-model="inputValue"
-              maxLength="8" placeholder="最多8个字符" @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" />
+              show-word-limit maxlength="8" :placeholder="$t('particle.charactersNum')"
+              @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" />
 
-            <el-button v-else class="button-new-tag" size="small" icon="plus" text @click="showInput">文章标签</el-button>
+            <el-button v-else class="button-new-tag" size="small" icon="plus" text
+              @click="showInput">{{$t('btn.add')+$t('particle.tags')}}</el-button>
           </el-form-item>
         </el-col>
         <el-col :lg="8">
-          <el-form-item>
+          <el-form-item :label="$t('particle.isPublic')">
             <template #label>
               <span>
-                <el-tooltip content="不公开只有自己会看到" placement="top">
+                <el-tooltip :content="$t('particle.isPublicTip')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
                 </el-tooltip>
-                是否公开
+                {{$t('particle.isPublic')}}
               </span>
             </template>
-            <el-switch v-model="form.isPublic" inline-prompt :active-value="1" :in-active-value="0" active-text="是"
-              inactive-text="否" />
+            <el-switch v-model="form.isPublic" inline-prompt :active-value="1" :in-active-value="0"
+              :active-text="$t('common.yes')" :inactive-text="$t('common.no')" />
           </el-form-item>
         </el-col>
 
         <el-col :lg="24">
-          <el-form-item>
-            <UploadImage ref="uploadRef" v-model="form.coverUrl" :limit="1" :fileSize="15" style="width: 90px">
+          <el-form-item :label="$t('particle.coverUrl')">
+            <UploadImage ref="uploadRef" v-model="form.coverUrl" :limit="1" :fileSize="15">
               <template #icon>
-                <div class="upload-wrap">
-                  <el-icon class="avatar-uploader-icon">
-                    <plus />
-                  </el-icon>
-                  <div>请选择封面</div>
-                </div>
+                <el-icon class="avatar-uploader-icon">
+                  <plus />
+                </el-icon>
               </template>
             </UploadImage>
           </el-form-item>
         </el-col>
+
+        <div class="btn-wrap">
+          <el-button type="success" icon="check" @click="handlePublish('1')">
+
+
+            {{$t('ppublish.publish')+' '+$t('particle.article')}}</el-button>
+          <el-button icon="Collection" @click="handlePublish('2')">
+            {{$t('btn.save')+' '+$t('ppublish.draft')}}</el-button>
+        </div>
       </el-row>
     </el-form>
-
-    <div class="btn-wrap">
-      <el-button type="success" @click="handlePublish('1')">发布文章</el-button>
-      <el-button @click="handlePublish('2')" v-if="!info || info.status == 2">存为草稿</el-button>
-    </div>
   </div>
 </template>
 <script setup name="articlepublish">
@@ -86,7 +91,7 @@
   import { upload } from '@/api/common.js'
   import { MdEditor } from 'md-editor-v3'
   import 'md-editor-v3/lib/style.css'
-
+  import '@fortawesome/fontawesome-free/css/all.min.css';
   const settingsStore = useSettingsStore()
   const { proxy } = getCurrentInstance()
   const route = useRoute()
@@ -106,13 +111,12 @@
       status: undefined,
       categoryId: undefined,
       isPublic: 1,
-      abstractText: undefined,
-      editorType: 'markdown'
+      abstractText: undefined
     },
     rules: {
-      title: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
-      content: [{ required: true, message: '内容不能为空', trigger: 'blur' }],
-      abstractText: [{ required: true, message: '摘要不能为空', trigger: 'blur' }]
+      title: [{ required: true, message: proxy.$t('particle.title') + proxy.$t('common.tipIsRequired'), trigger: 'blur' }],
+      content: [{ required: true, message: proxy.$t('particle.content') + proxy.$t('common.tipIsRequired'), trigger: 'blur' }],
+      abstractText: [{ required: true, message: proxy.$t('particle.abstractText') + proxy.$t('common.tipIsRequired'), trigger: 'blur' }]
     }
   })
   const { form, rules } = toRefs(data)
@@ -157,28 +161,19 @@
         if (form.value.cid != undefined) {
           updateArticle(form.value).then((res) => {
             if (res.code == 200) {
-              if (status == 1) {
-                proxy.$modal.msgSuccess('发布文章成功')
-                proxy.$tab.closeOpenPage({ path: '/article/index' })
-              } else {
-                proxy.$modal.msgSuccess('保存成功')
-              }
+              proxy.$modal.msgSuccess(proxy.$t('btn.edit') + ' ' + proxy.$t('particle.article') + ' ' + proxy.$t('ppublish.succeed'))
+              proxy.$tab.closeOpenPage({ path: '/article/list' })
             } else {
-              proxy.$modal.msgError('修改文章失败')
+              proxy.$modal.msgError(proxy.$t('btn.edit') + ' ' + proxy.$t('particle.article') + ' ' + proxy.$t('ppublish.failed'))
             }
           })
         } else {
           addArticle(form.value).then((res) => {
             if (res.code == 200) {
-              form.value.cid = res.data
-              if (status == 1) {
-                proxy.$modal.msgSuccess('发布文章成功')
-                proxy.$tab.closeOpenPage({ path: '/article/index' })
-              } else {
-                proxy.$modal.msgSuccess('保存成功')
-              }
+              proxy.$modal.msgSuccess(proxy.$t('ppublish.publish') + ' ' + proxy.$t('particle.article') + ' ' + proxy.$t('ppublish.succeed'))
+              proxy.$tab.closeOpenPage({ path: '/article/list' })
             } else {
-              proxy.$modal.msgError('发布文章失败')
+              proxy.$modal.msgError(proxy.$t('ppublish.publish') + ' ' + proxy.$t('particle.article') + ' ' + proxy.$t('ppublish.succeed'))
             }
           })
         }
@@ -191,7 +186,7 @@
 
   const showInput = () => {
     if (form.value.dynamicTags.length >= 5) {
-      proxy.$modal.msgError('最多5个标签')
+      proxy.$modal.msgError(proxy.$t('particle.tagsNum'))
       return
     }
     inputVisible.value = true
@@ -207,13 +202,11 @@
     inputVisible.value = false
     inputValue.value = ''
   }
-  const info = ref()
   function getInfo(cid) {
     if (!cid || cid == undefined) return
     getArticle(cid).then((res) => {
       if (res.code == 200) {
         var data = res.data
-        info.value = data
         form.value = {
           ...data,
           dynamicTags: data.tags != null && data.tags.length > 0 ? data.tags.split(',') : []
@@ -232,27 +225,24 @@
   .button-new-tag {
     padding-top: 0;
     padding-bottom: 0;
-    width: 90px;
+    width: 190px;
     margin-right: 10px;
     vertical-align: bottom;
   }
 
-  .upload-wrap {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    color: #ccc;
+  .vue-treeselect {
+    z-index: 1501;
   }
 
+
+
   .btn-wrap {
-    z-index: 10;
+    z-index: 100;
     width: 100%;
-    /* top: 0; */
-    background: #fff;
-    padding: 3px 20px;
+    top: 0;
+    /* background: #fff; */
+    padding: 5px 20px;
     display: flex;
     align-items: center;
-    position: fixed;
-    bottom: var(--base-footer-height);
   }
 </style>

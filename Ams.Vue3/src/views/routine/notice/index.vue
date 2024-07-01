@@ -1,11 +1,14 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="公告标题" prop="noticeTitle">
-        <el-input v-model="queryParams.noticeTitle" placeholder="请输入公告标题" clearable @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('pnotice.noticeTitle')" prop="noticeTitle">
+        <el-input v-model="queryParams.noticeTitle"
+          :placeholder="$t('btn.enterSearchPrefix')+$t('pnotice.noticeTitle')+$t('btn.enterSearchSuffix')" clearable
+          @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="类型" prop="noticeType">
-        <el-select v-model="queryParams.noticeType" placeholder="公告类型" clearable>
+      <el-form-item :label="$t('pnotice.noticeType')" prop="noticeType">
+        <el-select v-model="queryParams.noticeType"
+          :placeholder="$t('btn.selectSearchPrefix')+$t('pnotice.noticeType')+$t('btn.selectSearchSuffix')" clearable>
           <el-option v-for="dict in options.sys_notice_type" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -36,50 +39,51 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
+    <el-table height="650" v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="noticeId" width="100" />
-      <el-table-column label="公告标题" prop="noticeTitle" :show-overflow-tooltip="true">
+      <el-table-column label="Id" align="center" prop="noticeId" />
+      <el-table-column :label="$t('pnotice.noticeTitle')" prop="noticeTitle" :show-overflow-tooltip="true">
         <template #default="{ row }">
           <el-link type="primary" @click="handleOpenPre(row)">{{ row.noticeTitle }}</el-link>
         </template>
       </el-table-column>
-      <el-table-column label="公告类型" align="center" prop="noticeType" width="100">
+      <el-table-column :label="$t('pnotice.noticeType')" align="center" prop="noticeType">
         <template #default="scope">
           <dict-tag :options="options.sys_notice_type" :value="scope.row.noticeType" />
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="status" width="100">
+      <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStatus">
         <template #default="scope">
-          <dict-tag :options="options.sys_notice_status" :value="scope.row.status" />
+          <dict-tag :options="options.sys_notice_status" :value="scope.row.isStatus" />
         </template>
       </el-table-column>
-      <el-table-column label="显示时间" width="130">
+      <el-table-column :label="$t('pnotice.displayTime')">
         <template #default="scope">
-          <div>{{ scope.row.beginTime }}</div>
-          <div>{{ scope.row.endTime }}</div>
+          <div>{{ parseTime(scope.row.beginTime, 'YYYY-MM-DD') }}</div>
+          <div>{{ parseTime(scope.row.endTime, 'YYYY-MM-DD') }}</div>
+
         </template>
       </el-table-column>
-      <el-table-column label="发布人" align="center" prop="publisher" />
-      <el-table-column label="是否弹出" align="center" prop="popup">
-        <template #default="scope">
-          <DictTag :options="options.popupStatus" :value="scope.row.popup"></DictTag>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建者" align="center" prop="createBy" width="100" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="100">
+      <el-table-column :label="$t('pnotice.publisher')" align="center" prop="publisher" />
+      <el-table-column :label="$t('common.tipCreateBy')" align="center" prop="createBy" />
+      <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime, 'YYYY-MM-DD') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column :label="$t('btn.operation')" align="center" width="200">
         <template #default="scope">
-          <el-button text icon="bell" @click="handleNotice(scope.row)" v-hasPermi="['system:notice:update']">
-            通知</el-button>
-          <el-button text icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:notice:update']">
-            修改</el-button>
-          <el-button text icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:notice:delete']">
-            删除</el-button>
+          <el-button-group>
+            <el-button plain size="small" type="info" icon="bell" @click="handleNotice(scope.row)"
+              :title="$t('layout.headerNotice')" v-hasPermi="['system:notice:update']">
+            </el-button>
+            <el-button plain size="small" type="success" icon="Edit" @click="handleUpdate(scope.row)"
+              :title="$t('btn.edit')" v-hasPermi="['system:notice:update']">
+            </el-button>
+            <el-button plain size="small" type="danger" icon="Delete" @click="handleDelete(scope.row)"
+              :title="$t('btn.delete')" v-hasPermi="['system:notice:delete']">
+            </el-button>
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
@@ -88,7 +92,7 @@
       @pagination="getList" />
 
     <publishNoticeForm ref="publishRef" :options="options" @success="getList()"></publishNoticeForm>
-    <zr-dialog title="预览" draggable v-model="openPreview" width="580px">
+    <zr-dialog :title="$t('btn.preview')" draggable v-model="openPreview" width="580px">
       <template v-if="info">
         <h2 style="text-align: center; margin-top: 0" class="mb10">{{ info.noticeTitle }}</h2>
         <div v-html="info.noticeContent"></div>
@@ -131,8 +135,7 @@
     },
     options: {
       sys_notice_type: [],
-      sys_notice_status: [],
-      popupStatus: [{ dictLabel: '是', dictValue: '1' }]
+      sys_notice_status: []
     }
   })
 
@@ -151,6 +154,7 @@
       noticeList.value = response.data.result
       total.value = response.data.totalNum
       loading.value = false
+      //console.log(response)
     })
   }
   /** 搜索按钮操作 */
@@ -179,30 +183,35 @@
   }
   /** 删除按钮操作 */
   function handleDelete(row) {
-    const noticeIds = row.noticeId || ids.value
-    proxy.$modal
-      .confirm('是否确认删除公告编号为"' + noticeIds + '"的数据项？')
+    const Ids = row.noticeId || ids.value
+
+    proxy
+      .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
+      })
       .then(function () {
-        return delNotice(noticeIds)
+        return delPpLine(Ids)
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
   }
   // 发送通知
   function handleNotice(row) {
     const noticeId = row.noticeId || ids.value
     sendNotice(noticeId).then((res) => {
-      proxy.$modal.msgSuccess('发送通知成功')
+      proxy.$modal.msgSuccess(proxy.$t('common.tipSendSucceed'))
     })
   }
   // 导出按钮操作
   function handleExport() {
     proxy
-      .$confirm('是否确认导出通知公告表数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      .$confirm(proxy.$t('common.tipConfirmExport') + proxy.$t('pnotice.notice'), proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.confirm'),
+        cancelButtonText: proxy.$t('btn.cancel'),
         type: 'warning'
       })
       .then(async () => {

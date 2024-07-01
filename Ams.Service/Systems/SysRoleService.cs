@@ -41,7 +41,7 @@ namespace Ams.Service.Systems
 
             var query = Queryable()
                 .Where(exp.ToExpression())
-                .OrderBy(x => x.RoleSort)
+                .OrderBy(x => x.SortingNum)
                 .Select((role) => new SysRole
                 {
                     UserNum = SqlFunc.Subqueryable<SysUserRole>().Where(f => f.RoleId == role.RoleId).Count()
@@ -58,7 +58,7 @@ namespace Ams.Service.Systems
         {
             return Queryable()
                 .Where(role => role.IsDeleted == 0)
-                .OrderBy(role => role.RoleSort)
+                .OrderBy(role => role.SortingNum)
                 .ToList();
         }
 
@@ -72,7 +72,7 @@ namespace Ams.Service.Systems
             return Queryable()
                 .Where(role => role.IsDeleted == 0)
                 .Where(it => SqlFunc.Subqueryable<SysUserRole>().Where(s => s.UserId == userId).Any())
-                .OrderBy(role => role.RoleSort)
+                .OrderBy(role => role.SortingNum)
                 .ToList();
         }
 
@@ -369,7 +369,7 @@ namespace Ams.Service.Systems
             .SetColumns(it => it.DeptCheckStrictly == sysRole.DeptCheckStrictly)
             .SetColumnsIF(!string.IsNullOrEmpty(sysRole.RoleName), it => it.RoleName == sysRole.RoleName)
             .SetColumnsIF(!string.IsNullOrEmpty(sysRole.RoleKey), it => it.RoleKey == sysRole.RoleKey)
-            .SetColumnsIF(sysRole.RoleSort >= 0, it => it.RoleSort == sysRole.RoleSort)
+            .SetColumnsIF(sysRole.SortingNum >= 0, it => it.SortingNum == sysRole.SortingNum)
             .Where(it => it.RoleId == sysRole.RoleId)
             .ExecuteCommand();
         }

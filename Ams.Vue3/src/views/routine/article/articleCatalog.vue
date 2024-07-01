@@ -10,37 +10,43 @@
   <div class="app-container">
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
       <el-form-item>
-        <el-radio-group v-model="queryParams.categoryType" @change="handleQuery()">
-          <el-radio-button value="">全部</el-radio-button>
+        <el-form-item :label="$t('pcategory.name')" prop="name">
+          <el-input v-model="queryParams.title"
+            :placeholder="$t('btn.enterSearchPrefix')+$t('pcategory.name')+$t('btn.enterSearchSuffix')" />
+        </el-form-item>
+        <el-radio-group :label="$t('pcategory.type')" v-model="queryParams.categoryType" @change="handleQuery()">
+          <el-radio-button value="">{{$t('common.all')}}</el-radio-button>
           <el-radio-button v-for="item in categoryTypeOptions" :key="item.dictValue" :value="item.dictValue">
             {{ item.dictLabel }}
           </el-radio-button>
         </el-radio-group>
       </el-form-item>
 
-      <!-- <el-form-item>
+      <el-form-item>
         <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
         <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
-      </el-form-item> -->
+      </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" v-hasPermi="['ArticleCatalog:add']" plain icon="plus" @click="handleAdd">
+        <el-button type="primary" v-hasPermi="['routine:ArticleCatalog:add']" plain icon="plus" @click="handleAdd">
           {{ $t('btn.add') }}
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="info" plain icon="sort" @click="toggleExpandAll">展开/折叠</el-button>
+        <el-button type="info" plain icon="sort"
+          @click="toggleExpandAll">{{$t('btn.expand')+'/'+$t('btn.collapse')}}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" :disabled="multiple" v-hasPermi="['ArticleCatalog:delete']" plain icon="delete"
+        <el-button type="danger" :disabled="multiple" v-hasPermi="['routine:ArticleCatalog:delete']" plain icon="delete"
           @click="handleDelete">
           {{ $t('btn.delete') }}
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['ArticleCatalog:export']">
+        <el-button type="warning" plain icon="download" @click="handleExport"
+          v-hasPermi="['routine:ArticleCatalog:export']">
           {{ $t('btn.export') }}
         </el-button>
       </el-col>
@@ -52,25 +58,25 @@
       @sort-change="sortChange" @selection-change="handleSelectionChange" :default-expand-all="isExpandAll"
       row-key="categoryId" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
       <el-table-column type="selection" width="50" />
-      <el-table-column prop="name" label="目录名" :show-overflow-tooltip="true" />
-      <el-table-column prop="icon" label="图标" :show-overflow-tooltip="true">
+      <el-table-column prop="name" :label="$t('pcategory.name')" :show-overflow-tooltip="true" />
+      <el-table-column prop="icon" :label="$t('pcategory.icon')" :show-overflow-tooltip="true">
         <template #default="{ row }">
           <svg-icon :name="row.icon" v-if="row.icon"></svg-icon>
           {{ row.icon }}
         </template>
       </el-table-column>
-      <el-table-column prop="bgImg" label="背景" :show-overflow-tooltip="true">
+      <el-table-column prop="bgImg" :label="$t('pcategory.bgImg')" :show-overflow-tooltip="true">
         <template #default="{ row }">
           <image-preview :src="row.bgImg" split=","></image-preview>
         </template>
       </el-table-column>
-      <el-table-column prop="categoryType" label="分类" align="center">
+      <el-table-column prop="categoryType" :label="$t('pcategory.type')" align="center">
         <template #default="{ row }">
           <dict-tag :options="categoryTypeOptions" :value="row.categoryType"></dict-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="categoryId" label="目录id" sortable align="center" />
-      <el-table-column prop="orderNum" label="排序" sortable align="center">
+      <el-table-column prop="categoryId" label="Id" sortable align="center" />
+      <el-table-column prop="orderNum" :label="$t('btn.sort')" sortable align="center">
         <template #default="scope">
           <span v-show="editIndex != scope.row.categoryId" @click="editCurrRow(scope.row.categoryId)">{{
             scope.row.orderNum }}</span>
@@ -78,29 +84,33 @@
             @blur="handleChangeSort(scope.row)"></el-input>
         </template>
       </el-table-column>
-      <el-table-column prop="introduce" label="介绍" :show-overflow-tooltip="true" />
-      <el-table-column prop="createTime" label="添加时间" align="center" :show-overflow-tooltip="true" />
-      <el-table-column prop="parentId" label="父级id" align="center" />
+      <el-table-column prop="introduce" :label="$t('pcategory.introduce')" :show-overflow-tooltip="true" />
+      <el-table-column prop="createTime" :label="$t('common.tipCreateTime')" align="center"
+        :show-overflow-tooltip="true" />
+      <el-table-column prop="parentId" :label="$t('pcategory.parentId')" align="center" />
 
-      <el-table-column label="操作" align="center" width="140">
+      <el-table-column :label="$t('btn.operation')" align="center" width="140">
         <template #default="scope">
-          <el-button v-hasPermi="['ArticleCatalog:edit']" type="success" icon="edit" title="编辑"
-            @click="handleUpdate(scope.row)"></el-button>
-          <el-button v-hasPermi="['ArticleCatalog:delete']" type="danger" icon="delete" title="删除"
-            @click="handleDelete(scope.row)"></el-button>
+          <el-button-group>
+            <el-button v-hasPermi="['routine:ArticleCatalog:edit']" type="success" plain size="small" icon="edit"
+              :title="$t('btn.edit')" @click="handleUpdate(scope.row)"></el-button>
+            <el-button v-hasPermi="['routine:ArticleCatalog:delete']" type="danger" plain size="small" icon="delete"
+              :title="$t('btn.delete')" @click="handleDelete(scope.row)"></el-button>
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 添加或修改文章目录对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" width="550px">
-      <el-form ref="formRef" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-row :gutter="20">
           <el-col :lg="24">
-            <el-form-item label="父级id" prop="parentId">
+            <el-form-item :label="$t('pcategory.parentId')" prop="parentId">
               <el-cascader class="w100" :options="dataList"
                 :props="{ checkStrictly: true, value: 'categoryId', label: 'name', emitPath: false }"
-                placeholder="请选择上级菜单" clearable v-model="form.parentId">
+                :placeholder="$t('btn.selectPrefix')+$t('pcategory.parentMenu')+$t('btn.selectSuffix')" clearable
+                v-model="form.parentId">
                 <template #default="{ node, data }">
                   <span>{{ data.name }}</span>
                   <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -109,24 +119,27 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="目录分类" prop="categoryType">
-              <el-select v-model="form.categoryType" placeholder="请选择分类" clearable>
+            <el-form-item :label="$t('pcategory.type')" prop="categoryType">
+              <el-select v-model="form.categoryType"
+                :placeholder="$t('btn.selectPrefix')+$t('pcategory.type')+$t('btn.selectSuffix')" clearable>
                 <el-option v-for="dict in categoryTypeOptions" :key="dict.dictValue" :label="dict.dictLabel"
                   :value="parseInt(dict.dictValue)" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="目录名" prop="name">
-              <el-input v-model="form.name" placeholder="请输入目录名" />
+            <el-form-item :label="$t('pcategory.category')+$t('pcategory.name')" prop="name">
+              <el-input v-model="form.name"
+                :placeholder="$t('btn.enterPrefix')+$t('pcategory.category')+$t('pcategory.name')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="图标" prop="icon">
+            <el-form-item :label="$t('pcategory.icon')" prop="icon">
               <el-popover placement="bottom" :width="540" trigger="click">
                 <template #reference>
-                  <el-input v-model="form.icon" placeholder="点击选择图标" readonly>
+                  <el-input v-model="form.icon"
+                    :placeholder="$t('btn.selectPrefix')+$t('pcategory.icon')+$t('btn.selectSuffix')" readonly>
                     <template #prefix>
                       <svg-icon v-if="form.icon" :name="form.icon" />
                       <el-icon v-else>
@@ -141,17 +154,19 @@
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="排序" prop="orderNum">
-              <el-input-number v-model="form.orderNum" placeholder="请输入排序值" />
+            <el-form-item :label="$t('btn.sort')" prop="orderNum">
+              <el-input-number v-model="form.orderNum"
+                :placeholder="$t('btn.enterPrefix')+$t('btn.sort')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="介绍" prop="introduce">
-              <el-input v-model="form.introduce" placeholder="请输入介绍" />
+            <el-form-item :label="$t('pcategory.introduce')" prop="introduce">
+              <el-input v-model="form.introduce"
+                :placeholder="$t('btn.enterPrefix')+$t('pcategory.introduce')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="背景图" prop="bgImg">
+            <el-form-item :label="$t('pcategory.bgImg')" prop="bgImg">
               <UploadImage ref="uploadRef" v-model="form.bgImg" :limit="1" :fileSize="15"> </UploadImage>
             </el-form-item>
           </el-col>
@@ -218,8 +233,8 @@
   const state = reactive({
     form: {},
     rules: {
-      name: [{ required: true, message: '目录名不能为空', trigger: 'blur' }],
-      categoryType: [{ required: true, message: '目录分类不能为空', trigger: 'blur' }]
+      name: [{ required: true, message: proxy.$t('pcategory.name') + proxy.$t('common.tipIsRequired'), trigger: 'blur' }],
+      categoryType: [{ required: true, message: proxy.$t('pcategory.category') + proxy.$t('common.tipIsRequired'), trigger: 'blur' }]
     }
   })
 
@@ -272,28 +287,14 @@
   function handleAdd() {
     reset()
     open.value = true
-    title.value = '添加'
+    title.value = proxy.$t('btn.add') + ' ' + proxy.$t('pcategory.category')
     opertype.value = 1
     if (queryParams.categoryType) {
       form.value.categoryType = parseInt(queryParams.categoryType)
     }
   }
 
-  // 删除按钮操作
-  function handleDelete(row) {
-    const Ids = row.categoryId || ids.value
 
-    proxy
-      .$confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
-      .then(function () {
-        return delArticleCatalog(Ids)
-      })
-      .then(() => {
-        handleQuery()
-        proxy.$modal.msgSuccess('删除成功')
-      })
-      .catch(() => { })
-  }
 
   // 修改按钮操作
   function handleUpdate(row) {
@@ -303,7 +304,7 @@
       const { code, data } = res
       if (code == 200) {
         open.value = true
-        title.value = '修改数据'
+        title.value = proxy.$t('btn.edit') + ' ' + proxy.$t('pcategory.category')
         opertype.value = 2
 
         form.value = {
@@ -312,7 +313,25 @@
       }
     })
   }
+  // 删除按钮操作
+  function handleDelete(row) {
+    const Ids = row.categoryId || ids.value
 
+    proxy
+      .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
+      })
+      .then(function () {
+        return delArticleCatalog(Ids)
+      })
+      .then(() => {
+        handleQuery()
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
+      })
+      .catch(() => { })
+  }
   // 表单提交
   function submitForm() {
     proxy.$refs['formRef'].validate((valid) => {
@@ -320,7 +339,7 @@
         if (form.value.categoryId != undefined && opertype.value === 2) {
           updateArticleCatalog(form.value)
             .then((res) => {
-              proxy.$modal.msgSuccess('修改成功')
+              proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
               open.value = false
               getList()
             })
@@ -328,7 +347,7 @@
         } else {
           addArticleCatalog(form.value)
             .then((res) => {
-              proxy.$modal.msgSuccess('新增成功')
+              proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
               open.value = false
               getList()
             })
@@ -348,10 +367,10 @@
   // 导出按钮操作
   function handleExport() {
     proxy
-      .$confirm('是否确认导出所有文章目录数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.tipConfirmExport') + "<" + proxy.$t('particle.article') + proxy.$t('pcategory.category') + ".xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return exportArticleCatalog(queryParams)
@@ -407,14 +426,14 @@
   function handleChangeSort(info) {
     editIndex.value = -1
     proxy
-      .$confirm('是否保存数据?')
+      .$confirm(proxy.$t('common.tipConfirmSave'))
       .then(function () {
         return changeSort({ value: info.orderNum, id: info.categoryId })
       })
       .then(() => {
         handleQuery()
 
-        proxy.$modal.msgSuccess('修改成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipUpdateSucceed'))
       })
       .catch(() => {
         handleQuery()

@@ -13,25 +13,27 @@
       <el-row :gutter="20">
         <el-col :lg="24">
           <el-form-item :label="$t('plang.language')" prop="langCode">
-            <el-select v-model="queryParams.langCode" placeholder="请选择语言code">
+            <el-select v-model="queryParams.langCode"
+              :placeholder="$t('btn.selectSearchPrefix')+$t('plang.language')+$t('btn.selectSearchSuffix')">
               <el-option v-for="item in options.sys_lang_type" :key="item.dictValue" :label="item.dictLabel"
                 :value="item.dictValue"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('plang.languageKey')" prop="langKey">
-            <el-input v-model="queryParams.langKey" placeholder="请输入语言key" />
+            <el-input v-model="queryParams.langKey"
+              :placeholder="$t('btn.selectSearchPrefix')+$t('plang.languageKey')+$t('btn.selectSearchSuffix')" />
           </el-form-item>
 
           <el-form-item :label="$t('common.tipCreateTime')">
             <el-date-picker v-model="dateRangeAddtime" style="width: 240px" type="daterange" range-separator="-"
-              start-placeholder="开始日期" end-placeholder="结束日期" placeholder="请选择添加时间" value-format="YYYY-MM-DD HH:mm:ss"
-              :shortcuts="dateOptions">
+              :start-placeholder="$t('btn.dateStart')" :end-placeholder="$t('btn.dateEnd')"
+              value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="dateOptions">
             </el-date-picker>
           </el-form-item>
           <el-form-item :label="$t('plang.showWay')">
             <el-radio-group v-model="queryParams.showMode">
-              <el-radio-button value="1">表格</el-radio-button>
-              <el-radio-button value="2">行列</el-radio-button>
+              <el-radio-button value="1">{{$t('btn.grid')}}</el-radio-button>
+              <el-radio-button value="2">{{$t('btn.transpose')}}</el-radio-button>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -102,10 +104,12 @@
 
       <el-table-column :label="$t('btn.operation')" align="center" width="140">
         <template #default="scope">
-          <el-button v-hasPermi="['system:lang:edit']" text size="small" icon="edit" title="编辑"
-            @click="handleUpdate(scope.row)"></el-button>
-          <el-button v-hasPermi="['system:lang:delete']" text size="small" icon="delete" title="删除"
-            @click="handleDelete(scope.row)"></el-button>
+          <el-button-group>
+            <el-button v-hasPermi="['system:lang:edit']" type="success" plain size="small" icon="edit"
+              :title="$t('btn.edit')" @click="handleUpdate(scope.row)"></el-button>
+            <el-button v-hasPermi="['system:lang:delete']" type="danger" plain size="small" icon="delete"
+              :title="$t('btn.delete')" @click="handleDelete(scope.row)"></el-button>
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
@@ -121,14 +125,16 @@
       <el-table-column prop="en" :label="$t('plang.english')" align="center" :show-overflow-tooltip="true" />
       <el-table-column :label="$t('btn.operation')" align="center" width="140">
         <template #default="scope">
-          <el-button v-hasPermi="['system:lang:edit']" text size="small" icon="edit" title="编辑"
-            @click="handleUpdateP(scope.row)">
-            {{ $t('btn.edit') }}
-          </el-button>
-          <el-button v-hasPermi="['system:lang:delete']" text type="danger" icon="delete" title="删除"
-            @click="handleDeleteByKey(scope.row)">
-            {{ $t('btn.delete') }}
-          </el-button>
+          <el-button-group>
+            <el-button v-hasPermi="['system:lang:edit']" type="success" plain size="small" icon="edit"
+              :title="$t('btn.edit')" @click="handleUpdateP(scope.row)">
+
+            </el-button>
+            <el-button v-hasPermi="['system:lang:delete']" type="danger" plain size="small" icon="delete"
+              :title="$t('btn.delete')" @click="handleDeleteByKey(scope.row)">
+
+            </el-button>
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
@@ -144,7 +150,7 @@
             <el-form-item prop="langKey">
               <template #label>
                 <span>
-                  <el-tooltip content="翻译key，eg：message.title" placement="top">
+                  <el-tooltip :content="$t('plang.langKeycontent')" placement="top">
                     <el-icon :size="15">
                       <questionFilled />
                     </el-icon>
@@ -152,7 +158,8 @@
                 </span>
                 {{ $t('plang.languageKey') }}
               </template>
-              <el-input v-model="form.langKey" placeholder="请输入语言key" />
+              <el-input v-model="form.langKey"
+                :placeholder="$t('btn.enterPrefix')+$t('plang.language')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -225,10 +232,10 @@
   const state = reactive({
     form: {},
     rules: {
-      id: [{ required: true, message: 'id不能为空', trigger: 'blur', type: 'number' }],
+      id: [{ required: true, message: 'id ' + proxy.$t('btn.isEmpty'), trigger: 'blur', type: 'number' }],
       // langCode: [{ required: true, message: '语言code不能为空', trigger: 'change' }],
-      langKey: [{ required: true, pattern: /^[A-Za-z].+$/, message: '语言key不能为空', trigger: 'change' }],
-      langName: [{ required: true, message: '内容不能为空', trigger: 'blur' }]
+      langKey: [{ required: true, pattern: /^[A-Za-z].+$/, message: proxy.$t('plang.langKey') + proxy.$t('btn.isEmpty'), trigger: 'change' }],
+      langName: [{ required: true, message: proxy.$t('plang.langName') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
     },
     options: {}
   })
@@ -324,26 +331,34 @@
     const Ids = row.id || ids.value
 
     proxy
-      .$confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
+      .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
+      })
       .then(function () {
         return delLocaleLang(Ids)
       })
       .then(() => {
         handleQuery()
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
       .catch(() => { })
   }
 
   function handleDeleteByKey(row) {
     proxy
-      .$confirm('是否确认删除key为"' + row.langKey + '"的数据项？')
+      .$confirm(proxy.$t('common.tipConfirmDel') + row.langKey + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
+      })
       .then(function () {
         return delLocaleLangByKey(row.langKey)
       })
       .then(() => {
         handleQuery()
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
   }
 
@@ -355,7 +370,7 @@
       const { code, data } = res
       if (code == 200) {
         open.value = true
-        title.value = '修改数据'
+        title.value = proxy.$t('btn.edit')
         opertype.value = 2
 
         form.value = {
@@ -389,14 +404,14 @@
       }
     })
     if (!formValid.value) {
-      proxy.$modal.msgError(`请完成表格内容填写`)
+      proxy.$modal.msgError(proxy.$t('common.tipInputcontentError'))
       return
     }
     proxy.$refs['formRef'].validate((valid) => {
       if (valid) {
         updateLocaleLang(form.value)
           .then((res) => {
-            proxy.$modal.msgSuccess('操作成功')
+            proxy.$modal.msgSuccess(proxy.$t('common.tipOperationSucceed'))
             open.value = false
             getList()
           })
@@ -415,10 +430,10 @@
   // 导出按钮操作
   function handleExport() {
     proxy
-      .$confirm('是否确认导出所有多语言配置数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.tipConfirmExport') + "<LocaleLang.xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return exportLocaleLang(queryParams)
@@ -454,7 +469,7 @@
     item2.forEach((item) => {
       error += item.storageMessage + ','
     })
-    proxy.$alert(item1 + '<p>' + error + '</p>', '导入结果', {
+    proxy.$alert(item1 + '<p>' + error + '</p>', proxy.$t('common.tipImportResults'), {
       dangerouslyUseHTMLString: true
     })
     getList()

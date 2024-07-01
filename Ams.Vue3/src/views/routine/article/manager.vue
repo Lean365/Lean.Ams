@@ -1,83 +1,89 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" label-position="left" inline ref="queryForm" v-show="showSearch" @submit.prevent>
-      <el-form-item label="标题" prop="title">
-        <el-input v-model="queryParams.title" placeholder="请输入标题" />
-      </el-form-item>
-      <el-form-item label="摘要" prop="abstractText">
-        <el-input v-model="queryParams.abstractText" placeholder="请输入摘要" />
-      </el-form-item>
-      <el-form-item label="分类" prop="categoryId">
-        <el-cascader class="w100" :options="categoryOptions"
-          :props="{ checkStrictly: true, value: 'categoryId', label: 'name', emitPath: false }" placeholder="请选择分类"
-          clearable v-model="queryParams.categoryId" />
-      </el-form-item>
-      <el-form-item label="审核状态" prop="auditStatus">
-        <el-radio-group v-model="queryParams.auditStatus" @change="handleQuery()">
-          <el-radio-button value="">全部</el-radio-button>
-          <el-radio-button v-for="item in options.auditOptions" :key="item.dictValue" :value="item.dictValue">
-            {{ item.dictLabel }}
-          </el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item prop="status">
-        <el-radio-group v-model="queryParams.status" @change="handleQuery()">
-          <el-radio-button value="">全部</el-radio-button>
-          <el-radio-button v-for="item in options.sys_article_status" :key="item.dictValue" :value="item.dictValue">
-            {{ item.dictLabel }}
-          </el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item prop="articleType">
-        <el-radio-group v-model="queryParams.articleType" @change="handleQuery()">
-          <el-radio-button value="">全部</el-radio-button>
-          <el-radio-button v-for="item in options.sys_article_type" :key="item.dictValue" :value="item.dictValue">
-            {{ item.dictLabel }}
-          </el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="是否公开" prop="isPublic">
-        <el-radio-group v-model="queryParams.isPublic" @change="handleQuery()">
-          <el-radio-button value="">全部</el-radio-button>
-          <el-radio-button v-for="item in options.isPublicOptions" :key="item.dictValue" :value="item.dictValue">
-            {{ item.dictLabel }}
-          </el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="是否置顶" prop="isTop">
-        <el-radio-group v-model="queryParams.isTop" @change="handleQuery()">
-          <el-radio-button value="">全部</el-radio-button>
-          <el-radio-button v-for="item in options.isPublicOptions" :key="item.dictValue" :value="item.dictValue">
-            {{ item.dictLabel }}
-          </el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="search" @click="handleQuery">搜索</el-button>
-        <el-button icon="refresh" @click="resetQuery">重置</el-button>
-      </el-form-item>
+      <el-row :gutter="10" class="mb8">
+        <el-col :lg="24">
+          <el-form-item :label="$t('particle.title')" prop="title">
+            <el-input v-model="queryParams.title" placeholder="请输入标题" />
+          </el-form-item>
+          <el-form-item :label="$t('particle.abstractText')" prop="abstractText">
+            <el-input v-model="queryParams.abstractText" placeholder="请输入摘要" />
+          </el-form-item>
+          <el-form-item label="Id" prop="categoryId">
+            <el-cascader class="w100" :options="categoryOptions"
+              :props="{ checkStrictly: true, value: 'categoryId', label: 'name', emitPath: false }" placeholder="请选择分类"
+              clearable v-model="queryParams.categoryId" />
+          </el-form-item>
+          <el-form-item :label="$t('btn.audit')+$t('common.tipIsStated')" prop="auditStatus">
+            <el-radio-group v-model="queryParams.auditStatus" @change="handleQuery()">
+              <el-radio-button value="">{{$t('common.all')}}</el-radio-button>
+              <el-radio-button v-for="item in options.auditOptions" :key="item.dictValue" :value="item.dictValue">
+                {{ item.dictLabel }}
+              </el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item :label="$t('common.tipIsStated')" prop=" isStatus">
+            <el-radio-group v-model="queryParams.isStatus" @change="handleQuery()">
+              <el-radio-button value="">{{$t('common.all')}}</el-radio-button>
+              <el-radio-button v-for="item in options.sys_article_status" :key="item.dictValue" :value="item.dictValue">
+                {{ item.dictLabel }}
+              </el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item :label="$t('particle.type')" prop="articleType">
+            <el-radio-group v-model="queryParams.articleType" @change="handleQuery()">
+              <el-radio-button value="">{{$t('common.all')}}</el-radio-button>
+              <el-radio-button v-for="item in options.sys_article_type" :key="item.dictValue" :value="item.dictValue">
+                {{ item.dictLabel }}
+              </el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item :label="$t('particle.isPublic')" prop="isPublic">
+            <el-radio-group v-model="queryParams.isPublic" @change="handleQuery()">
+              <el-radio-button value="">{{$t('common.all')}}</el-radio-button>
+              <el-radio-button v-for="item in options.isPublicOptions" :key="item.dictValue" :value="item.dictValue">
+                {{ item.dictLabel }}
+              </el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item :label="$t('particle.isTop')" prop="isTop">
+            <el-radio-group v-model="queryParams.isTop" @change="handleQuery()">
+              <el-radio-button value="">{{$t('common.all')}}</el-radio-button>
+              <el-radio-button v-for="item in options.isPublicOptions" :key="item.dictValue" :value="item.dictValue">
+                {{ item.dictLabel }}
+              </el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :lg="24" :offset="12">
+          <el-form-item>
+            <el-button type="primary" icon="search" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+            <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="success" :disabled="multiple" v-hasPermi="['article:audit']" plain icon="check" size="small"
           @click="handleAuditPass">
-          通过
+          {{$t('btn.audit')}}
         </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="danger" :disabled="multiple" v-hasPermi="['article:audit']" plain icon="close" size="small"
           @click="handleAuditReject">
-          拒绝
+          {{$t('btn.reject')}}
         </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="primary" plain icon="plus" v-hasPermi="['system:article:add']" size="small"
-          @click="handleAdd">发布文章</el-button>
+          @click="handleAdd">{{$t('menu.routineArticlePublish')}}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="danger" plain icon="plus" v-hasPermi="['system:article:add']" size="small"
-          @click="handleMonents">发布动态</el-button>
+          @click="handleMonents">{{$t('menu.routineMomentPublish')}}</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
@@ -92,17 +98,17 @@
           <div>标签：{{ row.tags }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="分类">
+      <el-table-column :label="$t('particle.type')">
         <template #default="{ row }">
           <div v-if="row.ArticleCatalogNav">{{ row.ArticleCatalogNav.name }}</div>
         </template>
       </el-table-column>
-      <el-table-column prop="title" label="标题" width="120" :show-overflow-tooltip="true">
+      <el-table-column prop="title" :label="$t('particle.title')" width="120" :show-overflow-tooltip="true">
         <template #default="scope">
           <el-button link type="primary" @click="handleView(scope.row)">{{ scope.row.title }}</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="coverUrl" label="封面" width="90" :show-overflow-tooltip="true">
+      <el-table-column prop="coverUrl" :label="$t('particle.coverUrl')" width="90" :show-overflow-tooltip="true">
         <template #default="{ row }">
           <image-preview :src="row.coverUrl" split="," style="width: 40px" v-if="row.coverUrl"></image-preview>
         </template>
@@ -110,46 +116,51 @@
       <!-- <el-table-column prop="authorName" label="作者" width="80"> </el-table-column> -->
       <!-- <el-table-column prop="fmt_type" label="编辑器类型" width="100"> </el-table-column> -->
       <!-- <el-table-column prop="tags" label="标签" width="100" :show-overflow-tooltip="true"> </el-table-column> -->
-      <el-table-column prop="hits" label="浏览" width="80" align="center" sortable> </el-table-column>
-      <el-table-column prop="praiseNum" label="赞" width="80" align="center" sortable> </el-table-column>
-      <el-table-column prop="commentNum" label="评论" width="80" align="center" sortable> </el-table-column>
-      <el-table-column prop="abstractText" label="摘要" v-if="columns.showColumn('abstractText')"> </el-table-column>
-      <el-table-column prop="status" align="center" label="状态" width="90">
+      <el-table-column prop="hits" :label="$t('particle.hits')" width="80" align="center" sortable> </el-table-column>
+      <el-table-column prop="praiseNum" :label="$t('particle.praiseNum')" width="80" align="center" sortable>
+      </el-table-column>
+      <el-table-column prop="commentNum" :label="$t('particle.commentNum')" width="80" align="center" sortable>
+      </el-table-column>
+      <el-table-column prop="abstractText" :label="$t('particle.abstractText')"
+        v-if="columns.showColumn('abstractText')"> </el-table-column>
+      <el-table-column prop="isStatus" align="center" :label="$t('common.tipIsStated')" width="90">
         <template #default="scope">
-          <el-tag :type="scope.row.status == '2' ? 'danger' : 'success'">{{ scope.row.status == '2' ? '草稿' : '已发布' }}
+          <el-tag :type="scope.row.isStatus == 2 ? 'danger' : 'success'">{{ scope.row.isStatus == 2 ?
+            $t('ppublish.draft') : $t('ppublish.publish') }}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="auditStatus" align="center" label="审核" width="90">
+      <el-table-column prop="auditStatus" align="center" :label=" $t('btn.audit')" width="90">
         <template #default="scope">
           <dict-tag :options="options.auditOptions" :value="scope.row.auditStatus"> </dict-tag>
         </template>
       </el-table-column>
-      <el-table-column label="置顶" prop="isTop" width="90" align="center" v-if="columns.showColumn('isTop')" sortable>
+      <el-table-column :label="$t('particle.isTop')" prop="isTop" width="90" align="center"
+        v-if="columns.showColumn('isTop')" sortable>
         <template #default="scope">
-          <el-switch v-model="scope.row.isTop" inline-prompt disabled active-text="是" inactive-text="否"
-            :active-value="1" :inactive-value="0"></el-switch>
+          <el-switch v-model="scope.row.isTop" inline-prompt disabled :active-text="$t('common.yes')"
+            :inactive-text="$t('common.no')" :active-value="1" :inactive-value="0"></el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="公开" align="center" prop="isPublic" width="90">
+      <el-table-column :label="$t('particle.isPublic')" align="center" prop="isPublic" width="90">
         <template #default="scope">
-          <el-switch v-model="scope.row.isPublic" inline-prompt active-text="是" inactive-text="否" :active-value="1"
-            :inactive-value="0" disabled></el-switch>
+          <el-switch v-model="scope.row.isPublic" inline-prompt :active-text="$t('common.yes')"
+            :inactive-text="$t('common.no')" :active-value="1" :inactive-value="0" disabled></el-switch>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="发布时间" width="128" :show-overflow-tooltip="true">
+      <el-table-column prop="createTime" :label=" $t('common.tipCreateTime')" width="128" :show-overflow-tooltip="true">
         <template #default="scope">
           {{ showTime(scope.row.createTime) }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="130" fixed="right">
+      <el-table-column :label="$t('btn.operation')" width="130" fixed="right">
         <template #default="scope">
           <el-button-group>
             <el-button size="small" icon="view" @click="handleView(scope.row)"> </el-button>
             <el-button size="small" icon="edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:article:update']"
               v-if="scope.row.articleType == 0">
             </el-button>
-            <el-popconfirm title="确定删除吗？" @confirm="handleDelete(scope.row)" style="margin-left: 10px">
+            <el-popconfirm :title="$t('btn.delete')" @confirm="handleDelete(scope.row)" style="margin-left: 10px">
               <template #reference>
                 <el-button size="small" type="danger" icon="delete" v-hasPermi="['system:article:delete']"></el-button>
               </template>
@@ -200,7 +211,7 @@
     queryParams: {
       sort: 'cid',
       sortType: 'desc',
-      status: '',
+      isStatus: -1,
       isPublic: '',
       isTop: '',
       articleType: '',
@@ -208,13 +219,13 @@
     },
     options: {
       isPublicOptions: [
-        { dictLabel: '是', dictValue: '1' },
-        { dictLabel: '否', dictValue: '0', listClass: 'info' }
+        { dictLabel: proxy.$t('common.yes'), dictValue: '1' },
+        { dictLabel: proxy.$t('common.no'), dictValue: '0', listClass: 'info' }
       ],
       auditOptions: [
-        { dictLabel: '通过', dictValue: '1' },
-        { dictLabel: '待审核', dictValue: '0', listClass: 'info' },
-        { dictLabel: '不通过', dictValue: '2', listClass: 'danger' }
+        { dictLabel: proxy.$t('btn.passed'), dictValue: '1' },
+        { dictLabel: proxy.$t('btn.failed'), dictValue: '0', listClass: 'info' },
+        { dictLabel: proxy.$t('btn.pending'), dictValue: '2', listClass: 'danger' }
       ],
       // 评论权限
       sys_comment_permi: [],
@@ -225,8 +236,8 @@
     }
   })
   const columns = ref([
-    { visible: false, prop: 'abstractText', label: '摘要' },
-    { visible: false, prop: 'isTop', label: '置顶' }
+    { visible: false, prop: 'abstractText', label: proxy.$t('particle.abstractText') },
+    { visible: false, prop: 'isTop', label: proxy.$t('particle.isTop') }
   ])
   const queryForm = ref()
   const { queryParams, options } = toRefs(data)
@@ -293,7 +304,7 @@
   function handleDelete(row) {
     delArticle(row.cid).then((res) => {
       if (res.code == 200) {
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
         handleQuery()
       }
     })
@@ -333,7 +344,7 @@
     auditArticle('pass', id).then((res) => {
       const { code } = res
       if (code == 200) {
-        proxy.$modal.msgSuccess('通过成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipAuditSucceed'))
       }
       getList()
     })
@@ -346,11 +357,11 @@
   function handleAuditReject(row) {
     const id = row.cid || ids.value
 
-    proxy.$prompt('请输入拒绝原因', 'Tip', {}).then(({ value }) => {
+    proxy.$prompt(proxy.$t('common.tipRejectReason'), proxy.$t('common.tip'), {}).then(({ value }) => {
       auditArticle('reject', id, { reason: value }).then((res) => {
         const { code } = res
         if (code == 200) {
-          proxy.$modal.msgSuccess('拒绝成功')
+          proxy.$modal.msgSuccess(proxy.$t('common.tipRejectSucceed'))
         }
         getList()
       })

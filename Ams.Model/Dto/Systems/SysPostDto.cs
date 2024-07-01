@@ -11,7 +11,8 @@
     public class SysPostQueryDto : PagerInfo
     {
         public string PostName { get; set; }
-        public int IsStatus { get; set; }
         public string PostCode { get; set; }
+        public string PostLevel { get; set; }
+        public int IsStatus { get; set; }
     }
 }

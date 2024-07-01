@@ -11,7 +11,7 @@
 
         public string RoleName { get; set; }
         public string RoleKey { get; set; }
-        public int RoleSort { get; set; }
+        public int SortingNum { get; set; }
         public int IsStatus { get; set; }
         public int DataScope { get; set; }
         public int[] DeptIds { get; set; }

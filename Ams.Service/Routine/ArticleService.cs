@@ -1,7 +1,7 @@
-﻿using Mapster;
-using Ams.Common;
+﻿using Ams.Common;
 using Ams.Service.IService.Routine;
 using Ams.Service.IService.Systems;
+using Mapster;
 
 namespace Ams.Service.Routine
 {
@@ -107,7 +107,7 @@ namespace Ams.Service.Routine
                     {
                         Avatar = u.Avatar,
                         NickName = u.NickName,
-                        Sex = u.Sex,
+                        Gender = u.Gender,
                     },
                     Content = string.Empty,
                     UserIP = string.Empty,
@@ -156,7 +156,7 @@ namespace Ams.Service.Routine
                     {
                         Avatar = u.Avatar,
                         NickName = u.NickName,
-                        Sex = u.Sex,
+                        Gender = u.Gender,
                     },
                     CategoryNav = m.ArticleCategoryNav.Adapt<ArticleCatalogDto>()
                 }, true)

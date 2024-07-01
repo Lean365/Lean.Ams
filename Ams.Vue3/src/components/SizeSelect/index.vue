@@ -21,9 +21,9 @@
 
   const { proxy } = getCurrentInstance()
   const sizeOptions = ref([
-    { label: proxy.$t('layout.large'), value: 'large' },
+    { label: proxy.$t('layout.headerLarge'), value: 'large' },
     { label: proxy.$t('layout.default'), value: 'default' },
-    { label: proxy.$t('layout.small'), value: 'small' }
+    { label: proxy.$t('layout.headerSmall'), value: 'small' }
   ])
 
   function handleSetSize(size) {

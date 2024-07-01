@@ -3,15 +3,17 @@
     <el-form :model="queryParams" ref="queryForm" v-show="showSearch" :inline="true">
       <el-row :gutter="20">
         <el-col :lg="24">
-          <el-form-item label="角色名称" prop="roleName">
-            <el-input v-model="queryParams.roleName" placeholder="请输入角色名称" clearable @keyup.enter="handleQuery" />
+          <el-form-item :label="$t('prole.roleName')" prop="roleName">
+            <el-input v-model="queryParams.roleName"
+              :placeholder="$t('btn.selectSearchPrefix')+$t('prole.roleName')+$t('btn.selectSearchSuffix')" clearable
+              @keyup.enter="handleQuery" />
           </el-form-item>
           <!-- <el-form-item label="权限字符" prop="roleKey">
         <el-input v-model="queryParams.roleKey" placeholder="请输入权限字符" clearable  style="width: 240px" @keyup.enter.native="handleQuery" />
       </el-form-item> -->
-          <el-form-item label="状态" prop="isStatus">
+          <el-form-item :label="$t('common.tipIsStated')" prop="isStatus">
             <el-radio-group v-model="queryParams.isStatus">
-              <el-radio :value="-1">全部</el-radio>
+              <el-radio :value="-1">{{$t('common.all')}}</el-radio>
               <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                 dict.dictLabel }}</el-radio>
             </el-radio-group>
@@ -28,58 +30,69 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="plus" @click="handleAdd" v-hasPermi="['system:role:add']">{{ $t('btn.add')
+        <el-button type="primary" plain icon="plus" @click="handleAdd" v-hasPermi="['system:role:add']">{{
+          $t('btn.add')
           }}</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="roleList" highlight-current-row @selection-change="handleSelectionChange">
-      <el-table-column label="编号" prop="roleId" width="80" />
-      <el-table-column label="名称" prop="roleName" />
-      <el-table-column label="显示顺序" prop="roleSort"></el-table-column>
-      <el-table-column label="权限字符" prop="roleKey" />
-      <el-table-column label="权限范围" prop="dataScope" :formatter="dataScopeFormat"></el-table-column>
-      <el-table-column label="状态" width="90">
+    <el-table v-loading="loading" height="620px" :data="roleList" highlight-current-row
+      @selection-change="handleSelectionChange">
+      <el-table-column label="ID" prop="roleId" width="80" />
+      <el-table-column :label="$t('prole.roleName')" prop="roleName" />
+      <el-table-column :label="$t('prole.troleSort')" prop="sortingNum"></el-table-column>
+      <el-table-column :label="$t('prole.troleKey')" prop="roleKey" />
+      <el-table-column :label="$t('prole.dataScope')" prop="dataScope" :formatter="dataScopeFormat"></el-table-column>
+      <el-table-column :label="$t('common.tipIsStated')" width="120">
         <template #default="scope">
           <el-switch v-model="scope.row.isStatus" :disabled="scope.row.roleKey == 'admin'" :active-value="0"
             :inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="用户个数" align="center" prop="userNum" width="90">
+      <el-table-column :label="$t('prole.userNum')" align="center" prop="userNum" width="120">
         <template #default="scope">
           <el-link type="primary" @click="handleAuthUser(scope.row)">{{ scope.row.userNum }}</el-link>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" prop="createTime" width="150" />
-      <el-table-column label="备注" align="center" prop="remark" width="150" :show-overflow-tooltip="true" />
-      <el-table-column label="操作" align="center" width="200">
+      <el-table-column :label="$t('common.tipCreateTime')" prop="createTime" width="150">
+        <template #default="scope"> {{ parseTime(scope.row.createTime, 'YYYY-MM-DD') }} </template>
+      </el-table-column>
+      <el-table-column :label="$t('common.tipRemarks')" align="center" prop="remark" width="150"
+        :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('btn.operation')" align="center" width="200">
         <template #default="scope">
           <div v-if="scope.row.roleKey != 'admin'">
-            <el-button text icon="edit" :title="$t('btn.edit')" @click.stop="handleUpdate(scope.row)"
-              v-hasPermi="['system:role:edit']">
-            </el-button>
-            <el-button text icon="delete" :title="$t('btn.delete')" @click.stop="handleDelete(scope.row)"
-              v-hasPermi="['system:role:remove']">
-            </el-button>
+            <el-button-group>
+              <el-button type="success" size="small" plain icon="edit" :title="$t('btn.edit')"
+                @click.stop="handleUpdate(scope.row)" v-hasPermi="['system:role:edit']"> </el-button>
+              <el-button type="danger" size="small" plain icon="delete" :title="$t('btn.delete')"
+                @click.stop="handleDelete(scope.row)" v-hasPermi="['system:role:remove']"> </el-button>
 
-            <el-dropdown @command="(command) => handleCommand(command, scope.row)"
-              v-hasPermi="['system:role:edit', 'system:role:authorize', 'system:roleusers:list']">
-              <span class="el-dropdown-link">
-                {{ $t('btn.more') }}
-                <el-icon class="el-icon--right">
-                  <arrow-down />
-                </el-icon>
-              </span>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item command="handleDataScope" icon="circle-check">{{ $t('menu.menuPermi')
-                    }}</el-dropdown-item>
-                  <el-dropdown-item command="handleAuthUser" icon="user">{{ $t('menu.assignUsers') }}</el-dropdown-item>
-                  <el-dropdown-item command="handleExportMenu" icon="download">导出菜单</el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
+              <el-dropdown @command="(command) => handleCommand(command, scope.row)"
+                v-hasPermi="['system:role:edit', 'system:role:authorize', 'system:roleusers:list']">
+                <el-button class="btn-intos" size="small" plain icon="more">
+                  <el-icon class="el-icon--right"><arrow-down /></el-icon>
+                </el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item>
+                      <el-button class="btn-start" size="small" plain icon="circle-check"
+                        @click="handleDataScope(scope.row)" :title="$t('prole.droleMenuPermi')"
+                        v-hasPermi="['system:role:rolememu']"></el-button>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                      <el-button class="btn-run" size="small" plain icon="user" @click="handleAuthUser(scope.row)"
+                        :title="$t('prole.drolePermi')" v-hasPermi="['system:userrole:add']"></el-button>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                      <el-button class="btn-export" size="small" plain icon="download" @click="handleExportMenu"
+                        :title="$t('prole.exportMenu')" v-hasPermi="['system:role:export']"></el-button>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </el-button-group>
           </div>
         </template>
       </el-table-column>
@@ -88,38 +101,41 @@
       v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 角色菜单弹框 -->
-    <zr-dialog title="角色权限分配" key="role" top="0vh" draggable="" v-model="showRoleScope" width="700px" @close="cancel">
-      <el-form :model="form" label-width="80px">
-        <el-form-item label="菜单搜索">
-          <el-input placeholder="请输入关键字进行过滤" v-model="searchText"></el-input>
+    <zr-dialog :title="$t('prole.role')+$t('pmenu.menu')" key="role" top="0vh" draggable="" v-model="showRoleScope"
+      width="700px" @close="cancel">
+      <el-form :model="form" label-width="auto">
+        <el-form-item :label="$t('prole.droleQuery')">
+          <el-input :placeholder="$t('prole.keywords')" v-model="searchText"></el-input>
         </el-form-item>
-        <el-form-item label="权限字符">
+        <el-form-item :label="$t('prole.troleKey')">
           {{ form.roleKey }}
         </el-form-item>
-        <el-form-item label="菜单权限">
-          <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠</el-checkbox>
-          <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">全选/全不选</el-checkbox>
+        <el-form-item :label="$t('prole.droleMenuPermi')">
+          <el-checkbox v-model="menuExpand"
+            @change="handleCheckedTreeExpand($event, 'menu')">{{$t('btn.expand')}}/{{$t('btn.collapse')}}</el-checkbox>
+          <el-checkbox v-model="menuNodeAll"
+            @change="handleCheckedTreeNodeAll($event, 'menu')">{{$t('btn.selectAll')}}/{{$t('btn.selectInvert')}}</el-checkbox>
           <el-checkbox v-model="form.menuCheckStrictly"
-            @change="handleCheckedTreeConnect($event, 'menu')">父子联动</el-checkbox>
+            @change="handleCheckedTreeConnect($event, 'menu')">{{$t('btn.parentChildLinkage')}}</el-checkbox>
           <el-tree class="tree-border" :data="menuOptions" show-checkbox ref="menuRef" node-key="id"
-            :check-strictly="!form.menuCheckStrictly" empty-text="加载中，请稍后" highlight-current
+            :check-strictly="!form.menuCheckStrictly" :empty-text="$t('common.tipWaitingfor')" highlight-current
             :filter-node-method="menuFilterNode"
             :props="{ children: 'children', label: 'label', class: customNodeClass }">
             <template #default="{ node, data }">
               <div class="custom-tree-node">
                 <span class="fl" :title="data.permission">{{ node.label }}</span>
                 <span class="fr ml10">
-                  <el-tag v-if="data.isStatus == 1" type="danger">停用</el-tag>
+                  <el-tag v-if="data.isStatus == 1" type="danger">{{$t('prole.statStop')}}</el-tag>
                 </span>
               </div>
             </template>
           </el-tree>
-          <div style="color: red">请在菜单管理里面添加对应的菜单权限</div>
+          <div style="color: red">{{$t('prole.droleMenuPermiMemo')}}</div>
         </el-form-item>
       </el-form>
       <template #footer>
         <el-button text @click="cancel">{{ $t('btn.cancel') }}</el-button>
-        <el-button type="primary" @click="submitDataScope" v-hasPermi="['system:role:authorize']">{{ $t('btn.save')
+        <el-button type="primary" @click="submitDataScope" v-hasPermi="['system:role:memu']">{{ $t('btn.save')
           }}</el-button>
       </template>
     </zr-dialog>
@@ -128,41 +144,43 @@
     <zr-dialog :title="title" key="roleEdit" v-model="open" append-to-body @close="cancel">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-row>
-          <el-col :lg="12">
-            <el-form-item label="角色名称" prop="roleName">
-              <el-input v-model="form.roleName" placeholder="请输入角色名称" />
+          <el-col :lg="24">
+            <el-form-item :label="$t('prole.roleName')" prop="roleName">
+              <el-input v-model="form.roleName"
+                :placeholder="$t('btn.enterPrefix')+$t('prole.roleName')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
-          <el-col :lg="12">
-            <el-form-item label="权限字符" prop="roleKey">
+          <el-col :lg="24">
+            <el-form-item :label="$t('prole.troleKey')" prop="roleKey">
               <template #label>
                 <span>
-                  <el-tooltip content="使用： v-hasRole='['admin']'" placement="top">
+                  <el-tooltip :content="$t('prole.troleUsedMethod')" placement="top">
                     <el-icon :size="15">
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  权限字符
+                  {{$t('prole.troleKey')}}
                 </span>
               </template>
-              <el-input v-model="form.roleKey" placeholder="请输入权限字符" />
+              <el-input v-model="form.roleKey"
+                :placeholder="$t('btn.enterPrefix')+$t('prole.troleKey')+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
-          <el-col :lg="12">
-            <el-form-item label="角色顺序" prop="roleSort">
-              <el-input-number v-model="form.roleSort" controls-position="right" :min="0" />
+          <el-col :lg="24">
+            <el-form-item :label="$t('prole.troleSort')" prop="sortingNum">
+              <el-input-number v-model="form.sortingNum" controls-position="right" :min="0" />
             </el-form-item>
           </el-col>
-          <el-col :lg="12">
-            <el-form-item label="数据范围">
+          <el-col :lg="24">
+            <el-form-item :label="$t('prole.dataScope')">
               <el-select v-model="form.dataScope" @change="dataScopeSelectChange">
                 <el-option v-for="item in dataScopeOptions" :key="item.dictValue" :label="item.dictLabel"
                   :value="parseInt(item.dictValue)"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :lg="12">
-            <el-form-item label="状态">
+          <el-col :lg="24">
+            <el-form-item :label="$t('common.tipIsStated')">
               <el-radio-group v-model="form.isStatus">
                 <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                   dict.dictLabel }}</el-radio>
@@ -170,25 +188,28 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="数据权限" v-show="form.dataScope == 2">
-              <el-checkbox v-model="deptExpand" @change="handleCheckedTreeExpand($event, 'dept')">展开/折叠</el-checkbox>
-              <el-checkbox v-model="deptNodeAll" @change="handleCheckedTreeNodeAll($event, 'dept')">全选/全不选</el-checkbox>
+            <el-form-item :label="$t('prole.dataPermi')" v-show="form.dataScope == 2">
+              <el-checkbox v-model="deptExpand"
+                @change="handleCheckedTreeExpand($event, 'dept')">{{$t('btn.expand')}}/{{$t('btn.collapse')}}</el-checkbox>
+              <el-checkbox v-model="deptNodeAll"
+                @change="handleCheckedTreeNodeAll($event, 'dept')">{{$t('btn.selectAll')}}/{{$t('btn.selectInvert')}}</el-checkbox>
               <el-checkbox v-model="form.deptCheckStrictly" @change="handleCheckedTreeConnect($event, 'dept')">
-                父子联动
-                <el-tooltip content="勾选父节点是否同时选中子节点" placement="top">
+                {{$t('btn.parentChildLinkage')}}
+                <el-tooltip :content="$t('prole.linkageTip')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
                 </el-tooltip>
               </el-checkbox>
               <el-tree class="tree-border" :data="deptOptions" show-checkbox default-expand-all ref="deptRef"
-                node-key="id" :check-strictly="!form.deptCheckStrictly" empty-text="加载中，请稍候"
+                node-key="id" :check-strictly="!form.deptCheckStrictly" :empty-text="$t('common.tipWaitingfor')"
                 :props="defaultProps"></el-tree>
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="备注">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+            <el-form-item :label="$t('common.tipRemarks')">
+              <el-input v-model="form.remark" type="textarea"
+                :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -205,7 +226,7 @@
   import { listRole, getRole, delRole, addRole, updateRole, exportRole, dataScope, changeRoleStatus, exportRoleMenu } from '@/api/system/role'
   import { roleMenuTreeselect } from '@/api/system/menu'
   import { treeselect as deptTreeselect, roleDeptTreeselect } from '@/api/system/dept'
-
+  import '@/assets/styles/btn-custom.scss';
   const { proxy } = getCurrentInstance()
 
   const loading = ref(true)
@@ -239,23 +260,23 @@
   const dataScopeOptions = ref([
     {
       dictValue: '1',
-      dictLabel: '全部'
+      dictLabel: proxy.$t('common.all')
     },
     {
       dictValue: '2',
-      dictLabel: '自定义'
+      dictLabel: proxy.$t('prole.customization')
     },
     {
       dictValue: '3',
-      dictLabel: '本部门'
+      dictLabel: proxy.$t('prole.department')
     },
     {
       dictValue: '4',
-      dictLabel: '本部门及以下'
+      dictLabel: proxy.$t('prole.departmentandbelow')
     },
     {
       dictValue: '5',
-      dictLabel: '仅本人'
+      dictLabel: proxy.$t('prole.onlyme')
     }
   ])
   // 菜单列表
@@ -275,9 +296,9 @@
   const state = reactive({
     form: {},
     rules: {
-      roleName: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }],
-      roleKey: [{ required: true, message: '权限字符不能为空', trigger: 'blur' }],
-      roleSort: [{ required: true, message: '角色顺序不能为空', trigger: 'blur' }]
+      roleName: [{ required: true, message: proxy.$t('prole.troleName') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
+      roleKey: [{ required: true, message: proxy.$t('prole.troleKey') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
+      sortingNum: [{ required: true, message: proxy.$t('prole.troleSort') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
     },
     defaultProps: {
       children: 'children',
@@ -345,19 +366,19 @@
   }
   // 角色状态修改
   function handleStatusChange(row) {
-    const text = row.isStatus == '0' ? '启用' : '停用'
+    const text = row.isStatus == '0' ? proxy.$t('prole.statStart') : proxy.$t('prole.statStop')
 
     proxy
-      .$confirm('确认要"' + text + '""' + row.roleName + '"角色吗?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('prole.statMemo') + text + row.roleName + proxy.$t('prole.statconfirmMemo'), proxy.$t('btn.update') + ' ' + proxy.$t('common.tipIsStated') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return changeRoleStatus(row.roleId, row.isStatus)
       })
       .then(() => {
-        proxy.$modal.msgSuccess(text + '成功')
+        proxy.$modal.msgSuccess(text + proxy.$t('prole.statSucceed'))
       })
       .catch(function () {
         row.isStatus = row.isStatus == 0 ? 1 : 0
@@ -382,7 +403,7 @@
         roleId: undefined,
         roleName: undefined,
         roleKey: undefined,
-        roleSort: 99,
+        sortingNum: 99,
         isStatus: 0,
         menuIds: [],
         deptIds: [],
@@ -469,7 +490,7 @@
     reset()
     getDeptTreeselect()
     open.value = true
-    title.value = '添加角色'
+    title.value = proxy.$t('btn.add') + ' ' + proxy.$t('prole.role')
     showRoleScope.value = false
   }
 
@@ -482,7 +503,7 @@
     getRole(roleId).then((response) => {
       form.value = response.data
       open.value = true
-      title.value = '修改角色'
+      title.value = proxy.$t('btn.edit') + ' ' + proxy.$t('prole.role')
 
       nextTick(() => {
         roleDeptTreeselect.then((res) => {
@@ -536,7 +557,7 @@
     if (hasPermi) {
       router.push({ path: '/system/roleusers', query: { roleId } })
     } else {
-      proxy.$modal.msgError('你没有权限访问')
+      proxy.$modal.msgError(proxy.$t('prole.noPermission'))
     }
   }
   /** 提交按钮 */
@@ -547,7 +568,7 @@
           form.value.type = 'edit'
           form.value.deptIds = getDeptAllCheckedKeys()
           updateRole(form.value).then((response) => {
-            proxy.$modal.msgSuccess('修改成功')
+            proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
             open.value = false
             getList()
           })
@@ -557,7 +578,7 @@
           addRole(form.value).then((response) => {
             open.value = false
             if (response.code == 200) {
-              proxy.$modal.msgSuccess('新增成功')
+              proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
               getList()
             } else {
               proxy.$modal.msgError(response.msg)
@@ -573,12 +594,12 @@
     if (form.value.roleId != undefined) {
       form.value.menuIds = getMenuAllCheckedKeys()
       dataScope(form.value).then((response) => {
-        proxy.$modal.msgSuccess('修改成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipUpdateSucceed'))
         getList()
         cancel()
       })
     } else {
-      proxy.$modal.msgError('请选择角色')
+      proxy.$modal.msgError(proxy.$t('prole.selectRole'))
     }
   }
 
@@ -586,27 +607,27 @@
   function handleDelete(row) {
     const roleIds = row.roleId || ids.value
     proxy
-      .$confirm('是否确认删除角色编号为"' + roleIds + '"的数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.tipConfirmDel') + roleIds + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return delRole(roleIds)
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
   }
 
   /** 导出按钮操作 */
   function handleExport() {
     proxy
-      .$confirm('是否确认导出所有角色数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.tipConfirmExport') + "<Role.xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return exportRole(queryParams)
@@ -617,11 +638,11 @@
   }
   // 导出角色菜单
   function handleExportMenu(row) {
-    proxy.$modal
-      .confirm('是否确认导出所有角色菜单数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+    proxy
+      .$confirm(proxy.$t('common.tipConfirmExport') + "<RoleMenu.xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(async () => {
         await exportRoleMenu({ roleId: row.roleId })

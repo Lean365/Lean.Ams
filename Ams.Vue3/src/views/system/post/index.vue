@@ -1,22 +1,39 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch">
-      <el-form-item label="岗位编码" prop="postCode">
-        <el-input v-model="queryParams.postCode" placeholder="请输入岗位编码" @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="岗位名称" prop="postName">
-        <el-input v-model="queryParams.postName" placeholder="请输入岗位名称" @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item label="状态" prop="isStatus">
-        <el-radio-group v-model="queryParams.isStatus">
-          <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
-            dict.dictLabel }}</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="search" @click="handleQuery">{{ $t('btn.search') }}</el-button>
-        <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
-      </el-form-item>
+      <el-row :gutter="10" class="mb8">
+        <el-col :lg="12">
+          <el-form-item :label="$t('ppost.postCode')" prop="postCode">
+            <el-input v-model="queryParams.postCode"
+              :placeholder="$t('btn.enterSearchPrefix')+$t('ppost.postCode')+$t('btn.enterSearchSuffix')"
+              @keyup.enter="handleQuery" />
+          </el-form-item>
+          <el-form-item :label="$t('ppost.postName')" prop="postName">
+            <el-input v-model="queryParams.postName"
+              :placeholder="$t('btn.enterSearchPrefix')+$t('ppost.postName')+$t('btn.enterSearchSuffix')"
+              @keyup.enter="handleQuery" />
+          </el-form-item>
+        </el-col>
+        <el-form-item :label="$t('common.tipIsStated')" prop="isStatus">
+          <el-radio-group v-model="queryParams.isStatus">
+            <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
+              dict.dictLabel }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item :label="$t('ppost.postLevel')" prop="postLevel">
+          <el-radio-group v-model="queryParams.postLevel">
+            <el-radio v-for="dict in levelOptions" :key="dict.dictValue" :value="dict.dictValue">{{
+              dict.dictLabel }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-col :lg="24" :offset="12">
+          <el-form-item>
+            <el-button type="primary" icon="search" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+            <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
     </el-form>
 
     <el-row :gutter="10" class="mb8">
@@ -45,30 +62,34 @@
 
     <el-table v-loading="loading" :data="postList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="岗位编号" align="center" prop="postId" sortable />
-      <el-table-column label="岗位编码" align="center" prop="postCode" />
-      <el-table-column label="岗位名称" align="center" prop="postName" />
-      <el-table-column label="用户数" align="center" prop="userNum" sortable />
-      <el-table-column label="岗位排序" align="center" prop="postSort" sortable />
-      <el-table-column label="状态" align="center" prop="isStatus">
+      <el-table-column label="ID" align="center" prop="postId" sortable />
+      <el-table-column :label="$t('ppost.postCode')" align="center" prop="postCode" />
+      <el-table-column :label="$t('ppost.postName')" align="center" prop="postName" />
+      <el-table-column :label="$t('ppost.postLevel')" align="center" prop="postLevel" />
+      <el-table-column :label="$t('ppost.postMembership')" align="center" prop="userNum" sortable />
+      <el-table-column :label="$t('ppost.postSort')" align="center" prop="postSort" sortable />
+      <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStatus">
         <template #default="scope">
           <dict-tag :options="statusOptions" :value="scope.row.isStatus" />
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180" sortable>
+      <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime" width="180" sortable>
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="150">
+      <el-table-column :label="$t('btn.operation')" align="center" width="150">
         <template #default="scope">
-          <el-button text size="small" icon="edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:post:edit']">
-            {{ $t('btn.edit') }}
-          </el-button>
-          <el-button text size="small" icon="delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['system:post:remove']">
-            {{ $t('btn.delete') }}
-          </el-button>
+          <el-button-group>
+            <el-button type="success" plain size="small" icon="edit" @click="handleUpdate(scope.row)"
+              v-hasPermi="['system:post:edit']" :title="$t('btn.edit')">
+
+            </el-button>
+            <el-button type="danger" plain size="small" icon="delete" @click="handleDelete(scope.row)"
+              v-hasPermi="['system:post:remove']" :title="$t('btn.delete')">
+
+            </el-button>
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
@@ -79,23 +100,32 @@
     <!-- 添加或修改岗位对话框 -->
     <el-dialog :title="title" v-model="open" width="500px">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
-        <el-form-item label="岗位名称" prop="postName">
-          <el-input v-model="form.postName" placeholder="请输入岗位名称" />
+        <el-form-item :label="$t('ppost.postName')" prop="postName">
+          <el-input v-model="form.postName"
+            :placeholder="$t('btn.enterPrefix')+$t('ppost.postName')+$t('btn.enterSuffix')" />
         </el-form-item>
-        <el-form-item label="岗位编码" prop="postCode">
-          <el-input v-model="form.postCode" placeholder="请输入编码名称" />
+        <el-form-item :label="$t('ppost.postCode')" prop="postCode">
+          <el-input v-model="form.postCode"
+            :placeholder="$t('btn.enterPrefix')+$t('ppost.postCode')+$t('btn.enterSuffix')" />
         </el-form-item>
-        <el-form-item label="岗位顺序" prop="postSort">
+        <el-form-item :label="$t('ppost.postLevel')" prop="postLevel">
+          <el-radio-group v-model="form.postLevel">
+            <el-radio v-for="dict in levelOptions" :key="dict.dictValue" :value="dict.dictValue">{{
+              dict.dictLabel }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item :label="$t('ppost.postSort')" prop="postSort">
           <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
         </el-form-item>
-        <el-form-item label="岗位状态" prop="isStatus">
+        <el-form-item :label="$t('common.tipIsStated')" prop="isStatus">
           <el-radio-group v-model="form.isStatus">
             <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
               dict.dictLabel }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+        <el-form-item :label="$t('common.tipRemarks')" prop="remark">
+          <el-input v-model="form.remark" type="textarea"
+            :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -126,12 +156,16 @@
   const open = ref(false)
   // 状态数据字典
   const statusOptions = ref([])
+  // 岗位级别数据字典
+  const levelOptions = ref([])
+
   // 查询参数
   let queryParams = reactive({
     pageNum: 1,
     pageSize: 10,
     postCode: undefined,
     postName: undefined,
+    postLevel: undefined,
     isStatus: 0
   })
   // 表单校验
@@ -139,9 +173,9 @@
   const state = reactive({
     form: {},
     rules: {
-      postName: [{ required: true, message: '岗位名称不能为空', trigger: 'blur' }],
-      postCode: [{ required: true, message: '岗位编码不能为空', trigger: 'blur' }],
-      postSort: [{ required: true, message: '岗位顺序不能为空', trigger: 'blur' }]
+      postName: [{ required: true, message: proxy.$t('ppost.postName') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
+      postCode: [{ required: true, message: proxy.$t('ppost.postCode') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
+      postSort: [{ required: true, message: proxy.$t('ppost.postSort') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
     }
   })
   const formRef = ref(null)
@@ -166,6 +200,7 @@
       postId: undefined,
       postCode: undefined,
       postName: undefined,
+      postLevel: 'L4',
       postSort: 0,
       isStatus: 0,
       remark: undefined
@@ -174,6 +209,9 @@
   }
   proxy.getDicts('sys_normal_disable').then((response) => {
     statusOptions.value = response.data
+  })
+  proxy.getDicts('sys_post_level').then((response) => {
+    levelOptions.value = response.data
   })
   /** 搜索按钮操作 */
   function handleQuery() {
@@ -195,7 +233,7 @@
   function handleAdd() {
     reset()
     open.value = true
-    title.value = '添加岗位'
+    title.value = proxy.$t('btn.add')
   }
   /** 修改按钮操作 */
   function handleUpdate(row) {
@@ -204,7 +242,7 @@
     getPost(postId).then((response) => {
       form.value = response.data
       open.value = true
-      title.value = '修改岗位'
+      title.value = proxy.$t('btn.edit')
     })
   }
   /** 提交按钮 */
@@ -213,13 +251,13 @@
       if (valid) {
         if (form.value.postId != undefined) {
           updatePost(form.value).then((response) => {
-            proxy.$modal.msgSuccess('修改成功')
+            proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
             open.value = false
             getList()
           })
         } else {
           addPost(form.value).then((response) => {
-            proxy.$modal.msgSuccess('新增成功')
+            proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
             open.value = false
             getList()
           })
@@ -231,26 +269,26 @@
   function handleDelete(row) {
     const postIds = row.postId || ids.value
     proxy
-      .$confirm('是否确认删除岗位编号为"' + postIds + '"的数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.tipConfirmDel') + postIds + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return delPost(postIds)
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
   }
   /** 导出按钮操作 */
   function handleExport() {
     proxy
-      .$confirm('是否确认导出所有岗位数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.tipConfirmExport') + "<Post.xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(async () => {
         await exportPost(queryParams)

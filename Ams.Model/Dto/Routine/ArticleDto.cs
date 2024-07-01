@@ -165,6 +165,6 @@ namespace Ams.Model.Dto.Routine
     {
         public string Avatar { get; set; } = string.Empty;
         public string NickName { get; set; }
-        public int Sex { get; set; }
+        public int Gender { get; set; }
     }
 }

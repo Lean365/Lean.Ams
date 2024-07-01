@@ -16,7 +16,7 @@
     "routePath": "ルーティングアドレス",
     "permissionStr": "権限文字",
     "isCache": "Cache否",
-    "menuNameKey": "メニュー翻訳Key",
+    "menuNameKey": "翻訳Key",
     "menuNameKeymemo": "多言語翻訳キー:例:menu.system、多言語で記入する必要はありません。",
     "selectIcon": "クリックしてアイコンを選択",
     "linkMemo": "バックリンクを選択した場合、ルーティングアドレスは`http(s)://`で始まる必要があります",

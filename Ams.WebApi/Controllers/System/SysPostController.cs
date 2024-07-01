@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SqlSugar;
-using Ams.Repository;
+﻿using Ams.Repository;
 using Ams.Service.Filters;
 using Ams.Service.IService.Systems;
+using Microsoft.AspNetCore.Mvc;
+using SqlSugar;
 
 namespace Ams.Admin.WebApi.Controllers.System
 {
@@ -33,10 +33,11 @@ namespace Ams.Admin.WebApi.Controllers.System
         public IActionResult List([FromQuery] SysPostQueryDto dto)
         {
             var predicate = Expressionable.Create<SysPost>();
-            predicate = predicate.AndIF(dto.IsStatus.ToString().IfNotEmpty(), it => it.IsStatus == dto.IsStatus);
+
             predicate = predicate.AndIF(dto.PostName.IfNotEmpty(), it => it.PostName.Contains(dto.PostName));
             predicate = predicate.AndIF(dto.PostCode.IfNotEmpty(), it => it.PostCode.Contains(dto.PostCode));
-
+            predicate = predicate.AndIF(dto.IsStatus.ToString().IfNotEmpty(), it => it.IsStatus == dto.IsStatus);
+            predicate = predicate.AndIF(dto.PostLevel.IfNotEmpty(), it => it.PostLevel == dto.PostLevel);
             var list = PostService.Queryable()
              .Where(predicate.ToExpression())
                 .Select((it) => new SysPostDto

@@ -13,7 +13,7 @@
         /// <summary>
         /// 用户性别（0男 1女 2未知）
         /// </summary>
-        public int Sex { get; set; }
+        public int Gender { get; set; }
 
         public string Password { get; set; }
 
@@ -59,7 +59,7 @@
         /// <summary>
         /// 用户性别（0男 1女 2未知）
         /// </summary>
-        public int Sex { get; set; }
+        public int Gender { get; set; }
 
         public DateTime? BeginTime { get; set; }
         public DateTime? EndTime { get; set; }

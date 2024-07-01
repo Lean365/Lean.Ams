@@ -29,7 +29,7 @@
         /// 角色排序
         /// </summary>
         [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public int RoleSort { get; set; }
+        public int SortingNum { get; set; }
 
         /// <summary>
         /// 帐号状态（0正常 1停用）

@@ -6,7 +6,8 @@
           <el-form-item :label="$t('pmenu.parentMenu')" prop="parentId">
             <el-cascader class="w100" :options="menuQueryOptions"
               :props="{ checkStrictly: true, value: 'menuId', label: 'menuName', emitPath: false }"
-              placeholder="请选择上级菜单" clearable v-model="queryParams.parentId">
+              :placeholder="$t('btn.selectSearchPrefix')+$t('pmenu.parentMenu')+$t('btn.selectSearchSuffix')" clearable
+              v-model="queryParams.parentId">
               <template #default="{ node, data }">
                 <span>{{ data.menuName }}</span>
                 <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -14,7 +15,9 @@
             </el-cascader>
           </el-form-item>
           <el-form-item :label="$t('pmenu.menuName')" prop="menuName">
-            <el-input v-model="queryParams.menuName" placeholder="请输入菜单名称" clearable @keyup.enter="handleQuery" />
+            <el-input v-model="queryParams.menuName"
+              :placeholder="$t('btn.enterSearchPrefix')+$t('pmenu.menuName')+$t('btn.enterSearchSuffix')" clearable
+              @keyup.enter="handleQuery" />
           </el-form-item>
           <el-form-item :label="$t('common.tipIsStated')" prop="isStatus">
             <el-radio-group v-model="queryParams.isStatus">
@@ -41,7 +44,8 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="Plus" @click="handleAdd" v-hasPermi="['system:menu:add']">{{ $t('btn.add')
+        <el-button class="btn-add" plain icon="Plus" @click="handleAdd" v-hasPermi="['system:menu:add']">{{
+          $t('btn.add')
           }}</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -93,7 +97,7 @@
           <dict-tag :options="options.sys_menu_show" :value="scope.row.visible" />
         </template>
       </vxe-column>
-      <vxe-column field="isStatus" :title="$t('common.tipIsStated')" width="80" align="center">
+      <vxe-column field="isStatus" :title="$t('common.tipIsStated')" width="120" align="center">
         <template #default="scope">
           <dict-tag :options="options.sys_normal_disable" :value="scope.row.isStatus" />
         </template>
@@ -107,13 +111,12 @@
       <vxe-column :title="$t('btn.operation')" align="center" width="140">
         <template #default="scope">
           <el-button-group>
-            <el-button text size="small" icon="Plus" @click="handleAdd(scope.row)"
+            <el-button class="btn-add" plain size="small" icon="Plus" @click="handleAdd(scope.row)"
               v-hasPermi="['system:menu:add']"></el-button>
-            <el-button text size="small" icon="Edit" @click="handleUpdate(scope.row)"
+            <el-button class="btn-edit" plain size="small" icon="Edit" @click="handleUpdate(scope.row)"
               v-hasPermi="['system:menu:edit']"></el-button>
             <el-dropdown>
-              <el-button size="small" text>
-                {{ $t('btn.more') }}
+              <el-button size="small" class="btn-more">
                 <el-icon class="el-icon--right">
                   <arrow-down />
                 </el-icon>
@@ -123,12 +126,14 @@
                 <el-dropdown-menu>
                   <div v-hasPermi="['system:menu:remove']">
                     <el-dropdown-item>
-                      <el-button icon="Delete" link @click="handleDelete(scope.row)">删除当前</el-button>
+                      <el-button class="btn-delete" plain size="small" icon="Delete" @click="handleDelete(scope.row)"
+                        :title="$t('btn.delete')"></el-button>
                     </el-dropdown-item>
                   </div>
                   <div v-hasPermi="['system:menu:remove']" class="mt10">
                     <el-dropdown-item>
-                      <el-button icon="Delete" type="danger" link @click="handleDeleteAll(scope.row)"> 删除所有 </el-button>
+                      <el-button class="btn-deletebatch" plain size="small" icon="DeleteFilled" type="danger"
+                        @click="handleDeleteAll(scope.row)" :title="$t('btn.delete')+$t('common.all')"> </el-button>
                     </el-dropdown-item>
                   </div>
                 </el-dropdown-menu>
@@ -145,8 +150,8 @@
 
 <script setup name="sysmenu">
   import { delMenu, listMenu, changeMenuSort as changeSort, delAllMenu } from '@/api/system/menu'
-
   import menuForm from '@/views/components/form/menuForm.vue'
+  import '@/assets/styles/btn-custom.scss'
   const { proxy } = getCurrentInstance()
 
   var dictParams = [{ dictType: 'sys_menu_show' }, { dictType: 'sys_normal_disable' }]
@@ -182,8 +187,8 @@
   })
   // 列显隐信息
   const columns = ref([
-    { label: `添加时间`, visible: false, prop: 'createTime' },
-    { label: `排序`, visible: true, prop: 'sortingNum' }
+    { label: proxy.$t('common.tipCreateTime'), visible: false, prop: 'createTime' },
+    { label: proxy.$t('pmenu.sort'), visible: true, prop: 'sortingNum' }
   ])
 
   const tableHeight = ref(document.documentElement.scrollHeight - 245 + 'px')
@@ -248,28 +253,34 @@
 
   /** 删除按钮操作 */
   function handleDelete(row) {
-    proxy.$modal
-      .confirm('是否确认删除名称为"' + row.menuName + '"的数据项?')
-      .then(function () {
-        return delMenu(row.menuId)
+    proxy
+      .$confirm(proxy.$t('common.tipConfirmDel') + row.menuName + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
+
       .then(() => {
         // getList()
         refreshMenu(row.parentId)
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
   }
   /** 删除按钮操作 */
   function handleDeleteAll(row) {
-    proxy.$modal
-      .confirm('是否确认删除名称为"' + row.menuName + '"的所有数据项?')
+    proxy
+      .$confirm(proxy.$t('common.tipConfirmDel') + row.menuName + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
+      })
       .then(function () {
         return delAllMenu(row.menuId)
       })
       .then(() => {
         // getList()
         refreshMenu(row.parentId)
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
   }
   // ******************自定义编辑 start **********************
@@ -293,14 +304,14 @@
   function handleChangeSort(info) {
     editIndex.value = -1
     proxy
-      .$confirm('是否保存数据?')
+      .$confirm(proxy.$t('common.tipConfirmSave'))
       .then(function () {
         return changeSort({ value: info.sortingNum, id: info.menuId })
       })
       .then(() => {
         handleQuery()
         refreshMenu(info.parentId)
-        proxy.$modal.msgSuccess('修改成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipUpdateSucceed'))
       })
       .catch(() => {
         handleQuery()

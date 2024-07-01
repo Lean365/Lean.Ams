@@ -26,7 +26,8 @@ namespace Ams.Service.Systems
             var predicate = Expressionable.Create<SysDept>();
             predicate = predicate.And(it => it.IsDeleted == 0);
             predicate = predicate.AndIF(dept.DeptName.IfNotEmpty(), it => it.DeptName.Contains(dept.DeptName));
-            predicate = predicate.AndIF(dept.IsStatus != null, it => it.IsStatus == dept.IsStatus);
+            predicate = predicate.AndIF(dept.IsStatus.IsNotEmpty(), it => it.IsStatus == dept.IsStatus);
+            //predicate = predicate.AndIF(dept.IsStatus != -1, u => u.IsStatus == dept.IsStatus);
 
             var response = Queryable()
                 .Where(predicate.ToExpression())

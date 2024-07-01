@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Ams.Model;
+﻿using Ams.Model;
 using Ams.Service.Filters;
 using Ams.Service.IService.Systems;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ams.Admin.WebApi.Controllers.System
 {
@@ -117,8 +117,8 @@ namespace Ams.Admin.WebApi.Controllers.System
         /// <param name="sysRoleDto"></param>
         /// <returns></returns>
         [HttpPut("dataScope")]
-        [ActionPermissionFilter(Permission = "system:role:authorize")]
-        [Log(Title = "角色管理", BusinessType = BusinessType.EDIT)]
+        [ActionPermissionFilter(Permission = "system:role:memu")]
+        [Log(Title = "角色管理", BusinessType = BusinessType.ROLEMENU)]
         public IActionResult DataScope([FromBody] SysRoleDto sysRoleDto)
         {
             if (sysRoleDto == null || sysRoleDto.RoleId <= 0) return ToResponse(ApiResult.Error(101, "请求参数错误"));

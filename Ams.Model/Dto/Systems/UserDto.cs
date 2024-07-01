@@ -10,6 +10,6 @@
         /// <summary>
         /// 用户性别（0男 1女 2未知）
         /// </summary>
-        public int Sex { get; set; }
+        public int Gender { get; set; }
     }
 }

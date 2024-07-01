@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SqlSugar;
-using Ams.Service.Filters;
-
+﻿using Ams.Service.Filters;
 using Ams.Service.IService.Routine;
 using Ams.Service.IService.Systems;
+using Microsoft.AspNetCore.Mvc;
+using SqlSugar;
 
 namespace Ams.Admin.WebApi.Controllers
 {
@@ -196,7 +195,7 @@ namespace Ams.Admin.WebApi.Controllers
             {
                 Avatar = user.Avatar,
                 NickName = user.NickName,
-                Sex = user.Sex,
+                Gender = user.Gender,
             };
             //apiResult.Put("user", user.Adapt<UserDto>());
             return ToResponse(apiResult);

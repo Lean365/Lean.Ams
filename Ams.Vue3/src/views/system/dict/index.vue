@@ -1,33 +1,37 @@
 <template>
   <div class="app-container">
 
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="auto">
       <el-row :gutter="20">
         <el-col :lg="24">
-          <el-form-item label="字典类型" prop="dictType">
-            <el-input v-model="queryParams.dictType" placeholder="请输入字典类型" clearable @keyup.enter="handleQuery" />
+          <el-form-item :label="$t('pdict.dictType')" prop="dictType">
+            <el-input v-model="queryParams.dictType"
+              :placeholder="$t('btn.enterSearchPrefix')+$t('pdict.dictType')+$t('btn.enterSearchSuffix')" clearable
+              @keyup.enter="handleQuery" />
           </el-form-item>
-          <el-form-item label="字典名称" prop="dictName">
-            <el-input v-model="queryParams.dictName" placeholder="请输入字典名称" clearable @keyup.enter="handleQuery" />
+          <el-form-item :label="$t('pdict.dictName')" prop="dictName">
+            <el-input v-model="queryParams.dictName"
+              :placeholder="$t('btn.enterSearchPrefix')+$t('pdict.dictName')+$t('btn.enterSearchSuffix')" clearable
+              @keyup.enter="handleQuery" />
           </el-form-item>
-          <el-form-item label="状态" prop="isStatus">
+          <el-form-item :label="$t('common.tipIsStated')" prop="isStatus">
             <el-radio-group v-model="queryParams.isStatus">
-              <el-radio :value="-1">全部</el-radio>
+              <el-radio :value="-1">{{ $t('common.all') }}</el-radio>
               <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                 dict.dictLabel
                 }}</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="是否内置" prop="type">
+          <el-form-item :label="$t('pdict.builtin')" prop="type">
             <el-radio-group v-model="queryParams.type">
-              <el-radio value="A">全部</el-radio>
+              <el-radio value="A">{{ $t('common.all') }}</el-radio>
               <el-radio v-for="dict in typeOptions" :key="dict.dictValue" :value="dict.dictValue">{{ dict.dictLabel
                 }}</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="字典分类" prop="dictCategory">
+          <el-form-item :label="$t('pdict.dictCategory')" prop="dictCategory">
             <el-radio-group v-model="queryParams.dictCategory">
-              <el-radio :value="-1">全部</el-radio>
+              <el-radio :value="-1">{{ $t('common.all') }}</el-radio>
               <el-radio v-for="dict in categoryOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                 dict.dictLabel
                 }}</el-radio>
@@ -76,33 +80,41 @@
 
     <el-table :data="typeList" v-loading="loading" border @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="字典编号" align="center" prop="dictId" width="100" sortable />
-      <el-table-column label="字典类型" :show-overflow-tooltip="true">
+      <el-table-column label="Id" align="center" prop="dictId" width="100" sortable />
+      <el-table-column :label="$t('pdict.dictCategory')" :show-overflow-tooltip="true">
+        <template #default="scope">
+          <dict-tag :options="categoryOptions" :value="scope.row.dictCategory" />
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('pdict.dictType')" :show-overflow-tooltip="true">
         <template #default="scope">
           <el-link type="primary" @click="showDictData(scope.row)">{{ scope.row.dictType }}</el-link>
         </template>
       </el-table-column>
-      <el-table-column label="字典名称" align="center" prop="dictName" :show-overflow-tooltip="true" />
-      <el-table-column label="状态" align="center" prop="isStatus">
+      <el-table-column :label="$t('pdict.dictName')" align="center" prop="dictName" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStatus">
         <template #default="scope">
           <dict-tag :options="statusOptions" :value="scope.row.isStatus" />
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column :label="$t('common.tipRemarks')" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('btn.operation')" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button text size="small" icon="edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dict:edit']">
-            {{ $t('btn.edit') }}
-          </el-button>
-          <el-button text size="small" icon="delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['system:dict:remove']">
-            {{ $t('btn.delete') }}
-          </el-button>
+          <el-button-group>
+            <el-button type="success" plain size="small" icon="edit" @click="handleUpdate(scope.row)"
+              v-hasPermi="['system:dict:edit']" :title="$t('btn.edit')">
+
+            </el-button>
+            <el-button type="danger" plain size="small" icon="delete" @click="handleDelete(scope.row)"
+              v-hasPermi="['system:dict:remove']" :title="$t('btn.delete')">
+
+            </el-button>
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
@@ -113,59 +125,61 @@
     <!-- 添加或修改参数配置对话框 -->
     <el-dialog :title="title" v-model="open" draggable width="650px" append-to-body>
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
-        <el-form-item label="字典分类" prop="dictCategory">
+        <el-form-item :label="$t('pdict.dictCategory')" prop="dictCategory">
           <el-radio-group v-model="form.dictCategory" @change="handleRadio">
             <el-radio v-for="dict in categoryOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
               dict.dictLabel
               }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="字典名称" prop="dictName">
-          <el-input v-model="form.dictName" placeholder="请输入字典名称" @input="handleInput" />
+        <el-form-item :label="$t('pdict.dictName')" prop="dictName">
+          <el-input v-model="form.dictName"
+            :placeholder="$t('btn.enterPrefix')+$t('pdict.dictName')+$t('btn.enterSuffix')" @input="handleInput" />
         </el-form-item>
-        <el-form-item label="字典类型" prop="dictType">
+        <el-form-item :label="$t('pdict.dictType')" prop="dictType">
           <template #label>
             <span>
-              <el-tooltip content="如果从数据库加载数据，请使用sql_开头字符串" placement="top">
+              <el-tooltip :content="$t('pdict.dictTypememo')" placement="top">
                 <el-icon :size="15">
                   <questionFilled />
                 </el-icon>
               </el-tooltip>
-              字典类型
+              {{$t('pdict.dictType')}}
             </span>
           </template>
-          <el-input v-model="form.dictType" placeholder="请输入字典类型" @input="handleInput" />
+          <el-input v-model="form.dictType"
+            :placeholder="$t('btn.enterPrefix')+$t('pdict.dictType')+$t('btn.enterSuffix')" @input="handleInput" />
         </el-form-item>
-        <el-form-item label="字典状态" prop="isStatus">
+        <el-form-item :label="$t('common.tipIsStated')" prop="isStatus">
           <el-radio-group v-model="form.isStatus">
             <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
               dict.dictLabel
               }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="系统内置" prop="type">
+        <el-form-item :label="$t('pdict.dictName')" prop="type">
           <el-radio-group v-model="form.type">
             <el-radio v-for="dict in typeOptions" :key="dict.dictValue" :value="dict.dictValue">{{ dict.dictLabel
               }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+        <el-form-item :label="$t('common.tipRemarks')" prop="remark">
+          <el-input v-model="form.remark" type="textarea"
+            :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')"></el-input>
         </el-form-item>
-        <el-form-item label="自定义sql" prop="customSql">
+        <el-form-item :label="$t('pdict.sql')" prop="customSql">
           <template #label>
             <span>
-              <el-tooltip
-                content="如果从数据库加载数据，请按此格式配置sql语句：SELECT userId as dictValue, userName as dictLabel FROM sys_user"
-                placement="top">
+              <el-tooltip :content="$t('pdict.customSqlmemo')" placement="top">
                 <el-icon :size="15">
                   <questionFilled />
                 </el-icon>
               </el-tooltip>
-              sql语句
+              {{$t('pdict.sql')}}
             </span>
           </template>
-          <el-input v-model="form.customSql" type="textarea" placeholder="请输入sql语句"></el-input>
+          <el-input v-model="form.customSql" type="textarea"
+            :placeholder="$t('btn.enterPrefix')+$t('pdict.sql')+$t('btn.enterSuffix')"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -221,8 +235,8 @@
 
   const state = reactive({
     rules: {
-      dictName: [{ required: true, message: '字典名称不能为空', trigger: 'blur' }],
-      dictType: [{ required: true, message: '字典类型不能为空', trigger: 'blur' }]
+      dictName: [{ required: true, message: proxy.$t('pdict.dictName') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
+      dictType: [{ required: true, message: proxy.$t('pdict.dictType') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
     },
     form: {},
     queryParams: {
@@ -296,7 +310,7 @@
   function handleAdd() {
     reset()
     open.value = true
-    title.value = '添加字典类型'
+    title.value = proxy.$t('btn.add')
   }
   // 多选框选中数据
   function handleSelectionChange(selection) {
@@ -311,7 +325,7 @@
     getType(dictId).then((response) => {
       form.value = response.data
       open.value = true
-      title.value = '修改字典类型'
+      title.value = proxy.$t('btn.edit')
     })
   }
   /** 提交按钮 */
@@ -320,13 +334,13 @@
       if (valid) {
         if (form.value.dictId != undefined) {
           updateType(form.value).then((response) => {
-            proxy.$modal.msgSuccess('修改成功')
+            proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
             open.value = false
             getList()
           })
         } else {
           addType(form.value).then((response) => {
-            proxy.$modal.msgSuccess('新增成功')
+            proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
             open.value = false
             getList()
           })
@@ -338,26 +352,26 @@
   function handleDelete(row) {
     const dictIds = row.dictId || ids.value
     proxy
-      .$confirm('是否确认删除字典编号为"' + dictIds + '"的数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.tipConfirmDel') + dictIds + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return delType(dictIds)
       })
       .then(() => {
         getList()
-        proxy.$modal.msgSuccess('删除成功')
+        proxy.$modal.msgSuccess(proxy.$t('common.tipEmptySucceed'))
       })
   }
   /** 导出按钮操作 */
   function handleExport() {
     proxy
-      .$confirm('是否确认导出所有类型数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      .$confirm(proxy.$t('common.tipConfirmExport') + "<DictData.xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
       })
       .then(function () {
         return exportType(queryParams.value)

@@ -1,6 +1,4 @@
 using System.Collections;
-using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
 using Ams.Common;
 using Ams.Infrastructure.IPTools;
 using Ams.Service.IService.Systems;
@@ -179,7 +177,7 @@ namespace Ams.Service.Systems
                 t.Phonenumber,
                 t.DeptId,
                 t.IsStatus,
-                t.Sex,
+                t.Gender,
                 t.PostIds,
                 t.Remark,
                 t.Update_by,

@@ -1,15 +1,16 @@
 <template>
-  <zr-dialog :title="title" draggable v-model="open" width="680px">
-    <el-form ref="noticeRef" :model="form" :rules="rules" label-width="80px">
+  <!-- 添加或修改公告对话框 -->
+  <zr-dialog :title="title" draggable v-model="open" width="580px">
+    <el-form ref="noticeRef" :model="form" :rules="rules" label-width="auto">
       <el-row>
         <el-col :lg="24">
-          <el-form-item label="公告标题" prop="noticeTitle">
-            <el-input v-model="form.noticeTitle" placeholder="请输入公告标题" />
+          <el-form-item :label="$t('pnotice.noticeTitle')" prop="noticeTitle">
+            <el-input v-model="form.noticeTitle"
+              :placeholder="$t('btn.enterPrefix')+$t('pnotice.noticeTitle')+$t('btn.enterSuffix')" />
           </el-form-item>
         </el-col>
-
         <el-col :lg="12">
-          <el-form-item label="公告类型" prop="noticeType">
+          <el-form-item :label="$t('pnotice.noticeType')" prop="noticeType">
             <el-radio-group v-model="form.noticeType">
               <el-radio v-for="dict in props.options.sys_notice_type" :key="dict.dictValue"
                 :value="parseInt(dict.dictValue)">{{
@@ -18,9 +19,9 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :lg="12">
-          <el-form-item label="状态">
-            <el-radio-group v-model="form.status">
+        <el-col :lg="24">
+          <el-form-item :label="$t('common.tipIsStated')">
+            <el-radio-group v-model="form.isStatus">
               <el-radio v-for="dict in props.options.sys_notice_status" :key="dict.dictValue"
                 :value="parseInt(dict.dictValue)">{{
                 dict.dictLabel
@@ -28,24 +29,22 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :lg="12">
-          <el-form-item label="发布者" prop="publisher">
-            <el-input v-model="form.publisher" placeholder="请输入发布者" />
+        <el-col :lg="24">
+          <el-form-item :label="$t('pnotice.publisher')" prop="publisher">
+            <el-input v-model="form.publisher"
+              :placeholder="$t('btn.enterPrefix')+$t('pnotice.publisher')+$t('btn.enterSuffix')" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item label="是否弹出" prop="popup">
-            <el-switch v-model="form.popup" :inactiveValue="0" :activeValue="1" />
+          <el-form-item :label="$t('btn.dateStart')" prop="beginTime">
+            <el-date-picker v-model="form.beginTime" type="datetime" :placeholder="$t('btn.dateselect')">
+            </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item label="开始时间" prop="beginTime">
-            <el-date-picker v-model="form.beginTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :lg="12">
-          <el-form-item label="结束时间" prop="endTime">
-            <el-date-picker v-model="form.endTime" :disabled-date="disabledDate" type="datetime" placeholder="选择日期时间">
+          <el-form-item :label="$t('btn.dateEnd')" prop="endTime">
+            <el-date-picker v-model="form.endTime" :disabled-date="disabledDate" type="datetime"
+              :placeholder="$t('btn.dateselect')">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -80,10 +79,10 @@
   const data = reactive({
     form: {},
     rules: {
-      noticeTitle: [{ required: true, message: '公告标题不能为空', trigger: 'blur' }],
-      noticeType: [{ required: true, message: '公告类型不能为空', trigger: 'change' }],
-      beginTime: [{ required: false, message: '开始时间不能为空', trigger: 'change' }],
-      endTime: [{ required: false, message: '结束时间不能为空', trigger: 'change' }]
+      noticeTitle: [{ required: true, message: proxy.$t('pnotice.noticeTitle') + proxy.$t('btn.empty'), trigger: 'blur' }],
+      noticeType: [{ required: true, message: proxy.$t('pnotice.noticeType') + proxy.$t('btn.empty'), trigger: 'change' }],
+      beginTime: [{ required: false, message: proxy.$t('btn.dateStart') + proxy.$t('btn.empty'), trigger: 'change' }],
+      endTime: [{ required: false, message: proxy.$t('btn.dateEnd') + proxy.$t('btn.empty'), trigger: 'change' }]
     }
   })
   const { form, rules } = toRefs(data)
@@ -111,7 +110,6 @@
       'justifyJustify', // 两端对齐
       'justifyLeft', // 左对齐
       'justifyRight', // 右对齐
-      'emotion',
       'fullScreen' // 全屏
     ]
   })
@@ -128,11 +126,10 @@
       noticeTitle: undefined,
       noticeType: 1,
       noticeContent: undefined,
-      status: 0,
+      isStated: 0,
       beginTime: undefined,
       endTime: undefined,
-      publisher: undefined,
-      popup: 0
+      publisher: undefined
     }
     proxy.resetForm('noticeRef')
   }
@@ -141,7 +138,7 @@
   function handleAdd() {
     reset()
     open.value = true
-    title.value = '添加公告'
+    title.value = proxy.$t('btn.add') + ' ' + proxy.$t('pnotice.notice')
 
     form.value.publisher = useUserStore().name
   }
@@ -152,7 +149,7 @@
     getNotice(noticeId).then((response) => {
       form.value = response.data
       open.value = true
-      title.value = '修改公告'
+      title.value = proxy.$t('btn.edit') + ' ' + proxy.$t('pnotice.notice')
     })
   }
   /** 提交按钮 */
@@ -161,13 +158,13 @@
       if (valid) {
         if (form.value.noticeId != undefined) {
           updateNotice(form.value).then(() => {
-            proxy.$modal.msgSuccess('修改成功')
+            proxy.$modal.msgSuccess(proxy.$t('common.editSucceed'))
             open.value = false
             emit('success')
           })
         } else {
           addNotice(form.value).then(() => {
-            proxy.$modal.msgSuccess('新增成功')
+            proxy.$modal.msgSuccess(proxy.$t('common.addSucceed'))
             open.value = false
             emit('success')
           })
