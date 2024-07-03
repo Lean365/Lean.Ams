@@ -1,18 +1,15 @@
-﻿using Ams.Service.Filters;
-using Ams.Service.IService.Routine;
-using Ams.Service.IService.Systems;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SqlSugar;
 
-namespace Ams.Admin.WebApi.Controllers
+namespace Ams.WebApi.Controllers
 {
     /// <summary>
-    /// 内容前端
+    /// 文章前端
     /// API控制器
     /// @author Lean365(Davis.Ching)
     /// @date 2022-01-11
     /// </summary>
-    [Route("routine/articel/front")]
+    [Route("routine/article/front")]
     [ApiExplorerSettings(GroupName = "routine")]
     [Verify]
     public class FrontArticleController : BaseController
@@ -22,7 +19,7 @@ namespace Ams.Admin.WebApi.Controllers
         /// </summary>
         private readonly IArticleService _ArticleService;
 
-        private readonly IArticleCatalogService _ArticleCategoryService;
+        private readonly IArticleCategoryService _ArticleCategoryService;
         private readonly IArticlePraiseService _ArticlePraiseService;
         private readonly ISysUserService _SysUserService;
         private readonly IArticleTopicService _ArticleTopicService;
@@ -37,7 +34,7 @@ namespace Ams.Admin.WebApi.Controllers
         /// <param name="articleTopicService"></param>
         public FrontArticleController(
             IArticleService ArticleService,
-            IArticleCatalogService articleCategoryService,
+            IArticleCategoryService articleCategoryService,
             IArticlePraiseService articlePraiseService,
             ISysUserService sysUserService,
             IArticleTopicService articleTopicService)
@@ -76,7 +73,7 @@ namespace Ams.Admin.WebApi.Controllers
             predicate = predicate.And(m => m.IsStatus == 1);
             predicate = predicate.And(m => m.IsPublic == 1);
             predicate = predicate.And(m => m.ArticleType == 0);
-            predicate = predicate.And(m => m.AuditStatus == Model.Enum.AuditStatusEnum.Passed);
+            predicate = predicate.And(m => m.AuditStatus == Model.Enums.AuditStatusEnum.Passed);
 
             var response = _ArticleService.Queryable()
                 .Where(predicate.ToExpression())
@@ -195,7 +192,7 @@ namespace Ams.Admin.WebApi.Controllers
             {
                 Avatar = user.Avatar,
                 NickName = user.NickName,
-                Gender = user.Gender,
+                Sex = user.Gender,
             };
             //apiResult.Put("user", user.Adapt<UserDto>());
             return ToResponse(apiResult);

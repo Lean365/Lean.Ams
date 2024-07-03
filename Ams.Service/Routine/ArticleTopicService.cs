@@ -1,7 +1,8 @@
+using Ams.Infrastructure;
+using Ams.Infrastructure.Attribute;
 using Mapster;
-using Ams.Service.IService.Routine;
 
-namespace Ams.Service.Routine
+namespace Ams.Service.Content
 {
     /// <summary>
     /// 文章话题Service业务层处理

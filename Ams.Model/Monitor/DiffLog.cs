@@ -1,6 +1,6 @@
 ﻿namespace Ams.Model.Monitor
 {
-    [SugarTable("monit_diff_log", "审计日志")]
+    [SugarTable("monitor_diff_log", "审计日志")]
     [Tenant("0")]
     public class DiffLog : SysBase
     {

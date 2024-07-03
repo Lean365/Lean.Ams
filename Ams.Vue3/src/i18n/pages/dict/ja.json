@@ -6,7 +6,7 @@
     "dictName": "辞書名",
     "isStated": "ステータス",
     "langKey": "翻訳key",
-    "builtin": "組み込み",
+    "builtin": "内蔵否",
     "customSql": "カスタマイズsql",
     "dictTypememo": "データベースからデータをロードする場合は、sql_で始まる文字列を使用してください",
     "customSqlmemo": "データベースからデータをロードする場合は、このフォーマットでsql文を構成します: SELECT userId を dictValue として、userName を dictLabel FROM sys_user",

@@ -2,7 +2,7 @@ using Ams.Infrastructure.Attribute;
 using Quartz;
 using SqlSugar.IOC;
 using System.Threading.Tasks;
-using Ams.Model.Systems;
+using Ams.Model.Kernel;
 
 namespace Ams.Tasks.TaskScheduler
 {

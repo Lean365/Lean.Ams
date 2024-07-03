@@ -1,4 +1,5 @@
 ﻿namespace Ams.Model.Dto.Routine
+
 {
     /// <summary>
     /// 评论
@@ -11,8 +12,8 @@
         public long? UserId { get; set; }
         public int ClassifyId { get; set; }
         public long TargetId { get; set; }
-        public DateTime? BeginTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime? BeginAddTime { get; set; }
+        public DateTime? EndAddTime { get; set; }
     }
 
     public class ArticleCommentDto

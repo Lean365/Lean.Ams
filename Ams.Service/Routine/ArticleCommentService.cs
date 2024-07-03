@@ -1,8 +1,7 @@
-﻿using Ams.Service.IService;
-using Ams.Service.IService.Routine;
-using Ams.Service.IService.Systems;
+﻿using Ams.Infrastructure;
+using Ams.Infrastructure.Attribute;
 
-namespace Ams.Service.Routine
+namespace Ams.Service.Content
 {
     [AppService(ServiceType = typeof(IArticleCommentService), ServiceLifetime = LifeTime.Transient)]
     public class ArticleCommentService : BaseService<ArticleComment>, IArticleCommentService
@@ -124,13 +123,13 @@ namespace Ams.Service.Routine
             var contentInfo = ArticleService.GetById(message.TargetId);
             switch (contentInfo.CommentSwitch)
             {
-                case Model.Enum.CommentSwitchEnum.ALL:
+                case Model.Enums.CommentSwitchEnum.ALL:
                     break;
 
-                case Model.Enum.CommentSwitchEnum.FANS:
+                case Model.Enums.CommentSwitchEnum.FANS:
                     break;
 
-                case Model.Enum.CommentSwitchEnum.SELF:
+                case Model.Enums.CommentSwitchEnum.SELF:
                     if (message.UserId != contentInfo.UserId)
                     {
                         throw new CustomException("仅作者才能评论");
@@ -240,7 +239,7 @@ namespace Ams.Service.Routine
             //predicate.And(it => it.ParentId == dto.MId);
             predicate.AndIF(dto.UserId != null, it => it.UserId == dto.UserId);
             predicate.AndIF(dto.CommentId > 0, it => it.CommentId > dto.CommentId);//分页使用
-            predicate.AndIF(dto.BeginTime != null, it => it.AddTime >= dto.BeginTime && it.AddTime <= dto.EndTime);//分页使用
+            predicate.AndIF(dto.BeginAddTime != null, it => it.AddTime >= dto.BeginAddTime && it.AddTime <= dto.EndAddTime);//分页使用
 
             return Queryable()
                 .WithCache(60)

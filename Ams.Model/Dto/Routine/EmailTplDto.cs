@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Ams.Model.Dto.Routine
 {
     /// <summary>
@@ -30,5 +32,8 @@ namespace Ams.Model.Dto.Routine
         public DateTime? UpdateTime { get; set; }
 
         public string Remark { get; set; }
+
+
+
     }
 }

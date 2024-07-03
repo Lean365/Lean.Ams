@@ -2,12 +2,11 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Ams.Service.Filters;
 
-namespace Ams.Admin.WebApi.Controllers.Monitor
+namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
-    /// 服务监控
+    /// 系统监控
     /// API控制器
     /// @author Lean365(Davis.Ching)
     /// @date 2022-01-11
@@ -22,8 +21,8 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
 
         public MonitorController(IOptions<OptionsSetting> options, IWebHostEnvironment hostEnvironment)
         {
-            this.HostEnvironment = hostEnvironment;
-            this.Options = options.Value;
+            HostEnvironment = hostEnvironment;
+            Options = options.Value;
         }
 
         /// <summary>

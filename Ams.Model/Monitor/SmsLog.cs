@@ -3,7 +3,7 @@
     /// <summary>
     /// 短信验证码记录
     /// </summary>
-    [SugarTable("monitor_sms_log", "验证码")]
+    [SugarTable("monitor_sms_log", "短信验证码")]
     [Tenant("0")]
     public class SmsLog : SysBase
     {

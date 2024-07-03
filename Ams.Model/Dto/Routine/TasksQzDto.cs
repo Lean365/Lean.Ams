@@ -1,6 +1,6 @@
 ﻿namespace Ams.Model.Dto.Routine
 {
-    public class TasksQueryDto : PagerInfo
+    public class TasksQzQueryDto : PagerInfo
     {
         /// <summary>
         /// 查询字符串
@@ -16,7 +16,7 @@
     /// <summary>
     /// 添加任务
     /// </summary>
-    public class TasksCreateDto
+    public class TasksQzCreateDto
     {
         /// <summary>
         /// 任务id

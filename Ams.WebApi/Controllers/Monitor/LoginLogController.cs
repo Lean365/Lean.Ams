@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SqlSugar;
-using Ams.Service.Filters;
-using Ams.Service.IService.Systems;
 
-namespace Ams.Admin.WebApi.Controllers.Monitor
+namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
     /// 登录日志
@@ -12,7 +10,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
     /// @date 2022-01-11
     /// </summary>
     [Verify]
-    [Route("monitor/login")]
+    [Route("/monitor/login")]
     [ApiExplorerSettings(GroupName = "monitor")]
     public class LoginLogController : BaseController
     {
@@ -29,8 +27,8 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <param name="param"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "monitor:login:list")]
-        public IActionResult LoignLogList([FromQuery] SysLogininfoQueryDto param)
+        [ActionPermissionFilter(Permission = "monitor:logininfor:list")]
+        public IActionResult LoignLogList([FromQuery] LoginLogQueryDto param)
         {
             var list = sysLoginService.GetLoginLog(param);
 
@@ -43,7 +41,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <param name="param"></param>
         /// <returns></returns>
         [HttpGet("mylist")]
-        public IActionResult QueryMyLoignLogList([FromQuery] SysLogininfoQueryDto param)
+        public IActionResult QueryMyLoignLogList([FromQuery] LoginLogQueryDto param)
         {
             param.UserId = HttpContext.GetUId();
             var list = sysLoginService.GetLoginLog(param);
@@ -55,12 +53,12 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// 清空登录日志
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "清空登录日志", BusinessType = BusinessType.EMPTY)]
-        [ActionPermissionFilter(Permission = "monitor:login:empty")]
+        [Log(Title = "清空登录日志", BusinessType = BusinessType.CLEAN)]
+        [ActionPermissionFilter(Permission = "monitor:logininfor:remove")]
         [HttpDelete("clean")]
         public IActionResult CleanLoginInfo()
         {
-            if (!HttpContextExtension.IsAdmin(HttpContext))
+            if (!HttpContext.IsAdmin())
             {
                 return ToResponse(ApiResult.Error("操作失败"));
             }
@@ -74,10 +72,10 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <returns></returns>
         [Log(Title = "删除登录日志", BusinessType = BusinessType.DELETE)]
         [HttpDelete("{infoIds}")]
-        [ActionPermissionFilter(Permission = "monitor:login:delete")]
+        [ActionPermissionFilter(Permission = "monitor:logininfor:remove")]
         public IActionResult Remove(string infoIds)
         {
-            if (!HttpContextExtension.IsAdmin(HttpContext))
+            if (!HttpContext.IsAdmin())
             {
                 return ToResponse(ApiResult.Error("操作失败"));
             }
@@ -91,7 +89,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <returns></returns>
         [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "登录日志导出")]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "monitor:login:export")]
+        [ActionPermissionFilter(Permission = "monitor:logininfor:export")]
         public IActionResult Export([FromQuery] LoginLog logininfoDto)
         {
             logininfoDto.BeginTime = DateTimeHelper.GetBeginTime(logininfoDto.BeginTime, -1);

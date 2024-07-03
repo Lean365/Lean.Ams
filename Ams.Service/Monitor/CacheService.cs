@@ -1,6 +1,6 @@
 ﻿using Ams.Common;
 
-namespace Ams.Service.Monitor
+namespace Ams.Service.Kernel
 {
     public class CacheService
     {

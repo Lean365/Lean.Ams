@@ -32,6 +32,7 @@ const useSettingsStore = defineStore('layout-setting', {
       'dynamicTitle',
       'showFooter',
       'showWatermark',
+      'watermarkText',
       'tagsViewPersist',
       'codeMode',
       'tagsShowIcon',

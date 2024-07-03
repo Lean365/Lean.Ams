@@ -1,9 +1,7 @@
 ﻿using System.Web;
+using Ams.Infrastructure;
 using Ams.Infrastructure.IPTools;
 using Ams.Infrastructure.Model;
-using Ams.Service.IService.Monitor;
-using Ams.Service.IService.Routine;
-using Ams.Service.IService.Systems;
 using Mapster;
 using Microsoft.AspNetCore.SignalR;
 using UAParser;
@@ -139,8 +137,7 @@ namespace Ams.Service.Signalr
                     UserOnlineLogService.AddUserOnlineLog(new DurationLog()
                     {
                         UserId = user.Userid,
-                        Create_by = user.Userid.ToString(),
-                        Create_time = DateTime.Now,
+                        AddTime = DateTime.Now,
                         Location = user?.Location,
                         OnlineTime = user.OnlineTime,
                         UserIP = user.UserIP,

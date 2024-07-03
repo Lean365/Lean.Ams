@@ -80,7 +80,7 @@
         /// <summary>
         /// 操作状态（0正常 1异常）
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(DefaultValue = "0")]
         public int IsStatus { get; set; }
 
         /// <summary>

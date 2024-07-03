@@ -4,7 +4,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace Ams.Admin.WebApi.Extensions
+namespace Ams.WebApi.Extensions
 {
     public static class SwaggerExtension
     {

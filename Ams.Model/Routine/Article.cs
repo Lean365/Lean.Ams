@@ -1,6 +1,4 @@
-﻿using Ams.Model.Enum;
-
-namespace Ams.Model.Routine
+﻿namespace Ams.Model.Routine
 {
     /// <summary>
     /// 文章表
@@ -54,7 +52,7 @@ namespace Ams.Model.Routine
         /// <summary>
         /// 文章状态 1、发布 2、草稿
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnDescription = "文章状态 1、发布 2、草稿", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public int IsStatus { get; set; }
 
         /// <summary>
@@ -110,8 +108,8 @@ namespace Ams.Model.Routine
         /// 分类
         /// </summary>
 
-        [Navigate(NavigateType.OneToOne, nameof(CategoryId), nameof(ArticleCatalog.CategoryId))] //自定义关系映射
-        public ArticleCatalog ArticleCategoryNav { get; set; }
+        [Navigate(NavigateType.OneToOne, nameof(CategoryId), nameof(ArticleCategory.CategoryId))] //自定义关系映射
+        public ArticleCategory ArticleCategoryNav { get; set; }
 
         /// <summary>
         /// 评论数

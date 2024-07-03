@@ -1,9 +1,9 @@
-﻿using Quartz.Spi;
+﻿using Ams.Tasks;
+using Quartz.Spi;
 using SqlSugar;
 using SqlSugar.IOC;
-using Ams.Tasks;
 
-namespace Ams.Admin.WebApi.Extensions
+namespace Ams.WebApi.Extensions
 {
     /// <summary>
     /// 定时任务扩展方法
@@ -33,7 +33,7 @@ namespace Ams.Admin.WebApi.Extensions
         {
             ITaskSchedulerServer _schedulerServer = app.ApplicationServices.GetRequiredService<ITaskSchedulerServer>();
 
-            var tasks = DbScoped.SugarScope.Queryable<Model.Routine.TasksQz>()
+            var tasks = DbScoped.SugarScope.Queryable<TasksQz>()
                 .Where(m => m.IsStart == 1).ToListAsync();
 
             //程序启动后注册所有定时任务

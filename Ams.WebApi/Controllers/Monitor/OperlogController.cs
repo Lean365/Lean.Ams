@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ams.Service.Filters;
-using Ams.Service.IService.Monitor;
 
-namespace Ams.Admin.WebApi.Controllers.Monitor
+namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
     /// 操作日志
@@ -11,7 +9,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
     /// @date 2022-01-11
     /// </summary>
     [Verify]
-    [Route("monitor/oper")]
+    [Route("/monitor/oper")]
     [ApiExplorerSettings(GroupName = "monitor")]
     public class OperlogController : BaseController
     {
@@ -28,9 +26,9 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <param name="sysOperLog"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        public IActionResult OperList([FromQuery] SysOperLogQueryDto sysOperLog)
+        public IActionResult OperList([FromQuery] OperLogQueryDto sysOperLog)
         {
-            sysOperLog.OperName = !HttpContextExtension.IsAdmin(HttpContext) ? HttpContextExtension.GetName(HttpContext) : sysOperLog.OperName;
+            sysOperLog.OperName = !HttpContext.IsAdmin() ? HttpContext.GetName() : sysOperLog.OperName;
             var list = sysOperLogService.SelectOperLogList(sysOperLog);
 
             return SUCCESS(list);
@@ -42,11 +40,11 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <param name="operIds"></param>
         /// <returns></returns>
         [Log(Title = "操作日志", BusinessType = BusinessType.DELETE)]
-        [ActionPermissionFilter(Permission = "monitor:oper:delete")]
+        [ActionPermissionFilter(Permission = "monitor:operlog:delete")]
         [HttpDelete("{operIds}")]
         public IActionResult Remove(string operIds)
         {
-            if (!HttpContextExtension.IsAdmin(HttpContext))
+            if (!HttpContext.IsAdmin())
             {
                 return ToResponse(ApiResult.Error("操作失败"));
             }
@@ -58,12 +56,12 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// 清空操作日志
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "清空操作日志", BusinessType = BusinessType.EMPTY)]
-        [ActionPermissionFilter(Permission = "monitor:oper:empty")]
+        [Log(Title = "清空操作日志", BusinessType = BusinessType.CLEAN)]
+        [ActionPermissionFilter(Permission = "monitor:operlog:delete")]
         [HttpDelete("clean")]
         public IActionResult ClearOperLog()
         {
-            if (!HttpContextExtension.IsAdmin(HttpContext))
+            if (!HttpContext.IsAdmin())
             {
                 return ToResponse(ResultCode.CUSTOM_ERROR, "操作失败");
             }
@@ -77,9 +75,9 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [Log(Title = "操作日志", BusinessType = BusinessType.EXPORT)]
-        [ActionPermissionFilter(Permission = "monitor:oper:export")]
+        [ActionPermissionFilter(Permission = "monitor:operlog:export")]
         [HttpGet("export")]
-        public IActionResult Export([FromQuery] SysOperLogQueryDto sysOperLog)
+        public IActionResult Export([FromQuery] OperLogQueryDto sysOperLog)
         {
             sysOperLog.PageSize = 100000;
             var list = sysOperLogService.SelectOperLogList(sysOperLog);

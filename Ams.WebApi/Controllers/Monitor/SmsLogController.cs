@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Ams.Service.Filters;
 
-//创建时间：2023-11-19
-namespace Ams.Admin.WebApi.Controllers.Monitor
+namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
     /// 短信验证码
@@ -31,8 +29,8 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "monitor:sms:list")]
-        public IActionResult QuerySmscodeLog([FromQuery] SmscodeLogQueryDto parm)
+        [ActionPermissionFilter(Permission = "smscodelog:list")]
+        public IActionResult QuerySmscodeLog([FromQuery] SmsLogQueryDto parm)
         {
             var response = _SmscodeLogService.GetList(parm);
             return SUCCESS(response);
@@ -43,7 +41,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "monitor:sms:delete")]
+        [ActionPermissionFilter(Permission = "smscodelog:delete")]
         [Log(Title = "短信验证码记录", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSmscodeLog(string ids)
         {
@@ -61,8 +59,8 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <returns></returns>
         [Log(Title = "短信验证码记录", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "monitor:sms:export")]
-        public IActionResult Export([FromQuery] SmscodeLogQueryDto parm)
+        [ActionPermissionFilter(Permission = "smscodelog:export")]
+        public IActionResult Export([FromQuery] SmsLogQueryDto parm)
         {
             parm.PageNum = 1;
             parm.PageSize = 100000;

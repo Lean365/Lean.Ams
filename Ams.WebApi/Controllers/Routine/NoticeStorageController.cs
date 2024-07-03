@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using Ams.Model;
-using Ams.Service.Filters;
-using Ams.Service.IService.Routine;
+﻿using Ams.Model;
 using Ams.Service.Signalr;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
-namespace Ams.Admin.WebApi.Controllers.System
+namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
     /// 公告通知
@@ -14,7 +12,7 @@ namespace Ams.Admin.WebApi.Controllers.System
     /// @date 2022-01-11
     /// </summary>
     [Verify]
-    [Route("routine/notice")]
+    [Route("routine/notice/storage")]
     [ApiExplorerSettings(GroupName = "routine")]
     public class NoticeStorageController : BaseController
     {
@@ -36,7 +34,7 @@ namespace Ams.Admin.WebApi.Controllers.System
         /// </summary>
         /// <returns></returns>
         [HttpGet("queryNotice")]
-        public IActionResult QueryNotice([FromQuery] SysNoticeQueryDto parm)
+        public IActionResult QueryNotice([FromQuery] NoticeStorageQueryDto parm)
         {
             var response = _SysNoticeService.GetSysNotices();
             return SUCCESS(response);
@@ -47,8 +45,8 @@ namespace Ams.Admin.WebApi.Controllers.System
         /// </summary>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "routine:notice:list")]
-        public IActionResult QuerySysNotice([FromQuery] SysNoticeQueryDto parm)
+        [ActionPermissionFilter(Permission = "system:notice:list")]
+        public IActionResult QuerySysNotice([FromQuery] NoticeStorageQueryDto parm)
         {
             PagedInfo<NoticeStorage> response = _SysNoticeService.GetPageList(parm);
             return SUCCESS(response);
@@ -72,8 +70,8 @@ namespace Ams.Admin.WebApi.Controllers.System
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [ActionPermissionFilter(Permission = "routine:notice:add")]
-        [Log(Title = "发布通告", BusinessType = BusinessType.ADD, IsSaveRequestData = false)]
+        [ActionPermissionFilter(Permission = "system:notice:add")]
+        [Log(Title = "发布通告", BusinessType = BusinessType.INSERT, IsSaveRequestData = false)]
         public IActionResult AddSysNotice([FromBody] NoticeStorageDto parm)
         {
             var modal = parm.Adapt<NoticeStorage>().ToCreate(HttpContext);
@@ -88,8 +86,8 @@ namespace Ams.Admin.WebApi.Controllers.System
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "routine:notice:edit")]
-        [Log(Title = "修改公告", BusinessType = BusinessType.EDIT, IsSaveRequestData = false)]
+        [ActionPermissionFilter(Permission = "system:notice:update")]
+        [Log(Title = "修改公告", BusinessType = BusinessType.UPDATE, IsSaveRequestData = false)]
         public IActionResult UpdateSysNotice([FromBody] NoticeStorageDto parm)
         {
             var model = parm.Adapt<NoticeStorage>().ToUpdate(HttpContext);
@@ -104,8 +102,8 @@ namespace Ams.Admin.WebApi.Controllers.System
         /// </summary>
         /// <returns></returns>
         [HttpPut("send/{NoticeId}")]
-        [ActionPermissionFilter(Permission = "routine:notice:send")]
-        [Log(Title = "发送通知公告", BusinessType = BusinessType.SEND)]
+        [ActionPermissionFilter(Permission = "system:notice:update")]
+        [Log(Title = "发送通知公告", BusinessType = BusinessType.OTHER)]
         public IActionResult SendNotice(int NoticeId = 0)
         {
             if (NoticeId <= 0)
@@ -125,7 +123,7 @@ namespace Ams.Admin.WebApi.Controllers.System
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "routine:notice:delete")]
+        [ActionPermissionFilter(Permission = "system:notice:delete")]
         [Log(Title = "通知公告", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSysNotice(string ids)
         {
@@ -143,8 +141,8 @@ namespace Ams.Admin.WebApi.Controllers.System
         /// <returns></returns>
         [Log(Title = "通知公告表", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "routine:notice:export")]
-        public IActionResult Export([FromQuery] SysNoticeQueryDto parm)
+        [ActionPermissionFilter(Permission = "system:notice:export")]
+        public IActionResult Export([FromQuery] NoticeStorageQueryDto parm)
         {
             parm.PageNum = 1;
             parm.PageSize = 100000;

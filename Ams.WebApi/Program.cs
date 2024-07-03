@@ -1,16 +1,15 @@
 using System.Text.Json;
-using AspNetCoreRateLimit;
-using Microsoft.AspNetCore.DataProtection;
-using NLog.Web;
-using SqlSugar;
-using Ams.Admin.WebApi.Extensions;
 using Ams.Common.Cache;
 using Ams.Common.DynamicApiSimple.Extens;
 using Ams.Infrastructure.Converter;
 using Ams.Infrastructure.WebExtensions;
-using Ams.Service.Filters;
 using Ams.Service.Signalr;
 using Ams.Service.SqlSugar;
+using Ams.WebApi.Extensions;
+using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.DataProtection;
+using NLog.Web;
+using SqlSugar;
 
 var builder = WebApplication.CreateBuilder(args);
 // NLog: Setup NLog for Dependency injection

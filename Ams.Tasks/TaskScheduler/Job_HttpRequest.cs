@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Ams.Infrastructure;
+using Ams.Infrastructure.Attribute;
+using Ams.Model.Routine;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Triggers;
 using SqlSugar.IOC;
-using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using Ams.Model.Routine;
 
 namespace Ams.Tasks.TaskScheduler
 {

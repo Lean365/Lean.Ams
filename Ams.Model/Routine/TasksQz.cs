@@ -3,7 +3,7 @@
     ///<summary>
     ///计划任务
     ///</summary>
-    [SugarTable("routine_tasks", "计划任务")]
+    [SugarTable("routine_tasksqz", "计划任务表")]
     [Tenant("0")]
     public class TasksQz : SysBase
     {

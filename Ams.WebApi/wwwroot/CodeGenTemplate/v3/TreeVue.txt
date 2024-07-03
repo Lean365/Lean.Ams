@@ -1,7 +1,7 @@
 ﻿<!--
  * @Descripttion: (${genTable.functionName}/${genTable.tableName})
  * @Author: (${replaceDto.Author})
- * @Date: (${replaceDto.AddTime})
+ * @Date: (${replaceDto.CreateTime})
 -->
 <template>
   <div>

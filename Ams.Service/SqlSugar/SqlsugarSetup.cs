@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SqlSugar.IOC;
 using Ams.Common;
-using Ams.Model.Systems;
+using Ams.Model.Kernel;
 
 namespace Ams.Service.SqlSugar
 {

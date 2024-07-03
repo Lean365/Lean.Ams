@@ -1,6 +1,6 @@
 ﻿namespace Ams.Model.Dto.Monitor
 {
-    public class SysOperLogQueryDto : PagerInfo
+    public class OperLogQueryDto : PagerInfo
     {
         /// <summary>
         /// 操作人员

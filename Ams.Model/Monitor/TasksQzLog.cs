@@ -3,7 +3,7 @@
     /// <summary>
     /// 任务日志
     /// </summary>
-    [SugarTable("monitor_tasks_log", "任务日志")]
+    [SugarTable("monitor_tasksqz_log", "任务日志")]
     [Tenant("0")]
     public class TasksQzLog : SysBase
     {

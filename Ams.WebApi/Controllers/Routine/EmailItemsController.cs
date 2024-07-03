@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Ams.Service.Filters;
 
-namespace Ams.Admin.WebApi.Controllers.Routine
+namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
     /// 已发邮件
@@ -36,8 +35,8 @@ namespace Ams.Admin.WebApi.Controllers.Routine
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "email:items:list")]
-        public IActionResult QueryEmailLog([FromQuery] EmailLogQueryDto parm)
+        [ActionPermissionFilter(Permission = "emaillog:list")]
+        public IActionResult QueryEmailLog([FromQuery] EmailItemsQueryDto parm)
         {
             var response = _EmailLogService.GetList(parm);
             return SUCCESS(response);
@@ -49,7 +48,7 @@ namespace Ams.Admin.WebApi.Controllers.Routine
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        [ActionPermissionFilter(Permission = "email:items:query")]
+        [ActionPermissionFilter(Permission = "emaillog:query")]
         public IActionResult GetEmailLog(long Id)
         {
             var response = _EmailLogService.GetInfo(Id);
@@ -64,7 +63,7 @@ namespace Ams.Admin.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpPost("sendEmail")]
         [ActionPermissionFilter(Permission = "tool:email:send")]
-        [Log(Title = "批量邮件发送", BusinessType = BusinessType.SEND)]
+        [Log(Title = "批量邮件发送", BusinessType = BusinessType.INSERT)]
         public IActionResult SendEmail([FromBody] EmailItemsDto dto)
         {
             if (dto.IdArr.Length <= 0) { return ToResponse(ApiResult.Error($"发送失败Id 不能为空")); }
@@ -97,7 +96,7 @@ namespace Ams.Admin.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "email:items:delete")]
+        [ActionPermissionFilter(Permission = "emaillog:delete")]
         [Log(Title = "邮件发送记录", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteEmailLog(string ids)
         {

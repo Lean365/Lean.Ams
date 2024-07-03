@@ -6,8 +6,8 @@ namespace Ams.Model.Dto.Routine
     public class ArticleTopicQueryDto : PagerInfo
     {
         public string TopicName { get; set; }
-        public DateTime? BeginTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime? BeginAddTime { get; set; }
+        public DateTime? EndAddTime { get; set; }
         public int? TopicType { get; set; }
     }
 

@@ -2,28 +2,32 @@
   <el-form ref="basicInfoForm" :model="info" :rules="rules" label-width="100px">
     <el-row>
       <el-col :lg="6">
-        <el-form-item label="表名称" prop="tableName">
-          <el-input placeholder="请输入仓库名称" v-model="info.tableName" />
+        <el-form-item :label="$t('gencode.tableName')" prop="tableName">
+          <el-input :placeholder="$t('btn.enterPrefix')+$t('gencode.tableName')+$t('btn.enterSuffix')"
+            v-model="info.tableName" />
         </el-form-item>
       </el-col>
       <el-col :lg="6">
-        <el-form-item label="表描述" prop="tableComment">
-          <el-input placeholder="请输入" v-model="info.tableComment" />
+        <el-form-item :label="$t('gencode.tableComment')" prop="tableComment">
+          <el-input :placeholder="$t('btn.enterPrefix')+$t('gencode.tableComment')+$t('btn.enterSuffix')"
+            v-model="info.tableComment" />
         </el-form-item>
       </el-col>
 
       <el-col :lg="6">
-        <el-form-item label="实体类名称" prop="className">
-          <el-input placeholder="请输入" v-model="info.className" />
+        <el-form-item :label="$t('gencode.className')" prop="className">
+          <el-input :placeholder="$t('btn.enterPrefix')+$t('gencode.className')+$t('btn.enterSuffix')"
+            v-model="info.className" />
         </el-form-item>
       </el-col>
       <el-col :lg="6">
-        <el-form-item label="作者" prop="functionAuthor">
-          <el-input placeholder="请输入" v-model="info.functionAuthor" />
+        <el-form-item :label="$t('gencode.functionAuthor')" prop="functionAuthor">
+          <el-input :placeholder="$t('btn.enterPrefix')+$t('gencode.functionAuthor')+$t('btn.enterSuffix')"
+            v-model="info.functionAuthor" />
         </el-form-item>
       </el-col>
       <el-col :lg="24">
-        <el-form-item label="备注" prop="remark">
+        <el-form-item :label="$t('common.tipRemarks')" prop="remark">
           <el-input type="textarea" :rows="3" v-model="info.remark"></el-input>
         </el-form-item>
       </el-col>
@@ -31,16 +35,18 @@
   </el-form>
 </template>
 <script setup name="BasicInfoForm">
-const props = defineProps({
-  info: {
-    type: Object,
-    default: null,
-  },
-})
-const rules = reactive({
-  tableName: [{ required: true, message: '请输入表名称', trigger: 'blur' }],
-  tableComment: [{ required: true, message: '请输入表描述', trigger: 'blur' }],
-  className: [{ required: true, message: '请输入实体类名称', trigger: 'blur' }],
-  functionAuthor: [{ required: true, message: '请输入作者', trigger: 'blur' }],
-})
+  //获取当前组件实例
+  const { proxy } = getCurrentInstance()
+  const props = defineProps({
+    info: {
+      type: Object,
+      default: null,
+    },
+  })
+  const rules = reactive({
+    tableName: [{ required: true, message: proxy.$t('gencode.tableName') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
+    tableComment: [{ required: true, message: proxy.$t('gencode.tableComment') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
+    className: [{ required: true, message: proxy.$t('gencode.className') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
+    functionAuthor: [{ required: true, message: proxy.$t('gencode.functionAuthor') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
+  })
 </script>

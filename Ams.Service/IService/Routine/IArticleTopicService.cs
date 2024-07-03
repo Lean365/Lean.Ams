@@ -1,7 +1,5 @@
 using Ams.Model;
 
-
-
 namespace Ams.Service.IService.Routine
 {
     /// <summary>
@@ -13,11 +11,12 @@ namespace Ams.Service.IService.Routine
 
         ArticleTopic GetInfo(long TopicId);
 
-
         ArticleTopic AddArticleTopic(ArticleTopic parm);
+
         int UpdateArticleTopic(ArticleTopic parm);
 
         List<ArticleTopicDto> GetTopicList(ArticleTopicQueryDto parm);
+
         PagedInfo<ArticleTopicDto> ExportList(ArticleTopicQueryDto parm);
     }
 }

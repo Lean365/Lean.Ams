@@ -3,7 +3,7 @@ namespace Ams.Model.Dto.Advertising
     /// <summary>
     /// 横幅广告查询对象
     /// </summary>
-    public class BannerConfigQueryDto : PagerInfo
+    public class BannerQueryDto : PagerInfo
     {
         public string Title { get; set; }
         public int? JumpType { get; set; }

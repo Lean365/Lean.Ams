@@ -1,11 +1,11 @@
-namespace Ams.Service.IService
+namespace Ams.Service.IService.Monitor
 {
     /// <summary>
     /// 短信验证码记录service接口
     /// </summary>
     public interface ISmsLogService : IBaseService<SmsLog>
     {
-        PagedInfo<SmsLogDto> GetList(SmscodeLogQueryDto parm);
+        PagedInfo<SmsLogDto> GetList(SmsLogQueryDto parm);
 
         SmsLog GetInfo(long Id);
 

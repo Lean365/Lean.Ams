@@ -1,12 +1,11 @@
-﻿
-
-namespace Ams.CodeGenerator
+﻿namespace Ams.CodeGenerator
 {
     /// <summary>
     /// 代码生成常量
     /// </summary>
     public class GenConstants
     {
+        public static string Gen_dbname = "CodeGenDbConfig:DbName";
         public static string Gen_author = "codeGen:author";
         public static string CodeGenDbConfig;
 
@@ -14,14 +13,17 @@ namespace Ams.CodeGenerator
         /// InputDto输入实体是不包含字段
         /// </summary>
         public static readonly string[] inputDtoNoField = new string[] { "createTime", "updateTime", "addtime", "create_time", "update_time", "create_by", "update_by" };
+
         /// <summary>
         /// 图片字段
         /// </summary>
         public static readonly string[] imageFiled = new string[] { "icon", "img", "image", "url", "pic", "photo", "avatar" };
+
         /// <summary>
         /// 下拉框字段
         /// </summary>
         public static readonly string[] selectFiled = new string[] { "status", "type", "state", "sex", "gender" };
+
         /// <summary>
         /// 单选按钮字段
         /// </summary>
@@ -113,6 +115,7 @@ namespace Ams.CodeGenerator
         /// 文本框
         /// </summary>
         public static string HTML_INPUT = "input";
+
         /// <summary>
         /// 数字框
         /// </summary>
@@ -125,6 +128,7 @@ namespace Ams.CodeGenerator
 
         /** 下拉框 */
         public static string HTML_SELECT = "select";
+
         /// <summary>
         /// 下拉多选
         /// </summary>
@@ -159,10 +163,12 @@ namespace Ams.CodeGenerator
         /// 富文本控件
         /// </summary>
         public static string HTML_EDITOR = "editor";
+
         /// <summary>
         /// 自定义输入框
         /// </summary>
         public static string HTML_CUSTOM_INPUT = "customInput";
+
         /// <summary>
         /// 颜色选择器
         /// </summary>
@@ -177,6 +183,7 @@ namespace Ams.CodeGenerator
         /// 需要
         /// </summary>
         public static string REQUIRE = "1";
+
         /// <summary>
         /// 时间类型
         /// </summary>

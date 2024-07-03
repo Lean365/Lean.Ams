@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Ams.Infrastructure.IPTools;
+using Ams.Service.Kernel;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MiniExcelLibs;
-using Ams.Infrastructure.IPTools;
-using Ams.Service.Filters;
-using Ams.Service.IService.Routine;
 
-namespace Ams.Admin.WebApi.Controllers
+namespace Ams.WebApi.Controllers
 {
     /// <summary>
     /// 通用
@@ -14,7 +13,7 @@ namespace Ams.Admin.WebApi.Controllers
     /// @date 2022-01-11
     /// </summary>
     [Route("[controller]/[action]")]
-    [ApiExplorerSettings(GroupName = "system")]
+    [ApiExplorerSettings(GroupName = "tool")]
     public class CommonController : BaseController
     {
         private OptionsSetting OptionsSetting;
@@ -197,7 +196,7 @@ namespace Ams.Admin.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [ActionPermissionFilter(Permission = "common")]
-        [Log(BusinessType = BusinessType.ADD, Title = "初始化数据")]
+        [Log(BusinessType = BusinessType.INSERT, Title = "初始化数据")]
         public IActionResult InitSeedData(bool clean = false)
         {
             if (!WebHostEnvironment.IsDevelopment())
@@ -225,7 +224,7 @@ namespace Ams.Admin.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [ActionPermissionFilter(Permission = "common")]
-        [Log(BusinessType = BusinessType.ADD, Title = "初始化数据")]
+        [Log(BusinessType = BusinessType.INSERT, Title = "初始化数据")]
         public IActionResult UpdateSeedData()
         {
             if (!WebHostEnvironment.IsDevelopment())

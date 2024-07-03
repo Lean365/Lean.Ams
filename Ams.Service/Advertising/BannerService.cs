@@ -1,5 +1,5 @@
+using Ams.Infrastructure.Attribute;
 using Mapster;
-using Ams.Service.IService.Advertising;
 
 namespace Ams.Service.Advertising
 {
@@ -14,7 +14,7 @@ namespace Ams.Service.Advertising
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<BannerDto> GetList(BannerConfigQueryDto parm)
+        public PagedInfo<BannerDto> GetList(BannerQueryDto parm)
         {
             var predicate = QueryExp(parm);
 
@@ -64,7 +64,7 @@ namespace Ams.Service.Advertising
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<BannerDto> ExportList(BannerConfigQueryDto parm)
+        public PagedInfo<BannerDto> ExportList(BannerQueryDto parm)
         {
             var predicate = QueryExp(parm);
 
@@ -84,7 +84,7 @@ namespace Ams.Service.Advertising
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        private static Expressionable<Banner> QueryExp(BannerConfigQueryDto parm)
+        private static Expressionable<Banner> QueryExp(BannerQueryDto parm)
         {
             var predicate = Expressionable.Create<Banner>();
 
@@ -100,7 +100,7 @@ namespace Ams.Service.Advertising
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public List<BannerDto> GetBannerList(BannerConfigQueryDto parm)
+        public List<BannerDto> GetBannerList(BannerQueryDto parm)
         {
             var predicate = Expressionable.Create<Banner>();
             var now = DateTime.Now;

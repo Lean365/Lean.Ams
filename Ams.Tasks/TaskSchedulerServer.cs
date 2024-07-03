@@ -4,14 +4,14 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Ams.Infrastructure.Model;
+using Ams.Model.Routine;
 using NLog;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Matchers;
 using Quartz.Impl.Triggers;
 using Quartz.Spi;
-using Ams.Infrastructure.Model;
-using Ams.Model.Routine;
 
 namespace Ams.Tasks
 {

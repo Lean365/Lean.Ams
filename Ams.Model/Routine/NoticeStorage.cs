@@ -3,10 +3,10 @@ namespace Ams.Model.Routine
     /// <summary>
     /// 通知公告表
     ///
-    /// @author Davis.Ching
+    /// @author zr
     /// @date 2021-12-15
     /// </summary>
-    [SugarTable("routine_notice", "通知公告")]
+    [SugarTable("routine_notice_stroage", "通知公告")]
     [Tenant(0)]
     public class NoticeStorage : SysBase
     {
@@ -35,9 +35,9 @@ namespace Ams.Model.Routine
         public string NoticeContent { get; set; }
 
         /// <summary>
-        /// 附件
+        /// 公告附件
         /// </summary>
-        [SugarColumn(ColumnName = "file_url", Length = 200)]
+        [SugarColumn(ColumnName = "file_url", ColumnDataType = StaticConfig.CodeFirst_BigString)]
         public string FileUrl { get; set; }
 
         /// <summary>

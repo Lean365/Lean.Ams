@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using Ams.Model;
-using Ams.Service.Filters;
+﻿using Ams.Model;
+using Ams.Model.Dto.Login;
 using Ams.Service.Signalr;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
-namespace Ams.Admin.WebApi.Controllers.Monitor
+namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
     /// 在线用户
@@ -44,7 +44,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpDelete("force")]
-        [Log(Title = "强退", BusinessType = BusinessType.FORCED)]
+        [Log(Title = "强退", BusinessType = BusinessType.FORCE)]
         [ActionPermissionFilter(Permission = "monitor:online:forceLogout")]
         public async Task<IActionResult> Force([FromBody] LockUserDto dto)
         {
@@ -64,7 +64,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpDelete("batchForce")]
-        [Log(Title = "强退", BusinessType = BusinessType.FORCED)]
+        [Log(Title = "强退", BusinessType = BusinessType.FORCE)]
         [ActionPermissionFilter(Permission = "monitor:online:batchLogout")]
         public async Task<IActionResult> BatchforceLogout([FromBody] LockUserDto dto)
         {

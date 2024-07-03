@@ -1,4 +1,4 @@
-﻿using Ams.Service.IService.Monitor;
+﻿using Ams.Infrastructure.Attribute;
 
 namespace Ams.Service.Monitor
 {

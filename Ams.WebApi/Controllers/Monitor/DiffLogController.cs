@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using Ams.Service.Filters;
 
-namespace Ams.Admin.WebApi.Controllers.Monitor
+namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
     /// 审计日志
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2021-08-25
+    /// @date 2022-01-11
     /// </summary>
     [Verify]
     [Route("monitor/diff")]
@@ -30,8 +29,8 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "monitor:diff:list")]
-        public IActionResult QuerySqlDiffLog([FromQuery] SqlDiffLogQueryDto parm)
+        [ActionPermissionFilter(Permission = "sqldifflog:list")]
+        public IActionResult QuerySqlDiffLog([FromQuery] DiffLogQueryDto parm)
         {
             var response = _SqlDiffLogService.GetList(parm);
             return SUCCESS(response);
@@ -42,7 +41,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "monitor:diff:delete")]
+        [ActionPermissionFilter(Permission = "sqldifflog:delete")]
         [Log(Title = "审计日志", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSqlDiffLog(string ids)
         {
@@ -60,8 +59,8 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <returns></returns>
         [Log(Title = "审计日志", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "monitor:diff:export")]
-        public IActionResult Export([FromQuery] SqlDiffLogQueryDto parm)
+        [ActionPermissionFilter(Permission = "sqldifflog:export")]
+        public IActionResult Export([FromQuery] DiffLogQueryDto parm)
         {
             parm.PageNum = 1;
             parm.PageSize = 100000;

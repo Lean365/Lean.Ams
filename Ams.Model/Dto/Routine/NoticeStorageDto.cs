@@ -1,6 +1,17 @@
 namespace Ams.Model.Dto.Routine
 {
     /// <summary>
+    /// 通知公告表查询对象
+    /// </summary>
+    public class NoticeStorageQueryDto : PagerInfo
+    {
+        public string NoticeTitle { get; set; }
+        public int? NoticeType { get; set; }
+        public string CreateBy { get; set; }
+        public int? IsStatus { get; set; }
+    }
+
+    /// <summary>
     /// 通知公告表输入对象
     /// </summary>
     public class NoticeStorageDto
@@ -45,22 +56,11 @@ namespace Ams.Model.Dto.Routine
         public string NoticeTypeLabel { get; set; }
 
         [ExcelColumn(Name = "公告状态")]
-        public string StatusLabel { get; set; }
+        public int IsStatusLabel { get; set; }
 
         public DateTime? BeginTime { get; set; }
         public DateTime? EndTime { get; set; }
         public string Publisher { get; set; }
         public int Popup { get; set; }
-    }
-
-    /// <summary>
-    /// 通知公告表查询对象
-    /// </summary>
-    public class SysNoticeQueryDto : PagerInfo
-    {
-        public string NoticeTitle { get; set; }
-        public int? NoticeType { get; set; }
-        public string CreateBy { get; set; }
-        public int? IsStatus { get; set; }
     }
 }

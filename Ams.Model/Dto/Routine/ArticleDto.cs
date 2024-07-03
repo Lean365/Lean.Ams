@@ -1,6 +1,7 @@
-﻿using Ams.Model.Enum;
+﻿using Ams.Model.Enums;
 
 namespace Ams.Model.Dto.Routine
+
 {
     public class ArticleQueryDto : PagerInfo
     {
@@ -70,7 +71,7 @@ namespace Ams.Model.Dto.Routine
 
         public string CoverUrl { get; set; }
 
-        public ArticleCatalogDto CategoryNav { get; set; }
+        public ArticleCategoryDto CategoryNav { get; set; }
 
         public string[] TagList
         {
@@ -165,6 +166,6 @@ namespace Ams.Model.Dto.Routine
     {
         public string Avatar { get; set; } = string.Empty;
         public string NickName { get; set; }
-        public int Gender { get; set; }
+        public int Sex { get; set; }
     }
 }

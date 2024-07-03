@@ -1,11 +1,11 @@
-namespace Ams.Service.IService
+namespace Ams.Service.IService.Monitor
 {
     /// <summary>
     /// 审计日志service接口
     /// </summary>
     public interface IDiffLogService : IBaseService<DiffLog>
     {
-        PagedInfo<DiffLogDto> GetList(SqlDiffLogQueryDto parm);
+        PagedInfo<DiffLogDto> GetList(DiffLogQueryDto parm);
 
         DiffLog GetInfo(long PId);
 

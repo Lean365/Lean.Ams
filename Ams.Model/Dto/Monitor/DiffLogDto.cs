@@ -3,13 +3,13 @@ namespace Ams.Model.Dto.Monitor
     /// <summary>
     /// 审计日志查询对象
     /// </summary>
-    public class SqlDiffLogQueryDto : PagerInfo
+    public class DiffLogQueryDto : PagerInfo
     {
         public string TableName { get; set; }
         public string DiffType { get; set; }
         public string UserName { get; set; }
-        public DateTime? BeginTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime? BeginAddTime { get; set; }
+        public DateTime? EndAddTime { get; set; }
     }
 
     /// <summary>

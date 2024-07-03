@@ -9,7 +9,7 @@
         /// </summary>
         /// <param name="operLog">操作日志对象</param>
         /// <returns>操作日志集合</returns>
-        public PagedInfo<OperLog> SelectOperLogList(SysOperLogQueryDto operLog);
+        public PagedInfo<OperLog> SelectOperLogList(OperLogQueryDto operLog);
 
         /// <summary>
         /// 清空操作日志

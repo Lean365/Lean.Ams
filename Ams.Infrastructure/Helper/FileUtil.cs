@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
@@ -74,7 +73,6 @@ namespace Ams.Infrastructure
                     //删除空文件夹
                     Directory.Delete(file);
                 }
-
             }
             catch (Exception ex) // 异常处理
             {
@@ -163,6 +161,53 @@ namespace Ams.Infrastructure
             catch (Exception ex)
             {
                 Console.WriteLine("写入文件出错了:" + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="name"></param>
+        public static void deleteFile(string filePath, string fileName)
+        {
+            try
+            {
+                if (File.Exists(filePath + fileName))
+                {
+                    File.Delete(filePath + fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message; //a的值为：发生一个或多个错误。
+                var b = ex.GetBaseException(); //b的值为：Task异常测试
+                Console.WriteLine(a + "|*|" + b);
+            }
+        }
+
+        /// <summary>
+        /// 查找并删除类
+        /// </summary>
+        /// <param name="srcPath"></param>
+        /// <param name="fileName"></param>
+        public static void DeleteDir(string srcPath, string fileName)
+        {
+            //string[] files = Directory.GetFiles(filepath + @"\", "*.xls");
+            //string[] files = Directory.GetFiles(filepath + @"\", filename);  //查找时不包括子目录
+            try
+            {
+                string[] files = Directory.GetFiles(srcPath + @"\\", "*" + fileName + "*.*", SearchOption.AllDirectories);   //查找时包括子目录
+                foreach (string file in files)
+                {
+                    File.Delete(file); //删除指定文件
+                }
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message; //a的值为：发生一个或多个错误。
+                var b = ex.GetBaseException(); //b的值为：Task异常测试
+                Console.WriteLine(a + "|*|" + b);
             }
         }
     }

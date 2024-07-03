@@ -1,18 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Ams.Model;
-using Ams.Service.Filters;
-using Ams.Service.IService.Routine;
+﻿using Ams.Model;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Ams.Admin.WebApi.Controllers
+namespace Ams.WebApi.Controllers
 {
     /// <summary>
-    /// 评论记录
+    /// 评论
     /// API控制器
     /// @author Lean365(Davis.Ching)
     /// @date 2022-01-11
     /// </summary>
-    [Route("rouitne/article/front/comment")]
-    [ApiExplorerSettings(GroupName = "rouitne")]
+    [Route("routine/article/comment")]
+    [ApiExplorerSettings(GroupName = "routine")]
     [ApiController]
     public class FrontCommentController : BaseController
     {

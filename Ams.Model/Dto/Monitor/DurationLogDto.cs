@@ -3,12 +3,12 @@ namespace Ams.Model.Dto.Monitor
     /// <summary>
     /// 用户在线时长查询对象
     /// </summary>
-    public class UserOnlineLogQueryDto : PagerInfo
+    public class DurationLogQueryDto : PagerInfo
     {
         public int? UserId { get; set; }
         public string UserIP { get; set; }
-        public DateTime? BeginTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime? BeginAddTime { get; set; }
+        public DateTime? EndAddTime { get; set; }
     }
 
     /// <summary>

@@ -1,5 +1,5 @@
+using Ams.Infrastructure.Attribute;
 using Ams.Infrastructure.Model;
-using Ams.Service.IService;
 
 namespace Ams.Service.Routine
 {
@@ -14,16 +14,16 @@ namespace Ams.Service.Routine
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<EmailItemsDto> GetList(EmailLogQueryDto parm)
+        public PagedInfo<EmailItemsDto> GetList(EmailItemsQueryDto parm)
         {
             var predicate = Expressionable.Create<EmailItems>();
 
             predicate = predicate.AndIF(parm.IsSend != null, it => it.IsSend == parm.IsSend);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FromEmail), it => it.FromEmail == parm.FromEmail);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Subject), it => it.Subject.Contains(parm.Subject));
-            predicate = predicate.AndIF(parm.BeginTime == null, it => it.AddTime >= DateTime.Now.AddDays(-7).ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.AddTime >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, it => it.AddTime <= parm.EndTime);
+            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.AddTime >= DateTime.Now.AddDays(-7).ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginAddTime != null, it => it.AddTime >= parm.BeginAddTime);
+            predicate = predicate.AndIF(parm.EndAddTime != null, it => it.AddTime <= parm.EndAddTime);
             var response = Queryable()
                 .Where(predicate.ToExpression())
                 .ToPage<EmailItems, EmailItemsDto>(parm);

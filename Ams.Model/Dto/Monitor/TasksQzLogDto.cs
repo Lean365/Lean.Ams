@@ -1,6 +1,6 @@
 ﻿namespace Ams.Model.Dto.Monitor
 {
-    public class TasksLogQueryDto
+    public class TasksQzLogQueryDto
     {
         /// <summary>
         /// 查询字符串

@@ -5,7 +5,7 @@ namespace Ams.Service.IService.Advertising
     /// </summary>
     public interface IBannerService : IBaseService<Banner>
     {
-        PagedInfo<BannerDto> GetList(BannerConfigQueryDto parm);
+        PagedInfo<BannerDto> GetList(BannerQueryDto parm);
 
         Banner GetInfo(int Id);
 
@@ -13,8 +13,8 @@ namespace Ams.Service.IService.Advertising
 
         int UpdateBannerConfig(Banner parm);
 
-        List<BannerDto> GetBannerList(BannerConfigQueryDto parm);
+        List<BannerDto> GetBannerList(BannerQueryDto parm);
 
-        PagedInfo<BannerDto> ExportList(BannerConfigQueryDto parm);
+        PagedInfo<BannerDto> ExportList(BannerQueryDto parm);
     }
 }

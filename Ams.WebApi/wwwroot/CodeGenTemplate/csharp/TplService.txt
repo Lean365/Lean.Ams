@@ -1,8 +1,5 @@
-﻿using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.Extensions;
-using ${options.DtosNamespace}.${options.SubNamespace}.Dto;
+﻿using ${options.DtosNamespace}.${options.SubNamespace}.Dto;
 using ${options.ModelsNamespace}.${options.SubNamespace};
-using ${options.RepositoriesNamespace};
 using ${options.IServicsNamespace}.${options.SubNamespace}.I${options.SubNamespace}Service;
 $if(genTable.TplCategory == "tree")
 using System.Collections.Generic;
@@ -11,7 +8,10 @@ $end
 namespace ${options.ServicesNamespace}.${options.SubNamespace}
 {
     /// <summary>
-    /// ${genTable.FunctionName}Service业务层处理
+    /// ${genTable.FunctionName}
+    /// 业务层处理
+    /// @Author: ${ReplaceDto.Author}
+    /// @Date: ${ReplaceDto.createTime}
     /// </summary>
     [AppService(ServiceType = typeof(I${replaceDto.ModelTypeName}Service), ServiceLifetime = LifeTime.Transient)]
     public class ${replaceDto.ModelTypeName}Service : BaseService<${replaceDto.ModelTypeName}>, I${replaceDto.ModelTypeName}Service
@@ -36,6 +36,22 @@ $end
                 .ToPage<${replaceDto.ModelTypeName}, ${replaceDto.ModelTypeName}Dto>(parm);
 
             return response;
+        }
+
+        /// <summary>
+        /// 校验
+        /// 输入项目唯一性
+        /// </summary>
+        /// <param name="enterString"></param>
+        /// <returns></returns>
+        public string CheckInputUnique(string enterString)
+        {
+            int count = Count(it => it. ${replaceDto.PKName}.ToString() == enterString);
+            if (count > 0)
+            {
+                return UserConstants.NOT_UNIQUE;
+            }
+            return UserConstants.UNIQUE;
         }
 
 $if(genTable.TplCategory == "tree")
@@ -185,7 +201,7 @@ $if(replaceDto.ShowBtnExport)
                 {
 $foreach(column in dicts)
 $if(column.DictType != "")
-                    ${column.CsharpField}Label = it.${column.CsharpField}.GetConfigValue<Model.System.SysDictData>("${column.DictType}"),
+                    ${column.CsharpField}Label = it.${column.CsharpField}.GetConfigValue<SysDictData>("${column.DictType}"),
 $end
 $end
                 }, true)

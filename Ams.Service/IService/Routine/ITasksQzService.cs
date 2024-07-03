@@ -1,14 +1,12 @@
-﻿using Ams.Model;
-using Ams.Model.Systems;
-
-
-namespace Ams.Service.IService.Monitor
+﻿namespace Ams.Service.IService.Routine
 {
-    public interface ITasksQzService : IBaseService<Model.Routine.TasksQz>
+    public interface ITasksQzService : IBaseService<TasksQz>
     {
-        PagedInfo<Model.Routine.TasksQz> SelectTaskList(TasksQueryDto parm);
+        PagedInfo<TasksQz> SelectTaskList(TasksQzQueryDto parm);
+
         //SysTasksQz GetId(object id);
-        int AddTasks(Model.Routine.TasksQz parm);
-        int UpdateTasks(Model.Routine.TasksQz parm);
+        int AddTasks(TasksQz parm);
+
+        int UpdateTasks(TasksQz parm);
     }
 }

@@ -1,8 +1,7 @@
 using Ams.Model;
-using Ams.Model.Systems;
+using Ams.Model.Dto.Routine;
 
-
-namespace Ams.Service.IService
+namespace Ams.Service.IService.Routine
 {
     /// <summary>
     /// 邮件模板service接口
@@ -16,6 +15,5 @@ namespace Ams.Service.IService
         EmailTpl AddEmailTpl(EmailTpl parm);
 
         int UpdateEmailTpl(EmailTpl parm);
-
     }
 }

@@ -1,7 +1,6 @@
-﻿using Ams.Service.IService.Routine;
-using Ams.Service.IService.Systems;
+﻿using Ams.Infrastructure.Attribute;
 
-namespace Ams.Service.Routine
+namespace Ams.Service.Content
 {
     [AppService(ServiceType = typeof(IArticlePraiseService), ServiceLifetime = LifeTime.Transient)]
     public class ArticlePraiseService : BaseService<ArticlePraise>, IArticlePraiseService

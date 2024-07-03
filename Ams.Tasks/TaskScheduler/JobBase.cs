@@ -1,11 +1,14 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using NLog;
-using Quartz;
 using Ams.Common;
 using Ams.Infrastructure;
+using Ams.Model.Monitor;
+using Ams.Model.Routine;
 using Ams.Service.IService.Monitor;
+using Ams.Service.IService.Routine;
+using NLog;
+using Quartz;
 
 namespace Ams.Tasks
 {
@@ -21,7 +24,7 @@ namespace Ams.Tasks
         /// </summary>
         /// <param name="context">作业上下文</param>
         /// <param name="job">业务逻辑方法</param>
-        public async Task<Model.Monitor.TasksQzLog> ExecuteJob(IJobExecutionContext context, Func<Task> job)
+        public async Task<TasksQzLog> ExecuteJob(IJobExecutionContext context, Func<Task> job)
         {
             double elapsed = 0;
             int status = 0;
@@ -50,7 +53,7 @@ namespace Ams.Tasks
                 WxNoticeHelper.SendMsg("任务执行出错", logMsg);
             }
 
-            var logModel = new Model.Monitor.TasksQzLog()
+            var logModel = new TasksQzLog()
             {
                 Elapsed = elapsed,
                 IsStatus = status,
@@ -66,7 +69,7 @@ namespace Ams.Tasks
         /// </summary>
         /// <param name="context">作业上下文</param>
         /// <param name="job">业务逻辑方法</param>
-        public async Task<Model.Monitor.TasksQzLog> ExecuteJob(IJobExecutionContext context, Func<Task<string>> job)
+        public async Task<TasksQzLog> ExecuteJob(IJobExecutionContext context, Func<Task<string>> job)
         {
             double elapsed = 0;
             int status = 0;
@@ -95,7 +98,7 @@ namespace Ams.Tasks
                 WxNoticeHelper.SendMsg("任务执行出错", logMsg);
             }
 
-            var logModel = new Model.Monitor.TasksQzLog()
+            var logModel = new TasksQzLog()
             {
                 Elapsed = elapsed,
                 IsStatus = status,
@@ -111,7 +114,7 @@ namespace Ams.Tasks
         /// </summary>
         /// <param name="context"></param>
         /// <param name="logModel"></param>
-        protected async Task RecordTaskLog(IJobExecutionContext context, Model.Monitor.TasksQzLog logModel)
+        protected async Task RecordTaskLog(IJobExecutionContext context, TasksQzLog logModel)
         {
             var tasksLogService = (ITasksQzLogService)App.GetRequiredService(typeof(ITasksQzLogService));
             var taskQzService = (ITasksQzService)App.GetRequiredService(typeof(ITasksQzService));
@@ -124,7 +127,7 @@ namespace Ams.Tasks
             //成功后执行次数+1
             if (logModel.IsStatus == 0)
             {
-                await taskQzService.UpdateAsync(f => new Model.Routine.TasksQz()
+                await taskQzService.UpdateAsync(f => new TasksQz()
                 {
                     RunTimes = f.RunTimes + 1,
                     LastRunTime = DateTime.Now

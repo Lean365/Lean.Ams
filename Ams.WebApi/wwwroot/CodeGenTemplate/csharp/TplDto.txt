@@ -5,7 +5,10 @@ $end
 namespace ${options.DtosNamespace}.${options.SubNamespace}.Dto
 {
     /// <summary>
-    /// ${genTable.FunctionName}查询对象
+    /// ${genTable.functionName}
+    /// 查询对象
+    /// @Author: ${ReplaceDto.Author}
+    /// @Date: ${ReplaceDto.CreateTime}
     /// </summary>
     public class ${replaceDto.ModelTypeName}QueryDto : PagerInfo 
     {
@@ -24,7 +27,10 @@ $end
     }
 
     /// <summary>
-    /// ${genTable.FunctionName}输入输出对象
+    /// ${genTable.functionName}
+    /// 输入输出对象
+    /// @Author: ${ReplaceDto.Author}
+    /// @Date: ${ReplaceDto.CreateTime}
     /// </summary>
     public class ${replaceDto.ModelTypeName}Dto
     {

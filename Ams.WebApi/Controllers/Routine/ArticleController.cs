@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ams.Service.Filters;
 
-using Ams.Service.IService.Routine;
-
-namespace Ams.Admin.WebApi.Controllers
+namespace Ams.WebApi.Controllers
 {
     /// <summary>
     /// 文章内容
@@ -21,11 +18,11 @@ namespace Ams.Admin.WebApi.Controllers
         /// </summary>
         private readonly IArticleService _ArticleService;
 
-        private readonly IArticleCatalogService _ArticleCategoryService;
+        private readonly IArticleCategoryService _ArticleCategoryService;
 
         public ArticleController(
             IArticleService ArticleService,
-            IArticleCatalogService articleCategoryService)
+            IArticleCategoryService articleCategoryService)
         {
             _ArticleService = ArticleService;
             _ArticleCategoryService = articleCategoryService;
@@ -37,7 +34,7 @@ namespace Ams.Admin.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "routine:article:list")]
+        [ActionPermissionFilter(Permission = "system:article:list")]
         public IActionResult Query([FromQuery] ArticleQueryDto parm)
         {
             var response = _ArticleService.GetList(parm);
@@ -50,8 +47,8 @@ namespace Ams.Admin.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("pass/{ids}")]
-        [ActionPermissionFilter(Permission = "routine:article:audit")]
-        [Log(Title = "内容审核", BusinessType = BusinessType.AUDIT)]
+        [ActionPermissionFilter(Permission = "article:audit")]
+        [Log(Title = "内容审核", BusinessType = BusinessType.UPDATE)]
         public IActionResult PassedMonents(string ids)
         {
             long[] idsArr = Tools.SpitLongArrary(ids);
@@ -65,8 +62,8 @@ namespace Ams.Admin.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("reject/{ids}")]
-        [ActionPermissionFilter(Permission = "routine:article:reject")]
-        [Log(Title = "内容审核", BusinessType = BusinessType.REJECT)]
+        [ActionPermissionFilter(Permission = "article:audit")]
+        [Log(Title = "内容审核", BusinessType = BusinessType.UPDATE)]
         public IActionResult RejectMonents(string ids, string reason = "")
         {
             long[] idsArr = Tools.SpitLongArrary(ids);
@@ -110,7 +107,7 @@ namespace Ams.Admin.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("add")]
-        [ActionPermissionFilter(Permission = "routine:article:publish")]
+        [ActionPermissionFilter(Permission = "system:article:add")]
         public IActionResult Create([FromBody] ArticleDto parm)
         {
             var addModel = parm.Adapt<Article>().ToCreate(context: HttpContext);
@@ -118,7 +115,7 @@ namespace Ams.Admin.WebApi.Controllers
             addModel.UserId = HttpContext.GetUId();
             addModel.UserIP = HttpContext.GetClientUserIp();
             addModel.Location = HttpContextExtension.GetIpInfo(addModel.UserIP);
-            addModel.AuditStatus = Model.Enum.AuditStatusEnum.Passed;
+            addModel.AuditStatus = Model.Enums.AuditStatusEnum.Passed;
 
             return SUCCESS(_ArticleService.InsertReturnIdentity(addModel));
         }

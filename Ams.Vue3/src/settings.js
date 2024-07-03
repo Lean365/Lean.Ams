@@ -107,7 +107,7 @@ export default {
   /**
    * 前往通知地址
    */
-  noticeUrl: 'https://gitee.com/izory/ZrAdminNetCore',
+  noticeUrl: 'https://github.com/Lean365/Lean.Ams',
 
   /**
 * 显示注册按钮 false 不显示 true 显示

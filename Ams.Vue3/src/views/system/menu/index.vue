@@ -152,6 +152,7 @@
   import { delMenu, listMenu, changeMenuSort as changeSort, delAllMenu } from '@/api/system/menu'
   import menuForm from '@/views/components/form/menuForm.vue'
   import '@/assets/styles/btn-custom.scss'
+  //VxeTable.setTheme('dark')
   const { proxy } = getCurrentInstance()
 
   var dictParams = [{ dictType: 'sys_menu_show' }, { dictType: 'sys_normal_disable' }]

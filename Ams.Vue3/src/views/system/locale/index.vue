@@ -234,8 +234,8 @@
     rules: {
       id: [{ required: true, message: 'id ' + proxy.$t('btn.isEmpty'), trigger: 'blur', type: 'number' }],
       // langCode: [{ required: true, message: '语言code不能为空', trigger: 'change' }],
-      langKey: [{ required: true, pattern: /^[A-Za-z].+$/, message: proxy.$t('plang.langKey') + proxy.$t('btn.isEmpty'), trigger: 'change' }],
-      langName: [{ required: true, message: proxy.$t('plang.langName') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
+      langKey: [{ required: true, pattern: /^[A-Za-z].+$/, message: proxy.$t('plang.languageKey') + proxy.$t('btn.isEmpty'), trigger: 'change' }],
+      langName: [{ required: true, message: proxy.$t('plang.languageName') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
     },
     options: {}
   })

@@ -67,7 +67,7 @@
       <el-table-column :label="$t('ppost.postName')" align="center" prop="postName" />
       <el-table-column :label="$t('ppost.postLevel')" align="center" prop="postLevel" />
       <el-table-column :label="$t('ppost.postMembership')" align="center" prop="userNum" sortable />
-      <el-table-column :label="$t('ppost.postSort')" align="center" prop="postSort" sortable />
+      <el-table-column :label="$t('ppost.postSort')" align="center" prop="sortingNum" sortable />
       <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStatus">
         <template #default="scope">
           <dict-tag :options="statusOptions" :value="scope.row.isStatus" />
@@ -114,8 +114,8 @@
               dict.dictLabel }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item :label="$t('ppost.postSort')" prop="postSort">
-          <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
+        <el-form-item :label="$t('ppost.postSort')" prop="sortingNum">
+          <el-input-number v-model="form.sortingNum" controls-position="right" :min="0" />
         </el-form-item>
         <el-form-item :label="$t('common.tipIsStated')" prop="isStatus">
           <el-radio-group v-model="form.isStatus">
@@ -166,7 +166,8 @@
     postCode: undefined,
     postName: undefined,
     postLevel: undefined,
-    isStatus: 0
+    isStatus: 0,
+
   })
   // 表单校验
 
@@ -175,7 +176,7 @@
     rules: {
       postName: [{ required: true, message: proxy.$t('ppost.postName') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
       postCode: [{ required: true, message: proxy.$t('ppost.postCode') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
-      postSort: [{ required: true, message: proxy.$t('ppost.postSort') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
+      sortingNum: [{ required: true, message: proxy.$t('ppost.postSort') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
     }
   })
   const formRef = ref(null)
@@ -201,7 +202,7 @@
       postCode: undefined,
       postName: undefined,
       postLevel: 'L4',
-      postSort: 0,
+      sortingNum: 1,
       isStatus: 0,
       remark: undefined
     }

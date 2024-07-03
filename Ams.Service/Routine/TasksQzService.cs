@@ -1,4 +1,4 @@
-﻿using Ams.Service.IService.Monitor;
+﻿using Ams.Infrastructure.Attribute;
 
 namespace Ams.Service.Routine
 {
@@ -6,16 +6,16 @@ namespace Ams.Service.Routine
     /// 定时任务
     /// </summary>
     [AppService(ServiceType = typeof(ITasksQzService), ServiceLifetime = LifeTime.Transient)]
-    public class TasksQzService : BaseService<Model.Routine.TasksQz>, ITasksQzService
+    public class TasksQzService : BaseService<TasksQz>, ITasksQzService
     {
         /// <summary>
         /// 查询任务
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<Model.Routine.TasksQz> SelectTaskList(TasksQueryDto parm)
+        public PagedInfo<TasksQz> SelectTaskList(TasksQzQueryDto parm)
         {
-            var predicate = Expressionable.Create<Model.Routine.TasksQz>();
+            var predicate = Expressionable.Create<TasksQz>();
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QueryText),
                 m => m.Name.Contains(parm.QueryText) ||
@@ -33,7 +33,7 @@ namespace Ams.Service.Routine
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public int AddTasks(Model.Routine.TasksQz parm)
+        public int AddTasks(TasksQz parm)
         {
             parm.IsStart = 0;
 
@@ -42,7 +42,7 @@ namespace Ams.Service.Routine
             return Add(parm);
         }
 
-        private void SetAssembleName(Model.Routine.TasksQz parm)
+        private void SetAssembleName(TasksQz parm)
         {
             if (parm.ApiUrl.IfNotEmpty() && parm.TaskType == 2)
             {
@@ -62,11 +62,11 @@ namespace Ams.Service.Routine
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public int UpdateTasks(Model.Routine.TasksQz parm)
+        public int UpdateTasks(TasksQz parm)
         {
             SetAssembleName(parm);
 
-            return Update(f => f.ID == parm.ID, f => new Model.Routine.TasksQz
+            return Update(f => f.ID == parm.ID, f => new TasksQz
             {
                 ID = parm.ID,
                 Name = parm.Name,

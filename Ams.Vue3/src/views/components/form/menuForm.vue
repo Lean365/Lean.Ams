@@ -241,10 +241,10 @@
       menuNameKey: [{ pattern: /^[A-Za-z].+$/, message: proxy.$t('common.tipInputLangKeyError'), trigger: 'blur' }],
       sortingNum: [{ required: true, message: proxy.$t('pmenu.sort') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
       path: [
-        { required: false, message: proxy.$t('pmenu.path') + proxy.$t('btn.isEmpty'), trigger: 'blur' },
+        { required: false, message: proxy.$t('pmenu.routePath') + proxy.$t('btn.isEmpty'), trigger: 'blur' },
         { pattern: /^[/A-Za-z].+$/, message: proxy.$t('common.tipInputLetterStart'), trigger: 'blur' }
       ],
-      visible: [{ required: true, message: proxy.$t('pmenu.visible') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
+      visible: [{ required: true, message: proxy.$t('pmenu.isShow') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
     },
     sys_menu_show: [],
     sys_normal_disable: []

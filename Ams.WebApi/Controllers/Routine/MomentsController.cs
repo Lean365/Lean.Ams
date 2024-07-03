@@ -1,18 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Ams.Model.Enum;
-using Ams.Service.Filters;
-using Ams.Service.IService.Routine;
 
-namespace Ams.Admin.WebApi.Controllers
+namespace Ams.WebApi.Controllers
 {
     /// <summary>
-    /// 文章动态
+    /// 动态
     /// API控制器
     /// @author Lean365(Davis.Ching)
     /// @date 2022-01-11
     /// </summary>
     [Verify]
-    [Route("moment")]
+    [Route("routine/article/moments")]
     [ApiExplorerSettings(GroupName = "routine")]
     public class MomentsController : BaseController
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Security.Claims;
+using Ams.Infrastructure.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Ams.Infrastructure.Model;
 
 namespace Ams.Infrastructure
 {

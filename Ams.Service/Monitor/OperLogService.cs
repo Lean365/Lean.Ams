@@ -1,4 +1,4 @@
-﻿using Ams.Service.IService.Monitor;
+﻿using Ams.Infrastructure.Attribute;
 
 namespace Ams.Service.Monitor
 {
@@ -27,7 +27,7 @@ namespace Ams.Service.Monitor
         /// </summary>
         /// <param name="sysOper">操作日志对象</param>
         /// <returns>操作日志集合</returns>
-        public PagedInfo<OperLog> SelectOperLogList(SysOperLogQueryDto sysOper)
+        public PagedInfo<OperLog> SelectOperLogList(OperLogQueryDto sysOper)
         {
             var exp = Expressionable.Create<OperLog>();
             exp.AndIF(sysOper.BeginTime == null, it => it.OperTime >= DateTime.Now.ToShortDateString().ParseToDateTime());

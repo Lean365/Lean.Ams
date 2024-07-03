@@ -1,7 +1,7 @@
 ﻿namespace Ams.Model.Routine
 {
     [Tenant("0")]
-    [SugarTable("routine_file", "文件存储")]
+    [SugarTable("routine_file_storage", "文件存储")]
     public class FileStorage : SysBase
     {
         /// <summary>

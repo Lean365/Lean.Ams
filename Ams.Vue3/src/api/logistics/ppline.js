@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import { downFile } from '@/utils/request'
 
 /**
  * 生产班组分页查询
@@ -54,4 +55,8 @@ export function delPpLine(pid) {
     url: 'Logistics/PpLine/delete/' + pid,
     method: 'delete'
   })
+}
+// 导出生产班组
+export async function exportPpLine(query) {
+  await downFile('Logistics/PpLine/export', { ...query })
 }

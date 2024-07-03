@@ -16,7 +16,7 @@
           </el-form-item>
           <el-form-item :label="$t('common.tipIsStated')" prop="isStatus">
             <el-radio-group v-model="queryParams.isStatus">
-              <el-radio :value="-1">{{ $t('common.all') }}</el-radio>
+
               <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                 dict.dictLabel
                 }}</el-radio>
@@ -24,14 +24,14 @@
           </el-form-item>
           <el-form-item :label="$t('pdict.builtin')" prop="type">
             <el-radio-group v-model="queryParams.type">
-              <el-radio value="A">{{ $t('common.all') }}</el-radio>
+
               <el-radio v-for="dict in typeOptions" :key="dict.dictValue" :value="dict.dictValue">{{ dict.dictLabel
                 }}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('pdict.dictCategory')" prop="dictCategory">
             <el-radio-group v-model="queryParams.dictCategory">
-              <el-radio :value="-1">{{ $t('common.all') }}</el-radio>
+
               <el-radio v-for="dict in categoryOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                 dict.dictLabel
                 }}</el-radio>
@@ -78,7 +78,7 @@
       <right-toolbar :showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table :data="typeList" v-loading="loading" border @selection-change="handleSelectionChange">
+    <el-table height="650" :data="typeList" v-loading="loading" border @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="Id" align="center" prop="dictId" width="100" sortable />
       <el-table-column :label="$t('pdict.dictCategory')" :show-overflow-tooltip="true">
@@ -157,7 +157,7 @@
               }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item :label="$t('pdict.dictName')" prop="type">
+        <el-form-item :label="$t('pdict.builtin')" prop="type">
           <el-radio-group v-model="form.type">
             <el-radio v-for="dict in typeOptions" :key="dict.dictValue" :value="dict.dictValue">{{ dict.dictLabel
               }}</el-radio>
@@ -242,11 +242,11 @@
     queryParams: {
       pageNum: 1,
       pageSize: 14,
-      dictCategory: -1,
+      dictCategory: undefined,
       dictName: undefined,
       dictType: undefined,
-      isStatus: -1,
-      type: "A",
+      isStatus: undefined,
+      type: undefined
     }
   })
   const { rules, form, queryParams } = toRefs(state)

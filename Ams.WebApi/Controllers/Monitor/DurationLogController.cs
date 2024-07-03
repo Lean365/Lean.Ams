@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Ams.Service.Filters;
-using Ams.Service.IService.Monitor;
 
-namespace Ams.Admin.WebApi.Controllers.Monitor
+namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
     /// 在线时长
@@ -31,7 +29,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        public IActionResult QueryUserOnlineLog([FromQuery] UserOnlineLogQueryDto parm)
+        public IActionResult QueryUserOnlineLog([FromQuery] DurationLogQueryDto parm)
         {
             var response = _UserOnlineLogService.GetList(parm);
             return SUCCESS(response);
@@ -58,7 +56,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         [Log(Title = "用户在线时长", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "useronlinelog:export")]
-        public IActionResult Export([FromQuery] UserOnlineLogQueryDto parm)
+        public IActionResult Export([FromQuery] DurationLogQueryDto parm)
         {
             parm.PageNum = 1;
             parm.PageSize = 100000;

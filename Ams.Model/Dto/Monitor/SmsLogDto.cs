@@ -3,12 +3,12 @@ namespace Ams.Model.Dto.Monitor
     /// <summary>
     /// 短信验证码记录查询对象
     /// </summary>
-    public class SmscodeLogQueryDto : PagerInfo
+    public class SmsLogQueryDto : PagerInfo
     {
         public int? Userid { get; set; }
         public long? PhoneNum { get; set; }
-        public DateTime? BeginTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime? BeginAddTime { get; set; }
+        public DateTime? EndAddTime { get; set; }
         public int? SendType { get; set; }
     }
 

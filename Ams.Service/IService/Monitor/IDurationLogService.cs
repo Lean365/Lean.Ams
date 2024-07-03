@@ -5,10 +5,10 @@ namespace Ams.Service.IService.Monitor
     /// </summary>
     public interface IDurationLogService : IBaseService<DurationLog>
     {
-        PagedInfo<DurationLogDto> GetList(UserOnlineLogQueryDto parm);
+        PagedInfo<DurationLogDto> GetList(DurationLogQueryDto parm);
 
         DurationLog AddUserOnlineLog(DurationLog parm);
 
-        PagedInfo<DurationLogDto> ExportList(UserOnlineLogQueryDto parm);
+        PagedInfo<DurationLogDto> ExportList(DurationLogQueryDto parm);
     }
 }

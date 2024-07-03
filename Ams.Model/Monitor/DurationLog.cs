@@ -29,6 +29,11 @@ namespace Ams.Model.Monitor
         public double TodayOnlineTime { get; set; }
 
         /// <summary>
+        /// 结束时间
+        /// </summary>
+        public DateTime? AddTime { get; set; }
+
+        /// <summary>
         /// 地址位置
         /// </summary>
         public string Location { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace Ams.Model.Routine
 {
-    [SugarTable("routine_article_comment", "评论表")]
+    [SugarTable("routine_article_comment", "评论记录")]
     [Tenant(0)]
     public class ArticleComment : SysBase
     {

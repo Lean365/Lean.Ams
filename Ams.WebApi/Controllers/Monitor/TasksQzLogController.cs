@@ -1,10 +1,8 @@
 ﻿using Ams.Model;
-using Ams.Service.Filters;
-using Ams.Service.IService.Monitor;
 using Microsoft.AspNetCore.Mvc;
 using SqlSugar;
 
-namespace Ams.Admin.WebApi.Controllers.Monitor
+namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
     /// 任务日志
@@ -13,7 +11,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
     /// @date 2022-01-11
     /// </summary>
     [Verify]
-    [Route("monitor/tasksqz")]
+    [Route("/monitor/tasksqz")]
     [ApiExplorerSettings(GroupName = "monitor")]
     public class TasksQzLogController : BaseController
     {
@@ -31,7 +29,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <param name="pager"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        public IActionResult GetList([FromQuery] PagerInfo pager, [FromQuery] TasksLogQueryDto queryDto)
+        public IActionResult GetList([FromQuery] PagerInfo pager, [FromQuery] TasksQzLogQueryDto queryDto)
         {
             queryDto.BeginTime = DateTimeHelper.GetBeginTime(queryDto.BeginTime, -7);
             queryDto.EndTime = DateTimeHelper.GetBeginTime(queryDto.EndTime, 7);
@@ -53,7 +51,7 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <param name="jobIds"></param>
         /// <returns></returns>
         [HttpDelete("{jobIds}")]
-        [ActionPermissionFilter(Permission = "monitor:tasksqz:delete")]
+        [ActionPermissionFilter(Permission = "PRIV_JOBLOG_DELETE")]
         [Log(Title = "删除任务日志", BusinessType = BusinessType.DELETE)]
         public IActionResult Delete(string jobIds)
         {
@@ -69,8 +67,8 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpDelete("clean")]
-        [ActionPermissionFilter(Permission = "monitor:tasksqz:empty")]
-        [Log(Title = "清空任务日志", BusinessType = BusinessType.EMPTY)]
+        [ActionPermissionFilter(Permission = "PRIV_JOBLOG_REMOVE")]
+        [Log(Title = "清空任务日志", BusinessType = BusinessType.CLEAN)]
         public IActionResult Clean()
         {
             tasksLogService.DeleteTable();
@@ -83,12 +81,12 @@ namespace Ams.Admin.WebApi.Controllers.Monitor
         /// <returns></returns>
         [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "定时任务日志导出")]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "monitor:tasksqz:export")]
+        [ActionPermissionFilter(Permission = "PRIV_JOBLOG_EXPORT")]
         public IActionResult Export()
         {
             var list = tasksLogService.GetAll();
 
-            string sFileName = ExportExcel(list, "TasksQzLog", "任务日志");
+            string sFileName = ExportExcel(list, "jobLog", "定时任务日志");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
     }

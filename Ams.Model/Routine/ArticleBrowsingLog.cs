@@ -1,6 +1,6 @@
 ﻿namespace Ams.Model.Routine
 {
-    [SugarTable("routine_article_browsing_log", "内容浏览记录")]
+    [SugarTable("routine_article_browsing_log", "浏览记录")]
     [Tenant("0")]
     public class ArticleBrowsingLog : SysBase
     {

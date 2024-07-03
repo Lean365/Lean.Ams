@@ -1,9 +1,8 @@
 ﻿using Ams.Common;
-using Ams.Service.IService.Routine;
-using Ams.Service.IService.Systems;
+using Ams.Infrastructure;
 using Mapster;
 
-namespace Ams.Service.Routine
+namespace Ams.Service.Content
 {
     /// <summary>
     ///
@@ -11,7 +10,7 @@ namespace Ams.Service.Routine
     [AppService(ServiceType = typeof(IArticleService), ServiceLifetime = LifeTime.Transient)]
     public class ArticleService : BaseService<Article>, IArticleService
     {
-        private readonly IArticleCatalogService _categoryService;
+        private readonly IArticleCategoryService _categoryService;
         private readonly IArticleTopicService _topicService;
         private readonly ISysConfigService _sysConfigService;
         private readonly ISysUserMsgService _userMsgService;
@@ -24,7 +23,7 @@ namespace Ams.Service.Routine
         /// <param name="sysConfigService"></param>
         /// <param name="userMsgService"></param>
         public ArticleService(
-            IArticleCatalogService categoryService,
+            IArticleCategoryService categoryService,
             IArticleTopicService topicService,
             ISysConfigService sysConfigService,
             ISysUserMsgService userMsgService)
@@ -55,7 +54,7 @@ namespace Ams.Service.Routine
 
             if (parm.CategoryId != null)
             {
-                var allChildCategory = Context.Queryable<ArticleCatalog>()
+                var allChildCategory = Context.Queryable<ArticleCategory>()
                     .ToChildList(m => m.ParentId, parm.CategoryId);
                 var categoryIdList = allChildCategory.Select(x => x.CategoryId).ToArray();
                 predicate = predicate.And(m => categoryIdList.Contains(m.CategoryId));
@@ -89,7 +88,7 @@ namespace Ams.Service.Routine
 
             if (parm.CategoryId != null)
             {
-                var allChildCategory = Context.Queryable<ArticleCatalog>()
+                var allChildCategory = Context.Queryable<ArticleCategory>()
                     .ToChildList(m => m.ParentId, parm.CategoryId);
                 var categoryIdList = allChildCategory.Select(x => x.CategoryId).ToArray();
                 predicate = predicate.And(m => categoryIdList.Contains(m.CategoryId));
@@ -107,11 +106,11 @@ namespace Ams.Service.Routine
                     {
                         Avatar = u.Avatar,
                         NickName = u.NickName,
-                        Gender = u.Gender,
+                        Sex = u.Gender,
                     },
                     Content = string.Empty,
                     UserIP = string.Empty,
-                    CategoryNav = m.ArticleCategoryNav.Adapt<ArticleCatalogDto>()
+                    CategoryNav = m.ArticleCategoryNav.Adapt<ArticleCategoryDto>()
                 }, true)
                 .ToPage(parm);
 
@@ -156,9 +155,9 @@ namespace Ams.Service.Routine
                     {
                         Avatar = u.Avatar,
                         NickName = u.NickName,
-                        Gender = u.Gender,
+                        Sex = u.Gender,
                     },
-                    CategoryNav = m.ArticleCategoryNav.Adapt<ArticleCatalogDto>()
+                    CategoryNav = m.ArticleCategoryNav.Adapt<ArticleCategoryDto>()
                 }, true)
                 .ToPage(parm);
 
@@ -343,7 +342,7 @@ namespace Ams.Service.Routine
             //更新圈子加入数
             if (article.Cid > 0 && article.CategoryId > 0)
             {
-                _categoryService.Update(w => w.CategoryId == article.CategoryId, it => new ArticleCatalog() { JoinNum = it.JoinNum + 1 });
+                _categoryService.Update(w => w.CategoryId == article.CategoryId, it => new ArticleCategory() { JoinNum = it.JoinNum + 1 });
             }
             return article;
         }
@@ -365,7 +364,7 @@ namespace Ams.Service.Routine
             }
             if (model != null)
             {
-                model.CategoryNav = _categoryService.GetById(model.CategoryId).Adapt<ArticleCatalogDto>();
+                model.CategoryNav = _categoryService.GetById(model.CategoryId).Adapt<ArticleCategoryDto>();
             }
 
             var webContext = App.HttpContext;

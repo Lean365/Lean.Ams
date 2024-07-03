@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SqlSugar;
-using Ams.Service.Filters;
-using Ams.Service.IService.Routine;
 
-namespace Ams.Admin.WebApi.Controllers
+namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
     /// 文件存储
@@ -12,7 +10,7 @@ namespace Ams.Admin.WebApi.Controllers
     /// @date 2022-01-11
     /// </summary>
     [Verify]
-    [Route("routine/file")]
+    [Route("routine/file/stroage")]
     [ApiExplorerSettings(GroupName = "routine")]
     public class FileStorageController : BaseController
     {
@@ -32,7 +30,7 @@ namespace Ams.Admin.WebApi.Controllers
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "routine:file:list")]
+        [ActionPermissionFilter(Permission = "tool:file:list")]
         public IActionResult QuerySysFile([FromQuery] FileStorageQueryDto parm)
         {
             var predicate = Expressionable.Create<FileStorage>();
@@ -52,7 +50,7 @@ namespace Ams.Admin.WebApi.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        [ActionPermissionFilter(Permission = "routine:file:query")]
+        [ActionPermissionFilter(Permission = "tool:file:query")]
         public IActionResult GetSysFile(long Id)
         {
             var response = _SysFileService.GetFirst(x => x.Id == Id);
@@ -65,16 +63,19 @@ namespace Ams.Admin.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "routine:file:delete")]
+        [ActionPermissionFilter(Permission = "tool:file:delete")]
         [Log(Title = "文件存储", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSysFile(string ids)
         {
             long[] idsArr = Tools.SpitLongArrary(ids);
             if (idsArr.Length <= 0) { return ToResponse(ApiResult.Error($"删除失败Id 不能为空")); }
 
-            var response = _SysFileService.Delete(idsArr);
             //TODO 删除本地资源
-
+            foreach (var id in idsArr)
+            {
+                FileUtil.deleteFile(_SysFileService.GetById(id).FileUrl.Substring(0, _SysFileService.GetById(id).FileUrl.LastIndexOf("/") + 1), _SysFileService.GetById(id).FileName);
+            }
+            var response = _SysFileService.Delete(idsArr);
             return ToResponse(response);
         }
 
@@ -84,12 +85,12 @@ namespace Ams.Admin.WebApi.Controllers
         /// <returns></returns>
         [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "文件存储")]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "routine:file:export")]
+        [ActionPermissionFilter(Permission = "tool:file:export")]
         public IActionResult Export()
         {
             var list = _SysFileService.GetAll();
 
-            string sFileName = ExportExcel(list, "FileStorage", "文件存储");
+            string sFileName = ExportExcel(list, "SysFile", "文件存储");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
     }

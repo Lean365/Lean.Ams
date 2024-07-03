@@ -1,7 +1,8 @@
+using Ams.Infrastructure;
+using Ams.Infrastructure.Attribute;
 using Ams.Infrastructure.Helper;
-using Ams.Service.IService;
 
-namespace Ams.Service.Monitor
+namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 短信验证码记录Service业务层处理
@@ -14,15 +15,15 @@ namespace Ams.Service.Monitor
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<SmsLogDto> GetList(SmscodeLogQueryDto parm)
+        public PagedInfo<SmsLogDto> GetList(SmsLogQueryDto parm)
         {
             var predicate = Expressionable.Create<SmsLog>();
 
             predicate = predicate.AndIF(parm.Userid != null, it => it.Userid == parm.Userid);
             predicate = predicate.AndIF(parm.PhoneNum != null, it => it.PhoneNum == parm.PhoneNum);
-            predicate = predicate.AndIF(parm.BeginTime == null, it => it.AddTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.AddTime >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, it => it.AddTime <= parm.EndTime);
+            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.AddTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginAddTime != null, it => it.AddTime >= parm.BeginAddTime);
+            predicate = predicate.AndIF(parm.EndAddTime != null, it => it.AddTime <= parm.EndAddTime);
             predicate = predicate.AndIF(parm.SendType != null, it => it.SendType == parm.SendType);
             var response = Queryable()
                 //.OrderBy("Id desc")

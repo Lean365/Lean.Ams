@@ -3,13 +3,13 @@ namespace Ams.Model.Dto.Routine
     /// <summary>
     /// 邮件发送记录查询对象
     /// </summary>
-    public class EmailLogQueryDto : PagerInfo
+    public class EmailItemsQueryDto : PagerInfo
     {
         public string FromEmail { get; set; }
         public string Subject { get; set; }
         public int? IsSend { get; set; }
-        public DateTime? BeginTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime? BeginAddTime { get; set; }
+        public DateTime? EndAddTime { get; set; }
     }
 
     /// <summary>

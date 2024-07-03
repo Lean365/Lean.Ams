@@ -1,3 +1,8 @@
+using Ams.Infrastructure.Attribute;
+using Ams.Model;
+using Ams.Model.Dto.Routine;
+using Ams.Model.Kernel;
+using Ams.Repository;
 using Ams.Service.IService;
 
 namespace Ams.Service.Routine
@@ -25,6 +30,7 @@ namespace Ams.Service.Routine
 
             return response;
         }
+
 
         /// <summary>
         /// 获取详情
@@ -59,5 +65,6 @@ namespace Ams.Service.Routine
         {
             return Update(model, true);
         }
+
     }
 }

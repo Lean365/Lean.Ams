@@ -1,6 +1,6 @@
-using Ams.Service.IService.Monitor;
+using Ams.Infrastructure.Attribute;
 
-namespace Ams.Service.Monitor
+namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 用户在线时长Service业务层处理
@@ -13,7 +13,7 @@ namespace Ams.Service.Monitor
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<DurationLogDto> GetList(UserOnlineLogQueryDto parm)
+        public PagedInfo<DurationLogDto> GetList(DurationLogQueryDto parm)
         {
             var predicate = QueryExp(parm);
 
@@ -49,7 +49,7 @@ namespace Ams.Service.Monitor
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<DurationLogDto> ExportList(UserOnlineLogQueryDto parm)
+        public PagedInfo<DurationLogDto> ExportList(DurationLogQueryDto parm)
         {
             var predicate = QueryExp(parm);
 
@@ -68,14 +68,14 @@ namespace Ams.Service.Monitor
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        private static Expressionable<DurationLog> QueryExp(UserOnlineLogQueryDto parm)
+        private static Expressionable<DurationLog> QueryExp(DurationLogQueryDto parm)
         {
             var predicate = Expressionable.Create<DurationLog>();
 
             predicate = predicate.AndIF(parm.UserId != null, it => it.UserId == parm.UserId);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.UserIP), it => it.UserIP == parm.UserIP);
-            predicate = predicate.AndIF(parm.BeginTime == null, it => it.Create_time >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.AddTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginAddTime != null, it => it.AddTime >= parm.BeginAddTime);
             return predicate;
         }
     }

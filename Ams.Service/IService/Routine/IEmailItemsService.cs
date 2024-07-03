@@ -1,16 +1,13 @@
 using Ams.Infrastructure.Model;
-using Ams.Model;
-using Ams.Model.Systems;
 
-
-namespace Ams.Service.IService
+namespace Ams.Service.IService.Routine
 {
     /// <summary>
     /// 邮件发送记录service接口
     /// </summary>
     public interface IEmailItemsService : IBaseService<EmailItems>
     {
-        PagedInfo<EmailItemsDto> GetList(EmailLogQueryDto parm);
+        PagedInfo<EmailItemsDto> GetList(EmailItemsQueryDto parm);
 
         EmailItems GetInfo(long Id);
 

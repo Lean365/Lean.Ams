@@ -1,11 +1,11 @@
-using Ams.Service.IService.Routine;
+using Ams.Infrastructure.Attribute;
 
-namespace Ams.Service.Routine
+namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 通知公告表Service业务层处理
     ///
-    /// @author Davis.Ching
+    /// @author zr
     /// @date 2021-12-15
     /// </summary>
     [AppService(ServiceType = typeof(INoticeStorageService), ServiceLifetime = LifeTime.Transient)]
@@ -28,7 +28,7 @@ namespace Ams.Service.Routine
                 .ToList();
         }
 
-        public PagedInfo<NoticeStorage> GetPageList(SysNoticeQueryDto parm)
+        public PagedInfo<NoticeStorage> GetPageList(NoticeStorageQueryDto parm)
         {
             var predicate = QueryExp(parm);
             var response = GetPages(predicate.ToExpression(), parm);
@@ -40,7 +40,7 @@ namespace Ams.Service.Routine
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<NoticeStorageDto> ExportList(SysNoticeQueryDto parm)
+        public PagedInfo<NoticeStorageDto> ExportList(NoticeStorageQueryDto parm)
         {
             var predicate = QueryExp(parm);
 
@@ -49,7 +49,7 @@ namespace Ams.Service.Routine
                 .Select((it) => new NoticeStorageDto()
                 {
                     NoticeTypeLabel = it.NoticeType.GetConfigValue<SysDictData>("sys_notice_type"),
-                    StatusLabel = it.IsStatus.GetConfigValue<SysDictData>("sys_notice_status"),
+                    IsStatusLabel = int.Parse(it.IsStatus.GetConfigValue<SysDictData>("sys_notice_status")),
                 }, true)
                 .ToPage(parm);
 
@@ -61,7 +61,7 @@ namespace Ams.Service.Routine
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        private static Expressionable<NoticeStorage> QueryExp(SysNoticeQueryDto parm)
+        private static Expressionable<NoticeStorage> QueryExp(NoticeStorageQueryDto parm)
         {
             var predicate = Expressionable.Create<NoticeStorage>();
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.NoticeTitle), m => m.NoticeTitle.Contains(parm.NoticeTitle));
