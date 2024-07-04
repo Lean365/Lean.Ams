@@ -1,5 +1,3 @@
-using Ams.Infrastructure.Attribute;
-
 namespace Ams.Service.Kernel
 {
     /// <summary>
@@ -46,6 +44,7 @@ namespace Ams.Service.Kernel
             var response = Queryable()
                 .Where(predicate.ToExpression())
                 .ToPivotList(it => it.LangCode, it => it.LangKey, it => it.Max(f => f.LangName));
+
             return response;
         }
 

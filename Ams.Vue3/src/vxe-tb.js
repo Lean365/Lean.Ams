@@ -26,6 +26,9 @@ import 'vxe-table/styles/cssvar.scss'
 import 'vxe-pc-ui/styles/cssvar.scss'
 // 导入默认的语言
 import zhCN from 'vxe-pc-ui/lib/language/zh-CN'
+// import zhTw from 'vxe-pc-ui/lib/language/zh-TW'
+// import Ja from 'vxe-pc-ui/lib/language/ja-JP'
+// import En from 'vxe-pc-ui/lib/language/en-US'
 
 VxeUI.setI18n('zh-CN', zhCN)
 VxeUI.setLanguage('zh-CN')
@@ -48,7 +51,7 @@ function LazyVxeUI(app) {
   app.use(VxeIcon)
   // app.use(VxeInput)
   // app.use(VxeModal)
-  // app.use(VxePager)
+  app.use(VxePager)
   // app.use(VxePulldown)
   // app.use(VxeRadio)
   // app.use(VxeRadioButton)

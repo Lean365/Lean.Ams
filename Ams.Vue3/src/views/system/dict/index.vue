@@ -78,7 +78,7 @@
       <right-toolbar :showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table height="650" :data="typeList" v-loading="loading" border @selection-change="handleSelectionChange">
+    <el-table height="650px" :data="typeList" v-loading="loading" border @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="Id" align="center" prop="dictId" width="100" sortable />
       <el-table-column :label="$t('pdict.dictCategory')" :show-overflow-tooltip="true">

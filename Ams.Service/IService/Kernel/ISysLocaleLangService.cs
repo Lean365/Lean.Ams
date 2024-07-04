@@ -1,7 +1,3 @@
-using Ams.Model;
-using Ams.Model.Dto.Kernel;
-using Ams.Model.Kernel;
-
 namespace Ams.Service.IService.Kernel
 {
     /// <summary>

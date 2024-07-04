@@ -87,7 +87,7 @@
     </el-row>
 
     <!-- 数据区域 -->
-    <el-table v-if="queryParams.showMode == 1" :data="dataList" v-loading="loading" ref="table" height="620px" border
+    <el-table v-if="queryParams.showMode == 1" :data="dataList" v-loading="loading" ref="table" height="560px" border
       highlight-current-row @sort-change="sortChange" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
 
@@ -115,8 +115,8 @@
     </el-table>
 
     <!-- 行列显示 -->
-    <el-table v-if="queryParams.showMode == 2" :data="dataList" v-loading="loading" ref="table" border
-      highlight-current-row @sort-change="sortChange" @selection-change="handleSelectionChange">
+    <el-table v-if="queryParams.showMode == 2" :data="paginatedData" v-loading="loading" ref="table" border
+      height="560px" highlight-current-row @sort-change="sortChange" @selection-change="handleSelectionChange">
       <el-table-column prop="langKey" :label="$t('plang.languageKey')" align="center" :show-overflow-tooltip="true" />
 
       <el-table-column prop="zh-cn" :label="$t('plang.simplified')" align="center" :show-overflow-tooltip="true" />
@@ -141,9 +141,12 @@
 
     <pagination v-if="queryParams.showMode == 1" :total="total" v-model:page="queryParams.pageNum"
       v-model:limit="queryParams.pageSize" @pagination="getList" />
-
+    <el-pagination v-if="queryParams.showMode == 2" @size-change="handleSizeChange"
+      @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[14, 28, 56, 112]"
+      :page-size="pageSize" :total="dataList.length" layout="->,total, sizes, prev, pager, next, jumper">
+    </el-pagination>
     <!-- 添加或修改多语言配置对话框 -->
-    <el-dialog :title="title" :lock-scroll="false" v-model="open" width="550px">
+    <el-dialog :title=" title" :lock-scroll="false" v-model="open" width="550px">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-row :gutter="20">
           <el-col :lg="24">
@@ -222,6 +225,21 @@
     createTime: undefined,
     showMode: 2 // 显示模式 1、table显示 2、行列显示
   })
+  const currentPage = ref(1)
+  const pageSize = ref(14)
+  const paginatedData = computed(() => {
+    const start = (currentPage.value - 1) * pageSize.value
+    const end = start + pageSize.value
+    return dataList.value.slice(start, end)
+  })
+
+  const handleCurrentChange = (newPage) => {
+    currentPage.value = newPage
+  }
+
+  const handleSizeChange = (newSize) => {
+    pageSize.value = newSize
+  }
   // 弹出层标题
   const title = ref('')
   // 操作类型 1、add 2、edit

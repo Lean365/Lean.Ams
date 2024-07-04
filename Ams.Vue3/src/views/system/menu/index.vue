@@ -204,8 +204,11 @@
     }
     listMenu(queryParams.value).then((response) => {
       menuList.value = response.data
+
       if (type == 1) {
         menuQueryOptions.value = response.data
+
+
       }
       loading.value = false
     })
