@@ -25,7 +25,7 @@
     },
     pageSizes: {
       type: Array,
-      default: () => [10, 20, 30, 50, 100]
+      default: () => [14, 28, 56, 112, 224, 448, 896]
     },
     pagerCount: {
       type: Number,

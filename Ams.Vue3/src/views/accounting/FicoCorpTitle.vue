@@ -2,7 +2,7 @@
  * @Descripttion: 公司科目/fico_corp_title
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/3 15:41:55
+ * @Date: 2024/7/5 11:10:04
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -285,7 +285,7 @@ const showSearch = ref(true)
 //使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
 const queryParams = reactive({
   pageNum: 1,
-  pageSize: 50,
+  pageSize: 56,
   sort: '',
   sortType: 'asc',
 //是否查询（1是）

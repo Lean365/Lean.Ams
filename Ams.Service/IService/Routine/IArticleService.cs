@@ -1,5 +1,11 @@
 ﻿namespace Ams.Service.IService.Routine
 {
+    /// <summary>
+    /// 文章服务接口
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public interface IArticleService : IBaseService<Article>
     {
         PagedInfo<ArticleDto> GetList(ArticleQueryDto parm);

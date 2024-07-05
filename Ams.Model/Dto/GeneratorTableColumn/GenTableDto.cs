@@ -2,6 +2,12 @@
 
 namespace Ams.Model.Dto.GeneratorTableColumn
 {
+    /// <summary>
+    /// 生成表对象
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class GenTableDto
     {
         public int TableId { get; set; }
@@ -30,6 +36,12 @@ namespace Ams.Model.Dto.GeneratorTableColumn
         public List<GenTableColumnDto> Columns { get; set; }
     }
 
+    /// <summary>
+    /// 生成表列对象
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class GenTableColumnDto
     {
         public int ColumnId { get; set; }

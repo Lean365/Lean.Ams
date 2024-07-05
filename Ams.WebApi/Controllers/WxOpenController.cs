@@ -7,7 +7,7 @@ namespace Ams.WebApi.Controllers
     /// 微信公众号
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Route("[controller]/[action]")]
     [ApiExplorerSettings(GroupName = "tool")]

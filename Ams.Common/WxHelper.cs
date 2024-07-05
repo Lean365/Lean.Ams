@@ -3,11 +3,18 @@ using System.Security.Cryptography;
 using System.Text;
 using Ams.Common.Model;
 using Ams.Infrastructure;
+using Ams.Infrastructure.Cache;
 using Ams.Infrastructure.Extensions;
+using Ams.Infrastructure.Helper;
 using Newtonsoft.Json;
 
 namespace Ams.Common
 {
+    /// <summary>
+    /// 微信相关工具类
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class WxHelper
     {
         private static readonly string GetTokenUrl = "https://api.weixin.qq.com/cgi-bin/token";

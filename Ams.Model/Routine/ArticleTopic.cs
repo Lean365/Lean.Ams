@@ -2,6 +2,9 @@ namespace Ams.Model.Routine
 {
     /// <summary>
     /// 话题
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("routine_article_topic", TableDescription = "文章话题")]
     [Tenant(0)]
@@ -32,11 +35,6 @@ namespace Ams.Model.Routine
         /// 浏览次数
         /// </summary>
         public int ViewNum { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime? AddTime { get; set; }
 
         /// <summary>
         /// 话题分类

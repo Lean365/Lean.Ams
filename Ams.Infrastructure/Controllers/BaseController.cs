@@ -1,19 +1,23 @@
-﻿using Ams.Infrastructure.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Web;
+using Ams.Infrastructure.Apps;
+using Ams.Infrastructure.CustomExceptions;
+using Ams.Infrastructure.Extensions;
 using Ams.Infrastructure.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using MiniExcelLibs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Web;
 
 namespace Ams.Infrastructure.Controllers
 {
     /// <summary>
     /// web层通用数据处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     //[ApiController]
     public class BaseController : ControllerBase
@@ -117,13 +121,14 @@ namespace Ams.Infrastructure.Controllers
 
             return new ApiResult((int)resultCode, msg, data);
         }
+
         protected ApiResult Success()
         {
             return GetApiResult(ResultCode.SUCCESS);
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="apiResult"></param>
         /// <param name="timeFormatStr"></param>
@@ -143,7 +148,8 @@ namespace Ams.Infrastructure.Controllers
 
             return JsonConvert.SerializeObject(apiResult, Formatting.Indented, serializerSettings);
         }
-        #endregion
+
+        #endregion 方法
 
         /// <summary>
         /// 导出Excel
@@ -158,7 +164,7 @@ namespace Ams.Infrastructure.Controllers
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>

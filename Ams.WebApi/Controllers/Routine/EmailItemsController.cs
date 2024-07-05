@@ -7,7 +7,7 @@ namespace Ams.WebApi.Controllers.Routine
     /// 已发邮件
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("routine/email/items")]
@@ -35,7 +35,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "emaillog:list")]
+        [ActionPermissionFilter(Permission = "routine:emailitems:list")]
         public IActionResult QueryEmailLog([FromQuery] EmailItemsQueryDto parm)
         {
             var response = _EmailLogService.GetList(parm);
@@ -48,7 +48,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        [ActionPermissionFilter(Permission = "emaillog:query")]
+        [ActionPermissionFilter(Permission = "routine:emailitems:query")]
         public IActionResult GetEmailLog(long Id)
         {
             var response = _EmailLogService.GetInfo(Id);
@@ -62,8 +62,8 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPost("sendEmail")]
-        [ActionPermissionFilter(Permission = "tool:email:send")]
-        [Log(Title = "批量邮件发送", BusinessType = BusinessType.INSERT)]
+        [ActionPermissionFilter(Permission = "routine:emailitems:send")]
+        [Log(Title = "批量邮件发送", BusinessType = BusinessType.SEND)]
         public IActionResult SendEmail([FromBody] EmailItemsDto dto)
         {
             if (dto.IdArr.Length <= 0) { return ToResponse(ApiResult.Error($"发送失败Id 不能为空")); }
@@ -96,7 +96,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "emaillog:delete")]
+        [ActionPermissionFilter(Permission = "routine:emailitems:delete")]
         [Log(Title = "邮件发送记录", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteEmailLog(string ids)
         {
@@ -113,7 +113,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <param name="sendEmailVo">请求参数接收实体</param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "tool:email:send")]
+        [ActionPermissionFilter(Permission = "routine:emailitems:send")]
         [Log(Title = "发送邮件")]
         [HttpPost("/common/SendEmail")]
         public IActionResult SendEmail([FromBody] SendEmailDto sendEmailVo)

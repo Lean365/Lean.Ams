@@ -1,12 +1,13 @@
 ﻿using Ams.Common;
-using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
 using Ams.Model.Vo;
 
 namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 部门管理
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISysDeptService), ServiceLifetime = LifeTime.Transient)]
     public class SysDeptService : BaseService<SysDept>, ISysDeptService

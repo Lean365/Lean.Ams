@@ -5,8 +5,15 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace Ams.Common.DynamicApiSimple;
 
-class ApiFeatureProvider : ControllerFeatureProvider
+internal class ApiFeatureProvider : ControllerFeatureProvider
 {
+    /// <summary>
+    /// 判断控制器是否为动态Api控制器
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
+    /// <param name="typeInfo"></param>
+    /// <returns></returns>
     protected override bool IsController(TypeInfo typeInfo)
     {
         Type type = typeInfo.AsType();

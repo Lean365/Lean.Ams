@@ -1,5 +1,11 @@
 ﻿namespace Ams.Model.Routine
 {
+    /// <summary>
+    /// 文章评论
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     [SugarTable("routine_article_comment", "评论记录")]
     [Tenant(0)]
     public class ArticleComment : SysBase
@@ -25,11 +31,6 @@
         /// 最顶级留言id
         /// </summary>
         public long ParentId { get; set; } = 0;
-
-        /// <summary>
-        /// 评论时间
-        /// </summary>
-        public DateTime AddTime { get; set; }
 
         /// <summary>
         /// 回复用户id

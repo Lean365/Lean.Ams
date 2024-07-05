@@ -5,8 +5,13 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Ams.Infrastructure
+namespace Ams.Infrastructure.Helper
 {
+    /// <summary>
+    /// 文件操作工具类
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class FileUtil
     {
         /// <summary>

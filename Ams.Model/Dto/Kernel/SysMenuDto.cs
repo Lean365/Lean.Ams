@@ -1,6 +1,12 @@
 ﻿namespace Ams.Model.Dto.Kernel
 {
-    public class MenuQueryDto
+    /// <summary>
+    /// 系统菜单
+    /// 查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
+    public class SysMenuQueryDto
     {
         public string MenuName { get; set; }
         public string Visible { get; set; }
@@ -17,6 +23,12 @@
         }
     }
 
+    /// <summary>
+    /// 系统菜单
+    /// 查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class SysMenuDto
     {
         //{"parentId":0,"menuName":"aaa","icon":"documentation","menuType":"M","SortingNum":999,"visible":0,"status":0,"path":"aaa"}

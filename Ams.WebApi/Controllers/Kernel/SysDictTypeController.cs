@@ -7,7 +7,7 @@ namespace Ams.WebApi.Controllers.System
     /// 字典类别
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("system/dict/type")]
@@ -54,7 +54,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="dto"></param>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:dict:add")]
-        [Log(Title = "字典操作", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "字典操作", BusinessType = BusinessType.ADD)]
         [HttpPost("edit")]
         public IActionResult Add([FromBody] SysDictTypeDto dto)
         {
@@ -74,7 +74,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="dto"></param>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:dict:edit")]
-        [Log(Title = "字典操作", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "字典操作", BusinessType = BusinessType.EDIT)]
         [Route("edit")]
         [HttpPut]
         public IActionResult Edit([FromBody] SysDictTypeDto dto)
@@ -93,7 +93,7 @@ namespace Ams.WebApi.Controllers.System
         /// 删除字典类别
         /// </summary>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "system:dict:remove")]
+        [ActionPermissionFilter(Permission = "system:dict:delete")]
         [Log(Title = "删除字典类别", BusinessType = BusinessType.DELETE)]
         [HttpDelete("{ids}")]
         public IActionResult Remove(string ids)
@@ -114,7 +114,7 @@ namespace Ams.WebApi.Controllers.System
         {
             var list = SysDictService.GetAll();
 
-            string sFileName = ExportExcel(list, "sysdictType", "字典");
+            string sFileName = ExportExcel(list, "DictType", "字典");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
     }

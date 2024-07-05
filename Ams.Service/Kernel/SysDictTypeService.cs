@@ -1,9 +1,10 @@
-﻿using Ams.Infrastructure;
-
-namespace Ams.Service.Kernel
+﻿namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 字典类别
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISysDictTypeService), ServiceLifetime = LifeTime.Transient)]
     public class SysDictTypeService : BaseService<SysDictType>, ISysDictTypeService
@@ -30,10 +31,10 @@ namespace Ams.Service.Kernel
         {
             var exp = Expressionable.Create<SysDictType>();
             exp.AndIF(!string.IsNullOrEmpty(dictType.DictName), it => it.DictName.Contains(dictType.DictName));
-            exp.AndIF(!string.IsNullOrEmpty(dictType.IsStatus.ToString()), it => it.IsStatus == dictType.IsStatus);
+            exp.AndIF(dictType.IsStatus != -1, it => it.IsStatus == dictType.IsStatus);
             exp.AndIF(!string.IsNullOrEmpty(dictType.DictType), it => it.DictType.Contains(dictType.DictType));
             exp.AndIF(!string.IsNullOrEmpty(dictType.Type), it => it.Type.Equals(dictType.Type));
-            exp.AndIF(!string.IsNullOrEmpty(dictType.DictCategory.ToString()), it => it.DictCategory == dictType.DictCategory);
+            exp.AndIF(dictType.DictCategory != -1, it => it.DictCategory == dictType.DictCategory);
             return GetPages(exp.ToExpression(), pager, f => f.DictId, OrderByType.Desc);
         }
 

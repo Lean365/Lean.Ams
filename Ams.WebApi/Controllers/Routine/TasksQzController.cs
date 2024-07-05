@@ -9,7 +9,7 @@ namespace Ams.WebApi.Controllers.Routine
     /// 计划任务
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("routine/tasksqz")]
@@ -32,7 +32,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "monitor:job:list")]
+        [ActionPermissionFilter(Permission = "routine:tasksqz:list")]
         public IActionResult ListTask([FromQuery] TasksQzQueryDto parm)
         {
             var response = _tasksQzService.SelectTaskList(parm);
@@ -59,8 +59,8 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPost("create")]
-        [ActionPermissionFilter(Permission = "monitor:job:add")]
-        [Log(Title = "添加任务", BusinessType = BusinessType.INSERT)]
+        [ActionPermissionFilter(Permission = "routine:tasksqz:add")]
+        [Log(Title = "添加任务", BusinessType = BusinessType.ADD)]
         public IActionResult Create([FromBody] TasksQzCreateDto parm)
         {
             //判断是否已经存在
@@ -97,8 +97,8 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPost("update")]
-        [ActionPermissionFilter(Permission = "monitor:job:edit")]
-        [Log(Title = "修改任务", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "routine:tasksqz:edit")]
+        [Log(Title = "修改任务", BusinessType = BusinessType.EDIT)]
         public async Task<IActionResult> Update([FromBody] TasksQzCreateDto parm)
         {
             //判断是否已经存在
@@ -140,7 +140,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete")]
-        [ActionPermissionFilter(Permission = "monitor:job:delete")]
+        [ActionPermissionFilter(Permission = "routine:tasksqz:delete")]
         [Log(Title = "删除任务", BusinessType = BusinessType.DELETE)]
         public async Task<IActionResult> Delete(string id)
         {
@@ -169,8 +169,8 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpGet("start")]
-        [ActionPermissionFilter(Permission = "monitor:job:start")]
-        [Log(Title = "启动任务", BusinessType = BusinessType.OTHER)]
+        [ActionPermissionFilter(Permission = "routine:tasksqz:start")]
+        [Log(Title = "启动任务", BusinessType = BusinessType.START)]
         public async Task<IActionResult> Start(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -200,8 +200,8 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpGet("stop")]
-        [ActionPermissionFilter(Permission = "monitor:job:stop")]
-        [Log(Title = "停止任务", BusinessType = BusinessType.OTHER)]
+        [ActionPermissionFilter(Permission = "routine:tasksqz:stop")]
+        [Log(Title = "停止任务", BusinessType = BusinessType.STOP)]
         public async Task<IActionResult> Stop(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -232,8 +232,8 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("run")]
-        [ActionPermissionFilter(Permission = "monitor:job:run")]
-        [Log(Title = "执行任务", BusinessType = BusinessType.OTHER)]
+        [ActionPermissionFilter(Permission = "routine:tasksqz:run")]
+        [Log(Title = "执行任务", BusinessType = BusinessType.RUN)]
         public async Task<IActionResult> Run(string id)
         {
             var result = await _tasksQzService.IsAnyAsync(m => m.ID == id);
@@ -253,12 +253,12 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "定时任务导出")]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "monitor:job:export")]
+        [ActionPermissionFilter(Permission = "routine:tasksqz:export")]
         public IActionResult Export()
         {
             var list = _tasksQzService.GetAll();
 
-            string sFileName = ExportExcel(list, "monitorjob", "定时任务");
+            string sFileName = ExportExcel(list, "Tasksqz", "定时任务");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
     }

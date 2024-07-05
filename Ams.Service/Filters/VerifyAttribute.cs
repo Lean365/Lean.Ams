@@ -1,17 +1,17 @@
-﻿using Ams.Common;
-using Ams.Infrastructure;
+﻿using Ams.Infrastructure;
 using Ams.Infrastructure.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-//本命名空间暂时先不改，改动比较大2023年9月2日
 namespace Ams.Service.Filters
 {
     /// <summary>
     /// 授权校验访问
     /// 如果跳过授权登录在Action 或controller加上 AllowAnonymousAttribute
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [AttributeUsage(AttributeTargets.All)]
     public class VerifyAttribute : Attribute, IAuthorizationFilter

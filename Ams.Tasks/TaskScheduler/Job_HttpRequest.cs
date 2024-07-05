@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Ams.Infrastructure;
 using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.CustomExceptions;
+using Ams.Infrastructure.Helper;
 using Ams.Model.Routine;
 using Quartz;
 using Quartz.Impl;
@@ -12,6 +13,8 @@ namespace Ams.Tasks.TaskScheduler
 {
     /// <summary>
     /// 定时任务http请求
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(Job_HttpRequest), ServiceLifetime = LifeTime.Scoped)]
     internal class Job_HttpRequest : JobBase, IJob

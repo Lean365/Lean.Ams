@@ -69,7 +69,7 @@
           <svg-icon :name="row.icon"></svg-icon>
         </template>
       </vxe-column>
-      <vxe-column field="menuType" :title="$t('pmenu.menuType')" align="center" width="80">
+      <vxe-column field="menuType" :title="$t('pmenu.menuType')" align="center" width="120">
         <template #default="scope">
           <el-tag :disable-transitions="true" type="danger"
             v-if="scope.row.menuType == 'M' && scope.row.isFrame == 1">{{ $t('pmenu.link') }}</el-tag>

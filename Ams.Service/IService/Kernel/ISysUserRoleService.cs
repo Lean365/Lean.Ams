@@ -1,8 +1,11 @@
-﻿using Ams.Model;
-using Ams.Model.Kernel;
-
-namespace Ams.Service.IService.Kernel
+﻿namespace Ams.Service.IService.Kernel
 {
+    /// <summary>
+    /// 角色用户
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public interface ISysUserRoleService : IBaseService<SysUserRole>
     {
         public int CountUserRoleByRoleId(long roleId);

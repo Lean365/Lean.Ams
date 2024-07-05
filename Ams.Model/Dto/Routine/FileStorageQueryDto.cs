@@ -1,5 +1,11 @@
 ﻿namespace Ams.Model.Dto.Routine
 {
+    /// <summary>
+    /// 文件存
+    /// 储查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class FileStorageQueryDto : PagerInfo
     {
         public DateTime? BeginCreate_time { get; set; }
@@ -9,7 +15,10 @@
     }
 
     /// <summary>
-    /// 文件存储输入对象
+    /// 文件存储
+    /// 输入对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class FileStorageDto
     {

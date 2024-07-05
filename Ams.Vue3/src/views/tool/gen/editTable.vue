@@ -271,7 +271,8 @@
   }
 
   /** 查询字典下拉列表 */
-  listType({ pageSize: 100000 }).then((response) => {
+  //查询参数传入DictCategory: -1,pageSize: 100000  全部字典 默认查询参数传入DictCategory:0,pageSize: 1
+  listType({ DictCategory: -1, pageSize: 100000 }).then((response) => {
     dictOptions.value = response.data.result
   })
   /** 关闭按钮 */

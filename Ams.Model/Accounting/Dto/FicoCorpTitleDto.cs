@@ -5,7 +5,7 @@ namespace Ams.Model.Accounting.Dto
     /// 公司科目
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/3 15:41:55
+    /// @Date: 2024/7/5 11:10:04
     /// </summary>
     public class FicoCorpTitleQueryDto : PagerInfo 
     {
@@ -17,7 +17,7 @@ namespace Ams.Model.Accounting.Dto
     /// 公司科目
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/3 15:41:55
+    /// @Date: 2024/7/5 11:10:04
     /// </summary>
     public class FicoCorpTitleDto
     {
@@ -46,20 +46,16 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumnName("备注")]
         public string Remark { get; set; }
 
-        [ExcelColumn(Name = "创建者")]
-        [ExcelColumnName("创建者")]
+        [ExcelIgnore]
         public string CreateBy { get; set; }
 
-        [ExcelColumn(Name = "创建时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("创建时间")]
+        [ExcelIgnore]
         public DateTime? CreateTime { get; set; }
 
-        [ExcelColumn(Name = "更新者")]
-        [ExcelColumnName("更新者")]
+        [ExcelIgnore]
         public string UpdateBy { get; set; }
 
-        [ExcelColumn(Name = "更新时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("更新时间")]
+        [ExcelIgnore]
         public DateTime? UpdateTime { get; set; }
 
 

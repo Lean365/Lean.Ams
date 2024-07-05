@@ -2,17 +2,17 @@ namespace Ams.Service.IService.Kernel
 {
     /// <summary>
     /// 本地语言service接口
-    ///
-    /// @author zr
-    /// @date 2022-05-06
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public interface ISysLocaleLangService : IBaseService<SysLocaleLang>
     {
-        PagedInfo<SysLocaleLang> GetList(CommonLangQueryDto parm);
+        PagedInfo<SysLocaleLang> GetList(SysLocaleLangQueryDto parm);
 
-        List<SysLocaleLang> GetLangList(CommonLangQueryDto parm);
+        List<SysLocaleLang> GetLangList(SysLocaleLangQueryDto parm);
 
-        dynamic GetListToPivot(CommonLangQueryDto parm);
+        dynamic GetListToPivot(SysLocaleLangQueryDto parm);
 
         void StorageCommonLang(SysLocaleLangDto parm);
 

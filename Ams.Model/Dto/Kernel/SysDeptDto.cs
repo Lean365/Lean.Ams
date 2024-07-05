@@ -1,5 +1,11 @@
 ﻿namespace Ams.Model.Dto.Kernel
 {
+    /// <summary>
+    /// 系统部门
+    /// 查询对象模型
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class SysDeptQueryDto : PagerInfo
     {
         public int? IsStatus { get; set; }
@@ -7,6 +13,12 @@
         public string DeptName { get; set; }
     }
 
+    /// <summary>
+    /// 系统部门
+    /// 输入输出对象模型
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class SysDeptDto : SysBase
     {
         public long DeptId { get; set; }

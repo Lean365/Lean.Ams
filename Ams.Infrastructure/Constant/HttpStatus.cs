@@ -1,15 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ams.Infrastructure.Constant
+﻿namespace Ams.Infrastructure.Constant
 {
+    /// <summary>
+    /// HTTP状态码
+    /// 200-成功，201-对象创建成功，202-请求已经被接受，204-操作已经执行成功，但是没有返回数据，
+    /// 301-资源已被移除，303-重定向，304-资源没有被修改，400-参数列表错误（缺少，格式不匹配），
+    /// 401-未授权，403-访问受限，404-资源，服务未找到，405-不允许的http方法，409-资源冲突，或者资源被锁，
+    /// 415-不支持的数据，媒体类型，500-系统内部错误，501-接口未实现
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class HttpStatus
     {
         /// <summary>
         /// 操作成功
         /// </summary>
         public static readonly int SUCCESS = 200;
+
         /// <summary>
         /// 对象创建成功
         /// </summary>

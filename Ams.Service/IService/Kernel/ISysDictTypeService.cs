@@ -1,10 +1,10 @@
-﻿using Ams.Model;
-using Ams.Model.Kernel;
-
-namespace Ams.Service.IService.Kernel
+﻿namespace Ams.Service.IService.Kernel
 {
     /// <summary>
-    ///
+    /// 字典类别服务接口
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public interface ISysDictTypeService
     {

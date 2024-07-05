@@ -1,20 +1,25 @@
-﻿using Ams.Infrastructure.Extensions;
-using Ams.Infrastructure.Model;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using MiniExcelLibs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Web;
+using Ams.Infrastructure.Apps;
+using Ams.Infrastructure.CustomExceptions;
+using Ams.Infrastructure.Extensions;
+using Ams.Infrastructure.Model;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using MiniExcelLibs;
 using textJson = System.Text.Json;
 
 namespace Ams.Infrastructure.Controllers
 {
     /// <summary>
     /// System.Text.Json 序列化保留
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     //[ApiController]
     public class JsonApiController : ControllerBase
@@ -75,7 +80,7 @@ namespace Ams.Infrastructure.Controllers
             }
             var stream = System.IO.File.OpenRead(path);  //创建文件流
 
-            Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
+            Response.Headers.Append("Access-Control-Expose-Headers", "Content-Disposition");
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", HttpUtility.UrlEncode(fileName));
         }
 
@@ -92,7 +97,7 @@ namespace Ams.Infrastructure.Controllers
                 return NotFound();
             }
             var stream = System.IO.File.OpenRead(path);  //创建文件流
-            Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
+            Response.Headers.Append("Access-Control-Expose-Headers", "Content-Disposition");
             return File(stream, "application/octet-stream", HttpUtility.UrlEncode(fileName));
         }
 
@@ -121,13 +126,14 @@ namespace Ams.Infrastructure.Controllers
 
             return new ApiResult((int)resultCode, msg, data);
         }
+
         protected ApiResult Success()
         {
             return GetApiResult(ResultCode.SUCCESS);
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="apiResult"></param>
         /// <param name="timeFormatStr"></param>
@@ -158,7 +164,8 @@ namespace Ams.Infrastructure.Controllers
             string responseResult = textJson.JsonSerializer.Serialize(apiResult, options);
             return responseResult;
         }
-        #endregion
+
+        #endregion 方法
 
         /// <summary>
         /// 导出Excel
@@ -173,7 +180,7 @@ namespace Ams.Infrastructure.Controllers
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
@@ -183,7 +190,7 @@ namespace Ams.Infrastructure.Controllers
         protected (string, string) ExportExcelMini<T>(List<T> list, string sheetName, string fileName)
         {
             IWebHostEnvironment webHostEnvironment = (IWebHostEnvironment)App.ServiceProvider.GetService(typeof(IWebHostEnvironment));
-            string sFileName = $"{fileName}{DateTime.Now:MM-dd-HHmmss}.xlsx";
+            string sFileName = $"{fileName}_{DateTime.Now:yyyy-MM-dd-HHmmss}.xlsx";
             string fullPath = Path.Combine(webHostEnvironment.WebRootPath, "export", sFileName);
 
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
@@ -201,7 +208,7 @@ namespace Ams.Infrastructure.Controllers
         protected (string, string) ExportExcelMini(Dictionary<string, object> sheets, string fileName)
         {
             IWebHostEnvironment webHostEnvironment = (IWebHostEnvironment)App.ServiceProvider.GetService(typeof(IWebHostEnvironment));
-            string sFileName = $"{fileName}{DateTime.Now:MM-dd-HHmmss}.xlsx";
+            string sFileName = $"{fileName}_{DateTime.Now:yyyy-MM-dd-HHmmss}.xlsx";
             string fullPath = Path.Combine(webHostEnvironment.WebRootPath, "export", sFileName);
 
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));

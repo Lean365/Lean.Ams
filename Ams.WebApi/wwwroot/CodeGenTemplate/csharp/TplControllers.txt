@@ -199,7 +199,7 @@ $if(replaceDto.ShowBtnImport)
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<${replaceDto.ModelTypeName}Dto>() { }, "${replaceDto.ModelTypeName}");
+            var result = DownloadImportTemplate(new List<${replaceDto.ModelTypeName}ImportTpl>() { }, "${replaceDto.ModelTypeName}_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

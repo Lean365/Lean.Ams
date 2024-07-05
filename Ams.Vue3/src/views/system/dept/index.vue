@@ -174,7 +174,7 @@
   // 查询参数
   const queryParams = reactive({
     deptName: undefined,
-    isStatus: -1
+    isStatus: undefined
   })
   const state = reactive({
     // 表单参数

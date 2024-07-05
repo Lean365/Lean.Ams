@@ -55,6 +55,12 @@ import pageDictCn from './pages/dict/zh-cn.json'
 import pageDictTw from './pages/dict/zh-tw.json'
 import pageDictJa from './pages/dict/ja.json'
 import pageDictEn from './pages/dict/en.json'
+
+//系统字典
+import pageErrorCn from './pages/error/zh-cn.json'
+import pageErrorTw from './pages/error/zh-tw.json'
+import pageErrorJa from './pages/error/ja.json'
+import pageErrorEn from './pages/error/en.json'
 //代码生成页面
 import pageGenCn from './pages/gen/zh-cn.json'
 import pageGenTw from './pages/gen/zh-tw.json'
@@ -158,7 +164,7 @@ const i18n = createI18n({
       ...pageConfigCn,
       ...pageDeptCn,
       ...pageDictCn,
-
+      ...pageErrorCn,
       ...pageGenCn,
       ...pageTaskCn,
       ...pageLangCn,
@@ -187,7 +193,7 @@ const i18n = createI18n({
       ...pageConfigTw,
       ...pageDeptTw,
       ...pageDictTw,
-
+      ...pageErrorTw,
       ...pageGenTw,
       ...pageTaskTw,
       ...pageLangTw,
@@ -215,7 +221,7 @@ const i18n = createI18n({
       ...pageConfigJa,
       ...pageDeptJa,
       ...pageDictJa,
-
+      ...pageErrorJa,
       ...pageTaskJa,
       ...pageGenJa,
       ...pageLangJa,
@@ -244,7 +250,7 @@ const i18n = createI18n({
       ...pageDeptEn,
       ...pageDictEn,
       ...pageTaskEn,
-
+      ...pageErrorEn,
       ...pageGenEn,
       ...pageLangEn,
       ...pageLogEn,
@@ -270,6 +276,7 @@ const loadLocale = () => {
   listLangByLocale(language.value).then((res) => {
     const { code, data } = res
     if (code == 200) {
+      //console.log(language.value, data)
       i18n.global.mergeLocaleMessage(language.value, data)
     }
   })

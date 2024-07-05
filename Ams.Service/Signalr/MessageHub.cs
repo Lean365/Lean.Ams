@@ -10,6 +10,9 @@ namespace Ams.Service.Signalr
 {
     /// <summary>
     /// msghub
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class MessageHub : Hub
     {
@@ -137,7 +140,7 @@ namespace Ams.Service.Signalr
                     UserOnlineLogService.AddUserOnlineLog(new DurationLog()
                     {
                         UserId = user.Userid,
-                        AddTime = DateTime.Now,
+                        Create_time = DateTime.Now,
                         Location = user?.Location,
                         OnlineTime = user.OnlineTime,
                         UserIP = user.UserIP,

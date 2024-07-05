@@ -62,8 +62,8 @@
       immediate: true
     }
   )
-  console.log('🎉源码地址: https://gitee.com/izory/ZrAdminNetCore')
-  console.log('📖官方文档：http://www.izhaorui.cn')
-  console.log('💰打赏作者：http://www.izhaorui.cn/doc/support.html')
-  console.log('📱移动端体验：http://www.izhaorui.cn/h5')
+  console.log('🎉源码地址: https://github.com/Lean365/Lean.Ams')
+  console.log('📖官方文档：https://leansoft365.github.io/')
+  console.log('💰打赏作者：https://leansoft365.github.io/docs/others/donate.html')
+  console.log('🎉公众号：lean365')
 </script>

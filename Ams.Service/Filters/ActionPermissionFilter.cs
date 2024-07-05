@@ -8,6 +8,8 @@ namespace Ams.Service.Filters
 {
     /// <summary>
     /// API授权判断
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class ActionPermissionFilter : ActionFilterAttribute//, IAsyncActionFilter
     {

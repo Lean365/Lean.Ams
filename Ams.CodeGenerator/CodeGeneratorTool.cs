@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Ams.CodeGenerator.Model;
 using Ams.Infrastructure;
+using Ams.Infrastructure.CustomExceptions;
 using Ams.Infrastructure.Extensions;
 using Ams.Infrastructure.Helper;
 using Ams.Infrastructure.Model;
@@ -88,6 +89,7 @@ namespace Ams.CodeGenerator
 
             replaceDto.UploadFile = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_IMAGE_UPLOAD) || f.HtmlType.Equals(GenConstants.HTML_FILE_UPLOAD)) ? 1 : 0;
             replaceDto.SelectMulti = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_SELECT_MULTI)) ? 1 : 0;
+            replaceDto.SelectRemote = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_SELECT_REMOTE)) ? 1 : 0;
             replaceDto.ShowEditor = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_EDITOR)) ? 1 : 0;
             replaceDto.FistLowerPk = replaceDto.PKName.FirstLowerCase();
             InitJntTemplate(dto, replaceDto);
@@ -122,9 +124,9 @@ namespace Ams.CodeGenerator
             dto.ReplaceDto = replaceDto;
         }
 
-        private static CodeGeneratorOption GenerateOption(GenTable genTable)
+        private static GeneratorOption GenerateOption(GenTable genTable)
         {
-            CodeGeneratorOption _option = new()
+            GeneratorOption _option = new()
             {
                 BaseNamespace = genTable.BaseNameSpace,
                 SubNamespace = genTable.ModuleName.FirstUpperCase()
@@ -578,25 +580,29 @@ namespace Ams.CodeGenerator
                 IsExport = true,
                 HtmlType = GenConstants.HTML_INPUT,
             };
-
+            //图片类型初始化上传路径
             if (GenConstants.imageFiled.Any(f => column.DbColumnName.ToLower().Contains(f.ToLower())))
             {
                 genTableColumn.HtmlType = GenConstants.HTML_IMAGE_UPLOAD;
             }
+            //时间类型初始化时间范围查询
             else if (GenConstants.COLUMNTYPE_TIME.Any(f => genTableColumn.CsharpType.ToLower().Contains(f.ToLower())))
             {
                 genTableColumn.HtmlType = GenConstants.HTML_DATETIME;
             }
+            //单选
             else if (GenConstants.radioFiled.Any(f => column.DbColumnName.EndsWith(f, StringComparison.OrdinalIgnoreCase)) ||
                 GenConstants.radioFiled.Any(f => column.DbColumnName.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
             {
                 genTableColumn.HtmlType = GenConstants.HTML_RADIO;
             }
+            //选择项
             else if (GenConstants.selectFiled.Any(f => column.DbColumnName == f) ||
                 GenConstants.selectFiled.Any(f => column.DbColumnName.EndsWith(f, StringComparison.OrdinalIgnoreCase)))
             {
                 genTableColumn.HtmlType = GenConstants.HTML_SELECT;
             }
+            //文本大于500则转换
             else if (column.Length > 500)
             {
                 genTableColumn.HtmlType = GenConstants.HTML_TEXTAREA;
@@ -616,7 +622,21 @@ namespace Ams.CodeGenerator
             {
                 genTableColumn.QueryType = "BETWEEN";
             }
-
+            //查询字段
+            if (GenConstants.COLUMNNAME_NOT_QUERY.Any(f => column.DbColumnName.ToLower().Contains(f.ToLower())))
+            {
+                genTableColumn.IsQuery = false;
+            }
+            //填写字段
+            //if (GenConstants.COLUMNNAME_NOT_REQUIRED.Any(f => column.DbColumnName.ToLower().Contains(f.ToLower())))
+            //{
+            //    genTableColumn.IsRequired = false;
+            //}
+            //导出字段
+            if (GenConstants.COLUMNNAME_NOT_EXPORT.Any(f => column.DbColumnName.ToLower().Contains(f.ToLower())))
+            {
+                genTableColumn.IsExport = false;
+            }
             return genTableColumn;
         }
 

@@ -71,14 +71,14 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="download" @click="handleExport" v-hasPermi="['system:dict:export']">
+        <el-button class="btn-export" plain icon="download" @click="handleExport" v-hasPermi="['system:dict:export']">
           {{ $t('btn.export') }}
         </el-button>
       </el-col>
       <right-toolbar :showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table height="650px" :data="typeList" v-loading="loading" border @selection-change="handleSelectionChange">
+    <el-table height="610px" :data="typeList" v-loading="loading" border @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="Id" align="center" prop="dictId" width="100" sortable />
       <el-table-column :label="$t('pdict.dictCategory')" :show-overflow-tooltip="true">
@@ -197,7 +197,7 @@
 <script setup name="dict">
   import dictData from '@/views/components/dictData'
   import { listType, getType, delType, addType, updateType, exportType } from '@/api/system/dict/type'
-
+  import '@/assets/styles/btn-custom.scss';
   const { proxy } = getCurrentInstance()
   // 遮罩层
   const loading = ref(true)
@@ -242,10 +242,10 @@
     queryParams: {
       pageNum: 1,
       pageSize: 14,
-      dictCategory: undefined,
+      dictCategory: -1,
       dictName: undefined,
       dictType: undefined,
-      isStatus: undefined,
+      isStatus: -1,
       type: undefined
     }
   })

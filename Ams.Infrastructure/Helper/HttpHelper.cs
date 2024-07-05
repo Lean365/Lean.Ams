@@ -4,8 +4,13 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ams.Infrastructure
+namespace Ams.Infrastructure.Helper
 {
+    /// <summary>
+    /// Http请求帮助类
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class HttpHelper
     {
         /// <summary>
@@ -14,7 +19,7 @@ namespace Ams.Infrastructure
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <param name="contentType">application/xml、application/json、application/text、application/x-www-form-urlencoded</param>
-        /// <param name="headers">填充消息头</param>        
+        /// <param name="headers">填充消息头</param>
         /// <returns></returns>
         public static string HttpPost(string url, string postData = null, string contentType = null, int timeOut = 30, Dictionary<string, string> headers = null)
         {
@@ -40,7 +45,7 @@ namespace Ams.Infrastructure
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <param name="contentType">application/xml、application/json、application/text、application/x-www-form-urlencoded</param>
-        /// <param name="headers">填充消息头</param>        
+        /// <param name="headers">填充消息头</param>
         /// <returns></returns>
         public static async Task<string> HttpPostAsync(string url, string postData = null, string contentType = null, int timeOut = 30, Dictionary<string, string> headers = null)
         {
@@ -117,7 +122,7 @@ namespace Ams.Infrastructure
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <param name="contentType">application/xml、application/json、application/text、application/x-www-form-urlencoded</param>
-        /// <param name="headers">填充消息头</param>        
+        /// <param name="headers">填充消息头</param>
         /// <returns></returns>
         public static string HttpPut(string url, string postData = null, string contentType = null, int timeOut = 30, Dictionary<string, string> headers = null)
         {

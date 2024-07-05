@@ -1,14 +1,20 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Extensions.Caching.Memory;
 
-namespace Ams.Common
+namespace Ams.Infrastructure.Cache
 {
+    /// <summary>
+    /// 缓存帮助类
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class CacheHelper
     {
         public static MemoryCache Cache { get; set; }
+
         static CacheHelper()
         {
             Cache = new MemoryCache(new MemoryCacheOptions
@@ -122,7 +128,6 @@ namespace Ams.Common
             return Cache.TryGetValue(key, out _);
         }
 
-
         /// <summary>
         /// 获取所有缓存键
         /// </summary>
@@ -132,7 +137,7 @@ namespace Ams.Common
             const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
             //var entries = Cache.GetType().GetField("_entries", flags).GetValue(Cache);
 
-            //.net7需要这样写 
+            //.net7需要这样写
             var coherentState = Cache.GetType().GetField("_coherentState", flags).GetValue(Cache);
             var entries = coherentState.GetType().GetField("_entries", flags).GetValue(coherentState);
 
@@ -147,4 +152,3 @@ namespace Ams.Common
         }
     }
 }
-

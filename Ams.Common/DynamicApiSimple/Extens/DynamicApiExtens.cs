@@ -1,17 +1,23 @@
-﻿using Ams.Infrastructure.Helper;
+﻿using System.Linq;
+using System.Reflection;
+using Ams.Infrastructure.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using System.Linq;
-using System.Reflection;
 
 namespace Ams.Common.DynamicApiSimple.Extens
 {
+    /// <summary>
+    /// 动态api扩展
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public static class DynamicApiExtens
     {
         public static string TIME_FORMAT_FULL = "yyyy-MM-dd HH:mm:ss";
+        public static string TIME_FORMAT_SHORT = "yyyy-MM-dd";
 
         /// <summary>
         /// 注入动态api
@@ -25,7 +31,6 @@ namespace Ams.Common.DynamicApiSimple.Extens
             {
                 foreach (Assembly assembly in AssemblyUtils.GetAssemblies())
                 {
-
                     if (m.ApplicationParts.Any(it => it.Name.Equals(assembly.FullName.Split(',')[0]))) continue;
 
                     m.ApplicationParts.Add(new AssemblyPart(assembly));

@@ -1,5 +1,10 @@
 ﻿namespace Ams.Model.Dto.Routine
 {
+    /// <summary>
+    /// 用户
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class UserDto
     {
         public long UserId { get; set; }

@@ -1,5 +1,10 @@
 ﻿namespace Ams.Model.Dto.Kernel
 {
+    /// <summary>
+    /// 角色用户查询条件
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class RoleUserQueryDto : PagerInfo
     {
         public long RoleId { get; set; }
@@ -7,6 +12,11 @@
         public string UserName { get; set; }
     }
 
+    /// <summary>
+    /// 角色用户创建
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class RoleUsersCreateDto
     {
         /// <summary>

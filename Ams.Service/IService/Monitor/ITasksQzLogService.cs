@@ -1,5 +1,11 @@
 ﻿namespace Ams.Service.IService.Monitor
 {
+    /// <summary>
+    /// 任务执行日志服务接口
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public interface ITasksQzLogService : IBaseService<TasksQzLog>
     {
         /// <summary>

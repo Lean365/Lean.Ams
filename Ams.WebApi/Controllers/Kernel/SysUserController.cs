@@ -9,7 +9,7 @@ namespace Ams.WebApi.Controllers.System
     /// 系统用户
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("system/user")]
@@ -81,7 +81,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpPost("add")]
-        [Log(Title = "用户管理", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "用户管理", BusinessType = BusinessType.ADD)]
         [ActionPermissionFilter(Permission = "system:user:add")]
         public IActionResult AddUser([FromBody] SysUserDto parm)
         {
@@ -103,7 +103,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpPut("edit")]
-        [Log(Title = "用户管理", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "用户管理", BusinessType = BusinessType.EDIT)]
         [ActionPermissionFilter(Permission = "system:user:edit")]
         public IActionResult UpdateUser([FromBody] SysUserDto parm)
         {
@@ -138,7 +138,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpDelete("{userId}")]
         [Log(Title = "用户管理", BusinessType = BusinessType.DELETE)]
-        [ActionPermissionFilter(Permission = "system:user:remove")]
+        [ActionPermissionFilter(Permission = "system:user:delete")]
         public IActionResult Remove(int userid = 0)
         {
             if (userid <= 0) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }
@@ -153,8 +153,8 @@ namespace Ams.WebApi.Controllers.System
         /// </summary>
         /// <returns></returns>
         [HttpPut("resetPwd")]
-        [Log(Title = "重置密码", BusinessType = BusinessType.UPDATE)]
-        [ActionPermissionFilter(Permission = "system:user:resetPwd")]
+        [Log(Title = "重置密码", BusinessType = BusinessType.PASSWORD)]
+        [ActionPermissionFilter(Permission = "system:user:password")]
         public IActionResult ResetPwd([FromBody] SysUserDto sysUser)
         {
             //密码md5

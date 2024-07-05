@@ -1,6 +1,4 @@
-﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.IPTools;
+﻿using Ams.Infrastructure.IPTools;
 using Ams.Infrastructure.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +8,11 @@ using NLog;
 
 namespace Ams.Service.Filters
 {
+    /// <summary>
+    /// 全局操作日志记录
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class GlobalActionMonitor : ActionFilterAttribute
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();

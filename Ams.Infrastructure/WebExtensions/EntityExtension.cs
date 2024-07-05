@@ -1,11 +1,14 @@
-﻿
-using Ams.Infrastructure.Extensions;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Reflection;
+using Microsoft.AspNetCore.Http;
 
-namespace Ams.Infrastructure
+namespace Ams.Infrastructure.WebExtensions
 {
+    /// <summary>
+    /// Entity Extension
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public static class EntityExtension
     {
         public static TSource ToCreate<TSource>(this TSource source, HttpContext? context = null)
@@ -15,7 +18,7 @@ namespace Ams.Infrastructure
             BindingFlags flag = BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.Instance;
 
             types.GetProperty("CreateTime", flag)?.SetValue(source, DateTime.Now, null);
-            types.GetProperty("AddTime", flag)?.SetValue(source, DateTime.Now, null);
+            types.GetProperty("Create_time", flag)?.SetValue(source, DateTime.Now, null);
             types.GetProperty("CreateBy", flag)?.SetValue(source, context.GetName(), null);
             types.GetProperty("Create_by", flag)?.SetValue(source, context.GetName(), null);
             //types.GetProperty("UserId", flag)?.SetValue(source, context.GetUId(), null);
@@ -37,6 +40,5 @@ namespace Ams.Infrastructure
 
             return source;
         }
-
     }
 }

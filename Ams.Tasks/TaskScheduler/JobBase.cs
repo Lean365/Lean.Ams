@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Ams.Common;
-using Ams.Infrastructure;
+using Ams.Infrastructure.Apps;
 using Ams.Model.Monitor;
 using Ams.Model.Routine;
 using Ams.Service.IService.Monitor;
@@ -12,6 +12,11 @@ using Quartz;
 
 namespace Ams.Tasks
 {
+    /// <summary>
+    /// 任务基类
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class JobBase
     {
         /// <summary>

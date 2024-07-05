@@ -7,6 +7,8 @@ namespace Ams.WebApi.Extensions
 {
     /// <summary>
     /// 定时任务扩展方法
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public static class TasksExtension
     {

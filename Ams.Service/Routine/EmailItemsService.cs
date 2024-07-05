@@ -1,10 +1,12 @@
-using Ams.Infrastructure.Attribute;
 using Ams.Infrastructure.Model;
 
 namespace Ams.Service.Routine
 {
     /// <summary>
     /// 邮件发送记录Service业务层处理
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(IEmailItemsService), ServiceLifetime = LifeTime.Transient)]
     public class EmailItemsService : BaseService<EmailItems>, IEmailItemsService
@@ -21,9 +23,9 @@ namespace Ams.Service.Routine
             predicate = predicate.AndIF(parm.IsSend != null, it => it.IsSend == parm.IsSend);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FromEmail), it => it.FromEmail == parm.FromEmail);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Subject), it => it.Subject.Contains(parm.Subject));
-            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.AddTime >= DateTime.Now.AddDays(-7).ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginAddTime != null, it => it.AddTime >= parm.BeginAddTime);
-            predicate = predicate.AndIF(parm.EndAddTime != null, it => it.AddTime <= parm.EndAddTime);
+            predicate = predicate.AndIF(parm.BeginTime == null, it => it.Create_time >= DateTime.Now.AddDays(-7).ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, it => it.Create_time <= parm.EndTime);
             var response = Queryable()
                 .Where(predicate.ToExpression())
                 .ToPage<EmailItems, EmailItemsDto>(parm);
@@ -58,7 +60,7 @@ namespace Ams.Service.Routine
                 EmailContent = sendEmailVo.HtmlContent,
                 Subject = sendEmailVo.Subject,
                 ToEmails = sendEmailVo.ToUser,
-                AddTime = DateTime.Now,
+                Create_time = DateTime.Now,
                 FromEmail = sendEmailVo.FromEmail,
                 IsSend = sendEmailVo.IsSend ? 1 : 0,
                 SendResult = result,

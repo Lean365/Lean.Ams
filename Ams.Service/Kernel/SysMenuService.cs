@@ -1,12 +1,14 @@
 using Ams.Common;
 using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
 using Ams.Model.Vo;
 
 namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 菜单
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISysMenuService), ServiceLifetime = LifeTime.Transient)]
     public class SysMenuService : BaseService<SysMenu>, ISysMenuService
@@ -22,7 +24,7 @@ namespace Ams.Service.Kernel
         /// 获取所有菜单数（菜单管理）
         /// </summary>
         /// <returns></returns>
-        public List<SysMenu> SelectTreeMenuList(MenuQueryDto menu, long userId)
+        public List<SysMenu> SelectTreeMenuList(SysMenuQueryDto menu, long userId)
         {
             if (menu.ParentId != null)
             {
@@ -36,7 +38,7 @@ namespace Ams.Service.Kernel
         /// 获取所有菜单列表
         /// </summary>
         /// <returns></returns>
-        public List<SysMenu> SelectMenuList(MenuQueryDto menu, long userId)
+        public List<SysMenu> SelectMenuList(SysMenuQueryDto menu, long userId)
         {
             List<SysMenu> menuList;
             if (SysRoleService.IsAdmin(userId))
@@ -184,7 +186,7 @@ namespace Ams.Service.Kernel
         /// <returns></returns>
         public List<SysMenu> SelectMenuTreeByUserId(long userId)
         {
-            MenuQueryDto dto = new() { IsStatus = 0, MenuTypeIds = "M,C" };
+            SysMenuQueryDto dto = new() { IsStatus = 0, MenuTypeIds = "M,C" };
             if (SysRoleService.IsAdmin(userId))
             {
                 return SelectTreeMenuList(dto);
@@ -222,7 +224,7 @@ namespace Ams.Service.Kernel
         /// <param name="menu"></param>
         /// <param name="roles">用户角色集合</param>
         /// <returns></returns>
-        public List<SysMenu> SelectTreeMenuListByRoles(MenuQueryDto menu, List<long> roles)
+        public List<SysMenu> SelectTreeMenuListByRoles(SysMenuQueryDto menu, List<long> roles)
         {
             var roleMenus = Context.Queryable<SysRoleMenu>()
                 .Where(r => roles.Contains(r.Role_id))
@@ -245,7 +247,7 @@ namespace Ams.Service.Kernel
         /// <param name="menu"></param>
         /// <param name="roleId">用户角色</param>
         /// <returns></returns>
-        public List<SysRoleMenuExportDto> SelectRoleMenuListByRole(MenuQueryDto menu, int roleId)
+        public List<SysRoleMenuExportDto> SelectRoleMenuListByRole(SysMenuQueryDto menu, int roleId)
         {
             var menuIds = Context.Queryable<SysRoleMenu>()
                 .Where(r => r.Role_id == roleId)
@@ -270,7 +272,7 @@ namespace Ams.Service.Kernel
         /// 获取所有菜单
         /// </summary>
         /// <returns></returns>
-        private List<SysMenu> SelectMenuList(MenuQueryDto menu)
+        private List<SysMenu> SelectMenuList(SysMenuQueryDto menu)
         {
             var menuExp = Expressionable.Create<SysMenu>();
             menuExp.AndIF(!string.IsNullOrEmpty(menu.MenuName), it => it.MenuName.Contains(menu.MenuName));
@@ -291,7 +293,7 @@ namespace Ams.Service.Kernel
         /// <param name="sysMenu"></param>
         /// <param name="roles">用户角色集合</param>
         /// <returns></returns>
-        private List<SysMenu> SelectMenuListByRoles(MenuQueryDto sysMenu, List<long> roles)
+        private List<SysMenu> SelectMenuListByRoles(SysMenuQueryDto sysMenu, List<long> roles)
         {
             var roleMenus = Context.Queryable<SysRoleMenu>()
                 .Where(r => roles.Contains(r.Role_id));
@@ -310,7 +312,7 @@ namespace Ams.Service.Kernel
         /// 获取所有菜单（菜单管理）
         /// </summary>
         /// <returns></returns>
-        public List<SysMenu> SelectTreeMenuList(MenuQueryDto menu)
+        public List<SysMenu> SelectTreeMenuList(SysMenuQueryDto menu)
         {
             int parentId = menu.ParentId != null ? (int)menu.ParentId : 0;
 

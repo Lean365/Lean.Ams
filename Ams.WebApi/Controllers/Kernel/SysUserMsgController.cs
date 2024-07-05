@@ -6,7 +6,7 @@ namespace Ams.WebApi.Controllers.System
     /// 用户消息
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("system/user/msg")]
@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "usermsg:list")]
+        [ActionPermissionFilter(Permission = "system:usermsg:list")]
         public IActionResult QuerySysUserMsg([FromQuery] SysUserMsgQueryDto parm)
         {
             var response = _SysUserMsgService.GetList(parm);
@@ -86,7 +86,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="MsgId"></param>
         /// <returns></returns>
         [HttpGet("{MsgId}")]
-        [ActionPermissionFilter(Permission = "usermsg:query")]
+        [ActionPermissionFilter(Permission = "system:usermsg:query")]
         public IActionResult GetSysUserMsg(long MsgId)
         {
             var response = _SysUserMsgService.GetInfo(MsgId);
@@ -100,8 +100,8 @@ namespace Ams.WebApi.Controllers.System
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [ActionPermissionFilter(Permission = "usermsg:add")]
-        [Log(Title = "用户系统消息", BusinessType = BusinessType.INSERT)]
+        [ActionPermissionFilter(Permission = "system:usermsg:add")]
+        [Log(Title = "用户系统消息", BusinessType = BusinessType.ADD)]
         public IActionResult AddSysUserMsg([FromBody] SysUserMsgDto parm)
         {
             var modal = parm.Adapt<SysUserMsg>().ToCreate(HttpContext);
@@ -116,7 +116,7 @@ namespace Ams.WebApi.Controllers.System
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
-        [ActionPermissionFilter(Permission = "usermsg:delete")]
+        [ActionPermissionFilter(Permission = "system:usermsg:delete")]
         [Log(Title = "用户系统消息", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSysUserMsg([FromRoute] string ids)
         {
@@ -132,7 +132,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="msgType"></param>
         /// <returns></returns>
         [HttpPost("read/{msgId}/{msgType}")]
-        [ActionPermissionFilter(Permission = "common")]
+        [ActionPermissionFilter(Permission = "system:usermsg:read")]
         public IActionResult ReadMsg([FromRoute] long msgId, [FromRoute] UserMsgType msgType)
         {
             var userId = HttpContext.GetUId();
@@ -165,8 +165,8 @@ namespace Ams.WebApi.Controllers.System
         /// 清空用户系统消息
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "用户系统消息", BusinessType = BusinessType.CLEAN)]
-        [ActionPermissionFilter(Permission = "usermsg:delete")]
+        [Log(Title = "用户系统消息", BusinessType = BusinessType.EMPTY)]
+        [ActionPermissionFilter(Permission = "usermsg:empty")]
         [HttpDelete("clean")]
         public IActionResult Clear()
         {

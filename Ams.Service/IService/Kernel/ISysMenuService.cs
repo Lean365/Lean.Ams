@@ -1,15 +1,20 @@
-﻿using Ams.Model.Kernel;
-using Ams.Model.Vo;
+﻿using Ams.Model.Vo;
 
 namespace Ams.Service.IService.Kernel
 {
+    /// <summary>
+    /// 系统菜单
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public interface ISysMenuService : IBaseService<SysMenu>
     {
         //List<SysMenu> SelectMenuList(long userId);
 
-        List<SysMenu> SelectMenuList(MenuQueryDto menu, long userId);
+        List<SysMenu> SelectMenuList(SysMenuQueryDto menu, long userId);
 
-        List<SysMenu> SelectTreeMenuList(MenuQueryDto menu, long userId);
+        List<SysMenu> SelectTreeMenuList(SysMenuQueryDto menu, long userId);
 
         SysMenu GetMenuByMenuId(int menuId);
 
@@ -43,9 +48,9 @@ namespace Ams.Service.IService.Kernel
 
         void AddSysMenu(GenTable genTableInfo, string permPrefix, bool showEdit, bool showExport, bool showImport);
 
-        List<SysMenu> SelectTreeMenuListByRoles(MenuQueryDto menu, List<long> roles);
+        List<SysMenu> SelectTreeMenuListByRoles(SysMenuQueryDto menu, List<long> roles);
 
-        List<SysRoleMenuExportDto> SelectRoleMenuListByRole(MenuQueryDto menu, int roleId);
+        List<SysRoleMenuExportDto> SelectRoleMenuListByRole(SysMenuQueryDto menu, int roleId);
 
         List<RouterVo> GetAppMenus(List<string> perms);
     }

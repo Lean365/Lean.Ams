@@ -6,7 +6,7 @@ namespace Ams.WebApi.Controllers.Monitor
     /// 操作日志
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("/monitor/oper")]
@@ -40,7 +40,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// <param name="operIds"></param>
         /// <returns></returns>
         [Log(Title = "操作日志", BusinessType = BusinessType.DELETE)]
-        [ActionPermissionFilter(Permission = "monitor:operlog:delete")]
+        [ActionPermissionFilter(Permission = "monitor:oper:delete")]
         [HttpDelete("{operIds}")]
         public IActionResult Remove(string operIds)
         {
@@ -56,8 +56,8 @@ namespace Ams.WebApi.Controllers.Monitor
         /// 清空操作日志
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "清空操作日志", BusinessType = BusinessType.CLEAN)]
-        [ActionPermissionFilter(Permission = "monitor:operlog:delete")]
+        [Log(Title = "清空操作日志", BusinessType = BusinessType.EMPTY)]
+        [ActionPermissionFilter(Permission = "monitor:oper:empty")]
         [HttpDelete("clean")]
         public IActionResult ClearOperLog()
         {
@@ -75,7 +75,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [Log(Title = "操作日志", BusinessType = BusinessType.EXPORT)]
-        [ActionPermissionFilter(Permission = "monitor:operlog:export")]
+        [ActionPermissionFilter(Permission = "monitor:oper:export")]
         [HttpGet("export")]
         public IActionResult Export([FromQuery] OperLogQueryDto sysOperLog)
         {

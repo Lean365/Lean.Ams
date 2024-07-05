@@ -4,6 +4,9 @@ namespace Ams.Service.SqlSugar
 {
     /// <summary>
     /// 初始化表
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class InitTable
     {

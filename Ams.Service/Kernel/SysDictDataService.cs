@@ -1,9 +1,10 @@
-﻿using Ams.Common;
-
-namespace Ams.Service.Kernel
+﻿namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 字典数据类
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISysDictDataService), ServiceLifetime = LifeTime.Transient)]
     public class SysDictDataService : BaseService<SysDictData>, ISysDictDataService

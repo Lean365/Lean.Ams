@@ -8,7 +8,7 @@ namespace Ams.WebApi.Controllers.System
     /// 系统岗位
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("system/post")]
@@ -65,7 +65,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "system:post:add")]
-        [Log(Title = "岗位添加", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "岗位添加", BusinessType = BusinessType.ADD)]
         public IActionResult Add([FromBody] SysPost post)
         {
             if (UserConstants.NOT_UNIQUE.Equals(PostService.CheckPostNameUnique(post)))
@@ -88,7 +88,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "system:post:edit")]
-        [Log(Title = "岗位编辑", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "岗位编辑", BusinessType = BusinessType.EDIT)]
         public IActionResult Update([FromBody] SysPost post)
         {
             if (UserConstants.NOT_UNIQUE.Equals(PostService.CheckPostNameUnique(post)))
@@ -109,7 +109,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [ActionPermissionFilter(Permission = "system:post:remove")]
+        [ActionPermissionFilter(Permission = "system:post:delete")]
         [Log(Title = "岗位删除", BusinessType = BusinessType.DELETE)]
         public IActionResult Delete(string id)
         {

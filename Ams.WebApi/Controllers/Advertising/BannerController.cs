@@ -6,7 +6,7 @@ namespace Ams.WebApi.Controllers.Advertising
     /// 横幅广告
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("advertising/banner")]
@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.Advertising
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "bannerconfig:list")]
+        [ActionPermissionFilter(Permission = "advertising:banner:list")]
         public IActionResult QueryBannerConfig([FromQuery] BannerQueryDto parm)
         {
             var response = _BannerConfigService.GetList(parm);
@@ -42,7 +42,7 @@ namespace Ams.WebApi.Controllers.Advertising
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        [ActionPermissionFilter(Permission = "bannerconfig:query")]
+        [ActionPermissionFilter(Permission = "advertising:banner:query")]
         public IActionResult GetBannerConfig(int Id)
         {
             var response = _BannerConfigService.GetInfo(Id);
@@ -56,8 +56,8 @@ namespace Ams.WebApi.Controllers.Advertising
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [ActionPermissionFilter(Permission = "bannerconfig:add")]
-        [Log(Title = "横幅广告", BusinessType = BusinessType.INSERT)]
+        [ActionPermissionFilter(Permission = "advertising:banner:add")]
+        [Log(Title = "横幅广告", BusinessType = BusinessType.ADD)]
         public IActionResult AddBannerConfig([FromBody] BannerDto parm)
         {
             var modal = parm.Adapt<Banner>().ToCreate(HttpContext);
@@ -72,8 +72,8 @@ namespace Ams.WebApi.Controllers.Advertising
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "bannerconfig:edit")]
-        [Log(Title = "横幅广告", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "advertising:banner:edit")]
+        [Log(Title = "横幅广告", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateBannerConfig([FromBody] BannerDto parm)
         {
             var modal = parm.Adapt<Banner>();
@@ -87,7 +87,7 @@ namespace Ams.WebApi.Controllers.Advertising
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
-        [ActionPermissionFilter(Permission = "bannerconfig:delete")]
+        [ActionPermissionFilter(Permission = "advertising:banner:delete")]
         [Log(Title = "横幅广告", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteBannerConfig([FromRoute] string ids)
         {
@@ -102,7 +102,7 @@ namespace Ams.WebApi.Controllers.Advertising
         /// <returns></returns>
         [Log(Title = "横幅广告", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "bannerconfig:export")]
+        [ActionPermissionFilter(Permission = "advertising:banner:export")]
         public IActionResult Export([FromQuery] BannerQueryDto parm)
         {
             parm.PageNum = 1;
@@ -122,7 +122,7 @@ namespace Ams.WebApi.Controllers.Advertising
         /// <param name="id">主键</param>
         /// <param name="value">排序值</param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "bannerconfig:edit")]
+        [ActionPermissionFilter(Permission = "advertising:banner:update")]
         [HttpGet("ChangeSort")]
         [Log(Title = "保存排序", BusinessType = BusinessType.UPDATE)]
         public IActionResult ChangeSort(int id = 0, int value = 0)

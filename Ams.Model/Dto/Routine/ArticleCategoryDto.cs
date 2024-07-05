@@ -1,7 +1,22 @@
 namespace Ams.Model.Dto.Routine
 {
     /// <summary>
-    /// 文章目录输入对象
+    /// 文章目录
+    /// 查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
+    public class ArticleCategoryQueryDto : PagerInfo
+    {
+        public int? CategoryType { get; set; }
+        public int? ParentId { get; set; }
+    }
+
+    /// <summary>
+    /// 文章目录
+    /// 输入对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class ArticleCategoryDto
     {
@@ -36,14 +51,5 @@ namespace Ams.Model.Dto.Routine
         /// 加入人数
         /// </summary>
         public int JoinNum { get; set; }
-    }
-
-    /// <summary>
-    /// 文章目录查询对象
-    /// </summary>
-    public class ArticleCategoryQueryDto : PagerInfo
-    {
-        public int? CategoryType { get; set; }
-        public int? ParentId { get; set; }
     }
 }

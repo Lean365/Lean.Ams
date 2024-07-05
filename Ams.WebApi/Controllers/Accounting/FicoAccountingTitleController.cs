@@ -1,8 +1,9 @@
-using Ams.Model.Accounting;
-using Ams.Model.Accounting.Dto;
-using Ams.Service.Accounting.IAccountingService;
 using Microsoft.AspNetCore.Mvc;
+using Ams.Model.Accounting.Dto;
+using Ams.Model.Accounting;
+using Ams.Service.Accounting.IAccountingService;
 using MiniExcelLibs;
+
 
 namespace Ams.WebApi.Controllers.Accounting
 {
@@ -10,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 会计科目
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/3 15:41:58
+    /// @Date: 2024/7/5 11:12:53
     /// </summary>
     [Verify]
     [Route("Accounting/FicoAccountingTitle")]
@@ -40,6 +41,7 @@ namespace Ams.WebApi.Controllers.Accounting
             return SUCCESS(response);
         }
 
+
         /// <summary>
         /// 查询会计科目详情
         /// </summary>
@@ -50,7 +52,7 @@ namespace Ams.WebApi.Controllers.Accounting
         public IActionResult GetFicoAccountingTitle(long FatSFID)
         {
             var response = _FicoAccountingTitleService.GetInfo(FatSFID);
-
+            
             var info = response.Adapt<FicoAccountingTitleDto>();
             return SUCCESS(info);
         }
@@ -64,11 +66,11 @@ namespace Ams.WebApi.Controllers.Accounting
         [Log(Title = "会计科目", BusinessType = BusinessType.INSERT)]
         public IActionResult AddFicoAccountingTitle([FromBody] FicoAccountingTitleDto parm)
         {
-            // 校验输入项目唯一性
+           // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingTitleService.CheckInputUnique(parm.FatCode.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingTitleService.CheckInputUnique(parm.FatSFID.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增会计科目 '{parm.FatCode}'失败(Add failed)，输入的会计科目已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增会计科目 '{parm.FatSFID}'失败(Add failed)，输入的会计科目已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoAccountingTitle>().ToCreate(HttpContext);
 
@@ -99,7 +101,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "fico:accountingtitle:delete")]
         [Log(Title = "会计科目", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteFicoAccountingTitle([FromRoute] string ids)
+        public IActionResult DeleteFicoAccountingTitle([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -157,5 +159,6 @@ namespace Ams.WebApi.Controllers.Accounting
             var result = DownloadImportTemplate(new List<FicoAccountingTitleDto>() { }, "FicoAccountingTitle");
             return ExportExcel(result.Item2, result.Item1);
         }
+
     }
 }

@@ -12,24 +12,24 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
       <el-row :gutter="20">
         <el-col :lg="24">
-          <el-form-item :label="$t('plang.language')" prop="langCode">
+          <!-- <el-form-item :label="$t('plang.language')" prop="langCode">
             <el-select v-model="queryParams.langCode"
               :placeholder="$t('btn.selectSearchPrefix')+$t('plang.language')+$t('btn.selectSearchSuffix')">
               <el-option v-for="item in options.sys_lang_type" :key="item.dictValue" :label="item.dictLabel"
                 :value="item.dictValue"></el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item :label="$t('plang.languageKey')" prop="langKey">
             <el-input v-model="queryParams.langKey"
               :placeholder="$t('btn.selectSearchPrefix')+$t('plang.languageKey')+$t('btn.selectSearchSuffix')" />
           </el-form-item>
 
-          <el-form-item :label="$t('common.tipCreateTime')">
+          <!-- <el-form-item :label="$t('common.tipCreateTime')">
             <el-date-picker v-model="dateRangeAddtime" style="width: 240px" type="daterange" range-separator="-"
               :start-placeholder="$t('btn.dateStart')" :end-placeholder="$t('btn.dateEnd')"
               value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="dateOptions">
             </el-date-picker>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item :label="$t('plang.showWay')">
             <el-radio-group v-model="queryParams.showMode">
               <el-radio-button value="1">{{$t('btn.grid')}}</el-radio-button>
@@ -87,7 +87,7 @@
     </el-row>
 
     <!-- 数据区域 -->
-    <el-table v-if="queryParams.showMode == 1" :data="dataList" v-loading="loading" ref="table" height="560px" border
+    <el-table v-if="queryParams.showMode == 1" :data="dataList" v-loading="loading" ref="table" height="620px" border
       highlight-current-row @sort-change="sortChange" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
 
@@ -116,7 +116,7 @@
 
     <!-- 行列显示 -->
     <el-table v-if="queryParams.showMode == 2" :data="paginatedData" v-loading="loading" ref="table" border
-      height="560px" highlight-current-row @sort-change="sortChange" @selection-change="handleSelectionChange">
+      height="620px" highlight-current-row @sort-change="sortChange" @selection-change="handleSelectionChange">
       <el-table-column prop="langKey" :label="$t('plang.languageKey')" align="center" :show-overflow-tooltip="true" />
 
       <el-table-column prop="zh-cn" :label="$t('plang.simplified')" align="center" :show-overflow-tooltip="true" />
@@ -142,8 +142,8 @@
     <pagination v-if="queryParams.showMode == 1" :total="total" v-model:page="queryParams.pageNum"
       v-model:limit="queryParams.pageSize" @pagination="getList" />
     <el-pagination v-if="queryParams.showMode == 2" @size-change="handleSizeChange"
-      @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[14, 28, 56, 112]"
-      :page-size="pageSize" :total="dataList.length" layout="->,total, sizes, prev, pager, next, jumper">
+      @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
+      :page-sizes="[14, 28, 56, 112, 224]" :total="dataList.length" layout="->,total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <!-- 添加或修改多语言配置对话框 -->
     <el-dialog :title=" title" :lock-scroll="false" v-model="open" width="550px">
@@ -168,7 +168,7 @@
         </el-row>
         <el-row>
           <el-table :data="form.langList">
-            <el-table-column :label="$t('plang.language')" align="center" prop="langCode" width="100">
+            <el-table-column :label="$t('plang.language')" align="center" prop="langCode" width="150">
               <template #default="scope">
                 {{ scope.row.label }} <br />
                 {{ scope.row.langCode }}
@@ -252,7 +252,12 @@
     rules: {
       id: [{ required: true, message: 'id ' + proxy.$t('btn.isEmpty'), trigger: 'blur', type: 'number' }],
       // langCode: [{ required: true, message: '语言code不能为空', trigger: 'change' }],
-      langKey: [{ required: true, pattern: /^[A-Za-z].+$/, message: proxy.$t('plang.languageKey') + proxy.$t('btn.isEmpty'), trigger: 'change' }],
+      langKey: [
+        { pattern: /^[A-Za-z].+$/, message: proxy.$t('common.tipInputLangKeyError'), trigger: 'blur' },
+        { required: true, message: proxy.$t('plang.languageKey') + proxy.$t('btn.isEmpty'), trigger: 'change' }
+      ],
+
+
       langName: [{ required: true, message: proxy.$t('plang.languageName') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
     },
     options: {}
@@ -273,7 +278,7 @@
   // 语言code选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
   const sys_lang_type = ref([])
   // 添加时间时间范围
-  const dateRangeAddtime = ref([])
+  //const dateRangeAddtime = ref([])
 
   watch(
     () => queryParams.showMode,
@@ -283,7 +288,7 @@
     { immediate: true }
   )
   function getList() {
-    proxy.addDateRange(queryParams, proxy.dateRangeAddtime, 'CreateTime')
+    proxy.addDateRange(queryParams)//, proxy.dateRangeAddtime, 'CreateTime')
     loading.value = true
     listLocaleLang(queryParams).then((res) => {
       if (res.code == 200) {
@@ -441,7 +446,7 @@
   // 重置查询操作
   function resetQuery() {
     // 添加时间时间范围
-    dateRangeAddtime.value = []
+    //dateRangeAddtime.value = []
     proxy.resetForm('queryRef')
     handleQuery()
   }

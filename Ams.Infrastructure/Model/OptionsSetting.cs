@@ -4,6 +4,8 @@ namespace Ams.Infrastructure.Model
 {
     /// <summary>
     /// 获取配置文件POCO实体类
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class OptionsSetting
     {
@@ -11,45 +13,57 @@ namespace Ams.Infrastructure.Model
         /// 是否单设备登录
         /// </summary>
         public bool SingleLogin { get; set; }
+
         /// <summary>
         /// 是否演示模式
         /// </summary>
         public bool DemoMode { get; set; }
+
         /// <summary>
         /// 初始化db
         /// </summary>
         public bool InitDb { get; set; }
+
         public string[] InitTables { get; set; }
+
         /// <summary>
         /// 邮箱配置
         /// </summary>
         public List<MailOptions> MailOptions { get; set; }
+
         /// <summary>
         /// 上传配置
         /// </summary>
         public Upload Upload { get; set; }
+
         /// <summary>
         /// 阿里云oss
         /// </summary>
         public ALIYUN_OSS ALIYUN_OSS { get; set; }
+
         public JwtSettings JwtSettings { get; set; }
+
         /// <summary>
         /// 代码生成配置
         /// </summary>
         public CodeGen CodeGen { get; set; }
+
         /// <summary>
         /// 数据库集合
         /// </summary>
         public List<DbConfigs> DbConfigs { get; set; }
+
         /// <summary>
         /// 代码生成数据库配置
         /// </summary>
         public DbConfigs CodeGenDbConfig { get; set; }
+
         /// <summary>
         /// Reids配置
         /// </summary>
         public RedisServerConfig RedisServer { get; set; }
     }
+
     /// <summary>
     /// 发送邮件数据配置
     /// </summary>
@@ -63,6 +77,7 @@ namespace Ams.Infrastructure.Model
         public bool UseSsl { get; set; }
         public string Signature { get; set; }
     }
+
     /// <summary>
     /// 上传
     /// </summary>
@@ -73,6 +88,7 @@ namespace Ams.Infrastructure.Model
         public int MaxSize { get; set; }
         public string[] NotAllowedExt { get; set; } = new string[0];
     }
+
     /// <summary>
     /// 阿里云存储
     /// </summary>
@@ -95,22 +111,27 @@ namespace Ams.Infrastructure.Model
         /// token是谁颁发的
         /// </summary>
         public string Issuer { get; set; }
+
         /// <summary>
         /// token可以给那些客户端使用
         /// </summary>
         public string Audience { get; set; }
+
         /// <summary>
         /// 加密的key（SecretKey必须大于16个,是大于，不是大于等于）
         /// </summary>
         public string SecretKey { get; set; }
+
         /// <summary>
         /// token时间（分）
         /// </summary>
         public int Expire { get; set; } = 1440;
+
         /// <summary>
         /// 刷新token时长
         /// </summary>
         public int RefreshTokenTime { get; set; }
+
         /// <summary>
         /// token类型
         /// </summary>

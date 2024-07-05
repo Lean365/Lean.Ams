@@ -1,18 +1,24 @@
 namespace Ams.Model.Dto.Routine
 {
     /// <summary>
-    /// 话题查询对象
+    /// 话题
+    /// 查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class ArticleTopicQueryDto : PagerInfo
     {
         public string TopicName { get; set; }
-        public DateTime? BeginAddTime { get; set; }
-        public DateTime? EndAddTime { get; set; }
+        public DateTime? BeginTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public int? TopicType { get; set; }
     }
 
     /// <summary>
-    /// 话题输入输出对象
+    /// 话题
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class ArticleTopicDto
     {
@@ -36,10 +42,6 @@ namespace Ams.Model.Dto.Routine
         [ExcelColumn(Name = "浏览次数")]
         [ExcelColumnName("浏览次数")]
         public int? ViewNum { get; set; }
-
-        [ExcelColumn(Name = "创建时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("创建时间")]
-        public DateTime? AddTime { get; set; }
 
         [ExcelColumn(Name = "话题分类")]
         [ExcelColumnName("话题分类")]

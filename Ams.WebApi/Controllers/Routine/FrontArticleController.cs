@@ -7,7 +7,7 @@ namespace Ams.WebApi.Controllers
     /// 文章前端
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Route("routine/article/front")]
     [ApiExplorerSettings(GroupName = "routine")]
@@ -91,7 +91,7 @@ namespace Ams.WebApi.Controllers
         /// <param name="authorId"></param>
         /// <returns></returns>
         [HttpPost("praise/{id}")]
-        [ActionPermissionFilter(Permission = "common")]
+        [ActionPermissionFilter(Permission = "routine:articlepraise:add")]
         public IActionResult Praise(int id = 0, long authorId = 0)
         {
             ArticlePraise addModel = new()
@@ -111,7 +111,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("top")]
-        [ActionPermissionFilter(Permission = "common")]
+        [ActionPermissionFilter(Permission = "routine:articletop:add")]
         public IActionResult Top([FromBody] Article parm)
         {
             var response = _ArticleService.TopArticle(parm);
@@ -124,7 +124,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("changePublic")]
-        [ActionPermissionFilter(Permission = "common")]
+        [ActionPermissionFilter(Permission = "routine:articlepublic:edit")]
         public IActionResult ChangePublic([FromBody] Article parm)
         {
             if (parm == null) { return ToResponse(ResultCode.CUSTOM_ERROR); }
@@ -143,7 +143,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("changeComment")]
-        [ActionPermissionFilter(Permission = "common")]
+        [ActionPermissionFilter(Permission = "routine:articlecomment:edit")]
         public IActionResult ChangeComment([FromBody] Article parm)
         {
             if (parm == null) { return ToResponse(ResultCode.CUSTOM_ERROR); }
@@ -162,7 +162,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete("del/{id}")]
-        [ActionPermissionFilter(Permission = "common")]
+        [ActionPermissionFilter(Permission = "routine:article:delete")]
         public IActionResult Delete(long id = 0)
         {
             var userId = HttpContext.GetUId();

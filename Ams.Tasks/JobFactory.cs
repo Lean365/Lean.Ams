@@ -1,10 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Spi;
-using System;
 
 namespace Ams.Tasks
 {
+    /// <summary>
+    /// 任务工厂
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class JobFactory : IJobFactory
     {
         private readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -13,10 +18,12 @@ namespace Ams.Tasks
         /// 注入反射获取依赖对象
         /// </summary>
         private readonly IServiceProvider _serviceProvider;
+
         public JobFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
+
         /// <summary>
         /// 实现接口Job
         /// </summary>
@@ -30,7 +37,6 @@ namespace Ams.Tasks
                 var serviceScope = _serviceProvider.CreateScope();
                 var job = serviceScope.ServiceProvider.GetService(bundle.JobDetail.JobType) as IJob;
                 return job;
-
             }
             catch (Exception ex)
             {

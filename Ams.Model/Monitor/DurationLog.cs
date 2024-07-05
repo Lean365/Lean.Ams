@@ -2,6 +2,9 @@ namespace Ams.Model.Monitor
 {
     /// <summary>
     /// 用户在线时长
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("monitor_duration_log", TableDescription = "在线时长")]
     [Tenant("0")]
@@ -27,11 +30,6 @@ namespace Ams.Model.Monitor
         /// 今日在线时长
         /// </summary>
         public double TodayOnlineTime { get; set; }
-
-        /// <summary>
-        /// 结束时间
-        /// </summary>
-        public DateTime? AddTime { get; set; }
 
         /// <summary>
         /// 地址位置

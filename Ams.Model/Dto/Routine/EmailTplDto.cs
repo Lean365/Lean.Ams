@@ -1,9 +1,10 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Ams.Model.Dto.Routine
 {
     /// <summary>
-    /// 邮件模板查询对象
+    /// 邮件模板
+    /// 查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class EmailTplQueryDto : PagerInfo
     {
@@ -11,7 +12,10 @@ namespace Ams.Model.Dto.Routine
     }
 
     /// <summary>
-    /// 邮件模板输入输出对象
+    /// 邮件模板
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class EmailTplDto
     {
@@ -32,8 +36,5 @@ namespace Ams.Model.Dto.Routine
         public DateTime? UpdateTime { get; set; }
 
         public string Remark { get; set; }
-
-
-
     }
 }

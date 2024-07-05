@@ -32,12 +32,12 @@ namespace Ams.CodeGenerator.Model
         /// <summary>
         /// 主表属性
         /// </summary>
-        public CodeGeneratorOption GenOptions { get; set; }
+        public GeneratorOption GenOptions { get; set; }
 
         /// <summary>
         /// 子表属性
         /// </summary>
-        public CodeGeneratorOption SubTableOptions { get; set; }
+        public GeneratorOption SubTableOptions { get; set; }
 
         #region 存储路径
 

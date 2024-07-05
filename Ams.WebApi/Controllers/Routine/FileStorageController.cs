@@ -7,7 +7,7 @@ namespace Ams.WebApi.Controllers.Routine
     /// 文件存储
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("routine/file/stroage")]
@@ -30,7 +30,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "tool:file:list")]
+        [ActionPermissionFilter(Permission = "routine:file:list")]
         public IActionResult QuerySysFile([FromQuery] FileStorageQueryDto parm)
         {
             var predicate = Expressionable.Create<FileStorage>();
@@ -50,7 +50,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        [ActionPermissionFilter(Permission = "tool:file:query")]
+        [ActionPermissionFilter(Permission = "routine:file:query")]
         public IActionResult GetSysFile(long Id)
         {
             var response = _SysFileService.GetFirst(x => x.Id == Id);
@@ -63,7 +63,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "tool:file:delete")]
+        [ActionPermissionFilter(Permission = "routine:file:delete")]
         [Log(Title = "文件存储", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSysFile(string ids)
         {
@@ -85,12 +85,12 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "文件存储")]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "tool:file:export")]
+        [ActionPermissionFilter(Permission = "routine:file:export")]
         public IActionResult Export()
         {
             var list = _SysFileService.GetAll();
 
-            string sFileName = ExportExcel(list, "SysFile", "文件存储");
+            string sFileName = ExportExcel(list, "FileStorage", "文件存储");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
     }

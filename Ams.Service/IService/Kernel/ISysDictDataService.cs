@@ -1,8 +1,11 @@
-﻿using Ams.Model;
-using Ams.Model.Kernel;
-
-namespace Ams.Service.IService.Kernel
+﻿namespace Ams.Service.IService.Kernel
 {
+    /// <summary>
+    /// 字典数据
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public interface ISysDictDataService : IBaseService<SysDictData>
     {
         public PagedInfo<SysDictData> SelectDictDataList(SysDictData dictData, PagerInfo pagerInfo);

@@ -1,7 +1,5 @@
 ﻿using System.Text.Encodings.Web;
 using Ams.Common;
-using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
 using Ams.Infrastructure.IPTools;
 using Ams.Infrastructure.Model;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +12,9 @@ namespace Ams.Service.Middleware
     /// <summary>
     /// 全局异常处理中间件
     /// 调用 app.UseMiddlewareGlobalExceptionMiddleware>();
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class GlobalExceptionMiddleware
     {

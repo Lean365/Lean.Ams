@@ -2,6 +2,9 @@ namespace Ams.Model.Advertising
 {
     /// <summary>
     /// 横幅广告
+    /// 数据实体
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("advertising_banner", "横幅广告")]
     public class Banner : SysBase
@@ -36,11 +39,6 @@ namespace Ams.Model.Advertising
         /// 跳转类型 0、不跳转 1、外链 2、内部跳转
         /// </summary>
         public int JumpType { get; set; }
-
-        /// <summary>
-        /// 添加时间
-        /// </summary>
-        public DateTime? AddTime { get; set; }
 
         /// <summary>
         /// 点击次数

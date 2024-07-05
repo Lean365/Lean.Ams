@@ -1,5 +1,11 @@
 ﻿namespace Ams.Model.Dto.Monitor
 {
+    /// <summary>
+    /// 操作日志
+    /// 查询条件
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class OperLogQueryDto : PagerInfo
     {
         /// <summary>
@@ -33,6 +39,12 @@
         public DateTime? EndTime { get; set; }
     }
 
+    /// <summary>
+    /// 操作日志
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class OperLogDto : SysBase
     {
         /// <summary>

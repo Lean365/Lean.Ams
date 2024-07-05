@@ -1,5 +1,11 @@
 ﻿namespace Ams.Model.Dto.Kernel
 {
+    /// <summary>
+    /// 系统角色
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class SysRoleDto : SysBase
     {
         public long RoleId { get; set; }

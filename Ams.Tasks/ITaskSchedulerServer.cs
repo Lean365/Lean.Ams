@@ -4,6 +4,11 @@ using Ams.Model.Routine;
 
 namespace Ams.Tasks
 {
+    /// <summary>
+    /// 计划任务
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public interface ITaskSchedulerServer
     {
         Task<ApiResult> StartTaskScheduleAsync();

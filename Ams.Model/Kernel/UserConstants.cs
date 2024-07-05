@@ -1,5 +1,11 @@
 ﻿namespace Ams.Model.Kernel
 {
+    /// <summary>
+    /// 用户常量
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class UserConstants
     {
         /// <summary>
@@ -96,6 +102,7 @@
         /// 校验返回结果码
         /// </summary>
         public static string UNIQUE = "0";
+
         public static string NOT_UNIQUE = "1";
 
         /// <summary>
@@ -107,6 +114,7 @@
         /// https请求
         /// </summary>
         public static string HTTPS = "https://";
+
         /// <summary>
         /// www主域
         /// </summary>

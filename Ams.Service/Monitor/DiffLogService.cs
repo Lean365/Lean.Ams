@@ -1,9 +1,10 @@
-using Ams.Infrastructure.Attribute;
-
 namespace Ams.Service.Monitor
 {
     /// <summary>
     /// 审计日志Service业务层处理
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(IDiffLogService), ServiceLifetime = LifeTime.Transient)]
     public class DiffLogService : BaseService<DiffLog>, IDiffLogService
@@ -20,9 +21,9 @@ namespace Ams.Service.Monitor
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.TableName), it => it.TableName == parm.TableName);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DiffType), it => it.DiffType == parm.DiffType);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.UserName), it => it.UserName == parm.UserName);
-            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.AddTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginAddTime != null, it => it.AddTime >= parm.BeginAddTime);
-            predicate = predicate.AndIF(parm.EndAddTime != null, it => it.AddTime <= parm.EndAddTime);
+            predicate = predicate.AndIF(parm.BeginTime == null, it => it.Create_time >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, it => it.Create_time <= parm.EndTime);
             var response = Queryable()
                 //.OrderBy("PId desc")
                 .Where(predicate.ToExpression())
@@ -71,7 +72,8 @@ namespace Ams.Service.Monitor
             //    BeforeData = model.BeforeData,
             //    AfterData = model.AfterData,
             //    UserName = model.UserName,
-            //    AddTime = model.AddTime,
+            //    create_by = model.UserName,
+            //    create_time = model.create_time,
             //    ConfigId = model.ConfigId,
             //});
             //return response;

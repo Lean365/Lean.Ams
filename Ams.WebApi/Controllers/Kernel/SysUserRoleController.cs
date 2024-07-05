@@ -6,7 +6,7 @@ namespace Ams.WebApi.Controllers.System
     /// 用户角色
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("system/user/role")]
@@ -44,7 +44,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpPost("create")]
         [ActionPermissionFilter(Permission = "system:roleusers:add")]
-        [Log(Title = "添加角色用户", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "添加角色用户", BusinessType = BusinessType.ADD)]
         public IActionResult Create([FromBody] RoleUsersCreateDto roleUsersCreateDto)
         {
             var response = SysUserRoleService.InsertRoleUser(roleUsersCreateDto);
@@ -58,7 +58,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="roleUsersCreateDto"></param>
         /// <returns></returns>
         [HttpPost("delete")]
-        [ActionPermissionFilter(Permission = "system:roleusers:remove")]
+        [ActionPermissionFilter(Permission = "system:roleusers:delete")]
         [Log(Title = "删除角色用户", BusinessType = BusinessType.DELETE)]
         public IActionResult Delete([FromBody] RoleUsersCreateDto roleUsersCreateDto)
         {

@@ -1,11 +1,10 @@
-using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.Helper;
-
 namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 短信验证码记录Service业务层处理
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISmsLogService), ServiceLifetime = LifeTime.Transient)]
     public class SmsLogService : BaseService<SmsLog>, ISmsLogService
@@ -21,9 +20,9 @@ namespace Ams.Service.Kernel
 
             predicate = predicate.AndIF(parm.Userid != null, it => it.Userid == parm.Userid);
             predicate = predicate.AndIF(parm.PhoneNum != null, it => it.PhoneNum == parm.PhoneNum);
-            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.AddTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginAddTime != null, it => it.AddTime >= parm.BeginAddTime);
-            predicate = predicate.AndIF(parm.EndAddTime != null, it => it.AddTime <= parm.EndAddTime);
+            predicate = predicate.AndIF(parm.BeginTime == null, it => it.Create_time >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, it => it.Create_time <= parm.EndTime);
             predicate = predicate.AndIF(parm.SendType != null, it => it.SendType == parm.SendType);
             var response = Queryable()
                 //.OrderBy("Id desc")
@@ -54,17 +53,17 @@ namespace Ams.Service.Kernel
         /// <returns></returns>
         public SmsLog AddSmscodeLog(SmsLog model)
         {
-            model.AddTime = Context.GetDate();
+            model.Create_time = Context.GetDate();
 
             var smsCode = RandomHelper.GenerateNum(6);
             var smsContent = $"验证码{smsCode},有效期10分钟。";
 
-            var oneMinus = Queryable().Any(f => f.PhoneNum == model.PhoneNum && SqlFunc.DateDiff(DateType.Minute, f.AddTime, model.AddTime) <= 1);
+            var oneMinus = Queryable().Any(f => f.PhoneNum == model.PhoneNum && SqlFunc.DateDiff(DateType.Minute, f.Create_time, model.Create_time) <= 1);
             if (oneMinus)
             {
                 throw new CustomException("请稍后再试");
             }
-            var oneMinusIP = Queryable().Any(f => f.UserIP == model.UserIP && SqlFunc.DateDiff(DateType.Minute, f.AddTime, model.AddTime) <= 1);
+            var oneMinusIP = Queryable().Any(f => f.UserIP == model.UserIP && SqlFunc.DateDiff(DateType.Minute, f.Create_time, model.Create_time) <= 1);
             if (oneMinusIP)
             {
                 throw new CustomException("请稍后再试");

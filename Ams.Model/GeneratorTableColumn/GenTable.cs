@@ -2,6 +2,8 @@
 {
     /// <summary>
     /// 代码生成表
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("gen_table", "代码生成表")]
     [Tenant("0")]

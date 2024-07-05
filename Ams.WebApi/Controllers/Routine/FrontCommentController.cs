@@ -7,7 +7,7 @@ namespace Ams.WebApi.Controllers
     /// 评论
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Route("routine/article/comment")]
     [ApiExplorerSettings(GroupName = "routine")]
@@ -58,7 +58,7 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpPost("add")]
         [Verify]
-        [ActionPermissionFilter(Permission = "common")]
+        [ActionPermissionFilter(Permission = "routine:articlecomment:add")]
         public IActionResult Create([FromBody] ArticleCommentDto parm)
         {
             var uid = HttpContextExtension.GetUId(HttpContext);
@@ -76,7 +76,7 @@ namespace Ams.WebApi.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost("praise")]
-        [ActionPermissionFilter(Permission = "common")]
+        [ActionPermissionFilter(Permission = "routine:articlepraise:add")]
         [Verify]
         public IActionResult Praise([FromBody] ArticleCommentDto dto)
         {
@@ -92,7 +92,7 @@ namespace Ams.WebApi.Controllers
         /// <param name="mid"></param>
         /// <returns></returns>
         [HttpDelete("delete/{mid}")]
-        [ActionPermissionFilter(Permission = "common")]
+        [ActionPermissionFilter(Permission = "routine:articlecomment:delete")]
         [Verify]
         public IActionResult Delete(long mid)
         {
@@ -121,7 +121,7 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpPut("top")]
         [Verify]
-        [ActionPermissionFilter(Permission = "common")]
+        [ActionPermissionFilter(Permission = "routine:articletop:add")]
         public IActionResult Top([FromBody] ArticleCommentDto parm)
         {
             var uid = HttpContextExtension.GetUId(HttpContext);

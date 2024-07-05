@@ -8,6 +8,11 @@ namespace Ams.Common.DynamicApiSimple;
 
 public class JsonModelBinder : IModelBinder
 {
+    /// <summary>
+    /// The fallback binder to use if the current binder cannot bind the model.
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     private readonly IModelBinder _fallbackBinder;
 
     public JsonModelBinder(IModelBinder fallbackBinder)

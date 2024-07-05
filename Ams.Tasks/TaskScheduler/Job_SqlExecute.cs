@@ -1,15 +1,20 @@
-﻿using Ams.Infrastructure;
+﻿using System.Threading.Tasks;
 using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.CustomExceptions;
 using Ams.Infrastructure.Extensions;
+using Ams.Service.IService.Routine;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Triggers;
 using SqlSugar.IOC;
-using System.Threading.Tasks;
-using Ams.Service.IService.Routine;
 
 namespace Ams.Tasks.TaskScheduler
 {
+    /// <summary>
+    /// 任务调度
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     [AppService(ServiceType = typeof(Job_SqlExecute), ServiceLifetime = LifeTime.Scoped)]
     public class Job_SqlExecute : JobBase, IJob
     {
@@ -20,14 +25,16 @@ namespace Ams.Tasks.TaskScheduler
         {
             this.tasksQzService = tasksQzService;
         }
+
         public async Task Execute(IJobExecutionContext context)
         {
             await ExecuteJob(context, async () => await Run(context));
         }
+
         public async Task Run(IJobExecutionContext context)
         {
             AbstractTrigger trigger = (context as JobExecutionContextImpl).Trigger as AbstractTrigger;
-            
+
             var info = await tasksQzService.GetByIdAsync(trigger.JobName);
 
             if (info != null && info.SqlText.IsNotEmpty())

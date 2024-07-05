@@ -2,7 +2,10 @@
 {
     ///<summary>
     ///计划任务
-    ///</summary>
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     [SugarTable("routine_tasksqz", "计划任务表")]
     [Tenant("0")]
     public class TasksQz : SysBase

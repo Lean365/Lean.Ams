@@ -1,5 +1,11 @@
 ﻿namespace Ams.Model.Dto.Kernel
 {
+    /// <summary>
+    /// 系统用户
+    /// 查询条件
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class SysUserQueryDto
     {
         public long? UserId { get; set; }
@@ -20,6 +26,12 @@
         public long DeptId { get; set; }
     }
 
+    /// <summary>
+    /// 系统用户
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class SysUserDto
     {
         public long UserId { get; set; }

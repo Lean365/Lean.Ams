@@ -1,7 +1,11 @@
-﻿using Ams.Infrastructure.Attribute;
-
-namespace Ams.Service.Content
+﻿namespace Ams.Service.Content
 {
+    /// <summary>
+    /// 文章点赞服务
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     [AppService(ServiceType = typeof(IArticlePraiseService), ServiceLifetime = LifeTime.Transient)]
     public class ArticlePraiseService : BaseService<ArticlePraise>, IArticlePraiseService
     {

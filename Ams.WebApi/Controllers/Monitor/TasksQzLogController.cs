@@ -8,7 +8,7 @@ namespace Ams.WebApi.Controllers.Monitor
     /// 任务日志
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("/monitor/tasksqz")]
@@ -51,7 +51,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// <param name="jobIds"></param>
         /// <returns></returns>
         [HttpDelete("{jobIds}")]
-        [ActionPermissionFilter(Permission = "PRIV_JOBLOG_DELETE")]
+        [ActionPermissionFilter(Permission = "monitor:tasksqz:delete")]
         [Log(Title = "删除任务日志", BusinessType = BusinessType.DELETE)]
         public IActionResult Delete(string jobIds)
         {
@@ -67,8 +67,8 @@ namespace Ams.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpDelete("clean")]
-        [ActionPermissionFilter(Permission = "PRIV_JOBLOG_REMOVE")]
-        [Log(Title = "清空任务日志", BusinessType = BusinessType.CLEAN)]
+        [ActionPermissionFilter(Permission = "monitor:tasksqz:empty")]
+        [Log(Title = "清空任务日志", BusinessType = BusinessType.EMPTY)]
         public IActionResult Clean()
         {
             tasksLogService.DeleteTable();
@@ -79,14 +79,14 @@ namespace Ams.WebApi.Controllers.Monitor
         /// 定时任务日志导出
         /// </summary>
         /// <returns></returns>
-        [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "定时任务日志导出")]
+        [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "任务日志导出")]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "PRIV_JOBLOG_EXPORT")]
+        [ActionPermissionFilter(Permission = "monitor:tasksqz:export")]
         public IActionResult Export()
         {
             var list = tasksLogService.GetAll();
 
-            string sFileName = ExportExcel(list, "jobLog", "定时任务日志");
+            string sFileName = ExportExcel(list, "TasksQzLog", "任务日志");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
     }

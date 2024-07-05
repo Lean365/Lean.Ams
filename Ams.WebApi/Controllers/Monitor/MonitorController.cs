@@ -9,7 +9,7 @@ namespace Ams.WebApi.Controllers.Monitor
     /// 系统监控
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [ApiExplorerSettings(GroupName = "monitor")]
     [Verify]

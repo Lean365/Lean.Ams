@@ -6,7 +6,7 @@ namespace Ams.WebApi.Controllers.Monitor
     /// 在线时长
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [ApiExplorerSettings(GroupName = "monitor")]
@@ -40,7 +40,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
-        [ActionPermissionFilter(Permission = "useronlinelog:delete")]
+        [ActionPermissionFilter(Permission = "monitor:duration:delete")]
         [Log(Title = "用户在线时长", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteUserOnlineLog([FromRoute] string ids)
         {
@@ -55,7 +55,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// <returns></returns>
         [Log(Title = "用户在线时长", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "useronlinelog:export")]
+        [ActionPermissionFilter(Permission = "monitor:duration:export")]
         public IActionResult Export([FromQuery] DurationLogQueryDto parm)
         {
             parm.PageNum = 1;

@@ -9,7 +9,9 @@ namespace Ams.WebApi.Extensions
     public static class SwaggerExtension
     {
         /// <summary>
-        ///
+        /// Swagger配置
+        /// @Author: Lean365(Davis.Ching)
+        /// @Date: 2024-05-20
         /// </summary>
         /// <param name="app"></param>
         public static void UseSwagger(this IApplicationBuilder app)

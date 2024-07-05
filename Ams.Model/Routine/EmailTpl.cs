@@ -2,6 +2,9 @@
 {
     /// <summary>
     /// 邮件发送模板
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("routine_email_tpl", "邮件模板")]
     [Tenant("0")]

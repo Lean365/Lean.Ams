@@ -1,19 +1,26 @@
 namespace Ams.Model.Dto.Kernel
 {
     /// <summary>
-    /// 本地语言查询对象
+    /// 本地语言
+    /// 查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
-    public class CommonLangQueryDto : PagerInfo
+    public class SysLocaleLangQueryDto : PagerInfo
     {
         public string LangCode { get; set; }
         public string LangKey { get; set; }
-        public DateTime? BeginAddtime { get; set; }
-        public DateTime? EndAddtime { get; set; }
+
+        //public DateTime? BeginTime { get; set; }
+        //public DateTime? EndTime { get; set; }
         public int ShowMode { get; set; }
     }
 
     /// <summary>
-    /// 本地语言输入对象
+    /// 本地语言
+    /// 输入对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class SysLocaleLangDto
     {
@@ -28,6 +35,7 @@ namespace Ams.Model.Dto.Kernel
         //[Required(ErrorMessage = "名称不能为空")]
         public string LangName { get; set; }
 
+        //public DateTime? CreateTime { get; set; }
         public List<SysLocaleLangDto> LangList { get; set; }
     }
 }

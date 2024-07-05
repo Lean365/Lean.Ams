@@ -2,6 +2,9 @@
 {
     /// <summary>
     /// 短信验证码记录
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("monitor_sms_log", "短信验证码")]
     [Tenant("0")]
@@ -30,12 +33,6 @@
         /// 短信内容
         /// </summary>
         public string SmsContent { get; set; }
-
-        /// <summary>
-        /// 发送时间
-        /// </summary>
-        [SugarColumn(InsertServerTime = true)]
-        public DateTime AddTime { get; set; }
 
         /// <summary>
         /// 用户IP

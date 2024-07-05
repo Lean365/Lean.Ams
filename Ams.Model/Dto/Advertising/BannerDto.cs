@@ -1,7 +1,10 @@
 namespace Ams.Model.Dto.Advertising
 {
     /// <summary>
-    /// 横幅广告查询对象
+    /// 横幅广告
+    /// 查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class BannerQueryDto : PagerInfo
     {
@@ -12,7 +15,10 @@ namespace Ams.Model.Dto.Advertising
     }
 
     /// <summary>
-    /// 横幅广告输入输出对象
+    /// 横幅广告
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class BannerDto
     {
@@ -42,10 +48,6 @@ namespace Ams.Model.Dto.Advertising
         [ExcelColumn(Name = "跳转类型")]
         [ExcelColumnName("跳转类型")]
         public int JumpType { get; set; }
-
-        [ExcelColumn(Name = "添加时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("添加时间")]
-        public DateTime? AddTime { get; set; }
 
         [ExcelColumn(Name = "点击次数")]
         [ExcelColumnName("点击次数")]

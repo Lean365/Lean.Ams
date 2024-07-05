@@ -6,7 +6,7 @@ namespace Ams.WebApi.Controllers
     /// 内容目录
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Route("routine/article/catalog")]
     [ApiExplorerSettings(GroupName = "routine")]
@@ -81,8 +81,8 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [Verify]
-        [ActionPermissionFilter(Permission = "articlecategory:add")]
-        [Log(Title = "文章目录", BusinessType = BusinessType.INSERT)]
+        [ActionPermissionFilter(Permission = "routine:articlecatalog:add")]
+        [Log(Title = "文章目录", BusinessType = BusinessType.ADD)]
         public IActionResult AddArticleCategory([FromBody] ArticleCategoryDto parm)
         {
             var modal = parm.Adapt<ArticleCategory>().ToCreate(HttpContext);
@@ -97,8 +97,8 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpPut]
         [Verify]
-        [ActionPermissionFilter(Permission = "articlecategory:edit")]
-        [Log(Title = "文章目录", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "routine:articlecatalog:edit")]
+        [Log(Title = "文章目录", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateArticleCategory([FromBody] ArticleCategoryDto parm)
         {
             var modal = parm.Adapt<ArticleCategory>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "articlecategory:delete")]
+        [ActionPermissionFilter(Permission = "routine:articlecatalog:delete")]
         [Log(Title = "文章目录", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteArticleCategory(string ids)
         {
@@ -130,13 +130,13 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [Log(Title = "文章目录", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "articlecategory:export")]
+        [ActionPermissionFilter(Permission = "routine:articlecatalog:export")]
         public IActionResult Export([FromQuery] ArticleCategoryQueryDto parm)
         {
             parm.PageSize = 10000;
             var list = _ArticleCategoryService.GetList(parm).Result;
 
-            string sFileName = ExportExcel(list, "ArticleCategory", "文章目录");
+            string sFileName = ExportExcel(list, "ArticleCatalog", "文章目录");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
 
@@ -157,7 +157,7 @@ namespace Ams.WebApi.Controllers
         /// <param name="id"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "articlecategory:edit")]
+        [ActionPermissionFilter(Permission = "routine:articlecatalog:update")]
         [HttpGet("ChangeSort")]
         [Log(Title = "保存排序", BusinessType = BusinessType.UPDATE)]
         public IActionResult ChangeSort(int id = 0, int value = 0)

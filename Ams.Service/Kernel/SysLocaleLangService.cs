@@ -2,9 +2,9 @@ namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 本地语言Service业务层处理
-    ///
-    /// @author zr
-    /// @date 2022-05-06
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISysLocaleLangService), ServiceLifetime = LifeTime.Transient)]
     public class SysLocaleLangService : BaseService<SysLocaleLang>, ISysLocaleLangService
@@ -16,13 +16,13 @@ namespace Ams.Service.Kernel
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<SysLocaleLang> GetList(CommonLangQueryDto parm)
+        public PagedInfo<SysLocaleLang> GetList(SysLocaleLangQueryDto parm)
         {
             var predicate = Expressionable.Create<SysLocaleLang>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.LangCode), it => it.LangCode == parm.LangCode);
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.LangCode), it => it.LangCode == parm.LangCode);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.LangKey), it => it.LangKey.Contains(parm.LangKey));
-            predicate = predicate.AndIF(parm.BeginAddtime != null, it => it.Addtime >= parm.BeginAddtime && it.Addtime <= parm.EndAddtime);
+            //predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime && it.Create_time <= parm.EndTime);
             var response = Queryable()
                 .Where(predicate.ToExpression())
                 .ToPage(parm);
@@ -34,13 +34,13 @@ namespace Ams.Service.Kernel
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public dynamic GetListToPivot(CommonLangQueryDto parm)
+        public dynamic GetListToPivot(SysLocaleLangQueryDto parm)
         {
             var predicate = Expressionable.Create<SysLocaleLang>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.LangCode), it => it.LangCode == parm.LangCode);
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.LangCode), it => it.LangCode == parm.LangCode);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.LangKey), it => it.LangKey.Contains(parm.LangKey));
-            predicate = predicate.AndIF(parm.BeginAddtime != null, it => it.Addtime >= parm.BeginAddtime && it.Addtime <= parm.EndAddtime);
+            //predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime && it.Create_time <= parm.EndTime);
             var response = Queryable()
                 .Where(predicate.ToExpression())
                 .ToPivotList(it => it.LangCode, it => it.LangKey, it => it.Max(f => f.LangName));
@@ -48,11 +48,13 @@ namespace Ams.Service.Kernel
             return response;
         }
 
-        public List<SysLocaleLang> GetLangList(CommonLangQueryDto parm)
+        public List<SysLocaleLang> GetLangList(SysLocaleLangQueryDto parm)
         {
             var predicate = Expressionable.Create<SysLocaleLang>();
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.LangCode), it => it.LangCode == parm.LangCode);
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.LangKey), it => it.LangKey.Contains(parm.LangKey));
+            //predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime && it.Create_time <= parm.EndTime);
             //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.LangKey), it => it.LangKey.Contains(parm.LangKey));
             var response = Queryable()
                 .Where(predicate.ToExpression())
@@ -67,7 +69,7 @@ namespace Ams.Service.Kernel
             {
                 langs.Add(new SysLocaleLang()
                 {
-                    Addtime = DateTime.Now,
+                    Create_time = DateTime.Now,
                     LangKey = parm.LangKey,
                     LangCode = item.LangCode,
                     LangName = item.LangName,

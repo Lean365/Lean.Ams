@@ -1,11 +1,16 @@
-﻿using AspNetCoreRateLimit;
+﻿using System;
+using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Ams.Infrastructure.WebExtensions
 {
+    /// <summary>
+    /// IP限流扩展
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public static class IPRateExtension
     {
         public static void AddIPRate(this IServiceCollection services, IConfiguration configuration)

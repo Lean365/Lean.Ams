@@ -1,7 +1,10 @@
-﻿using Ams.Model.Enums;
-
-namespace Ams.Model.Dto.Kernel
+﻿namespace Ams.Model.Dto.Kernel
 {
+    /// <summary>
+    /// 角色菜单导出
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class SysRoleMenuExportDto
     {
         /// <summary>

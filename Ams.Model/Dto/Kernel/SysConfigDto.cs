@@ -1,7 +1,10 @@
 namespace Ams.Model.Dto.Kernel
 {
     /// <summary>
-    /// 参数配置查询对象模型
+    /// 系统参数
+    /// 查询对象模型
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class SysConfigQueryDto : PagerInfo
     {
@@ -14,7 +17,10 @@ namespace Ams.Model.Dto.Kernel
     }
 
     /// <summary>
-    /// 参数配置输入对象模型
+    /// 系统参数
+    /// 输入对象模型
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class SysConfigDto
     {

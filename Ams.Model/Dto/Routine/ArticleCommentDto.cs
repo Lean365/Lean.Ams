@@ -3,6 +3,9 @@
 {
     /// <summary>
     /// 评论
+    /// 查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class MessageQueryDto : PagerInfo
     {
@@ -12,10 +15,16 @@
         public long? UserId { get; set; }
         public int ClassifyId { get; set; }
         public long TargetId { get; set; }
-        public DateTime? BeginAddTime { get; set; }
-        public DateTime? EndAddTime { get; set; }
+        public DateTime? BeginTime { get; set; }
+        public DateTime? EndTime { get; set; }
     }
 
+    /// <summary>
+    /// 文章评论
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class ArticleCommentDto
     {
         [JsonConverter(typeof(ValueToStringConverter))]
@@ -36,11 +45,6 @@
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         public long ParentId { get; set; }
-
-        /// <summary>
-        /// 评论时间
-        /// </summary>
-        public DateTime AddTime { get; set; }
 
         /// <summary>
         /// 回复用户id

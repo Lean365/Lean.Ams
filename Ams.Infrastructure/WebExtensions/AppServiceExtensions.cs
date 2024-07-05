@@ -1,13 +1,15 @@
-﻿using Ams.Infrastructure.Attribute;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Linq;
 using System.Reflection;
+using Ams.Infrastructure.Attribute;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Ams.Infrastructure
+namespace Ams.Infrastructure.WebExtensions
 {
     /// <summary>
     /// App服务注册
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public static class AppServiceExtensions
     {
@@ -54,12 +56,15 @@ namespace Ams.Infrastructure
                         case LifeTime.Singleton:
                             services.AddSingleton(serviceType, type);
                             break;
+
                         case LifeTime.Scoped:
                             services.AddScoped(serviceType, type);
                             break;
+
                         case LifeTime.Transient:
                             services.AddTransient(serviceType, type);
                             break;
+
                         default:
                             services.AddTransient(serviceType, type);
                             break;

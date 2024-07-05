@@ -10,7 +10,7 @@ namespace Ams.WebApi.Controllers.Monitor
     /// 在线用户
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("monitor/online")]
@@ -44,7 +44,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpDelete("force")]
-        [Log(Title = "强退", BusinessType = BusinessType.FORCE)]
+        [Log(Title = "强退", BusinessType = BusinessType.FORCED)]
         [ActionPermissionFilter(Permission = "monitor:online:forceLogout")]
         public async Task<IActionResult> Force([FromBody] LockUserDto dto)
         {
@@ -64,7 +64,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpDelete("batchForce")]
-        [Log(Title = "强退", BusinessType = BusinessType.FORCE)]
+        [Log(Title = "强退", BusinessType = BusinessType.FORCED)]
         [ActionPermissionFilter(Permission = "monitor:online:batchLogout")]
         public async Task<IActionResult> BatchforceLogout([FromBody] LockUserDto dto)
         {

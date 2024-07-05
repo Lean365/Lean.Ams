@@ -1,24 +1,34 @@
-﻿using SqlSugar;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
 using Ams.Model;
+using SqlSugar;
 
 namespace Ams.Repository
 {
+    /// <summary>
+    /// 数据仓库类
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IBaseRepository<T> : ISimpleClient<T> where T : class, new()
     {
         #region add
+
         int Add(T t, bool ignoreNull = true);
 
         int Insert(List<T> t);
+
         int Insert(T parm, Expression<Func<T, object>> iClumns = null, bool ignoreNull = true);
 
         IInsertable<T> Insertable(T t);
+
         #endregion add
 
         #region update
+
         int Update(T entity, bool ignoreNullColumns = false, object data = null);
 
         /// <summary>
@@ -34,6 +44,7 @@ namespace Ams.Repository
         int Update(Expression<Func<T, bool>> where, Expression<Func<T, T>> columns);
 
         #endregion update
+
         DbResult<bool> UseTran(Action action);
 
         DbResult<bool> UseTran(ISqlSugarClient client, Action action);
@@ -41,14 +52,19 @@ namespace Ams.Repository
         bool UseTran2(Action action);
 
         #region delete
+
         IDeleteable<T> Deleteable();
+
         int Delete(object id, string title = "");
+
         int DeleteTable();
+
         bool Truncate();
 
         #endregion delete
 
         #region query
+
         /// <summary>
         /// 根据条件查询分页数据
         /// </summary>
@@ -58,11 +74,13 @@ namespace Ams.Repository
         PagedInfo<T> GetPages(Expression<Func<T, bool>> where, PagerInfo parm);
 
         PagedInfo<T> GetPages(Expression<Func<T, bool>> where, PagerInfo parm, Expression<Func<T, object>> order, OrderByType orderEnum = OrderByType.Asc);
+
         PagedInfo<T> GetPages(Expression<Func<T, bool>> where, PagerInfo parm, Expression<Func<T, object>> order, string orderByType);
 
         bool Any(Expression<Func<T, bool>> expression);
 
         ISugarQueryable<T> Queryable();
+
         List<T> GetAll(bool useCache = false, int cacheSecond = 3600);
 
         List<T> SqlQueryToList(string sql, object obj = null);

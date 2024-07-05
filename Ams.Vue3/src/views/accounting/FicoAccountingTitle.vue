@@ -2,34 +2,30 @@
  * @Descripttion: 会计科目/fico_accounting_title
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/3 15:41:58
+ * @Date: 2024/7/5 11:12:53
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
   <div>
     <!-- 查询区域 -->
-    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent
-      label-width="auto">
+    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-          <el-form-item label="科目代码" prop="fatCode">
-            <el-input v-model="queryParams.fatCode"
-              :placeholder="$t('btn.enterSearchPrefix')+'科目代码'+$t('btn.enterSearchSuffix')" />
-          </el-form-item>
-          <el-form-item label="科目简称" prop="fatShortName">
-            <el-input v-model="queryParams.fatShortName"
-              :placeholder="$t('btn.enterSearchPrefix')+'科目简称'+$t('btn.enterSearchSuffix')" />
-          </el-form-item>
-          <el-form-item label="科目全称" prop="fatFullName">
-            <el-input v-model="queryParams.fatFullName"
-              :placeholder="$t('btn.enterSearchPrefix')+'科目全称'+$t('btn.enterSearchSuffix')" />
-          </el-form-item>
+      <el-form-item label="科目代码" prop="fatCode">
+        <el-input v-model="queryParams.fatCode" :placeholder="$t('btn.enterSearchPrefix')+'科目代码'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="科目简称" prop="fatShortName">
+        <el-input v-model="queryParams.fatShortName" :placeholder="$t('btn.enterSearchPrefix')+'科目简称'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="科目全称" prop="fatFullName">
+        <el-input v-model="queryParams.fatFullName" :placeholder="$t('btn.enterSearchPrefix')+'科目全称'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
-          <el-form-item>
-            <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
-            <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
-          </el-form-item>
+      <el-form-item>
+        <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+        <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
+      </el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -41,14 +37,12 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button class="btn-edit" :disabled="single" v-hasPermi="['fico:accountingtitle:edit']" plain icon="edit"
-          @click="handleUpdate">
+        <el-button class="btn-edit" :disabled="single" v-hasPermi="['fico:accountingtitle:edit']" plain icon="edit" @click="handleUpdate">
           {{ $t('btn.edit') }}
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button class="btn-deletebatch" :disabled="multiple" v-hasPermi="['fico:accountingtitle:delete']" plain
-          icon="delete" @click="handleDelete">
+        <el-button class="btn-deletebatch" :disabled="multiple" v-hasPermi="['fico:accountingtitle:delete']" plain icon="delete" @click="handleDelete">
           {{ $t('btn.delete') }}
         </el-button>
       </el-col>
@@ -60,16 +54,17 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="upload">
-                <importData templateUrl="Accounting/FicoAccountingTitle/importTemplate"
-                  importUrl="/Accounting/FicoAccountingTitle/importData" @success="handleFileSuccess"></importData>
+                <importData
+                  templateUrl="Accounting/FicoAccountingTitle/importTemplate"
+                  importUrl="/Accounting/FicoAccountingTitle/importData"
+                  @success="handleFileSuccess"></importData>
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
       </el-col>
       <el-col :span="1.5">
-        <el-button class="btn-export" plain icon="download" @click="handleExport"
-          v-hasPermi="['fico:accountingtitle:export']">
+        <el-button class="btn-export" plain icon="download" @click="handleExport" v-hasPermi="['fico:accountingtitle:export']">
           {{ $t('btn.export') }}
         </el-button>
       </el-col>
@@ -77,139 +72,182 @@
     </el-row>
 
     <!-- 数据区域 -->
-    <el-table border height="600px" :data="dataList" v-loading="loading" ref="table"
-      header-cell-class-name="el-table-header-cell" highlight-current-row @sort-change="sortChange"
-      @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="50" align="center" />
-      <el-table-column prop="fatSFID" label="SFID" align="center" v-if="columns.showColumn('fatSFID')" />
-      <el-table-column prop="fatCode" label="科目代码" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('fatCode')" />
-      <el-table-column prop="fatShortName" label="科目简称" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('fatShortName')" />
-      <el-table-column prop="fatFullName" label="科目全称" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('fatFullName')" />
-      <el-table-column prop="fatLangKey" label="语言" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('fatLangKey')" />
-      <el-table-column prop="remark" label="说明" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('remark')" />
-      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('createBy')" />
-      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('createTime')" />
-      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('updateBy')" />
-      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('updateTime')" />
+    <el-table border height="600px"
+      :data="dataList"
+      v-loading="loading"
+      ref="table"
+      header-cell-class-name="el-table-header-cell"
+      highlight-current-row
+      @sort-change="sortChange"
+      @selection-change="handleSelectionChange"
+      >
+      <el-table-column type="selection" width="50" align="center"/>
+      <el-table-column prop="fatSFID" label="SFID" align="center" v-if="columns.showColumn('fatSFID')"/>
+      <el-table-column prop="fatCode" label="科目代码" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fatCode')"/>
+      <el-table-column prop="fatShortName" label="科目简称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fatShortName')"/>
+      <el-table-column prop="fatFullName" label="科目全称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fatFullName')"/>
+      <el-table-column prop="fatLangKey" label="语言" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fatLangKey')"/>
+      <el-table-column prop="remark" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
+      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
+      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
+      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
+      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button-group>
-            <el-button class="btn-edit" plain size="small" icon="edit" :title="$t('btn.edit')"
-              v-hasPermi="['fico:accountingtitle:edit']" @click="handleUpdate(scope.row)"></el-button>
-            <el-button class="btn-delete" plain size="small" icon="delete" :title="$t('btn.delete')"
-              v-hasPermi="['fico:accountingtitle:delete']" @click="handleDelete(scope.row)"></el-button>
+          <el-button class="btn-edit" plain size="small" icon="edit" :title="$t('btn.edit')" v-hasPermi="['fico:accountingtitle:edit']" @click="handleUpdate(scope.row)"></el-button>
+          <el-button class="btn-delete" plain size="small" icon="delete" :title="$t('btn.delete')" v-hasPermi="['fico:accountingtitle:delete']" @click="handleDelete(scope.row)"></el-button>
           </el-button-group>
         </template>
       </el-table-column>
     </el-table>
-    <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
 
 
     <!-- 添加或修改会计科目对话框 -->
-    <el-dialog :title="title" :lock-scroll="false" v-model="open">
+    <el-dialog :title="title" :lock-scroll="false" v-model="open" >
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane :label="$t('ptabs.basicInfo')" name="first">
-            <el-row :gutter="20">
-
-              <!-- <el-col :lg="12">
+        <el-row :gutter="20">
+            
+          <el-col :lg="12">
             <el-form-item label="SFID" prop="fatSFID">
               <el-input v-model.number="form.fatSFID" :placeholder="$t('btn.enterPrefix')+'SFID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
             </el-form-item>
-          </el-col> -->
+          </el-col>
 
-              <el-col :lg="12">
-                <el-form-item label="科目代码" prop="fatCode">
-                  <el-input v-model="form.fatCode" :placeholder="$t('btn.enterPrefix')+'科目代码'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
+          <el-col :lg="12">
+            <el-form-item label="科目代码" prop="fatCode">
+              <el-input v-model="form.fatCode" :placeholder="$t('btn.enterPrefix')+'科目代码'+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
 
-              <el-col :lg="12">
-                <el-form-item label="科目简称" prop="fatShortName">
-                  <el-input v-model="form.fatShortName"
-                    :placeholder="$t('btn.enterPrefix')+'科目简称'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
+          <el-col :lg="12">
+            <el-form-item label="科目简称" prop="fatShortName">
+              <el-input v-model="form.fatShortName" :placeholder="$t('btn.enterPrefix')+'科目简称'+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
 
-              <el-col :lg="12">
-                <el-form-item label="科目全称" prop="fatFullName">
-                  <el-input v-model="form.fatFullName"
-                    :placeholder="$t('btn.enterPrefix')+'科目全称'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
+          <el-col :lg="12">
+            <el-form-item label="科目全称" prop="fatFullName">
+              <el-input v-model="form.fatFullName" :placeholder="$t('btn.enterPrefix')+'科目全称'+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
 
-              <el-col :lg="12">
-                <el-form-item label="语言" prop="fatLangKey">
-                  <el-input v-model="form.fatLangKey" :placeholder="$t('btn.enterPrefix')+'语言'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
+          <el-col :lg="12">
+            <el-form-item label="语言" prop="fatLangKey">
+              <el-input v-model="form.fatLangKey" :placeholder="$t('btn.enterPrefix')+'语言'+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="软删除" prop="isDeleted">
+              <el-radio-group v-model="form.isDeleted">
+                <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue" :value="parseInt(item.dictValue)">
+                  {{item.dictLabel}}
+                </el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="24">
+            <el-form-item label="说明" prop="remark">
+              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="创建者" prop="createBy">
+              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="创建时间" prop="createTime">
+              <el-date-picker v-model="form.createTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="更新者" prop="updateBy">
+              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="更新时间" prop="updateTime">
+              <el-date-picker v-model="form.updateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+</el-tab-pane>
 
 
-
-
-            </el-row>
+          <el-tab-pane :label="$t('ptabs.onboarding')" name="second">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.qualifications')" name="third">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.attachment')" name="fourth">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.content')" name="fifth">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.trade')" name="sixth">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.bank')" name="seventh">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.contact')" name="eighth">
+        	<el-row :gutter="20">
+        	</el-row>
           </el-tab-pane>
 
-
+          <el-tab-pane :label="$t('ptabs.purchase')" name="ninth">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.sales')" name="tenth">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.production')" name="11th">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.warehouse')" name="12th">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.accounting')" name="13th">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.incoming')" name="14th">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.outgoing')" name="15th">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
           <el-tab-pane :label="$t('ptabs.customization')" name="16th">
-            <el-row :gutter="20">
-              <el-col :lg="12">
-                <el-form-item label="软删除" prop="isDeleted">
-                  <el-radio-group v-model="form.isDeleted">
-                    <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue"
-                      :value="parseInt(item.dictValue)">
-                      {{item.dictLabel}}
-                    </el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="24">
-                <el-form-item label="说明" prop="remark">
-                  <el-input type="textarea" v-model="form.remark"
-                    :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-            </el-row>
+        	<el-row :gutter="20">
+        	</el-row>
           </el-tab-pane>
           <el-tab-pane :label="$t('ptabs.oper')" name="17th">
-            <el-row :gutter="20">
-              <el-col :lg="12">
-                <el-form-item label="创建者" prop="createBy">
-                  <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="创建时间" prop="createTime">
-                  <el-date-picker v-model="form.createTime" type="datetime" :teleported="false"
-                    :placeholder="$t('btn.dateselect')"></el-date-picker>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="更新者" prop="updateBy">
-                  <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="更新时间" prop="updateTime">
-                  <el-date-picker v-model="form.updateTime" type="datetime" :teleported="false"
-                    :placeholder="$t('btn.dateselect')"></el-date-picker>
-                </el-form-item>
-              </el-col>
-            </el-row>
+        	<el-row :gutter="20">
+        	</el-row>
           </el-tab-pane>
         </el-tabs>
       </el-form>
@@ -223,291 +261,286 @@
 
 <script setup name="ficoaccountingtitle">
   import '@/assets/styles/btn-custom.scss'
-  //后台操作函数
-  import {
-    listFicoAccountingTitle,
-    addFicoAccountingTitle, delFicoAccountingTitle,
-    updateFicoAccountingTitle, getFicoAccountingTitle,
-  }
-    from '@/api/accounting/ficoaccountingtitle.js'
-  import importData from '@/components/ImportData'
-  //防抖处理函数 import { debounce } from 'lodash';
-  import { debounce } from 'lodash';
-  //获取当前组件实例
-  const { proxy } = getCurrentInstance()
-  //标签页
-  const activeName = ref('first')
-  const handleClick = (tab, event) => {
+//后台操作函数
+import { listFicoAccountingTitle,
+ addFicoAccountingTitle, delFicoAccountingTitle, 
+ updateFicoAccountingTitle,getFicoAccountingTitle, 
+ } 
+from '@/api/accounting/ficoaccountingtitle.js'
+import importData from '@/components/ImportData'
+//防抖处理函数 import { debounce } from 'lodash';
+import { debounce } from 'lodash';
+//获取当前组件实例
+const { proxy } = getCurrentInstance()
+//标签页
+const activeName = ref('first')
+const handleClick = (tab, event) => {
     console.log(tab, event)
   }
-  //选中refId数组数组
-  const ids = ref([])
-  //是否加载动画
-  const loading = ref(false)
-  //显示搜索条件
-  const showSearch = ref(true)
-  //使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
-  const queryParams = reactive({
-    pageNum: 1,
-    pageSize: 50,
-    sort: '',
-    sortType: 'asc',
-    //是否查询（1是）
-    fatCode: undefined,
-    //是否查询（1是）
-    fatShortName: undefined,
-    //是否查询（1是）
-    fatFullName: undefined,
+//选中refId数组数组
+const ids = ref([])
+//是否加载动画
+const loading = ref(false)
+//显示搜索条件
+const showSearch = ref(true)
+//使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
+const queryParams = reactive({
+  pageNum: 1,
+  pageSize: 56,
+  sort: '',
+  sortType: 'asc',
+//是否查询（1是）
+  fatCode: undefined,
+//是否查询（1是）
+  fatShortName: undefined,
+//是否查询（1是）
+  fatFullName: undefined,
+})
+//字段显示控制
+const columns = ref([
+  { visible: true, prop: 'fatSFID', label: 'SFID' },
+  { visible: true, prop: 'fatCode', label: '科目代码' },
+  { visible: true, prop: 'fatShortName', label: '科目简称' },
+  { visible: true, prop: 'fatFullName', label: '科目全称' },
+  { visible: true, prop: 'fatLangKey', label: '语言' },
+  { visible: true, prop: 'remark', label: '说明' },
+  { visible: true, prop: 'createBy', label: '创建者' },
+  { visible: false, prop: 'createTime', label: '创建时间' },
+  { visible: false, prop: 'updateBy', label: '更新者' },
+  { visible: false, prop: 'updateTime', label: '更新时间' },
+])
+// 记录数
+const total = ref(0)
+//定义数据变量
+const dataList = ref([])
+//查询参数
+const queryRef = ref()
+//定义起始时间
+const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
+
+
+
+
+
+
+
+
+
+
+
+
+
+//字典参数
+var dictParams = [
+  { dictType: "sys_is_deleted" },
+]
+
+//字典加载
+proxy.getDicts(dictParams).then((response) => {
+  response.data.forEach((element) => {
+    state.options[element.dictType] = element.list
   })
-  //字段显示控制
-  const columns = ref([
-    { visible: true, prop: 'fatSFID', label: 'SFID' },
-    { visible: true, prop: 'fatCode', label: '科目代码' },
-    { visible: true, prop: 'fatShortName', label: '科目简称' },
-    { visible: true, prop: 'fatFullName', label: '科目全称' },
-    { visible: true, prop: 'fatLangKey', label: '语言' },
-    { visible: true, prop: 'remark', label: '说明' },
-    { visible: true, prop: 'createBy', label: '创建者' },
-    { visible: false, prop: 'createTime', label: '创建时间' },
-    { visible: false, prop: 'updateBy', label: '更新者' },
-    { visible: false, prop: 'updateTime', label: '更新时间' },
-  ])
-  // 记录数
-  const total = ref(0)
-  //定义数据变量
-  const dataList = ref([])
-  //查询参数
-  const queryRef = ref()
-  //定义起始时间
-  const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //字典参数
-  var dictParams = [
-    { dictType: "sys_is_deleted" },
-  ]
-
-  //字典加载
-  proxy.getDicts(dictParams).then((response) => {
-    response.data.forEach((element) => {
-      state.options[element.dictType] = element.list
-    })
-  })
-  //API获取从会计科目/fico_accounting_title表记录数据
-  function getList() {
-    loading.value = true
-    listFicoAccountingTitle(queryParams).then(res => {
-      const { code, data } = res
-      if (code == 200) {
-        dataList.value = data.result
-        total.value = data.totalNum
-        loading.value = false
-      }
-    })
-  }
-
-  // 查询
-  function handleQuery() {
-    queryParams.pageNum = 1
-    getList()
-  }
-
-  // 重置查询操作
-  function resetQuery() {
-    proxy.resetForm("queryRef")
-    handleQuery()
-  }
-  // 多选框选中数据
-  function handleSelectionChange(selection) {
-    ids.value = selection.map((item) => item.fatSFID);
-    single.value = selection.length != 1
-    multiple.value = !selection.length;
-  }
-  // 自定义排序
-  function sortChange(column) {
-    var sort = undefined
-    var sortType = undefined
-
-    if (column.prop != null && column.order != null) {
-      sort = column.prop
-      sortType = column.order
-
-    }
-    queryParams.sort = sort
-    queryParams.sortType = sortType
-    handleQuery()
-  }
-
-  /*************** form操作 ***************/
-  //定义响应式变量
-  const formRef = ref()
-  //弹出层标题
-  const title = ref('')
-
-  // 操作类型 1、add 2、edit 3、view
-  //定义响应式变量
-  const opertype = ref(0)
-  //定义对话框打开或关闭
-  const open = ref(false)
-  //reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
-  const state = reactive({
-    single: true,
-    multiple: true,
-    form: {},
-    rules: {
-      fatSFID: [{ required: true, message: "SFID" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
-      fatCode: [{ required: true, message: "科目代码" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
-      fatShortName: [{ required: true, message: "科目简称" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
-      fatFullName: [{ required: true, message: "科目全称" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
-      fatLangKey: [
-        { pattern: /^[A-Za-z].+$/, message: proxy.$t('common.tipInputLangKeyError'), trigger: 'blur' },
-        { required: true, message: "语言" + proxy.$t('btn.isEmpty'), trigger: "blur" }
-      ],
-      //fatLangKey: [{ required: true, message: "语言" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
-      isDeleted: [{ required: true, message: "软删除" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
-    },
-    options: {
-      // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-      sys_is_deleted: [],
+})
+//API获取从会计科目/fico_accounting_title表记录数据
+function getList(){
+  loading.value = true
+  listFicoAccountingTitle(queryParams).then(res => {
+    const { code, data } = res
+    if (code == 200) {
+      dataList.value = data.result
+      total.value = data.totalNum
+      loading.value = false
     }
   })
-  //将响应式对象转换成普通对象
-  const { form, rules, options, single, multiple } = toRefs(state)
+}
 
-  // 关闭dialog
-  function cancel() {
-    open.value = false
-    reset()
+// 查询
+function handleQuery() {
+  queryParams.pageNum = 1
+  getList()
+}
+
+// 重置查询操作
+function resetQuery(){
+  proxy.resetForm("queryRef")
+  handleQuery()
+}
+// 多选框选中数据
+function handleSelectionChange(selection) {
+  ids.value = selection.map((item) => item.fatSFID);
+  single.value = selection.length != 1
+  multiple.value = !selection.length;
+}
+// 自定义排序
+function sortChange(column) {
+  var sort = undefined
+  var sortType = undefined
+
+  if (column.prop != null && column.order != null) {
+    sort = column.prop
+    sortType = column.order
+
   }
+  queryParams.sort = sort
+  queryParams.sortType = sortType
+  handleQuery()
+}
 
-  // 重置表单
-  function reset() {
-    form.value = {
-      fatSFID: 0,
-      fatCode: null,
-      fatShortName: null,
-      fatFullName: null,
-      fatLangKey: null,
-      isDeleted: 0,
-      remark: null,
-      createBy: null,
-      createTime: null,
-      updateBy: null,
-      updateTime: null,
-    };
-    proxy.resetForm("formRef")
+/*************** form操作 ***************/
+//定义响应式变量
+const formRef = ref()
+//弹出层标题
+const title = ref('')
+
+// 操作类型 1、add 2、edit 3、view
+//定义响应式变量
+const opertype = ref(0)
+//定义对话框打开或关闭
+const open = ref(false)
+//reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
+const state = reactive({
+  single: true,
+  multiple: true,
+  form: {},
+  rules: {
+    fatSFID: [{ required: true, message: "SFID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
+    fatCode: [{ required: true, message: "科目代码"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    fatShortName: [{ required: true, message: "科目简称"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    fatFullName: [{ required: true, message: "科目全称"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    fatLangKey: [{ required: true, message: "语言"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+  },
+  options: {
+    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sys_is_deleted: [],
   }
+})
+//将响应式对象转换成普通对象
+const { form, rules, options, single, multiple } = toRefs(state)
+
+// 关闭dialog
+function cancel(){
+  open.value = false
+  reset()
+}
+
+// 重置表单
+function reset() {
+  form.value = {
+    fatSFID: 0,
+    fatCode: null,
+    fatShortName: null,
+    fatFullName: null,
+    fatLangKey: null,
+    isDeleted: 0,
+    remark: null,
+    createBy: null,
+    createTime: null,
+    updateBy: null,
+    updateTime: null,
+  };
+  proxy.resetForm("formRef")
+}
 
 
-  // 添加按钮操作
-  function handleAdd() {
-    reset();
-    open.value = true
-    title.value = proxy.$t('btn.add') + " " + '会计科目'
-    opertype.value = 1
-    form.value.createTime = new Date()
-    form.value.updateTime = new Date()
-  }
-  // 修改按钮操作
-  function handleUpdate(row) {
-    reset()
-    const id = row.fatSFID || ids.value
-    getFicoAccountingTitle(id).then((res) => {
-      const { code, data } = res
-      if (code == 200) {
-        open.value = true
-        title.value = proxy.$t('btn.edit') + " " + '会计科目'
-        opertype.value = 2
+// 添加按钮操作
+function handleAdd() {
+  reset();
+  open.value = true
+  title.value = proxy.$t('btn.add')+" "+'会计科目'
+  opertype.value = 1
+  form.value.createTime= new Date()
+  form.value.updateTime= new Date()
+}
+// 修改按钮操作
+function handleUpdate(row) {
+  reset()
+  const id = row.fatSFID || ids.value
+  getFicoAccountingTitle(id).then((res) => {
+    const { code, data } = res
+    if (code == 200) {
+      open.value = true
+      title.value = proxy.$t('btn.edit')+" "+ '会计科目'
+      opertype.value = 2
 
-        form.value = {
-          ...data,
-        }
+      form.value = {
+        ...data,
       }
-    })
-  }
+    }
+  })
+}
 
-  // 添加&修改 表单提交
-  function submitForm() {
-    proxy.$refs["formRef"].validate((valid) => {
-      if (valid) {
+// 添加&修改 表单提交
+function submitForm() {
+  proxy.$refs["formRef"].validate((valid) => {
+    if (valid) {
 
-        if (form.value.fatSFID != undefined && opertype.value === 2) {
-          updateFicoAccountingTitle(form.value).then((res) => {
-            proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
+      if (form.value.fatSFID != undefined && opertype.value === 2) {
+        updateFicoAccountingTitle(form.value).then((res) => {
+         proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
+          open.value = false
+          getList()
+        })
+      } else {
+        addFicoAccountingTitle(form.value).then((res) => {
+             proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
             open.value = false
             getList()
           })
-        } else {
-          addFicoAccountingTitle(form.value).then((res) => {
-            proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
-            open.value = false
-            getList()
-          })
-        }
       }
+    }
+  })
+}
+
+// 删除按钮操作
+function handleDelete(row) {
+  const Ids = row.fatSFID || ids.value
+
+  proxy
+    .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {
+      confirmButtonText: proxy.$t('btn.submit'),
+      cancelButtonText: proxy.$t('btn.cancel'),
+      type: "warning",
     })
-  }
-
-  // 删除按钮操作
-  function handleDelete(row) {
-    const Ids = row.fatSFID || ids.value
-
-    proxy
-      .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
-        confirmButtonText: proxy.$t('btn.submit'),
-        cancelButtonText: proxy.$t('btn.cancel'),
-        type: "warning",
-      })
-      .then(function () {
-        return delFicoAccountingTitle(Ids)
-      })
-      .then(() => {
-        getList()
-        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
-      })
-  }
-
-
-  // 导入数据成功处理
-  const handleFileSuccess = (response) => {
-    const { item1, item2 } = response.data
-    var error = ''
-    item2.forEach((item) => {
-      error += item.storageMessage + ','
+    .then(function () {
+      return delFicoAccountingTitle(Ids)
     })
-    proxy.$alert(item1 + '<p>' + error + '</p>', proxy.$t('btn.importResults'), {
-      dangerouslyUseHTMLString: true
+    .then(() => {
+      getList()
+      proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
     })
-    getList()
-  }
-
-  // 导出按钮操作
-  function handleExport() {
-    proxy
-      .$confirm(proxy.$t('common.tipConfirmExport') + "<会计科目.xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
-        confirmButtonText: proxy.$t('btn.submit'),
-        cancelButtonText: proxy.$t('btn.cancel'),
-        type: "warning",
-      })
-      .then(async () => {
-        await proxy.downFile('/Accounting/FicoAccountingTitle/export', { ...queryParams })
-      })
-  }
+}
 
 
-  // @Descripttion: (自定义函数/CustomFunctions)
-  // @Functions: (assignValue,calculateValue,statisticValue)
+// 导入数据成功处理
+const handleFileSuccess = (response) => {
+  const { item1, item2 } = response.data
+  var error = ''
+  item2.forEach((item) => {
+    error += item.storageMessage + ','
+  })
+  proxy.$alert(item1 + '<p>' + error + '</p>', proxy.$t('btn.importResults'), {
+    dangerouslyUseHTMLString: true
+  })
+  getList()
+}
+
+// 导出按钮操作
+function handleExport() {
+  proxy
+    .$confirm(proxy.$t('common.tipConfirmExport')+"<会计科目.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
+      confirmButtonText: proxy.$t('btn.submit'),
+      cancelButtonText: proxy.$t('btn.cancel'),
+      type: "warning",
+    })
+    .then(async () => {
+      await proxy.downFile('/Accounting/FicoAccountingTitle/export', { ...queryParams })
+    })
+}
+
+
+// @Descripttion: (自定义函数/CustomFunctions)
+// @Functions: (assignValue,calculateValue,statisticValue)
 
 
   const getSummaries = (param) => {
@@ -568,5 +601,5 @@
     }
     return wholePartFormat + decimalPart
   }
-  handleQuery()
+handleQuery()
 </script>

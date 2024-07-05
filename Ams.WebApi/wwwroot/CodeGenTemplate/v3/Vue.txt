@@ -70,7 +70,7 @@ $elseif(column.HtmlType.Contains("select"))
 $elseif(column.HtmlType == "radio")
       <el-form-item label="${labelName}" prop="${columnName}">
         <el-radio-group v-model="queryParams.${columnName}">
-          <el-radio>{{${t}t('layout.all')}}</el-radio>
+          <el-radio>{{${t}t('common.all')}}</el-radio>
           <el-radio v-for="item in $if(column.DictType != "") options.${column.DictType} $else options.${column.CsharpFieldFl}Options$end" :key="item.dictValue" :value="item.dictValue">{{item.dictLabel}}</el-radio>
         </el-radio-group>
       </el-form-item>
@@ -585,7 +585,7 @@ const showSearch = ref(true)
 //使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
 const queryParams = reactive({
   pageNum: 1,
-  pageSize: 50,
+  pageSize: 56,
   sort: '${genTable.Options.SortField}',
   sortType: '${genTable.Options.SortType}',
 $foreach(item in genTable.Columns)

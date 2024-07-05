@@ -1,8 +1,11 @@
-﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-
-namespace Ams.Service.Content
+﻿namespace Ams.Service.Content
 {
+    /// <summary>
+    /// 文章评论服务
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     [AppService(ServiceType = typeof(IArticleCommentService), ServiceLifetime = LifeTime.Transient)]
     public class ArticleCommentService : BaseService<ArticleComment>, IArticleCommentService
     {
@@ -141,7 +144,7 @@ namespace Ams.Service.Content
             }
             var ipInfo = HttpContextExtension.GetIpInfo(message.UserIP);
             message.Location = ipInfo;
-            message.AddTime = DateTime.Now;
+            message.Create_time = DateTime.Now;
             ArticleComment result = null;
             var r = UseTran(() =>
             {
@@ -239,7 +242,7 @@ namespace Ams.Service.Content
             //predicate.And(it => it.ParentId == dto.MId);
             predicate.AndIF(dto.UserId != null, it => it.UserId == dto.UserId);
             predicate.AndIF(dto.CommentId > 0, it => it.CommentId > dto.CommentId);//分页使用
-            predicate.AndIF(dto.BeginAddTime != null, it => it.AddTime >= dto.BeginAddTime && it.AddTime <= dto.EndAddTime);//分页使用
+            predicate.AndIF(dto.BeginTime != null, it => it.Create_time >= dto.BeginTime && it.Create_time <= dto.EndTime);//分页使用
 
             return Queryable()
                 .WithCache(60)

@@ -205,7 +205,8 @@
     {
       value: 'danger',
       label: proxy.$t('pdict.danger')
-    }
+    },
+
   ])
 
   const cssClassOptions = ref([

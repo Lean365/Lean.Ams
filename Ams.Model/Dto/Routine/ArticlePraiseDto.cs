@@ -1,6 +1,11 @@
 ﻿namespace Ams.Model.Dto.Routine
 
 {
+    /// <summary>
+    /// 文章点赞
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class ArticlePraiseDto
     {
         public long UserId { get; set; }

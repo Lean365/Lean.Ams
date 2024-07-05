@@ -6,7 +6,7 @@ namespace Ams.WebApi.Controllers
     /// 文章内容
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("routine/article")]
@@ -34,7 +34,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "system:article:list")]
+        [ActionPermissionFilter(Permission = "routine:article:list")]
         public IActionResult Query([FromQuery] ArticleQueryDto parm)
         {
             var response = _ArticleService.GetList(parm);
@@ -47,8 +47,8 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("pass/{ids}")]
-        [ActionPermissionFilter(Permission = "article:audit")]
-        [Log(Title = "内容审核", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "routine:article:audit")]
+        [Log(Title = "内容审核", BusinessType = BusinessType.AUDIT)]
         public IActionResult PassedMonents(string ids)
         {
             long[] idsArr = Tools.SpitLongArrary(ids);
@@ -62,8 +62,8 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("reject/{ids}")]
-        [ActionPermissionFilter(Permission = "article:audit")]
-        [Log(Title = "内容审核", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "routine:article:reject")]
+        [Log(Title = "内容审核", BusinessType = BusinessType.REJECT)]
         public IActionResult RejectMonents(string ids, string reason = "")
         {
             long[] idsArr = Tools.SpitLongArrary(ids);
@@ -107,7 +107,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("add")]
-        [ActionPermissionFilter(Permission = "system:article:add")]
+        [ActionPermissionFilter(Permission = "routine:article:add")]
         public IActionResult Create([FromBody] ArticleDto parm)
         {
             var addModel = parm.Adapt<Article>().ToCreate(context: HttpContext);
@@ -125,7 +125,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("edit")]
-        [ActionPermissionFilter(Permission = "system:article:update")]
+        [ActionPermissionFilter(Permission = "routine:article:edit")]
         public IActionResult Update([FromBody] ArticleDto parm)
         {
             parm.AuthorName = HttpContext.GetName();
@@ -140,7 +140,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("top")]
-        [ActionPermissionFilter(Permission = "system:article:update")]
+        [ActionPermissionFilter(Permission = "routine:article:update")]
         [Log(Title = "置顶文章", BusinessType = BusinessType.UPDATE)]
         public IActionResult Top([FromBody] Article parm)
         {
@@ -154,7 +154,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("changePublic")]
-        [ActionPermissionFilter(Permission = "system:article:update")]
+        [ActionPermissionFilter(Permission = "routine:article:update")]
         [Log(Title = "是否公开", BusinessType = BusinessType.UPDATE)]
         public IActionResult ChangePublic([FromBody] Article parm)
         {
@@ -168,7 +168,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [ActionPermissionFilter(Permission = "system:article:delete")]
+        [ActionPermissionFilter(Permission = "routine:article:delete")]
         [Log(Title = "文章删除", BusinessType = BusinessType.DELETE)]
         public IActionResult Delete(int id = 0)
         {

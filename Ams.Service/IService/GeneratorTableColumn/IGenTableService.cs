@@ -1,5 +1,11 @@
 ﻿namespace Ams.Service.IService.GeneratorTableColumn
 {
+    /// <summary>
+    /// 生成表
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public interface IGenTableService : IBaseService<GenTable>
     {
         List<GenTable> SelectDbTableListByNamess(string[] tableNames);
@@ -21,6 +27,12 @@
         int UpdateGenTable(GenTable genTable);
     }
 
+    /// <summary>
+    /// 生成表表字段
+    /// 业务层接口
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public interface IGenTableColumnService : IBaseService<GenTableColumn>
     {
         int InsertGenTableColumn(List<GenTableColumn> tableColumn);

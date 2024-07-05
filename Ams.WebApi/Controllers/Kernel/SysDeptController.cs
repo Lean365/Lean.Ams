@@ -7,7 +7,7 @@ namespace Ams.WebApi.Controllers.System
     /// 系统部门
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("system/dept")]
@@ -106,7 +106,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="dept"></param>
         /// <returns></returns>
         [HttpPost]
-        [Log(Title = "部门管理", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "部门管理", BusinessType = BusinessType.ADD)]
         [ActionPermissionFilter(Permission = "system:dept:add")]
         public IActionResult Add([FromBody] SysDept dept)
         {
@@ -124,8 +124,8 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="dept"></param>
         /// <returns></returns>
         [HttpPut]
-        [Log(Title = "部门管理", BusinessType = BusinessType.UPDATE)]
-        [ActionPermissionFilter(Permission = "system:dept:update")]
+        [Log(Title = "部门管理", BusinessType = BusinessType.EDIT)]
+        [ActionPermissionFilter(Permission = "system:dept:edit")]
         public IActionResult Update([FromBody] SysDept dept)
         {
             if (UserConstants.NOT_UNIQUE.Equals(DeptService.CheckDeptNameUnique(dept)))
@@ -145,7 +145,7 @@ namespace Ams.WebApi.Controllers.System
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{deptId}")]
-        [ActionPermissionFilter(Permission = "system:dept:remove")]
+        [ActionPermissionFilter(Permission = "system:dept:delete")]
         [Log(Title = "部门管理", BusinessType = BusinessType.DELETE)]
         public IActionResult Remove(long deptId)
         {

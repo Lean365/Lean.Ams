@@ -1,5 +1,11 @@
 ﻿namespace Ams.Model.Routine
 {
+    /// <summary>
+    /// 文件存储
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     [Tenant("0")]
     [SugarTable("routine_file_storage", "文件存储")]
     public class FileStorage : SysBase

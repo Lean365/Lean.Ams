@@ -5,7 +5,7 @@ namespace Ams.Model.Accounting
     /// 公司科目
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/3 15:41:55
+    /// @Date: 2024/7/5 11:10:04
     /// </summary>
     [SugarTable("fico_corp_title","公司科目")]
     public class FicoCorpTitle

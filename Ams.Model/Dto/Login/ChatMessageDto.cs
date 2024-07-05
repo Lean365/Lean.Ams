@@ -1,5 +1,10 @@
 ﻿namespace Ams.Model.Dto.Login
 {
+    /// <summary>
+    /// 聊天消息
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class ChatMessageDto
     {
         public ChatUserDto FromUser { get; set; }

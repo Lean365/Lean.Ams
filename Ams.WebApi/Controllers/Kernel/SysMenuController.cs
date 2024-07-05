@@ -6,7 +6,7 @@ namespace Ams.WebApi.Controllers.System
     /// 系统菜单
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("/system/menu")]
@@ -33,7 +33,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:menu:list")]
         [HttpGet("treelist")]
-        public IActionResult TreeMenuList([FromQuery] MenuQueryDto menu)
+        public IActionResult TreeMenuList([FromQuery] SysMenuQueryDto menu)
         {
             long userId = HttpContext.GetUId();
             return SUCCESS(sysMenuService.SelectTreeMenuList(menu, userId), "yyyy-MM-dd HH:mm:ss");
@@ -45,7 +45,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:menu:list")]
         [HttpGet("list")]
-        public IActionResult MenuList([FromQuery] MenuQueryDto menu)
+        public IActionResult MenuList([FromQuery] SysMenuQueryDto menu)
         {
             long userId = HttpContext.GetUId();
             return SUCCESS(sysMenuService.SelectMenuList(menu, userId), "yyyy-MM-dd HH:mm:ss");
@@ -86,7 +86,7 @@ namespace Ams.WebApi.Controllers.System
         public IActionResult RoleMenuTreeselect(int roleId)
         {
             long userId = HttpContext.GetUId();
-            var menus = sysMenuService.SelectMenuList(new MenuQueryDto(), userId);
+            var menus = sysMenuService.SelectMenuList(new SysMenuQueryDto(), userId);
             var checkedKeys = sysRoleService.SelectUserRoleMenus(roleId);
             return SUCCESS(new
             {
@@ -101,7 +101,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="menuDto"></param>
         /// <returns></returns>
         [HttpPost("edit")]
-        [Log(Title = "菜单管理", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "菜单管理", BusinessType = BusinessType.EDIT)]
         [ActionPermissionFilter(Permission = "system:menu:edit")]
         public IActionResult MenuEdit([FromBody] SysMenuDto menuDto)
         {
@@ -136,7 +136,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="menuDto"></param>
         /// <returns></returns>
         [HttpPut("add")]
-        [Log(Title = "菜单管理", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "菜单管理", BusinessType = BusinessType.ADD)]
         [ActionPermissionFilter(Permission = "system:menu:add")]
         public IActionResult MenuAdd([FromBody] SysMenuDto menuDto)
         {
@@ -169,7 +169,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpDelete("{menuId}")]
         [Log(Title = "菜单管理", BusinessType = BusinessType.DELETE)]
-        [ActionPermissionFilter(Permission = "system:menu:remove")]
+        [ActionPermissionFilter(Permission = "system:menu:delete")]
         public IActionResult Remove(int menuId = 0)
         {
             if (sysMenuService.HasChildByMenuId(menuId))
@@ -192,7 +192,7 @@ namespace Ams.WebApi.Controllers.System
         /// <returns></returns>
         [HttpDelete("deleteAll/{menuId}")]
         [Log(Title = "菜单管理", BusinessType = BusinessType.DELETE)]
-        [ActionPermissionFilter(Permission = "system:menu:remove")]
+        [ActionPermissionFilter(Permission = "system:menu:delete")]
         public IActionResult RemoveAll(int menuId = 0)
         {
             int result = sysMenuService.DeleteAllMenuById(menuId);

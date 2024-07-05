@@ -1,5 +1,10 @@
 ﻿namespace Ams.Model.Enums
 {
+    /// <summary>
+    /// 文章类型枚举
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public enum ArticleTypeEnum
     {
         /// <summary>

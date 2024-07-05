@@ -12,7 +12,7 @@ namespace Ams.WebApi.Controllers.Generator
     /// 代码生成
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("tool/gen")]
@@ -126,7 +126,7 @@ namespace Ams.WebApi.Controllers.Generator
         /// <returns></returns>
         [Log(Title = "代码生成", BusinessType = BusinessType.DELETE)]
         [HttpDelete("{tableIds}")]
-        [ActionPermissionFilter(Permission = "tool:gen:remove")]
+        [ActionPermissionFilter(Permission = "tool:gen:delete")]
         public IActionResult Remove(string tableIds)
         {
             long[] tableId = Tools.SpitLongArrary(tableIds);
@@ -141,7 +141,7 @@ namespace Ams.WebApi.Controllers.Generator
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost("importTable")]
-        [Log(Title = "代码生成", BusinessType = BusinessType.IMPORT)]
+        [Log(Title = "代码生成", BusinessType = BusinessType.CODEIMPORT)]
         [ActionPermissionFilter(Permission = "tool:gen:import")]
         public IActionResult ImportTableSave([FromBody] ImportCodeGenTableDto dto)
         {
@@ -191,7 +191,7 @@ namespace Ams.WebApi.Controllers.Generator
         /// <param name="genTableDto">请求参数实体</param>
         /// <returns></returns>
         [HttpPut]
-        [Log(Title = "代码生成", BusinessType = BusinessType.GENCODE, IsSaveRequestData = false)]
+        [Log(Title = "代码生成", BusinessType = BusinessType.CODEEDIT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "tool:gen:edit")]
         public IActionResult EditSave([FromBody] GenTableDto genTableDto)
         {
@@ -248,7 +248,7 @@ namespace Ams.WebApi.Controllers.Generator
         /// <param name="dto">数据传输对象</param>
         /// <returns></returns>
         [HttpPost("genCode")]
-        [Log(Title = "代码生成", BusinessType = BusinessType.GENCODE)]
+        [Log(Title = "代码生成", BusinessType = BusinessType.CODE)]
         [ActionPermissionFilter(Permission = "tool:gen:code")]
         public IActionResult CodeGenerate([FromBody] GeneratorDto dto)
         {
@@ -312,8 +312,8 @@ namespace Ams.WebApi.Controllers.Generator
         /// <param name="tableId"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "tool:gen:edit")]
-        [Log(Title = "代码生成", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "tool:gen:sync")]
+        [Log(Title = "代码生成", BusinessType = BusinessType.SYNC)]
         [HttpGet("synchDb/{tableId}")]
         public IActionResult SynchDb(string tableName, long tableId = 0)
         {

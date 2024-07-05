@@ -47,7 +47,8 @@
       <el-table-column :label="$t('common.tipIsStated')" width="120">
         <template #default="scope">
           <el-switch v-model="scope.row.isStatus" :disabled="scope.row.roleKey == 'admin'" :active-value="0"
-            :inactive-value="1" @change="handleStatusChange(scope.row)"></el-switch>
+            :inactive-value="1" :active-text="$t('prole.statStart')" :inactive-text="$t('prole.statStop')" inline-prompt
+            @change="handleStatusChange(scope.row)"></el-switch>
         </template>
       </el-table-column>
       <el-table-column :label="$t('prole.userNum')" align="center" prop="userNum" width="120">
@@ -286,7 +287,7 @@
   // 查询参数
   const queryParams = reactive({
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 14,
     roleName: undefined,
     roleKey: undefined,
     isStatus: -1

@@ -1,5 +1,11 @@
 ﻿namespace Ams.Model.Monitor
 {
+    /// <summary>
+    /// 差异日志
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     [SugarTable("monitor_diff_log", "审计日志")]
     [Tenant("0")]
     public class DiffLog : SysBase
@@ -49,8 +55,6 @@
         /// 操作用户名
         /// </summary>
         public string UserName { get; set; }
-
-        public DateTime AddTime { get; set; }
 
         /// <summary>
         /// 数据库配置id

@@ -1,19 +1,25 @@
 namespace Ams.Model.Dto.Monitor
 {
     /// <summary>
-    /// 审计日志查询对象
+    /// 审计日志
+    /// 查询对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class DiffLogQueryDto : PagerInfo
     {
         public string TableName { get; set; }
         public string DiffType { get; set; }
         public string UserName { get; set; }
-        public DateTime? BeginAddTime { get; set; }
-        public DateTime? EndAddTime { get; set; }
+        public DateTime? BeginTime { get; set; }
+        public DateTime? EndTime { get; set; }
     }
 
     /// <summary>
-    /// 审计日志输入输出对象
+    /// 审计日志
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     public class DiffLogDto
     {
@@ -42,9 +48,6 @@ namespace Ams.Model.Dto.Monitor
 
         [ExcelColumn(Name = "操作用户名")]
         public string UserName { get; set; }
-
-        [ExcelColumn(Name = "记录时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        public DateTime? AddTime { get; set; }
 
         [ExcelColumn(Name = "数据库配置id")]
         public string ConfigId { get; set; }

@@ -1,5 +1,11 @@
 ﻿namespace Ams.Model.Dto.Monitor
 {
+    /// <summary>
+    /// 登录日志
+    /// 查询条件
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class LoginLogQueryDto : PagerInfo
     {
         public int IsStatus { get; set; }
@@ -10,6 +16,12 @@
         public DateTime? EndTime { get; set; }
     }
 
+    /// <summary>
+    /// 登录日志
+    /// 输入输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class LoginLogDto : SysBase
     {
         public int PageNum { get; set; }

@@ -7,6 +7,9 @@ namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 系统用户
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISysUserService), ServiceLifetime = LifeTime.Transient)]
     public class SysUserService : BaseService<SysUser>, ISysUserService

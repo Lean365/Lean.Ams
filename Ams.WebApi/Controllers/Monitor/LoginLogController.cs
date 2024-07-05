@@ -7,7 +7,7 @@ namespace Ams.WebApi.Controllers.Monitor
     /// 登录日志
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("/monitor/login")]
@@ -27,7 +27,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// <param name="param"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "monitor:logininfor:list")]
+        [ActionPermissionFilter(Permission = "monitor:login:list")]
         public IActionResult LoignLogList([FromQuery] LoginLogQueryDto param)
         {
             var list = sysLoginService.GetLoginLog(param);
@@ -53,8 +53,8 @@ namespace Ams.WebApi.Controllers.Monitor
         /// 清空登录日志
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "清空登录日志", BusinessType = BusinessType.CLEAN)]
-        [ActionPermissionFilter(Permission = "monitor:logininfor:remove")]
+        [Log(Title = "清空登录日志", BusinessType = BusinessType.EMPTY)]
+        [ActionPermissionFilter(Permission = "monitor:login:empty")]
         [HttpDelete("clean")]
         public IActionResult CleanLoginInfo()
         {
@@ -72,7 +72,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// <returns></returns>
         [Log(Title = "删除登录日志", BusinessType = BusinessType.DELETE)]
         [HttpDelete("{infoIds}")]
-        [ActionPermissionFilter(Permission = "monitor:logininfor:remove")]
+        [ActionPermissionFilter(Permission = "monitor:login:delete")]
         public IActionResult Remove(string infoIds)
         {
             if (!HttpContext.IsAdmin())
@@ -89,7 +89,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// <returns></returns>
         [Log(BusinessType = BusinessType.EXPORT, IsSaveResponseData = false, Title = "登录日志导出")]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "monitor:logininfor:export")]
+        [ActionPermissionFilter(Permission = "monitor:login:export")]
         public IActionResult Export([FromQuery] LoginLog logininfoDto)
         {
             logininfoDto.BeginTime = DateTimeHelper.GetBeginTime(logininfoDto.BeginTime, -1);
@@ -109,7 +109,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpGet("statiLoginLog")]
-        [ActionPermissionFilter(Permission = "common")]
+        [ActionPermissionFilter(Permission = "monitor:login:read")]
         public IActionResult QueryStatiLoginLog()
         {
             var list = sysLoginService.GetStatiLoginlog();

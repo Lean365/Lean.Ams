@@ -2,6 +2,9 @@ namespace Ams.Model.Kernel
 {
     /// <summary>
     /// 用户系统消息
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("sys_user_msg", "用户消息")]
     [Tenant(0)]
@@ -27,12 +30,6 @@ namespace Ams.Model.Kernel
         /// 是否已读
         /// </summary>
         public int IsRead { get; set; }
-
-        /// <summary>
-        /// 添加时间
-        /// </summary>
-        [SugarColumn(InsertServerTime = true)]
-        public DateTime? AddTime { get; set; }
 
         /// <summary>
         /// 目标ID

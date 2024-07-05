@@ -6,7 +6,7 @@ namespace Ams.WebApi.Controllers.Monitor
     /// 短信验证码
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("monitor/sms")]
@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "smscodelog:list")]
+        [ActionPermissionFilter(Permission = "monitor:sms:list")]
         public IActionResult QuerySmscodeLog([FromQuery] SmsLogQueryDto parm)
         {
             var response = _SmscodeLogService.GetList(parm);
@@ -41,7 +41,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "smscodelog:delete")]
+        [ActionPermissionFilter(Permission = "monitor:sms:delete")]
         [Log(Title = "短信验证码记录", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSmscodeLog(string ids)
         {
@@ -59,7 +59,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// <returns></returns>
         [Log(Title = "短信验证码记录", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "smscodelog:export")]
+        [ActionPermissionFilter(Permission = "monitor:sms:export")]
         public IActionResult Export([FromQuery] SmsLogQueryDto parm)
         {
             parm.PageNum = 1;

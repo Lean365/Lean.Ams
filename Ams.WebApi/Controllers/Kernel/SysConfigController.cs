@@ -7,7 +7,7 @@ namespace Ams.WebApi.Controllers
     /// 系统参数
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("system/config")]
@@ -79,7 +79,7 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "system:config:add")]
-        [Log(Title = "参数配置添加", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "参数配置添加", BusinessType = BusinessType.ADD)]
         public IActionResult AddSysConfig([FromBody] SysConfigDto parm)
         {
             if (parm == null)
@@ -105,8 +105,8 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "system:config:update")]
-        [Log(Title = "参数配置修改", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "system:config:edit")]
+        [Log(Title = "参数配置修改", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateSysConfig([FromBody] SysConfigDto parm)
         {
             if (parm == null)
@@ -134,7 +134,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "system:config:remove")]
+        [ActionPermissionFilter(Permission = "system:config:delete")]
         [Log(Title = "参数配置删除", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSysConfig(string ids)
         {

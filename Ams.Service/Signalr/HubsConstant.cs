@@ -1,5 +1,11 @@
 ﻿namespace Ams.Service.Signalr
 {
+    /// <summary>
+    /// HubsConstant
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class HubsConstant
     {
         private const string V = "receiveNotice";

@@ -6,7 +6,7 @@ import request from '@/utils/request'
 */
 export function listFileStorage(query) {
   return request({
-    url: 'routine/file/list',
+    url: 'routine/file/stroage/list',
     method: 'get',
     params: query,
   })
@@ -18,7 +18,7 @@ export function listFileStorage(query) {
 */
 export function addFileStorage(data) {
   return request({
-    url: 'routine/file',
+    url: 'routine/file/stroage',
     method: 'post',
     data: data,
   })
@@ -30,7 +30,7 @@ export function addFileStorage(data) {
 */
 export function updateFileStorage(data) {
   return request({
-    url: 'routine/file',
+    url: 'routine/file/stroage',
     method: 'PUT',
     data: data,
   })
@@ -42,7 +42,7 @@ export function updateFileStorage(data) {
 */
 export function getFileStorage(id) {
   return request({
-    url: 'routine/file/' + id,
+    url: 'routine/file/stroage/' + id,
     method: 'get'
   })
 }
@@ -53,7 +53,7 @@ export function getFileStorage(id) {
 */
 export function delFileStorage(pid) {
   return request({
-    url: 'routine/file/' + pid,
+    url: 'routine/file/stroage/' + pid,
     method: 'delete'
   })
 }
@@ -61,7 +61,7 @@ export function delFileStorage(pid) {
 // 导出文件存储
 export function exportFileStorage(query) {
   return request({
-    url: 'routine/file/export',
+    url: 'routine/file/stroage/export',
     method: 'get',
     params: query
   })

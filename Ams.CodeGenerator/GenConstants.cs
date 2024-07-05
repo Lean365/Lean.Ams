@@ -12,7 +12,7 @@
         /// <summary>
         /// InputDto输入实体是不包含字段
         /// </summary>
-        public static readonly string[] inputDtoNoField = new string[] { "createTime", "updateTime", "addtime", "create_time", "update_time", "create_by", "update_by" };
+        public static readonly string[] inputDtoNoField = new string[] { "createTime", "create_time", "createBy", "create_by", "updateTime", "update_time", "updateBy", "update_by" };
 
         /// <summary>
         /// 图片字段
@@ -87,19 +87,48 @@
         /// <summary>
         /// 页面不需要编辑字段
         /// </summary>
-        public static string[] COLUMNNAME_NOT_EDIT = { "id", "create_by", "create_time", "IsDeleted" };
+        public static string[] COLUMNNAME_NOT_EDIT = { "id",  "IsDeleted",
+           "createBy", "createTime", "updateBy", "updateTime",
+            "CreateBy","CreateTime","UpdateBy","UpdateTime",
+            "create_time", "update_time", "create_by", "update_by",
+            "UDF01", "UDF02", "UDF03", "UDF04", "UDF05", "UDF06", "UDF51", "UDF52", "UDF53", "UDF54", "UDF55", "UDF56" };
 
         /// <summary>
         /// 页面不需要显示的列表字段
         /// </summary>
-        public static string[] COLUMNNAME_NOT_LIST = { "create_by", "create_time", "IsDeleted", "update_by",
-            "update_time" , "password"};
+        public static string[] COLUMNNAME_NOT_LIST = {  "IsDeleted",  "password",
+           "createBy", "createTime", "updateBy", "updateTime",
+            "CreateBy","CreateTime","UpdateBy","UpdateTime",
+            "create_time", "update_time", "create_by", "update_by",
+            "UDF01", "UDF02", "UDF03", "UDF04", "UDF05", "UDF06", "UDF51", "UDF52", "UDF53", "UDF54", "UDF55", "UDF56"};
 
         /// <summary>
         /// 页面不需要查询字段
         /// </summary>
-        public static string[] COLUMNNAME_NOT_QUERY = { "id", "create_by", "create_time", "IsDeleted", "update_by",
-            "update_time", "remark" };
+        public static string[] COLUMNNAME_NOT_QUERY = { "id","IsDeleted", "remark" ,
+           "createBy", "createTime", "updateBy", "updateTime",
+            "CreateBy","CreateTime","UpdateBy","UpdateTime",
+            "create_time", "update_time", "create_by", "update_by",
+             "UDF01", "UDF02", "UDF03", "UDF04", "UDF05", "UDF06", "UDF51", "UDF52", "UDF53", "UDF54", "UDF55", "UDF56"};
+
+        /// <summary>
+        /// 页面不需要导出字段
+        /// </summary>
+        public static string[] COLUMNNAME_NOT_EXPORT = {
+            "createBy", "createTime", "updateBy", "updateTime",
+            "CreateBy","CreateTime","UpdateBy","UpdateTime",
+            "create_time", "update_time", "create_by", "update_by",
+            "UDF01", "UDF02", "UDF03", "UDF04", "UDF05", "UDF06", "UDF51", "UDF52", "UDF53", "UDF54", "UDF55", "UDF56" };
+
+        /// <summary>
+        /// 页面不需要填写字段
+        /// </summary>
+
+        //public static string[] COLUMNNAME_NOT_REQUIRED = { "IsDeleted",
+        //   "createBy", "createTime", "updateBy", "updateTime",
+        //    "CreateBy","CreateTime","UpdateBy","UpdateTime",
+        //    "create_time", "update_time", "create_by", "update_by",
+        //    "UDF01", "UDF02", "UDF03", "UDF04", "UDF05", "UDF06", "UDF51", "UDF52", "UDF53", "UDF54", "UDF55", "UDF56" };
 
         /// <summary>
         /// Entity基类字段
@@ -133,6 +162,11 @@
         /// 下拉多选
         /// </summary>
         public static string HTML_SELECT_MULTI = "selectMulti";
+
+        /// <summary>
+        /// 远程下拉
+        /// </summary>
+        public static string HTML_SELECT_REMOTE = "selectRemote";
 
         /// <summary>
         /// 单选框

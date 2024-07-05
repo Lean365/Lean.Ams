@@ -8,7 +8,7 @@ namespace Ams.WebApi.Controllers
     /// 本地语言
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("system/locale/lang")]
@@ -32,7 +32,7 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpGet("list")]
         [ActionPermissionFilter(Permission = "system:lang:list")]
-        public IActionResult QueryCommonLang([FromQuery] CommonLangQueryDto parm)
+        public IActionResult QueryCommonLang([FromQuery] SysLocaleLangQueryDto parm)
         {
             if (parm.ShowMode == 2)
             {
@@ -55,7 +55,7 @@ namespace Ams.WebApi.Controllers
         [AllowAnonymous]
         public IActionResult QueryCommonLangs(string lang)
         {
-            var msgList = _CommonLangService.GetLangList(new CommonLangQueryDto() { LangCode = lang });
+            var msgList = _CommonLangService.GetLangList(new SysLocaleLangQueryDto() { LangCode = lang });
 
             return SUCCESS(_CommonLangService.SetLang(msgList));
         }
@@ -99,7 +99,7 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "system:lang:edit")]
-        [Log(Title = "本地语言", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "本地语言", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateCommonLang([FromBody] SysLocaleLangDto parm)
         {
             if (parm == null || parm.LangKey.IsEmpty())
@@ -109,7 +109,7 @@ namespace Ams.WebApi.Controllers
 
             _CommonLangService.StorageCommonLang(parm);
 
-            return ToResponse(1);
+            return ToResponse(1, "更新本地语言");
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Ams.WebApi.Controllers
 
             var response = _CommonLangService.Delete(idsArr);
 
-            return ToResponse(response);
+            return ToResponse(response, "删除本地语言");
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Ams.WebApi.Controllers
                 .EnableDiffLogEvent()
                 .Where(f => f.LangKey == langkey)
                 .ExecuteCommand();
-            return ToResponse(response);
+            return ToResponse(response, "删除本地语言");
         }
 
         /// <summary>
@@ -155,12 +155,12 @@ namespace Ams.WebApi.Controllers
         [Log(Title = "本地语言", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "system:lang:export")]
-        public IActionResult Export([FromQuery] CommonLangQueryDto parm)
+        public IActionResult Export([FromQuery] SysLocaleLangQueryDto parm)
         {
             parm.PageSize = 10000;
             var list = _CommonLangService.GetListToPivot(parm);
 
-            string sFileName = ExportExcel(list, "CommonLang", "本地语言");
+            string sFileName = ExportExcel(list, "LocaleLang", "本地语言");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
 
@@ -182,9 +182,10 @@ namespace Ams.WebApi.Controllers
 
                 foreach (var item in rows)
                 {
-                    list.Add(new SysLocaleLang() { LangCode = "zh-cn", LangKey = item.A, LangName = item.B, Addtime = nowTime });
-                    list.Add(new SysLocaleLang() { LangCode = "en", LangKey = item.A, LangName = item.C, Addtime = nowTime });
-                    list.Add(new SysLocaleLang() { LangCode = "zh-tw", LangKey = item.A, LangName = item.D, Addtime = nowTime });
+                    list.Add(new SysLocaleLang() { LangCode = "zh-cn", LangKey = item.A, LangName = item.B, Create_time = nowTime });
+                    list.Add(new SysLocaleLang() { LangCode = "zh-tw", LangKey = item.A, LangName = item.C, Create_time = nowTime });
+                    list.Add(new SysLocaleLang() { LangCode = "ja", LangKey = item.A, LangName = item.D, Create_time = nowTime });
+                    list.Add(new SysLocaleLang() { LangCode = "en", LangKey = item.A, LangName = item.E, Create_time = nowTime });
                 }
             }
 

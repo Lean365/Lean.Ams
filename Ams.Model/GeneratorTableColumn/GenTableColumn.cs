@@ -4,6 +4,8 @@ namespace Ams.Model.GeneratorTableColumn
 {
     /// <summary>
     /// 代码生成表字段
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("gen_table_column", "代码生成表字段")]
     [Tenant("0")]

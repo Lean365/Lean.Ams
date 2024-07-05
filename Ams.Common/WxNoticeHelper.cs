@@ -1,16 +1,23 @@
-﻿using Ams.Infrastructure;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.Json;
 using Ams.Common.Model;
+using Ams.Infrastructure;
+using Ams.Infrastructure.Helper;
 
 namespace Ams.Common
 {
+    /// <summary>
+    /// 企业微信通知助手
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public class WxNoticeHelper
     {
-        //CorpID  企业ID 
+        //CorpID  企业ID
         //AGENTID 应用的ID
         //Secret 应用的ID对应的密钥
         private static readonly string AGENTID = AppSettings.App(new string[] { "WxCorp", "AgentID" });
+
         private static readonly string CORPID = AppSettings.App(new string[] { "WxCorp", "CorpID" });
         private static readonly string CORPSECRET = AppSettings.App(new string[] { "WxCorp", "CorpSecret" });
         private static readonly string SEND_USER = AppSettings.App(new string[] { "WxCorp", "SendUser" });
@@ -20,7 +27,8 @@ namespace Ams.Common
         /// <summary>
         /// 消息类型
         /// </summary>
-        public enum MsgType { markdown, text, textcard, interactive_taskcard }
+        public enum MsgType
+        { markdown, text, textcard, interactive_taskcard }
 
         /// <summary>
         /// 发送消息公共模板方法
@@ -58,13 +66,17 @@ namespace Ams.Common
                 case MsgType.markdown:
                     dic = GetMarkdown(title, content, toUser);
                     break;
+
                 case MsgType.text:
                     dic = GetText(title, content, toUser);
                     break;
+
                 case MsgType.textcard:
                     break;
+
                 case MsgType.interactive_taskcard:
                     break;
+
                 default:
                     dic = GetText(title, content, toUser);
                     break;
@@ -79,6 +91,7 @@ namespace Ams.Common
             System.Console.WriteLine(msgResult);
             return (getTokenResult?.errcode == 0 ? 100 : 0, getTokenResult?.errmsg);
         }
+
         public static (int, string) SendMsg(string title, string content, string toUser)
         {
             return SendMsg(title, content, toUser, MsgType.markdown);
@@ -87,7 +100,7 @@ namespace Ams.Common
         /// <summary>
         /// 获取访问token
         /// </summary>
-        /// <returns>           
+        /// <returns>
         /// {"errcode":0,"errmsg":"ok","access_token":"iCbcfE1OjfRhV0_io-CzqTNC0lnrudeW3oF5rhJKfmINaxLClLa1FoqAY_wEXtodYh_DTnrtAwZfzeb-NRXvwiOoqUTHx3i6QKLYcfBtF8y-xd5mvaeaf3e9mvTAPhmX0lkm1cLTwRLmoa1IwzgQ-QZEZcuIcntWdEMGseVYok3BwCGpC87bt6nNdgnekZdFVRp1uuaxoctDGlXpoQlQsA","expires_in":7200}
         /// </returns>
         private static WxTokenResult GetAccessToken()

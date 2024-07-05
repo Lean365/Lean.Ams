@@ -3,7 +3,10 @@ using System.ComponentModel;
 namespace Ams.Model.Kernel
 {
     /// <summary>
-    /// 本地语言，数据实体对象
+    /// 本地语言
+    /// 数据实体对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [Tenant("0")]
     [SugarTable("sys_locale_lang", "本地语言")]
@@ -36,11 +39,5 @@ namespace Ams.Model.Kernel
         [DisplayName("名称")]
         [SugarColumn(ColumnName = "lang_name", Length = 2000, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string LangName { get; set; }
-
-        /// <summary>
-        /// 添加时间
-        /// </summary>
-        [DisplayName("添加时间")]
-        public DateTime? Addtime { get; set; }
     }
 }

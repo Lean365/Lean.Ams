@@ -1,14 +1,19 @@
-﻿using Ams.Infrastructure;
+﻿using Ams.Common;
+using Ams.Infrastructure;
 using Ams.Infrastructure.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SqlSugar.IOC;
-using Ams.Common;
-using Ams.Model.Kernel;
 
 namespace Ams.Service.SqlSugar
 {
+    /// <summary>
+    /// SqlSugar初始化
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
+    /// </summary>
     public static class SqlsugarSetup
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -124,7 +129,7 @@ namespace Ams.Service.SqlSugar
                 var parameter = it.Parameters;
                 var data = it.BusinessData;//这边会显示你传进来的对象
                 var time = it.Time;
-                var diffType = it.DiffType;//enum insert 、update and delete  
+                var diffType = it.DiffType;//enum insert 、update and delete
                 string name = App.UserName;
 
                 foreach (var item in editBeforeData)
@@ -139,7 +144,8 @@ namespace Ams.Service.SqlSugar
                         Sql = sql,
                         TableName = item.TableName,
                         UserName = name,
-                        AddTime = DateTime.Now,
+                        Create_by = name,
+                        Create_time = DateTime.Now,
                         ConfigId = configId
                     };
                     if (editAfterData != null)
@@ -183,7 +189,9 @@ namespace Ams.Service.SqlSugar
                             p.DataType = "char(1)";
                         }
                     }
+
                     #region 兼容Oracle
+
                     if (config.DbType == DbType.Oracle)
                     {
                         if (p.IsIdentity == true)
@@ -210,7 +218,8 @@ namespace Ams.Service.SqlSugar
                             }
                         }
                     }
-                    #endregion
+
+                    #endregion 兼容Oracle
                 }
             };
             db.GetConnectionScope(configId).Aop.OnLogExecuted = (sql, pars) =>

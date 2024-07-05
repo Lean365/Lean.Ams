@@ -1,12 +1,12 @@
 ﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using Ams.Model.Kernel;
-using Ams.Service.IService;
 
 namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 角色权限
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISysPermissionService), ServiceLifetime = LifeTime.Transient)]
     public class SysPermissionService : ISysPermissionService

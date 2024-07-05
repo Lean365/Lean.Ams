@@ -1,5 +1,5 @@
-using Ams.Model.Accounting;
 using Ams.Model.Accounting.Dto;
+using Ams.Model.Accounting;
 using Ams.Service.Accounting.IAccountingService;
 
 namespace Ams.Service.Accounting
@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 会计科目
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/3 15:41:58
+    /// @Date: 2024/7/5 11:12:53
     /// </summary>
     [AppService(ServiceType = typeof(IFicoAccountingTitleService), ServiceLifetime = LifeTime.Transient)]
     public class FicoAccountingTitleService : BaseService<FicoAccountingTitle>, IFicoAccountingTitleService
@@ -37,13 +37,14 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.FatCode.ToString() == enterString);
+            int count = Count(it => it. FatSFID.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
             }
             return UserConstants.UNIQUE;
         }
+
 
         /// <summary>
         /// 获取详情
@@ -98,10 +99,10 @@ namespace Ams.Service.Accounting
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
 
-            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";
+            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";                    
             Console.WriteLine(msg);
 
-            //输出错误信息
+            //输出错误信息               
             foreach (var item in x.ErrorList)
             {
                 Console.WriteLine("错误" + item.StorageMessage);

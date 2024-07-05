@@ -46,7 +46,7 @@
                 </el-radio-group>
               </el-form-item>
               <el-form-item :label="$t('common.tipCreateTime')">
-                <el-date-picker v-model="dateRange" style="width: 240px" type="daterange" range-separator="-"
+                <el-date-picker v-model="dateRangeTime" style="width: 240px" type="daterange" range-separator="-"
                   :start-placeholder="$t('btn.dateStart')" :end-placeholder="$t('btn.dateEnd')"></el-date-picker>
               </el-form-item>
             </el-col>
@@ -108,8 +108,8 @@
             v-if="columns.showColumn('isStatus')">
             <template #default="scope">
               <el-switch v-model="scope.row.isStatus" :disabled="scope.row.userName == 'admin'" :active-value="0"
-                :inactive-value="1" :active-text="$t('common.yes')" :inactive-text="$t('common.no')" inline-prompt
-                @change="handleStatusChange(scope.row)"></el-switch>
+                :inactive-value="1" :active-text="$t('puser.statStart')" :inactive-text="$t('puser.statStop')"
+                inline-prompt @change="handleStatusChange(scope.row)"></el-switch>
             </template>
           </el-table-column>
           <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime"
@@ -190,7 +190,7 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item :label="$t('puser.gender')">
+            <el-form-item :label="$t('puser.sex')">
               <el-radio-group v-model="form.sex"
                 :placeholder="$t('btn.selectPrefix')+$t('puser.sex')+$t('btn.selectSuffix')">
                 <el-radio v-for="dict in sexOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
@@ -295,7 +295,7 @@
   const multiple = ref(true)
   const total = ref(0)
   const title = ref('')
-  const dateRange = ref([])
+  const dateRangeTime = ref([])
   const deptName = ref('')
   const deptOptions = ref([])
   const initPassword = ref(undefined)
@@ -403,7 +403,7 @@
   /** 查询用户列表 */
   function getList() {
     loading.value = true
-    listUser(proxy.addDateRange(queryParams.value, dateRange.value)).then((res) => {
+    listUser(proxy.addDateRange(queryParams.value, dateRangeTime.value)).then((res) => {
       loading.value = false
       userList.value = res.data.result
       total.value = res.data.totalNum

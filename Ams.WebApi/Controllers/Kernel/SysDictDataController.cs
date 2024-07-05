@@ -8,7 +8,7 @@ namespace Ams.WebApi.Controllers.System
     /// 字典数据
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("system/dict/data")]
@@ -124,7 +124,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="dict"></param>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:dict:add")]
-        [Log(Title = "字典数据", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "字典数据", BusinessType = BusinessType.ADD)]
         [HttpPost()]
         public IActionResult Add([FromBody] SysDictData dict)
         {
@@ -139,7 +139,7 @@ namespace Ams.WebApi.Controllers.System
         /// <param name="dict"></param>
         /// <returns></returns>
         [ActionPermissionFilter(Permission = "system:dict:edit")]
-        [Log(Title = "字典数据", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "字典数据", BusinessType = BusinessType.EDIT)]
         [HttpPut()]
         public IActionResult Edit([FromBody] SysDictData dict)
         {
@@ -152,7 +152,7 @@ namespace Ams.WebApi.Controllers.System
         /// </summary>
         /// <param name="dictCode"></param>
         /// <returns></returns>
-        [ActionPermissionFilter(Permission = "system:dict:remove")]
+        [ActionPermissionFilter(Permission = "system:dict:delete")]
         [Log(Title = "字典类别", BusinessType = BusinessType.DELETE)]
         [HttpDelete("{dictCode}")]
         public IActionResult Remove(string dictCode)

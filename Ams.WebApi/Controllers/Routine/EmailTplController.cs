@@ -6,10 +6,10 @@ namespace Ams.WebApi.Controllers.Routine
     /// 邮件模板
     /// API控制器
     /// @author Lean365(Davis.Ching)
-    /// @date 2022-01-11
+    /// @date 2024-05-20
     /// </summary>
     [Verify]
-    [Route("routine/email/tol")]
+    [Route("routine/email/tpl")]
     [ApiExplorerSettings(GroupName = "routine")]
     public class EmailTplController : BaseController
     {
@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "tool:emailtpl:list")]
+        [ActionPermissionFilter(Permission = "routine:emailtpl:list")]
         public IActionResult QueryEmailTpl([FromQuery] EmailTplQueryDto parm)
         {
             var response = _EmailTplService.GetList(parm);
@@ -55,8 +55,8 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [ActionPermissionFilter(Permission = "tool:emailtpl:add")]
-        [Log(Title = "邮件模板", BusinessType = BusinessType.INSERT)]
+        [ActionPermissionFilter(Permission = "routine:emailtpl:add")]
+        [Log(Title = "邮件模板", BusinessType = BusinessType.ADD)]
         public IActionResult AddEmailTpl([FromBody] EmailTplDto parm)
         {
             var modal = parm.Adapt<EmailTpl>().ToCreate(HttpContext);
@@ -71,8 +71,8 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "tool:emailtpl:edit")]
-        [Log(Title = "邮件模板", BusinessType = BusinessType.UPDATE)]
+        [ActionPermissionFilter(Permission = "routine:emailtpl:edit")]
+        [Log(Title = "邮件模板", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateEmailTpl([FromBody] EmailTplDto parm)
         {
             var modal = parm.Adapt<EmailTpl>().ToUpdate(HttpContext);
@@ -86,7 +86,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
-        [ActionPermissionFilter(Permission = "tool:emailtpl:delete")]
+        [ActionPermissionFilter(Permission = "routine:emailtpl:delete")]
         [Log(Title = "邮件模板", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteEmailTpl(string ids)
         {
