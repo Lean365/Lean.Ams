@@ -2,7 +2,7 @@
  * @Descripttion: 利润中心/fico_prctr
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/5 11:21:00
+ * @Date: 2024/7/16 10:26:49
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -204,7 +204,7 @@
           <el-col :lg="12">
             <el-form-item label="软删除" prop="isDeleted">
               <el-radio-group v-model="form.isDeleted">
-                <el-radio v-for="item in options.isDeletedOptions" :key="item.dictValue" :value="parseInt(item.dictValue)">
+                <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue" :value="parseInt(item.dictValue)">
                   {{item.dictLabel}}
                 </el-radio>
               </el-radio-group>
@@ -405,6 +405,7 @@ const dateRangeFpActDate = ref([])
 var dictParams = [
   { dictType: "sys_crop_list" },
   { dictType: "sys_costs_type" },
+  { dictType: "sys_is_deleted" },
 ]
 
 //字典加载
@@ -493,7 +494,7 @@ sys_crop_list: [],
     // 类别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_costs_type: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-isDeletedOptions: [],
+sys_is_deleted: [],
   }
 })
 //将响应式对象转换成普通对象

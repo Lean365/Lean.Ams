@@ -1,10 +1,7 @@
 ﻿namespace Ams.Model.Kernel
 {
     /// <summary>
-    /// 字典数据
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 字典数据表
     /// </summary>
     [Tenant("0")]
     [SugarTable("sys_dict_data", "字典数据")]

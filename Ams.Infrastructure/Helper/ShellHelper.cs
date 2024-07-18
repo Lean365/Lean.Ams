@@ -1,12 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
 
-namespace Ams.Infrastructure.Helper
+namespace Ams.Infrastructure
 {
-    /// <summary>
-    /// ShellHelper
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class ShellHelper
     {
         /// <summary>

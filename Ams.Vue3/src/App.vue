@@ -10,7 +10,14 @@
   import zhCn from 'element-plus/dist/locale/zh-cn' // 中文语言
   import thTw from 'element-plus/dist/locale/zh-tw' //繁体
   import ja from 'element-plus/dist/locale/ja' //日语
+  import ko from 'element-plus/dist/locale/ko' //韩语
+  import ar from 'element-plus/dist/locale/ar' // 阿拉伯语
+  import ru from 'element-plus/dist/locale/ru' //俄语
+  import es from 'element-plus/dist/locale/es' //西班牙语
+  import fr from 'element-plus/dist/locale/fr' //法语
+  import de from 'element-plus/dist/locale/de' //德语
   import en from 'element-plus/dist/locale/en' // 英文语言
+
   // import vzhCN from 'vxe-pc-ui/lib/language/zh-CN'
   // import vzhTw from 'vxe-pc-ui/lib/language/zh-TW'
   // import vJa from 'vxe-pc-ui/lib/language/ja-JP'
@@ -54,6 +61,18 @@
         locale.value = thTw
       } else if (val == 'ja') {
         locale.value = ja
+      } else if (val == 'ko') {
+        locale.value = ko
+      } else if (val == 'ar') {
+        locale.value = ar
+      } else if (val == 'ru') {
+        locale.value = ru
+      } else if (val == 'es') {
+        locale.value = es
+      } else if (val == 'fr') {
+        locale.value = fr
+      } else if (val == 'de') {
+        locale.value = de
       } else {
         locale.value = zhCn
       }

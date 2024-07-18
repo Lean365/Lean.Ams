@@ -1,10 +1,9 @@
-﻿namespace Ams.Service.Routine
+﻿using Ams.Infrastructure.Attribute;
+
+namespace Ams.Service.Routine
 {
     /// <summary>
     /// 定时任务
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ITasksQzService), ServiceLifetime = LifeTime.Transient)]
     public class TasksQzService : BaseService<TasksQz>, ITasksQzService

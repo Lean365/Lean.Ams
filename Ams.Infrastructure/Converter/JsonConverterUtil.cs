@@ -4,11 +4,6 @@ using System.Text.Json.Serialization;
 
 namespace Ams.Infrastructure.Converter
 {
-    /// <summary>
-    /// JsonConverterUtil
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class JsonConverterUtil
     {
         public class DateTimeNullConverter : JsonConverter<DateTime?>

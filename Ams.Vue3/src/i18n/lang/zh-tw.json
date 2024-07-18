@@ -14,6 +14,7 @@
     "dashboard": "控制檯",
     "home": "首頁",
     "logistics": "後勤",
+    "logisticsDataSources": "數據源",
     "logisticsMaster": "主資料",
     "logisticsMaterials": "物料",
     "logisticsProduction": "生產",

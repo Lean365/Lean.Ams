@@ -37,7 +37,7 @@ $end
 
             return response;
         }
-
+$if(replaceDto.ShowBtnAdd)
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -53,6 +53,7 @@ $end
             }
             return UserConstants.UNIQUE;
         }
+$end
 
 $if(genTable.TplCategory == "tree")
         /// <summary>
@@ -98,7 +99,7 @@ $end
 
             return response;
         }
-
+$if(replaceDto.ShowBtnAdd)
         /// <summary>
         /// 添加${genTable.FunctionName}
         /// </summary>
@@ -117,7 +118,7 @@ $else
 $end
 $end
         }
-
+$end
 $if(replaceDto.ShowBtnEdit)
         /// <summary>
         /// 修改${genTable.FunctionName}

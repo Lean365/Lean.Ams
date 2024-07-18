@@ -1,10 +1,9 @@
-﻿namespace Ams.Service.Monitor
+﻿using Ams.Infrastructure.Attribute;
+
+namespace Ams.Service.Monitor
 {
     /// <summary>
     /// 操作日志
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(IOperLogService), ServiceLifetime = LifeTime.Transient)]
     public class OperLogService : BaseService<OperLog>, IOperLogService

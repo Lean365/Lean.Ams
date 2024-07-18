@@ -1,10 +1,5 @@
 ﻿namespace Ams.Model.Dto.Routine
 {
-    /// <summary>
-    /// 任务查询
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class TasksQzQueryDto : PagerInfo
     {
         /// <summary>
@@ -20,8 +15,6 @@
 
     /// <summary>
     /// 添加任务
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     public class TasksQzCreateDto
     {

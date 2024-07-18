@@ -1,10 +1,5 @@
 ﻿namespace Ams.Infrastructure.IPTools.Model
 {
-    /// <summary>
-    /// IP信息
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class IpInfo
     {
         public string IpAddress { get; set; }

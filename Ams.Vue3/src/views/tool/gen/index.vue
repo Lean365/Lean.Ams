@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <el-form ref="codeform" :inline="true" :model="queryParams">
+    <el-form ref="codeform" inline :model="queryParams">
       <el-form-item :label="$t('gencode.tableName')" prop="tableName">
         <el-input v-model="queryParams.tableName" style="width: 200px" clearable
           :placeholder="$t('btn.enterPrefix')+$t('gencode.tableName')+$t('btn.enterSuffix')" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="search" @click="getList()">{{ $t('btn.search') }}</el-button>
-        <el-button icon="refresh" @click="handleReset()">{{$t('btn.reset') }}</el-button>
+        <el-button type="primary" icon="search" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+        <el-button icon="refresh" @click="resetQuery">{{$t('btn.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
@@ -302,7 +302,7 @@
         break
     }
   }
-  function handleReset() {
+  function resetQuery() {
     proxy.resetForm('codeform')
     handleQuery()
   }

@@ -1,11 +1,7 @@
-﻿namespace Ams.Service.IService.Kernel
+﻿using Ams.Model.Kernel;
+
+namespace Ams.Service.IService.Kernel
 {
-    /// <summary>
-    /// 用户岗位
-    /// 业务层接口
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public interface ISysUserPostService
     {
         public void InsertUserPost(SysUser user);

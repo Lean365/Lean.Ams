@@ -1,6 +1,6 @@
 // import Cookies from 'js-cookie'
 
-const TokenKey = 'ZR-Token'
+const TokenKey = 'AMS-Token'
 
 export function getToken() {
   return localStorage.getItem(TokenKey)

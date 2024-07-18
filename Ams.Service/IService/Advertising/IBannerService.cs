@@ -1,10 +1,7 @@
 namespace Ams.Service.IService.Advertising
 {
     /// <summary>
-    /// 横幅广告service
-    /// 业务层接口
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 横幅广告service接口
     /// </summary>
     public interface IBannerService : IBaseService<Banner>
     {

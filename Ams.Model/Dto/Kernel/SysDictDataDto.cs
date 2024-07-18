@@ -1,11 +1,5 @@
 ﻿namespace Ams.Model.Dto.Kernel
 {
-    /// <summary>
-    /// 字典数据参数
-    /// 查询对象模型
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class SysDictDataParamDto
     {
         public string DictType { get; set; }
@@ -14,12 +8,6 @@
         public List<SysDictDataDto> List { get; set; }
     }
 
-    /// <summary>
-    /// 字典数据
-    /// 输入输出对象模型
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class SysDictDataDto
     {
         public string DictLabel { get; set; }

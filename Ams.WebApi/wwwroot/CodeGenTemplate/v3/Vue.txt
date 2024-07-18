@@ -262,7 +262,7 @@ $end
       </el-table>
     </el-drawer>
 $end
-
+$if(ReplaceDto.ShowBtnAdd || ReplaceDto.ShowBtnEdit)
     <!-- 添加或修改${genTable.functionName}对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" ${if(sub)}:fullscreen="fullScreen"$end>
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
@@ -462,6 +462,8 @@ $end
         	</el-row>
           </el-tab-pane>
         </el-tabs>
+
+
 $* 子表信息 *$
 $if(sub)
     <!-- 子表信息 -->
@@ -547,6 +549,7 @@ $if(ReplaceDto.ShowBtnEdit || ReplaceDto.ShowBtnAdd)
 $end
       </template>
     </el-dialog>
+$end
   </div>
 </template>
 

@@ -1,10 +1,11 @@
+using Ams.Infrastructure.Attribute;
+using Ams.Model.Kernel;
+using Ams.Service.IService;
+
 namespace Ams.Service.Kernel
 {
     /// <summary>
-    /// 参数配置
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 参数配置Service业务层处理
     /// </summary>
     [AppService(ServiceType = typeof(ISysConfigService), ServiceLifetime = LifeTime.Transient)]
     public class SysConfigService : BaseService<SysConfig>, ISysConfigService
@@ -16,6 +17,6 @@ namespace Ams.Service.Kernel
             return Queryable().First(f => f.ConfigKey == key);
         }
 
-        #endregion 业务逻辑代码
+        #endregion
     }
 }

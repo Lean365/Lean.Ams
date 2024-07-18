@@ -1,10 +1,9 @@
-﻿namespace Ams.Service.Monitor
+﻿using Ams.Infrastructure.Attribute;
+
+namespace Ams.Service.Monitor
 {
     /// <summary>
     /// 任务日志
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceLifetime = LifeTime.Transient, ServiceType = typeof(ITasksQzLogService))]
     public class TasksQzLogService : BaseService<TasksQzLog>, ITasksQzLogService

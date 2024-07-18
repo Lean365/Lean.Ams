@@ -1,11 +1,7 @@
-﻿namespace Ams.Service.Kernel
+﻿using Ams.Common;
+
+namespace Ams.Service.Kernel
 {
-    /// <summary>
-    /// 缓存服务
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class CacheService
     {
         private static readonly string CK_verifyScan = "verifyScan_";

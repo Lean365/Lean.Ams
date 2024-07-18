@@ -1,10 +1,5 @@
 ﻿namespace Ams.Model.Dto.Kernel
 {
-    /// <summary>
-    /// 上传文件
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class UploadDto
     {
         /// <summary>

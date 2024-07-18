@@ -1,12 +1,6 @@
 ﻿namespace Ams.Model.Dto.Kernel
 {
-    /// <summary>
-    /// 字典类别
-    /// 输入输出对象模型
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
-    public class SysDictTypeDto
+    public class SysDictTypeDto : SysBase
     {
         public long DictId { get; set; }
 

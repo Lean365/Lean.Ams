@@ -1,10 +1,7 @@
 namespace Ams.Model.Dto.Monitor
 {
     /// <summary>
-    /// 短信验证码
-    /// 查询对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 短信验证码记录查询对象
     /// </summary>
     public class SmsLogQueryDto : PagerInfo
     {
@@ -16,10 +13,7 @@ namespace Ams.Model.Dto.Monitor
     }
 
     /// <summary>
-    /// 短信验证码
-    /// 输入输出对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 短信验证码记录输入输出对象
     /// </summary>
     public class SmsLogDto
     {

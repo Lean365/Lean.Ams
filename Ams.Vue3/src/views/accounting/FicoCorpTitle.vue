@@ -2,7 +2,7 @@
  * @Descripttion: 公司科目/fico_corp_title
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/5 11:10:04
+ * @Date: 2024/7/16 10:26:58
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>

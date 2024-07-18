@@ -1,10 +1,7 @@
 ﻿namespace Ams.Model.Kernel
 {
     /// <summary>
-    /// 字典类别
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 字典类别表
     /// </summary>
     [SugarTable("sys_dict_type", "字典类别")]
     [SugarIndex("index_dict_type", nameof(DictType), OrderByType.Asc, true)]

@@ -1,10 +1,7 @@
 namespace Ams.Model.Dto.Monitor
 {
     /// <summary>
-    /// 用户在线时长
-    /// 查询对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 用户在线时长查询对象
     /// </summary>
     public class DurationLogQueryDto : PagerInfo
     {
@@ -15,10 +12,7 @@ namespace Ams.Model.Dto.Monitor
     }
 
     /// <summary>
-    /// 用户在线时长
-    /// 输入输出对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 用户在线时长输入输出对象
     /// </summary>
     public class DurationLogDto
     {

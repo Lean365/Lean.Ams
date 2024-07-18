@@ -1,13 +1,8 @@
-﻿using Ams.Model.Vo;
+﻿using Ams.Model.Kernel;
+using Ams.Model.Vo;
 
 namespace Ams.Service.IService.Kernel
 {
-    /// <summary>
-    /// 系统部门
-    /// 业务层接口
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public interface ISysDeptService : IBaseService<SysDept>
     {
         List<SysDeptDto> GetList(SysDeptQueryDto dept);

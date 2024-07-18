@@ -1,14 +1,9 @@
-﻿using System;
+﻿using JinianNet.JNTemplate;
+using System;
 using System.IO;
-using JinianNet.JNTemplate;
 
 namespace Ams.Infrastructure.Helper
 {
-    /// <summary>
-    /// Jn模板帮助类
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class JnHelper
     {
         /// <summary>

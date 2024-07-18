@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 汇率表
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/5 14:41:27
+    /// @Date: 2024/7/16 10:26:55
     /// </summary>
     [Verify]
     [Route("Accounting/FicoExchangeRate")]
@@ -156,7 +156,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<FicoExchangeRateImportTpl>() { }, "FicoExchangeRate_tpl");
+            var result = DownloadImportTemplate(new List<FicoExchangeRateDto>() { }, "FicoExchangeRate");
             return ExportExcel(result.Item2, result.Item1);
         }
 

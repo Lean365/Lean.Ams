@@ -1,10 +1,11 @@
-﻿namespace Ams.Service.Content
+﻿using Ams.Infrastructure.Attribute;
+using Ams.Model;
+using Ams.Service.IService.Routine;
+
+namespace Ams.Service.Content
 {
     /// <summary>
     /// 文章目录Service业务层处理
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(IArticleCategoryService), ServiceLifetime = LifeTime.Transient)]
     public class ArticleCategoryService : BaseService<ArticleCategory>, IArticleCategoryService

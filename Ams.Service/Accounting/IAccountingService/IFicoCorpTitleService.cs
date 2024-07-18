@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 公司科目
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/5 11:10:04
+    /// @Date: 2024/7/16 10:26:58
     /// </summary>
     public interface IFicoCorpTitleService : IBaseService<FicoCorpTitle>
     {

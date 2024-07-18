@@ -17,9 +17,6 @@ namespace Ams.Tasks
 {
     /// <summary>
     /// 计划任务中心
-    /// 业务层处理计划任务，如：添加、删除、启动、停止计划任务等
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     //[AppService]
     public class TaskSchedulerServer : ITaskSchedulerServer

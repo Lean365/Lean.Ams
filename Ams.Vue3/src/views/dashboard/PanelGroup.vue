@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="40" class="panel-group">
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+    <!-- <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <div class="card-panel-icon-wrapper icon-users">
           <i class="fas fa-users fa-beat-fade"
@@ -11,8 +11,8 @@
           <div id="onlineNum" class="card-panel-num">{{ state.onlineUserNum }}</div>
         </div>
       </div>
-    </el-col>
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+    </el-col> -->
+    <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('stockAmount')">
         <div class="card-panel-icon-wrapper icon-money">
           <i class="fas fa-warehouse fa-beat"
@@ -21,15 +21,21 @@
         <div class="card-panel-description">
           <div class="card-panel-text" v-waves>{{ $t('layout.echartCostTotal') }}</div>
           <div id="costTotal" class="card-panel-num">{{ state.costTotal }}</div>
+          <el-statistic :value="monthlyProductionCostValue" />
+
+
         </div>
 
         <div class="card-panel-description">
           <div class="card-panel-text" v-waves>{{ $t('layout.echartStockAmount') }}</div>
-          <div class="card-panel-num" id="stockAmount">{{ state.stockAmount }}</div>
+          <!-- <div class="card-panel-num" id="stockAmount">{{ state.stockAmount }}</div> -->
+          <el-statistic :value="monthlyInventoryAmountValue" />
+
+
         </div>
       </div>
     </el-col>
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+    <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('salesAmount')">
         <div class="card-panel-icon-wrapper icon-shipment">
           <i class="fas fa-shop fa-flip"
@@ -37,15 +43,19 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text" v-waves>{{ $t('layout.echartShipment') }}</div>
-          <div id="Shipment" class="card-panel-num">{{ state.shipment }}</div>
+          <!-- <div id="Shipment" class="card-panel-num">{{ state.shipment }}</div> -->
+          <el-statistic :value="monthlySalesQtyValue" />
+
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text" v-waves>{{ $t('layout.echartSalesAmount') }}</div>
-          <div class="card-panel-num" id="salesAmount">{{ state.salesAmount }}</div>
+          <!-- <div class="card-panel-num" id="salesAmount">{{ state.salesAmount }}</div> -->
+          <el-statistic :value="monthlySalesAmountalue" />
+
         </div>
       </div>
     </el-col>
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+    <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('production')">
         <div class="card-panel-icon-wrapper icon-cubes">
           <i class="fas fa-microchip fa-bounce"
@@ -53,15 +63,21 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text" v-waves>{{ $t('layout.echartPoorProduction') }}</div>
-          <div id="PoorProduction" class="card-panel-num">{{ state.poorProduction }}</div>
+          <!-- <div id="PoorProduction" class="card-panel-num">{{ state.poorProduction }}</div> -->
+          <el-statistic :value="monthlyproductionQtyValue" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text" v-waves>{{ $t('layout.echartProduction') }}</div>
-          <div id="production" class="card-panel-num">{{ state.production }}</div>
+          <!-- <div id="production" class="card-panel-num">{{ state.production }}</div> -->
+          <el-statistic :value="monthlyproductionQtyValue" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text" v-waves>{{ $t('layout.echartEcCount') }}</div>
-          <div id="ecCount" class="card-panel-num">{{ state.ecCount }}</div>
+          <!-- <div id="ecCount" class="card-panel-num">{{ state.ecCount }}</div> -->
+          <el-statistic :value="EcCountValue" />
+
+          <!-- <ICountUp :delay="1000" :endVal="EcCountValue" /> -->
+
         </div>
       </div>
     </el-col>
@@ -73,32 +89,207 @@
 
 <script setup>
   import { CountUp } from 'countup.js'
+  import ICountUp from 'vue-countup-v3';
   import useSocketStore from '@/store/modules/socket';
   import '@fortawesome/fontawesome-free/css/all.min.css';
+  //后台操作函数
+  import {
+    getEcCount,
+  }
+    from '@/api/statistics/ppecstati.js'
+  import {
+    getMonthlyOutputQty,
+  }
+    from '@/api/statistics/ppoutputstati.js'
+  import {
+    getMonthlySalesQty,
+    getMonthlySalesAmount,
+  }
+    from '@/api/statistics/sdsalesstati.js'
+  import {
+    getMonthlyInventoryAmount,
+  }
+    from '@/api/statistics/ficoinventorystati.js'
+  import {
+    getMonthlyProductionCost,
+  }
+    from '@/api/statistics/ficocoststati.js'
+  import { useTransition } from '@vueuse/core'
   const emit = defineEmits()
   const { proxy } = getCurrentInstance()
+  onMounted(() => {
+    getTotalEc()
+    getTotalMonthlyOutputQty()
+    getTotalMonthlySalesQty()
+    getTotalMonthlySalesAmount()
+    getTotalMonthlyInventoryAmount()
+    getTotalMonthlyProductionCost()
+  })
+  //ec点数统计
+  const ecCount = ref(0)
+  // const monthlyproductionQtyValue = useTransition(monthlyproductionQty, {
+  //   duration: 1500,
+  // })
+  const EcCountValue = useTransition(ecCount, {
+    duration: 1500,
+  })
+  // const monthQty = ref(0);
+  function getTotalEc() {
+    return new Promise((resolve, reject) => {
+      getEcCount()
+        .then((res) => {
+          //
+          const { code, data } = res
+          if (code == 200) {
+            console.log('EC数据:', data)
+            ecCount.value = data
+            //monthlyproductionQty.value = data
+            //state.production = res.data
 
+            resolve(res)
+          }
+        })
+    })
+  }
+  //月度OPH统计
+  const monthlyproductionQty = ref(0)
+
+  const monthlyproductionQtyValue = useTransition(monthlyproductionQty, {
+    duration: 1500,
+  })
+  function getTotalMonthlyOutputQty() {
+    return new Promise((resolve, reject) => {
+      getMonthlyOutputQty()
+        .then((res) => {
+          //
+          const { code, data } = res
+          if (code == 200) {
+            console.log('Output数据:', data)
+            monthlyproductionQty.value = data
+            //monthlyproductionQty.value = data
+            //state.production = res.data
+
+            resolve(res)
+          }
+        })
+    })
+  }
+  //月度销量统计
+  const monthlySalesQty = ref(0)
+  //console.log('月度销量', monthlySalesQty.value)
+  const monthlySalesQtyValue = useTransition(monthlySalesQty, {
+    duration: 1500,
+  })
+  function getTotalMonthlySalesQty() {
+    return new Promise((resolve, reject) => {
+      getMonthlySalesQty()
+        .then((res) => {
+          //
+          const { code, data } = res
+          if (code == 200) {
+            console.log('月度销量:', data)
+            monthlySalesQty.value = data
+            //monthlyproductionQty.value = data
+            //state.production = res.data
+
+            resolve(res)
+          }
+        })
+    })
+  }
+  const monthlySalesAmount = ref(0)
+  //console.log('月度销售', monthlySalesAmount.value)
+  const monthlySalesAmountalue = useTransition(monthlySalesAmount, {
+    duration: 1500,
+  })
+  function getTotalMonthlySalesAmount() {
+    return new Promise((resolve, reject) => {
+      getMonthlySalesAmount()
+        .then((res) => {
+          //
+          const { code, data } = res
+          if (code == 200) {
+            console.log('月度销售:', data)
+            monthlySalesAmount.value = data
+            //monthlyproductionQty.value = data
+            //state.production = res.data
+
+            resolve(res)
+          }
+        })
+    })
+  }
+  //月度存货统计
+  const monthlyInventoryAmount = ref(0)
+  console.log('月度存货', monthlySalesQty.value)
+  const monthlyInventoryAmountValue = useTransition(monthlyInventoryAmount, {
+    duration: 1500,
+  })
+  function getTotalMonthlyInventoryAmount() {
+    return new Promise((resolve, reject) => {
+      getMonthlyInventoryAmount()
+        .then((res) => {
+          //
+          const { code, data } = res
+          if (code == 200) {
+            console.log('月度存货:', data)
+            monthlyInventoryAmount.value = data
+            //monthlyproductionQty.value = data
+            //state.production = res.data
+
+            resolve(res)
+          }
+        })
+    })
+  }
+  //月度成本统计
+  const monthlyProductionCost = ref(0)
+  //console.log('月度存货', monthlySalesQty.value)
+  const monthlyProductionCostValue = useTransition(monthlyProductionCost, {
+    duration: 1500,
+  })
+  function getTotalMonthlyProductionCost() {
+    return new Promise((resolve, reject) => {
+      getMonthlyProductionCost()
+        .then((res) => {
+          //
+          const { code, data } = res
+          if (code == 200) {
+            console.log('月度生产成本:', data)
+            monthlyProductionCost.value = data
+            //monthlyproductionQty.value = data
+            //state.production = res.data
+
+            resolve(res)
+          }
+        })
+    })
+  }
   const state = reactive({
     onlineNum: computed(() => {
       return useSocketStore().onlineNum
     }),
-    stockAmount: 4563,
-    shipment: 1091,
-    ecCount: 30,
-    production: 390,
-    salesAmount: 650,
-    poorProduction: 13,
-    costTotal: 219,
+
+    //stockAmount: ecCounts,
+    //shipment: ecCounts,
+    //ecCount: ecCounts,
+    //production: ecCounts,
+    //salesAmount: ecCounts,
+    //poorProduction: ecCounts,
+    //costTotal: ecCounts,
   })
+
+
   onMounted(() => {
-    new CountUp('stockAmount', state.stockAmount).start(),
-      new CountUp('onlineNum', state.onlineNum).start(),
-      new CountUp('Shipment', state.Shipment).start(),
-      new CountUp('ecCount', state.ecCount).start(),
-      new CountUp('production', state.production).start(),
-      new CountUp('salesAmount', state.salesAmount).start(),
-      new CountUp('PoorProduction', state.PoorProduction).start(),
-      new CountUp('costTotal', state.costTotal).start()
+    //getEcTotalCount(),
+    // new CountUp('stockAmount', state.stockAmount).start(),
+    new CountUp('onlineNum', state.onlineNum).start()
+    // new CountUp('Shipment', state.Shipment).start(),
+    // //new CountUp('ecCount', ecCounts.value).start(),
+    // //new CountUp('production', state.production).start(),
+    // new CountUp('salesAmount', state.salesAmount).start(),
+    // new CountUp('PoorProduction', state.PoorProduction).start(),
+    // new CountUp('costTotal', state.costTotal).start()
   })
   function handleSetLineChartData(type) {
     emit('handleSetLineChartData', type)

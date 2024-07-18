@@ -2,11 +2,6 @@
 
 namespace Ams.Infrastructure.Model
 {
-    /// <summary>
-    /// 发送邮件
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class SendEmailDto
     {
         /// <summary>

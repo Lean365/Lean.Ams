@@ -1,12 +1,11 @@
-﻿using Mapster;
+﻿using Ams.Common;
+using Ams.Infrastructure;
+using Mapster;
 
 namespace Ams.Service.Content
 {
     /// <summary>
-    /// 文章服务
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    ///
     /// </summary>
     [AppService(ServiceType = typeof(IArticleService), ServiceLifetime = LifeTime.Transient)]
     public class ArticleService : BaseService<Article>, IArticleService

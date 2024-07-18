@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Ams.Infrastructure.Extensions
 {
-    /// <summary>
-    /// 扩展转换类
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public static partial class Extensions
     {
         #region 转换为long
-
         /// <summary>
-        /// 将object转换为long，若转换失败，则返回0。不抛出异常。
+        /// 将object转换为long，若转换失败，则返回0。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -31,7 +28,7 @@ namespace Ams.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// 将object转换为long，若转换失败，则返回指定值。不抛出异常。
+        /// 将object转换为long，若转换失败，则返回指定值。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
@@ -47,13 +44,11 @@ namespace Ams.Infrastructure.Extensions
                 return defaultValue;
             }
         }
-
-        #endregion 转换为long
+        #endregion
 
         #region 转换为int
-
         /// <summary>
-        /// 将object转换为int，若转换失败，则返回0。不抛出异常。
+        /// 将object转换为int，若转换失败，则返回0。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -70,7 +65,7 @@ namespace Ams.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// 将object转换为int，若转换失败，则返回指定值。不抛出异常。
+        /// 将object转换为int，若转换失败，则返回指定值。不抛出异常。 
         /// null返回默认值
         /// </summary>
         /// <param name="str"></param>
@@ -91,13 +86,11 @@ namespace Ams.Infrastructure.Extensions
                 return defaultValue;
             }
         }
-
-        #endregion 转换为int
+        #endregion
 
         #region 转换为short
-
         /// <summary>
-        /// 将object转换为short，若转换失败，则返回0。不抛出异常。
+        /// 将object转换为short，若转换失败，则返回0。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -114,7 +107,7 @@ namespace Ams.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// 将object转换为short，若转换失败，则返回指定值。不抛出异常。
+        /// 将object转换为short，若转换失败，则返回指定值。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -129,13 +122,11 @@ namespace Ams.Infrastructure.Extensions
                 return defaultValue;
             }
         }
-
-        #endregion 转换为short
+        #endregion
 
         #region 转换为demical
-
         /// <summary>
-        /// 将object转换为demical，若转换失败，则返回指定值。不抛出异常。
+        /// 将object转换为demical，若转换失败，则返回指定值。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -152,7 +143,7 @@ namespace Ams.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// 将object转换为demical，若转换失败，则返回0。不抛出异常。
+        /// 将object转换为demical，若转换失败，则返回0。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -167,13 +158,11 @@ namespace Ams.Infrastructure.Extensions
                 return 0;
             }
         }
-
-        #endregion 转换为demical
+        #endregion
 
         #region 转化为bool
-
         /// <summary>
-        /// 将object转换为bool，若转换失败，则返回false。不抛出异常。
+        /// 将object转换为bool，若转换失败，则返回false。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -190,7 +179,7 @@ namespace Ams.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// 将object转换为bool，若转换失败，则返回指定值。不抛出异常。
+        /// 将object转换为bool，若转换失败，则返回指定值。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -205,13 +194,11 @@ namespace Ams.Infrastructure.Extensions
                 return result;
             }
         }
-
-        #endregion 转化为bool
+        #endregion
 
         #region 转换为float
-
         /// <summary>
-        /// 将object转换为float，若转换失败，则返回0。不抛出异常。
+        /// 将object转换为float，若转换失败，则返回0。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -228,7 +215,7 @@ namespace Ams.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// 将object转换为float，若转换失败，则返回指定值。不抛出异常。
+        /// 将object转换为float，若转换失败，则返回指定值。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -243,13 +230,11 @@ namespace Ams.Infrastructure.Extensions
                 return result;
             }
         }
-
-        #endregion 转换为float
+        #endregion
 
         #region 转换为Guid
-
         /// <summary>
-        /// 将string转换为Guid，若转换失败，则返回Guid.Empty。不抛出异常。
+        /// 将string转换为Guid，若转换失败，则返回Guid.Empty。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -264,13 +249,11 @@ namespace Ams.Infrastructure.Extensions
                 return Guid.Empty;
             }
         }
-
-        #endregion 转换为Guid
+        #endregion
 
         #region 转换为DateTime
-
         /// <summary>
-        /// 将string转换为DateTime，若转换失败，则返回日期最小值。不抛出异常。
+        /// 将string转换为DateTime，若转换失败，则返回日期最小值。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -293,22 +276,16 @@ namespace Ams.Infrastructure.Extensions
                     {
                         case 4:
                             return DateTime.ParseExact(str, "yyyy", System.Globalization.CultureInfo.CurrentCulture);
-
                         case 6:
                             return DateTime.ParseExact(str, "yyyyMM", System.Globalization.CultureInfo.CurrentCulture);
-
                         case 8:
                             return DateTime.ParseExact(str, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture);
-
                         case 10:
                             return DateTime.ParseExact(str, "yyyyMMddHH", System.Globalization.CultureInfo.CurrentCulture);
-
                         case 12:
                             return DateTime.ParseExact(str, "yyyyMMddHHmm", System.Globalization.CultureInfo.CurrentCulture);
-
                         case 14:
                             return DateTime.ParseExact(str, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
-
                         default:
                             return DateTime.ParseExact(str, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
                     }
@@ -321,7 +298,7 @@ namespace Ams.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// 将string转换为DateTime，若转换失败，则返回默认值。
+        /// 将string转换为DateTime，若转换失败，则返回默认值。  
         /// </summary>
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
@@ -345,22 +322,16 @@ namespace Ams.Infrastructure.Extensions
                     {
                         case 4:
                             return DateTime.ParseExact(str, "yyyy", System.Globalization.CultureInfo.CurrentCulture);
-
                         case 6:
                             return DateTime.ParseExact(str, "yyyyMM", System.Globalization.CultureInfo.CurrentCulture);
-
                         case 8:
                             return DateTime.ParseExact(str, "yyyyMMdd", System.Globalization.CultureInfo.CurrentCulture);
-
                         case 10:
                             return DateTime.ParseExact(str, "yyyyMMddHH", System.Globalization.CultureInfo.CurrentCulture);
-
                         case 12:
                             return DateTime.ParseExact(str, "yyyyMMddHHmm", System.Globalization.CultureInfo.CurrentCulture);
-
                         case 14:
                             return DateTime.ParseExact(str, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
-
                         default:
                             return DateTime.ParseExact(str, "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
                     }
@@ -371,13 +342,11 @@ namespace Ams.Infrastructure.Extensions
                 return defaultValue.GetValueOrDefault();
             }
         }
-
-        #endregion 转换为DateTime
+        #endregion
 
         #region 转换为string
-
         /// <summary>
-        /// 将object转换为string，若转换失败，则返回""。不抛出异常。
+        /// 将object转换为string，若转换失败，则返回""。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -399,7 +368,6 @@ namespace Ams.Infrastructure.Extensions
                 return string.Empty;
             }
         }
-
         public static string ParseToStrings<T>(this object obj)
         {
             try
@@ -418,14 +386,13 @@ namespace Ams.Infrastructure.Extensions
             {
                 return string.Empty;
             }
-        }
 
-        #endregion 转换为string
+        }
+        #endregion
 
         #region 转换为double
-
         /// <summary>
-        /// 将object转换为double，若转换失败，则返回0。不抛出异常。
+        /// 将object转换为double，若转换失败，则返回0。不抛出异常。  
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
@@ -442,7 +409,7 @@ namespace Ams.Infrastructure.Extensions
         }
 
         /// <summary>
-        /// 将object转换为double，若转换失败，则返回指定值。不抛出异常。
+        /// 将object转换为double，若转换失败，则返回指定值。不抛出异常。  
         /// </summary>
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
@@ -458,11 +425,9 @@ namespace Ams.Infrastructure.Extensions
                 return defaultValue;
             }
         }
-
-        #endregion 转换为double
+        #endregion
 
         #region 强制转换类型
-
         /// <summary>
         /// 强制转换类型
         /// </summary>
@@ -476,7 +441,6 @@ namespace Ams.Infrastructure.Extensions
                 yield return (TResult)Convert.ChangeType(item, typeof(TResult));
             }
         }
-
-        #endregion 强制转换类型
+        #endregion
     }
 }

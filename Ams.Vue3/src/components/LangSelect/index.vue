@@ -33,6 +33,7 @@
     { label: 'русский', value: 'ru' },
     { label: 'Español', value: 'es' },
     { label: 'Français', value: 'fr' },
+    { label: 'Deutsch', value: 'de' },
     { label: 'English', value: 'en' },
   ])
 

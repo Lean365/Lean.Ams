@@ -9,9 +9,7 @@ namespace Ams.WebApi.Extensions
     public static class SwaggerExtension
     {
         /// <summary>
-        /// Swagger配置
-        /// @Author: Lean365(Davis.Ching)
-        /// @Date: 2024-05-20
+        ///
         /// </summary>
         /// <param name="app"></param>
         public static void UseSwagger(this IApplicationBuilder app)
@@ -127,6 +125,7 @@ namespace Ams.WebApi.Extensions
                     //添加文档注释
                     var baseDir = AppContext.BaseDirectory;
                     c.IncludeXmlComments(Path.Combine(baseDir, "Ams.Model.xml"), true);
+                    c.IncludeXmlComments(Path.Combine(baseDir, "Ams.Statistics.xml"), true);
                     c.IncludeXmlComments(Path.Combine(baseDir, "Ams.Service.xml"), true);
                     c.IncludeXmlComments(Path.Combine(baseDir, "Ams.WebApi.xml"), true);
 

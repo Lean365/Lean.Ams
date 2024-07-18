@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using Ams.Infrastructure;
+﻿using Ams.Infrastructure;
 using Ams.Infrastructure.Model;
 using SqlSugar;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Ams.CodeGenerator
 {
@@ -51,7 +51,7 @@ namespace Ams.CodeGenerator
         /// <param name="str">字符串</param>
         /// <param name="s">开始</param>
         /// <param name="e">结束</param>
-        /// <returns></returns>
+        /// <returns></returns> 
         public static string GetValue(string str, string s, string e)
         {
             Regex rg = new("(?<=(" + s + "))[.\\s\\S]*?(?=(" + e + "))", RegexOptions.Multiline | RegexOptions.Singleline);

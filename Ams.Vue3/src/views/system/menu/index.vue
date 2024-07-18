@@ -21,12 +21,15 @@
           </el-form-item>
           <el-form-item :label="$t('common.tipIsStated')" prop="isStatus">
             <el-radio-group v-model="queryParams.isStatus">
-              <el-radio v-for="dict in options.sys_normal_disable" :key="dict.dictValue" :value="dict.dictValue">{{
+              <!-- <el-radio :value="-1">{{$t('common.all')}}</el-radio> -->
+              <el-radio v-for="dict in options.sys_normal_disable" :key="dict.dictValue"
+                :value="parseInt(dict.dictValue)">{{
                 dict.dictLabel }}</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item :label="$t('pmenu.isShow')" prop="visible">
             <el-radio-group v-model="queryParams.visible">
+              <!-- <el-radio :value="-1">{{$t('common.all')}}</el-radio> -->
               <el-radio v-for="dict in options.sys_menu_show" :key="dict.dictValue" :value="dict.dictValue">{{
                 dict.dictLabel }}</el-radio>
             </el-radio-group>
@@ -171,6 +174,7 @@
     queryParams: {
       menuName: undefined,
       visible: undefined,
+      isStatus: undefined,
       menuTypeIds: 'M,C',
       parentId: undefined
     },

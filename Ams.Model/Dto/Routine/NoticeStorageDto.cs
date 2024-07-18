@@ -1,10 +1,7 @@
 namespace Ams.Model.Dto.Routine
 {
     /// <summary>
-    /// 通知公告
-    /// 查询对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 通知公告表查询对象
     /// </summary>
     public class NoticeStorageQueryDto : PagerInfo
     {
@@ -15,10 +12,7 @@ namespace Ams.Model.Dto.Routine
     }
 
     /// <summary>
-    /// 通知公告
-    /// 输入对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 通知公告表输入对象
     /// </summary>
     public class NoticeStorageDto
     {

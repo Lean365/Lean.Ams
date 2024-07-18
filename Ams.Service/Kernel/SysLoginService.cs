@@ -1,4 +1,5 @@
 ﻿using Ams.Common;
+using Ams.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using UAParser;
 
@@ -6,9 +7,6 @@ namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 登录
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISysLoginService), ServiceLifetime = LifeTime.Transient)]
     public class SysLoginService : BaseService<LoginLog>, ISysLoginService

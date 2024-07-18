@@ -2,12 +2,6 @@
 
 namespace Ams.Service.IService.Routine
 {
-    /// <summary>
-    /// 文件存储服务接口
-    /// 业务层接口
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public interface IFileStorageService : IBaseService<FileStorage>
     {
         Task<long> InsertFile(FileStorage file);

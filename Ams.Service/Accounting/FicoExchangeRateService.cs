@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 汇率表
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/5 14:41:27
+    /// @Date: 2024/7/16 10:26:55
     /// </summary>
     [AppService(ServiceType = typeof(IFicoExchangeRateService), ServiceLifetime = LifeTime.Transient)]
     public class FicoExchangeRateService : BaseService<FicoExchangeRate>, IFicoExchangeRateService

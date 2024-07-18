@@ -164,7 +164,7 @@
         public static string HTML_SELECT_MULTI = "selectMulti";
 
         /// <summary>
-        /// 远程下拉
+        /// 下拉远程
         /// </summary>
         public static string HTML_SELECT_REMOTE = "selectRemote";
 

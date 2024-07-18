@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Reflection;
+using Ams.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Http;
 
-namespace Ams.Infrastructure.WebExtensions
+namespace Ams.Infrastructure
 {
-    /// <summary>
-    /// Entity Extension
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public static class EntityExtension
     {
         public static TSource ToCreate<TSource>(this TSource source, HttpContext? context = null)

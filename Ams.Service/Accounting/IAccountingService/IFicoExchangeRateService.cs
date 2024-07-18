@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 汇率表
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/5 14:41:27
+    /// @Date: 2024/7/16 10:26:55
     /// </summary>
     public interface IFicoExchangeRateService : IBaseService<FicoExchangeRate>
     {

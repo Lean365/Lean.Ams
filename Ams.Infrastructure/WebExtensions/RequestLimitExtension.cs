@@ -6,11 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Ams.Infrastructure.WebExtensions
 {
-    /// <summary>
-    /// 请求设置
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public static class RequestLimitExtension
     {
         /// <summary>

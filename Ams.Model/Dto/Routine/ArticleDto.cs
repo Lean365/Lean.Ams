@@ -1,12 +1,8 @@
-﻿namespace Ams.Model.Dto.Routine
+﻿using Ams.Model.Enums;
+
+namespace Ams.Model.Dto.Routine
 
 {
-    /// <summary>
-    /// 文章内容
-    /// 查询对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class ArticleQueryDto : PagerInfo
     {
         public long? UserId { get; set; }
@@ -42,10 +38,7 @@
     }
 
     /// <summary>
-    /// 文章内容
     /// 输入输出对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     public class ArticleDto
     {

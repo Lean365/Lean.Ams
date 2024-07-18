@@ -1,27 +1,18 @@
 ﻿namespace Ams.Service.Signalr
 {
-    /// <summary>
-    /// 在线用户信息
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class OnlineUsers
     {
         /// <summary>
         /// 客户端连接Id
         /// </summary>
         public string ConnnectionId { get; set; }
-
         /// <summary>
         /// 用户id
         /// </summary>
         public long Userid { get; set; }
-
         public string Name { get; set; }
         public DateTime LoginTime { get; set; }
         public string UserIP { get; set; }
-
         /// <summary>
         /// 登录地点
         /// </summary>
@@ -31,17 +22,14 @@
         /// 判断用户唯一
         /// </summary>
         public string Uuid { get; set; }
-
         /// <summary>
         /// 浏览器
         /// </summary>
         public string Browser { get; set; }
-
         /// <summary>
         /// 平台
         /// </summary>
         public string Platform { get; set; } = string.Empty;
-
         /// <summary>
         /// 在线时长
         /// </summary>
@@ -53,29 +41,24 @@
                 return Math.Round(ts.TotalMinutes, 2);
             }
         }
-
         /// <summary>
         /// 今日在线时长
         /// </summary>
         public double TodayOnlineTime { get; set; }
-
         /// <summary>
         /// 在线设备数
         /// </summary>
         public int ClientNum { get; set; }
-
         /// <summary>
         /// 客户端id
         /// </summary>
         public string ClientId { get; set; }
-
         /// <summary>
-        ///
+        /// 
         /// </summary>
         public OnlineUsers()
         {
         }
-
         public OnlineUsers(string clientid, string name, long userid, string userip, string browser)
         {
             ConnnectionId = clientid;

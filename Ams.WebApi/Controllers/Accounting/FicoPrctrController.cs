@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 利润中心
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/5 11:21:00
+    /// @Date: 2024/7/16 10:26:49
     /// </summary>
     [Verify]
     [Route("Accounting/FicoPrctr")]
@@ -156,7 +156,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<FicoPrctrImportTpl>() { }, "FicoPrctr_tpl");
+            var result = DownloadImportTemplate(new List<FicoPrctrDto>() { }, "FicoPrctr");
             return ExportExcel(result.Item2, result.Item1);
         }
 

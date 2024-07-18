@@ -1,10 +1,14 @@
+using Ams.Infrastructure.Attribute;
+using Ams.Model;
+using Ams.Model.Dto.Routine;
+using Ams.Model.Kernel;
+using Ams.Repository;
+using Ams.Service.IService;
+
 namespace Ams.Service.Routine
 {
     /// <summary>
     /// 邮件模板Service业务层处理
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(IEmailTplService), ServiceLifetime = LifeTime.Transient)]
     public class EmailTplService : BaseService<EmailTpl>, IEmailTplService
@@ -26,6 +30,7 @@ namespace Ams.Service.Routine
 
             return response;
         }
+
 
         /// <summary>
         /// 获取详情
@@ -60,5 +65,6 @@ namespace Ams.Service.Routine
         {
             return Update(model, true);
         }
+
     }
 }

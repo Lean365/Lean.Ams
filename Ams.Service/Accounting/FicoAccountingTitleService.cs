@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 会计科目
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/5 11:12:53
+    /// @Date: 2024/7/16 10:27:04
     /// </summary>
     [AppService(ServiceType = typeof(IFicoAccountingTitleService), ServiceLifetime = LifeTime.Transient)]
     public class FicoAccountingTitleService : BaseService<FicoAccountingTitle>, IFicoAccountingTitleService

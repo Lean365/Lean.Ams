@@ -1,13 +1,11 @@
 using System.Collections;
 using Ams.Infrastructure;
+using Ams.Infrastructure.Attribute;
 
 namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 角色
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISysRoleService), ServiceLifetime = LifeTime.Transient)]
     public class SysRoleService : BaseService<SysRole>, ISysRoleService

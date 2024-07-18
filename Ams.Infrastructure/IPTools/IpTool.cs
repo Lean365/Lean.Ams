@@ -5,11 +5,6 @@ using IP2Region.Net.XDB;
 
 namespace Ams.Infrastructure.IPTools
 {
-    /// <summary>
-    /// IP工具类
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class IpTool
     {
         private static readonly string DbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ip2region.xdb");

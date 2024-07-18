@@ -1,10 +1,11 @@
-﻿namespace Ams.Service.Kernel
+﻿using Ams.Infrastructure.Attribute;
+using Ams.Model.Kernel;
+using Ams.Service.IService;
+
+namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 用户岗位
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISysUserPostService), ServiceLifetime = LifeTime.Transient)]
     public class SysUserPostService : BaseService<SysUserPost>, ISysUserPostService

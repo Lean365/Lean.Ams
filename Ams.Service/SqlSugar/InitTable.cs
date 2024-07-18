@@ -1,12 +1,11 @@
-﻿using SqlSugar.IOC;
+﻿using Ams.Model.Accounting;
+using Ams.Model.Logistics;
+using SqlSugar.IOC;
 
 namespace Ams.Service.SqlSugar
 {
     /// <summary>
     /// 初始化表
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     public class InitTable
     {
@@ -57,6 +56,68 @@ namespace Ams.Service.SqlSugar
             db.CodeFirst.InitTables(typeof(ArticleComment));
             db.CodeFirst.InitTables(typeof(ArticleTopic));
             db.CodeFirst.InitTables(typeof(Banner));
+
+            //机构管理
+            db.CodeFirst.InitTables(typeof(InstKpi));
+            db.CodeFirst.InitTables(typeof(InstFormula));
+            db.CodeFirst.InitTables(typeof(InstInfo));
+
+            //源数据
+            db.CodeFirst.InitTables(typeof(PpSourceMaterial));
+            db.CodeFirst.InitTables(typeof(PpSourceEcMa));
+            db.CodeFirst.InitTables(typeof(PpSourceEcSlv));
+            db.CodeFirst.InitTables(typeof(PpSourceOrder));
+            db.CodeFirst.InitTables(typeof(PpSourceOrderSerial));
+            db.CodeFirst.InitTables(typeof(PpSourceManhours));
+            db.CodeFirst.InitTables(typeof(PpSourceModelRegion));
+
+            //销售管理
+            db.CodeFirst.InitTables(typeof(SdClient));
+            db.CodeFirst.InitTables(typeof(SdCustomer));
+            db.CodeFirst.InitTables(typeof(SdSalesInvoice));
+            db.CodeFirst.InitTables(typeof(SdSellingPrice));
+
+            //财务管理
+            db.CodeFirst.InitTables(typeof(FicoCorpTitle));
+            db.CodeFirst.InitTables(typeof(FicoAccountingTitle));
+            db.CodeFirst.InitTables(typeof(FicoExchangeRate));
+            db.CodeFirst.InitTables(typeof(FicoPrctr));
+            db.CodeFirst.InitTables(typeof(FicoPeriod));
+            db.CodeFirst.InitTables(typeof(FicoBudgetAsset));
+            db.CodeFirst.InitTables(typeof(FicoBudgetExpense));
+            db.CodeFirst.InitTables(typeof(FicoBudgetOvertime));
+            db.CodeFirst.InitTables(typeof(FicoBudgetStaff));
+            db.CodeFirst.InitTables(typeof(FicoBudgetActualCost));
+            db.CodeFirst.InitTables(typeof(FicoDeptConsuming));
+            db.CodeFirst.InitTables(typeof(FicoMonthlyInventory));
+            db.CodeFirst.InitTables(typeof(FicoBomCosting));
+            db.CodeFirst.InitTables(typeof(FicoWageRates));
+            db.CodeFirst.InitTables(typeof(FicoAsset));
+
+            //物料管理
+            db.CodeFirst.InitTables(typeof(MmMara));
+            db.CodeFirst.InitTables(typeof(MmMarb));
+            db.CodeFirst.InitTables(typeof(MmMarc));
+            db.CodeFirst.InitTables(typeof(MmMbew));
+            db.CodeFirst.InitTables(typeof(MmPoResidue));
+            db.CodeFirst.InitTables(typeof(MmVendor));
+            db.CodeFirst.InitTables(typeof(MmSupplier));
+
+            db.CodeFirst.InitTables(typeof(PpCauseType));
+            //生产管理
+            db.CodeFirst.InitTables(typeof(PpLine));
+            db.CodeFirst.InitTables(typeof(PpOrder));
+            db.CodeFirst.InitTables(typeof(PpManhours));
+            db.CodeFirst.InitTables(typeof(PpEcMaster));
+            db.CodeFirst.InitTables(typeof(PpEcSlave));
+            db.CodeFirst.InitTables(typeof(PpOutputAssyMaster));
+            db.CodeFirst.InitTables(typeof(PpOutputAssySlave));
+            db.CodeFirst.InitTables(typeof(PpDefectAssyRepair));
+            //品质管理
+            db.CodeFirst.InitTables(typeof(PpOutputAssyMaster));
+            db.CodeFirst.InitTables(typeof(PpOutputAssySlave));
+            db.CodeFirst.InitTables(typeof(QmComplaintsMaster));
+            db.CodeFirst.InitTables(typeof(QmComplaintsSlave));
 
             //db.CodeFirst.InitTables(typeof(UserOnlineLog));
         }

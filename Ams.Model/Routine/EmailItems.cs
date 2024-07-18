@@ -2,9 +2,6 @@
 {
     /// <summary>
     /// 邮件发送记录
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("routine_email_items", "已发邮件")]
     [Tenant("0")]

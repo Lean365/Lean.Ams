@@ -1,10 +1,7 @@
 namespace Ams.Model.Dto.Routine
 {
     /// <summary>
-    /// 邮件发送
-    /// 查询对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 邮件发送记录查询对象
     /// </summary>
     public class EmailItemsQueryDto : PagerInfo
     {
@@ -16,10 +13,7 @@ namespace Ams.Model.Dto.Routine
     }
 
     /// <summary>
-    /// 邮件发送
-    /// 输入输出对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 邮件发送记录输入输出对象
     /// </summary>
     public class EmailItemsDto
     {

@@ -1,10 +1,7 @@
-﻿namespace Ams.Model.Dto.Login
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Ams.Model.Dto.Login
 {
-    /// <summary>
-    /// 登录请求参数
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class LoginBodyDto
     {
         /// <summary>
@@ -28,7 +25,6 @@
         /// 唯一标识
         /// </summary>
         public string Uuid { get; set; } = "";
-
         public string LoginIP { get; set; }
         public string ClientId { get; set; }
     }

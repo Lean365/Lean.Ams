@@ -4,8 +4,6 @@ namespace Ams.Infrastructure.Attribute
 {
     /// <summary>
     /// 自定义操作日志记录注解
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     public class LogAttribute : System.Attribute
     {

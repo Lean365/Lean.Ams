@@ -1,12 +1,8 @@
 ﻿using CSRedis;
+using Ams.Infrastructure;
 
-namespace Ams.Infrastructure.Cache
+namespace Ams.Common.Cache
 {
-    /// <summary>
-    /// Redis Server
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class RedisServer
     {
         public static CSRedisClient Cache;

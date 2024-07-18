@@ -1,4 +1,6 @@
 ﻿using Ams.Common.DynamicApiSimple;
+using Ams.Infrastructure;
+using Ams.Infrastructure.Attribute;
 using Ams.Infrastructure.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,9 +10,6 @@ namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 动态api示例，继承IDynamicApi，使用看swagger生成的地址
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(IHelloService), ServiceLifetime = LifeTime.Transient)]
     public class HelloService : BaseService<ArticleCategory>, IHelloService, IDynamicApi

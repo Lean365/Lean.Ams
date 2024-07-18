@@ -6,9 +6,6 @@ namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 种子数据处理
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     public class SeedDataService
     {

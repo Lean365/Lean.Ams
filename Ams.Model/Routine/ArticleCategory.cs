@@ -2,9 +2,6 @@
 {
     /// <summary>
     /// 文章目录
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("routine_article_catalog", "文章目录")]
     [Tenant("0")]

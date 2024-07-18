@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Ams.Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Ams.Common
 {
-    /// <summary>
-    /// 工具类
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class Tools
     {
         /// <summary>
@@ -32,12 +30,11 @@ namespace Ams.Common
             int[] infoIdss = Array.ConvertAll(strIds, s => int.Parse(s));
             return infoIdss;
         }
-
         public static T[] SplitAndConvert<T>(string input, char split = ',')
         {
             if (string.IsNullOrEmpty(input)) { return Array.Empty<T>(); }
             string[] parts = input.Split(split, (char)StringSplitOptions.RemoveEmptyEntries);
-            T[] result = Array.ConvertAll(parts, s => (T)Convert.ChangeType(s, typeof(T)));
+            T[] result =  Array.ConvertAll(parts, s => (T)Convert.ChangeType(s, typeof(T)));
             //for (int i = 0; i < parts.Length; i++)
             //{
             //    result[i] = (T)Convert.ChangeType(parts[i], typeof(T));
@@ -78,7 +75,6 @@ namespace Ams.Common
                 : (diffday / 7)) + 1 + (dayInMonth > firstWeekEndDay ? 1 : 0);
             return weekNumInMonth;
         }
-
         /// <summary>
         /// 判断一个字符串是否为url
         /// </summary>
@@ -97,7 +93,6 @@ namespace Ams.Common
                 return false;
             }
         }
-
         public static bool CheckUserName(string str)
         {
             try
@@ -144,9 +139,8 @@ namespace Ams.Common
 
             return true; //由数字、字母、符号构成的密码
         }
-
         ///<summary>
-        ///生成随机字符串
+        ///生成随机字符串 
         ///</summary>
         ///<param name="length">目标字符串的长度</param>
         ///<param name="useNum">是否包含数字，1=包含，默认为包含</param>

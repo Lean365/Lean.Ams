@@ -4,9 +4,6 @@ namespace Ams.Model.Vo
 {
     /// <summary>
     /// Treeselect树结构实体类
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     public class TreeSelectVo
     {

@@ -1,16 +1,11 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.Extensions.DependencyModel;
 
 namespace Ams.Infrastructure.Helper
 {
-    /// <summary>
-    /// AssemblyUtils
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public static class AssemblyUtils
     {
         /// <summary>
@@ -35,7 +30,6 @@ namespace Ams.Infrastructure.Helper
             var assemblies = GetAssemblies();
             return assemblies.SelectMany(p => p.GetTypes());
         }
-
         //获取泛型类名
         public static Type GetGenericTypeByName(string genericTypeName)
         {
@@ -49,11 +43,12 @@ namespace Ams.Infrastructure.Helper
                 {
                     return baseType?.GetGenericTypeDefinition();
                 }
+                
+
             }
 
             return type;
         }
-
         public static bool IsDerivedFromGenericBaseRepository(this Type? type, Type genericBase)
         {
             while (type != null && type != typeof(object))

@@ -1,10 +1,7 @@
 ﻿namespace Ams.Model.Kernel
 {
     /// <summary>
-    /// 系统角色 sys_role
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 角色表 sys_role
     /// </summary>
     [SugarTable("sys_role", "系统角色")]
     [Tenant("0")]

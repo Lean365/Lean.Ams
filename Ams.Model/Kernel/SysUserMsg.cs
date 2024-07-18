@@ -2,9 +2,6 @@ namespace Ams.Model.Kernel
 {
     /// <summary>
     /// 用户系统消息
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("sys_user_msg", "用户消息")]
     [Tenant(0)]

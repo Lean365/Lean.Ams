@@ -4,32 +4,23 @@ using System.Linq;
 
 namespace Ams.Infrastructure.Model
 {
-    /// <summary>
-    /// TokenModel
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class TokenModel
     {
         public long UserId { get; set; }
         public long DeptId { get; set; }
         public string UserName { get; set; }
-
         /// <summary>
         /// 角色集合
         /// </summary>
         public List<string> RoleIds { get; set; }
-
         /// <summary>
         /// 角色集合(数据权限过滤使用)
         /// </summary>
         public List<Roles> Roles { get; set; }
-
         /// <summary>
         /// Jwt过期时间
         /// </summary>
         public DateTime ExpireTime { get; set; }
-
         /// <summary>
         /// 权限集合
         /// </summary>

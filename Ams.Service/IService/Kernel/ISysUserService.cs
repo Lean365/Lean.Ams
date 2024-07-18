@@ -1,11 +1,9 @@
-﻿namespace Ams.Service.IService.Kernel
+﻿using Ams.Model;
+using Ams.Model.Dto.Login;
+using Ams.Model.Kernel;
+
+namespace Ams.Service.IService.Kernel
 {
-    /// <summary>
-    /// 系统用户
-    /// 业务层接口
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public interface ISysUserService : IBaseService<SysUser>
     {
         public PagedInfo<SysUser> SelectUserList(SysUserQueryDto user, PagerInfo pager);

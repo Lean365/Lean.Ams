@@ -27,6 +27,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Ams.CodeGenerator\Ams.CodeGenerator.csproj" />
 	  <ProjectReference Include="..\Ams.Service\Ams.Service.csproj" />
+	  <ProjectReference Include="..\Ams.Statistics\Ams.Statistics.csproj" />
 	  <ProjectReference Include="..\Ams.Tasks\Ams.Tasks.csproj" />
 	</ItemGroup>
 

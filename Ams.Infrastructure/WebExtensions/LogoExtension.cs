@@ -3,13 +3,8 @@ using Ams.Infrastructure.Helper;
 using JinianNet.JNTemplate;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Ams.Infrastructure.WebExtensions
+namespace Ams.Infrastructure
 {
-    /// <summary>
-    /// 打印Logo
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public static class LogoExtension
     {
         public static void AddLogo(this IServiceCollection services)

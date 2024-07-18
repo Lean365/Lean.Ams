@@ -2,9 +2,9 @@ namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 本地语言Service业务层处理
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    ///
+    /// @author Lean365(Davis.Ching)
+    /// @date 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISysLocaleLangService), ServiceLifetime = LifeTime.Transient)]
     public class SysLocaleLangService : BaseService<SysLocaleLang>, ISysLocaleLangService

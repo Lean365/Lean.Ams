@@ -146,7 +146,7 @@ import pageWelcomeCn from './pages/welcome/zh-cn.json'
 import pageWelcomeTw from './pages/welcome/zh-tw.json'
 import pageWelcomeJa from './pages/welcome/ja.json'
 import pageWelcomeEn from './pages/welcome/en.json'
-
+import pageWelcomeFr from './pages/welcome/fr.json'
 
 const i18n = createI18n({
   // 全局注入 $t 函数
@@ -267,6 +267,34 @@ const i18n = createI18n({
       ...pageUploadEn,
       ...pageUserEn,
       ...pageWelcomeEn,
+    },
+    fr: {
+      ...En,
+      ...vxeTableEn,
+      ...pageArticleEn,
+      ...pageComponentsEn,
+      ...pageAboutEn,
+      ...pageConfigEn,
+      ...pageDeptEn,
+      ...pageDictEn,
+      ...pageTaskEn,
+      ...pageErrorEn,
+      ...pageGenEn,
+      ...pageLangEn,
+      ...pageLogEn,
+      ...pageLoginEn,
+      ...pageMailEn,
+      ...pageMenuEn,
+      ...pageNoticeEn,
+      ...pageOnlineEn,
+      ...pagePostEn,
+      ...pageRightbarEn,
+      ...pageRoleEn,
+      ...pageStatEn,
+      ...pageTabsEn,
+      ...pageUploadEn,
+      ...pageUserEn,
+      ...pageWelcomeFr,
     }
     //... 在这里添加其他语言支持
   }

@@ -2,9 +2,6 @@ namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 用户在线时长Service业务层处理
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(IDurationLogService), ServiceLifetime = LifeTime.Transient)]
     public class DurationLogService : BaseService<DurationLog>, IDurationLogService

@@ -1,10 +1,7 @@
 namespace Ams.Model.Dto.Kernel
 {
     /// <summary>
-    /// 本地语言
-    /// 查询对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 本地语言查询对象
     /// </summary>
     public class SysLocaleLangQueryDto : PagerInfo
     {
@@ -17,10 +14,7 @@ namespace Ams.Model.Dto.Kernel
     }
 
     /// <summary>
-    /// 本地语言
-    /// 输入对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 本地语言输入对象
     /// </summary>
     public class SysLocaleLangDto
     {

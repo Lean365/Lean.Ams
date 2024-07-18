@@ -2,46 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Ams.Infrastructure.Extensions
 {
-    /// <summary>
-    /// LinqExtensions
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public static class LinqExtensions
     {
         public static Expression Property(this Expression expression, string propertyName)
         {
             return Expression.Property(expression, propertyName);
         }
-
         public static Expression AndAlso(this Expression left, Expression right)
         {
             return Expression.AndAlso(left, right);
         }
-
         public static Expression Call(this Expression instance, string methodName, params Expression[] arguments)
         {
             return Expression.Call(instance, instance.Type.GetMethod(methodName), arguments);
         }
-
         public static Expression GreaterThan(this Expression left, Expression right)
         {
             return Expression.GreaterThan(left, right);
         }
-
         public static Expression<T> ToLambda<T>(this Expression body, params ParameterExpression[] parameters)
         {
             return Expression.Lambda<T>(body, parameters);
         }
 
-        public static Expression<Func<T, bool>> True<T>()
-        { return param => true; }
+        public static Expression<Func<T, bool>> True<T>() { return param => true; }
 
-        public static Expression<Func<T, bool>> False<T>()
-        { return param => false; }
+        public static Expression<Func<T, bool>> False<T>() { return param => false; }
 
         /// <summary>
         /// 组合And
@@ -51,7 +42,6 @@ namespace Ams.Infrastructure.Extensions
         {
             return first.Compose(second, Expression.AndAlso);
         }
-
         /// <summary>
         /// 组合Or
         /// </summary>
@@ -64,7 +54,7 @@ namespace Ams.Infrastructure.Extensions
         /// <summary>
         /// Combines the first expression with the second using the specified merge function.
         /// </summary>
-        private static Expression<T> Compose<T>(this Expression<T> first, Expression<T> second, Func<Expression, Expression, Expression> merge)
+        static Expression<T> Compose<T>(this Expression<T> first, Expression<T> second, Func<Expression, Expression, Expression> merge)
         {
             var map = first.Parameters
                 .Select((f, i) => new { f, s = second.Parameters[i] })
@@ -81,17 +71,15 @@ namespace Ams.Infrastructure.Extensions
             /// <summary>
             /// The ParameterExpression map
             /// </summary>
-            private readonly Dictionary<ParameterExpression, ParameterExpression> map;
-
+            readonly Dictionary<ParameterExpression, ParameterExpression> map;
             /// <summary>
             /// Initializes a new instance of the <see cref="ParameterRebinder"/> class.
             /// </summary>
             /// <param name="map">The map.</param>
-            private ParameterRebinder(Dictionary<ParameterExpression, ParameterExpression> map)
+            ParameterRebinder(Dictionary<ParameterExpression, ParameterExpression> map)
             {
                 this.map = map ?? new Dictionary<ParameterExpression, ParameterExpression>();
             }
-
             /// <summary>
             /// Replaces the parameters.
             /// </summary>
@@ -102,7 +90,6 @@ namespace Ams.Infrastructure.Extensions
             {
                 return new ParameterRebinder(map).Visit(exp);
             }
-
             /// <summary>
             /// Visits the parameter.
             /// </summary>

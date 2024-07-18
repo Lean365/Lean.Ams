@@ -2,9 +2,6 @@ namespace Ams.Model.Monitor
 {
     /// <summary>
     /// 用户在线时长
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("monitor_duration_log", TableDescription = "在线时长")]
     [Tenant("0")]

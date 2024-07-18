@@ -1,10 +1,10 @@
+using Ams.Infrastructure;
+using Ams.Infrastructure.Helper;
+
 namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 短信验证码记录Service业务层处理
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(ISmsLogService), ServiceLifetime = LifeTime.Transient)]
     public class SmsLogService : BaseService<SmsLog>, ISmsLogService

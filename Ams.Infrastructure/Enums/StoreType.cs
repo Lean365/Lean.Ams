@@ -4,8 +4,6 @@ namespace Ams.Infrastructure.Enums
 {
     /// <summary>
     /// 文件存储位置
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     public enum StoreType
     {

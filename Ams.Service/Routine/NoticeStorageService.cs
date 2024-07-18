@@ -2,9 +2,9 @@ namespace Ams.Service.Kernel
 {
     /// <summary>
     /// 通知公告表Service业务层处理
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    ///
+    /// @author Lean365(Davis.Ching)
+    /// @date 2024-05-20
     /// </summary>
     [AppService(ServiceType = typeof(INoticeStorageService), ServiceLifetime = LifeTime.Transient)]
     public class NoticeStorageService : BaseService<NoticeStorage>, INoticeStorageService

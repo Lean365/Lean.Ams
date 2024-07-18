@@ -2,9 +2,6 @@
 {
     /// <summary>
     /// 任务日志
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("monitor_tasksqz_log", "任务日志")]
     [Tenant("0")]

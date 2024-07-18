@@ -1,11 +1,5 @@
 ﻿namespace Ams.Model.Monitor
 {
-    /// <summary>
-    /// 操作日志
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     [SugarTable("monitor_oper_log", "操作日志")]
     [Tenant("0")]
     public class OperLog : SysBase

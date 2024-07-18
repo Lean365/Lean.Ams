@@ -1,21 +1,15 @@
-﻿using System;
+﻿using Ams.Infrastructure.Helper;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ams.Infrastructure.Helper;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace Ams.Common.DynamicApiSimple;
 
-internal class ApiConvention : IApplicationModelConvention
+class ApiConvention : IApplicationModelConvention
 {
-    /// <summary>
-    /// This method is called after the <see cref="ApplicationModel"/> is created and can be used to modify or customize the <see cref="ControllerModel"/> and <see cref="ActionModel"/> instances.
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
-    /// <param name="application"></param>
     public void Apply(ApplicationModel application)
     {
         foreach (var controller in application.Controllers)
@@ -42,6 +36,7 @@ internal class ApiConvention : IApplicationModelConvention
             controller.Actions.Remove(actionModel);
         }
     }
+
 
     private static void ConfigureApiExplorer(ControllerModel controller)
     {
@@ -109,14 +104,15 @@ internal class ApiConvention : IApplicationModelConvention
     {
         foreach (var selector in action.Selectors)
         {
-            var template = new Microsoft.AspNetCore.Mvc.RouteAttribute(GetRouteTemplate(action, selector));
+            var template = new Microsoft.AspNetCore.Mvc.RouteAttribute(GetRouteTemplate(action,selector));
             selector.AttributeRouteModel = new AttributeRouteModel(template);
             if (selector.ActionConstraints.OfType<HttpMethodActionConstraint>().FirstOrDefault()?.HttpMethods?.FirstOrDefault() == null)
                 selector.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { GetHttpMethod(action) }));
+
         }
     }
 
-    private string GetRouteTemplate(ActionModel action, SelectorModel selectorModel = null)
+    private string GetRouteTemplate(ActionModel action,SelectorModel selectorModel=null)
     {
         var routeTemplate = new StringBuilder();
         var names = action.Controller.ControllerType.Namespace.Split('.');
@@ -158,6 +154,7 @@ internal class ApiConvention : IApplicationModelConvention
                 routeTemplate.Append($"/{RemoveHttpMethodPrefix(actionName)}");
             }
         }
+        
 
         return routeTemplate.ToString();
     }
@@ -183,17 +180,17 @@ internal class ApiConvention : IApplicationModelConvention
                 result = Methods[key];
                 break;
             }
+
         }
         return result;
     }
-
     internal static Dictionary<string, string> Methods { get; private set; }
     internal static string BaseRoute { get; private set; } = "api";
-
     static ApiConvention()
     {
         Methods = new Dictionary<string, string>()
         {
+
             ["get"] = "GET",
             ["find"] = "GET",
             ["fetch"] = "GET",
@@ -210,8 +207,8 @@ internal class ApiConvention : IApplicationModelConvention
             ["clear"] = "DELETE",
             ["patch"] = "PATCH"
         };
-    }
 
+    }
     private static string RemoveHttpMethodPrefix(string actionName)
     {
         foreach (var method in Methods.Keys)

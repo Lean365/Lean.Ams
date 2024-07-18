@@ -1,10 +1,10 @@
 namespace Ams.Model.Routine
 {
     /// <summary>
-    /// 通知公告
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 通知公告表
+    ///
+    /// @author Lean365(Davis.Ching)
+    /// @date 2024-05-20
     /// </summary>
     [SugarTable("routine_notice_stroage", "通知公告")]
     [Tenant(0)]

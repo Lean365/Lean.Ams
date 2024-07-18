@@ -1,26 +1,23 @@
+using Ams.Infrastructure.Extensions;
+using Mapster;
+using SqlSugar;
+using SqlSugar.IOC;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
 using System.Reflection;
-using Ams.Infrastructure.Extensions;
 using Ams.Model;
-using Mapster;
-using SqlSugar;
-using SqlSugar.IOC;
 
 namespace Ams.Repository
 {
     /// <summary>
     /// 数据仓库类
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class BaseRepository<T> : SimpleClient<T> where T : class, new()
     {
         public ITenant itenant = null;//多租户事务
-
         public BaseRepository(ISqlSugarClient context = null) : base(context)
         {
             //通过特性拿到ConfigId
@@ -53,21 +50,17 @@ namespace Ams.Repository
         {
             return InsertRange(t) ? 1 : 0;
         }
-
         public int Insert(T parm, Expression<Func<T, object>> iClumns = null, bool ignoreNull = true)
         {
             return Context.Insertable(parm).InsertColumns(iClumns).IgnoreColumns(ignoreNullColumn: ignoreNull).ExecuteCommand();
         }
-
         public IInsertable<T> Insertable(T t)
         {
             return Context.Insertable(t);
         }
-
         #endregion add
 
         #region update
-
         //public IUpdateable<T> Updateable(T entity)
         //{
         //    return Context.Updateable(entity);
@@ -121,7 +114,6 @@ namespace Ams.Repository
         {
             return Context.Updateable<T>().SetColumns(columns).Where(where).RemoveDataCache().ExecuteCommand();
         }
-
         #endregion update
 
         public DbResult<bool> UseTran(Action action)
@@ -140,7 +132,7 @@ namespace Ams.Repository
         }
 
         /// <summary>
-        ///
+        /// 
         /// </summary>
         /// <param name="client"></param>
         /// <param name="action">增删改查方法</param>
@@ -174,7 +166,6 @@ namespace Ams.Repository
         }
 
         #region delete
-
         public IDeleteable<T> Deleteable()
         {
             return Context.Deleteable<T>();
@@ -184,17 +175,14 @@ namespace Ams.Repository
         {
             return Context.Deleteable<T>(id).EnableDiffLogEventIF(title.IsNotEmpty(), title).ExecuteCommand();
         }
-
         public int DeleteTable()
         {
             return Context.Deleteable<T>().ExecuteCommand();
         }
-
         public bool Truncate()
         {
             return Context.DbMaintenance.TruncateTable<T>();
         }
-
         #endregion delete
 
         #region query
@@ -223,7 +211,6 @@ namespace Ams.Repository
         {
             return Context.Queryable<T>().InSingle(pkValue);
         }
-
         /// <summary>
         /// 根据条件查询分页数据
         /// </summary>

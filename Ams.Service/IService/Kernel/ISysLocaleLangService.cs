@@ -2,9 +2,9 @@ namespace Ams.Service.IService.Kernel
 {
     /// <summary>
     /// 本地语言service接口
-    /// 业务层接口
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    ///
+    /// @author Lean365(Davis.Ching)
+    /// @date 2024-05-20
     /// </summary>
     public interface ISysLocaleLangService : IBaseService<SysLocaleLang>
     {

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using Ams.CodeGenerator.Model;
 using Ams.Infrastructure;
-using Ams.Infrastructure.CustomExceptions;
 using Ams.Infrastructure.Extensions;
 using Ams.Infrastructure.Helper;
 using Ams.Infrastructure.Model;
@@ -89,7 +88,6 @@ namespace Ams.CodeGenerator
 
             replaceDto.UploadFile = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_IMAGE_UPLOAD) || f.HtmlType.Equals(GenConstants.HTML_FILE_UPLOAD)) ? 1 : 0;
             replaceDto.SelectMulti = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_SELECT_MULTI)) ? 1 : 0;
-            replaceDto.SelectRemote = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_SELECT_REMOTE)) ? 1 : 0;
             replaceDto.ShowEditor = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_EDITOR)) ? 1 : 0;
             replaceDto.FistLowerPk = replaceDto.PKName.FirstLowerCase();
             InitJntTemplate(dto, replaceDto);
@@ -124,9 +122,9 @@ namespace Ams.CodeGenerator
             dto.ReplaceDto = replaceDto;
         }
 
-        private static GeneratorOption GenerateOption(GenTable genTable)
+        private static CodeGeneratorOption GenerateOption(GenTable genTable)
         {
-            GeneratorOption _option = new()
+            CodeGeneratorOption _option = new()
             {
                 BaseNamespace = genTable.BaseNameSpace,
                 SubNamespace = genTable.ModuleName.FirstUpperCase()
@@ -564,6 +562,9 @@ namespace Ams.CodeGenerator
             {
                 ColumnName = column.DbColumnName.FirstLowerCase(),
                 ColumnComment = column.ColumnDescription,
+                CsharpLength = column.Length,
+                CsharpDecimalDigits = column.DecimalDigits,
+
                 IsPk = column.IsPrimarykey,
                 ColumnType = dataType,
                 TableId = genTable.TableId,
@@ -576,10 +577,12 @@ namespace Ams.CodeGenerator
                 Create_time = DateTime.Now,
                 IsInsert = !column.IsIdentity || GenConstants.inputDtoNoField.Any(f => f.Contains(column.DbColumnName, StringComparison.OrdinalIgnoreCase)),//非自增字段都需要插入
                 IsEdit = true,
-                IsQuery = false,
+                IsQuery = !column.IsNullable && GetCSharpDatatype(dataType, optionsSetting.CodeGen.CsharpTypeArr).ToString() == "string" ? true : false,
                 IsExport = true,
-                HtmlType = GenConstants.HTML_INPUT,
+
+                HtmlType = GetCSharpDatatype(dataType, optionsSetting.CodeGen.CsharpTypeArr).ToString() == "int" || GetCSharpDatatype(dataType, optionsSetting.CodeGen.CsharpTypeArr).ToString() == "decimal" ? GenConstants.HTML_INPUT_NUMBER : GenConstants.HTML_INPUT,
             };
+
             //图片类型初始化上传路径
             if (GenConstants.imageFiled.Any(f => column.DbColumnName.ToLower().Contains(f.ToLower())))
             {
@@ -607,6 +610,7 @@ namespace Ams.CodeGenerator
             {
                 genTableColumn.HtmlType = GenConstants.HTML_TEXTAREA;
             }
+
             //编辑字段
             if (column.IsIdentity || column.IsPrimarykey || GenConstants.COLUMNNAME_NOT_EDIT.Any(f => column.DbColumnName.Contains(f)))
             {
@@ -637,6 +641,7 @@ namespace Ams.CodeGenerator
             {
                 genTableColumn.IsExport = false;
             }
+
             return genTableColumn;
         }
 

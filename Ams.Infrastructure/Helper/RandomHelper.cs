@@ -3,11 +3,6 @@ using System.Text;
 
 namespace Ams.Infrastructure.Helper
 {
-    /// <summary>
-    /// 随机数帮助类
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class RandomHelper
     {
         /// <summary>

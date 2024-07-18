@@ -1,0 +1,113 @@
+using Microsoft.AspNetCore.Mvc;
+using Ams.Model.Accounting.Dto;
+using Ams.Model.Accounting;
+using Ams.Service.Accounting.IAccountingService;
+using MiniExcelLibs;
+
+
+namespace Ams.WebApi.Controllers.Accounting
+{
+    /// <summary>
+    /// 月度存货
+    /// API控制器
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024/7/16 11:45:33
+    /// </summary>
+    [Verify]
+    [Route("Accounting/FicoMonthlyInventory")]
+    [ApiExplorerSettings(GroupName = "accounting")]
+    public class FicoMonthlyInventoryController : BaseController
+    {
+        /// <summary>
+        /// 月度存货接口
+        /// </summary>
+        private readonly IFicoMonthlyInventoryService _FicoMonthlyInventoryService;
+
+        public FicoMonthlyInventoryController(IFicoMonthlyInventoryService FicoMonthlyInventoryService)
+        {
+            _FicoMonthlyInventoryService = FicoMonthlyInventoryService;
+        }
+
+        /// <summary>
+        /// 查询月度存货列表
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        [HttpGet("list")]
+        [ActionPermissionFilter(Permission = "fico:monthlyinventory:list")]
+        public IActionResult QueryFicoMonthlyInventory([FromQuery] FicoMonthlyInventoryQueryDto parm)
+        {
+            var response = _FicoMonthlyInventoryService.GetList(parm);
+            return SUCCESS(response);
+        }
+
+
+        /// <summary>
+        /// 查询月度存货详情
+        /// </summary>
+        /// <param name="MiSFID"></param>
+        /// <returns></returns>
+        [HttpGet("{MiSFID}")]
+        [ActionPermissionFilter(Permission = "fico:monthlyinventory:query")]
+        public IActionResult GetFicoMonthlyInventory(long MiSFID)
+        {
+            var response = _FicoMonthlyInventoryService.GetInfo(MiSFID);
+            
+            var info = response.Adapt<FicoMonthlyInventoryDto>();
+            return SUCCESS(info);
+        }
+
+        /// <summary>
+        /// 导出月度存货
+        /// </summary>
+        /// <returns></returns>
+        [Log(Title = "月度存货", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [HttpGet("export")]
+        [ActionPermissionFilter(Permission = "fico:monthlyinventory:export")]
+        public IActionResult Export([FromQuery] FicoMonthlyInventoryQueryDto parm)
+        {
+            parm.PageNum = 1;
+            parm.PageSize = 100000;
+            var list = _FicoMonthlyInventoryService.ExportList(parm).Result;
+            if (list == null || list.Count <= 0)
+            {
+                return ToResponse(ResultCode.FAIL, "没有要导出的数据");
+            }
+            var result = ExportExcelMini(list, "月度存货", "月度存货");
+            return ExportExcel(result.Item2, result.Item1);
+        }
+
+        /// <summary>
+        /// 导入
+        /// </summary>
+        /// <param name="formFile"></param>
+        /// <returns></returns>
+        [HttpPost("importData")]
+        [Log(Title = "月度存货导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
+        [ActionPermissionFilter(Permission = "fico:monthlyinventory:import")]
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        {
+            List<FicoMonthlyInventoryDto> list = new();
+            using (var stream = formFile.OpenReadStream())
+            {
+                list = stream.Query<FicoMonthlyInventoryDto>(startCell: "A1").ToList();
+            }
+
+            return SUCCESS(_FicoMonthlyInventoryService.ImportFicoMonthlyInventory(list.Adapt<List<FicoMonthlyInventory>>()));
+        }
+
+        /// <summary>
+        /// 月度存货导入模板下载
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("importTemplate")]
+        [Log(Title = "月度存货模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [AllowAnonymous]
+        public IActionResult ImportTemplateExcel()
+        {
+            var result = DownloadImportTemplate(new List<FicoMonthlyInventoryDto>() { }, "FicoMonthlyInventory");
+            return ExportExcel(result.Item2, result.Item1);
+        }
+
+    }
+}

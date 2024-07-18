@@ -3,10 +3,7 @@ using Ams.Model.Dto.Routine;
 namespace Ams.Model.Dto.Kernel
 {
     /// <summary>
-    /// 用户系统消息
-    /// 查询对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 用户系统消息查询对象
     /// </summary>
     public class SysUserMsgQueryDto : PagerInfo
     {
@@ -17,10 +14,7 @@ namespace Ams.Model.Dto.Kernel
     }
 
     /// <summary>
-    /// 用户系统消息
-    /// 输入输出对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 用户系统消息输入输出对象
     /// </summary>
     public class SysUserMsgDto
     {

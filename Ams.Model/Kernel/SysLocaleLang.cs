@@ -3,10 +3,7 @@ using System.ComponentModel;
 namespace Ams.Model.Kernel
 {
     /// <summary>
-    /// 本地语言
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 本地语言，数据实体对象
     /// </summary>
     [Tenant("0")]
     [SugarTable("sys_locale_lang", "本地语言")]

@@ -1,11 +1,5 @@
 ﻿namespace Ams.Model.Kernel
 {
-    /// <summary>
-    /// 系统岗位
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     [SugarTable("sys_post", "系统岗位")]
     [Tenant("0")]
     public class SysPost : SysBase

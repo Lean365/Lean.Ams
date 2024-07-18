@@ -4,8 +4,6 @@ namespace Ams.Model.GeneratorTableColumn
 {
     /// <summary>
     /// 代码生成表字段
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("gen_table_column", "代码生成表字段")]
     [Tenant("0")]
@@ -61,6 +59,17 @@ namespace Ams.Model.GeneratorTableColumn
         /// C# 字段名 首字母大写
         /// </summary>
         public string CsharpField { get; set; }
+
+        /// <summary>
+        /// C# 字段长度
+        /// </summary>
+
+        public int? CsharpLength { get; set; }
+        /// <summary>
+        /// C# 精度
+        /// </summary>
+
+        public int? CsharpDecimalDigits { get; set; }
 
         /// <summary>
         /// 是否主键（1是）

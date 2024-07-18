@@ -1,10 +1,5 @@
 ﻿namespace Ams.Model.Dto.Login
 {
-    /// <summary>
-    /// 手机登录DTO
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class PhoneLoginDto
     {
         /// <summary>

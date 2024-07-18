@@ -1,44 +1,33 @@
 ﻿using Ams.Infrastructure;
 using SqlSugar.IOC;
+using Ams.Model.Kernel;
 
 namespace Ams.Service.SqlSugar
 {
-    /// <summary>
-    /// 数据权限枚举
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public enum DataPermiEnum
     {
         None = 0,
-
         /// <summary>
         /// 全部数据权限
         /// </summary>
         All = 1,
-
         /// <summary>
         /// 仅本人数据权限
         /// </summary>
         SELF = 5,
-
         /// <summary>
         /// 部门数据权限
         /// </summary>
         DEPT = 3,
-
         /// <summary>
         /// 自定数据权限
         /// </summary>
         CUSTOM = 2,
-
         /// <summary>
         /// 部门及以下数据权限
         /// </summary>
         DEPT_CHILD = 4
     }
-
     /// <summary>
     /// 数据权限
     /// </summary>
@@ -53,13 +42,13 @@ namespace Ams.Service.SqlSugar
             //获取当前用户的信息
             var user = JwtUtil.GetLoginUser(App.HttpContext);
             if (user == null) return;
-
+            
             var db = DbScoped.SugarScope.GetConnectionScope(configId);
             var expUser = Expressionable.Create<SysUser>().And(it => it.IsDeleted == 0);
             var expRole = Expressionable.Create<SysRole>();
             var expLoginlog = Expressionable.Create<LoginLog>();
             var expSysMsg = Expressionable.Create<SysUserMsg>().And(it => it.IsDelete == 0);
-
+            
             db.QueryFilter.AddTableFilter(expSysMsg.ToExpression());
             //管理员不过滤
             if (user.RoleIds.Any(f => f.Equals(GlobalConstant.AdminRole))) return;

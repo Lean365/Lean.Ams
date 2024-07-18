@@ -1,11 +1,10 @@
 ﻿namespace Ams.Model.Kernel
 {
     /// <summary>
-    /// 系统参数
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
+    /// 参数配置，数据实体对象
+    ///
+    /// @author mr.zhao
+    /// @date 2021-09-29
     /// </summary>
     [SugarTable("sys_config", "系统参数")]
     [Tenant("0")]

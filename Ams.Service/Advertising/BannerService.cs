@@ -1,12 +1,10 @@
+using Ams.Infrastructure.Attribute;
 using Mapster;
 
 namespace Ams.Service.Advertising
 {
     /// <summary>
-    /// 横幅广告
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 横幅广告Service业务层处理
     /// </summary>
     [AppService(ServiceType = typeof(IBannerService), ServiceLifetime = LifeTime.Transient)]
     public class BannerService : BaseService<Banner>, IBannerService

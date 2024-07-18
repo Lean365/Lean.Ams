@@ -2,9 +2,6 @@ namespace Ams.Model.Routine
 {
     /// <summary>
     /// 话题
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     [SugarTable("routine_article_topic", TableDescription = "文章话题")]
     [Tenant(0)]

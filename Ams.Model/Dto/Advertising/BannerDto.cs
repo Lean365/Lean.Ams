@@ -1,10 +1,7 @@
 namespace Ams.Model.Dto.Advertising
 {
     /// <summary>
-    /// 横幅广告
-    /// 查询对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 横幅广告查询对象
     /// </summary>
     public class BannerQueryDto : PagerInfo
     {
@@ -15,10 +12,7 @@ namespace Ams.Model.Dto.Advertising
     }
 
     /// <summary>
-    /// 横幅广告
-    /// 输入输出对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// 横幅广告输入输出对象
     /// </summary>
     public class BannerDto
     {

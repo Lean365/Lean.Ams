@@ -1,10 +1,7 @@
-﻿namespace Ams.Model.Dto.Login
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Ams.Model.Dto.Login
 {
-    /// <summary>
-    /// 注册Dto
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class RegisterDto
     {
         /// <summary>
@@ -18,10 +15,8 @@
         /// </summary>
         [Required(ErrorMessage = "密码不能为空")]
         public string Password { get; set; }
-
         [Required(ErrorMessage = "确认密码不能为空")]
         public string ConfirmPassword { get; set; }
-
         /// <summary>
         /// 验证码
         /// </summary>
@@ -31,12 +26,10 @@
         /// 唯一标识
         /// </summary>
         public string Uuid { get; set; } = "";
-
         /// <summary>
         /// 头像
         /// </summary>
         public string Photo { get; set; }
-
         public string UserIP { get; set; }
     }
 }

@@ -1,10 +1,7 @@
 ﻿namespace Ams.Model.Kernel
 {
     /// <summary>
-    /// 系统菜单
-    /// 数据实体对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
+    /// Sys_menu表
     /// </summary>
     [SugarTable("sys_menu", "系统菜单")]
     [Tenant("0")]
@@ -65,7 +62,7 @@
         /// <summary>
         /// 显示状态（0显示 1隐藏）
         /// </summary>
-        [SugarColumn(DefaultValue = "0")]
+        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string Visible { get; set; }
 
         /// <summary>

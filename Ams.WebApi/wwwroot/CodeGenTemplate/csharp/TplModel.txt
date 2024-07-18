@@ -21,6 +21,7 @@ $if(item.IsPk || item.IsIncrement)
 $if(item.CsharpType == "long" && replaceDto.useSnowflakeId == true && item.IsPk)
         [JsonConverter(typeof(ValueToStringConverter))]
 $end
+
         [SugarColumn(IsPrimaryKey = ${item.IsPk.ToString().ToLower()}, IsIdentity = ${item.IsIncrement.ToString().ToLower()}$if(item.CsharpField.ToLower() != item.ColumnName.ToLower()), ColumnName = "$item.ColumnName"$end)]
 $elseif(item.CsharpField.ToLower() != item.ColumnName.ToLower())
         [SugarColumn(ColumnName = "$item.ColumnName")]
@@ -32,6 +33,10 @@ $elseif(item.AutoFillType == 3 && item.CsharpType == "DateTime")
         [SugarColumn(InsertServerTime = true, UpdateServerTime = true)]
 $elseif(item.AutoFillType == 1)
         [SugarColumn(IsOnlyIgnoreUpdate = true)]
+$elseif(item.CsharpType == "int" || item.CsharpType == "decimal")
+        [SugarColumn(ColumnName="$item.CsharpField", ColumnDescription = "${item.ColumnComment} ${item.Remark}",DefaultValue = "0"$if(item.CsharpType == "decimal"),Length = $item.CsharpLength, DecimalDigits = $item.CsharpDecimalDigits$end)]
+$elseif(item.CsharpType == "string")
+        [SugarColumn(ColumnName="$item.CsharpField", ColumnDescription = "${item.ColumnComment} ${item.Remark}",Length = $item.CsharpLength)]
 $end
         public $item.CsharpType$item.RequiredStr $item.CsharpField { get; set; }
 

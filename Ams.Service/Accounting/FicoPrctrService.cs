@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 利润中心
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/5 11:21:00
+    /// @Date: 2024/7/16 10:26:49
     /// </summary>
     [AppService(ServiceType = typeof(IFicoPrctrService), ServiceLifetime = LifeTime.Transient)]
     public class FicoPrctrService : BaseService<FicoPrctr>, IFicoPrctrService
@@ -132,6 +132,7 @@ namespace Ams.Service.Accounting
                 {
                     FpCorpLabel = it.FpCorp.GetConfigValue<SysDictData>("sys_crop_list"),
                     FpTypeLabel = it.FpType.GetConfigValue<SysDictData>("sys_costs_type"),
+                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
 

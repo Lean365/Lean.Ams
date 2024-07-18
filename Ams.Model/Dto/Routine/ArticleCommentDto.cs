@@ -3,9 +3,6 @@
 {
     /// <summary>
     /// 评论
-    /// 查询对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
     /// </summary>
     public class MessageQueryDto : PagerInfo
     {
@@ -19,12 +16,6 @@
         public DateTime? EndTime { get; set; }
     }
 
-    /// <summary>
-    /// 文章评论
-    /// 输入输出对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class ArticleCommentDto
     {
         [JsonConverter(typeof(ValueToStringConverter))]

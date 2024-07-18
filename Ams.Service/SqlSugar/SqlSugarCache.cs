@@ -1,11 +1,7 @@
-﻿namespace Ams.Service.SqlSugar
+﻿using Ams.Common;
+
+namespace Ams.Service.SqlSugar
 {
-    /// <summary>
-    /// 缓存服务
-    /// 业务层处理
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class SqlSugarCache : ICacheService
     {
         public void Add<V>(string key, V value)

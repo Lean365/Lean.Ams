@@ -2,7 +2,7 @@
  * @Descripttion: 会计科目/fico_accounting_title
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/5 11:12:53
+ * @Date: 2024/7/16 10:27:04
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>

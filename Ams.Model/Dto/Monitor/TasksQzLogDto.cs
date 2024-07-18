@@ -1,11 +1,5 @@
 ﻿namespace Ams.Model.Dto.Monitor
 {
-    /// <summary>
-    /// 任务日志
-    /// 查询
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class TasksQzLogQueryDto
     {
         /// <summary>
@@ -21,12 +15,6 @@
         public DateTime? EndTime { get; set; }
     }
 
-    /// <summary>
-    /// 任务日志
-    /// 输入输出对象
-    /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024-05-20
-    /// </summary>
     public class TasksQzLogDto
     {
     }

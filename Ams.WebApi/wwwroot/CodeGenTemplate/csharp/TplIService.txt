@@ -24,7 +24,7 @@ namespace ${options.IServicsNamespace}.${options.SubNamespace}.I${options.SubNam
         /// <param name="${ReplaceDto.PKName}"></param>
         /// <returns></returns>
         ${replaceDto.ModelTypeName} GetInfo(${replaceDto.PKType} ${replaceDto.PKName});
-
+$if(replaceDto.ShowBtnAdd)
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -32,6 +32,7 @@ namespace ${options.IServicsNamespace}.${options.SubNamespace}.I${options.SubNam
         /// <param name="enterString"></param>
         /// <returns></returns>
         public string CheckInputUnique(string enterString);
+$end
 $if(genTable.TplCategory == "tree")
         /// <summary>
         /// 获取${genTable.FunctionName}树信息
@@ -40,7 +41,7 @@ $if(genTable.TplCategory == "tree")
         /// <returns></returns>
         List<${replaceDto.ModelTypeName}> GetTreeList(${replaceDto.ModelTypeName}QueryDto parm);
 $end
-
+$if(replaceDto.ShowBtnAdd)
         /// <summary>
         /// 新增
         /// ${genTable.FunctionName}
@@ -48,6 +49,7 @@ $end
         /// <param name="parm"></param>
         /// <returns></returns>
         ${replaceDto.ModelTypeName} Add${replaceDto.ModelTypeName}(${replaceDto.ModelTypeName} parm);
+$end
 $if(replaceDto.ShowBtnEdit)
 
         /// <summary>

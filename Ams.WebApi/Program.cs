@@ -1,7 +1,8 @@
 using System.Text.Json;
+using Ams.Common.Cache;
 using Ams.Common.DynamicApiSimple.Extens;
-using Ams.Infrastructure.Cache;
 using Ams.Infrastructure.Converter;
+using Ams.Infrastructure.WebExtensions;
 using Ams.Service.Signalr;
 using Ams.Service.SqlSugar;
 using Ams.WebApi.Extensions;
