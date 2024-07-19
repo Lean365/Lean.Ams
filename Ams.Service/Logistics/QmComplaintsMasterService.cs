@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 主客诉管理
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 13:25:51
+    /// @Date: 2024/7/19 8:33:20
     /// </summary>
     [AppService(ServiceType = typeof(IQmComplaintsMasterService), ServiceLifetime = LifeTime.Transient)]
     public class QmComplaintsMasterService : BaseService<QmComplaintsMaster>, IQmComplaintsMasterService
@@ -141,8 +141,7 @@ namespace Ams.Service.Logistics
                 .Select((it) => new QmComplaintsMasterDto()
                 {
                     QmcmCustomerLabel = it.QmcmCustomer.GetConfigValue<SysDictData>("sql_cus_list"),
-                    QmcmModelLabel = it.QmcmModel.GetConfigValue<SysDictData>("sql_model_region"),
-                    QmcmItemLabel = it.QmcmItem.GetConfigValue<SysDictData>("sql_mats_list"),
+                    QmcmRegionLabel = it.QmcmRegion.GetConfigValue<SysDictData>("sql_sap_region"),
                     QmcmAdmitDeptLabel = it.QmcmAdmitDept.GetConfigValue<SysDictData>("sql_dept_list"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
@@ -162,7 +161,7 @@ namespace Ams.Service.Logistics
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QmcmDocNo), it => it.QmcmDocNo.Contains(parm.QmcmDocNo));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QmcmIssuesNo), it => it.QmcmIssuesNo.Contains(parm.QmcmIssuesNo));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QmcmCustomer), it => it.QmcmCustomer == parm.QmcmCustomer);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QmcmCustomer), it => it.QmcmCustomer.Contains(parm.QmcmCustomer));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QmcmModel), it => it.QmcmModel == parm.QmcmModel);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QmcmItem), it => it.QmcmItem == parm.QmcmItem);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QmcmRegion), it => it.QmcmRegion == parm.QmcmRegion);
@@ -172,6 +171,8 @@ namespace Ams.Service.Logistics
             predicate = predicate.AndIF(parm.BeginQmcmReceivingDate == null, it => it.QmcmReceivingDate >= new DateTime(DateTime.Now.Year, 1, 1));
             predicate = predicate.AndIF(parm.BeginQmcmReceivingDate != null, it => it.QmcmReceivingDate >= parm.BeginQmcmReceivingDate);
             predicate = predicate.AndIF(parm.EndQmcmReceivingDate != null, it => it.QmcmReceivingDate <= parm.EndQmcmReceivingDate);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QmcmRootcauseanalysis), it => it.QmcmRootcauseanalysis == parm.QmcmRootcauseanalysis);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QmcmAdmitDept), it => it.QmcmAdmitDept == parm.QmcmAdmitDept);
             //当日期条件为空时，默认查询大于今天的所有数据
             //predicate = predicate.AndIF(parm.BeginQmcmAdmitDate == null, it => it.QmcmAdmitDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据

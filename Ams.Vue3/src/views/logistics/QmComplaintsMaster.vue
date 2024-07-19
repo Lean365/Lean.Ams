@@ -2,7 +2,7 @@
  * @Descripttion: 主客诉管理/qm_complaints_master
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/16 13:25:51
+ * @Date: 2024/7/19 8:33:20
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -26,16 +26,16 @@
         </el-select>
       </el-form-item>
       <el-form-item label="机种" prop="qmcmModel">
-        <el-select filterable clearable   v-model="queryParams.qmcmModel" :placeholder="$t('btn.selectSearchPrefix')+'机种'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_model_region " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+        <el-select filterable clearable   remote remote-show-suffix :remote-method="remoteMethod_sql_oph_model" :loading="loading " v-model="queryParams.qmcmModel" :placeholder="$t('btn.selectSearchPrefix')+'机种'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   remotequery_sql_oph_model " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="物料" prop="qmcmItem">
-        <el-select filterable clearable   v-model="queryParams.qmcmItem" :placeholder="$t('btn.selectSearchPrefix')+'物料'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_mats_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+        <el-select filterable clearable   remote remote-show-suffix :remote-method="remoteMethod_sql_oph_marc" :loading="loading " v-model="queryParams.qmcmItem" :placeholder="$t('btn.selectSearchPrefix')+'物料'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   remotequery_sql_oph_marc " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -43,7 +43,7 @@
       </el-form-item>
       <el-form-item label="仕向" prop="qmcmRegion">
         <el-select filterable clearable   v-model="queryParams.qmcmRegion" :placeholder="$t('btn.selectSearchPrefix')+'仕向'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_model_region " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+          <el-option v-for="item in   options.sql_sap_region " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -59,6 +59,17 @@
           :default-time="defaultTime"
           :shortcuts="dateOptions">
         </el-date-picker>
+      </el-form-item>
+      <el-form-item label="分析" prop="qmcmRootcauseanalysis">
+        <el-input v-model="queryParams.qmcmRootcauseanalysis" :placeholder="$t('btn.enterSearchPrefix')+'分析'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="承认部门" prop="qmcmAdmitDept">
+        <el-select filterable clearable   v-model="queryParams.qmcmAdmitDept" :placeholder="$t('btn.selectSearchPrefix')+'承认部门'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_dept_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="承认日期">
         <el-date-picker
@@ -143,17 +154,17 @@
       </el-table-column>
       <el-table-column prop="qmcmModel" label="机种" align="center" v-if="columns.showColumn('qmcmModel')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_model_region " :value="scope.row.qmcmModel"  />
+          <dict-tag :options=" options.sql_oph_model " :value="scope.row.qmcmModel"  />
         </template>
       </el-table-column>
       <el-table-column prop="qmcmItem" label="物料" align="center" v-if="columns.showColumn('qmcmItem')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_mats_list " :value="scope.row.qmcmItem"  />
+          <dict-tag :options=" options.sql_oph_marc " :value="scope.row.qmcmItem"  />
         </template>
       </el-table-column>
       <el-table-column prop="qmcmRegion" label="仕向" align="center" v-if="columns.showColumn('qmcmRegion')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_model_region " :value="scope.row.qmcmRegion"  />
+          <dict-tag :options=" options.sql_sap_region " :value="scope.row.qmcmRegion"  />
         </template>
       </el-table-column>
       <el-table-column prop="qmcmOrder" label="订单" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('qmcmOrder')"/>
@@ -163,11 +174,7 @@
       <el-table-column prop="qmcmSerialno" label="序列号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('qmcmSerialno')"/>
       <el-table-column prop="qmcmReferenceDocs" label="参考文件" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('qmcmReferenceDocs')"/>
       <el-table-column prop="qmcmFaultDescription" label="症状" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('qmcmFaultDescription')"/>
-      <el-table-column prop="qmcmRootcauseanalysis" label="分析" align="center" v-if="columns.showColumn('qmcmRootcauseanalysis')">
-        <template #default="scope">
-          <dict-tag :options=" options.qmcmRootcauseanalysisOptions" :value="scope.row.qmcmRootcauseanalysis"  />
-        </template>
-      </el-table-column>
+      <el-table-column prop="qmcmRootcauseanalysis" label="分析" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('qmcmRootcauseanalysis')"/>
       <el-table-column prop="qmcmAdmitDept" label="承认部门" align="center" v-if="columns.showColumn('qmcmAdmitDept')">
         <template #default="scope">
           <dict-tag :options=" options.sql_dept_list " :value="scope.row.qmcmAdmitDept"  />
@@ -230,9 +237,10 @@
 
           <el-col :lg="12">
             <el-form-item label="机种" prop="qmcmModel">
-              <el-select filterable clearable   v-model="form.qmcmModel"  :placeholder="$t('btn.selectPrefix')+'机种'+$t('btn.selectSuffix')">
+              <el-select filterable clearable  remote remote-show-suffix :remote-method="remoteMethod_sql_oph_model" 
+              :loading="loading " v-model="form.qmcmModel"  :placeholder="$t('btn.selectPrefix')+'机种'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_model_region" 
+                  v-for="item in  remotequery_sql_oph_model" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -243,9 +251,10 @@
 
           <el-col :lg="12">
             <el-form-item label="物料" prop="qmcmItem">
-              <el-select filterable clearable   v-model="form.qmcmItem"  :placeholder="$t('btn.selectPrefix')+'物料'+$t('btn.selectSuffix')">
+              <el-select filterable clearable  remote remote-show-suffix :remote-method="remoteMethod_sql_oph_marc" 
+              :loading="loading " v-model="form.qmcmItem"  :placeholder="$t('btn.selectPrefix')+'物料'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_mats_list" 
+                  v-for="item in  remotequery_sql_oph_marc" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -258,7 +267,7 @@
             <el-form-item label="仕向" prop="qmcmRegion">
               <el-select filterable clearable   v-model="form.qmcmRegion"  :placeholder="$t('btn.selectPrefix')+'仕向'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_model_region" 
+                  v-for="item in  options.sql_sap_region" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -297,9 +306,9 @@
             </el-form-item>
           </el-col>
 
-          <el-col :lg="24">
+          <el-col :lg="12">
             <el-form-item label="参考文件" prop="qmcmReferenceDocs">
-              <UploadFile v-model="form.qmcmReferenceDocs" :data="{ uploadType: 1 }" />
+              <el-input v-model="form.qmcmReferenceDocs" :placeholder="$t('btn.enterPrefix')+'参考文件'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
@@ -309,18 +318,11 @@
             </el-form-item>
           </el-col>
 
-          <el-col :lg="12">
+          <el-col :lg="24">
             <el-form-item label="分析" prop="qmcmRootcauseanalysis">
-              <el-select filterable clearable   v-model="form.qmcmRootcauseanalysis"  :placeholder="$t('btn.selectPrefix')+'分析'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.qmcmRootcauseanalysisOptions" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
+              <el-input type="textarea" v-model="form.qmcmRootcauseanalysis" :placeholder="$t('btn.enterPrefix')+'分析'+$t('btn.enterSuffix')"/>
             </el-form-item>
           </el-col>
-
 
           <el-col :lg="12">
             <el-form-item label="承认部门" prop="qmcmAdmitDept">
@@ -578,6 +580,10 @@ const queryParams = reactive({
 //是否查询（1是）
   qmcmReceivingDate: undefined,
 //是否查询（1是）
+  qmcmRootcauseanalysis: undefined,
+//是否查询（1是）
+  qmcmAdmitDept: undefined,
+//是否查询（1是）
   qmcmAdmitDate: undefined,
 })
 //字段显示控制
@@ -613,54 +619,127 @@ const dataList = ref([])
 const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-
-
-
-
-
-
-
-
-
-
+//定义远程搜索变量
+const remotequeryList_sql_oph_model=ref([])
+//定义远程搜索变量
+const remotequery_sql_oph_model=ref([])
+//远程字典参数
+var remotedictParams_sql_oph_model = [
+    { dictType: "sql_oph_model" },
+]
+//远程搜索组件实例
+onMounted(() => {
+    proxy.getDicts(remotedictParams_sql_oph_model).then((response) => {
+      response.data.forEach((element) => {
+        remotequeryList_sql_oph_model.value = element.list
+      })
+      //console.log(remotequeryList_sql_oph_model)
+    })
+  })
+//远程搜索
+const remoteMethod_sql_oph_model = debounce((query) => {
+    if (query) {
+      loading.value = true
+      setTimeout(() => {
+        loading.value = false
+        // remotequery_sql_oph_model.value = remotequeryList_sql_oph_model.value.filter((item) => {
+        //   return item.dictValue.toLowerCase().includes(query.toLowerCase())
+        // })
+        filterMethod_sql_oph_model(query)
+      }, 2000)
+    } else {
+     //默认显示前15条记录
+      remotequery_sql_oph_model.value.slice(0, 15)
+    }
+  }, 300)
+// 筛选方法
+const filterMethod_sql_oph_model = debounce((query) => {
+    let arr = remotequeryList_sql_oph_model.value.filter((item) => {
+      return item.dictValue.toLowerCase().includes(query) || item.dictLabel.toLowerCase().includes(query);
+    })
+    if (arr.length > 5) {
+      remotequery_sql_oph_model.value = arr.slice(0, 5)
+      addFilterOptions_sql_oph_model(query)
+    } else {
+      remotequery_sql_oph_model.value = arr
+    }
+  }, 300)
+// 精准筛选方法
+const addFilterOptions_sql_oph_model =debounce((dictValue) => {
+    let target = remotequeryList_sql_oph_model.value.find((item) => {
+      return item.dictValue === dictValue
+    })
+    if (target) {
+      if (remotequery_sql_oph_model.value.toLowerCase().every(item => item.dictValue !== target.dictValue)) {
+        remotequery_sql_oph_model.value.toLowerCase().unshift(target)
+      }
+    }
+  }, 300)
+//定义远程搜索变量
+const remotequeryList_sql_oph_marc=ref([])
+//定义远程搜索变量
+const remotequery_sql_oph_marc=ref([])
+//远程字典参数
+var remotedictParams_sql_oph_marc = [
+    { dictType: "sql_oph_marc" },
+]
+//远程搜索组件实例
+onMounted(() => {
+    proxy.getDicts(remotedictParams_sql_oph_marc).then((response) => {
+      response.data.forEach((element) => {
+        remotequeryList_sql_oph_marc.value = element.list
+      })
+      //console.log(remotequeryList_sql_oph_marc)
+    })
+  })
+//远程搜索
+const remoteMethod_sql_oph_marc = debounce((query) => {
+    if (query) {
+      loading.value = true
+      setTimeout(() => {
+        loading.value = false
+        // remotequery_sql_oph_marc.value = remotequeryList_sql_oph_marc.value.filter((item) => {
+        //   return item.dictValue.toLowerCase().includes(query.toLowerCase())
+        // })
+        filterMethod_sql_oph_marc(query)
+      }, 2000)
+    } else {
+     //默认显示前15条记录
+      remotequery_sql_oph_marc.value.slice(0, 15)
+    }
+  }, 300)
+// 筛选方法
+const filterMethod_sql_oph_marc = debounce((query) => {
+    let arr = remotequeryList_sql_oph_marc.value.filter((item) => {
+      return item.dictValue.toLowerCase().includes(query) || item.dictLabel.toLowerCase().includes(query);
+    })
+    if (arr.length > 5) {
+      remotequery_sql_oph_marc.value = arr.slice(0, 5)
+      addFilterOptions_sql_oph_marc(query)
+    } else {
+      remotequery_sql_oph_marc.value = arr
+    }
+  }, 300)
+// 精准筛选方法
+const addFilterOptions_sql_oph_marc =debounce((dictValue) => {
+    let target = remotequeryList_sql_oph_marc.value.find((item) => {
+      return item.dictValue === dictValue
+    })
+    if (target) {
+      if (remotequery_sql_oph_marc.value.toLowerCase().every(item => item.dictValue !== target.dictValue)) {
+        remotequery_sql_oph_marc.value.toLowerCase().unshift(target)
+      }
+    }
+  }, 300)
 // 接收日期时间范围
 const dateRangeQmcmReceivingDate = ref([])
-
-
-
-
-
-
-
-
-
 // 承认日期时间范围
 const dateRangeQmcmAdmitDate = ref([])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //字典参数
 var dictParams = [
   { dictType: "sql_cus_list" },
-  { dictType: "sql_model_region" },
-  { dictType: "sql_mats_list" },
+  { dictType: "sql_sap_region" },
   { dictType: "sql_dept_list" },
   { dictType: "sys_is_deleted" },
 ]
@@ -743,14 +822,14 @@ const state = reactive({
     qmcmDocNo: [{ required: true, message: "客诉No."+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
     qmcmIssuesNo: [{ required: true, message: "外部客诉No."+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
     qmcmCustomer: [{ required: true, message: "客户"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    qmcmModel: [{ required: true, message: "机种"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    qmcmItem: [{ required: true, message: "物料"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    qmcmModel: [{ required: true, message: "机种"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    qmcmItem: [{ required: true, message: "物料"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
     qmcmRegion: [{ required: true, message: "仕向"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
     qmcmReceivingDate: [{ required: true, message: "接收日期"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
     qmcmFaultQty: [{ required: true, message: "数量"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
     qmcmSerialno: [{ required: true, message: "序列号"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
     qmcmFaultDescription: [{ required: true, message: "症状"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    qmcmRootcauseanalysis: [{ required: true, message: "分析"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    qmcmRootcauseanalysis: [{ required: true, message: "分析"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
     qmcmAdmitDept: [{ required: true, message: "承认部门"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
     qmcmAdmitDate: [{ required: true, message: "承认日期"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
     uDF51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
@@ -764,12 +843,8 @@ const state = reactive({
   options: {
     // 客户 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_cus_list: [],
-    // 机种 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_model_region: [],
-    // 物料 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_mats_list: [],
-    // 分析 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-qmcmRootcauseanalysisOptions: [],
+    // 仕向 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_sap_region: [],
     // 承认部门 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_dept_list: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
@@ -792,8 +867,8 @@ function reset() {
     qmcmDocNo: null,
     qmcmIssuesNo: null,
     qmcmCustomer: null,
-    qmcmModel: null,
-    qmcmItem: null,
+    qmcmModelChecked: [],
+    qmcmItemChecked: [],
     qmcmRegion: null,
     qmcmOrder: null,
     qmcmReceivingDate: null,
@@ -835,12 +910,9 @@ function handleAdd() {
   title.value = proxy.$t('btn.add')+" "+'主客诉管理'
   opertype.value = 1
   form.value.qmcmCustomer= []
-  form.value.qmcmModel= []
-  form.value.qmcmItem= []
   form.value.qmcmRegion= []
   form.value.qmcmReceivingDate= new Date()
   form.value.qmcmFaultQty= 0
-  form.value.qmcmRootcauseanalysis= []
   form.value.qmcmAdmitDept= []
   form.value.qmcmAdmitDate= new Date()
   form.value.createTime= new Date()

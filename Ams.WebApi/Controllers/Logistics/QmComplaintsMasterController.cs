@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 主客诉管理
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 13:25:51
+    /// @Date: 2024/7/19 8:33:20
     /// </summary>
     [Verify]
     [Route("Logistics/QmComplaintsMaster")]
@@ -156,7 +156,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<QmComplaintsMasterDto>() { }, "QmComplaintsMaster");
+            var result = DownloadImportTemplate(new List<QmComplaintsMasterImportTpl>() { }, "QmComplaintsMaster_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 
