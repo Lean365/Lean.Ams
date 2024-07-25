@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 原因类别
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 15:57:22
+    /// @Date: 2024/7/19 15:31:18
     /// </summary>
     [AppService(ServiceType = typeof(IPpCauseTypeService), ServiceLifetime = LifeTime.Transient)]
     public class PpCauseTypeService : BaseService<PpCauseType>, IPpCauseTypeService

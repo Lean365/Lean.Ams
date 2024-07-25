@@ -29,14 +29,14 @@ namespace Ams.Statistics.Routine
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        [HttpGet("NewWorkID")]
+        [HttpGet("MaxWorkNumber")]
         [ActionPermissionFilter(Permission = "routine:ehremployee:add")]
-        public IActionResult GetMaterialNo([FromQuery] RoutineEhrEmployeeQueryDto parm)
+        public IActionResult QueryMaxWorkNumber([FromQuery] RoutineEhrEmployeeQueryDto parm)
         {
             //DateTime firstDayOfYear = new DateTime(DateTime.Now.Year + 1, 1, 1); // 获取当前年份的第一天
             //DateTime lastDayOfYear = new DateTime(DateTime.Now.Year + 2, 1, 1).AddDays(-1); // 获取当前年份的最后一天（下一年的第一天再减去一天）
 
-            var response = _EmployeeStatiService.GetWorkMaxNum(parm);
+            var response = _EmployeeStatiService.GetMaxWorkNumber(parm);
             return SUCCESS(response);
         }
     }

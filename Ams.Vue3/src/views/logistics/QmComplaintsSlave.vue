@@ -2,7 +2,7 @@
  * @Descripttion: 从客诉管理/qm_complaints_slave
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/16 12:08:23
+ * @Date: 2024/7/19 8:39:58
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -33,8 +33,13 @@
           :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="原因分析" prop="qmcsCauseAnalysis">
-        <el-input v-model="queryParams.qmcsCauseAnalysis" :placeholder="$t('btn.enterSearchPrefix')+'原因分析'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="作业员" prop="qmcsOperator">
+        <el-select filterable clearable   v-model="queryParams.qmcsOperator" :placeholder="$t('btn.selectSearchPrefix')+'作业员'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_ec_group " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
       </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
@@ -110,7 +115,7 @@
       <el-table-column prop="qmcsCauseAnalysis" label="原因分析" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('qmcsCauseAnalysis')"/>
       <el-table-column prop="qmcsOperator" label="作业员" align="center" v-if="columns.showColumn('qmcsOperator')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_sop_group " :value="scope.row.qmcsOperator"  />
+          <dict-tag :options=" options.sql_ec_group " :value="scope.row.qmcsOperator"  />
         </template>
       </el-table-column>
       <el-table-column prop="qmcsStation" label="工位" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('qmcsStation')"/>
@@ -187,7 +192,7 @@
             <el-form-item label="作业员" prop="qmcsOperator">
               <el-select filterable clearable   v-model="form.qmcsOperator"  :placeholder="$t('btn.selectPrefix')+'作业员'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_sop_group" 
+                  v-for="item in  options.sql_ec_group" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -449,7 +454,7 @@ const queryParams = reactive({
 //是否查询（1是）
   qmcsProcessingDate: undefined,
 //是否查询（1是）
-  qmcsCauseAnalysis: undefined,
+  qmcsOperator: undefined,
 })
 //字段显示控制
 const columns = ref([
@@ -478,44 +483,13 @@ const dataList = ref([])
 const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-
-
-
-
-
 // 处理日期时间范围
 const dateRangeQmcsProcessingDate = ref([])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //字典参数
 var dictParams = [
   { dictType: "sql_line_list" },
-  { dictType: "sql_sop_group" },
+  { dictType: "sql_ec_group" },
   { dictType: "sys_is_deleted" },
 ]
 
@@ -604,7 +578,7 @@ const state = reactive({
     // 班组 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_line_list: [],
     // 作业员 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_sop_group: [],
+sql_ec_group: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_is_deleted: [],
   }

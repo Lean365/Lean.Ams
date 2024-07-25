@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 原因类别
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 15:57:22
+    /// @Date: 2024/7/19 15:31:18
     /// </summary>
     [Verify]
     [Route("Logistics/PpCauseType")]
@@ -156,7 +156,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<PpCauseTypeDto>() { }, "PpCauseType");
+            var result = DownloadImportTemplate(new List<PpCauseTypeImportTpl>() { }, "PpCauseType_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

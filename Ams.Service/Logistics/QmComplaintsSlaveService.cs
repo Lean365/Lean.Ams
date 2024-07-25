@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 从客诉管理
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 12:08:23
+    /// @Date: 2024/7/19 8:39:58
     /// </summary>
     [AppService(ServiceType = typeof(IQmComplaintsSlaveService), ServiceLifetime = LifeTime.Transient)]
     public class QmComplaintsSlaveService : BaseService<QmComplaintsSlave>, IQmComplaintsSlaveService
@@ -129,7 +129,7 @@ namespace Ams.Service.Logistics
                 .Select((it) => new QmComplaintsSlaveDto()
                 {
                     QmcsLineLabel = it.QmcsLine.GetConfigValue<SysDictData>("sql_line_list"),
-                    QmcsOperatorLabel = it.QmcsOperator.GetConfigValue<SysDictData>("sql_sop_group"),
+                    QmcsOperatorLabel = it.QmcsOperator.GetConfigValue<SysDictData>("sql_ec_group"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
@@ -154,7 +154,7 @@ namespace Ams.Service.Logistics
             predicate = predicate.AndIF(parm.BeginQmcsProcessingDate == null, it => it.QmcsProcessingDate >= new DateTime(DateTime.Now.Year, 1, 1));
             predicate = predicate.AndIF(parm.BeginQmcsProcessingDate != null, it => it.QmcsProcessingDate >= parm.BeginQmcsProcessingDate);
             predicate = predicate.AndIF(parm.EndQmcsProcessingDate != null, it => it.QmcsProcessingDate <= parm.EndQmcsProcessingDate);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QmcsCauseAnalysis), it => it.QmcsCauseAnalysis == parm.QmcsCauseAnalysis);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QmcsOperator), it => it.QmcsOperator == parm.QmcsOperator);
             return predicate;
         }
     }

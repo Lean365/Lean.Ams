@@ -1,4 +1,3 @@
-
 namespace Ams.Model.Logistics
 {
     /// <summary>
@@ -7,218 +6,186 @@ namespace Ams.Model.Logistics
     /// @Author: Lean365(Davis.Ching)
     /// @Date: 2024/7/19 8:33:20
     /// </summary>
-    [SugarTable("qm_complaints_master","主客诉管理")]
-    public class QmComplaintsMaster
+    [SugarTable("qm_complaints_master", "主客诉管理")]
+    public class QmComplaintsMaster : SysBase
     {
         /// <summary>
-        /// SFID 
+        /// SFID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
         public long QmcmSFID { get; set; }
 
         /// <summary>
-        /// 客诉No. 
+        /// 客诉No.
         /// </summary>
-        [SugarColumn(ColumnName="QmcmDocNo", ColumnDescription = "客诉No. ",Length = 20)]
+        [SugarColumn(ColumnName = "QmcmDocNo", ColumnDescription = "客诉No. ", Length = 20)]
         public string QmcmDocNo { get; set; }
 
         /// <summary>
-        /// 外部客诉No. 
+        /// 外部客诉No.
         /// </summary>
-        [SugarColumn(ColumnName="QmcmIssuesNo", ColumnDescription = "外部客诉No. ",Length = 20)]
+        [SugarColumn(ColumnName = "QmcmIssuesNo", ColumnDescription = "外部客诉No. ", Length = 20)]
         public string QmcmIssuesNo { get; set; }
 
         /// <summary>
-        /// 客户 
+        /// 客户
         /// </summary>
-        [SugarColumn(ColumnName="QmcmCustomer", ColumnDescription = "客户 ",Length = 20)]
+        [SugarColumn(ColumnName = "QmcmCustomer", ColumnDescription = "客户 ", Length = 20)]
         public string QmcmCustomer { get; set; }
 
         /// <summary>
-        /// 机种 
+        /// 机种
         /// </summary>
-        [SugarColumn(ColumnName="QmcmModel", ColumnDescription = "机种 ",Length = 40)]
+        [SugarColumn(ColumnName = "QmcmModel", ColumnDescription = "机种 ", Length = 40)]
         public string QmcmModel { get; set; }
 
         /// <summary>
-        /// 物料 
+        /// 物料
         /// </summary>
-        [SugarColumn(ColumnName="QmcmItem", ColumnDescription = "物料 ",Length = 20)]
+        [SugarColumn(ColumnName = "QmcmItem", ColumnDescription = "物料 ", Length = 20)]
         public string QmcmItem { get; set; }
 
         /// <summary>
-        /// 仕向 
+        /// 仕向
         /// </summary>
-        [SugarColumn(ColumnName="QmcmRegion", ColumnDescription = "仕向 ",Length = 20)]
+        [SugarColumn(ColumnName = "QmcmRegion", ColumnDescription = "仕向 ", Length = 20)]
         public string QmcmRegion { get; set; }
 
         /// <summary>
-        /// 订单 
+        /// 订单
         /// </summary>
-        [SugarColumn(ColumnName="QmcmOrder", ColumnDescription = "订单 ",Length = 20)]
+        [SugarColumn(ColumnName = "QmcmOrder", ColumnDescription = "订单 ", Length = 20)]
         public string QmcmOrder { get; set; }
 
         /// <summary>
-        /// 接收日期 
+        /// 接收日期
         /// </summary>
         public DateTime? QmcmReceivingDate { get; set; }
 
         /// <summary>
-        /// 数量 
+        /// 数量
         /// </summary>
-        [SugarColumn(ColumnName="QmcmFaultQty", ColumnDescription = "数量 ",DefaultValue = "0")]
+        [SugarColumn(ColumnName = "QmcmFaultQty", ColumnDescription = "数量 ", DefaultValue = "0")]
         public int QmcmFaultQty { get; set; }
 
         /// <summary>
-        /// 投诉事项 
+        /// 投诉事项
         /// </summary>
-        [SugarColumn(ColumnName="QmcmIssues", ColumnDescription = "投诉事项 ",Length = 2000)]
+        [SugarColumn(ColumnName = "QmcmIssues", ColumnDescription = "投诉事项 ", Length = 2000)]
         public string QmcmIssues { get; set; }
 
         /// <summary>
-        /// 序列号 
+        /// 序列号
         /// </summary>
-        [SugarColumn(ColumnName="QmcmSerialno", ColumnDescription = "序列号 ",Length = 200)]
+        [SugarColumn(ColumnName = "QmcmSerialno", ColumnDescription = "序列号 ", Length = 200)]
         public string QmcmSerialno { get; set; }
 
         /// <summary>
-        /// 参考文件 
+        /// 参考文件
         /// </summary>
-        [SugarColumn(ColumnName="QmcmReferenceDocs", ColumnDescription = "参考文件 ",Length = 200)]
+        [SugarColumn(ColumnName = "QmcmReferenceDocs", ColumnDescription = "参考文件 ", Length = 200)]
         public string QmcmReferenceDocs { get; set; }
 
         /// <summary>
-        /// 症状 
+        /// 症状
         /// </summary>
-        [SugarColumn(ColumnName="QmcmFaultDescription", ColumnDescription = "症状 ",Length = 2000)]
+        [SugarColumn(ColumnName = "QmcmFaultDescription", ColumnDescription = "症状 ", Length = 2000)]
         public string QmcmFaultDescription { get; set; }
 
         /// <summary>
-        /// 分析 
+        /// 分析
         /// </summary>
-        [SugarColumn(ColumnName="QmcmRootcauseanalysis", ColumnDescription = "分析 ",Length = 2000)]
+        [SugarColumn(ColumnName = "QmcmRootcauseanalysis", ColumnDescription = "分析 ", Length = 2000)]
         public string QmcmRootcauseanalysis { get; set; }
 
         /// <summary>
-        /// 承认部门 
+        /// 承认部门
         /// </summary>
-        [SugarColumn(ColumnName="QmcmAdmitDept", ColumnDescription = "承认部门 ",Length = 40)]
+        [SugarColumn(ColumnName = "QmcmAdmitDept", ColumnDescription = "承认部门 ", Length = 40)]
         public string QmcmAdmitDept { get; set; }
 
         /// <summary>
-        /// 承认日期 
+        /// 承认日期
         /// </summary>
         public DateTime? QmcmAdmitDate { get; set; }
 
         /// <summary>
-        /// 自定义A 
+        /// 自定义A
         /// </summary>
-        [SugarColumn(ColumnName="UDF01", ColumnDescription = "自定义A ",Length = 200)]
+        [SugarColumn(ColumnName = "UDF01", ColumnDescription = "自定义A ", Length = 200)]
         public string UDF01 { get; set; }
 
         /// <summary>
-        /// 自定义B 
+        /// 自定义B
         /// </summary>
-        [SugarColumn(ColumnName="UDF02", ColumnDescription = "自定义B ",Length = 200)]
+        [SugarColumn(ColumnName = "UDF02", ColumnDescription = "自定义B ", Length = 200)]
         public string UDF02 { get; set; }
 
         /// <summary>
-        /// 自定义C 
+        /// 自定义C
         /// </summary>
-        [SugarColumn(ColumnName="UDF03", ColumnDescription = "自定义C ",Length = 200)]
+        [SugarColumn(ColumnName = "UDF03", ColumnDescription = "自定义C ", Length = 200)]
         public string UDF03 { get; set; }
 
         /// <summary>
-        /// 自定义D 
+        /// 自定义D
         /// </summary>
-        [SugarColumn(ColumnName="UDF04", ColumnDescription = "自定义D ",Length = 200)]
+        [SugarColumn(ColumnName = "UDF04", ColumnDescription = "自定义D ", Length = 200)]
         public string UDF04 { get; set; }
 
         /// <summary>
-        /// 自定义E 
+        /// 自定义E
         /// </summary>
-        [SugarColumn(ColumnName="UDF05", ColumnDescription = "自定义E ",Length = 200)]
+        [SugarColumn(ColumnName = "UDF05", ColumnDescription = "自定义E ", Length = 200)]
         public string UDF05 { get; set; }
 
         /// <summary>
-        /// 自定义F 
+        /// 自定义F
         /// </summary>
-        [SugarColumn(ColumnName="UDF06", ColumnDescription = "自定义F ",Length = 200)]
+        [SugarColumn(ColumnName = "UDF06", ColumnDescription = "自定义F ", Length = 200)]
         public string UDF06 { get; set; }
 
         /// <summary>
-        /// 自定义1 
+        /// 自定义1
         /// </summary>
-        [SugarColumn(ColumnName="UDF51", ColumnDescription = "自定义1 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName = "UDF51", ColumnDescription = "自定义1 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
         public decimal UDF51 { get; set; }
 
         /// <summary>
-        /// 自定义2 
+        /// 自定义2
         /// </summary>
-        [SugarColumn(ColumnName="UDF52", ColumnDescription = "自定义2 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName = "UDF52", ColumnDescription = "自定义2 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
         public decimal UDF52 { get; set; }
 
         /// <summary>
-        /// 自定义3 
+        /// 自定义3
         /// </summary>
-        [SugarColumn(ColumnName="UDF53", ColumnDescription = "自定义3 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName = "UDF53", ColumnDescription = "自定义3 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
         public decimal UDF53 { get; set; }
 
         /// <summary>
-        /// 自定义4 
+        /// 自定义4
         /// </summary>
-        [SugarColumn(ColumnName="UDF54", ColumnDescription = "自定义4 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName = "UDF54", ColumnDescription = "自定义4 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
         public decimal UDF54 { get; set; }
 
         /// <summary>
-        /// 自定义5 
+        /// 自定义5
         /// </summary>
-        [SugarColumn(ColumnName="UDF55", ColumnDescription = "自定义5 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName = "UDF55", ColumnDescription = "自定义5 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
         public decimal UDF55 { get; set; }
 
         /// <summary>
-        /// 自定义6 
+        /// 自定义6
         /// </summary>
-        [SugarColumn(ColumnName="UDF56", ColumnDescription = "自定义6 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName = "UDF56", ColumnDescription = "自定义6 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
         public decimal UDF56 { get; set; }
 
         /// <summary>
-        /// 软删除 
+        /// 软删除
         /// </summary>
-        [SugarColumn(ColumnName="IsDeleted", ColumnDescription = "软删除 ",DefaultValue = "0")]
+        [SugarColumn(ColumnName = "IsDeleted", ColumnDescription = "软删除 ", DefaultValue = "0")]
         public int IsDeleted { get; set; }
-
-        /// <summary>
-        /// 备注 
-        /// </summary>
-        [SugarColumn(ColumnName="Remark", ColumnDescription = "备注 ",Length = 2000)]
-        public string Remark { get; set; }
-
-        /// <summary>
-        /// 创建者 
-        /// </summary>
-        [SugarColumn(ColumnName = "create_by")]
-        public string CreateBy { get; set; }
-
-        /// <summary>
-        /// 创建时间 
-        /// </summary>
-        [SugarColumn(ColumnName = "create_time")]
-        public DateTime? CreateTime { get; set; }
-
-        /// <summary>
-        /// 更新者 
-        /// </summary>
-        [SugarColumn(ColumnName = "update_by")]
-        public string UpdateBy { get; set; }
-
-        /// <summary>
-        /// 更新时间 
-        /// </summary>
-        [SugarColumn(ColumnName = "update_time")]
-        public DateTime? UpdateTime { get; set; }
-
     }
 }

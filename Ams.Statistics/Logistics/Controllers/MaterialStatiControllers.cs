@@ -30,14 +30,14 @@ namespace Ams.Statistics.Logistics.Controllers
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        [HttpGet("MaterialNo")]
+        [HttpGet("NewMaterialNumber")]
         [ActionPermissionFilter(Permission = "mm:marb:add")]
-        public IActionResult QueryMaterialNo([FromQuery] MmMaraQueryDto parm)
+        public IActionResult QueryMaterialNumber([FromQuery] MmMaraQueryDto parm)
         {
             //DateTime firstDayOfYear = new DateTime(DateTime.Now.Year + 1, 1, 1); // 获取当前年份的第一天
             //DateTime lastDayOfYear = new DateTime(DateTime.Now.Year + 2, 1, 1).AddDays(-1); // 获取当前年份的最后一天（下一年的第一天再减去一天）
 
-            var response = _MaterialStatiService.GetMaterialMaxNum(parm);
+            var response = _MaterialStatiService.GetNewMaterialNumber(parm);
             return SUCCESS(response);
         }
     }

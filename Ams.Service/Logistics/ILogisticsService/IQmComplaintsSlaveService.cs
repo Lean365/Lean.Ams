@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 从客诉管理
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 12:08:23
+    /// @Date: 2024/7/19 8:39:58
     /// </summary>
     public interface IQmComplaintsSlaveService : IBaseService<QmComplaintsSlave>
     {

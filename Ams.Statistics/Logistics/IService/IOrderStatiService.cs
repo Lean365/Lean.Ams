@@ -11,13 +11,13 @@ namespace Ams.Statistics.Logistics.IService
         /// 查找当前表中最大ID
         /// </summary>
         /// <returns></returns>
-        dynamic GetOrderMaxID(string Type);
+        dynamic GetMaxOrderNumber(string Type);
 
         /// <summary>
         /// 按类型生成订单号
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        dynamic GetNewOrderNum(PpOrderQueryDto parm);
+        dynamic GetNewOrderNumber(PpOrderQueryDto parm);
     }
 }

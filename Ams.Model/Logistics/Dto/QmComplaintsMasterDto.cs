@@ -1,4 +1,3 @@
-
 namespace Ams.Model.Logistics.Dto
 {
     /// <summary>
@@ -7,7 +6,7 @@ namespace Ams.Model.Logistics.Dto
     /// @Author: Lean365(Davis.Ching)
     /// @Date: 2024/7/19 8:33:20
     /// </summary>
-    public class QmComplaintsMasterQueryDto : PagerInfo 
+    public class QmComplaintsMasterQueryDto : PagerInfo
     {
         public string QmcmDocNo { get; set; }
         public string QmcmIssuesNo { get; set; }
@@ -161,30 +160,15 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("软删除")]
         public int IsDeleted { get; set; }
 
-        [ExcelColumn(Name = "备注")]
-        [ExcelColumnName("备注")]
-        public string Remark { get; set; }
-
-        [ExcelIgnore]
-        public string CreateBy { get; set; }
-
-        [ExcelIgnore]
-        public DateTime? CreateTime { get; set; }
-
-        [ExcelIgnore]
-        public string UpdateBy { get; set; }
-
-        [ExcelIgnore]
-        public DateTime? UpdateTime { get; set; }
-
-
-
         [ExcelColumn(Name = "客户")]
         public string QmcmCustomerLabel { get; set; }
+
         [ExcelColumn(Name = "仕向")]
         public string QmcmRegionLabel { get; set; }
+
         [ExcelColumn(Name = "承认部门")]
         public string QmcmAdmitDeptLabel { get; set; }
+
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
@@ -327,36 +311,20 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("软删除")]
         public int IsDeleted { get; set; }
 
-        [ExcelColumn(Name = "备注")]
-        [ExcelColumnName("备注")]
-        public string Remark { get; set; }
-
-        [ExcelIgnore]
-        public string CreateBy { get; set; }
-
-        [ExcelIgnore]
-        public DateTime? CreateTime { get; set; }
-
-        [ExcelIgnore]
-        public string UpdateBy { get; set; }
-
-        [ExcelIgnore]
-        public DateTime? UpdateTime { get; set; }
-
-
-
         [ExcelIgnore]
         [ExcelColumn(Name = "客户")]
         public string QmcmCustomerLabel { get; set; }
+
         [ExcelIgnore]
         [ExcelColumn(Name = "仕向")]
         public string QmcmRegionLabel { get; set; }
+
         [ExcelIgnore]
         [ExcelColumn(Name = "承认部门")]
         public string QmcmAdmitDeptLabel { get; set; }
+
         [ExcelIgnore]
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
-
 }

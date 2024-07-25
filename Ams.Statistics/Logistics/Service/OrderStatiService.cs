@@ -14,7 +14,7 @@ namespace Ams.Statistics.Logistics.Service
         /// 查询最大ID
         /// </summary>
         /// <returns></returns>
-        public dynamic GetOrderMaxID(string Type)
+        public dynamic GetMaxOrderNumber(string Type)
         {
             string? MaxID;
             var db = Context;
@@ -36,7 +36,7 @@ namespace Ams.Statistics.Logistics.Service
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public dynamic GetNewOrderNum(PpOrderQueryDto parm)
+        public dynamic GetNewOrderNumber(PpOrderQueryDto parm)
         {
             var predicate = QueryExp(parm);
             var response = Queryable()
@@ -48,24 +48,24 @@ namespace Ams.Statistics.Logistics.Service
             {
                 if (parm.MoOrderType == "ZDTC")
                 {
-                    response = "640000";
+                    return response = "640000";
                 }
                 if (parm.MoOrderType == "ZDTF")
                 {
-                    response = "670000";
+                    return response = "670000";
                 }
                 if (parm.MoOrderType == "ZDTG")
                 {
-                    response = "740000";
+                    return response = "740000";
                 }
                 if (parm.MoOrderType == "ZDTH")
                 {
-                    response = "770000";
+                    return response = "770000";
                 }
             }
             else
             {
-                response = (response + 1).ToString();
+                return response = (response + 1).ToString();
             }
 
             return response;

@@ -30,7 +30,7 @@ namespace Ams.Statistics.Logistics.Controllers
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        [HttpGet("Count")]
+        [HttpGet("EcCount")]
         [ActionPermissionFilter(Permission = "pp:ecmaster:list")]
         public IActionResult QueryEcCount([FromQuery] PpEcSlaveQueryDto parm)
         {

@@ -2,6 +2,7 @@
   "menu": {
     "about": "Ams情報",
     "accounting": "会計",
+    "accountingBudget": "予算",
     "accountingControlling": "管理",
     "accountingFinancial": "財務",
     "accountingMaster": "マスターデータ",
@@ -20,6 +21,7 @@
     "logisticsProduction": "生産",
     "logisticsProductionDefective": "不良",
     "logisticsProductionEc": "設変",
+    "logisticsProductionEcDept": "部署",
     "logisticsProductionLaborhours": "工数",
     "logisticsProductionOutput": "OPH",
     "logisticsProductionOutputP1d": "製造1課",

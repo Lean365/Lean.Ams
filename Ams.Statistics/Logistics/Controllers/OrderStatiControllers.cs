@@ -30,14 +30,14 @@ namespace Ams.Statistics.Logistics.Controllers
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        [HttpGet("NewOrderNum")]
+        [HttpGet("NewOrderNumber")]
         [ActionPermissionFilter(Permission = "pp:order:add")]
-        public IActionResult QueryNewOrderNum([FromQuery] PpOrderQueryDto parm)
+        public IActionResult QueryNewOrderNumber([FromQuery] PpOrderQueryDto parm)
         {
             //DateTime firstDayOfYear = new DateTime(DateTime.Now.Year + 1, 1, 1); // 获取当前年份的第一天
             //DateTime lastDayOfYear = new DateTime(DateTime.Now.Year + 2, 1, 1).AddDays(-1); // 获取当前年份的最后一天（下一年的第一天再减去一天）
 
-            var response = _OrderStatiService.GetNewOrderNum(parm);
+            var response = _OrderStatiService.GetNewOrderNumber(parm);
             return SUCCESS(response);
         }
     }

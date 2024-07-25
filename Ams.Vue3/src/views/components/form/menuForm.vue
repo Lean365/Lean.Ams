@@ -189,7 +189,7 @@
               </span>
             </template>
             <el-radio-group v-model="form.visible">
-              <el-radio v-for="dict in options.sys_menu_show" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
+              <el-radio v-for="dict in options.sys_menu_show" :key="dict.dictValue" :value="dict.dictValue">{{
                 dict.dictLabel }}</el-radio>
             </el-radio-group>
           </el-form-item>

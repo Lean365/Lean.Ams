@@ -15,7 +15,7 @@ namespace Ams.Statistics.Logistics.Service
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public dynamic GetMaterialMaxNum(MmMaraQueryDto parm)
+        public dynamic GetNewMaterialNumber(MmMaraQueryDto parm)
         {
             var predicate = QueryExp(parm);
             var response = Queryable()

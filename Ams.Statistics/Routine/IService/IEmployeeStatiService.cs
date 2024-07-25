@@ -14,6 +14,6 @@ namespace Ams.Statistics.Routine
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        dynamic GetWorkMaxNum(RoutineEhrEmployeeQueryDto parm);
+        dynamic GetMaxWorkNumber(RoutineEhrEmployeeQueryDto parm);
     }
 }

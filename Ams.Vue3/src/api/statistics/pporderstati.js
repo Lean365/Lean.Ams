@@ -5,7 +5,7 @@ import request from '@/utils/request'
 */
 export function getNewOrderNum(query) {
   return request({
-    url: 'stat/order/NewOrderNum',
+    url: 'stat/order/NewOrderNumber',
     method: 'get',
     params: query,
   })

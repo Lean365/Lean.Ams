@@ -14,10 +14,11 @@ namespace Ams.Statistics.Logistics.IService
         /// <returns></returns>
         int GetEcCount(PpEcSlaveQueryDto parm);
 
-        /// <summary>
-        /// ec点数统计
-        /// </summary>
-        /// <returns></returns>
+        ///// <summary>
+        ///// ec点数统计
+        ///// </summary>
+        ///// <param name="parm"></param>
+        ///// <returns></returns>
         //int GetEcCount(PpEcMasterQueryDto parm);
     }
 }

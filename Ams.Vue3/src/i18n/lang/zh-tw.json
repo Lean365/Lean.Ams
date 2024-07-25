@@ -2,6 +2,7 @@
   "menu": {
     "about": "關於",
     "accounting": "會計計算",
+    "accountingBudget": "預算",
     "accountingControlling": "管理",
     "accountingFinancial": "財務",
     "accountingMaster": "主資料",
@@ -20,6 +21,7 @@
     "logisticsProduction": "生產",
     "logisticsProductionDefective": "不良",
     "logisticsProductionEc": "設變",
+    "logisticsProductionEcDept": "部門",
     "logisticsProductionLaborhours": "工數",
     "logisticsProductionOutput": "日報",
     "logisticsProductionOutputP1d": "製一",

@@ -103,8 +103,8 @@ namespace Ams.Service.SqlSugar
             db.CodeFirst.InitTables(typeof(MmVendor));
             db.CodeFirst.InitTables(typeof(MmSupplier));
 
-            db.CodeFirst.InitTables(typeof(PpCauseType));
             //生产管理
+            db.CodeFirst.InitTables(typeof(PpCauseType));
             db.CodeFirst.InitTables(typeof(PpLine));
             db.CodeFirst.InitTables(typeof(PpOrder));
             db.CodeFirst.InitTables(typeof(PpManhours));
@@ -112,12 +112,28 @@ namespace Ams.Service.SqlSugar
             db.CodeFirst.InitTables(typeof(PpEcSlave));
             db.CodeFirst.InitTables(typeof(PpOutputAssyMaster));
             db.CodeFirst.InitTables(typeof(PpOutputAssySlave));
-            db.CodeFirst.InitTables(typeof(PpDefectAssyRepair));
+            db.CodeFirst.InitTables(typeof(PpOutputPcbaMaster));
+            db.CodeFirst.InitTables(typeof(PpOutputPcbaSlave));
+            db.CodeFirst.InitTables(typeof(PpRepairAssyMa));
+            db.CodeFirst.InitTables(typeof(PpRepairAssySlv));
+            db.CodeFirst.InitTables(typeof(PpInspPcbaMa));
+            db.CodeFirst.InitTables(typeof(PpInspPcbaSlv));
+            db.CodeFirst.InitTables(typeof(PpRepairPcbaMa));
+            db.CodeFirst.InitTables(typeof(PpRepairPcbaSlv));
+
             //品质管理
-            db.CodeFirst.InitTables(typeof(PpOutputAssyMaster));
-            db.CodeFirst.InitTables(typeof(PpOutputAssySlave));
+            db.CodeFirst.InitTables(typeof(QmCheckAql));
+            db.CodeFirst.InitTables(typeof(QmIncoming));
+            db.CodeFirst.InitTables(typeof(QmInspectingItem));
+            db.CodeFirst.InitTables(typeof(QmOutgoing));
             db.CodeFirst.InitTables(typeof(QmComplaintsMaster));
             db.CodeFirst.InitTables(typeof(QmComplaintsSlave));
+            db.CodeFirst.InitTables(typeof(QmSerial));
+            db.CodeFirst.InitTables(typeof(QmImprovementReplyletter));
+            db.CodeFirst.InitTables(typeof(QmUnqualifiedContactletter));
+            db.CodeFirst.InitTables(typeof(QmCostRework));
+            db.CodeFirst.InitTables(typeof(QmCostWaste));
+            db.CodeFirst.InitTables(typeof(QmCostOperation));
 
             //db.CodeFirst.InitTables(typeof(UserOnlineLog));
         }

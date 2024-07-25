@@ -13,6 +13,6 @@ namespace Ams.Statistics.Logistics.IService
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        dynamic GetMaterialMaxNum(MmMaraQueryDto parm);
+        dynamic GetNewMaterialNumber(MmMaraQueryDto parm);
     }
 }

@@ -2,6 +2,7 @@
   "menu": {
     "about": "About",
     "accounting": "Accounting",
+    "accountingBudget": "Budget",
     "accountingControlling": "Controlling",
     "accountingFinancial": "Finance",
     "accountingMaster": "MasterData",
@@ -20,6 +21,7 @@
     "logisticsProduction": "Production",
     "logisticsProductionDefective": "Bad",
     "logisticsProductionEc": "Eng Change",
+    "logisticsProductionEcDept": "Bureau",
     "logisticsProductionLaborhours": "Laborhours",
     "logisticsProductionOutput": "Daily",
     "logisticsProductionOutputP1d": "P1D",

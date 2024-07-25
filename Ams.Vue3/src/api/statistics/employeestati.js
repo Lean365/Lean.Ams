@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 /**
-* 根据类型生成订单号
+* 按性别生成工号
 * @param query
 */
-export function getNewOrderNum(query) {
+export function getMaxWorkNumber(query) {
   return request({
-    url: 'stat/employee/NewWorkID',
+    url: 'stat/employee/MaxWorkNumber',
     method: 'get',
     params: query,
   })

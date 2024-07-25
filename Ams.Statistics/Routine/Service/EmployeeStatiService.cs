@@ -15,7 +15,7 @@ namespace Ams.Statistics.Routine
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public dynamic GetWorkMaxNum(RoutineEhrEmployeeQueryDto parm)
+        public dynamic GetMaxWorkNumber(RoutineEhrEmployeeQueryDto parm)
         {
             var predicate = QueryExp(parm);
             var response = Queryable()

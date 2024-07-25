@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 原因类别
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 15:57:22
+    /// @Date: 2024/7/19 15:31:18
     /// </summary>
     public interface IPpCauseTypeService : IBaseService<PpCauseType>
     {
