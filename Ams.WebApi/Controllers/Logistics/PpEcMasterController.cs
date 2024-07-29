@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 主设变
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:43
+    /// @Date: 2024/7/26 16:35:09
     /// </summary>
     [Verify]
     [Route("Logistics/PpEcMaster")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询主设变详情
         /// </summary>
-        /// <param name="EmSFID"></param>
+        /// <param name="EcmSfid"></param>
         /// <returns></returns>
-        [HttpGet("{EmSFID}")]
+        [HttpGet("{EcmSfid}")]
         [ActionPermissionFilter(Permission = "pp:ecmaster:query")]
-        public IActionResult GetPpEcMaster(long EmSFID)
+        public IActionResult GetPpEcMaster(long EcmSfid)
         {
-            var response = _PpEcMasterService.GetInfo(EmSFID);
+            var response = _PpEcMasterService.GetInfo(EcmSfid);
             
             var info = response.Adapt<PpEcMasterDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcMasterService.CheckInputUnique(parm.EmSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcMasterService.CheckInputUnique(parm.EcmSfid.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增主设变 '{parm.EmSFID}'失败(Add failed)，输入的主设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增主设变 '{parm.EcmSfid}'失败(Add failed)，输入的主设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcMaster>().ToCreate(HttpContext);
 
@@ -156,7 +156,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<PpEcMasterDto>() { }, "PpEcMaster");
+            var result = DownloadImportTemplate(new List<PpEcMasterImportTpl>() { }, "PpEcMaster_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

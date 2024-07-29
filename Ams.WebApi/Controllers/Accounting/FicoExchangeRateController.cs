@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 汇率表
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:26:55
+    /// @Date: 2024/7/26 17:00:23
     /// </summary>
     [Verify]
     [Route("Accounting/FicoExchangeRate")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询汇率表详情
         /// </summary>
-        /// <param name="FerSFID"></param>
+        /// <param name="FerSfid"></param>
         /// <returns></returns>
-        [HttpGet("{FerSFID}")]
+        [HttpGet("{FerSfid}")]
         [ActionPermissionFilter(Permission = "fico:exchangerate:query")]
-        public IActionResult GetFicoExchangeRate(long FerSFID)
+        public IActionResult GetFicoExchangeRate(long FerSfid)
         {
-            var response = _FicoExchangeRateService.GetInfo(FerSFID);
+            var response = _FicoExchangeRateService.GetInfo(FerSfid);
             
             var info = response.Adapt<FicoExchangeRateDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoExchangeRateService.CheckInputUnique(parm.FerSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoExchangeRateService.CheckInputUnique(parm.FerSfid.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增汇率表 '{parm.FerSFID}'失败(Add failed)，输入的汇率表已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增汇率表 '{parm.FerSfid}'失败(Add failed)，输入的汇率表已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoExchangeRate>().ToCreate(HttpContext);
 
@@ -156,7 +156,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<FicoExchangeRateDto>() { }, "FicoExchangeRate");
+            var result = DownloadImportTemplate(new List<FicoExchangeRateImportTpl>() { }, "FicoExchangeRate_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

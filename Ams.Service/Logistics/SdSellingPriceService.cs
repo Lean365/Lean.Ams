@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 销售价格
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:30:10
+    /// @Date: 2024/7/26 10:59:46
     /// </summary>
     [AppService(ServiceType = typeof(ISdSellingPriceService), ServiceLifetime = LifeTime.Transient)]
     public class SdSellingPriceService : BaseService<SdSellingPrice>, ISdSellingPriceService
@@ -23,6 +23,7 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("SspYm desc")
                 .Where(predicate.ToExpression())
                 .ToPage<SdSellingPrice, SdSellingPriceDto>(parm);
 
@@ -137,6 +138,7 @@ namespace Ams.Service.Logistics
                 .Select((it) => new SdSellingPriceDto()
                 {
                     SspPlntLabel = it.SspPlnt.GetConfigValue<SysDictData>("sys_plant_list"),
+                    SspFyLabel = it.SspFy.GetConfigValue<SysDictData>("sql_fy_list"),
                     SspYmLabel = it.SspYm.GetConfigValue<SysDictData>("sql_ym_list"),
                     SspOriginalccyLabel = it.SspOriginalccy.GetConfigValue<SysDictData>("sys_ccy_type"),
                     SspOriginalprctrLabel = it.SspOriginalprctr.GetConfigValue<SysDictData>("sql_prctr_list"),
@@ -157,17 +159,11 @@ namespace Ams.Service.Logistics
             var predicate = Expressionable.Create<SdSellingPrice>();
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SspPlnt), it => it.SspPlnt == parm.SspPlnt);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SspFy), it => it.SspFy == parm.SspFy);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SspYm), it => it.SspYm == parm.SspYm);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SspItem), it => it.SspItem.Contains(parm.SspItem));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SspItem), it => it.SspItem == parm.SspItem);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SspOriginalccy), it => it.SspOriginalccy == parm.SspOriginalccy);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SspLocalccy), it => it.SspLocalccy == parm.SspLocalccy);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SspLocalprctr), it => it.SspLocalprctr == parm.SspLocalprctr);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginSspEffdate == null, it => it.SspEffdate >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginSspEffdate == null, it => it.SspEffdate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginSspEffdate != null, it => it.SspEffdate >= parm.BeginSspEffdate);
-            predicate = predicate.AndIF(parm.EndSspEffdate != null, it => it.SspEffdate <= parm.EndSspEffdate);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SspOriginalprctr), it => it.SspOriginalprctr == parm.SspOriginalprctr);
             //当日期条件为空时，默认查询大于今天的所有数据
             //predicate = predicate.AndIF(parm.BeginSspExpdate == null, it => it.SspExpdate >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据

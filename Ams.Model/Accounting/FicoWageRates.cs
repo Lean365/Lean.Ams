@@ -1,175 +1,208 @@
+
 namespace Ams.Model.Accounting
 {
     /// <summary>
     /// 工资率
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 16:25:51
+    /// @Date: 2024/7/26 16:39:08
     /// </summary>
-    [SugarTable("fico_wage_rates", "工资率")]
-    public class FicoWageRates : SysBase
+    [SugarTable("fico_wage_rates","工资率")]
+    public class FicoWageRates
     {
         /// <summary>
-        /// SFID
+        /// SFID 
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
+
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long FwSFID { get; set; }
+        public long FwSfid { get; set; }
 
         /// <summary>
-        /// 公司
+        /// 公司 
         /// </summary>
-        [SugarColumn(ColumnName = "FwCrop", ColumnDescription = "公司 ", Length = 4)]
+        [SugarColumn(ColumnName="FwCrop", ColumnDescription = "公司 ",Length = 4)]
         public string FwCrop { get; set; }
 
         /// <summary>
-        /// 年月
+        /// 年月 
         /// </summary>
-        [SugarColumn(ColumnName = "FwYm", ColumnDescription = "年月 ", Length = 6)]
+        [SugarColumn(ColumnName="FwYm", ColumnDescription = "年月 ",Length = 6)]
         public string FwYm { get; set; }
 
         /// <summary>
-        /// 币种
+        /// 币种 
         /// </summary>
-        [SugarColumn(ColumnName = "FwCcy", ColumnDescription = "币种 ", Length = 3)]
+        [SugarColumn(ColumnName="FwCcy", ColumnDescription = "币种 ",Length = 3)]
         public string FwCcy { get; set; }
 
         /// <summary>
-        /// 销售额
+        /// 销售额 
         /// </summary>
-        [SugarColumn(ColumnName = "FwSalesVolume", ColumnDescription = "销售额 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="FwSalesVolume", ColumnDescription = "销售额 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal FwSalesVolume { get; set; }
 
         /// <summary>
-        /// 工作天数
+        /// 工作天数 
         /// </summary>
-        [SugarColumn(ColumnName = "FwWorkingDays", ColumnDescription = "工作天数 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="FwWorkingDays", ColumnDescription = "工作天数 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal FwWorkingDays { get; set; }
 
         /// <summary>
-        /// 直接工资率
+        /// 直接工资率 
         /// </summary>
-        [SugarColumn(ColumnName = "FwDirectWageRate", ColumnDescription = "直接工资率 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="FwDirectWageRate", ColumnDescription = "直接工资率 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal FwDirectWageRate { get; set; }
 
         /// <summary>
-        /// 直接人数
+        /// 直接人数 
         /// </summary>
-        [SugarColumn(ColumnName = "FwDirect", ColumnDescription = "直接人数 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="FwDirect", ColumnDescription = "直接人数 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal FwDirect { get; set; }
 
         /// <summary>
-        /// 直接加班费
+        /// 直接加班费 
         /// </summary>
-        [SugarColumn(ColumnName = "FwDirectOverTime", ColumnDescription = "直接加班费 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="FwDirectOverTime", ColumnDescription = "直接加班费 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal FwDirectOverTime { get; set; }
 
         /// <summary>
-        /// 直接工资
+        /// 直接工资 
         /// </summary>
-        [SugarColumn(ColumnName = "FwDirectWages", ColumnDescription = "直接工资 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="FwDirectWages", ColumnDescription = "直接工资 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal FwDirectWages { get; set; }
 
         /// <summary>
-        /// 间接工资率
+        /// 间接工资率 
         /// </summary>
-        [SugarColumn(ColumnName = "FwInDirectWageRate", ColumnDescription = "间接工资率 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="FwInDirectWageRate", ColumnDescription = "间接工资率 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal FwInDirectWageRate { get; set; }
 
         /// <summary>
-        /// 间接人数
+        /// 间接人数 
         /// </summary>
-        [SugarColumn(ColumnName = "FwInDirect", ColumnDescription = "间接人数 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="FwInDirect", ColumnDescription = "间接人数 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal FwInDirect { get; set; }
 
         /// <summary>
-        /// 间接加班费
+        /// 间接加班费 
         /// </summary>
-        [SugarColumn(ColumnName = "FwInDirectOverTime", ColumnDescription = "间接加班费 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="FwInDirectOverTime", ColumnDescription = "间接加班费 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal FwInDirectOverTime { get; set; }
 
         /// <summary>
-        /// 间接工资
+        /// 间接工资 
         /// </summary>
-        [SugarColumn(ColumnName = "FwInDirectWages", ColumnDescription = "间接工资 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="FwInDirectWages", ColumnDescription = "间接工资 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal FwInDirectWages { get; set; }
 
         /// <summary>
-        /// 自定义A
+        /// 自定义A 
         /// </summary>
-        [SugarColumn(ColumnName = "UDF01", ColumnDescription = "自定义A ", Length = 200)]
+        [SugarColumn(ColumnName="UDF01", ColumnDescription = "自定义A ",Length = 200)]
         public string UDF01 { get; set; }
 
         /// <summary>
-        /// 自定义B
+        /// 自定义B 
         /// </summary>
-        [SugarColumn(ColumnName = "UDF02", ColumnDescription = "自定义B ", Length = 200)]
+        [SugarColumn(ColumnName="UDF02", ColumnDescription = "自定义B ",Length = 200)]
         public string UDF02 { get; set; }
 
         /// <summary>
-        /// 自定义C
+        /// 自定义C 
         /// </summary>
-        [SugarColumn(ColumnName = "UDF03", ColumnDescription = "自定义C ", Length = 200)]
+        [SugarColumn(ColumnName="UDF03", ColumnDescription = "自定义C ",Length = 200)]
         public string UDF03 { get; set; }
 
         /// <summary>
-        /// 自定义D
+        /// 自定义D 
         /// </summary>
-        [SugarColumn(ColumnName = "UDF04", ColumnDescription = "自定义D ", Length = 200)]
+        [SugarColumn(ColumnName="UDF04", ColumnDescription = "自定义D ",Length = 200)]
         public string UDF04 { get; set; }
 
         /// <summary>
-        /// 自定义E
+        /// 自定义E 
         /// </summary>
-        [SugarColumn(ColumnName = "UDF05", ColumnDescription = "自定义E ", Length = 200)]
+        [SugarColumn(ColumnName="UDF05", ColumnDescription = "自定义E ",Length = 200)]
         public string UDF05 { get; set; }
 
         /// <summary>
-        /// 自定义F
+        /// 自定义F 
         /// </summary>
-        [SugarColumn(ColumnName = "UDF06", ColumnDescription = "自定义F ", Length = 200)]
+        [SugarColumn(ColumnName="UDF06", ColumnDescription = "自定义F ",Length = 200)]
         public string UDF06 { get; set; }
 
         /// <summary>
-        /// 自定义1
+        /// 自定义1 
         /// </summary>
-        [SugarColumn(ColumnName = "UDF51", ColumnDescription = "自定义1 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="UDF51", ColumnDescription = "自定义1 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF51 { get; set; }
 
         /// <summary>
-        /// 自定义2
+        /// 自定义2 
         /// </summary>
-        [SugarColumn(ColumnName = "UDF52", ColumnDescription = "自定义2 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="UDF52", ColumnDescription = "自定义2 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF52 { get; set; }
 
         /// <summary>
-        /// 自定义3
+        /// 自定义3 
         /// </summary>
-        [SugarColumn(ColumnName = "UDF53", ColumnDescription = "自定义3 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="UDF53", ColumnDescription = "自定义3 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF53 { get; set; }
 
         /// <summary>
-        /// 自定义4
+        /// 自定义4 
         /// </summary>
-        [SugarColumn(ColumnName = "UDF54", ColumnDescription = "自定义4 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="UDF54", ColumnDescription = "自定义4 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF54 { get; set; }
 
         /// <summary>
-        /// 自定义5
+        /// 自定义5 
         /// </summary>
-        [SugarColumn(ColumnName = "UDF55", ColumnDescription = "自定义5 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="UDF55", ColumnDescription = "自定义5 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF55 { get; set; }
 
         /// <summary>
-        /// 自定义6
+        /// 自定义6 
         /// </summary>
-        [SugarColumn(ColumnName = "UDF56", ColumnDescription = "自定义6 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName="UDF56", ColumnDescription = "自定义6 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF56 { get; set; }
 
         /// <summary>
-        /// 软删除
+        /// 软删除 
         /// </summary>
-        [SugarColumn(ColumnName = "IsDeleted", ColumnDescription = "软删除 ", DefaultValue = "0")]
+        [SugarColumn(ColumnName="IsDeleted", ColumnDescription = "软删除 ",DefaultValue = "0")]
         public int IsDeleted { get; set; }
+
+        /// <summary>
+        /// 备注 
+        /// </summary>
+        [SugarColumn(ColumnName="Remark", ColumnDescription = "备注 ",Length = 2000)]
+        public string Remark { get; set; }
+
+        /// <summary>
+        /// 创建者 
+        /// </summary>
+        [SugarColumn(ColumnName = "create_by")]
+        public string CreateBy { get; set; }
+
+        /// <summary>
+        /// 创建时间 
+        /// </summary>
+        [SugarColumn(ColumnName = "create_time")]
+        public DateTime? CreateTime { get; set; }
+
+        /// <summary>
+        /// 更新者 
+        /// </summary>
+        [SugarColumn(ColumnName = "update_by")]
+        public string UpdateBy { get; set; }
+
+        /// <summary>
+        /// 更新时间 
+        /// </summary>
+        [SugarColumn(ColumnName = "update_time")]
+        public DateTime? UpdateTime { get; set; }
+
     }
 }

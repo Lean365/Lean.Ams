@@ -2,7 +2,7 @@
  * @Descripttion: 制二OPH主表/pp_output_pcba_master
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/22 9:31:22
+ * @Date: 2024/7/26 16:09:27
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,9 +11,6 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="订单类别" prop="pomOrderType">
-        <el-input v-model="queryParams.pomOrderType" :placeholder="$t('btn.enterSearchPrefix')+'订单类别'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
       <el-form-item label="订单号码" prop="pomOrderNo">
         <el-select filterable clearable   remote remote-show-suffix :remote-method="remoteMethod_sql_moc_list" :loading="loading " v-model="queryParams.pomOrderNo" :placeholder="$t('btn.selectSearchPrefix')+'订单号码'+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   remotequery_sql_moc_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
@@ -31,9 +28,12 @@
       <el-form-item label="物料" prop="pomItem">
         <el-input v-model="queryParams.pomItem" :placeholder="$t('btn.enterSearchPrefix')+'物料'+$t('btn.enterSearchSuffix')" />
       </el-form-item>
+      <el-form-item label="序列号" prop="pomSerial">
+        <el-input v-model="queryParams.pomSerial" :placeholder="$t('btn.enterSearchPrefix')+'序列号'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
       <el-form-item label="生产班组" prop="pomDeptName">
         <el-select filterable clearable   v-model="queryParams.pomDeptName" :placeholder="$t('btn.selectSearchPrefix')+'生产班组'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_smt_class " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+          <el-option v-for="item in   options.sql_line_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -131,7 +131,7 @@
       <el-table-column prop="pomSerial" label="序列号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pomSerial')"/>
       <el-table-column prop="pomDeptName" label="生产班组" align="center" v-if="columns.showColumn('pomDeptName')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_smt_class " :value="scope.row.pomDeptName"  />
+          <dict-tag :options=" options.sql_line_list " :value="scope.row.pomDeptName"  />
         </template>
       </el-table-column>
       <el-table-column prop="pomDate" label="生产日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('pomDate')"/>
@@ -161,7 +161,17 @@
         <el-table-column prop="posParentSfid" label="父SFID"/>
         <el-table-column prop="posLineName" label="班组">
           <template #default="scope">
-            <dict-tag :options=" options.sql_smt_class " :value="scope.row.posLineName"  />
+            <dict-tag :options=" options.sql_line_list " :value="scope.row.posLineName"  />
+          </template>
+        </el-table-column>
+        <el-table-column prop="posPcbaType" label="板别">
+          <template #default="scope">
+            <dict-tag :options=" options.sql_pcb_type " :value="scope.row.posPcbaType"  />
+          </template>
+        </el-table-column>
+        <el-table-column prop="posPcbaSide" label="板面">
+          <template #default="scope">
+            <dict-tag :options=" options.sys_pcb_side " :value="scope.row.posPcbaSide"  />
           </template>
         </el-table-column>
         <el-table-column prop="posLotQty" label="Lot数"/>
@@ -268,7 +278,7 @@
             <el-form-item label="生产班组" prop="pomDeptName">
               <el-select filterable clearable   v-model="form.pomDeptName"  :placeholder="$t('btn.selectPrefix')+'生产班组'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_smt_class" 
+                  v-for="item in  options.sql_line_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -499,7 +509,29 @@
             <template #default="scope">
               <el-select filterable clearable  v-model="scope.row.posLineName" :placeholder="$t('btn.enterPrefix')+'班组'+$t('btn.enterSuffix')">
                 <el-option
-                  v-for="item in options.sql_smt_class" 
+                  v-for="item in options.sql_line_list" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column label="板别" prop="posPcbaType">
+            <template #default="scope">
+              <el-select filterable clearable  v-model="scope.row.posPcbaType" :placeholder="$t('btn.enterPrefix')+'板别'+$t('btn.enterSuffix')">
+                <el-option
+                  v-for="item in options.sql_pcb_type" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column label="板面" prop="posPcbaSide">
+            <template #default="scope">
+              <el-select filterable clearable  v-model="scope.row.posPcbaSide" :placeholder="$t('btn.enterPrefix')+'板面'+$t('btn.enterSuffix')">
+                <el-option
+                  v-for="item in options.sys_pcb_side" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -680,8 +712,6 @@ const queryParams = reactive({
   sort: '',
   sortType: 'asc',
 //是否查询（1是）
-  pomOrderType: undefined,
-//是否查询（1是）
   pomOrderNo: undefined,
 //是否查询（1是）
   pomLot: undefined,
@@ -689,6 +719,8 @@ const queryParams = reactive({
   pomModel: undefined,
 //是否查询（1是）
   pomItem: undefined,
+//是否查询（1是）
+  pomSerial: undefined,
 //是否查询（1是）
   pomDeptName: undefined,
 //是否查询（1是）
@@ -783,8 +815,10 @@ const dateRangePomDate = ref([])
 
 //字典参数
 var dictParams = [
-  { dictType: "sql_smt_class" },
+  { dictType: "sql_line_list" },
   { dictType: "sys_is_deleted" },
+  { dictType: "sql_pcb_type" },
+  { dictType: "sys_pcb_side" },
   { dictType: "sql_comp_status" },
   { dictType: "sql_line_stop" },
   { dictType: "sql_non_conf" },
@@ -883,9 +917,13 @@ const state = reactive({
   },
   options: {
     // 生产班组 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_smt_class: [],
+sql_line_list: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_is_deleted: [],
+    // 板别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_pcb_type: [],
+    // 板面 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sys_pcb_side: [],
     // 完成情况 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_comp_status: [],
     // 停线原因 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
@@ -1060,6 +1098,8 @@ function handleAddPpOutputPcbaSlave() {
   let obj = {};
   //下面的代码自己设置默认值
   //obj.posLineName = null;
+  //obj.posPcbaType = null;
+  //obj.posPcbaSide = null;
   //obj.posLotQty = null;
   //obj.posRealOutput = null;
   //obj.posRealTotal = null;

@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 顾客信息
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:26:23
+    /// @Date: 2024/7/26 13:49:23
     /// </summary>
     [Verify]
     [Route("Logistics/SdCustomer")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询顾客信息详情
         /// </summary>
-        /// <param name="ScSFID"></param>
+        /// <param name="ScSfid"></param>
         /// <returns></returns>
-        [HttpGet("{ScSFID}")]
+        [HttpGet("{ScSfid}")]
         [ActionPermissionFilter(Permission = "sd:customer:query")]
-        public IActionResult GetSdCustomer(long ScSFID)
+        public IActionResult GetSdCustomer(long ScSfid)
         {
-            var response = _SdCustomerService.GetInfo(ScSFID);
+            var response = _SdCustomerService.GetInfo(ScSfid);
             
             var info = response.Adapt<SdCustomerDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_SdCustomerService.CheckInputUnique(parm.ScSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_SdCustomerService.CheckInputUnique(parm.ScSfid.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增顾客信息 '{parm.ScSFID}'失败(Add failed)，输入的顾客信息已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增顾客信息 '{parm.ScSfid}'失败(Add failed)，输入的顾客信息已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<SdCustomer>().ToCreate(HttpContext);
 

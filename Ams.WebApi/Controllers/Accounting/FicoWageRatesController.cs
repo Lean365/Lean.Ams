@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 工资率
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 16:25:51
+    /// @Date: 2024/7/26 16:39:08
     /// </summary>
     [Verify]
     [Route("Accounting/FicoWageRates")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询工资率详情
         /// </summary>
-        /// <param name="FwSFID"></param>
+        /// <param name="FwSfid"></param>
         /// <returns></returns>
-        [HttpGet("{FwSFID}")]
+        [HttpGet("{FwSfid}")]
         [ActionPermissionFilter(Permission = "fico:wagerates:query")]
-        public IActionResult GetFicoWageRates(long FwSFID)
+        public IActionResult GetFicoWageRates(long FwSfid)
         {
-            var response = _FicoWageRatesService.GetInfo(FwSFID);
+            var response = _FicoWageRatesService.GetInfo(FwSfid);
             
             var info = response.Adapt<FicoWageRatesDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoWageRatesService.CheckInputUnique(parm.FwSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoWageRatesService.CheckInputUnique(parm.FwSfid.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增工资率 '{parm.FwSFID}'失败(Add failed)，输入的工资率已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增工资率 '{parm.FwSfid}'失败(Add failed)，输入的工资率已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoWageRates>().ToCreate(HttpContext);
 

@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 生产工单
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:49
+    /// @Date: 2024/7/26 15:07:48
     /// </summary>
     [AppService(ServiceType = typeof(IPpOrderService), ServiceLifetime = LifeTime.Transient)]
     public class PpOrderService : BaseService<PpOrder>, IPpOrderService
@@ -23,12 +23,12 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("MorDate desc")
                 .Where(predicate.ToExpression())
                 .ToPage<PpOrder, PpOrderDto>(parm);
 
             return response;
         }
-
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -37,7 +37,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. MoSFID.ToString() == enterString);
+            int count = Count(it => it. MoSfid.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,17 +49,16 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="MoSFID"></param>
+        /// <param name="MoSfid"></param>
         /// <returns></returns>
-        public PpOrder GetInfo(long MoSFID)
+        public PpOrder GetInfo(long MoSfid)
         {
             var response = Queryable()
-                .Where(x => x.MoSFID == MoSFID)
+                .Where(x => x.MoSfid == MoSfid)
                 .First();
 
             return response;
         }
-
         /// <summary>
         /// 添加生产工单
         /// </summary>
@@ -70,7 +69,6 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
-
         /// <summary>
         /// 修改生产工单
         /// </summary>
@@ -89,14 +87,14 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.MoSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.MoSfid.IsEmpty(), "SFID不能为空")
                 .SplitError(x => x.Item.MoPlant.IsEmpty(), "生产工厂不能为空")
-                .SplitError(x => x.Item.MoOrderType.IsEmpty(), "订单类型不能为空")
-                .SplitError(x => x.Item.MoOrderNo.IsEmpty(), "生产订单不能为空")
-                .SplitError(x => x.Item.MoOrderItem.IsEmpty(), "物料不能为空")
-                .SplitError(x => x.Item.MoOrderQty.IsEmpty(), "工单数量不能为空")
-                .SplitError(x => x.Item.MoOrderProQty.IsEmpty(), "生产数量不能为空")
-                .SplitError(x => x.Item.MoOrderDate.IsEmpty(), "订单日期不能为空")
+                .SplitError(x => x.Item.MoType.IsEmpty(), "订单类型不能为空")
+                .SplitError(x => x.Item.MoNumber.IsEmpty(), "订单号码不能为空")
+                .SplitError(x => x.Item.MoItem.IsEmpty(), "物料不能为空")
+                .SplitError(x => x.Item.MoPlanQty.IsEmpty(), "工单数量不能为空")
+                .SplitError(x => x.Item.MoProdQty.IsEmpty(), "生产数量不能为空")
+                .SplitError(x => x.Item.MorDate.IsEmpty(), "订单日期不能为空")
                 .SplitError(x => x.Item.IsStatus.IsEmpty(), "状态不能为空")
                 .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
@@ -132,8 +130,9 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpOrderDto()
                 {
-                    MoOrderTypeLabel = it.MoOrderType.GetConfigValue<SysDictData>("sys_mo_type"),
-                    IsStatusLabel = it.IsStatus.GetConfigValue<SysDictData>("sys_mo_state"),
+                    MoPlantLabel = it.MoPlant.GetConfigValue<SysDictData>("sys_plant_list"),
+                    MoTypeLabel = it.MoType.GetConfigValue<SysDictData>("sys_mo_type"),
+                    IsStatusLabel = it.IsStatus.GetConfigValue<SysDictData>("sys_flag_list"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
@@ -150,16 +149,16 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpOrder>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoOrderType), it => it.MoOrderType == parm.MoOrderType);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoOrderNo), it => it.MoOrderNo.Contains(parm.MoOrderNo));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoOrderItem), it => it.MoOrderItem.Contains(parm.MoOrderItem));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoOrderlot), it => it.MoOrderlot.Contains(parm.MoOrderlot));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoPlant), it => it.MoPlant == parm.MoPlant);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoType), it => it.MoType == parm.MoType);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoNumber), it => it.MoNumber.Contains(parm.MoNumber));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoItem), it => it.MoItem == parm.MoItem);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginMoOrderDate == null, it => it.MoOrderDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMorDate == null, it => it.MorDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginMoOrderDate == null, it => it.MoOrderDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginMoOrderDate != null, it => it.MoOrderDate >= parm.BeginMoOrderDate);
-            predicate = predicate.AndIF(parm.EndMoOrderDate != null, it => it.MoOrderDate <= parm.EndMoOrderDate);
+            predicate = predicate.AndIF(parm.BeginMorDate == null, it => it.MorDate >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMorDate != null, it => it.MorDate >= parm.BeginMorDate);
+            predicate = predicate.AndIF(parm.EndMorDate != null, it => it.MorDate <= parm.EndMorDate);
             return predicate;
         }
     }

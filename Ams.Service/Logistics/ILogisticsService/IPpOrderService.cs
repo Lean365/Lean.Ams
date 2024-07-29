@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 生产工单
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:49
+    /// @Date: 2024/7/26 15:07:48
     /// </summary>
     public interface IPpOrderService : IBaseService<PpOrder>
     {
@@ -21,10 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取生产工单信息
         /// </summary>
-        /// <param name="MoSFID"></param>
+        /// <param name="MoSfid"></param>
         /// <returns></returns>
-        PpOrder GetInfo(long MoSFID);
-
+        PpOrder GetInfo(long MoSfid);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -32,7 +31,6 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <param name="enterString"></param>
         /// <returns></returns>
         public string CheckInputUnique(string enterString);
-
         /// <summary>
         /// 新增
         /// 生产工单

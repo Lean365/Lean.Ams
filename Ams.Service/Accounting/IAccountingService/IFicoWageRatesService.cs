@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 工资率
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 16:25:51
+    /// @Date: 2024/7/26 16:39:08
     /// </summary>
     public interface IFicoWageRatesService : IBaseService<FicoWageRates>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取工资率信息
         /// </summary>
-        /// <param name="FwSFID"></param>
+        /// <param name="FwSfid"></param>
         /// <returns></returns>
-        FicoWageRates GetInfo(long FwSFID);
+        FicoWageRates GetInfo(long FwSfid);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

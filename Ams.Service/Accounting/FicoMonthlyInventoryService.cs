@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 月度存货
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 11:45:33
+    /// @Date: 2024/7/26 16:46:48
     /// </summary>
     [AppService(ServiceType = typeof(IFicoMonthlyInventoryService), ServiceLifetime = LifeTime.Transient)]
     public class FicoMonthlyInventoryService : BaseService<FicoMonthlyInventory>, IFicoMonthlyInventoryService
@@ -23,26 +23,62 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("MiYm asc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoMonthlyInventory, FicoMonthlyInventoryDto>(parm);
 
             return response;
+        }
+        /// <summary>
+        /// 校验
+        /// 输入项目唯一性
+        /// </summary>
+        /// <param name="enterString"></param>
+        /// <returns></returns>
+        public string CheckInputUnique(string enterString)
+        {
+            int count = Count(it => it. MiSfid.ToString() == enterString);
+            if (count > 0)
+            {
+                return UserConstants.NOT_UNIQUE;
+            }
+            return UserConstants.UNIQUE;
         }
 
 
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="MiSFID"></param>
+        /// <param name="MiSfid"></param>
         /// <returns></returns>
-        public FicoMonthlyInventory GetInfo(long MiSFID)
+        public FicoMonthlyInventory GetInfo(long MiSfid)
         {
             var response = Queryable()
-                .Where(x => x.MiSFID == MiSFID)
+                .Where(x => x.MiSfid == MiSfid)
                 .First();
 
             return response;
         }
+        /// <summary>
+        /// 添加月度存货
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public FicoMonthlyInventory AddFicoMonthlyInventory(FicoMonthlyInventory model)
+        {
+            Insertable(model).ExecuteReturnSnowflakeId();
+            return model;
+        }
+        /// <summary>
+        /// 修改月度存货
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int UpdateFicoMonthlyInventory(FicoMonthlyInventory model)
+        {
+            return Update(model, true, "修改月度存货");
+        }
+
         /// <summary>
         /// 导入月度存货
         /// </summary>
@@ -51,7 +87,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.MiSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.MiSfid.IsEmpty(), "SFID不能为空")
                 .SplitError(x => x.Item.MiPlant.IsEmpty(), "工厂不能为空")
                 .SplitError(x => x.Item.MiFy.IsEmpty(), "期间不能为空")
                 .SplitError(x => x.Item.MiYm.IsEmpty(), "年月不能为空")
@@ -99,8 +135,10 @@ namespace Ams.Service.Accounting
                 .Select((it) => new FicoMonthlyInventoryDto()
                 {
                     MiPlantLabel = it.MiPlant.GetConfigValue<SysDictData>("sys_plant_list"),
-                    MiYmLabel = it.MiYm.GetConfigValue<SysDictData>("sql_ficoym_list"),
+                    MiFyLabel = it.MiFy.GetConfigValue<SysDictData>("sql_fy_list"),
+                    MiYmLabel = it.MiYm.GetConfigValue<SysDictData>("sql_ym_list"),
                     MiValTypeLabel = it.MiValType.GetConfigValue<SysDictData>("sys_val_type"),
+                    MiLocalCcyLabel = it.MiLocalCcy.GetConfigValue<SysDictData>("sys_ccy_type"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
@@ -118,8 +156,11 @@ namespace Ams.Service.Accounting
             var predicate = Expressionable.Create<FicoMonthlyInventory>();
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MiPlant), it => it.MiPlant == parm.MiPlant);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MiFy), it => it.MiFy == parm.MiFy);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MiYm), it => it.MiYm == parm.MiYm);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MiItem), it => it.MiItem.Contains(parm.MiItem));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MiValType), it => it.MiValType == parm.MiValType);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MiLocalCcy), it => it.MiLocalCcy == parm.MiLocalCcy);
             return predicate;
         }
     }

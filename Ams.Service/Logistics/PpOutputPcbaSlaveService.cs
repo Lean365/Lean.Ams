@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 制二OPH从表
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 9:31:04
+    /// @Date: 2024/7/26 16:07:20
     /// </summary>
     [AppService(ServiceType = typeof(IPpOutputPcbaSlaveService), ServiceLifetime = LifeTime.Transient)]
     public class PpOutputPcbaSlaveService : BaseService<PpOutputPcbaSlave>, IPpOutputPcbaSlaveService
@@ -89,6 +89,8 @@ namespace Ams.Service.Logistics
                 .SplitError(x => x.Item.PosSfid.IsEmpty(), "SFID不能为空")
                 .SplitError(x => x.Item.PosParentSfid.IsEmpty(), "父SFID不能为空")
                 .SplitError(x => x.Item.PosLineName.IsEmpty(), "班组不能为空")
+                .SplitError(x => x.Item.PosPcbaType.IsEmpty(), "板别不能为空")
+                .SplitError(x => x.Item.PosPcbaSide.IsEmpty(), "板面不能为空")
                 .SplitError(x => x.Item.PosLotQty.IsEmpty(), "Lot数不能为空")
                 .SplitError(x => x.Item.PosRealOutput.IsEmpty(), "生产实绩不能为空")
                 .SplitError(x => x.Item.PosRealTotal.IsEmpty(), "累计生产数不能为空")
@@ -141,7 +143,9 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpOutputPcbaSlaveDto()
                 {
-                    PosLineNameLabel = it.PosLineName.GetConfigValue<SysDictData>("sql_smt_class"),
+                    PosLineNameLabel = it.PosLineName.GetConfigValue<SysDictData>("sql_line_list"),
+                    PosPcbaTypeLabel = it.PosPcbaType.GetConfigValue<SysDictData>("sql_pcb_type"),
+                    PosPcbaSideLabel = it.PosPcbaSide.GetConfigValue<SysDictData>("sys_pcb_side"),
                     PosPcbaStatedLabel = it.PosPcbaStated.GetConfigValue<SysDictData>("sql_comp_status"),
                     PosDownTimeReasonsLabel = it.PosDownTimeReasons.GetConfigValue<SysDictData>("sql_line_stop"),
                     PosMissingReasonsLabel = it.PosMissingReasons.GetConfigValue<SysDictData>("sql_non_conf"),
@@ -162,6 +166,8 @@ namespace Ams.Service.Logistics
             var predicate = Expressionable.Create<PpOutputPcbaSlave>();
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PosLineName), it => it.PosLineName == parm.PosLineName);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PosPcbaType), it => it.PosPcbaType == parm.PosPcbaType);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PosPcbaSide), it => it.PosPcbaSide == parm.PosPcbaSide);
             return predicate;
         }
     }

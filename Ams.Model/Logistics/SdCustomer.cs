@@ -4,7 +4,7 @@ namespace Ams.Model.Logistics
     /// 顾客信息
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:26:23
+    /// @Date: 2024/7/26 13:49:23
     /// </summary>
     [SugarTable("sd_customer", "顾客信息")]
     public class SdCustomer : SysBase
@@ -14,7 +14,7 @@ namespace Ams.Model.Logistics
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long ScSFID { get; set; }
+        public long ScSfid { get; set; }
 
         /// <summary>
         /// 销售组织
@@ -59,16 +59,16 @@ namespace Ams.Model.Logistics
         public string ScEbe { get; set; }
 
         /// <summary>
-        /// 营业执照
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBusinessNo", ColumnDescription = "营业执照 ", Length = 100)]
-        public string ScBusinessNo { get; set; }
-
-        /// <summary>
         /// 税号
         /// </summary>
         [SugarColumn(ColumnName = "ScTaxNo", ColumnDescription = "税号 ", Length = 100)]
         public string ScTaxNo { get; set; }
+
+        /// <summary>
+        /// 营业执照
+        /// </summary>
+        [SugarColumn(ColumnName = "ScBusinessNo", ColumnDescription = "营业执照 ", Length = 100)]
+        public string ScBusinessNo { get; set; }
 
         /// <summary>
         /// 税别

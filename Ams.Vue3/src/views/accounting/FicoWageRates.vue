@@ -2,7 +2,7 @@
  * @Descripttion: 工资率/fico_wage_rates
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/18 16:25:51
+ * @Date: 2024/7/26 16:39:08
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -21,7 +21,7 @@
       </el-form-item>
       <el-form-item label="年月" prop="fwYm">
         <el-select filterable clearable   v-model="queryParams.fwYm" :placeholder="$t('btn.selectSearchPrefix')+'年月'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_ym_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+          <el-option v-for="item in   options.sql_fy_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -29,7 +29,7 @@
       </el-form-item>
       <el-form-item label="币种" prop="fwCcy">
         <el-select filterable clearable   v-model="queryParams.fwCcy" :placeholder="$t('btn.selectSearchPrefix')+'币种'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_ccy_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+          <el-option v-for="item in   options.sql_ym_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -97,7 +97,7 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="fwSFID" label="SFID" align="center" v-if="columns.showColumn('fwSFID')"/>
+      <el-table-column prop="fwSfid" label="SFID" align="center" v-if="columns.showColumn('fwSfid')"/>
       <el-table-column prop="fwCrop" label="公司" align="center" v-if="columns.showColumn('fwCrop')">
         <template #default="scope">
           <dict-tag :options=" options.sys_crop_list " :value="scope.row.fwCrop"  />
@@ -105,12 +105,12 @@
       </el-table-column>
       <el-table-column prop="fwYm" label="年月" align="center" v-if="columns.showColumn('fwYm')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_ym_list " :value="scope.row.fwYm"  />
+          <dict-tag :options=" options.sql_fy_list " :value="scope.row.fwYm"  />
         </template>
       </el-table-column>
       <el-table-column prop="fwCcy" label="币种" align="center" v-if="columns.showColumn('fwCcy')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_ccy_type " :value="scope.row.fwCcy"  />
+          <dict-tag :options=" options.sql_ym_list " :value="scope.row.fwCcy"  />
         </template>
       </el-table-column>
       <el-table-column prop="fwSalesVolume" label="销售额" align="center" v-if="columns.showColumn('fwSalesVolume')"/>
@@ -147,8 +147,8 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="SFID" prop="fwSFID">
-              <el-input v-model.number="form.fwSFID" :placeholder="$t('btn.enterPrefix')+'SFID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
+            <el-form-item label="SFID" prop="fwSfid">
+              <el-input v-model.number="form.fwSfid" :placeholder="$t('btn.enterPrefix')+'SFID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
             </el-form-item>
           </el-col>
 
@@ -169,7 +169,7 @@
             <el-form-item label="年月" prop="fwYm">
               <el-select filterable clearable   v-model="form.fwYm"  :placeholder="$t('btn.selectPrefix')+'年月'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_ym_list" 
+                  v-for="item in  options.sql_fy_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -182,7 +182,7 @@
             <el-form-item label="币种" prop="fwCcy">
               <el-select filterable clearable   v-model="form.fwCcy"  :placeholder="$t('btn.selectPrefix')+'币种'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sys_ccy_type" 
+                  v-for="item in  options.sql_ym_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -482,7 +482,7 @@ const queryParams = reactive({
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'fwSFID', label: 'SFID' },
+  { visible: true, prop: 'fwSfid', label: 'SFID' },
   { visible: true, prop: 'fwCrop', label: '公司' },
   { visible: true, prop: 'fwYm', label: '年月' },
   { visible: true, prop: 'fwCcy', label: '币种' },
@@ -511,44 +511,11 @@ const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //字典参数
 var dictParams = [
   { dictType: "sys_crop_list" },
+  { dictType: "sql_fy_list" },
   { dictType: "sql_ym_list" },
-  { dictType: "sys_ccy_type" },
   { dictType: "sys_is_deleted" },
 ]
 
@@ -584,7 +551,7 @@ function resetQuery(){
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.fwSFID);
+  ids.value = selection.map((item) => item.fwSfid);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -620,7 +587,7 @@ const state = reactive({
   multiple: true,
   form: {},
   rules: {
-    fwSFID: [{ required: true, message: "SFID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
+    fwSfid: [{ required: true, message: "SFID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
     fwCrop: [{ required: true, message: "公司"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
     fwYm: [{ required: true, message: "年月"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
     fwCcy: [{ required: true, message: "币种"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
@@ -646,9 +613,9 @@ const state = reactive({
     // 公司 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_crop_list: [],
     // 年月 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_ym_list: [],
+sql_fy_list: [],
     // 币种 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_ccy_type: [],
+sql_ym_list: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_is_deleted: [],
   }
@@ -665,7 +632,7 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    fwSFID: 0,
+    fwSfid: 0,
     fwCrop: null,
     fwYm: null,
     fwCcy: null,
@@ -727,7 +694,7 @@ function handleAdd() {
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.fwSFID || ids.value
+  const id = row.fwSfid || ids.value
   getFicoWageRates(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -747,7 +714,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.fwSFID != undefined && opertype.value === 2) {
+      if (form.value.fwSfid != undefined && opertype.value === 2) {
         updateFicoWageRates(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -766,7 +733,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.fwSFID || ids.value
+  const Ids = row.fwSfid || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {

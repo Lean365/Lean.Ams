@@ -22,10 +22,10 @@ namespace Ams.Statistics.Logistics.Service
             var response = Queryable()
                 //.Includes(x => x.OutputSlaveNav) //填充子对象
                 .Where(predicate.ToExpression())
-                .GroupBy((x) => new { x.EsEcNo, x.EsModel, x.EsItem, x.EsSubItem, x.EsOldItem, x.EsNewItem })
+                .GroupBy((x) => new { x.EcsEcNo, x.EcsModel, x.EcsItem, x.EcsSubItem, x.EcsOldItem, x.EcsNewItem })
                 .Select((x) => new
                 {
-                    x.EsEcNo
+                    x.EcsEcNo
                 }).ToList();
             //var queryableRight = db.Queryable<PpEcSlave>();
             ////int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页

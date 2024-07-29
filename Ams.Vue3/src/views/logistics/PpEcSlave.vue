@@ -2,7 +2,7 @@
  * @Descripttion: 从设变/pp_ec_slave
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/16 10:27:37
+ * @Date: 2024/7/26 16:30:08
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,6 +11,77 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
+      <el-form-item label="设变No." prop="ecsEcNo">
+        <el-input v-model="queryParams.ecsEcNo" :placeholder="$t('btn.enterSearchPrefix')+'设变No.'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="机种" prop="ecsModel">
+        <el-input v-model="queryParams.ecsModel" :placeholder="$t('btn.enterSearchPrefix')+'机种'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="物料" prop="ecsItem">
+        <el-input v-model="queryParams.ecsItem" :placeholder="$t('btn.enterSearchPrefix')+'物料'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="子物料" prop="ecsSubItem">
+        <el-input v-model="queryParams.ecsSubItem" :placeholder="$t('btn.enterSearchPrefix')+'子物料'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="旧物料" prop="ecsOldItem">
+        <el-input v-model="queryParams.ecsOldItem" :placeholder="$t('btn.enterSearchPrefix')+'旧物料'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="采购类型" prop="ecsPurType">
+        <el-select filterable clearable   v-model="queryParams.ecsPurType" :placeholder="$t('btn.selectSearchPrefix')+'采购类型'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sys_pur_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="采购组" prop="ecsPurGroup">
+        <el-select filterable clearable   v-model="queryParams.ecsPurGroup" :placeholder="$t('btn.selectSearchPrefix')+'采购组'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sys_pur_group " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="仓库" prop="ecsSloc">
+        <el-select filterable clearable   v-model="queryParams.ecsSloc" :placeholder="$t('btn.selectSearchPrefix')+'仓库'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sys_sloc_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="检验否" prop="ecsInsmk">
+        <el-select filterable clearable   v-model="queryParams.ecsInsmk" :placeholder="$t('btn.selectSearchPrefix')+'检验否'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sys_flag_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="工厂状态" prop="ecsPlntStated">
+        <el-select filterable clearable   v-model="queryParams.ecsPlntStated" :placeholder="$t('btn.selectSearchPrefix')+'工厂状态'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sys_eol_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="SOP" prop="ecsSopStated">
+        <el-select filterable clearable   v-model="queryParams.ecsSopStated" :placeholder="$t('btn.selectSearchPrefix')+'SOP'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sys_flag_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="实施标记" prop="ecsImplStated">
+        <el-select filterable clearable   v-model="queryParams.ecsImplStated" :placeholder="$t('btn.selectSearchPrefix')+'实施标记'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sys_flag_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
+      </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
       <el-form-item>
@@ -73,94 +144,91 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="esSFID" label="SFID" align="center" v-if="columns.showColumn('esSFID')"/>
-      <el-table-column prop="esParentSfid" label="EsParentSfid" align="center" v-if="columns.showColumn('esParentSfid')"/>
-      <el-table-column prop="esEntryDate" label="输入日" :show-overflow-tooltip="true"  v-if="columns.showColumn('esEntryDate')"/>
-      <el-table-column prop="esEcNo" label="设变No." align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esEcNo')"/>
-      <el-table-column prop="esModel" label="机种" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esModel')"/>
-      <el-table-column prop="esItem" label="物料" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esItem')"/>
-      <el-table-column prop="esSubItem" label="子物料" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esSubItem')"/>
-      <el-table-column prop="esOldItem" label="旧物料" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esOldItem')"/>
-      <el-table-column prop="esOldItemText" label="旧文本" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esOldItemText')"/>
-      <el-table-column prop="esOldUsageQty" label="用量" align="center" v-if="columns.showColumn('esOldUsageQty')"/>
-      <el-table-column prop="esOldSetLoc" label="位置" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esOldSetLoc')"/>
-      <el-table-column prop="esNewItem" label="新物料" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esNewItem')"/>
-      <el-table-column prop="esNewItemText" label="新文本" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esNewItemText')"/>
-      <el-table-column prop="esNewUsageQty" label="用量" align="center" v-if="columns.showColumn('esNewUsageQty')"/>
-      <el-table-column prop="esNewSetLoc" label="位置" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esNewSetLoc')"/>
-      <el-table-column prop="esBomNo" label="bom番号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esBomNo')"/>
-      <el-table-column prop="esChange" label="互换" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esChange')"/>
-      <el-table-column prop="eslocal" label="区分" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('eslocal')"/>
-      <el-table-column prop="esnote" label="指示" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esnote')"/>
-      <el-table-column prop="esOldProcess" label="旧品处理" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esOldProcess')"/>
-      <el-table-column prop="esBomDate" label="bom日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('esBomDate')"/>
-      <el-table-column prop="emEcImpDept" label="实施部门" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('emEcImpDept')"/>
-      <el-table-column prop="esPurType" label="采购类型" align="center" v-if="columns.showColumn('esPurType')">
+      <el-table-column prop="ecsSfid" label="ID" align="center" v-if="columns.showColumn('ecsSfid')"/>
+      <el-table-column prop="ecsParentSfid" label="父ID" align="center" v-if="columns.showColumn('ecsParentSfid')"/>
+      <el-table-column prop="ecsEcNo" label="设变No." align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsEcNo')"/>
+      <el-table-column prop="ecsModel" label="机种" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsModel')"/>
+      <el-table-column prop="ecsItem" label="物料" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsItem')"/>
+      <el-table-column prop="ecsItemText" label="物料文本" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsItemText')"/>
+      <el-table-column prop="ecsSubItem" label="子物料" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsSubItem')"/>
+      <el-table-column prop="ecsSubItemText" label="子物料文本" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsSubItemText')"/>
+      <el-table-column prop="ecsOldItem" label="旧物料" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsOldItem')"/>
+      <el-table-column prop="ecsOldItemText" label="旧文本" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsOldItemText')"/>
+      <el-table-column prop="ecsOldCurrStock" label="旧品库存" align="center" v-if="columns.showColumn('ecsOldCurrStock')"/>
+      <el-table-column prop="ecsOldUsageQty" label="用量" align="center" v-if="columns.showColumn('ecsOldUsageQty')"/>
+      <el-table-column prop="ecsOldSetLoc" label="位置" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsOldSetLoc')"/>
+      <el-table-column prop="ecsNewItem" label="新物料" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsNewItem')"/>
+      <el-table-column prop="ecsNewItemText" label="新文本" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsNewItemText')"/>
+      <el-table-column prop="ecsNewCurrStock" label="新品库存" align="center" v-if="columns.showColumn('ecsNewCurrStock')"/>
+      <el-table-column prop="ecsNewUsageQty" label="用量" align="center" v-if="columns.showColumn('ecsNewUsageQty')"/>
+      <el-table-column prop="ecsNewSetLoc" label="位置" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsNewSetLoc')"/>
+      <el-table-column prop="ecsBomNo" label="bom番号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsBomNo')"/>
+      <el-table-column prop="ecsChange" label="互换" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsChange')"/>
+      <el-table-column prop="ecsDistLocal" label="区分" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsDistLocal')"/>
+      <el-table-column prop="ecsInstNote" label="指示" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsInstNote')"/>
+      <el-table-column prop="ecsOldProcess" label="旧品处理" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsOldProcess')"/>
+      <el-table-column prop="ecsBomDate" label="bom日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('ecsBomDate')"/>
+      <el-table-column prop="ecsPurType" label="采购类型" align="center" v-if="columns.showColumn('ecsPurType')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_pur_type " :value="scope.row.esPurType"  />
+          <dict-tag :options=" options.sys_pur_type " :value="scope.row.ecsPurType"  />
         </template>
       </el-table-column>
-      <el-table-column prop="esSloc" label="仓库" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esSloc')"/>
-      <el-table-column prop="esInsmk" label="检验否" align="center" v-if="columns.showColumn('esInsmk')">
+      <el-table-column prop="ecsPurGroup" label="采购组" align="center" v-if="columns.showColumn('ecsPurGroup')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_normal_whether " :value="scope.row.esInsmk"  />
+          <dict-tag :options=" options.sys_pur_group " :value="scope.row.ecsPurGroup"  />
         </template>
       </el-table-column>
-      <el-table-column prop="esMstae" label="工厂状态" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esMstae')"/>
-      <el-table-column prop="esSopStae" label="SOP" align="center" v-if="columns.showColumn('esSopStae')">
+      <el-table-column prop="ecsSloc" label="仓库" align="center" v-if="columns.showColumn('ecsSloc')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_sop_yn " :value="scope.row.esSopStae"  />
+          <dict-tag :options=" options.sys_sloc_list " :value="scope.row.ecsSloc"  />
         </template>
       </el-table-column>
-      <el-table-column prop="esOldCurrStock" label="旧品库存" align="center" v-if="columns.showColumn('esOldCurrStock')"/>
-      <el-table-column prop="esNewCurrStock" label="新品库存" align="center" v-if="columns.showColumn('esNewCurrStock')"/>
-      <el-table-column prop="esPurEntryDate" label="采购登入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('esPurEntryDate')"/>
-      <el-table-column prop="esSupplier" label="供应商" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esSupplier')"/>
-      <el-table-column prop="esPurOrder" label="采购PO" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPurOrder')"/>
-      <el-table-column prop="esPurNote" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPurNote')"/>
-      <el-table-column prop="esPurCreator" label="采购新增" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPurCreator')"/>
-      <el-table-column prop="esPurModifier" label="采购修改" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPurModifier')"/>
-      <el-table-column prop="esPurModifyTime" label="采购修改日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('esPurModifyTime')"/>
-      <el-table-column prop="esPmcEntryDate" label="生管登入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('esPmcEntryDate')"/>
-      <el-table-column prop="esPmcLot" label="预投入批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPmcLot')"/>
-      <el-table-column prop="esPmcMemo" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPmcMemo')"/>
-      <el-table-column prop="esPmcNote" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPmcNote')"/>
-      <el-table-column prop="esPmcCreator" label="生管新增" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPmcCreator')"/>
-      <el-table-column prop="esPmcModifier" label="生管修改" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPmcModifier')"/>
-      <el-table-column prop="esPmcModifyTime" label="生管修改日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('esPmcModifyTime')"/>
-      <el-table-column prop="esIqcEntryDate" label="IQC登入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('esIqcEntryDate')"/>
-      <el-table-column prop="esIqcOrder" label="检验订单" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esIqcOrder')"/>
-      <el-table-column prop="esIqcNote" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esIqcNote')"/>
-      <el-table-column prop="esIqcCreator" label="IQC新增" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esIqcCreator')"/>
-      <el-table-column prop="esIqcModifier" label="IQC修改" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esIqcModifier')"/>
-      <el-table-column prop="esIqcModifyTime" label="IQC修改日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('esIqcModifyTime')"/>
-      <el-table-column prop="esMmEntryDate" label="部管登入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('esMmEntryDate')"/>
-      <el-table-column prop="esMmLot" label="领用批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esMmLot')"/>
-      <el-table-column prop="esMmMocNo" label="工单" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esMmMocNo')"/>
-      <el-table-column prop="esMmNote" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esMmNote')"/>
-      <el-table-column prop="esMmCreator" label="EsMmCreator" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esMmCreator')"/>
-      <el-table-column prop="esMmModifier" label="EsMmModifier" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esMmModifier')"/>
-      <el-table-column prop="esMmModifyTime" label="EsMmModifyTime" :show-overflow-tooltip="true"  v-if="columns.showColumn('esMmModifyTime')"/>
-      <el-table-column prop="esPpEntryDate" label="制一登入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('esPpEntryDate')"/>
-      <el-table-column prop="esPpLine" label="班组" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPpLine')"/>
-      <el-table-column prop="esPpLot" label="生产批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPpLot')"/>
-      <el-table-column prop="esPpNote" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPpNote')"/>
-      <el-table-column prop="esPpCreator" label="EsPpCreator" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPpCreator')"/>
-      <el-table-column prop="esPpModifier" label="EsPpModifier" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPpModifier')"/>
-      <el-table-column prop="esPpModifyTime" label="EsPpModifyTime" :show-overflow-tooltip="true"  v-if="columns.showColumn('esPpModifyTime')"/>
-      <el-table-column prop="esPcbaEntryDate" label="制二登入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('esPcbaEntryDate')"/>
-      <el-table-column prop="esPcbaLine" label="Pcba班组" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPcbaLine')"/>
-      <el-table-column prop="esPcbaLot" label="Pcba批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPcbaLot')"/>
-      <el-table-column prop="esPcbaNote" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPcbaNote')"/>
-      <el-table-column prop="esPcbaCreator" label="EsPcbaCreator" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPcbaCreator')"/>
-      <el-table-column prop="esPcbaModifier" label="EsPcbaModifier" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esPcbaModifier')"/>
-      <el-table-column prop="esPcbaModifyTime" label="EsPcbaModifyTime" :show-overflow-tooltip="true"  v-if="columns.showColumn('esPcbaModifyTime')"/>
-      <el-table-column prop="esQaEntryDate" label="QA确认日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('esQaEntryDate')"/>
-      <el-table-column prop="esQaLot" label="检验批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esQaLot')"/>
-      <el-table-column prop="esQaNote" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esQaNote')"/>
-      <el-table-column prop="esQaCreator" label="EsQaCreator" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esQaCreator')"/>
-      <el-table-column prop="esQaModifier" label="EsQaModifier" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('esQaModifier')"/>
-      <el-table-column prop="esQaModifyTime" label="EsQaModifyTime" :show-overflow-tooltip="true"  v-if="columns.showColumn('esQaModifyTime')"/>
+      <el-table-column prop="ecsInsmk" label="检验否" align="center" v-if="columns.showColumn('ecsInsmk')">
+        <template #default="scope">
+          <dict-tag :options=" options.sys_flag_list " :value="scope.row.ecsInsmk"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="ecsPlntStated" label="工厂状态" align="center" v-if="columns.showColumn('ecsPlntStated')">
+        <template #default="scope">
+          <dict-tag :options=" options.sys_eol_list " :value="scope.row.ecsPlntStated"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="ecsSopStated" label="SOP" align="center" v-if="columns.showColumn('ecsSopStated')">
+        <template #default="scope">
+          <dict-tag :options=" options.sys_flag_list " :value="scope.row.ecsSopStated"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="ecsImplStated" label="实施标记" align="center" v-if="columns.showColumn('ecsImplStated')">
+        <template #default="scope">
+          <dict-tag :options=" options.sys_flag_list " :value="scope.row.ecsImplStated"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="ecsPurEnteredDate" label="采购登入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('ecsPurEnteredDate')"/>
+      <el-table-column prop="ecsPurSupplier" label="供应商" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsPurSupplier')"/>
+      <el-table-column prop="ecsPurOrder" label="采购PO" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsPurOrder')"/>
+      <el-table-column prop="ecsPurNote" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsPurNote')"/>
+      <el-table-column prop="ecsPmcEnteredDate" label="生管登入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('ecsPmcEnteredDate')"/>
+      <el-table-column prop="ecsPmcPreLot" label="预投入批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsPmcPreLot')"/>
+      <el-table-column prop="ecsPmcDisposal" label="旧品处理" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsPmcDisposal')"/>
+      <el-table-column prop="ecsPmcNote" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsPmcNote')"/>
+      <el-table-column prop="ecsIqcEnteredDate" label="IQC登入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('ecsIqcEnteredDate')"/>
+      <el-table-column prop="ecsIqcOrder" label="检验订单" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsIqcOrder')"/>
+      <el-table-column prop="ecsIqcNote" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsIqcNote')"/>
+      <el-table-column prop="ecsMmEnteredDate" label="部管登入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('ecsMmEnteredDate')"/>
+      <el-table-column prop="ecsMmLot" label="领用批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsMmLot')"/>
+      <el-table-column prop="ecsMmProOrder" label="工单" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsMmProOrder')"/>
+      <el-table-column prop="ecsMmNote" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsMmNote')"/>
+      <el-table-column prop="ecsAssyEnteredDate" label="制一登入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('ecsAssyEnteredDate')"/>
+      <el-table-column prop="ecsAssyLine" label="班组" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsAssyLine')"/>
+      <el-table-column prop="ecsAssyPutLot" label="生产批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsAssyPutLot')"/>
+      <el-table-column prop="ecsAssyNote" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsAssyNote')"/>
+      <el-table-column prop="ecsPcbaEnteredDate" label="制二登入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('ecsPcbaEnteredDate')"/>
+      <el-table-column prop="ecsPcbaLine" label="Pcba班组" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsPcbaLine')"/>
+      <el-table-column prop="ecsPcbaPutLot" label="Pcba批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsPcbaPutLot')"/>
+      <el-table-column prop="ecsPcbaNote" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsPcbaNote')"/>
+      <el-table-column prop="ecsFqcEnteredDate" label="QA确认日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('ecsFqcEnteredDate')"/>
+      <el-table-column prop="ecsFqcImplLot" label="检验批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsFqcImplLot')"/>
+      <el-table-column prop="ecsFqcNote" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecsFqcNote')"/>
       <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
       <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
@@ -177,7 +245,6 @@
     </el-table>
     <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
 
-
     <!-- 添加或修改从设变对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" >
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
@@ -185,141 +252,153 @@
           <el-tab-pane :label="$t('ptabs.basicInfo')" name="first">
         <el-row :gutter="20">
             
-          <el-col :lg="12">
-            <el-form-item label="SFID" prop="esSFID">
-              <el-input v-model.number="form.esSFID" :placeholder="$t('btn.enterPrefix')+'SFID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
+          <el-col :lg="12" v-if="opertype != 1">
+            <el-form-item label="ID" prop="ecsSfid">
+              <el-input-number v-model.number="form.ecsSfid" controls-position="right" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="true"/>
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="EsParentSfid" prop="esParentSfid">
-              <el-input v-model.number="form.esParentSfid" :placeholder="$t('btn.enterPrefix')+'EsParentSfid'+$t('btn.enterSuffix')" />
+            <el-form-item label="父ID" prop="ecsParentSfid">
+              <el-input v-model.number="form.ecsParentSfid" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="输入日" prop="esEntryDate">
-              <el-date-picker v-model="form.esEntryDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="设变No." prop="ecsEcNo">
+              <el-input v-model="form.ecsEcNo" :placeholder="$t('btn.enterPrefix')+'设变No.'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="设变No." prop="esEcNo">
-              <el-input v-model="form.esEcNo" :placeholder="$t('btn.enterPrefix')+'设变No.'+$t('btn.enterSuffix')" />
+            <el-form-item label="机种" prop="ecsModel">
+              <el-input v-model="form.ecsModel" :placeholder="$t('btn.enterPrefix')+'机种'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="机种" prop="esModel">
-              <el-input v-model="form.esModel" :placeholder="$t('btn.enterPrefix')+'机种'+$t('btn.enterSuffix')" />
+            <el-form-item label="物料" prop="ecsItem">
+              <el-input v-model="form.ecsItem" :placeholder="$t('btn.enterPrefix')+'物料'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="物料" prop="esItem">
-              <el-input v-model="form.esItem" :placeholder="$t('btn.enterPrefix')+'物料'+$t('btn.enterSuffix')" />
+            <el-form-item label="物料文本" prop="ecsItemText">
+              <el-input v-model="form.ecsItemText" :placeholder="$t('btn.enterPrefix')+'物料文本'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="子物料" prop="esSubItem">
-              <el-input v-model="form.esSubItem" :placeholder="$t('btn.enterPrefix')+'子物料'+$t('btn.enterSuffix')" />
+            <el-form-item label="子物料" prop="ecsSubItem">
+              <el-input v-model="form.ecsSubItem" :placeholder="$t('btn.enterPrefix')+'子物料'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="旧物料" prop="esOldItem">
-              <el-input v-model="form.esOldItem" :placeholder="$t('btn.enterPrefix')+'旧物料'+$t('btn.enterSuffix')" />
+            <el-form-item label="子物料文本" prop="ecsSubItemText">
+              <el-input v-model="form.ecsSubItemText" :placeholder="$t('btn.enterPrefix')+'子物料文本'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="旧文本" prop="esOldItemText">
-              <el-input v-model="form.esOldItemText" :placeholder="$t('btn.enterPrefix')+'旧文本'+$t('btn.enterSuffix')" />
+            <el-form-item label="旧物料" prop="ecsOldItem">
+              <el-input v-model="form.ecsOldItem" :placeholder="$t('btn.enterPrefix')+'旧物料'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="用量" prop="esOldUsageQty">
-              <el-input-number v-model.number="form.esOldUsageQty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'用量'+$t('btn.enterSuffix')" />
+            <el-form-item label="旧文本" prop="ecsOldItemText">
+              <el-input v-model="form.ecsOldItemText" :placeholder="$t('btn.enterPrefix')+'旧文本'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="位置" prop="esOldSetLoc">
-              <el-input v-model="form.esOldSetLoc" :placeholder="$t('btn.enterPrefix')+'位置'+$t('btn.enterSuffix')" />
+            <el-form-item label="旧品库存" prop="ecsOldCurrStock">
+              <el-input-number v-model.number="form.ecsOldCurrStock" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'旧品库存'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="新物料" prop="esNewItem">
-              <el-input v-model="form.esNewItem" :placeholder="$t('btn.enterPrefix')+'新物料'+$t('btn.enterSuffix')" />
+            <el-form-item label="用量" prop="ecsOldUsageQty">
+              <el-input-number v-model.number="form.ecsOldUsageQty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'用量'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="新文本" prop="esNewItemText">
-              <el-input v-model="form.esNewItemText" :placeholder="$t('btn.enterPrefix')+'新文本'+$t('btn.enterSuffix')" />
+            <el-form-item label="位置" prop="ecsOldSetLoc">
+              <el-input v-model="form.ecsOldSetLoc" :placeholder="$t('btn.enterPrefix')+'位置'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="用量" prop="esNewUsageQty">
-              <el-input-number v-model.number="form.esNewUsageQty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'用量'+$t('btn.enterSuffix')" />
+            <el-form-item label="新物料" prop="ecsNewItem">
+              <el-input v-model="form.ecsNewItem" :placeholder="$t('btn.enterPrefix')+'新物料'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="位置" prop="esNewSetLoc">
-              <el-input v-model="form.esNewSetLoc" :placeholder="$t('btn.enterPrefix')+'位置'+$t('btn.enterSuffix')" />
+            <el-form-item label="新文本" prop="ecsNewItemText">
+              <el-input v-model="form.ecsNewItemText" :placeholder="$t('btn.enterPrefix')+'新文本'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="bom番号" prop="esBomNo">
-              <el-input v-model="form.esBomNo" :placeholder="$t('btn.enterPrefix')+'bom番号'+$t('btn.enterSuffix')" />
+            <el-form-item label="新品库存" prop="ecsNewCurrStock">
+              <el-input-number v-model.number="form.ecsNewCurrStock" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'新品库存'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="互换" prop="esChange">
-              <el-input v-model="form.esChange" :placeholder="$t('btn.enterPrefix')+'互换'+$t('btn.enterSuffix')" />
+            <el-form-item label="用量" prop="ecsNewUsageQty">
+              <el-input-number v-model.number="form.ecsNewUsageQty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'用量'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="区分" prop="eslocal">
-              <el-input v-model="form.eslocal" :placeholder="$t('btn.enterPrefix')+'区分'+$t('btn.enterSuffix')" />
+            <el-form-item label="位置" prop="ecsNewSetLoc">
+              <el-input v-model="form.ecsNewSetLoc" :placeholder="$t('btn.enterPrefix')+'位置'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="指示" prop="esnote">
-              <el-input v-model="form.esnote" :placeholder="$t('btn.enterPrefix')+'指示'+$t('btn.enterSuffix')" />
+            <el-form-item label="bom番号" prop="ecsBomNo">
+              <el-input v-model="form.ecsBomNo" :placeholder="$t('btn.enterPrefix')+'bom番号'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="旧品处理" prop="esOldProcess">
-              <el-input v-model="form.esOldProcess" :placeholder="$t('btn.enterPrefix')+'旧品处理'+$t('btn.enterSuffix')" />
+            <el-form-item label="互换" prop="ecsChange">
+              <el-input v-model="form.ecsChange" :placeholder="$t('btn.enterPrefix')+'互换'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="bom日期" prop="esBomDate">
-              <el-date-picker v-model="form.esBomDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="区分" prop="ecsDistLocal">
+              <el-input v-model="form.ecsDistLocal" :placeholder="$t('btn.enterPrefix')+'区分'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="实施部门" prop="emEcImpDept">
-              <el-input v-model="form.emEcImpDept" :placeholder="$t('btn.enterPrefix')+'实施部门'+$t('btn.enterSuffix')" />
+            <el-form-item label="指示" prop="ecsInstNote">
+              <el-input v-model="form.ecsInstNote" :placeholder="$t('btn.enterPrefix')+'指示'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="采购类型" prop="esPurType">
-              <el-select filterable clearable   v-model="form.esPurType"  :placeholder="$t('btn.selectPrefix')+'采购类型'+$t('btn.selectSuffix')">
+            <el-form-item label="旧品处理" prop="ecsOldProcess">
+              <el-input v-model="form.ecsOldProcess" :placeholder="$t('btn.enterPrefix')+'旧品处理'+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="bom日期" prop="ecsBomDate">
+              <el-date-picker v-model="form.ecsBomDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="采购类型" prop="ecsPurType">
+              <el-select filterable clearable   v-model="form.ecsPurType"  :placeholder="$t('btn.selectPrefix')+'采购类型'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sys_pur_type" 
                   :key="item.dictValue" 
@@ -331,16 +410,10 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="仓库" prop="esSloc">
-              <el-input v-model="form.esSloc" :placeholder="$t('btn.enterPrefix')+'仓库'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="检验否" prop="esInsmk">
-              <el-select filterable clearable   v-model="form.esInsmk"  :placeholder="$t('btn.selectPrefix')+'检验否'+$t('btn.selectSuffix')">
+            <el-form-item label="采购组" prop="ecsPurGroup">
+              <el-select filterable clearable   v-model="form.ecsPurGroup"  :placeholder="$t('btn.selectPrefix')+'采购组'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sys_normal_whether" 
+                  v-for="item in  options.sys_pur_group" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -350,16 +423,62 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="工厂状态" prop="esMstae">
-              <el-input v-model="form.esMstae" :placeholder="$t('btn.enterPrefix')+'工厂状态'+$t('btn.enterSuffix')" />
+            <el-form-item label="仓库" prop="ecsSloc">
+              <el-select filterable clearable   v-model="form.ecsSloc"  :placeholder="$t('btn.selectPrefix')+'仓库'+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sys_sloc_list" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
+
+
+          <el-col :lg="12">
+            <el-form-item label="检验否" prop="ecsInsmk">
+              <el-select filterable clearable   v-model="form.ecsInsmk"  :placeholder="$t('btn.selectPrefix')+'检验否'+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sys_flag_list" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+
+          <el-col :lg="12">
+            <el-form-item label="工厂状态" prop="ecsPlntStated">
+              <el-select filterable clearable   v-model="form.ecsPlntStated"  :placeholder="$t('btn.selectPrefix')+'工厂状态'+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sys_eol_list" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
             
           <el-col :lg="12">
-            <el-form-item label="SOP" prop="esSopStae">
-              <el-select filterable clearable   v-model="form.esSopStae"  :placeholder="$t('btn.selectPrefix')+'SOP'+$t('btn.selectSuffix')">
+            <el-form-item label="SOP" prop="ecsSopStated">
+              <el-select filterable clearable   v-model="form.ecsSopStated"  :placeholder="$t('btn.selectPrefix')+'SOP'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sys_sop_yn" 
+                  v-for="item in  options.sys_flag_list" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="parseInt(item.dictValue)"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+            
+          <el-col :lg="12">
+            <el-form-item label="实施标记" prop="ecsImplStated">
+              <el-select filterable clearable   v-model="form.ecsImplStated"  :placeholder="$t('btn.selectPrefix')+'实施标记'+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sys_flag_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="parseInt(item.dictValue)"></el-option>
@@ -369,338 +488,158 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="旧品库存" prop="esOldCurrStock">
-              <el-input-number v-model.number="form.esOldCurrStock" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'旧品库存'+$t('btn.enterSuffix')" />
+            <el-form-item label="采购登入日期" prop="ecsPurEnteredDate">
+              <el-date-picker v-model="form.ecsPurEnteredDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="新品库存" prop="esNewCurrStock">
-              <el-input-number v-model.number="form.esNewCurrStock" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'新品库存'+$t('btn.enterSuffix')" />
+            <el-form-item label="供应商" prop="ecsPurSupplier">
+              <el-input v-model="form.ecsPurSupplier" :placeholder="$t('btn.enterPrefix')+'供应商'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="采购登入日期" prop="esPurEntryDate">
-              <el-date-picker v-model="form.esPurEntryDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="采购PO" prop="ecsPurOrder">
+              <el-input v-model="form.ecsPurOrder" :placeholder="$t('btn.enterPrefix')+'采购PO'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="供应商" prop="esSupplier">
-              <el-input v-model="form.esSupplier" :placeholder="$t('btn.enterPrefix')+'供应商'+$t('btn.enterSuffix')" />
+            <el-form-item label="说明" prop="ecsPurNote">
+              <el-input v-model="form.ecsPurNote" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="采购PO" prop="esPurOrder">
-              <el-input v-model="form.esPurOrder" :placeholder="$t('btn.enterPrefix')+'采购PO'+$t('btn.enterSuffix')" />
+            <el-form-item label="生管登入日期" prop="ecsPmcEnteredDate">
+              <el-date-picker v-model="form.ecsPmcEnteredDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="说明" prop="esPurNote">
-              <el-input v-model="form.esPurNote" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
+            <el-form-item label="预投入批次" prop="ecsPmcPreLot">
+              <el-input v-model="form.ecsPmcPreLot" :placeholder="$t('btn.enterPrefix')+'预投入批次'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="采购新增" prop="esPurCreator">
-              <el-input v-model="form.esPurCreator" :placeholder="$t('btn.enterPrefix')+'采购新增'+$t('btn.enterSuffix')" />
+            <el-form-item label="旧品处理" prop="ecsPmcDisposal">
+              <el-input v-model="form.ecsPmcDisposal" :placeholder="$t('btn.enterPrefix')+'旧品处理'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="采购新增日期" prop="esPurCreateTime">
-              <el-date-picker v-model="form.esPurCreateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="备注" prop="ecsPmcNote">
+              <el-input v-model="form.ecsPmcNote" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="采购修改" prop="esPurModifier">
-              <el-input v-model="form.esPurModifier" :placeholder="$t('btn.enterPrefix')+'采购修改'+$t('btn.enterSuffix')" />
+            <el-form-item label="IQC登入日期" prop="ecsIqcEnteredDate">
+              <el-date-picker v-model="form.ecsIqcEnteredDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="采购修改日期" prop="esPurModifyTime">
-              <el-date-picker v-model="form.esPurModifyTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="检验订单" prop="ecsIqcOrder">
+              <el-input v-model="form.ecsIqcOrder" :placeholder="$t('btn.enterPrefix')+'检验订单'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生管登入日期" prop="esPmcEntryDate">
-              <el-date-picker v-model="form.esPmcEntryDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="说明" prop="ecsIqcNote">
+              <el-input v-model="form.ecsIqcNote" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="预投入批次" prop="esPmcLot">
-              <el-input v-model="form.esPmcLot" :placeholder="$t('btn.enterPrefix')+'预投入批次'+$t('btn.enterSuffix')" />
+            <el-form-item label="部管登入日期" prop="ecsMmEnteredDate">
+              <el-date-picker v-model="form.ecsMmEnteredDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="说明" prop="esPmcMemo">
-              <el-input v-model="form.esPmcMemo" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
+            <el-form-item label="领用批次" prop="ecsMmLot">
+              <el-input v-model="form.ecsMmLot" :placeholder="$t('btn.enterPrefix')+'领用批次'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="备注" prop="esPmcNote">
-              <el-input v-model="form.esPmcNote" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" />
+            <el-form-item label="工单" prop="ecsMmProOrder">
+              <el-input v-model="form.ecsMmProOrder" :placeholder="$t('btn.enterPrefix')+'工单'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生管新增" prop="esPmcCreator">
-              <el-input v-model="form.esPmcCreator" :placeholder="$t('btn.enterPrefix')+'生管新增'+$t('btn.enterSuffix')" />
+            <el-form-item label="说明" prop="ecsMmNote">
+              <el-input v-model="form.ecsMmNote" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生管新增日期" prop="esPmcCreateTime">
-              <el-date-picker v-model="form.esPmcCreateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="制一登入日期" prop="ecsAssyEnteredDate">
+              <el-date-picker v-model="form.ecsAssyEnteredDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生管修改" prop="esPmcModifier">
-              <el-input v-model="form.esPmcModifier" :placeholder="$t('btn.enterPrefix')+'生管修改'+$t('btn.enterSuffix')" />
+            <el-form-item label="班组" prop="ecsAssyLine">
+              <el-input v-model="form.ecsAssyLine" :placeholder="$t('btn.enterPrefix')+'班组'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生管修改日期" prop="esPmcModifyTime">
-              <el-date-picker v-model="form.esPmcModifyTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="生产批次" prop="ecsAssyPutLot">
+              <el-input v-model="form.ecsAssyPutLot" :placeholder="$t('btn.enterPrefix')+'生产批次'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="IQC登入日期" prop="esIqcEntryDate">
-              <el-date-picker v-model="form.esIqcEntryDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="说明" prop="ecsAssyNote">
+              <el-input v-model="form.ecsAssyNote" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="检验订单" prop="esIqcOrder">
-              <el-input v-model="form.esIqcOrder" :placeholder="$t('btn.enterPrefix')+'检验订单'+$t('btn.enterSuffix')" />
+            <el-form-item label="制二登入日期" prop="ecsPcbaEnteredDate">
+              <el-date-picker v-model="form.ecsPcbaEnteredDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="说明" prop="esIqcNote">
-              <el-input v-model="form.esIqcNote" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
+            <el-form-item label="Pcba班组" prop="ecsPcbaLine">
+              <el-input v-model="form.ecsPcbaLine" :placeholder="$t('btn.enterPrefix')+'Pcba班组'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="IQC新增" prop="esIqcCreator">
-              <el-input v-model="form.esIqcCreator" :placeholder="$t('btn.enterPrefix')+'IQC新增'+$t('btn.enterSuffix')" />
+            <el-form-item label="Pcba批次" prop="ecsPcbaPutLot">
+              <el-input v-model="form.ecsPcbaPutLot" :placeholder="$t('btn.enterPrefix')+'Pcba批次'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="IQC新增日期" prop="esIqcCreateTime">
-              <el-date-picker v-model="form.esIqcCreateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="说明" prop="ecsPcbaNote">
+              <el-input v-model="form.ecsPcbaNote" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="IQC修改" prop="esIqcModifier">
-              <el-input v-model="form.esIqcModifier" :placeholder="$t('btn.enterPrefix')+'IQC修改'+$t('btn.enterSuffix')" />
+            <el-form-item label="QA确认日期" prop="ecsFqcEnteredDate">
+              <el-date-picker v-model="form.ecsFqcEnteredDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="IQC修改日期" prop="esIqcModifyTime">
-              <el-date-picker v-model="form.esIqcModifyTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="检验批次" prop="ecsFqcImplLot">
+              <el-input v-model="form.ecsFqcImplLot" :placeholder="$t('btn.enterPrefix')+'检验批次'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="部管登入日期" prop="esMmEntryDate">
-              <el-date-picker v-model="form.esMmEntryDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="领用批次" prop="esMmLot">
-              <el-input v-model="form.esMmLot" :placeholder="$t('btn.enterPrefix')+'领用批次'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="工单" prop="esMmMocNo">
-              <el-input v-model="form.esMmMocNo" :placeholder="$t('btn.enterPrefix')+'工单'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="说明" prop="esMmNote">
-              <el-input v-model="form.esMmNote" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsMmCreator" prop="esMmCreator">
-              <el-input v-model="form.esMmCreator" :placeholder="$t('btn.enterPrefix')+'EsMmCreator'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsMmCreateTime" prop="esMmCreateTime">
-              <el-date-picker v-model="form.esMmCreateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsMmModifier" prop="esMmModifier">
-              <el-input v-model="form.esMmModifier" :placeholder="$t('btn.enterPrefix')+'EsMmModifier'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsMmModifyTime" prop="esMmModifyTime">
-              <el-date-picker v-model="form.esMmModifyTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="制一登入日期" prop="esPpEntryDate">
-              <el-date-picker v-model="form.esPpEntryDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="班组" prop="esPpLine">
-              <el-input v-model="form.esPpLine" :placeholder="$t('btn.enterPrefix')+'班组'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="生产批次" prop="esPpLot">
-              <el-input v-model="form.esPpLot" :placeholder="$t('btn.enterPrefix')+'生产批次'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="说明" prop="esPpNote">
-              <el-input v-model="form.esPpNote" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsPpCreator" prop="esPpCreator">
-              <el-input v-model="form.esPpCreator" :placeholder="$t('btn.enterPrefix')+'EsPpCreator'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsPpCreateTime" prop="esPpCreateTime">
-              <el-date-picker v-model="form.esPpCreateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsPpModifier" prop="esPpModifier">
-              <el-input v-model="form.esPpModifier" :placeholder="$t('btn.enterPrefix')+'EsPpModifier'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsPpModifyTime" prop="esPpModifyTime">
-              <el-date-picker v-model="form.esPpModifyTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="制二登入日期" prop="esPcbaEntryDate">
-              <el-date-picker v-model="form.esPcbaEntryDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="Pcba班组" prop="esPcbaLine">
-              <el-input v-model="form.esPcbaLine" :placeholder="$t('btn.enterPrefix')+'Pcba班组'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="Pcba批次" prop="esPcbaLot">
-              <el-input v-model="form.esPcbaLot" :placeholder="$t('btn.enterPrefix')+'Pcba批次'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="说明" prop="esPcbaNote">
-              <el-input v-model="form.esPcbaNote" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsPcbaCreator" prop="esPcbaCreator">
-              <el-input v-model="form.esPcbaCreator" :placeholder="$t('btn.enterPrefix')+'EsPcbaCreator'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsPcbaCreateTime" prop="esPcbaCreateTime">
-              <el-date-picker v-model="form.esPcbaCreateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsPcbaModifier" prop="esPcbaModifier">
-              <el-input v-model="form.esPcbaModifier" :placeholder="$t('btn.enterPrefix')+'EsPcbaModifier'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsPcbaModifyTime" prop="esPcbaModifyTime">
-              <el-date-picker v-model="form.esPcbaModifyTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="QA确认日期" prop="esQaEntryDate">
-              <el-date-picker v-model="form.esQaEntryDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="检验批次" prop="esQaLot">
-              <el-input v-model="form.esQaLot" :placeholder="$t('btn.enterPrefix')+'检验批次'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="说明" prop="esQaNote">
-              <el-input v-model="form.esQaNote" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsQaCreator" prop="esQaCreator">
-              <el-input v-model="form.esQaCreator" :placeholder="$t('btn.enterPrefix')+'EsQaCreator'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsQaCreateTime" prop="esQaCreateTime">
-              <el-date-picker v-model="form.esQaCreateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsQaModifier" prop="esQaModifier">
-              <el-input v-model="form.esQaModifier" :placeholder="$t('btn.enterPrefix')+'EsQaModifier'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="EsQaModifyTime" prop="esQaModifyTime">
-              <el-date-picker v-model="form.esQaModifyTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="说明" prop="ecsFqcNote">
+              <el-input v-model="form.ecsFqcNote" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
@@ -779,7 +718,7 @@
           <el-col :lg="12">
             <el-form-item label="软删除" prop="isDeleted">
               <el-radio-group v-model="form.isDeleted">
-                <el-radio v-for="item in options.isDeletedOptions" :key="item.dictValue" :value="parseInt(item.dictValue)">
+                <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue" :value="parseInt(item.dictValue)">
                   {{item.dictLabel}}
                 </el-radio>
               </el-radio-group>
@@ -885,6 +824,8 @@
         	</el-row>
           </el-tab-pane>
         </el-tabs>
+
+
       </el-form>
       <template #footer v-if="opertype != 3">
         <el-button text @click="cancel">{{ $t('btn.cancel') }}</el-button>
@@ -924,85 +865,90 @@ const queryParams = reactive({
   pageSize: 56,
   sort: '',
   sortType: 'asc',
+//是否查询（1是）
+  ecsEcNo: undefined,
+//是否查询（1是）
+  ecsModel: undefined,
+//是否查询（1是）
+  ecsItem: undefined,
+//是否查询（1是）
+  ecsSubItem: undefined,
+//是否查询（1是）
+  ecsOldItem: undefined,
+//是否查询（1是）
+  ecsPurType: undefined,
+//是否查询（1是）
+  ecsPurGroup: undefined,
+//是否查询（1是）
+  ecsSloc: undefined,
+//是否查询（1是）
+  ecsInsmk: undefined,
+//是否查询（1是）
+  ecsPlntStated: undefined,
+//是否查询（1是）
+  ecsSopStated: undefined,
+//是否查询（1是）
+  ecsImplStated: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'esSFID', label: 'SFID' },
-  { visible: true, prop: 'esParentSfid', label: 'EsParentSfid' },
-  { visible: true, prop: 'esEntryDate', label: '输入日' },
-  { visible: true, prop: 'esEcNo', label: '设变No.' },
-  { visible: true, prop: 'esModel', label: '机种' },
-  { visible: true, prop: 'esItem', label: '物料' },
-  { visible: true, prop: 'esSubItem', label: '子物料' },
-  { visible: true, prop: 'esOldItem', label: '旧物料' },
-  { visible: false, prop: 'esOldItemText', label: '旧文本' },
-  { visible: false, prop: 'esOldUsageQty', label: '用量' },
-  { visible: false, prop: 'esOldSetLoc', label: '位置' },
-  { visible: false, prop: 'esNewItem', label: '新物料' },
-  { visible: false, prop: 'esNewItemText', label: '新文本' },
-  { visible: false, prop: 'esNewUsageQty', label: '用量' },
-  { visible: false, prop: 'esNewSetLoc', label: '位置' },
-  { visible: false, prop: 'esBomNo', label: 'bom番号' },
-  { visible: false, prop: 'esChange', label: '互换' },
-  { visible: false, prop: 'eslocal', label: '区分' },
-  { visible: false, prop: 'esnote', label: '指示' },
-  { visible: false, prop: 'esOldProcess', label: '旧品处理' },
-  { visible: false, prop: 'esBomDate', label: 'bom日期' },
-  { visible: false, prop: 'emEcImpDept', label: '实施部门' },
-  { visible: false, prop: 'esPurType', label: '采购类型' },
-  { visible: false, prop: 'esSloc', label: '仓库' },
-  { visible: false, prop: 'esInsmk', label: '检验否' },
-  { visible: false, prop: 'esMstae', label: '工厂状态' },
-  { visible: false, prop: 'esSopStae', label: 'SOP' },
-  { visible: false, prop: 'esOldCurrStock', label: '旧品库存' },
-  { visible: false, prop: 'esNewCurrStock', label: '新品库存' },
-  { visible: false, prop: 'esPurEntryDate', label: '采购登入日期' },
-  { visible: false, prop: 'esSupplier', label: '供应商' },
-  { visible: false, prop: 'esPurOrder', label: '采购PO' },
-  { visible: false, prop: 'esPurNote', label: '说明' },
-  { visible: false, prop: 'esPurCreator', label: '采购新增' },
-  { visible: false, prop: 'esPurModifier', label: '采购修改' },
-  { visible: false, prop: 'esPurModifyTime', label: '采购修改日期' },
-  { visible: false, prop: 'esPmcEntryDate', label: '生管登入日期' },
-  { visible: false, prop: 'esPmcLot', label: '预投入批次' },
-  { visible: false, prop: 'esPmcMemo', label: '说明' },
-  { visible: false, prop: 'esPmcNote', label: '备注' },
-  { visible: false, prop: 'esPmcCreator', label: '生管新增' },
-  { visible: false, prop: 'esPmcModifier', label: '生管修改' },
-  { visible: false, prop: 'esPmcModifyTime', label: '生管修改日期' },
-  { visible: false, prop: 'esIqcEntryDate', label: 'IQC登入日期' },
-  { visible: false, prop: 'esIqcOrder', label: '检验订单' },
-  { visible: false, prop: 'esIqcNote', label: '说明' },
-  { visible: false, prop: 'esIqcCreator', label: 'IQC新增' },
-  { visible: false, prop: 'esIqcModifier', label: 'IQC修改' },
-  { visible: false, prop: 'esIqcModifyTime', label: 'IQC修改日期' },
-  { visible: false, prop: 'esMmEntryDate', label: '部管登入日期' },
-  { visible: false, prop: 'esMmLot', label: '领用批次' },
-  { visible: false, prop: 'esMmMocNo', label: '工单' },
-  { visible: false, prop: 'esMmNote', label: '说明' },
-  { visible: false, prop: 'esMmCreator', label: 'EsMmCreator' },
-  { visible: false, prop: 'esMmModifier', label: 'EsMmModifier' },
-  { visible: false, prop: 'esMmModifyTime', label: 'EsMmModifyTime' },
-  { visible: false, prop: 'esPpEntryDate', label: '制一登入日期' },
-  { visible: false, prop: 'esPpLine', label: '班组' },
-  { visible: false, prop: 'esPpLot', label: '生产批次' },
-  { visible: false, prop: 'esPpNote', label: '说明' },
-  { visible: false, prop: 'esPpCreator', label: 'EsPpCreator' },
-  { visible: false, prop: 'esPpModifier', label: 'EsPpModifier' },
-  { visible: false, prop: 'esPpModifyTime', label: 'EsPpModifyTime' },
-  { visible: false, prop: 'esPcbaEntryDate', label: '制二登入日期' },
-  { visible: false, prop: 'esPcbaLine', label: 'Pcba班组' },
-  { visible: false, prop: 'esPcbaLot', label: 'Pcba批次' },
-  { visible: false, prop: 'esPcbaNote', label: '说明' },
-  { visible: false, prop: 'esPcbaCreator', label: 'EsPcbaCreator' },
-  { visible: false, prop: 'esPcbaModifier', label: 'EsPcbaModifier' },
-  { visible: false, prop: 'esPcbaModifyTime', label: 'EsPcbaModifyTime' },
-  { visible: false, prop: 'esQaEntryDate', label: 'QA确认日期' },
-  { visible: false, prop: 'esQaLot', label: '检验批次' },
-  { visible: false, prop: 'esQaNote', label: '说明' },
-  { visible: false, prop: 'esQaCreator', label: 'EsQaCreator' },
-  { visible: false, prop: 'esQaModifier', label: 'EsQaModifier' },
-  { visible: false, prop: 'esQaModifyTime', label: 'EsQaModifyTime' },
+  { visible: true, prop: 'ecsSfid', label: 'ID' },
+  { visible: true, prop: 'ecsParentSfid', label: '父ID' },
+  { visible: true, prop: 'ecsEcNo', label: '设变No.' },
+  { visible: true, prop: 'ecsModel', label: '机种' },
+  { visible: true, prop: 'ecsItem', label: '物料' },
+  { visible: true, prop: 'ecsItemText', label: '物料文本' },
+  { visible: true, prop: 'ecsSubItem', label: '子物料' },
+  { visible: true, prop: 'ecsSubItemText', label: '子物料文本' },
+  { visible: false, prop: 'ecsOldItem', label: '旧物料' },
+  { visible: false, prop: 'ecsOldItemText', label: '旧文本' },
+  { visible: false, prop: 'ecsOldCurrStock', label: '旧品库存' },
+  { visible: false, prop: 'ecsOldUsageQty', label: '用量' },
+  { visible: false, prop: 'ecsOldSetLoc', label: '位置' },
+  { visible: false, prop: 'ecsNewItem', label: '新物料' },
+  { visible: false, prop: 'ecsNewItemText', label: '新文本' },
+  { visible: false, prop: 'ecsNewCurrStock', label: '新品库存' },
+  { visible: false, prop: 'ecsNewUsageQty', label: '用量' },
+  { visible: false, prop: 'ecsNewSetLoc', label: '位置' },
+  { visible: false, prop: 'ecsBomNo', label: 'bom番号' },
+  { visible: false, prop: 'ecsChange', label: '互换' },
+  { visible: false, prop: 'ecsDistLocal', label: '区分' },
+  { visible: false, prop: 'ecsInstNote', label: '指示' },
+  { visible: false, prop: 'ecsOldProcess', label: '旧品处理' },
+  { visible: false, prop: 'ecsBomDate', label: 'bom日期' },
+  { visible: false, prop: 'ecsPurType', label: '采购类型' },
+  { visible: false, prop: 'ecsPurGroup', label: '采购组' },
+  { visible: false, prop: 'ecsSloc', label: '仓库' },
+  { visible: false, prop: 'ecsInsmk', label: '检验否' },
+  { visible: false, prop: 'ecsPlntStated', label: '工厂状态' },
+  { visible: false, prop: 'ecsSopStated', label: 'SOP' },
+  { visible: false, prop: 'ecsImplStated', label: '实施标记' },
+  { visible: false, prop: 'ecsPurEnteredDate', label: '采购登入日期' },
+  { visible: false, prop: 'ecsPurSupplier', label: '供应商' },
+  { visible: false, prop: 'ecsPurOrder', label: '采购PO' },
+  { visible: false, prop: 'ecsPurNote', label: '说明' },
+  { visible: false, prop: 'ecsPmcEnteredDate', label: '生管登入日期' },
+  { visible: false, prop: 'ecsPmcPreLot', label: '预投入批次' },
+  { visible: false, prop: 'ecsPmcDisposal', label: '旧品处理' },
+  { visible: false, prop: 'ecsPmcNote', label: '备注' },
+  { visible: false, prop: 'ecsIqcEnteredDate', label: 'IQC登入日期' },
+  { visible: false, prop: 'ecsIqcOrder', label: '检验订单' },
+  { visible: false, prop: 'ecsIqcNote', label: '说明' },
+  { visible: false, prop: 'ecsMmEnteredDate', label: '部管登入日期' },
+  { visible: false, prop: 'ecsMmLot', label: '领用批次' },
+  { visible: false, prop: 'ecsMmProOrder', label: '工单' },
+  { visible: false, prop: 'ecsMmNote', label: '说明' },
+  { visible: false, prop: 'ecsAssyEnteredDate', label: '制一登入日期' },
+  { visible: false, prop: 'ecsAssyLine', label: '班组' },
+  { visible: false, prop: 'ecsAssyPutLot', label: '生产批次' },
+  { visible: false, prop: 'ecsAssyNote', label: '说明' },
+  { visible: false, prop: 'ecsPcbaEnteredDate', label: '制二登入日期' },
+  { visible: false, prop: 'ecsPcbaLine', label: 'Pcba班组' },
+  { visible: false, prop: 'ecsPcbaPutLot', label: 'Pcba批次' },
+  { visible: false, prop: 'ecsPcbaNote', label: '说明' },
+  { visible: false, prop: 'ecsFqcEnteredDate', label: 'QA确认日期' },
+  { visible: false, prop: 'ecsFqcImplLot', label: '检验批次' },
+  { visible: false, prop: 'ecsFqcNote', label: '说明' },
   { visible: false, prop: 'remark', label: '备注' },
   { visible: false, prop: 'createBy', label: '创建者' },
   { visible: false, prop: 'createTime', label: '创建时间' },
@@ -1018,113 +964,14 @@ const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //字典参数
 var dictParams = [
   { dictType: "sys_pur_type" },
-  { dictType: "sys_normal_whether" },
-  { dictType: "sys_sop_yn" },
+  { dictType: "sys_pur_group" },
+  { dictType: "sys_sloc_list" },
+  { dictType: "sys_flag_list" },
+  { dictType: "sys_eol_list" },
+  { dictType: "sys_is_deleted" },
 ]
 
 //字典加载
@@ -1159,7 +1006,7 @@ function resetQuery(){
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.esSFID);
+  ids.value = selection.map((item) => item.ecsSfid);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -1195,21 +1042,22 @@ const state = reactive({
   multiple: true,
   form: {},
   rules: {
-    esSFID: [{ required: true, message: "SFID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    esParentSfid: [{ required: true, message: "EsParentSfid"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    esEntryDate: [{ required: true, message: "输入日"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    esEcNo: [{ required: true, message: "设变No."+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    esModel: [{ required: true, message: "机种"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    esItem: [{ required: true, message: "物料"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    esOldUsageQty: [{ required: true, message: "用量"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    esNewUsageQty: [{ required: true, message: "用量"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    esBomDate: [{ required: true, message: "bom日期"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    emEcImpDept: [{ required: true, message: "实施部门"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    esPurType: [{ required: true, message: "采购类型"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    esSloc: [{ required: true, message: "仓库"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    esSopStae: [{ required: true, message: "SOP"+proxy.$t('btn.isEmpty'), trigger: "change"    , type: "number"  }],
-    esOldCurrStock: [{ required: true, message: "旧品库存"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    esNewCurrStock: [{ required: true, message: "新品库存"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ecsSfid: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
+    ecsParentSfid: [{ required: true, message: "父ID"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    ecsEcNo: [{ required: true, message: "设变No."+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ecsModel: [{ required: true, message: "机种"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ecsItem: [{ required: true, message: "物料"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ecsItemText: [{ required: true, message: "物料文本"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ecsOldCurrStock: [{ required: true, message: "旧品库存"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ecsOldUsageQty: [{ required: true, message: "用量"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ecsNewCurrStock: [{ required: true, message: "新品库存"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ecsNewUsageQty: [{ required: true, message: "用量"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ecsBomDate: [{ required: true, message: "bom日期"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ecsPurType: [{ required: true, message: "采购类型"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    ecsPurGroup: [{ required: true, message: "采购组"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    ecsSloc: [{ required: true, message: "仓库"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    ecsSopStated: [{ required: true, message: "SOP"+proxy.$t('btn.isEmpty'), trigger: "change"    , type: "number"  }],
+    ecsImplStated: [{ required: true, message: "实施标记"+proxy.$t('btn.isEmpty'), trigger: "change"    , type: "number"  }],
     uDF51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
     uDF52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
     uDF53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
@@ -1221,12 +1069,16 @@ const state = reactive({
   options: {
     // 采购类型 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_pur_type: [],
+    // 采购组 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sys_pur_group: [],
+    // 仓库 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sys_sloc_list: [],
     // 检验否 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_normal_whether: [],
-    // SOP 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_sop_yn: [],
+sys_flag_list: [],
+    // 工厂状态 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sys_eol_list: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-isDeletedOptions: [],
+sys_is_deleted: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -1241,89 +1093,63 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    esSFID: 0,
-    esParentSfid: 0,
-    esEntryDate: null,
-    esEcNo: null,
-    esModel: null,
-    esItem: null,
-    esSubItem: null,
-    esOldItem: null,
-    esOldItemText: null,
-    esOldUsageQty: 0,
-    esOldSetLoc: null,
-    esNewItem: null,
-    esNewItemText: null,
-    esNewUsageQty: 0,
-    esNewSetLoc: null,
-    esBomNo: null,
-    esChange: null,
-    eslocal: null,
-    esnote: null,
-    esOldProcess: null,
-    esBomDate: null,
-    emEcImpDept: null,
-    esPurType: null,
-    esSloc: null,
-    esInsmk: null,
-    esMstae: null,
-    esSopStae: 0,
-    esOldCurrStock: 0,
-    esNewCurrStock: 0,
-    esPurEntryDate: null,
-    esSupplier: null,
-    esPurOrder: null,
-    esPurNote: null,
-    esPurCreator: null,
-    esPurCreateTime: null,
-    esPurModifier: null,
-    esPurModifyTime: null,
-    esPmcEntryDate: null,
-    esPmcLot: null,
-    esPmcMemo: null,
-    esPmcNote: null,
-    esPmcCreator: null,
-    esPmcCreateTime: null,
-    esPmcModifier: null,
-    esPmcModifyTime: null,
-    esIqcEntryDate: null,
-    esIqcOrder: null,
-    esIqcNote: null,
-    esIqcCreator: null,
-    esIqcCreateTime: null,
-    esIqcModifier: null,
-    esIqcModifyTime: null,
-    esMmEntryDate: null,
-    esMmLot: null,
-    esMmMocNo: null,
-    esMmNote: null,
-    esMmCreator: null,
-    esMmCreateTime: null,
-    esMmModifier: null,
-    esMmModifyTime: null,
-    esPpEntryDate: null,
-    esPpLine: null,
-    esPpLot: null,
-    esPpNote: null,
-    esPpCreator: null,
-    esPpCreateTime: null,
-    esPpModifier: null,
-    esPpModifyTime: null,
-    esPcbaEntryDate: null,
-    esPcbaLine: null,
-    esPcbaLot: null,
-    esPcbaNote: null,
-    esPcbaCreator: null,
-    esPcbaCreateTime: null,
-    esPcbaModifier: null,
-    esPcbaModifyTime: null,
-    esQaEntryDate: null,
-    esQaLot: null,
-    esQaNote: null,
-    esQaCreator: null,
-    esQaCreateTime: null,
-    esQaModifier: null,
-    esQaModifyTime: null,
+    ecsSfid: 0,
+    ecsParentSfid: 0,
+    ecsEcNo: null,
+    ecsModel: null,
+    ecsItem: null,
+    ecsItemText: null,
+    ecsSubItem: null,
+    ecsSubItemText: null,
+    ecsOldItem: null,
+    ecsOldItemText: null,
+    ecsOldCurrStock: 0,
+    ecsOldUsageQty: 0,
+    ecsOldSetLoc: null,
+    ecsNewItem: null,
+    ecsNewItemText: null,
+    ecsNewCurrStock: 0,
+    ecsNewUsageQty: 0,
+    ecsNewSetLoc: null,
+    ecsBomNo: null,
+    ecsChange: null,
+    ecsDistLocal: null,
+    ecsInstNote: null,
+    ecsOldProcess: null,
+    ecsBomDate: null,
+    ecsPurType: null,
+    ecsPurGroup: null,
+    ecsSloc: null,
+    ecsInsmk: null,
+    ecsPlntStated: null,
+    ecsSopStated: 0,
+    ecsImplStated: 0,
+    ecsPurEnteredDate: null,
+    ecsPurSupplier: null,
+    ecsPurOrder: null,
+    ecsPurNote: null,
+    ecsPmcEnteredDate: null,
+    ecsPmcPreLot: null,
+    ecsPmcDisposal: null,
+    ecsPmcNote: null,
+    ecsIqcEnteredDate: null,
+    ecsIqcOrder: null,
+    ecsIqcNote: null,
+    ecsMmEnteredDate: null,
+    ecsMmLot: null,
+    ecsMmProOrder: null,
+    ecsMmNote: null,
+    ecsAssyEnteredDate: null,
+    ecsAssyLine: null,
+    ecsAssyPutLot: null,
+    ecsAssyNote: null,
+    ecsPcbaEnteredDate: null,
+    ecsPcbaLine: null,
+    ecsPcbaPutLot: null,
+    ecsPcbaNote: null,
+    ecsFqcEnteredDate: null,
+    ecsFqcImplLot: null,
+    ecsFqcNote: null,
     uDF01: null,
     uDF02: null,
     uDF03: null,
@@ -1353,36 +1179,32 @@ function handleAdd() {
   open.value = true
   title.value = proxy.$t('btn.add')+" "+'从设变'
   opertype.value = 1
-  form.value.esEntryDate= new Date()
-  form.value.esOldUsageQty= 0
-  form.value.esNewUsageQty= 0
-  form.value.esBomDate= new Date()
-  form.value.esPurType= []
-  form.value.esInsmk= []
-  form.value.esSopStae= 0
-  form.value.esOldCurrStock= 0
-  form.value.esNewCurrStock= 0
-  form.value.esPurEntryDate= new Date()
-  form.value.esPurModifyTime= new Date()
-  form.value.esPmcEntryDate= new Date()
-  form.value.esPmcModifyTime= new Date()
-  form.value.esIqcEntryDate= new Date()
-  form.value.esIqcModifyTime= new Date()
-  form.value.esMmEntryDate= new Date()
-  form.value.esMmModifyTime= new Date()
-  form.value.esPpEntryDate= new Date()
-  form.value.esPpModifyTime= new Date()
-  form.value.esPcbaEntryDate= new Date()
-  form.value.esPcbaModifyTime= new Date()
-  form.value.esQaEntryDate= new Date()
-  form.value.esQaModifyTime= new Date()
+  form.value.ecsOldCurrStock= 0
+  form.value.ecsOldUsageQty= 0
+  form.value.ecsNewCurrStock= 0
+  form.value.ecsNewUsageQty= 0
+  form.value.ecsBomDate= new Date()
+  form.value.ecsPurType= []
+  form.value.ecsPurGroup= []
+  form.value.ecsSloc= []
+  form.value.ecsInsmk= []
+  form.value.ecsPlntStated= []
+  form.value.ecsSopStated= 0
+  form.value.ecsImplStated= 0
+  form.value.ecsPurEnteredDate= new Date()
+  form.value.ecsPmcEnteredDate= new Date()
+  form.value.ecsIqcEnteredDate= new Date()
+  form.value.ecsMmEnteredDate= new Date()
+  form.value.ecsAssyEnteredDate= new Date()
+  form.value.ecsPcbaEnteredDate= new Date()
+  form.value.ecsFqcEnteredDate= new Date()
   form.value.createTime= new Date()
   form.value.updateTime= new Date()
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.esSFID || ids.value
+  const id = row.ecsSfid || ids.value
   getPpEcSlave(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -1402,7 +1224,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.esSFID != undefined && opertype.value === 2) {
+      if (form.value.ecsSfid != undefined && opertype.value === 2) {
         updatePpEcSlave(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -1421,7 +1243,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.esSFID || ids.value
+  const Ids = row.ecsSfid || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {

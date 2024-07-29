@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 制二OPH主表
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 9:31:22
+    /// @Date: 2024/7/26 16:09:27
     /// </summary>
     [AppService(ServiceType = typeof(IPpOutputPcbaMasterService), ServiceLifetime = LifeTime.Transient)]
     public class PpOutputPcbaMasterService : BaseService<PpOutputPcbaMaster>, IPpOutputPcbaMasterService
@@ -141,8 +141,10 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpOutputPcbaMasterDto()
                 {
-                    PomDeptNameLabel = it.PomDeptName.GetConfigValue<SysDictData>("sql_smt_class"),
+                    PomDeptNameLabel = it.PomDeptName.GetConfigValue<SysDictData>("sql_line_list"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //PosPcbaTypeLabel = it.PosPcbaType.GetConfigValue<SysDictData>("sql_pcb_type"),
+                    //PosPcbaSideLabel = it.PosPcbaSide.GetConfigValue<SysDictData>("sys_pcb_side"),
                     //PosPcbaStatedLabel = it.PosPcbaStated.GetConfigValue<SysDictData>("sql_comp_status"),
                     //PosDownTimeReasonsLabel = it.PosDownTimeReasons.GetConfigValue<SysDictData>("sql_line_stop"),
                     //PosMissingReasonsLabel = it.PosMissingReasons.GetConfigValue<SysDictData>("sql_non_conf"),
@@ -161,12 +163,12 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpOutputPcbaMaster>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PomOrderType), it => it.PomOrderType == parm.PomOrderType);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PomOrderNo), it => it.PomOrderNo == parm.PomOrderNo);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PomLot), it => it.PomLot.Contains(parm.PomLot));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PomModel), it => it.PomModel.Contains(parm.PomModel));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PomItem), it => it.PomItem.Contains(parm.PomItem));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PomDeptName), it => it.PomDeptName == parm.PomDeptName);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PomSerial), it => it.PomSerial == parm.PomSerial);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PomDeptName), it => it.PomDeptName.Contains(parm.PomDeptName));
             //当日期条件为空时，默认查询大于今天的所有数据
             //predicate = predicate.AndIF(parm.BeginPomDate == null, it => it.PomDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据

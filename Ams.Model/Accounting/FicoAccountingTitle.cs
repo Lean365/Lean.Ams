@@ -1,111 +1,142 @@
+
 namespace Ams.Model.Accounting
 {
     /// <summary>
     /// 会计科目
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:04
+    /// @Date: 2024/7/26 17:07:29
     /// </summary>
-    [SugarTable("fico_accounting_title", "会计科目")]
-    public class FicoAccountingTitle : SysBase
+    [SugarTable("fico_accounting_title","会计科目")]
+    public class FicoAccountingTitle
     {
         /// <summary>
-        /// SFID
+        /// ID 
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
+
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long FatSFID { get; set; }
+        public long FatSfid { get; set; }
 
         /// <summary>
-        /// 科目代码
+        /// 集团 
         /// </summary>
-        public string FatCode { get; set; }
+        [SugarColumn(ColumnName="Mandt", ColumnDescription = "集团 ",Length = 10)]
+        public string Mandt { get; set; }
 
         /// <summary>
-        /// 科目简称
+        /// 公司代码 
         /// </summary>
-        public string FatShortName { get; set; }
+        [SugarColumn(ColumnName="Bukrs", ColumnDescription = "公司代码 ",Length = 8)]
+        public string Bukrs { get; set; }
 
         /// <summary>
-        /// 科目全称
+        /// 语言Key 
         /// </summary>
-        public string FatFullName { get; set; }
+        [SugarColumn(ColumnName="Spras", ColumnDescription = "语言Key ",Length = 255)]
+        public string Spras { get; set; }
 
         /// <summary>
-        /// 语言
+        /// 科目表 
         /// </summary>
-        public string FatLangKey { get; set; }
+        [SugarColumn(ColumnName="Ktopl", ColumnDescription = "科目表 ",Length = 8)]
+        public string Ktopl { get; set; }
 
         /// <summary>
-        /// 自定义A
+        /// 科目编号 
         /// </summary>
-        public string UDF01 { get; set; }
+        [SugarColumn(ColumnName="Saknr", ColumnDescription = "科目编号 ",Length = 20)]
+        public string Saknr { get; set; }
 
         /// <summary>
-        /// 自定义B
+        /// 负债科目 
         /// </summary>
-        public string UDF02 { get; set; }
+        [SugarColumn(ColumnName="Xbilk", ColumnDescription = "负债科目 ",DefaultValue = "0")]
+        public int? Xbilk { get; set; }
 
         /// <summary>
-        /// 自定义C
+        /// 名称 
         /// </summary>
-        public string UDF03 { get; set; }
+        [SugarColumn(ColumnName="Satext", ColumnDescription = "名称 ",Length = 40)]
+        public string Satext { get; set; }
 
         /// <summary>
-        /// 自定义D
+        /// 长文本 
         /// </summary>
-        public string UDF04 { get; set; }
+        [SugarColumn(ColumnName="Ltext", ColumnDescription = "长文本 ",Length = 80)]
+        public string Ltext { get; set; }
 
         /// <summary>
-        /// 自定义E
+        /// 附加文本 
         /// </summary>
-        public string UDF05 { get; set; }
+        [SugarColumn(ColumnName="Stext", ColumnDescription = "附加文本 ",Length = 100)]
+        public string Stext { get; set; }
 
         /// <summary>
-        /// 自定义F
+        /// 损益类型 
         /// </summary>
-        public string UDF06 { get; set; }
+        [SugarColumn(ColumnName="Gvtyp", ColumnDescription = "损益类型 ",Length = 4)]
+        public string Gvtyp { get; set; }
 
         /// <summary>
-        /// 自定义1
+        /// 科目组 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal UDF51 { get; set; }
+        [SugarColumn(ColumnName="Ktoks", ColumnDescription = "科目组 ",Length = 8)]
+        public string Ktoks { get; set; }
 
         /// <summary>
-        /// 自定义2
+        /// 冻结 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal UDF52 { get; set; }
+        [SugarColumn(ColumnName="Xspea", ColumnDescription = "冻结 ",DefaultValue = "0")]
+        public int? Xspea { get; set; }
 
         /// <summary>
-        /// 自定义3
+        /// 统驭科目 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal UDF53 { get; set; }
+        [SugarColumn(ColumnName="Mitkz", ColumnDescription = "统驭科目 ",Length = 2)]
+        public string Mitkz { get; set; }
 
         /// <summary>
-        /// 自定义4
+        /// 币种 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal UDF54 { get; set; }
+        [SugarColumn(ColumnName="Waers", ColumnDescription = "币种 ",DefaultValue = "0")]
+        public int? Waers { get; set; }
 
         /// <summary>
-        /// 自定义5
+        /// 软删除 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal UDF55 { get; set; }
+        [SugarColumn(ColumnName="IsDeleted", ColumnDescription = "软删除 ",DefaultValue = "0")]
+        public int? IsDeleted { get; set; }
 
         /// <summary>
-        /// 自定义6
+        /// 说明 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal UDF56 { get; set; }
+        [SugarColumn(ColumnName="Remark", ColumnDescription = "说明 ",Length = 255)]
+        public string Remark { get; set; }
 
         /// <summary>
-        /// 软删除
+        /// 创建者 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public int IsDeleted { get; set; }
+        [SugarColumn(ColumnName = "create_by")]
+        public string CreateBy { get; set; }
+
+        /// <summary>
+        /// 创建时间 
+        /// </summary>
+        [SugarColumn(ColumnName = "create_time")]
+        public DateTime? CreateTime { get; set; }
+
+        /// <summary>
+        /// 更新者 
+        /// </summary>
+        [SugarColumn(ColumnName = "update_by")]
+        public string UpdateBy { get; set; }
+
+        /// <summary>
+        /// 更新时间 
+        /// </summary>
+        [SugarColumn(ColumnName = "update_time")]
+        public DateTime? UpdateTime { get; set; }
+
     }
 }

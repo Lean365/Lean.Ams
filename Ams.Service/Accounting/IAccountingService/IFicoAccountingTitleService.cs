@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 会计科目
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:04
+    /// @Date: 2024/7/26 17:07:29
     /// </summary>
     public interface IFicoAccountingTitleService : IBaseService<FicoAccountingTitle>
     {
@@ -21,10 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取会计科目信息
         /// </summary>
-        /// <param name="FatSFID"></param>
+        /// <param name="FatSfid"></param>
         /// <returns></returns>
-        FicoAccountingTitle GetInfo(long FatSFID);
-
+        FicoAccountingTitle GetInfo(long FatSfid);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -32,7 +31,6 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <param name="enterString"></param>
         /// <returns></returns>
         public string CheckInputUnique(string enterString);
-
         /// <summary>
         /// 新增
         /// 会计科目

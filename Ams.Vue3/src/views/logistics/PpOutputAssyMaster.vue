@@ -2,7 +2,7 @@
  * @Descripttion: 制一OPH主表/pp_output_assy_master
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/16 14:35:19
+ * @Date: 2024/7/26 16:09:23
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -12,7 +12,7 @@
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
       <el-form-item label="工单号码" prop="pomOrderNo">
-        <el-select filterable clearable   remote remote-show-suffix :remote-method="remoteMethod" :loading="loading " v-model="queryParams.pomOrderNo" :placeholder="$t('btn.selectSearchPrefix')+'工单号码'+$t('btn.selectSearchSuffix')">
+        <el-select filterable clearable   remote remote-show-suffix :remote-method="remoteMethod_sql_moc_list" :loading="loading " v-model="queryParams.pomOrderNo" :placeholder="$t('btn.selectSearchPrefix')+'工单号码'+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   remotequery_sql_moc_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
@@ -136,18 +136,6 @@
       <el-table-column prop="pomIndirect" label="间接人数" align="center" v-if="columns.showColumn('pomIndirect')"/>
       <el-table-column prop="pomStdTime" label="标准工时" align="center" v-if="columns.showColumn('pomStdTime')"/>
       <el-table-column prop="pomStdOutput" label="标准产能" align="center" v-if="columns.showColumn('pomStdOutput')"/>
-      <el-table-column prop="uDF01" label="自定义A" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('uDF01')"/>
-      <el-table-column prop="uDF02" label="自定义B" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('uDF02')"/>
-      <el-table-column prop="uDF03" label="自定义C" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('uDF03')"/>
-      <el-table-column prop="uDF04" label="自定义D" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('uDF04')"/>
-      <el-table-column prop="uDF05" label="自定义E" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('uDF05')"/>
-      <el-table-column prop="uDF06" label="自定义F" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('uDF06')"/>
-      <el-table-column prop="uDF51" label="自定义1" align="center" v-if="columns.showColumn('uDF51')"/>
-      <el-table-column prop="uDF52" label="自定义2" align="center" v-if="columns.showColumn('uDF52')"/>
-      <el-table-column prop="uDF53" label="自定义3" align="center" v-if="columns.showColumn('uDF53')"/>
-      <el-table-column prop="uDF54" label="自定义4" align="center" v-if="columns.showColumn('uDF54')"/>
-      <el-table-column prop="uDF55" label="自定义5" align="center" v-if="columns.showColumn('uDF55')"/>
-      <el-table-column prop="uDF56" label="自定义6" align="center" v-if="columns.showColumn('uDF56')"/>
       <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
       <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
@@ -194,18 +182,6 @@
         <el-table-column prop="posRealWorkinghoursDiff" label="工时差异"/>
         <el-table-column prop="posRealOutputDiff" label="产能差异"/>
         <el-table-column prop="posAchievedRate" label="达成率"/>
-        <el-table-column prop="uDF01" label="自定义A"/>
-        <el-table-column prop="uDF02" label="自定义B"/>
-        <el-table-column prop="uDF03" label="自定义C"/>
-        <el-table-column prop="uDF04" label="自定义D"/>
-        <el-table-column prop="uDF05" label="自定义E"/>
-        <el-table-column prop="uDF06" label="自定义F"/>
-        <el-table-column prop="uDF51" label="自定义1"/>
-        <el-table-column prop="uDF52" label="自定义2"/>
-        <el-table-column prop="uDF53" label="自定义3"/>
-        <el-table-column prop="uDF54" label="自定义4"/>
-        <el-table-column prop="uDF55" label="自定义5"/>
-        <el-table-column prop="uDF56" label="自定义6"/>
         <el-table-column prop="remark" label="说明"/>
         <el-table-column prop="createBy" label="创建者"/>
         <el-table-column prop="createTime" label="创建时间"/>
@@ -234,7 +210,7 @@
 
           <el-col :lg="12">
             <el-form-item label="工单号码" prop="pomOrderNo">
-              <el-select filterable clearable  remote remote-show-suffix :remote-method="remoteMethod" 
+              <el-select filterable clearable  remote remote-show-suffix :remote-method="remoteMethod_sql_moc_list" 
               :loading="loading " v-model="form.pomOrderNo"  :placeholder="$t('btn.selectPrefix')+'工单号码'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  remotequery_sql_moc_list" 
@@ -542,7 +518,7 @@
           </el-table-column>
           <el-table-column label="停线原因" prop="posDownTimeReasons">
             <template #default="scope">
-              <el-select filterable clearable  v-model="scope.row.posDownTimeReasons" :placeholder="$t('btn.enterPrefix')+'停线原因'+$t('btn.enterSuffix')">
+              <el-select filterable clearable multiple collapse-tags collapse-tags-tooltip v-model="scope.row.posDownTimeReasons" :placeholder="$t('btn.enterPrefix')+'停线原因'+$t('btn.enterSuffix')">
                 <el-option
                   v-for="item in options.sql_line_stop" 
                   :key="item.dictValue" 
@@ -558,7 +534,7 @@
           </el-table-column>
           <el-table-column label="未达成原因" prop="posMissingReasons">
             <template #default="scope">
-              <el-select filterable clearable  v-model="scope.row.posMissingReasons" :placeholder="$t('btn.enterPrefix')+'未达成原因'+$t('btn.enterSuffix')">
+              <el-select filterable clearable multiple collapse-tags collapse-tags-tooltip v-model="scope.row.posMissingReasons" :placeholder="$t('btn.enterPrefix')+'未达成原因'+$t('btn.enterSuffix')">
                 <el-option
                   v-for="item in options.sql_non_conf" 
                   :key="item.dictValue" 
@@ -595,66 +571,6 @@
           <el-table-column label="达成率" align="center" prop="posAchievedRate" width="140">
             <template #default="scope">
               <el-input-number v-model="scope.row.posAchievedRate" controls-position="right" :placeholder="$t('btn.enterPrefix')+'达成率'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="自定义A" align="center" prop="uDF01">
-            <template #default="scope">
-              <el-input v-model="scope.row.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="自定义B" align="center" prop="uDF02">
-            <template #default="scope">
-              <el-input v-model="scope.row.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="自定义C" align="center" prop="uDF03">
-            <template #default="scope">
-              <el-input v-model="scope.row.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="自定义D" align="center" prop="uDF04">
-            <template #default="scope">
-              <el-input v-model="scope.row.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="自定义E" align="center" prop="uDF05">
-            <template #default="scope">
-              <el-input v-model="scope.row.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="自定义F" align="center" prop="uDF06">
-            <template #default="scope">
-              <el-input v-model="scope.row.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="自定义1" align="center" prop="uDF51" width="140">
-            <template #default="scope">
-              <el-input-number v-model="scope.row.uDF51" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="自定义2" align="center" prop="uDF52" width="140">
-            <template #default="scope">
-              <el-input-number v-model="scope.row.uDF52" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="自定义3" align="center" prop="uDF53" width="140">
-            <template #default="scope">
-              <el-input-number v-model="scope.row.uDF53" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="自定义4" align="center" prop="uDF54" width="140">
-            <template #default="scope">
-              <el-input-number v-model="scope.row.uDF54" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="自定义5" align="center" prop="uDF55" width="140">
-            <template #default="scope">
-              <el-input-number v-model="scope.row.uDF55" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="自定义6" align="center" prop="uDF56" width="140">
-            <template #default="scope">
-              <el-input-number v-model="scope.row.uDF56" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
           <el-table-column label="说明" align="center" prop="remark">
@@ -751,18 +667,6 @@ const columns = ref([
   { visible: false, prop: 'pomIndirect', label: '间接人数' },
   { visible: false, prop: 'pomStdTime', label: '标准工时' },
   { visible: false, prop: 'pomStdOutput', label: '标准产能' },
-  { visible: false, prop: 'uDF01', label: '自定义A' },
-  { visible: false, prop: 'uDF02', label: '自定义B' },
-  { visible: false, prop: 'uDF03', label: '自定义C' },
-  { visible: false, prop: 'uDF04', label: '自定义D' },
-  { visible: false, prop: 'uDF05', label: '自定义E' },
-  { visible: false, prop: 'uDF06', label: '自定义F' },
-  { visible: false, prop: 'uDF51', label: '自定义1' },
-  { visible: false, prop: 'uDF52', label: '自定义2' },
-  { visible: false, prop: 'uDF53', label: '自定义3' },
-  { visible: false, prop: 'uDF54', label: '自定义4' },
-  { visible: false, prop: 'uDF55', label: '自定义5' },
-  { visible: false, prop: 'uDF56', label: '自定义6' },
   { visible: false, prop: 'remark', label: '备注' },
   { visible: false, prop: 'createBy', label: '创建者' },
   { visible: false, prop: 'createTime', label: '创建时间' },
@@ -777,40 +681,33 @@ const dataList = ref([])
 const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-
-
-
-
 //定义远程搜索变量
-const remotequeryList=ref([])
+const remotequeryList_sql_moc_list=ref([])
 //定义远程搜索变量
 const remotequery_sql_moc_list=ref([])
-
-  //远程字典参数
-  var remotedictParams = [
-
+//远程字典参数
+var remotedictParams_sql_moc_list = [
     { dictType: "sql_moc_list" },
-
-  ]
+]
 //远程搜索组件实例
 onMounted(() => {
-    proxy.getDicts(remotedictParams).then((response) => {
+    proxy.getDicts(remotedictParams_sql_moc_list).then((response) => {
       response.data.forEach((element) => {
-        remotequeryList.value = element.list
+        remotequeryList_sql_moc_list.value = element.list
       })
-      //console.log(remotequeryList)
+      //console.log(remotequeryList_sql_moc_list)
     })
   })
 //远程搜索
-const remoteMethod = debounce((query) => {
+const remoteMethod_sql_moc_list = debounce((query) => {
     if (query) {
       loading.value = true
       setTimeout(() => {
         loading.value = false
-        // remotequery_sql_moc_list.value = remotequeryList.value.filter((item) => {
+        // remotequery_sql_moc_list.value = remotequeryList_sql_moc_list.value.filter((item) => {
         //   return item.dictValue.toLowerCase().includes(query.toLowerCase())
         // })
-        filterMethod(query)
+        filterMethod_sql_moc_list(query)
       }, 2000)
     } else {
      //默认显示前15条记录
@@ -818,20 +715,20 @@ const remoteMethod = debounce((query) => {
     }
   }, 300)
 // 筛选方法
-const filterMethod = debounce((query) => {
-    let arr = remotequeryList.value.filter((item) => {
+const filterMethod_sql_moc_list = debounce((query) => {
+    let arr = remotequeryList_sql_moc_list.value.filter((item) => {
       return item.dictValue.toLowerCase().includes(query) || item.dictLabel.toLowerCase().includes(query);
     })
     if (arr.length > 5) {
       remotequery_sql_moc_list.value = arr.slice(0, 5)
-      addFilterOptions(query)
+      addFilterOptions_sql_moc_list(query)
     } else {
       remotequery_sql_moc_list.value = arr
     }
   }, 300)
 // 精准筛选方法
-const addFilterOptions =debounce((dictValue) => {
-    let target = remotequeryList.value.find((item) => {
+const addFilterOptions_sql_moc_list =debounce((dictValue) => {
+    let target = remotequeryList_sql_moc_list.value.find((item) => {
       return item.dictValue === dictValue
     })
     if (target) {
@@ -840,38 +737,8 @@ const addFilterOptions =debounce((dictValue) => {
       }
     }
   }, 300)
-
-
-
-
-
-
 // 生产日期时间范围
 const dateRangePomDate = ref([])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //字典参数
 var dictParams = [
@@ -1051,12 +918,6 @@ function handleAdd() {
   form.value.pomIndirect= 0
   form.value.pomStdTime= 0
   form.value.pomStdOutput= 0
-  form.value.uDF51= 0
-  form.value.uDF52= 0
-  form.value.uDF53= 0
-  form.value.uDF54= 0
-  form.value.uDF55= 0
-  form.value.uDF56= 0
   form.value.createTime= new Date()
   form.value.updateTime= new Date()
 }
@@ -1175,18 +1036,6 @@ function handleAddPpOutputAssySlave() {
   //obj.posRealWorkinghoursDiff = null;
   //obj.posRealOutputDiff = null;
   //obj.posAchievedRate = null;
-  //obj.uDF01 = null;
-  //obj.uDF02 = null;
-  //obj.uDF03 = null;
-  //obj.uDF04 = null;
-  //obj.uDF05 = null;
-  //obj.uDF06 = null;
-  //obj.uDF51 = null;
-  //obj.uDF52 = null;
-  //obj.uDF53 = null;
-  //obj.uDF54 = null;
-  //obj.uDF55 = null;
-  //obj.uDF56 = null;
   //obj.remark = null;
   //obj.createBy = null;
   //obj.createTime = null;

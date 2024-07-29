@@ -1,501 +1,457 @@
+
 namespace Ams.Model.Logistics
 {
     /// <summary>
     /// 从设变
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:37
+    /// @Date: 2024/7/26 16:30:08
     /// </summary>
-    [SugarTable("pp_ec_slave", "从设变")]
-    public class PpEcSlave : SysBase
+    [SugarTable("pp_ec_slave","从设变")]
+    public class PpEcSlave
     {
         /// <summary>
-        /// SFID
+        /// ID 
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long EsSFID { get; set; }
 
-        /// <summary>
-        /// EsParentSfid
-        /// </summary>
-        public long EsParentSfid { get; set; }
-
-        /// <summary>
-        /// 输入日
-        /// </summary>
-        public DateTime? EsEntryDate { get; set; }
-
-        /// <summary>
-        /// 设变No.
-        /// </summary>
-        public string EsEcNo { get; set; }
-
-        /// <summary>
-        /// 机种
-        /// </summary>
-        public string EsModel { get; set; }
-
-        /// <summary>
-        /// 物料
-        /// </summary>
-        public string EsItem { get; set; }
-
-        /// <summary>
-        /// 子物料
-        /// </summary>
-        public string EsSubItem { get; set; }
-
-        /// <summary>
-        /// 旧物料
-        /// </summary>
-        public string EsOldItem { get; set; }
-
-        /// <summary>
-        /// 旧文本
-        /// </summary>
-        public string EsOldItemText { get; set; }
-
-        /// <summary>
-        /// 用量
-        /// </summary>
-        public decimal EsOldUsageQty { get; set; }
-
-        /// <summary>
-        /// 位置
-        /// </summary>
-        public string EsOldSetLoc { get; set; }
-
-        /// <summary>
-        /// 新物料
-        /// </summary>
-        public string EsNewItem { get; set; }
-
-        /// <summary>
-        /// 新文本
-        /// </summary>
-        public string EsNewItemText { get; set; }
-
-        /// <summary>
-        /// 用量
-        /// </summary>
-        public decimal EsNewUsageQty { get; set; }
-
-        /// <summary>
-        /// 位置
-        /// </summary>
-        public string EsNewSetLoc { get; set; }
-
-        /// <summary>
-        /// bom番号
-        /// </summary>
-        public string EsBomNo { get; set; }
-
-        /// <summary>
-        /// 互换
-        /// </summary>
-        public string EsChange { get; set; }
-
-        /// <summary>
-        /// 区分
-        /// </summary>
-        public string Eslocal { get; set; }
-
-        /// <summary>
-        /// 指示
-        /// </summary>
-        public string Esnote { get; set; }
-
-        /// <summary>
-        /// 旧品处理
-        /// </summary>
-        public string EsOldProcess { get; set; }
-
-        /// <summary>
-        /// bom日期
-        /// </summary>
-        public DateTime? EsBomDate { get; set; }
-
-        /// <summary>
-        /// 实施部门
-        /// </summary>
-        public string EmEcImpDept { get; set; }
-
-        /// <summary>
-        /// 采购类型
-        /// </summary>
-        public string EsPurType { get; set; }
-
-        /// <summary>
-        /// 仓库
-        /// </summary>
-        public string EsSloc { get; set; }
-
-        /// <summary>
-        /// 检验否
-        /// </summary>
-        public string EsInsmk { get; set; }
-
-        /// <summary>
-        /// 工厂状态
-        /// </summary>
-        public string EsMstae { get; set; }
-
-        /// <summary>
-        /// SOP
-        /// </summary>
-        public int EsSopStae { get; set; }
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
+        public long EcsSfid { get; set; }
 
         /// <summary>
-        /// 旧品库存
+        /// 父ID 
         /// </summary>
-        public decimal EsOldCurrStock { get; set; }
+        public long EcsParentSfid { get; set; }
 
         /// <summary>
-        /// 新品库存
+        /// 设变No. 
         /// </summary>
-        public decimal EsNewCurrStock { get; set; }
+        [SugarColumn(ColumnName="EcsEcNo", ColumnDescription = "设变No. ",Length = 20)]
+        public string EcsEcNo { get; set; }
 
         /// <summary>
-        /// 采购登入日期
+        /// 机种 
         /// </summary>
-        public DateTime? EsPurEntryDate { get; set; }
+        [SugarColumn(ColumnName="EcsModel", ColumnDescription = "机种 ",Length = 200)]
+        public string EcsModel { get; set; }
 
         /// <summary>
-        /// 供应商
+        /// 物料 
         /// </summary>
-        public string EsSupplier { get; set; }
+        [SugarColumn(ColumnName="EcsItem", ColumnDescription = "物料 ",Length = 20)]
+        public string EcsItem { get; set; }
 
         /// <summary>
-        /// 采购PO
+        /// 物料文本 
         /// </summary>
-        public string EsPurOrder { get; set; }
+        [SugarColumn(ColumnName="EcsItemText", ColumnDescription = "物料文本 ",Length = 40)]
+        public string EcsItemText { get; set; }
 
         /// <summary>
-        /// 说明
+        /// 子物料 
         /// </summary>
-        public string EsPurNote { get; set; }
+        [SugarColumn(ColumnName="EcsSubItem", ColumnDescription = "子物料 ",Length = 20)]
+        public string EcsSubItem { get; set; }
 
         /// <summary>
-        /// 采购新增
+        /// 子物料文本 
         /// </summary>
-        public string EsPurCreator { get; set; }
+        [SugarColumn(ColumnName="EcsSubItemText", ColumnDescription = "子物料文本 ",Length = 40)]
+        public string EcsSubItemText { get; set; }
 
         /// <summary>
-        /// 采购新增日期
+        /// 旧物料 
         /// </summary>
-        public DateTime? EsPurCreateTime { get; set; }
+        [SugarColumn(ColumnName="EcsOldItem", ColumnDescription = "旧物料 ",Length = 20)]
+        public string EcsOldItem { get; set; }
 
         /// <summary>
-        /// 采购修改
+        /// 旧文本 
         /// </summary>
-        public string EsPurModifier { get; set; }
+        [SugarColumn(ColumnName="EcsOldItemText", ColumnDescription = "旧文本 ",Length = 40)]
+        public string EcsOldItemText { get; set; }
 
         /// <summary>
-        /// 采购修改日期
+        /// 旧品库存 
         /// </summary>
-        public DateTime? EsPurModifyTime { get; set; }
+        [SugarColumn(ColumnName="EcsOldCurrStock", ColumnDescription = "旧品库存 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        public decimal EcsOldCurrStock { get; set; }
 
         /// <summary>
-        /// 生管登入日期
+        /// 用量 
         /// </summary>
-        public DateTime? EsPmcEntryDate { get; set; }
+        [SugarColumn(ColumnName="EcsOldUsageQty", ColumnDescription = "用量 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        public decimal EcsOldUsageQty { get; set; }
 
         /// <summary>
-        /// 预投入批次
+        /// 位置 
         /// </summary>
-        public string EsPmcLot { get; set; }
+        [SugarColumn(ColumnName="EcsOldSetLoc", ColumnDescription = "位置 ",Length = 20)]
+        public string EcsOldSetLoc { get; set; }
 
         /// <summary>
-        /// 说明
+        /// 新物料 
         /// </summary>
-        public string EsPmcMemo { get; set; }
+        [SugarColumn(ColumnName="EcsNewItem", ColumnDescription = "新物料 ",Length = 20)]
+        public string EcsNewItem { get; set; }
 
         /// <summary>
-        /// 备注
+        /// 新文本 
         /// </summary>
-        public string EsPmcNote { get; set; }
+        [SugarColumn(ColumnName="EcsNewItemText", ColumnDescription = "新文本 ",Length = 40)]
+        public string EcsNewItemText { get; set; }
 
         /// <summary>
-        /// 生管新增
+        /// 新品库存 
         /// </summary>
-        public string EsPmcCreator { get; set; }
+        [SugarColumn(ColumnName="EcsNewCurrStock", ColumnDescription = "新品库存 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        public decimal EcsNewCurrStock { get; set; }
 
         /// <summary>
-        /// 生管新增日期
+        /// 用量 
         /// </summary>
-        public DateTime? EsPmcCreateTime { get; set; }
+        [SugarColumn(ColumnName="EcsNewUsageQty", ColumnDescription = "用量 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        public decimal EcsNewUsageQty { get; set; }
 
         /// <summary>
-        /// 生管修改
+        /// 位置 
         /// </summary>
-        public string EsPmcModifier { get; set; }
+        [SugarColumn(ColumnName="EcsNewSetLoc", ColumnDescription = "位置 ",Length = 20)]
+        public string EcsNewSetLoc { get; set; }
 
         /// <summary>
-        /// 生管修改日期
+        /// bom番号 
         /// </summary>
-        public DateTime? EsPmcModifyTime { get; set; }
+        [SugarColumn(ColumnName="EcsBomNo", ColumnDescription = "bom番号 ",Length = 4)]
+        public string EcsBomNo { get; set; }
 
         /// <summary>
-        /// IQC登入日期
+        /// 互换 
         /// </summary>
-        public DateTime? EsIqcEntryDate { get; set; }
+        [SugarColumn(ColumnName="EcsChange", ColumnDescription = "互换 ",Length = 4)]
+        public string EcsChange { get; set; }
 
         /// <summary>
-        /// 检验订单
+        /// 区分 
         /// </summary>
-        public string EsIqcOrder { get; set; }
+        [SugarColumn(ColumnName="EcsDistLocal", ColumnDescription = "区分 ",Length = 4)]
+        public string EcsDistLocal { get; set; }
 
         /// <summary>
-        /// 说明
+        /// 指示 
         /// </summary>
-        public string EsIqcNote { get; set; }
+        [SugarColumn(ColumnName="EcsInstNote", ColumnDescription = "指示 ",Length = 4)]
+        public string EcsInstNote { get; set; }
 
         /// <summary>
-        /// IQC新增
+        /// 旧品处理 
         /// </summary>
-        public string EsIqcCreator { get; set; }
+        [SugarColumn(ColumnName="EcsOldProcess", ColumnDescription = "旧品处理 ",Length = 4)]
+        public string EcsOldProcess { get; set; }
 
         /// <summary>
-        /// IQC新增日期
+        /// bom日期 
         /// </summary>
-        public DateTime? EsIqcCreateTime { get; set; }
+        public DateTime? EcsBomDate { get; set; }
 
         /// <summary>
-        /// IQC修改
+        /// 采购类型 
         /// </summary>
-        public string EsIqcModifier { get; set; }
+        [SugarColumn(ColumnName="EcsPurType", ColumnDescription = "采购类型 ",Length = 1)]
+        public string EcsPurType { get; set; }
 
         /// <summary>
-        /// IQC修改日期
+        /// 采购组 
         /// </summary>
-        public DateTime? EsIqcModifyTime { get; set; }
+        [SugarColumn(ColumnName="EcsPurGroup", ColumnDescription = "采购组 ",Length = 20)]
+        public string EcsPurGroup { get; set; }
 
         /// <summary>
-        /// 部管登入日期
+        /// 仓库 
         /// </summary>
-        public DateTime? EsMmEntryDate { get; set; }
+        [SugarColumn(ColumnName="EcsSloc", ColumnDescription = "仓库 ",Length = 4)]
+        public string EcsSloc { get; set; }
 
         /// <summary>
-        /// 领用批次
+        /// 检验否 
         /// </summary>
-        public string EsMmLot { get; set; }
+        [SugarColumn(ColumnName="EcsInsmk", ColumnDescription = "检验否 ",Length = 1)]
+        public string EcsInsmk { get; set; }
 
         /// <summary>
-        /// 工单
+        /// 工厂状态 
         /// </summary>
-        public string EsMmMocNo { get; set; }
+        [SugarColumn(ColumnName="EcsPlntStated", ColumnDescription = "工厂状态 ",Length = 4)]
+        public string EcsPlntStated { get; set; }
 
         /// <summary>
-        /// 说明
+        /// SOP 
         /// </summary>
-        public string EsMmNote { get; set; }
+        [SugarColumn(ColumnName="EcsSopStated", ColumnDescription = "SOP ",DefaultValue = "0")]
+        public int EcsSopStated { get; set; }
 
         /// <summary>
-        /// EsMmCreator
+        /// 实施标记 
         /// </summary>
-        public string EsMmCreator { get; set; }
+        [SugarColumn(ColumnName="EcsImplStated", ColumnDescription = "实施标记 ",DefaultValue = "0")]
+        public int EcsImplStated { get; set; }
 
         /// <summary>
-        /// EsMmCreateTime
+        /// 采购登入日期 
         /// </summary>
-        public DateTime? EsMmCreateTime { get; set; }
+        public DateTime? EcsPurEnteredDate { get; set; }
 
         /// <summary>
-        /// EsMmModifier
+        /// 供应商 
         /// </summary>
-        public string EsMmModifier { get; set; }
+        [SugarColumn(ColumnName="EcsPurSupplier", ColumnDescription = "供应商 ",Length = 20)]
+        public string EcsPurSupplier { get; set; }
 
         /// <summary>
-        /// EsMmModifyTime
+        /// 采购PO 
         /// </summary>
-        public DateTime? EsMmModifyTime { get; set; }
+        [SugarColumn(ColumnName="EcsPurOrder", ColumnDescription = "采购PO ",Length = 20)]
+        public string EcsPurOrder { get; set; }
 
         /// <summary>
-        /// 制一登入日期
+        /// 说明 
         /// </summary>
-        public DateTime? EsPpEntryDate { get; set; }
+        [SugarColumn(ColumnName="EcsPurNote", ColumnDescription = "说明 ",Length = 255)]
+        public string EcsPurNote { get; set; }
 
         /// <summary>
-        /// 班组
+        /// 生管登入日期 
         /// </summary>
-        public string EsPpLine { get; set; }
+        public DateTime? EcsPmcEnteredDate { get; set; }
 
         /// <summary>
-        /// 生产批次
+        /// 预投入批次 
         /// </summary>
-        public string EsPpLot { get; set; }
+        [SugarColumn(ColumnName="EcsPmcPreLot", ColumnDescription = "预投入批次 ",Length = 255)]
+        public string EcsPmcPreLot { get; set; }
 
         /// <summary>
-        /// 说明
+        /// 旧品处理 
         /// </summary>
-        public string EsPpNote { get; set; }
+        [SugarColumn(ColumnName="EcsPmcDisposal", ColumnDescription = "旧品处理 ",Length = 255)]
+        public string EcsPmcDisposal { get; set; }
 
         /// <summary>
-        /// EsPpCreator
+        /// 备注 
         /// </summary>
-        public string EsPpCreator { get; set; }
+        [SugarColumn(ColumnName="EcsPmcNote", ColumnDescription = "备注 ",Length = 255)]
+        public string EcsPmcNote { get; set; }
 
         /// <summary>
-        /// EsPpCreateTime
+        /// IQC登入日期 
         /// </summary>
-        public DateTime? EsPpCreateTime { get; set; }
+        public DateTime? EcsIqcEnteredDate { get; set; }
 
         /// <summary>
-        /// EsPpModifier
+        /// 检验订单 
         /// </summary>
-        public string EsPpModifier { get; set; }
+        [SugarColumn(ColumnName="EcsIqcOrder", ColumnDescription = "检验订单 ",Length = 20)]
+        public string EcsIqcOrder { get; set; }
 
         /// <summary>
-        /// EsPpModifyTime
+        /// 说明 
         /// </summary>
-        public DateTime? EsPpModifyTime { get; set; }
+        [SugarColumn(ColumnName="EcsIqcNote", ColumnDescription = "说明 ",Length = 255)]
+        public string EcsIqcNote { get; set; }
 
         /// <summary>
-        /// 制二登入日期
+        /// 部管登入日期 
         /// </summary>
-        public DateTime? EsPcbaEntryDate { get; set; }
+        public DateTime? EcsMmEnteredDate { get; set; }
 
         /// <summary>
-        /// Pcba班组
+        /// 领用批次 
         /// </summary>
-        public string EsPcbaLine { get; set; }
+        [SugarColumn(ColumnName="EcsMmLot", ColumnDescription = "领用批次 ",Length = 255)]
+        public string EcsMmLot { get; set; }
 
         /// <summary>
-        /// Pcba批次
+        /// 工单 
         /// </summary>
-        public string EsPcbaLot { get; set; }
+        [SugarColumn(ColumnName="EcsMmProOrder", ColumnDescription = "工单 ",Length = 200)]
+        public string EcsMmProOrder { get; set; }
 
         /// <summary>
-        /// 说明
+        /// 说明 
         /// </summary>
-        public string EsPcbaNote { get; set; }
+        [SugarColumn(ColumnName="EcsMmNote", ColumnDescription = "说明 ",Length = 255)]
+        public string EcsMmNote { get; set; }
 
         /// <summary>
-        /// EsPcbaCreator
+        /// 制一登入日期 
         /// </summary>
-        public string EsPcbaCreator { get; set; }
+        public DateTime? EcsAssyEnteredDate { get; set; }
 
         /// <summary>
-        /// EsPcbaCreateTime
+        /// 班组 
         /// </summary>
-        public DateTime? EsPcbaCreateTime { get; set; }
+        [SugarColumn(ColumnName="EcsAssyLine", ColumnDescription = "班组 ",Length = 20)]
+        public string EcsAssyLine { get; set; }
 
         /// <summary>
-        /// EsPcbaModifier
+        /// 生产批次 
         /// </summary>
-        public string EsPcbaModifier { get; set; }
+        [SugarColumn(ColumnName="EcsAssyPutLot", ColumnDescription = "生产批次 ",Length = 255)]
+        public string EcsAssyPutLot { get; set; }
 
         /// <summary>
-        /// EsPcbaModifyTime
+        /// 说明 
         /// </summary>
-        public DateTime? EsPcbaModifyTime { get; set; }
+        [SugarColumn(ColumnName="EcsAssyNote", ColumnDescription = "说明 ",Length = 255)]
+        public string EcsAssyNote { get; set; }
 
         /// <summary>
-        /// QA确认日期
+        /// 制二登入日期 
         /// </summary>
-        public DateTime? EsQaEntryDate { get; set; }
+        public DateTime? EcsPcbaEnteredDate { get; set; }
 
         /// <summary>
-        /// 检验批次
+        /// Pcba班组 
         /// </summary>
-        public string EsQaLot { get; set; }
+        [SugarColumn(ColumnName="EcsPcbaLine", ColumnDescription = "Pcba班组 ",Length = 20)]
+        public string EcsPcbaLine { get; set; }
 
         /// <summary>
-        /// 说明
+        /// Pcba批次 
         /// </summary>
-        public string EsQaNote { get; set; }
+        [SugarColumn(ColumnName="EcsPcbaPutLot", ColumnDescription = "Pcba批次 ",Length = 255)]
+        public string EcsPcbaPutLot { get; set; }
 
         /// <summary>
-        /// EsQaCreator
+        /// 说明 
         /// </summary>
-        public string EsQaCreator { get; set; }
+        [SugarColumn(ColumnName="EcsPcbaNote", ColumnDescription = "说明 ",Length = 255)]
+        public string EcsPcbaNote { get; set; }
 
         /// <summary>
-        /// EsQaCreateTime
+        /// QA确认日期 
         /// </summary>
-        public DateTime? EsQaCreateTime { get; set; }
+        public DateTime? EcsFqcEnteredDate { get; set; }
 
         /// <summary>
-        /// EsQaModifier
+        /// 检验批次 
         /// </summary>
-        public string EsQaModifier { get; set; }
+        [SugarColumn(ColumnName="EcsFqcImplLot", ColumnDescription = "检验批次 ",Length = 255)]
+        public string EcsFqcImplLot { get; set; }
 
         /// <summary>
-        /// EsQaModifyTime
+        /// 说明 
         /// </summary>
-        public DateTime? EsQaModifyTime { get; set; }
+        [SugarColumn(ColumnName="EcsFqcNote", ColumnDescription = "说明 ",Length = 255)]
+        public string EcsFqcNote { get; set; }
 
         /// <summary>
-        /// 自定义A
+        /// 自定义A 
         /// </summary>
+        [SugarColumn(ColumnName="UDF01", ColumnDescription = "自定义A ",Length = 200)]
         public string UDF01 { get; set; }
 
         /// <summary>
-        /// 自定义B
+        /// 自定义B 
         /// </summary>
+        [SugarColumn(ColumnName="UDF02", ColumnDescription = "自定义B ",Length = 200)]
         public string UDF02 { get; set; }
 
         /// <summary>
-        /// 自定义C
+        /// 自定义C 
         /// </summary>
+        [SugarColumn(ColumnName="UDF03", ColumnDescription = "自定义C ",Length = 200)]
         public string UDF03 { get; set; }
 
         /// <summary>
-        /// 自定义D
+        /// 自定义D 
         /// </summary>
+        [SugarColumn(ColumnName="UDF04", ColumnDescription = "自定义D ",Length = 200)]
         public string UDF04 { get; set; }
 
         /// <summary>
-        /// 自定义E
+        /// 自定义E 
         /// </summary>
+        [SugarColumn(ColumnName="UDF05", ColumnDescription = "自定义E ",Length = 200)]
         public string UDF05 { get; set; }
 
         /// <summary>
-        /// 自定义F
+        /// 自定义F 
         /// </summary>
+        [SugarColumn(ColumnName="UDF06", ColumnDescription = "自定义F ",Length = 200)]
         public string UDF06 { get; set; }
 
         /// <summary>
-        /// 自定义1
+        /// 自定义1 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="UDF51", ColumnDescription = "自定义1 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF51 { get; set; }
 
         /// <summary>
-        /// 自定义2
+        /// 自定义2 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="UDF52", ColumnDescription = "自定义2 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF52 { get; set; }
 
         /// <summary>
-        /// 自定义3
+        /// 自定义3 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="UDF53", ColumnDescription = "自定义3 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF53 { get; set; }
 
         /// <summary>
-        /// 自定义4
+        /// 自定义4 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="UDF54", ColumnDescription = "自定义4 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF54 { get; set; }
 
         /// <summary>
-        /// 自定义5
+        /// 自定义5 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="UDF55", ColumnDescription = "自定义5 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF55 { get; set; }
 
         /// <summary>
-        /// 自定义6
+        /// 自定义6 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="UDF56", ColumnDescription = "自定义6 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF56 { get; set; }
 
         /// <summary>
-        /// 软删除
+        /// 软删除 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="IsDeleted", ColumnDescription = "软删除 ",DefaultValue = "0")]
         public int IsDeleted { get; set; }
+
+        /// <summary>
+        /// 备注 
+        /// </summary>
+        [SugarColumn(ColumnName="Remark", ColumnDescription = "备注 ",Length = 2000)]
+        public string Remark { get; set; }
+
+        /// <summary>
+        /// 创建者 
+        /// </summary>
+        [SugarColumn(ColumnName = "create_by")]
+        public string CreateBy { get; set; }
+
+        /// <summary>
+        /// 创建时间 
+        /// </summary>
+        [SugarColumn(ColumnName = "create_time")]
+        public DateTime? CreateTime { get; set; }
+
+        /// <summary>
+        /// 更新者 
+        /// </summary>
+        [SugarColumn(ColumnName = "update_by")]
+        public string UpdateBy { get; set; }
+
+        /// <summary>
+        /// 更新时间 
+        /// </summary>
+        [SugarColumn(ColumnName = "update_time")]
+        public DateTime? UpdateTime { get; set; }
+
     }
 }

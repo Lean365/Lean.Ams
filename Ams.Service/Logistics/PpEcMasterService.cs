@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 主设变
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:43
+    /// @Date: 2024/7/26 16:35:09
     /// </summary>
     [AppService(ServiceType = typeof(IPpEcMasterService), ServiceLifetime = LifeTime.Transient)]
     public class PpEcMasterService : BaseService<PpEcMaster>, IPpEcMasterService
@@ -38,7 +38,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.EmSFID.ToString() == enterString);
+            int count = Count(it => it.EcmSfid.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,13 +49,13 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="EmSFID"></param>
+        /// <param name="EcmSfid"></param>
         /// <returns></returns>
-        public PpEcMaster GetInfo(long EmSFID)
+        public PpEcMaster GetInfo(long EcmSfid)
         {
             var response = Queryable()
                 .Includes(x => x.PpEcSlaveNav) //填充子对象
-                .Where(x => x.EmSFID == EmSFID)
+                .Where(x => x.EcmSfid == EcmSfid)
                 .First();
 
             return response;
@@ -89,18 +89,18 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.EmSFID.IsEmpty(), "SFID不能为空")
-                .SplitError(x => x.Item.EmEcIssueDate.IsEmpty(), "发行日不能为空")
-                .SplitError(x => x.Item.EmEcNo.IsEmpty(), "设变No.不能为空")
-                .SplitError(x => x.Item.EmEcStatus.IsEmpty(), "状态不能为空")
-                .SplitError(x => x.Item.EmEcTitle.IsEmpty(), "标题不能为空")
-                .SplitError(x => x.Item.EmEcContent.IsEmpty(), "内容不能为空")
-                .SplitError(x => x.Item.EmEcAssigned.IsEmpty(), "担当不能为空")
-                .SplitError(x => x.Item.EmEcLossAmount.IsEmpty(), "损失金额不能为空")
-                .SplitError(x => x.Item.EmEcManageCategory.IsEmpty(), "管理区分不能为空")
-                .SplitError(x => x.Item.EmEcImpDept.IsEmpty(), "输入部门不能为空")
-                .SplitError(x => x.Item.EmEcEntryDate.IsEmpty(), "输入日不能为空")
-                .SplitError(x => x.Item.EsSopStae.IsEmpty(), "SOP不能为空")
+                .SplitError(x => x.Item.EcmIssueDate.IsEmpty(), "发行日期不能为空")
+                .SplitError(x => x.Item.EcmNo.IsEmpty(), "设变No.不能为空")
+                .SplitError(x => x.Item.EcmStated.IsEmpty(), "设变状态不能为空")
+                .SplitError(x => x.Item.EcmTitle.IsEmpty(), "标题不能为空")
+                .SplitError(x => x.Item.EcmContent.IsEmpty(), "内容不能为空")
+                .SplitError(x => x.Item.EcmLeader.IsEmpty(), "担当不能为空")
+                .SplitError(x => x.Item.EcmLossAmount.IsEmpty(), "损失金额不能为空")
+                .SplitError(x => x.Item.EcmManageCategory.IsEmpty(), "管理区分不能为空")
+                .SplitError(x => x.Item.EcmEnteredDept.IsEmpty(), "输入部门不能为空")
+                .SplitError(x => x.Item.EcmEnteredDate.IsEmpty(), "输入日不能为空")
+                .SplitError(x => x.Item.EcmSopStated.IsEmpty(), "SOP更新否不能为空")
+                .SplitError(x => x.Item.EcmImplStated.IsEmpty(), "实施标记不能为空")
                 .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
                 .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
                 .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
@@ -141,13 +141,16 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpEcMasterDto()
                 {
-                    EmEcStatusLabel = it.EmEcStatus.GetConfigValue<SysDictData>("sys_ec_status"),
-                    EmEcAssignedLabel = it.EmEcAssigned.GetConfigValue<SysDictData>("sql_ec_group"),
-                    EmEcManageCategoryLabel = it.EmEcManageCategory.GetConfigValue<SysDictData>("sys_ec_mgtype"),
-                    EsSopStaeLabel = it.EsSopStae.GetConfigValue<SysDictData>("sys_sop_yn"),
+                    EcmStatedLabel = it.EcmStated.GetConfigValue<SysDictData>("sys_ec_status"),
+                    EcmLeaderLabel = it.EcmLeader.GetConfigValue<SysDictData>("sql_ec_group"),
+                    EcmManageCategoryLabel = it.EcmManageCategory.GetConfigValue<SysDictData>("sys_ec_mgtype"),
+                    EcmEnteredDeptLabel = it.EcmEnteredDept.GetConfigValue<SysDictData>("sql_dept_list"),
+                    EcmSopStatedLabel = it.EcmSopStated.GetConfigValue<SysDictData>("sys_flag_list"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
-                    //EsPurTypeLabel = it.EsPurType.GetConfigValue<SysDictData>("sys_pur_type"),
-                    //EsInsmkLabel = it.EsInsmk.GetConfigValue<SysDictData>("sys_normal_whether"),
+                    //EcsPurTypeLabel = it.EcsPurType.GetConfigValue<SysDictData>("sys_pur_type"),
+                    //EcsPurGroupLabel = it.EcsPurGroup.GetConfigValue<SysDictData>("sys_pur_group"),
+                    //EcsSlocLabel = it.EcsSloc.GetConfigValue<SysDictData>("sys_sloc_list"),
+                    //EcsPlntStatedLabel = it.EcsPlntStated.GetConfigValue<SysDictData>("sys_eol_list"),
                 }, true)
                 .ToPage(parm);
 
@@ -164,26 +167,22 @@ namespace Ams.Service.Logistics
             var predicate = Expressionable.Create<PpEcMaster>();
 
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginEmEcIssueDate == null, it => it.EmEcIssueDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginEcmIssueDate == null, it => it.EcmIssueDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginEmEcIssueDate == null, it => it.EmEcIssueDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginEmEcIssueDate != null, it => it.EmEcIssueDate >= parm.BeginEmEcIssueDate);
-            predicate = predicate.AndIF(parm.EndEmEcIssueDate != null, it => it.EmEcIssueDate <= parm.EndEmEcIssueDate);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EmEcNo), it => it.EmEcNo.Contains(parm.EmEcNo));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EmEcTitle), it => it.EmEcTitle.Contains(parm.EmEcTitle));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EmEcAssigned), it => it.EmEcAssigned == parm.EmEcAssigned);
-            predicate = predicate.AndIF(parm.EmEcManageCategory != null, it => it.EmEcManageCategory == parm.EmEcManageCategory);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EmEcLiaisonNo), it => it.EmEcLiaisonNo.Contains(parm.EmEcLiaisonNo));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EmEcEppLiaisonNo), it => it.EmEcEppLiaisonNo.Contains(parm.EmEcEppLiaisonNo));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EmEcFppLiaisonNo), it => it.EmEcFppLiaisonNo.Contains(parm.EmEcFppLiaisonNo));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EmEcExternalNo), it => it.EmEcExternalNo.Contains(parm.EmEcExternalNo));
+            predicate = predicate.AndIF(parm.BeginEcmIssueDate == null, it => it.EcmIssueDate >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginEcmIssueDate != null, it => it.EcmIssueDate >= parm.BeginEcmIssueDate);
+            predicate = predicate.AndIF(parm.EndEcmIssueDate != null, it => it.EcmIssueDate <= parm.EndEcmIssueDate);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcmNo), it => it.EcmNo.Contains(parm.EcmNo));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcmTitle), it => it.EcmTitle.Contains(parm.EcmTitle));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcmContent), it => it.EcmContent.Contains(parm.EcmContent));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcmLeader), it => it.EcmLeader == parm.EcmLeader);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcmEnteredDept), it => it.EcmEnteredDept == parm.EcmEnteredDept);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginEmEcEntryDate == null, it => it.EmEcEntryDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginEcmEnteredDate == null, it => it.EcmEnteredDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginEmEcEntryDate == null, it => it.EmEcEntryDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginEmEcEntryDate != null, it => it.EmEcEntryDate >= parm.BeginEmEcEntryDate);
-            predicate = predicate.AndIF(parm.EndEmEcEntryDate != null, it => it.EmEcEntryDate <= parm.EndEmEcEntryDate);
-            predicate = predicate.AndIF(parm.EsSopStae != null, it => it.EsSopStae == parm.EsSopStae);
+            predicate = predicate.AndIF(parm.BeginEcmEnteredDate == null, it => it.EcmEnteredDate >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginEcmEnteredDate != null, it => it.EcmEnteredDate >= parm.BeginEcmEnteredDate);
+            predicate = predicate.AndIF(parm.EndEcmEnteredDate != null, it => it.EcmEnteredDate <= parm.EndEcmEnteredDate);
             return predicate;
         }
     }

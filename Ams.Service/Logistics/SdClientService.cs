@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 客户信息
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:22:24
+    /// @Date: 2024/7/26 14:26:41
     /// </summary>
     [AppService(ServiceType = typeof(ISdClientService), ServiceLifetime = LifeTime.Transient)]
     public class SdClientService : BaseService<SdClient>, ISdClientService
@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. ScSFID.ToString() == enterString);
+            int count = Count(it => it. ScSfid.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="ScSFID"></param>
+        /// <param name="ScSfid"></param>
         /// <returns></returns>
-        public SdClient GetInfo(long ScSFID)
+        public SdClient GetInfo(long ScSfid)
         {
             var response = Queryable()
-                .Where(x => x.ScSFID == ScSFID)
+                .Where(x => x.ScSfid == ScSfid)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.ScSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.ScSfid.IsEmpty(), "SFID不能为空")
                 .SplitError(x => x.Item.ScOrg.IsEmpty(), "销售组织不能为空")
                 .SplitError(x => x.Item.ScIndustryType.IsEmpty(), "行业类别不能为空")
                 .SplitError(x => x.Item.ScEnterpriseNature.IsEmpty(), "企业性质不能为空")
@@ -154,9 +154,6 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new SdClientDto()
                 {
-                    ScOrgLabel = it.ScOrg.GetConfigValue<SysDictData>("sys_crop_list"),
-                    ScIndustryTypeLabel = it.ScIndustryType.GetConfigValue<SysDictData>("sys_ind_type"),
-                    ScEnterpriseNatureLabel = it.ScEnterpriseNature.GetConfigValue<SysDictData>("sys_nature_list"),
                     ScTaxTypeLabel = it.ScTaxType.GetConfigValue<SysDictData>("sys_tax_list"),
                     ScCcyLabel = it.ScCcy.GetConfigValue<SysDictData>("sys_ccy_type"),
                     ScPayTermsLabel = it.ScPayTerms.GetConfigValue<SysDictData>("sys_payment_terms"),
@@ -167,6 +164,9 @@ namespace Ams.Service.Logistics
                     ScCustomerGradeLabel = it.ScCustomerGrade.GetConfigValue<SysDictData>("sys_grade_list"),
                     ScCustomerCreditLabel = it.ScCustomerCredit.GetConfigValue<SysDictData>("sys_credit_list"),
                     ScBankCountryLabel = it.ScBankCountry.GetConfigValue<SysDictData>("sys_country_list"),
+                    ScBankStateLabel = it.ScBankState.GetConfigValue<SysDictData>("sql_region_province"),
+                    ScBankCityLabel = it.ScBankCity.GetConfigValue<SysDictData>("sql_region_city"),
+                    ScBankCountyLabel = it.ScBankCounty.GetConfigValue<SysDictData>("sql_region_county"),
                     IsFrozeLabel = it.IsFroze.GetConfigValue<SysDictData>("sys_freeze_flag"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
@@ -199,13 +199,6 @@ namespace Ams.Service.Logistics
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScShippingTerms), it => it.ScShippingTerms == parm.ScShippingTerms);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScCustomerGrade), it => it.ScCustomerGrade == parm.ScCustomerGrade);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScCustomerCredit), it => it.ScCustomerCredit == parm.ScCustomerCredit);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginScFirstTransDate == null, it => it.ScFirstTransDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginScFirstTransDate == null, it => it.ScFirstTransDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginScFirstTransDate != null, it => it.ScFirstTransDate >= parm.BeginScFirstTransDate);
-            predicate = predicate.AndIF(parm.EndScFirstTransDate != null, it => it.ScFirstTransDate <= parm.EndScFirstTransDate);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScRegionCode), it => it.ScRegionCode == parm.ScRegionCode);
             predicate = predicate.AndIF(parm.IsFroze != null, it => it.IsFroze == parm.IsFroze);
             return predicate;
         }

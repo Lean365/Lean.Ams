@@ -2,7 +2,7 @@
  * @Descripttion: 原因类别/pp_cause_type
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/19 15:31:18
+ * @Date: 2024/7/26 15:12:48
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>

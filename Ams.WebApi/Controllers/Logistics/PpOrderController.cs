@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 生产工单
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:49
+    /// @Date: 2024/7/26 15:07:48
     /// </summary>
     [Verify]
     [Route("Logistics/PpOrder")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询生产工单详情
         /// </summary>
-        /// <param name="MoSFID"></param>
+        /// <param name="MoSfid"></param>
         /// <returns></returns>
-        [HttpGet("{MoSFID}")]
+        [HttpGet("{MoSfid}")]
         [ActionPermissionFilter(Permission = "pp:order:query")]
-        public IActionResult GetPpOrder(long MoSFID)
+        public IActionResult GetPpOrder(long MoSfid)
         {
-            var response = _PpOrderService.GetInfo(MoSFID);
+            var response = _PpOrderService.GetInfo(MoSfid);
             
             var info = response.Adapt<PpOrderDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpOrderService.CheckInputUnique(parm.MoSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpOrderService.CheckInputUnique(parm.MoSfid.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增生产工单 '{parm.MoSFID}'失败(Add failed)，输入的生产工单已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增生产工单 '{parm.MoSfid}'失败(Add failed)，输入的生产工单已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpOrder>().ToCreate(HttpContext);
 
@@ -156,7 +156,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<PpOrderDto>() { }, "PpOrder");
+            var result = DownloadImportTemplate(new List<PpOrderImportTpl>() { }, "PpOrder_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

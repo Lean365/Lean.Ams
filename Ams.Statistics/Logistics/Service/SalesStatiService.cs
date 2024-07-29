@@ -8,13 +8,13 @@ namespace Ams.Statistics.Logistics.Service
     /// Service业务层处理
     /// </summary>
     [AppService(ServiceType = typeof(ISalesStatiService), ServiceLifetime = LifeTime.Transient)]
-    public class SalesStatiService : BaseService<SdSalesInvoice>, ISalesStatiService
+    public class SalesStatiService : BaseService<SdSellingInvoice>, ISalesStatiService
     {
         /// <summary>
         /// 查询当月销售额
         /// </summary>
         /// <returns></returns>
-        public decimal GetMonthlySalesQty(SdSalesInvoiceQueryDto parm)
+        public decimal GetMonthlySalesQty(SdSellingInvoiceQueryDto parm)
         {
             decimal MonthlyQty;
             var predicate = QueryExpCurrent(parm);
@@ -43,7 +43,7 @@ namespace Ams.Statistics.Logistics.Service
         /// 查询当月销售额
         /// </summary>
         /// <returns></returns>
-        public decimal GetMonthlySalesAmount(SdSalesInvoiceQueryDto parm)
+        public decimal GetMonthlySalesAmount(SdSellingInvoiceQueryDto parm)
         {
             decimal MonthlyQty;
             var predicate = QueryExpCurrent(parm);
@@ -87,7 +87,7 @@ namespace Ams.Statistics.Logistics.Service
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public List<Dictionary<string, object>> GetListMonthSales(SdSalesInvoiceQueryDto parm)
+        public List<Dictionary<string, object>> GetListMonthSales(SdSellingInvoiceQueryDto parm)
         {
             var db = Context;
             var predicate = QueryExpCurrent(parm);
@@ -132,7 +132,7 @@ namespace Ams.Statistics.Logistics.Service
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public List<Dictionary<string, object>> GetListMonthAreaSales(SdSalesInvoiceQueryDto parm)
+        public List<Dictionary<string, object>> GetListMonthAreaSales(SdSellingInvoiceQueryDto parm)
         {
             var predicate = QueryExp(parm);
             var response = Queryable()
@@ -155,7 +155,7 @@ namespace Ams.Statistics.Logistics.Service
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public List<Dictionary<string, object>> GetListMonthRegionSales(SdSalesInvoiceQueryDto parm)
+        public List<Dictionary<string, object>> GetListMonthRegionSales(SdSellingInvoiceQueryDto parm)
         {
             var predicate = QueryExp(parm);
             var response = Queryable()
@@ -175,7 +175,7 @@ namespace Ams.Statistics.Logistics.Service
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public List<Dictionary<string, object>> GetListYearSales(SdSalesInvoiceQueryDto parm)
+        public List<Dictionary<string, object>> GetListYearSales(SdSellingInvoiceQueryDto parm)
         {
             var predicate = QueryExp(parm);
             var response = Queryable()
@@ -196,7 +196,7 @@ namespace Ams.Statistics.Logistics.Service
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public List<Dictionary<string, object>> GetListYearAreaSales(SdSalesInvoiceQueryDto parm)
+        public List<Dictionary<string, object>> GetListYearAreaSales(SdSellingInvoiceQueryDto parm)
         {
             var predicate = QueryExp(parm);
             var response = Queryable()
@@ -217,7 +217,7 @@ namespace Ams.Statistics.Logistics.Service
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public List<Dictionary<string, object>> GetListYearRegionSales(SdSalesInvoiceQueryDto parm)
+        public List<Dictionary<string, object>> GetListYearRegionSales(SdSellingInvoiceQueryDto parm)
         {
             var predicate = QueryExp(parm);
             var response = Queryable()
@@ -238,9 +238,9 @@ namespace Ams.Statistics.Logistics.Service
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        private static Expressionable<SdSalesInvoice> QueryExp(SdSalesInvoiceQueryDto parm)
+        private static Expressionable<SdSellingInvoice> QueryExp(SdSellingInvoiceQueryDto parm)
         {
-            var predicate = Expressionable.Create<SdSalesInvoice>();
+            var predicate = Expressionable.Create<SdSellingInvoice>();
 
             predicate = predicate.AndIF(parm.SsiYm != null, it => it.SsiYm == parm.SsiYm);
             //predicate = predicate.AndIF(parm.EndPomDate != null, it => it.PomDate <= parm.EndPomDate);
@@ -254,10 +254,10 @@ namespace Ams.Statistics.Logistics.Service
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        private static Expressionable<SdSalesInvoice> QueryExpCurrent(SdSalesInvoiceQueryDto parm)
+        private static Expressionable<SdSellingInvoice> QueryExpCurrent(SdSellingInvoiceQueryDto parm)
         {
             string currentMonth = DateTime.Now.ToString("yyyyMM");
-            var predicate = Expressionable.Create<SdSalesInvoice>();
+            var predicate = Expressionable.Create<SdSellingInvoice>();
             if (parm.SsiYm == null)
             {
                 predicate = predicate.AndIF(true, it => it.SsiYm == "202307");

@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 顾客信息
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:26:23
+    /// @Date: 2024/7/26 13:49:23
     /// </summary>
     public interface ISdCustomerService : IBaseService<SdCustomer>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取顾客信息信息
         /// </summary>
-        /// <param name="ScSFID"></param>
+        /// <param name="ScSfid"></param>
         /// <returns></returns>
-        SdCustomer GetInfo(long ScSFID);
+        SdCustomer GetInfo(long ScSfid);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

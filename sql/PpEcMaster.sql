@@ -1,4 +1,4 @@
-use Lean365;
+use Ams_Tes;
 
 -- 主设变菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 

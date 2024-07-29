@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 制一OPH从表
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 14:32:42
+    /// @Date: 2024/7/26 16:07:23
     /// </summary>
     [Verify]
     [Route("Logistics/PpOutputAssySlave")]
@@ -156,7 +156,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<PpOutputAssySlaveDto>() { }, "PpOutputAssySlave");
+            var result = DownloadImportTemplate(new List<PpOutputAssySlaveImportTpl>() { }, "PpOutputAssySlave_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

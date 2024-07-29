@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 制二OPH主表
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 9:31:22
+    /// @Date: 2024/7/26 16:09:27
     /// </summary>
     public interface IPpOutputPcbaMasterService : IBaseService<PpOutputPcbaMaster>
     {

@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 工资率
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 16:25:51
+    /// @Date: 2024/7/26 16:39:08
     /// </summary>
     [AppService(ServiceType = typeof(IFicoWageRatesService), ServiceLifetime = LifeTime.Transient)]
     public class FicoWageRatesService : BaseService<FicoWageRates>, IFicoWageRatesService
@@ -36,7 +36,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FwSFID.ToString() == enterString);
+            int count = Count(it => it. FwSfid.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FwSFID"></param>
+        /// <param name="FwSfid"></param>
         /// <returns></returns>
-        public FicoWageRates GetInfo(long FwSFID)
+        public FicoWageRates GetInfo(long FwSfid)
         {
             var response = Queryable()
-                .Where(x => x.FwSFID == FwSFID)
+                .Where(x => x.FwSfid == FwSfid)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FwSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.FwSfid.IsEmpty(), "SFID不能为空")
                 .SplitError(x => x.Item.FwCrop.IsEmpty(), "公司不能为空")
                 .SplitError(x => x.Item.FwYm.IsEmpty(), "年月不能为空")
                 .SplitError(x => x.Item.FwCcy.IsEmpty(), "币种不能为空")
@@ -141,8 +141,8 @@ namespace Ams.Service.Accounting
                 .Select((it) => new FicoWageRatesDto()
                 {
                     FwCropLabel = it.FwCrop.GetConfigValue<SysDictData>("sys_crop_list"),
-                    FwYmLabel = it.FwYm.GetConfigValue<SysDictData>("sql_ym_list"),
-                    FwCcyLabel = it.FwCcy.GetConfigValue<SysDictData>("sys_ccy_type"),
+                    FwYmLabel = it.FwYm.GetConfigValue<SysDictData>("sql_fy_list"),
+                    FwCcyLabel = it.FwCcy.GetConfigValue<SysDictData>("sql_ym_list"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);

@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 生产班组
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/4 14:19:52
+    /// @Date: 2024/7/26 14:45:07
     /// </summary>
     [Verify]
     [Route("Logistics/PpLine")]
@@ -156,7 +156,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<PpLineDto>() { }, "PpLine");
+            var result = DownloadImportTemplate(new List<PpLineImportTpl>() { }, "PpLine_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

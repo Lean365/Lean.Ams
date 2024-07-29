@@ -2,7 +2,7 @@
  * @Descripttion: 制一OPH从表/pp_output_assy_slave
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/16 14:32:42
+ * @Date: 2024/7/26 16:07:23
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,6 +11,14 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
+      <el-form-item label="生产时段" prop="posProductionTime">
+        <el-select filterable clearable   v-model="queryParams.posProductionTime" :placeholder="$t('btn.selectSearchPrefix')+'生产时段'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sys_phase_time " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
+      </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
       <el-form-item>
@@ -84,13 +92,13 @@
       <el-table-column prop="posDownTime" label="停线时间" align="center" v-if="columns.showColumn('posDownTime')"/>
       <el-table-column prop="posDownTimeReasons" label="停线原因" align="center" v-if="columns.showColumn('posDownTimeReasons')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_line_stop " :value="scope.row.posDownTimeReasons"  />
+          <dict-tag :options=" options.sql_line_stop " :value="scope.row.posDownTimeReasons" split="," />
         </template>
       </el-table-column>
       <el-table-column prop="posDownTimeDescription" label="停线说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('posDownTimeDescription')"/>
       <el-table-column prop="posMissingReasons" label="未达成原因" align="center" v-if="columns.showColumn('posMissingReasons')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_non_conf " :value="scope.row.posMissingReasons"  />
+          <dict-tag :options=" options.sql_non_conf " :value="scope.row.posMissingReasons" split="," />
         </template>
       </el-table-column>
       <el-table-column prop="posMissingDescription" label="未达成说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('posMissingDescription')"/>
@@ -99,18 +107,6 @@
       <el-table-column prop="posRealWorkinghoursDiff" label="工时差异" align="center" v-if="columns.showColumn('posRealWorkinghoursDiff')"/>
       <el-table-column prop="posRealOutputDiff" label="产能差异" align="center" v-if="columns.showColumn('posRealOutputDiff')"/>
       <el-table-column prop="posAchievedRate" label="达成率" align="center" v-if="columns.showColumn('posAchievedRate')"/>
-      <el-table-column prop="uDF01" label="自定义A" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('uDF01')"/>
-      <el-table-column prop="uDF02" label="自定义B" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('uDF02')"/>
-      <el-table-column prop="uDF03" label="自定义C" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('uDF03')"/>
-      <el-table-column prop="uDF04" label="自定义D" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('uDF04')"/>
-      <el-table-column prop="uDF05" label="自定义E" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('uDF05')"/>
-      <el-table-column prop="uDF06" label="自定义F" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('uDF06')"/>
-      <el-table-column prop="uDF51" label="自定义1" align="center" v-if="columns.showColumn('uDF51')"/>
-      <el-table-column prop="uDF52" label="自定义2" align="center" v-if="columns.showColumn('uDF52')"/>
-      <el-table-column prop="uDF53" label="自定义3" align="center" v-if="columns.showColumn('uDF53')"/>
-      <el-table-column prop="uDF54" label="自定义4" align="center" v-if="columns.showColumn('uDF54')"/>
-      <el-table-column prop="uDF55" label="自定义5" align="center" v-if="columns.showColumn('uDF55')"/>
-      <el-table-column prop="uDF56" label="自定义6" align="center" v-if="columns.showColumn('uDF56')"/>
       <el-table-column prop="remark" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
       <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
@@ -173,7 +169,7 @@
 
           <el-col :lg="12">
             <el-form-item label="停线原因" prop="posDownTimeReasons">
-              <el-select filterable clearable   v-model="form.posDownTimeReasons"  :placeholder="$t('btn.selectPrefix')+'停线原因'+$t('btn.selectSuffix')">
+              <el-select filterable clearable multiple collapse-tags collapse-tags-tooltip  v-model="form.posDownTimeReasonsChecked"  :placeholder="$t('btn.selectPrefix')+'停线原因'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_line_stop" 
                   :key="item.dictValue" 
@@ -184,15 +180,15 @@
           </el-col>
 
 
-          <el-col :lg="12">
+          <el-col :lg="24">
             <el-form-item label="停线说明" prop="posDownTimeDescription">
-              <el-input v-model="form.posDownTimeDescription" :placeholder="$t('btn.enterPrefix')+'停线说明'+$t('btn.enterSuffix')" />
+              <el-input type="textarea" v-model="form.posDownTimeDescription" :placeholder="$t('btn.enterPrefix')+'停线说明'+$t('btn.enterSuffix')"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="未达成原因" prop="posMissingReasons">
-              <el-select filterable clearable   v-model="form.posMissingReasons"  :placeholder="$t('btn.selectPrefix')+'未达成原因'+$t('btn.selectSuffix')">
+              <el-select filterable clearable multiple collapse-tags collapse-tags-tooltip  v-model="form.posMissingReasonsChecked"  :placeholder="$t('btn.selectPrefix')+'未达成原因'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_non_conf" 
                   :key="item.dictValue" 
@@ -203,9 +199,9 @@
           </el-col>
 
 
-          <el-col :lg="12">
+          <el-col :lg="24">
             <el-form-item label="未达成说明" prop="posMissingDescription">
-              <el-input v-model="form.posMissingDescription" :placeholder="$t('btn.enterPrefix')+'未达成说明'+$t('btn.enterSuffix')" />
+              <el-input type="textarea" v-model="form.posMissingDescription" :placeholder="$t('btn.enterPrefix')+'未达成说明'+$t('btn.enterSuffix')"/>
             </el-form-item>
           </el-col>
             
@@ -277,37 +273,37 @@
 
           <el-col :lg="12">
             <el-form-item label="自定义1" prop="uDF51">
-              <el-input v-model="form.uDF51" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
+              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="自定义2" prop="uDF52">
-              <el-input v-model="form.uDF52" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
+              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="自定义3" prop="uDF53">
-              <el-input v-model="form.uDF53" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
+              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="自定义4" prop="uDF54">
-              <el-input v-model="form.uDF54" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
+              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="自定义5" prop="uDF55">
-              <el-input v-model="form.uDF55" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
+              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="自定义6" prop="uDF56">
-              <el-input v-model="form.uDF56" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
+              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
@@ -461,6 +457,8 @@ const queryParams = reactive({
   pageSize: 56,
   sort: '',
   sortType: 'asc',
+//是否查询（1是）
+  posProductionTime: undefined,
 })
 //字段显示控制
 const columns = ref([
@@ -478,18 +476,6 @@ const columns = ref([
   { visible: false, prop: 'posRealWorkinghoursDiff', label: '工时差异' },
   { visible: false, prop: 'posRealOutputDiff', label: '产能差异' },
   { visible: false, prop: 'posAchievedRate', label: '达成率' },
-  { visible: false, prop: 'uDF01', label: '自定义A' },
-  { visible: false, prop: 'uDF02', label: '自定义B' },
-  { visible: false, prop: 'uDF03', label: '自定义C' },
-  { visible: false, prop: 'uDF04', label: '自定义D' },
-  { visible: false, prop: 'uDF05', label: '自定义E' },
-  { visible: false, prop: 'uDF06', label: '自定义F' },
-  { visible: false, prop: 'uDF51', label: '自定义1' },
-  { visible: false, prop: 'uDF52', label: '自定义2' },
-  { visible: false, prop: 'uDF53', label: '自定义3' },
-  { visible: false, prop: 'uDF54', label: '自定义4' },
-  { visible: false, prop: 'uDF55', label: '自定义5' },
-  { visible: false, prop: 'uDF56', label: '自定义6' },
   { visible: false, prop: 'remark', label: '说明' },
   { visible: false, prop: 'createBy', label: '创建者' },
   { visible: false, prop: 'createTime', label: '创建时间' },
@@ -504,39 +490,6 @@ const dataList = ref([])
 const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //字典参数
 var dictParams = [
@@ -655,9 +608,9 @@ function reset() {
     posProductionTime: null,
     posRealOutput: 0,
     posDownTime: 0,
-    posDownTimeReasons: null,
+    posDownTimeReasonsChecked: [],
     posDownTimeDescription: null,
-    posMissingReasons: null,
+    posMissingReasonsChecked: [],
     posMissingDescription: null,
     posRealWorkhours: 0,
     posInputsWorkhours: 0,
@@ -696,19 +649,11 @@ function handleAdd() {
   form.value.posProductionTime= []
   form.value.posRealOutput= 0
   form.value.posDownTime= 0
-  form.value.posDownTimeReasons= []
-  form.value.posMissingReasons= []
   form.value.posRealWorkhours= 0
   form.value.posInputsWorkhours= 0
   form.value.posRealWorkinghoursDiff= 0
   form.value.posRealOutputDiff= 0
   form.value.posAchievedRate= 0
-  form.value.uDF51= 0
-  form.value.uDF52= 0
-  form.value.uDF53= 0
-  form.value.uDF54= 0
-  form.value.uDF55= 0
-  form.value.uDF56= 0
   form.value.createTime= new Date()
   form.value.updateTime= new Date()
 }
@@ -725,6 +670,8 @@ function handleUpdate(row) {
 
       form.value = {
         ...data,
+        posDownTimeReasonsChecked: data.posDownTimeReasons ? data.posDownTimeReasons.split(',') : [],
+        posMissingReasonsChecked: data.posMissingReasons ? data.posMissingReasons.split(',') : [],
       }
     }
   })
@@ -734,6 +681,8 @@ function handleUpdate(row) {
 function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
+      form.value.posDownTimeReasons = form.value.posDownTimeReasonsChecked.toString();
+      form.value.posMissingReasons = form.value.posMissingReasonsChecked.toString();
 
       if (form.value.posSfid != undefined && opertype.value === 2) {
         updatePpOutputAssySlave(form.value).then((res) => {

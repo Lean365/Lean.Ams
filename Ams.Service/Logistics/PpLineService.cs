@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 生产班组
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/4 14:19:52
+    /// @Date: 2024/7/26 14:45:07
     /// </summary>
     [AppService(ServiceType = typeof(IPpLineService), ServiceLifetime = LifeTime.Transient)]
     public class PpLineService : BaseService<PpLine>, IPpLineService
@@ -28,7 +28,6 @@ namespace Ams.Service.Logistics
 
             return response;
         }
-
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -59,7 +58,6 @@ namespace Ams.Service.Logistics
 
             return response;
         }
-
         /// <summary>
         /// 添加生产班组
         /// </summary>
@@ -70,7 +68,6 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
-
         /// <summary>
         /// 修改生产班组
         /// </summary>

@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 制二OPH主表
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 9:31:22
+    /// @Date: 2024/7/26 16:09:27
     /// </summary>
     [Verify]
     [Route("Logistics/PpOutputPcbaMaster")]

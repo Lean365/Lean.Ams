@@ -1,17 +1,19 @@
+
 namespace Ams.Model.Logistics.Dto
 {
     /// <summary>
     /// 标准工时
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:56:49
+    /// @Date: 2024/7/26 15:04:58
     /// </summary>
-    public class PpManhoursQueryDto : PagerInfo
+    public class PpManhoursQueryDto : PagerInfo 
     {
         public DateTime? BeginMhEffDate { get; set; }
         public DateTime? EndMhEffDate { get; set; }
         public string MhPlant { get; set; }
         public string MhModelType { get; set; }
+        public string MhRegionType { get; set; }
         public string MhItem { get; set; }
         public string MhWcName { get; set; }
     }
@@ -20,7 +22,7 @@ namespace Ams.Model.Logistics.Dto
     /// 标准工时
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:56:49
+    /// @Date: 2024/7/26 15:04:58
     /// </summary>
     public class PpManhoursDto
     {
@@ -93,18 +95,28 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("软删除")]
         public int IsDeleted { get; set; }
 
+        [ExcelColumn(Name = "备注")]
+        [ExcelColumnName("备注")]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+
+
         [ExcelColumn(Name = "工厂")]
         public string MhPlantLabel { get; set; }
-
-        [ExcelColumn(Name = "机种名")]
-        public string MhModelTypeLabel { get; set; }
-
-        [ExcelColumn(Name = "仕向别")]
-        public string MhRegionTypeLabel { get; set; }
-
         [ExcelColumn(Name = "工作中心")]
         public string MhWcNameLabel { get; set; }
-
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
@@ -113,7 +125,7 @@ namespace Ams.Model.Logistics.Dto
     /// 标准工时
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:56:49
+    /// @Date: 2024/7/26 15:04:58
     /// </summary>
     public class PpManhoursImportTpl
     {
@@ -186,24 +198,33 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("软删除")]
         public int IsDeleted { get; set; }
 
+        [ExcelColumn(Name = "备注")]
+        [ExcelColumnName("备注")]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+
+
         [ExcelIgnore]
         [ExcelColumn(Name = "工厂")]
         public string MhPlantLabel { get; set; }
-
-        [ExcelIgnore]
-        [ExcelColumn(Name = "机种名")]
-        public string MhModelTypeLabel { get; set; }
-
-        [ExcelIgnore]
-        [ExcelColumn(Name = "仕向别")]
-        public string MhRegionTypeLabel { get; set; }
-
         [ExcelIgnore]
         [ExcelColumn(Name = "工作中心")]
         public string MhWcNameLabel { get; set; }
-
         [ExcelIgnore]
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
+
 }

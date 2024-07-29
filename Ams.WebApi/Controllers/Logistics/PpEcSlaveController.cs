@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 从设变
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:37
+    /// @Date: 2024/7/26 16:30:08
     /// </summary>
     [Verify]
     [Route("Logistics/PpEcSlave")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询从设变详情
         /// </summary>
-        /// <param name="EsSFID"></param>
+        /// <param name="EcsSfid"></param>
         /// <returns></returns>
-        [HttpGet("{EsSFID}")]
+        [HttpGet("{EcsSfid}")]
         [ActionPermissionFilter(Permission = "pp:ecslave:query")]
-        public IActionResult GetPpEcSlave(long EsSFID)
+        public IActionResult GetPpEcSlave(long EcsSfid)
         {
-            var response = _PpEcSlaveService.GetInfo(EsSFID);
+            var response = _PpEcSlaveService.GetInfo(EcsSfid);
             
             var info = response.Adapt<PpEcSlaveDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveService.CheckInputUnique(parm.EsSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveService.CheckInputUnique(parm.EcsSfid.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增从设变 '{parm.EsSFID}'失败(Add failed)，输入的从设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增从设变 '{parm.EcsSfid}'失败(Add failed)，输入的从设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcSlave>().ToCreate(HttpContext);
 
@@ -156,7 +156,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<PpEcSlaveDto>() { }, "PpEcSlave");
+            var result = DownloadImportTemplate(new List<PpEcSlaveImportTpl>() { }, "PpEcSlave_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

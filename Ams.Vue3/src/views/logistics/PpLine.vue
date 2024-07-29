@@ -2,7 +2,7 @@
  * @Descripttion: 生产班组/pp_line
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/4 14:19:52
+ * @Date: 2024/7/26 14:45:07
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -111,7 +111,6 @@
       </el-table-column>
     </el-table>
     <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
-
 
     <!-- 添加或修改生产班组对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" >
@@ -266,6 +265,8 @@
         	</el-row>
           </el-tab-pane>
         </el-tabs>
+
+
       </el-form>
       <template #footer v-if="opertype != 3">
         <el-button text @click="cancel">{{ $t('btn.cancel') }}</el-button>
@@ -333,18 +334,6 @@ const dataList = ref([])
 const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-
-
-
-
-
-
-
-
-
-
-
-
 
 //字典参数
 var dictParams = [

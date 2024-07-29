@@ -2,7 +2,7 @@
  * @Descripttion: 制二OPH从表/pp_output_pcba_slave
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/22 9:31:04
+ * @Date: 2024/7/26 16:07:20
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -13,7 +13,23 @@
         <el-col :lg="24">
       <el-form-item label="班组" prop="posLineName">
         <el-select filterable clearable   v-model="queryParams.posLineName" :placeholder="$t('btn.selectSearchPrefix')+'班组'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_smt_class " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+          <el-option v-for="item in   options.sql_line_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="板别" prop="posPcbaType">
+        <el-select filterable clearable   v-model="queryParams.posPcbaType" :placeholder="$t('btn.selectSearchPrefix')+'板别'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_pcb_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="板面" prop="posPcbaSide">
+        <el-select filterable clearable   v-model="queryParams.posPcbaSide" :placeholder="$t('btn.selectSearchPrefix')+'板面'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sys_pcb_side " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -85,7 +101,17 @@
       <el-table-column prop="posParentSfid" label="父SFID" align="center" v-if="columns.showColumn('posParentSfid')"/>
       <el-table-column prop="posLineName" label="班组" align="center" v-if="columns.showColumn('posLineName')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_smt_class " :value="scope.row.posLineName"  />
+          <dict-tag :options=" options.sql_line_list " :value="scope.row.posLineName"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="posPcbaType" label="板别" align="center" v-if="columns.showColumn('posPcbaType')">
+        <template #default="scope">
+          <dict-tag :options=" options.sql_pcb_type " :value="scope.row.posPcbaType"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="posPcbaSide" label="板面" align="center" v-if="columns.showColumn('posPcbaSide')">
+        <template #default="scope">
+          <dict-tag :options=" options.sys_pcb_side " :value="scope.row.posPcbaSide"  />
         </template>
       </el-table-column>
       <el-table-column prop="posLotQty" label="Lot数" align="center" v-if="columns.showColumn('posLotQty')"/>
@@ -157,7 +183,33 @@
             <el-form-item label="班组" prop="posLineName">
               <el-select filterable clearable   v-model="form.posLineName"  :placeholder="$t('btn.selectPrefix')+'班组'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_smt_class" 
+                  v-for="item in  options.sql_line_list" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+
+          <el-col :lg="12">
+            <el-form-item label="板别" prop="posPcbaType">
+              <el-select filterable clearable   v-model="form.posPcbaType"  :placeholder="$t('btn.selectPrefix')+'板别'+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sql_pcb_type" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+
+          <el-col :lg="12">
+            <el-form-item label="板面" prop="posPcbaSide">
+              <el-select filterable clearable   v-model="form.posPcbaSide"  :placeholder="$t('btn.selectPrefix')+'板面'+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sys_pcb_side" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -519,17 +571,23 @@ const queryParams = reactive({
   sortType: 'asc',
 //是否查询（1是）
   posLineName: undefined,
+//是否查询（1是）
+  posPcbaType: undefined,
+//是否查询（1是）
+  posPcbaSide: undefined,
 })
 //字段显示控制
 const columns = ref([
   { visible: true, prop: 'posSfid', label: 'SFID' },
   { visible: true, prop: 'posParentSfid', label: '父SFID' },
   { visible: true, prop: 'posLineName', label: '班组' },
+  { visible: true, prop: 'posPcbaType', label: '板别' },
+  { visible: true, prop: 'posPcbaSide', label: '板面' },
   { visible: true, prop: 'posLotQty', label: 'Lot数' },
   { visible: true, prop: 'posRealOutput', label: '生产实绩' },
   { visible: true, prop: 'posRealTotal', label: '累计生产数' },
-  { visible: true, prop: 'posPcbSerial', label: '序列号' },
-  { visible: true, prop: 'posPcbaStated', label: '完成情况' },
+  { visible: false, prop: 'posPcbSerial', label: '序列号' },
+  { visible: false, prop: 'posPcbaStated', label: '完成情况' },
   { visible: false, prop: 'posProTime', label: '生产工数' },
   { visible: false, prop: 'posHandoffNum', label: '切换次数' },
   { visible: false, prop: 'posHandoffTime', label: '切换时间' },
@@ -560,7 +618,9 @@ const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23,
 
 //字典参数
 var dictParams = [
-  { dictType: "sql_smt_class" },
+  { dictType: "sql_line_list" },
+  { dictType: "sql_pcb_type" },
+  { dictType: "sys_pcb_side" },
   { dictType: "sql_comp_status" },
   { dictType: "sql_line_stop" },
   { dictType: "sql_non_conf" },
@@ -638,6 +698,8 @@ const state = reactive({
     posSfid: [{ required: true, message: "SFID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
     posParentSfid: [{ required: true, message: "父SFID"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
     posLineName: [{ required: true, message: "班组"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    posPcbaType: [{ required: true, message: "板别"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    posPcbaSide: [{ required: true, message: "板面"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
     posLotQty: [{ required: true, message: "Lot数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
     posRealOutput: [{ required: true, message: "生产实绩"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
     posRealTotal: [{ required: true, message: "累计生产数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
@@ -660,7 +722,11 @@ const state = reactive({
   },
   options: {
     // 班组 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_smt_class: [],
+sql_line_list: [],
+    // 板别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_pcb_type: [],
+    // 板面 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sys_pcb_side: [],
     // 完成情况 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_comp_status: [],
     // 停线原因 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
@@ -686,6 +752,8 @@ function reset() {
     posSfid: 0,
     posParentSfid: 0,
     posLineName: null,
+    posPcbaType: null,
+    posPcbaSide: null,
     posLotQty: 0,
     posRealOutput: 0,
     posRealTotal: 0,
@@ -734,6 +802,8 @@ function handleAdd() {
   title.value = proxy.$t('btn.add')+" "+'制二OPH从表'
   opertype.value = 1
   form.value.posLineName= []
+  form.value.posPcbaType= []
+  form.value.posPcbaSide= []
   form.value.posLotQty= 0
   form.value.posRealOutput= 0
   form.value.posRealTotal= 0

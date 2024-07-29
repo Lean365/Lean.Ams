@@ -1,12 +1,13 @@
+
 namespace Ams.Model.Accounting.Dto
 {
     /// <summary>
     /// 工资率
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 16:25:51
+    /// @Date: 2024/7/26 16:39:08
     /// </summary>
-    public class FicoWageRatesQueryDto : PagerInfo
+    public class FicoWageRatesQueryDto : PagerInfo 
     {
         public string FwCrop { get; set; }
         public string FwYm { get; set; }
@@ -17,7 +18,7 @@ namespace Ams.Model.Accounting.Dto
     /// 工资率
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 16:25:51
+    /// @Date: 2024/7/26 16:39:08
     /// </summary>
     public class FicoWageRatesDto
     {
@@ -25,7 +26,7 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumn(Name = "SFID")]
         [ExcelColumnName("SFID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FwSFID { get; set; }
+        public long FwSfid { get; set; }
 
         [Required(ErrorMessage = "公司不能为空")]
         [ExcelColumn(Name = "公司")]
@@ -139,15 +140,30 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumnName("软删除")]
         public int IsDeleted { get; set; }
 
+        [ExcelColumn(Name = "备注")]
+        [ExcelColumnName("备注")]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+
+
         [ExcelColumn(Name = "公司")]
         public string FwCropLabel { get; set; }
-
         [ExcelColumn(Name = "年月")]
         public string FwYmLabel { get; set; }
-
         [ExcelColumn(Name = "币种")]
         public string FwCcyLabel { get; set; }
-
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
@@ -156,7 +172,7 @@ namespace Ams.Model.Accounting.Dto
     /// 工资率
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 16:25:51
+    /// @Date: 2024/7/26 16:39:08
     /// </summary>
     public class FicoWageRatesImportTpl
     {
@@ -164,7 +180,7 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumn(Name = "SFID")]
         [ExcelColumnName("SFID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FwSFID { get; set; }
+        public long FwSfid { get; set; }
 
         [Required(ErrorMessage = "公司不能为空")]
         [ExcelColumn(Name = "公司")]
@@ -278,20 +294,36 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumnName("软删除")]
         public int IsDeleted { get; set; }
 
+        [ExcelColumn(Name = "备注")]
+        [ExcelColumnName("备注")]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+
+
         [ExcelIgnore]
         [ExcelColumn(Name = "公司")]
         public string FwCropLabel { get; set; }
-
         [ExcelIgnore]
         [ExcelColumn(Name = "年月")]
         public string FwYmLabel { get; set; }
-
         [ExcelIgnore]
         [ExcelColumn(Name = "币种")]
         public string FwCcyLabel { get; set; }
-
         [ExcelIgnore]
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
+
 }

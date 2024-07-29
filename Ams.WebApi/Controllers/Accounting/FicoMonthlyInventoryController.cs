@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 月度存货
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 11:45:33
+    /// @Date: 2024/7/26 16:46:48
     /// </summary>
     [Verify]
     [Route("Accounting/FicoMonthlyInventory")]
@@ -45,16 +45,67 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询月度存货详情
         /// </summary>
-        /// <param name="MiSFID"></param>
+        /// <param name="MiSfid"></param>
         /// <returns></returns>
-        [HttpGet("{MiSFID}")]
+        [HttpGet("{MiSfid}")]
         [ActionPermissionFilter(Permission = "fico:monthlyinventory:query")]
-        public IActionResult GetFicoMonthlyInventory(long MiSFID)
+        public IActionResult GetFicoMonthlyInventory(long MiSfid)
         {
-            var response = _FicoMonthlyInventoryService.GetInfo(MiSFID);
+            var response = _FicoMonthlyInventoryService.GetInfo(MiSfid);
             
             var info = response.Adapt<FicoMonthlyInventoryDto>();
             return SUCCESS(info);
+        }
+
+        /// <summary>
+        /// 添加月度存货
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ActionPermissionFilter(Permission = "fico:monthlyinventory:add")]
+        [Log(Title = "月度存货", BusinessType = BusinessType.INSERT)]
+        public IActionResult AddFicoMonthlyInventory([FromBody] FicoMonthlyInventoryDto parm)
+        {
+           // 校验输入项目唯一性
+
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoMonthlyInventoryService.CheckInputUnique(parm.MiSfid.ToString())))
+            {
+                return ToResponse(ApiResult.Error($"新增月度存货 '{parm.MiSfid}'失败(Add failed)，输入的月度存货已存在(The entered already exists)"));
+            }
+            var modal = parm.Adapt<FicoMonthlyInventory>().ToCreate(HttpContext);
+
+            var response = _FicoMonthlyInventoryService.AddFicoMonthlyInventory(modal);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 更新月度存货
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut]
+        [ActionPermissionFilter(Permission = "fico:monthlyinventory:edit")]
+        [Log(Title = "月度存货", BusinessType = BusinessType.UPDATE)]
+        public IActionResult UpdateFicoMonthlyInventory([FromBody] FicoMonthlyInventoryDto parm)
+        {
+            var modal = parm.Adapt<FicoMonthlyInventory>().ToUpdate(HttpContext);
+            var response = _FicoMonthlyInventoryService.UpdateFicoMonthlyInventory(modal);
+
+            return ToResponse(response);
+        }
+
+        /// <summary>
+        /// 删除月度存货
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete("delete/{ids}")]
+        [ActionPermissionFilter(Permission = "fico:monthlyinventory:delete")]
+        [Log(Title = "月度存货", BusinessType = BusinessType.DELETE)]
+        public IActionResult DeleteFicoMonthlyInventory([FromRoute]string ids)
+        {
+            var idArr = Tools.SplitAndConvert<long>(ids);
+
+            return ToResponse(_FicoMonthlyInventoryService.Delete(idArr, "删除月度存货"));
         }
 
         /// <summary>
@@ -105,7 +156,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<FicoMonthlyInventoryDto>() { }, "FicoMonthlyInventory");
+            var result = DownloadImportTemplate(new List<FicoMonthlyInventoryImportTpl>() { }, "FicoMonthlyInventory_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

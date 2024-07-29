@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 标准工时
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:56:49
+    /// @Date: 2024/7/26 15:04:58
     /// </summary>
     [Verify]
     [Route("Logistics/PpManhours")]

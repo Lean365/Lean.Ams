@@ -460,6 +460,20 @@ namespace Ams.CodeGenerator
             string StartupPathStr = Directory.GetCurrentDirectory();
             //返回上一层目录
             string PreviousDirStr = StartupPathStr.Substring(0, StartupPathStr.LastIndexOf("\\")); // 第一个\是转义符，所以要写两个
+                                                                                                   //默认模块名
+            if (dto.TableName.StartsWith("fico_"))
+            {
+                dto.CodeGen.ModuleName = "Accounting";
+            }
+            if (dto.TableName.StartsWith("routine_") || dto.TableName.StartsWith("bpm_"))
+            {
+                dto.CodeGen.ModuleName = "Routine";
+            }
+            if (dto.TableName.StartsWith("pp_") || dto.TableName.StartsWith("sd_") || dto.TableName.StartsWith("qm_") || dto.TableName.StartsWith("mm_"))
+            {
+                dto.CodeGen.ModuleName = "Logistics";
+            }
+            //var className = GetClassName(dto.TableName.Substring(dto.TableName.IndexOf("_") + 1), dto.CodeGen.AutoPre, dto.CodeGen.TablePrefix);
             var className = GetClassName(dto.TableName, dto.CodeGen.AutoPre, dto.CodeGen.TablePrefix);
 
             GenTable genTable = new()

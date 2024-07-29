@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 会计科目
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:04
+    /// @Date: 2024/7/26 17:07:29
     /// </summary>
     [AppService(ServiceType = typeof(IFicoAccountingTitleService), ServiceLifetime = LifeTime.Transient)]
     public class FicoAccountingTitleService : BaseService<FicoAccountingTitle>, IFicoAccountingTitleService
@@ -28,7 +28,6 @@ namespace Ams.Service.Accounting
 
             return response;
         }
-
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -37,7 +36,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FatSFID.ToString() == enterString);
+            int count = Count(it => it. FatSfid.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,17 +48,16 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FatSFID"></param>
+        /// <param name="FatSfid"></param>
         /// <returns></returns>
-        public FicoAccountingTitle GetInfo(long FatSFID)
+        public FicoAccountingTitle GetInfo(long FatSfid)
         {
             var response = Queryable()
-                .Where(x => x.FatSFID == FatSFID)
+                .Where(x => x.FatSfid == FatSfid)
                 .First();
 
             return response;
         }
-
         /// <summary>
         /// 添加会计科目
         /// </summary>
@@ -70,7 +68,6 @@ namespace Ams.Service.Accounting
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
-
         /// <summary>
         /// 修改会计科目
         /// </summary>
@@ -89,12 +86,11 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FatSFID.IsEmpty(), "SFID不能为空")
-                .SplitError(x => x.Item.FatCode.IsEmpty(), "科目代码不能为空")
-                .SplitError(x => x.Item.FatShortName.IsEmpty(), "科目简称不能为空")
-                .SplitError(x => x.Item.FatFullName.IsEmpty(), "科目全称不能为空")
-                .SplitError(x => x.Item.FatLangKey.IsEmpty(), "语言不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.FatSfid.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.Mandt.IsEmpty(), "集团不能为空")
+                .SplitError(x => x.Item.Bukrs.IsEmpty(), "公司代码不能为空")
+                .SplitError(x => x.Item.Spras.IsEmpty(), "语言Key不能为空")
+                .SplitError(x => x.Item.Ktopl.IsEmpty(), "科目表不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -128,6 +124,11 @@ namespace Ams.Service.Accounting
                 .Where(predicate.ToExpression())
                 .Select((it) => new FicoAccountingTitleDto()
                 {
+                    BukrsLabel = it.Bukrs.GetConfigValue<SysDictData>("sys_crop_list"),
+                    GvtypLabel = it.Gvtyp.GetConfigValue<SysDictData>("sys_costs_type"),
+                    XspeaLabel = it.Xspea.GetConfigValue<SysDictData>("sys_freeze_flag"),
+                    MitkzLabel = it.Mitkz.GetConfigValue<SysDictData>("sys_normal_whether"),
+                    WaersLabel = it.Waers.GetConfigValue<SysDictData>("sys_ccy_type"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
@@ -144,9 +145,13 @@ namespace Ams.Service.Accounting
         {
             var predicate = Expressionable.Create<FicoAccountingTitle>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FatCode), it => it.FatCode.Contains(parm.FatCode));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FatShortName), it => it.FatShortName.Contains(parm.FatShortName));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FatFullName), it => it.FatFullName.Contains(parm.FatFullName));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Bukrs), it => it.Bukrs == parm.Bukrs);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Saknr), it => it.Saknr.Contains(parm.Saknr));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Satext), it => it.Satext.Contains(parm.Satext));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ltext), it => it.Ltext.Contains(parm.Ltext));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Gvtyp), it => it.Gvtyp == parm.Gvtyp);
+            predicate = predicate.AndIF(parm.Xspea != null, it => it.Xspea == parm.Xspea);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mitkz), it => it.Mitkz == parm.Mitkz);
             return predicate;
         }
     }

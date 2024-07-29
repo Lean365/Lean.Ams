@@ -1,146 +1,123 @@
+
 namespace Ams.Model.Logistics
 {
     /// <summary>
     /// 生产工单
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:49
+    /// @Date: 2024/7/26 15:07:48
     /// </summary>
-    [SugarTable("pp_order", "生产工单")]
-    public class PpOrder : SysBase
+    [SugarTable("pp_order","生产工单")]
+    public class PpOrder
     {
         /// <summary>
-        /// SFID
+        /// SFID 
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
+
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long MoSFID { get; set; }
+        public long MoSfid { get; set; }
 
         /// <summary>
-        /// 生产工厂
+        /// 生产工厂 
         /// </summary>
+        [SugarColumn(ColumnName="MoPlant", ColumnDescription = "生产工厂 ",Length = 4)]
         public string MoPlant { get; set; }
 
         /// <summary>
-        /// 订单类型
+        /// 订单类型 
         /// </summary>
-        public string MoOrderType { get; set; }
+        [SugarColumn(ColumnName="MoType", ColumnDescription = "订单类型 ",Length = 4)]
+        public string MoType { get; set; }
 
         /// <summary>
-        /// 生产订单
+        /// 订单号码 
         /// </summary>
-        public string MoOrderNo { get; set; }
+        [SugarColumn(ColumnName="MoNumber", ColumnDescription = "订单号码 ",Length = 7)]
+        public string MoNumber { get; set; }
 
         /// <summary>
-        /// 物料
+        /// 物料 
         /// </summary>
-        public string MoOrderItem { get; set; }
+        [SugarColumn(ColumnName="MoItem", ColumnDescription = "物料 ",Length = 20)]
+        public string MoItem { get; set; }
 
         /// <summary>
-        /// 批次
+        /// 生产批次 
         /// </summary>
-        public string MoOrderlot { get; set; }
+        [SugarColumn(ColumnName="MoLot", ColumnDescription = "生产批次 ",Length = 20)]
+        public string MoLot { get; set; }
 
         /// <summary>
-        /// 工单数量
+        /// 工单数量 
         /// </summary>
-        public decimal MoOrderQty { get; set; }
+        [SugarColumn(ColumnName="MoPlanQty", ColumnDescription = "工单数量 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        public decimal MoPlanQty { get; set; }
 
         /// <summary>
-        /// 生产数量
+        /// 生产数量 
         /// </summary>
-        public decimal MoOrderProQty { get; set; }
+        [SugarColumn(ColumnName="MoProdQty", ColumnDescription = "生产数量 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        public decimal MoProdQty { get; set; }
 
         /// <summary>
-        /// 订单日期
+        /// 订单日期 
         /// </summary>
-        public DateTime? MoOrderDate { get; set; }
+        public DateTime? MorDate { get; set; }
 
         /// <summary>
-        /// 工艺路线
+        /// 工艺路线 
         /// </summary>
-        public string MoOrderRoute { get; set; }
+        [SugarColumn(ColumnName="MoRoute", ColumnDescription = "工艺路线 ",Length = 8)]
+        public string MoRoute { get; set; }
 
         /// <summary>
-        /// 序列号
+        /// 序列号 
         /// </summary>
-        public string MoOrderSerial { get; set; }
+        [SugarColumn(ColumnName="MoSerial", ColumnDescription = "序列号 ",Length = 50)]
+        public string MoSerial { get; set; }
 
         /// <summary>
-        /// 状态
+        /// 状态 
         /// </summary>
+        [SugarColumn(ColumnName="IsStatus", ColumnDescription = "状态 ",DefaultValue = "0")]
         public int IsStatus { get; set; }
 
         /// <summary>
-        /// 自定义A
+        /// 软删除 
         /// </summary>
-        public string UDF01 { get; set; }
-
-        /// <summary>
-        /// 自定义B
-        /// </summary>
-        public string UDF02 { get; set; }
-
-        /// <summary>
-        /// 自定义C
-        /// </summary>
-        public string UDF03 { get; set; }
-
-        /// <summary>
-        /// 自定义D
-        /// </summary>
-        public string UDF04 { get; set; }
-
-        /// <summary>
-        /// 自定义E
-        /// </summary>
-        public string UDF05 { get; set; }
-
-        /// <summary>
-        /// 自定义F
-        /// </summary>
-        public string UDF06 { get; set; }
-
-        /// <summary>
-        /// 自定义1
-        /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal UDF51 { get; set; }
-
-        /// <summary>
-        /// 自定义2
-        /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal UDF52 { get; set; }
-
-        /// <summary>
-        /// 自定义3
-        /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal UDF53 { get; set; }
-
-        /// <summary>
-        /// 自定义4
-        /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal UDF54 { get; set; }
-
-        /// <summary>
-        /// 自定义5
-        /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal UDF55 { get; set; }
-
-        /// <summary>
-        /// 自定义6
-        /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal UDF56 { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="IsDeleted", ColumnDescription = "软删除 ",DefaultValue = "0")]
         public int IsDeleted { get; set; }
+
+        /// <summary>
+        /// 备注 
+        /// </summary>
+        [SugarColumn(ColumnName="Remark", ColumnDescription = "备注 ",Length = 2000)]
+        public string Remark { get; set; }
+
+        /// <summary>
+        /// 创建者 
+        /// </summary>
+        [SugarColumn(ColumnName = "create_by")]
+        public string CreateBy { get; set; }
+
+        /// <summary>
+        /// 创建时间 
+        /// </summary>
+        [SugarColumn(ColumnName = "create_time")]
+        public DateTime? CreateTime { get; set; }
+
+        /// <summary>
+        /// 更新者 
+        /// </summary>
+        [SugarColumn(ColumnName = "update_by")]
+        public string UpdateBy { get; set; }
+
+        /// <summary>
+        /// 更新时间 
+        /// </summary>
+        [SugarColumn(ColumnName = "update_time")]
+        public DateTime? UpdateTime { get; set; }
+
     }
 }

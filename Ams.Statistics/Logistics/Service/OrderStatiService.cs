@@ -18,7 +18,7 @@ namespace Ams.Statistics.Logistics.Service
         {
             string? MaxID;
             var db = Context;
-            long Sfid = db.Queryable<PpOrder>().Where(s => s.MoOrderType == Type).Max(it => it.MoOrderNo).ParseToLong();//异步
+            long Sfid = db.Queryable<PpOrder>().Where(s => s.MoType == Type).Max(it => it.MoNumber).ParseToLong();//异步
             if (!string.IsNullOrEmpty(Sfid.ToString()) && Sfid != 0)
             {
                 MaxID = (Sfid + 1).ToString();
@@ -41,24 +41,24 @@ namespace Ams.Statistics.Logistics.Service
             var predicate = QueryExp(parm);
             var response = Queryable()
                 .Where(predicate.ToExpression())
-                .Max(it => it.MoOrderNo);//获取最大
+                .Max(it => it.MoNumber);//获取最大
             //.ToPage<Order, OrderDto>(parm);
             // .Max(it => it.MoOrderNo)
             if (response == null)
             {
-                if (parm.MoOrderType == "ZDTC")
+                if (parm.MoType == "ZDTC")
                 {
                     return response = "640000";
                 }
-                if (parm.MoOrderType == "ZDTF")
+                if (parm.MoType == "ZDTF")
                 {
                     return response = "670000";
                 }
-                if (parm.MoOrderType == "ZDTG")
+                if (parm.MoType == "ZDTG")
                 {
                     return response = "740000";
                 }
-                if (parm.MoOrderType == "ZDTH")
+                if (parm.MoType == "ZDTH")
                 {
                     return response = "770000";
                 }
@@ -83,7 +83,7 @@ namespace Ams.Statistics.Logistics.Service
             var predicate = Expressionable.Create<PpOrder>();
             //predicate = predicate.AndIF(parm.BeginMoOrderDate == null, it => it.CreateTime >= firstDayOfYear);
             //predicate = predicate.AndIF(parm.EndMoOrderDate == null, it => it.CreateTime <= lastDayOfYear);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoOrderType), it => it.MoOrderType == parm.MoOrderType);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MoType), it => it.MoType == parm.MoType);
 
             return predicate;
         }

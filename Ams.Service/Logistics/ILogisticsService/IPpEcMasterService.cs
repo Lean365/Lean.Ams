@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 主设变
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:43
+    /// @Date: 2024/7/26 16:35:09
     /// </summary>
     public interface IPpEcMasterService : IBaseService<PpEcMaster>
     {
@@ -21,10 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取主设变信息
         /// </summary>
-        /// <param name="EmSFID"></param>
+        /// <param name="EcmSfid"></param>
         /// <returns></returns>
-        PpEcMaster GetInfo(long EmSFID);
-
+        PpEcMaster GetInfo(long EcmSfid);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -32,7 +31,6 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <param name="enterString"></param>
         /// <returns></returns>
         public string CheckInputUnique(string enterString);
-
         /// <summary>
         /// 新增
         /// 主设变

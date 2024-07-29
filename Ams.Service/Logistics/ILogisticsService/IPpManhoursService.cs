@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 标准工时
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:56:49
+    /// @Date: 2024/7/26 15:04:58
     /// </summary>
     public interface IPpManhoursService : IBaseService<PpManhours>
     {

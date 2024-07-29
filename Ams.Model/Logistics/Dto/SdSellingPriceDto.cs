@@ -4,18 +4,16 @@ namespace Ams.Model.Logistics.Dto
     /// 销售价格
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:30:10
+    /// @Date: 2024/7/26 10:59:46
     /// </summary>
     public class SdSellingPriceQueryDto : PagerInfo
     {
         public string SspPlnt { get; set; }
+        public string SspFy { get; set; }
         public string SspYm { get; set; }
         public string SspItem { get; set; }
         public string SspOriginalccy { get; set; }
-        public string SspLocalccy { get; set; }
-        public string SspLocalprctr { get; set; }
-        public DateTime? BeginSspEffdate { get; set; }
-        public DateTime? EndSspEffdate { get; set; }
+        public string SspOriginalprctr { get; set; }
         public DateTime? BeginSspExpdate { get; set; }
         public DateTime? EndSspExpdate { get; set; }
     }
@@ -24,7 +22,7 @@ namespace Ams.Model.Logistics.Dto
     /// 销售价格
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:30:10
+    /// @Date: 2024/7/26 10:59:46
     /// </summary>
     public class SdSellingPriceDto
     {
@@ -117,6 +115,9 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "工厂")]
         public string SspPlntLabel { get; set; }
 
+        [ExcelColumn(Name = "期间")]
+        public string SspFyLabel { get; set; }
+
         [ExcelColumn(Name = "年月")]
         public string SspYmLabel { get; set; }
 
@@ -134,7 +135,7 @@ namespace Ams.Model.Logistics.Dto
     /// 销售价格
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:30:10
+    /// @Date: 2024/7/26 10:59:46
     /// </summary>
     public class SdSellingPriceImportTpl
     {
@@ -227,6 +228,10 @@ namespace Ams.Model.Logistics.Dto
         [ExcelIgnore]
         [ExcelColumn(Name = "工厂")]
         public string SspPlntLabel { get; set; }
+
+        [ExcelIgnore]
+        [ExcelColumn(Name = "期间")]
+        public string SspFyLabel { get; set; }
 
         [ExcelIgnore]
         [ExcelColumn(Name = "年月")]

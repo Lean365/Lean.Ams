@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 标准工时
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:56:49
+    /// @Date: 2024/7/26 15:04:58
     /// </summary>
     [AppService(ServiceType = typeof(IPpManhoursService), ServiceLifetime = LifeTime.Transient)]
     public class PpManhoursService : BaseService<PpManhours>, IPpManhoursService
@@ -128,7 +128,6 @@ namespace Ams.Service.Logistics
                 .Select((it) => new PpManhoursDto()
                 {
                     MhPlantLabel = it.MhPlant.GetConfigValue<SysDictData>("sys_plant_list"),
-                    MhModelTypeLabel = it.MhModelType.GetConfigValue<SysDictData>("sql_model_region"),
                     MhWcNameLabel = it.MhWcName.GetConfigValue<SysDictData>("sys_work_center"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
@@ -153,7 +152,8 @@ namespace Ams.Service.Logistics
             predicate = predicate.AndIF(parm.BeginMhEffDate != null, it => it.MhEffDate >= parm.BeginMhEffDate);
             predicate = predicate.AndIF(parm.EndMhEffDate != null, it => it.MhEffDate <= parm.EndMhEffDate);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MhPlant), it => it.MhPlant == parm.MhPlant);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MhModelType), it => it.MhModelType == parm.MhModelType);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MhModelType), it => it.MhModelType.Contains(parm.MhModelType));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MhRegionType), it => it.MhRegionType.Contains(parm.MhRegionType));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MhItem), it => it.MhItem == parm.MhItem);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MhWcName), it => it.MhWcName == parm.MhWcName);
             return predicate;

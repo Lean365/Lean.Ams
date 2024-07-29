@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 制一OPH主表
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 14:35:19
+    /// @Date: 2024/7/26 16:09:23
     /// </summary>
     [AppService(ServiceType = typeof(IPpOutputAssyMasterService), ServiceLifetime = LifeTime.Transient)]
     public class PpOutputAssyMasterService : BaseService<PpOutputAssyMaster>, IPpOutputAssyMasterService

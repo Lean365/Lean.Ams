@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 生产班组
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/4 14:19:52
+    /// @Date: 2024/7/26 14:45:07
     /// </summary>
     public interface IPpLineService : IBaseService<PpLine>
     {
@@ -24,7 +24,6 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <param name="PlSFID"></param>
         /// <returns></returns>
         PpLine GetInfo(long PlSFID);
-
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -32,7 +31,6 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <param name="enterString"></param>
         /// <returns></returns>
         public string CheckInputUnique(string enterString);
-
         /// <summary>
         /// 新增
         /// 生产班组

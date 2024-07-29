@@ -1,194 +1,257 @@
+using Ams.Model.Logistics;
+
 namespace Ams.Model.Logistics
 {
     /// <summary>
     /// 主设变
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:43
+    /// @Date: 2024/7/26 16:35:09
     /// </summary>
-    [SugarTable("pp_ec_master", "主设变")]
-    public class PpEcMaster : SysBase
+    [SugarTable("pp_ec_master","主设变")]
+    public class PpEcMaster
     {
         /// <summary>
-        /// SFID
+        /// Sfid 
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long EmSFID { get; set; }
+
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
+        public long EcmSfid { get; set; }
 
         /// <summary>
-        /// 发行日
+        /// 发行日期 
         /// </summary>
-        public DateTime? EmEcIssueDate { get; set; }
+        public DateTime? EcmIssueDate { get; set; }
 
         /// <summary>
-        /// 设变No.
+        /// 设变No. 
         /// </summary>
-        public string EmEcNo { get; set; }
+        [SugarColumn(ColumnName="EcmNo", ColumnDescription = "设变No. ",Length = 20)]
+        public string EcmNo { get; set; }
 
         /// <summary>
-        /// 关联文件
+        /// 关联文件 
         /// </summary>
-        public string EmEcDoc { get; set; }
+        [SugarColumn(ColumnName="EcmFileUrl", ColumnDescription = "关联文件 ",Length = 500)]
+        public string EcmFileUrl { get; set; }
 
         /// <summary>
-        /// 状态
+        /// 设变状态 
         /// </summary>
-        public string EmEcStatus { get; set; }
+        [SugarColumn(ColumnName="EcmStated", ColumnDescription = "设变状态 ",DefaultValue = "0")]
+        public int EcmStated { get; set; }
 
         /// <summary>
-        /// 标题
+        /// 标题 
         /// </summary>
-        public string EmEcTitle { get; set; }
+        [SugarColumn(ColumnName="EcmTitle", ColumnDescription = "标题 ",Length = 500)]
+        public string EcmTitle { get; set; }
 
         /// <summary>
-        /// 内容
+        /// 内容 
         /// </summary>
-        public string EmEcContent { get; set; }
+        [SugarColumn(ColumnName="EcmContent", ColumnDescription = "内容 ",Length = -1)]
+        public string EcmContent { get; set; }
 
         /// <summary>
-        /// 担当
+        /// 担当 
         /// </summary>
-        public string EmEcAssigned { get; set; }
+        [SugarColumn(ColumnName="EcmLeader", ColumnDescription = "担当 ",Length = 50)]
+        public string EcmLeader { get; set; }
 
         /// <summary>
-        /// 损失金额
+        /// 损失金额 
         /// </summary>
-        public decimal EmEcLossAmount { get; set; }
+        [SugarColumn(ColumnName="EcmLossAmount", ColumnDescription = "损失金额 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        public decimal EcmLossAmount { get; set; }
 
         /// <summary>
-        /// 管理区分
+        /// 管理区分 
         /// </summary>
-        public int EmEcManageCategory { get; set; }
+        [SugarColumn(ColumnName="EcmManageCategory", ColumnDescription = "管理区分 ",DefaultValue = "0")]
+        public int EcmManageCategory { get; set; }
 
         /// <summary>
-        /// 联络No.
+        /// 联络No. 
         /// </summary>
-        public string EmEcLiaisonNo { get; set; }
+        [SugarColumn(ColumnName="EcmLiaisonNo", ColumnDescription = "联络No. ",Length = 10)]
+        public string EcmLiaisonNo { get; set; }
 
         /// <summary>
-        /// 联络文件
+        /// 联络文件 
         /// </summary>
-        public string EmEcLiaisonDoc { get; set; }
+        [SugarColumn(ColumnName="EcmLiaisonFileUrl", ColumnDescription = "联络文件 ",Length = 500)]
+        public string EcmLiaisonFileUrl { get; set; }
 
         /// <summary>
-        /// EppNo.
+        /// EppNo. 
         /// </summary>
-        public string EmEcEppLiaisonNo { get; set; }
+        [SugarColumn(ColumnName="EcmEppLiaisonNo", ColumnDescription = "EppNo. ",Length = 10)]
+        public string EcmEppLiaisonNo { get; set; }
 
         /// <summary>
-        /// Epp文件
+        /// Epp文件 
         /// </summary>
-        public string EmEcEppLiaisonDoc { get; set; }
+        [SugarColumn(ColumnName="EcmEppLiaisonFileUrl", ColumnDescription = "Epp文件 ",Length = 500)]
+        public string EcmEppLiaisonFileUrl { get; set; }
 
         /// <summary>
-        /// FppNo.
+        /// FppNo. 
         /// </summary>
-        public string EmEcFppLiaisonNo { get; set; }
+        [SugarColumn(ColumnName="EcmFppLiaisonNo", ColumnDescription = "FppNo. ",Length = 10)]
+        public string EcmFppLiaisonNo { get; set; }
 
         /// <summary>
-        /// Fpp文件
+        /// Fpp文件 
         /// </summary>
-        public string EmEcFppLiaisonDoc { get; set; }
+        [SugarColumn(ColumnName="EcmFppLiaisonFileUrl", ColumnDescription = "Fpp文件 ",Length = 500)]
+        public string EcmFppLiaisonFileUrl { get; set; }
 
         /// <summary>
-        /// 外部No.
+        /// 外部No. 
         /// </summary>
-        public string EmEcExternalNo { get; set; }
+        [SugarColumn(ColumnName="EcmExternalNo", ColumnDescription = "外部No. ",Length = 10)]
+        public string EcmExternalNo { get; set; }
 
         /// <summary>
-        /// 外部文件
+        /// 外部文件 
         /// </summary>
-        public string EmEcExternalDoc { get; set; }
+        [SugarColumn(ColumnName="EcmExternalFileUrl", ColumnDescription = "外部文件 ",Length = 500)]
+        public string EcmExternalFileUrl { get; set; }
 
         /// <summary>
-        /// 输入部门
+        /// 输入部门 
         /// </summary>
-        public string EmEcImpDept { get; set; }
+        [SugarColumn(ColumnName="EcmEnteredDept", ColumnDescription = "输入部门 ",Length = 50)]
+        public string EcmEnteredDept { get; set; }
 
         /// <summary>
-        /// 输入日
+        /// 输入日 
         /// </summary>
-        public DateTime? EmEcEntryDate { get; set; }
+        public DateTime? EcmEnteredDate { get; set; }
 
         /// <summary>
-        /// SOP
+        /// SOP更新否 
         /// </summary>
-        public int EsSopStae { get; set; }
+        [SugarColumn(ColumnName="EcmSopStated", ColumnDescription = "SOP更新否 ",DefaultValue = "0")]
+        public int EcmSopStated { get; set; }
 
         /// <summary>
-        /// 自定义A
+        /// 实施标记 
         /// </summary>
+        [SugarColumn(ColumnName="EcmImplStated", ColumnDescription = "实施标记 ",DefaultValue = "0")]
+        public int EcmImplStated { get; set; }
+
+        /// <summary>
+        /// 自定义A 
+        /// </summary>
+        [SugarColumn(ColumnName="UDF01", ColumnDescription = "自定义A ",Length = 200)]
         public string UDF01 { get; set; }
 
         /// <summary>
-        /// 自定义B
+        /// 自定义B 
         /// </summary>
+        [SugarColumn(ColumnName="UDF02", ColumnDescription = "自定义B ",Length = 200)]
         public string UDF02 { get; set; }
 
         /// <summary>
-        /// 自定义C
+        /// 自定义C 
         /// </summary>
+        [SugarColumn(ColumnName="UDF03", ColumnDescription = "自定义C ",Length = 200)]
         public string UDF03 { get; set; }
 
         /// <summary>
-        /// 自定义D
+        /// 自定义D 
         /// </summary>
+        [SugarColumn(ColumnName="UDF04", ColumnDescription = "自定义D ",Length = 200)]
         public string UDF04 { get; set; }
 
         /// <summary>
-        /// 自定义E
+        /// 自定义E 
         /// </summary>
+        [SugarColumn(ColumnName="UDF05", ColumnDescription = "自定义E ",Length = 200)]
         public string UDF05 { get; set; }
 
         /// <summary>
-        /// 自定义F
+        /// 自定义F 
         /// </summary>
+        [SugarColumn(ColumnName="UDF06", ColumnDescription = "自定义F ",Length = 200)]
         public string UDF06 { get; set; }
 
         /// <summary>
-        /// 自定义1
+        /// 自定义1 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="UDF51", ColumnDescription = "自定义1 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF51 { get; set; }
 
         /// <summary>
-        /// 自定义2
+        /// 自定义2 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="UDF52", ColumnDescription = "自定义2 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF52 { get; set; }
 
         /// <summary>
-        /// 自定义3
+        /// 自定义3 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="UDF53", ColumnDescription = "自定义3 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF53 { get; set; }
 
         /// <summary>
-        /// 自定义4
+        /// 自定义4 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="UDF54", ColumnDescription = "自定义4 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF54 { get; set; }
 
         /// <summary>
-        /// 自定义5
+        /// 自定义5 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="UDF55", ColumnDescription = "自定义5 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF55 { get; set; }
 
         /// <summary>
-        /// 自定义6
+        /// 自定义6 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="UDF56", ColumnDescription = "自定义6 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
         public decimal UDF56 { get; set; }
 
         /// <summary>
-        /// 软删除
+        /// 软删除 
         /// </summary>
-        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName="IsDeleted", ColumnDescription = "软删除 ",DefaultValue = "0")]
         public int IsDeleted { get; set; }
 
-        [Navigate(NavigateType.OneToMany, nameof(PpEcSlave.EsParentSfid), nameof(EmSFID))] //自定义关系映射
+        /// <summary>
+        /// 备注 
+        /// </summary>
+        [SugarColumn(ColumnName="Remark", ColumnDescription = "备注 ",Length = 2000)]
+        public string Remark { get; set; }
+
+        /// <summary>
+        /// 创建者 
+        /// </summary>
+        [SugarColumn(ColumnName = "create_by")]
+        public string CreateBy { get; set; }
+
+        /// <summary>
+        /// 创建时间 
+        /// </summary>
+        [SugarColumn(ColumnName = "create_time")]
+        public DateTime? CreateTime { get; set; }
+
+        /// <summary>
+        /// 更新者 
+        /// </summary>
+        [SugarColumn(ColumnName = "update_by")]
+        public string UpdateBy { get; set; }
+
+        /// <summary>
+        /// 更新时间 
+        /// </summary>
+        [SugarColumn(ColumnName = "update_time")]
+        public DateTime? UpdateTime { get; set; }
+
+        [Navigate(NavigateType.OneToMany, nameof(PpEcSlave.EcsParentSfid), nameof(EcmSfid))] //自定义关系映射
         public List<PpEcSlave> PpEcSlaveNav { get; set; }
     }
 }

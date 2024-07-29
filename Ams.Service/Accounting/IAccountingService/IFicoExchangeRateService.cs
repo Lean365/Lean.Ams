@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 汇率表
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:26:55
+    /// @Date: 2024/7/26 17:00:23
     /// </summary>
     public interface IFicoExchangeRateService : IBaseService<FicoExchangeRate>
     {
@@ -21,10 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取汇率表信息
         /// </summary>
-        /// <param name="FerSFID"></param>
+        /// <param name="FerSfid"></param>
         /// <returns></returns>
-        FicoExchangeRate GetInfo(long FerSFID);
-
+        FicoExchangeRate GetInfo(long FerSfid);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -32,7 +31,6 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <param name="enterString"></param>
         /// <returns></returns>
         public string CheckInputUnique(string enterString);
-
         /// <summary>
         /// 新增
         /// 汇率表

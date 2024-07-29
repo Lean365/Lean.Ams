@@ -32,7 +32,7 @@ namespace Ams.Statistics.Logistics.Controllers
         /// <returns></returns>
         [HttpGet("MonthlySalesQty")]
         [ActionPermissionFilter(Permission = "pp:outputmaster:list")]
-        public IActionResult QueryMonthlySalesQty([FromQuery] SdSalesInvoiceQueryDto parm)
+        public IActionResult QueryMonthlySalesQty([FromQuery] SdSellingInvoiceQueryDto parm)
         {
             //DateTime nowDate = DateTime.Now;
             ////parm.BeginPomMfgDate = new DateTime(nowDate.Year, nowDate.Month, 1);   //本月第一天
@@ -60,7 +60,7 @@ namespace Ams.Statistics.Logistics.Controllers
         /// <returns></returns>
         [HttpGet("MonthlySalesAmount")]
         [ActionPermissionFilter(Permission = "pp:outputmaster:list")]
-        public IActionResult QueryMonthlySalesAmount([FromQuery] SdSalesInvoiceQueryDto parm)
+        public IActionResult QueryMonthlySalesAmount([FromQuery] SdSellingInvoiceQueryDto parm)
         {
             //DateTime nowDate = DateTime.Now;
             ////parm.BeginPomMfgDate = new DateTime(nowDate.Year, nowDate.Month, 1);   //本月第一天
@@ -88,7 +88,7 @@ namespace Ams.Statistics.Logistics.Controllers
         /// <returns></returns>
         [HttpGet("ListMonthSales")]
         [ActionPermissionFilter(Permission = "pp:statistics:list")]
-        public IActionResult QueryListMonthSales([FromQuery] SdSalesInvoiceQueryDto parm)
+        public IActionResult QueryListMonthSales([FromQuery] SdSellingInvoiceQueryDto parm)
         {
             var response = _SalesStatiService.GetListMonthSales(parm);
             return SUCCESS(response);
@@ -101,7 +101,7 @@ namespace Ams.Statistics.Logistics.Controllers
         /// <returns></returns>
         [HttpGet("ListMonthAreaSales")]
         [ActionPermissionFilter(Permission = "pp:statistics:list")]
-        public IActionResult QueryListMonthAreaSales([FromQuery] SdSalesInvoiceQueryDto parm)
+        public IActionResult QueryListMonthAreaSales([FromQuery] SdSellingInvoiceQueryDto parm)
         {
             var response = _SalesStatiService.GetListMonthAreaSales(parm);
             return SUCCESS(response);
@@ -114,7 +114,7 @@ namespace Ams.Statistics.Logistics.Controllers
         /// <returns></returns>
         [HttpGet("CountMonthRegionSales")]
         [ActionPermissionFilter(Permission = "pp:statistics:list")]
-        public IActionResult GetCountMonthRegionSales([FromQuery] SdSalesInvoiceQueryDto parm)
+        public IActionResult GetCountMonthRegionSales([FromQuery] SdSellingInvoiceQueryDto parm)
         {
             var response = _SalesStatiService.GetListMonthRegionSales(parm);
             return SUCCESS(response);
@@ -127,7 +127,7 @@ namespace Ams.Statistics.Logistics.Controllers
         /// <returns></returns>
         [HttpGet("ListYearSales")]
         [ActionPermissionFilter(Permission = "pp:statistics:list")]
-        public IActionResult QueryListYearSales([FromQuery] SdSalesInvoiceQueryDto parm)
+        public IActionResult QueryListYearSales([FromQuery] SdSellingInvoiceQueryDto parm)
         {
             var response = _SalesStatiService.GetListYearSales(parm);
             return SUCCESS(response);
@@ -140,7 +140,7 @@ namespace Ams.Statistics.Logistics.Controllers
         /// <returns></returns>
         [HttpGet("ListYearAreaSales")]
         [ActionPermissionFilter(Permission = "pp:statistics:list")]
-        public IActionResult QueryListYearAreaSales([FromQuery] SdSalesInvoiceQueryDto parm)
+        public IActionResult QueryListYearAreaSales([FromQuery] SdSellingInvoiceQueryDto parm)
         {
             var response = _SalesStatiService.GetListYearAreaSales(parm);
             return SUCCESS(response);
@@ -153,7 +153,7 @@ namespace Ams.Statistics.Logistics.Controllers
         /// <returns></returns>
         [HttpGet("ListYearRegionSales")]
         [ActionPermissionFilter(Permission = "pp:statistics:list")]
-        public IActionResult QueryListYearRegionSales([FromQuery] SdSalesInvoiceQueryDto parm)
+        public IActionResult QueryListYearRegionSales([FromQuery] SdSellingInvoiceQueryDto parm)
         {
             var response = _SalesStatiService.GetListYearRegionSales(parm);
             return SUCCESS(response);

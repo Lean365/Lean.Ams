@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 会计科目
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:04
+    /// @Date: 2024/7/26 17:07:29
     /// </summary>
     [Verify]
     [Route("Accounting/FicoAccountingTitle")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询会计科目详情
         /// </summary>
-        /// <param name="FatSFID"></param>
+        /// <param name="FatSfid"></param>
         /// <returns></returns>
-        [HttpGet("{FatSFID}")]
+        [HttpGet("{FatSfid}")]
         [ActionPermissionFilter(Permission = "fico:accountingtitle:query")]
-        public IActionResult GetFicoAccountingTitle(long FatSFID)
+        public IActionResult GetFicoAccountingTitle(long FatSfid)
         {
-            var response = _FicoAccountingTitleService.GetInfo(FatSFID);
+            var response = _FicoAccountingTitleService.GetInfo(FatSfid);
             
             var info = response.Adapt<FicoAccountingTitleDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingTitleService.CheckInputUnique(parm.FatSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingTitleService.CheckInputUnique(parm.FatSfid.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增会计科目 '{parm.FatSFID}'失败(Add failed)，输入的会计科目已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增会计科目 '{parm.FatSfid}'失败(Add failed)，输入的会计科目已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoAccountingTitle>().ToCreate(HttpContext);
 
@@ -156,7 +156,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<FicoAccountingTitleDto>() { }, "FicoAccountingTitle");
+            var result = DownloadImportTemplate(new List<FicoAccountingTitleImportTpl>() { }, "FicoAccountingTitle_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

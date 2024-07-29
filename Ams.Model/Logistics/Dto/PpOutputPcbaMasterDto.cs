@@ -1,18 +1,20 @@
+using Ams.Model.Logistics;
+
 namespace Ams.Model.Logistics.Dto
 {
     /// <summary>
     /// 制二OPH主表
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 9:31:22
+    /// @Date: 2024/7/26 16:09:27
     /// </summary>
-    public class PpOutputPcbaMasterQueryDto : PagerInfo
+    public class PpOutputPcbaMasterQueryDto : PagerInfo 
     {
-        public string PomOrderType { get; set; }
         public string PomOrderNo { get; set; }
         public string PomLot { get; set; }
         public string PomModel { get; set; }
         public string PomItem { get; set; }
+        public string PomSerial { get; set; }
         public string PomDeptName { get; set; }
         public DateTime? BeginPomDate { get; set; }
         public DateTime? EndPomDate { get; set; }
@@ -22,7 +24,7 @@ namespace Ams.Model.Logistics.Dto
     /// 制二OPH主表
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 9:31:22
+    /// @Date: 2024/7/26 16:09:27
     /// </summary>
     public class PpOutputPcbaMasterDto
     {
@@ -63,8 +65,7 @@ namespace Ams.Model.Logistics.Dto
         public string PomItem { get; set; }
 
         [Required(ErrorMessage = "序列号不能为空")]
-        [ExcelColumn(Name = "序列号")]
-        [ExcelColumnName("序列号")]
+        [ExcelIgnore]
         public string PomSerial { get; set; }
 
         [Required(ErrorMessage = "生产班组不能为空")]
@@ -134,21 +135,38 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("软删除")]
         public int IsDeleted { get; set; }
 
+        [ExcelColumn(Name = "备注")]
+        [ExcelColumnName("备注")]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+
+
         [ExcelIgnore]
         public List<PpOutputPcbaSlaveDto> PpOutputPcbaSlaveNav { get; set; }
-
         [ExcelColumn(Name = "生产班组")]
         public string PomDeptNameLabel { get; set; }
-
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
-
+        [ExcelColumn(Name = "板别")]
+        public string PosPcbaTypeLabel { get; set; }
+        [ExcelColumn(Name = "板面")]
+        public string PosPcbaSideLabel { get; set; }
         [ExcelColumn(Name = "完成情况")]
         public string PosPcbaStatedLabel { get; set; }
-
         [ExcelColumn(Name = "停线原因")]
         public string PosDownTimeReasonsLabel { get; set; }
-
         [ExcelColumn(Name = "未达成原因")]
         public string PosMissingReasonsLabel { get; set; }
     }
@@ -157,7 +175,7 @@ namespace Ams.Model.Logistics.Dto
     /// 制二OPH主表
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 9:31:22
+    /// @Date: 2024/7/26 16:09:27
     /// </summary>
     public class PpOutputPcbaMasterImportTpl
     {
@@ -198,8 +216,7 @@ namespace Ams.Model.Logistics.Dto
         public string PomItem { get; set; }
 
         [Required(ErrorMessage = "序列号不能为空")]
-        [ExcelColumn(Name = "序列号")]
-        [ExcelColumnName("序列号")]
+        [ExcelIgnore]
         public string PomSerial { get; set; }
 
         [Required(ErrorMessage = "生产班组不能为空")]
@@ -269,27 +286,47 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("软删除")]
         public int IsDeleted { get; set; }
 
+        [ExcelColumn(Name = "备注")]
+        [ExcelColumnName("备注")]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+
+
         [ExcelIgnore]
         public List<PpOutputPcbaSlaveDto> PpOutputPcbaSlaveNav { get; set; }
-
         [ExcelIgnore]
         [ExcelColumn(Name = "生产班组")]
         public string PomDeptNameLabel { get; set; }
-
         [ExcelIgnore]
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
-
+        [ExcelIgnore]
+        [ExcelColumn(Name = "板别")]
+        public string PosPcbaTypeLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "板面")]
+        public string PosPcbaSideLabel { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "完成情况")]
         public string PosPcbaStatedLabel { get; set; }
-
         [ExcelIgnore]
         [ExcelColumn(Name = "停线原因")]
         public string PosDownTimeReasonsLabel { get; set; }
-
         [ExcelIgnore]
         [ExcelColumn(Name = "未达成原因")]
         public string PosMissingReasonsLabel { get; set; }
     }
+
 }

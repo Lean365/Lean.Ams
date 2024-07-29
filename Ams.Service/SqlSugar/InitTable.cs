@@ -74,25 +74,33 @@ namespace Ams.Service.SqlSugar
             //销售管理
             db.CodeFirst.InitTables(typeof(SdClient));
             db.CodeFirst.InitTables(typeof(SdCustomer));
-            db.CodeFirst.InitTables(typeof(SdSalesInvoice));
+            db.CodeFirst.InitTables(typeof(SdSellingInvoice));
             db.CodeFirst.InitTables(typeof(SdSellingPrice));
 
             //财务管理
-            db.CodeFirst.InitTables(typeof(FicoCorpTitle));
+            db.CodeFirst.InitTables(typeof(FicoAccountingCorp));
             db.CodeFirst.InitTables(typeof(FicoAccountingTitle));
-            db.CodeFirst.InitTables(typeof(FicoExchangeRate));
-            db.CodeFirst.InitTables(typeof(FicoPrctr));
-            db.CodeFirst.InitTables(typeof(FicoPeriod));
-            db.CodeFirst.InitTables(typeof(FicoBudgetAsset));
-            db.CodeFirst.InitTables(typeof(FicoBudgetExpense));
-            db.CodeFirst.InitTables(typeof(FicoBudgetOvertime));
-            db.CodeFirst.InitTables(typeof(FicoBudgetStaff));
-            db.CodeFirst.InitTables(typeof(FicoBudgetActualCost));
-            db.CodeFirst.InitTables(typeof(FicoDeptConsuming));
-            db.CodeFirst.InitTables(typeof(FicoMonthlyInventory));
-            db.CodeFirst.InitTables(typeof(FicoBomCosting));
             db.CodeFirst.InitTables(typeof(FicoWageRates));
-            db.CodeFirst.InitTables(typeof(FicoAsset));
+            db.CodeFirst.InitTables(typeof(FicoExchangeRate));
+            db.CodeFirst.InitTables(typeof(FicoProfitCenter));
+            db.CodeFirst.InitTables(typeof(FicoFinancialPeriod));
+
+            db.CodeFirst.InitTables(typeof(FicoBudgetActualCont));
+            db.CodeFirst.InitTables(typeof(FicoCostingDeptConsuming));
+            db.CodeFirst.InitTables(typeof(FicoCostingBom));
+            db.CodeFirst.InitTables(typeof(FicoMonthlyAssets));
+            db.CodeFirst.InitTables(typeof(FicoMonthlyInventory));
+
+            db.CodeFirst.InitTables(typeof(FicoBudgetAccountingMa));
+            db.CodeFirst.InitTables(typeof(FicoBudgetAccountingSlv));
+            db.CodeFirst.InitTables(typeof(FicoBudgetAssetsMa));
+            db.CodeFirst.InitTables(typeof(FicoBudgetAssetsSlv));
+            db.CodeFirst.InitTables(typeof(FicoBudgetOvertimeMa));
+            db.CodeFirst.InitTables(typeof(FicoBudgetOvertimeSlv));
+            db.CodeFirst.InitTables(typeof(FicoBudgetStaffMa));
+            db.CodeFirst.InitTables(typeof(FicoBudgetStaffSlv));
+            db.CodeFirst.InitTables(typeof(FicoBudgetExpenseMa));
+            db.CodeFirst.InitTables(typeof(FicoBudgetExpenseSlv));
 
             //物料管理
             db.CodeFirst.InitTables(typeof(MmMara));

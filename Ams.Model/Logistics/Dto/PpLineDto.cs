@@ -1,12 +1,13 @@
+
 namespace Ams.Model.Logistics.Dto
 {
     /// <summary>
     /// 生产班组
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/4 14:19:52
+    /// @Date: 2024/7/26 14:45:07
     /// </summary>
-    public class PpLineQueryDto : PagerInfo
+    public class PpLineQueryDto : PagerInfo 
     {
         public string PlLineType { get; set; }
         public string PlLineCode { get; set; }
@@ -17,7 +18,7 @@ namespace Ams.Model.Logistics.Dto
     /// 生产班组
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/4 14:19:52
+    /// @Date: 2024/7/26 14:45:07
     /// </summary>
     public class PpLineDto
     {
@@ -47,57 +48,98 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("班组名称")]
         public string PlLineName { get; set; }
 
-        [ExcelIgnore]
-        public string UDF01 { get; set; }
+        [Required(ErrorMessage = "软删除不能为空")]
+        [ExcelColumn(Name = "软删除")]
+        [ExcelColumnName("软删除")]
+        public int IsDeleted { get; set; }
+
+        [ExcelColumn(Name = "备注")]
+        [ExcelColumnName("备注")]
+        public string Remark { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+        public string CreateBy { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+        public DateTime? CreateTime { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+        public string UpdateBy { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+        public DateTime? UpdateTime { get; set; }
 
-        [ExcelIgnore]
-        public string UDF06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
-        [ExcelIgnore]
-        public decimal UDF51 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
-        [ExcelIgnore]
-        public decimal UDF52 { get; set; }
+        [ExcelColumn(Name = "班组类别")]
+        public string PlLineTypeLabel { get; set; }
+        [ExcelColumn(Name = "软删除")]
+        public string IsDeletedLabel { get; set; }
+    }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
-        [ExcelIgnore]
-        public decimal UDF53 { get; set; }
+    /// <summary>
+    /// 生产班组
+    /// 导入模板输出对象
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024/7/26 14:45:07
+    /// </summary>
+    public class PpLineImportTpl
+    {
+        [Required(ErrorMessage = "SFID不能为空")]
+        [ExcelColumn(Name = "SFID")]
+        [ExcelColumnName("SFID")]
+        [JsonConverter(typeof(ValueToStringConverter))]
+        public long PlSFID { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
-        [ExcelIgnore]
-        public decimal UDF54 { get; set; }
+        [Required(ErrorMessage = "班组类别不能为空")]
+        [ExcelColumn(Name = "班组类别")]
+        [ExcelColumnName("班组类别")]
+        public string PlLineType { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
-        [ExcelIgnore]
-        public decimal UDF55 { get; set; }
+        [Required(ErrorMessage = "班组代码不能为空")]
+        [ExcelColumn(Name = "班组代码")]
+        [ExcelColumnName("班组代码")]
+        public string PlLineCode { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
-        [ExcelIgnore]
-        public decimal UDF56 { get; set; }
+        [Required(ErrorMessage = "语言Key不能为空")]
+        [ExcelColumn(Name = "语言Key")]
+        [ExcelColumnName("语言Key")]
+        public string PlLineLangCode { get; set; }
+
+        [Required(ErrorMessage = "班组名称不能为空")]
+        [ExcelColumn(Name = "班组名称")]
+        [ExcelColumnName("班组名称")]
+        public string PlLineName { get; set; }
 
         [Required(ErrorMessage = "软删除不能为空")]
         [ExcelColumn(Name = "软删除")]
         [ExcelColumnName("软删除")]
         public int IsDeleted { get; set; }
 
+        [ExcelColumn(Name = "备注")]
+        [ExcelColumnName("备注")]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+
+
+        [ExcelIgnore]
         [ExcelColumn(Name = "班组类别")]
         public string PlLineTypeLabel { get; set; }
-
+        [ExcelIgnore]
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
+
 }

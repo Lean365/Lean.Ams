@@ -2,7 +2,7 @@
  * @Descripttion: 汇率表/fico_exchange_rate
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/16 10:26:55
+ * @Date: 2024/7/26 17:00:23
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -30,9 +30,6 @@
           :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="基数" prop="ferStd">
-        <el-input v-model.number="queryParams.ferStd" :placeholder="$t('btn.enterSearchPrefix')+'基数'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
       <el-form-item label="从币种" prop="ferfmCcy">
         <el-select filterable clearable   v-model="queryParams.ferfmCcy" :placeholder="$t('btn.selectSearchPrefix')+'从币种'+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   options.sys_ccy_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
@@ -41,8 +38,13 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="汇率" prop="ferRate">
-        <el-input v-model="queryParams.ferRate" :placeholder="$t('btn.enterSearchPrefix')+'汇率'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="到币种" prop="fertoCcy">
+        <el-select filterable clearable   v-model="queryParams.fertoCcy" :placeholder="$t('btn.selectSearchPrefix')+'到币种'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sys_ccy_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
       </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
@@ -106,7 +108,7 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="ferSFID" label="FSID" align="center" v-if="columns.showColumn('ferSFID')"/>
+      <el-table-column prop="ferSfid" label="ID" align="center" v-if="columns.showColumn('ferSfid')"/>
       <el-table-column prop="ferCorp" label="公司" align="center" v-if="columns.showColumn('ferCorp')">
         <template #default="scope">
           <dict-tag :options=" options.sys_crop_list " :value="scope.row.ferCorp"  />
@@ -141,7 +143,6 @@
     </el-table>
     <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
 
-
     <!-- 添加或修改汇率表对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" >
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
@@ -150,8 +151,8 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="FSID" prop="ferSFID">
-              <el-input v-model.number="form.ferSFID" :placeholder="$t('btn.enterPrefix')+'FSID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
+            <el-form-item label="ID" prop="ferSfid">
+              <el-input v-model.number="form.ferSfid" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
             </el-form-item>
           </el-col>
 
@@ -321,6 +322,8 @@
         	</el-row>
           </el-tab-pane>
         </el-tabs>
+
+
       </el-form>
       <template #footer v-if="opertype != 3">
         <el-button text @click="cancel">{{ $t('btn.cancel') }}</el-button>
@@ -358,22 +361,20 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: '',
-  sortType: 'asc',
+  sort: 'FerEffDate',
+  sortType: 'desc',
 //是否查询（1是）
   ferCorp: undefined,
 //是否查询（1是）
   ferEffDate: undefined,
 //是否查询（1是）
-  ferStd: undefined,
-//是否查询（1是）
   ferfmCcy: undefined,
 //是否查询（1是）
-  ferRate: undefined,
+  fertoCcy: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'ferSFID', label: 'FSID' },
+  { visible: true, prop: 'ferSfid', label: 'ID' },
   { visible: true, prop: 'ferCorp', label: '公司' },
   { visible: true, prop: 'ferEffDate', label: '日期' },
   { visible: true, prop: 'ferStd', label: '基数' },
@@ -394,23 +395,8 @@ const dataList = ref([])
 const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-
-
-
-
 // 日期时间范围
 const dateRangeFerEffDate = ref([])
-
-
-
-
-
-
-
-
-
-
-
 
 //字典参数
 var dictParams = [
@@ -454,7 +440,7 @@ function resetQuery(){
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.ferSFID);
+  ids.value = selection.map((item) => item.ferSfid);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -490,7 +476,7 @@ const state = reactive({
   multiple: true,
   form: {},
   rules: {
-    ferSFID: [{ required: true, message: "FSID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
+    ferSfid: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
     ferCorp: [{ required: true, message: "公司"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
     ferEffDate: [{ required: true, message: "日期"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
     ferStd: [{ required: true, message: "基数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
@@ -520,7 +506,7 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    ferSFID: 0,
+    ferSfid: 0,
     ferCorp: null,
     ferEffDate: null,
     ferStd: 0,
@@ -556,7 +542,7 @@ function handleAdd() {
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.ferSFID || ids.value
+  const id = row.ferSfid || ids.value
   getFicoExchangeRate(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -576,7 +562,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.ferSFID != undefined && opertype.value === 2) {
+      if (form.value.ferSfid != undefined && opertype.value === 2) {
         updateFicoExchangeRate(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -595,7 +581,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.ferSFID || ids.value
+  const Ids = row.ferSfid || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {

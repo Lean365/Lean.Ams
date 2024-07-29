@@ -2,7 +2,7 @@
  * @Descripttion: 标准工时/pp_manhours
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/18 11:56:49
+ * @Date: 2024/7/26 15:04:58
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -29,18 +29,16 @@
             </el-select>
           </el-form-item>
           <el-form-item label="机种名" prop="mhModelType">
-            <el-select filterable clearable v-model="queryParams.mhModelType"
-              :placeholder="$t('btn.selectSearchPrefix')+'机种名'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sql_model_region " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
+            <el-input v-model="queryParams.mhModelType"
+              :placeholder="$t('btn.enterSearchPrefix')+'机种名'+$t('btn.enterSearchSuffix')" />
+          </el-form-item>
+          <el-form-item label="仕向别" prop="mhRegionType">
+            <el-input v-model="queryParams.mhRegionType"
+              :placeholder="$t('btn.enterSearchPrefix')+'仕向别'+$t('btn.enterSearchSuffix')" />
           </el-form-item>
           <el-form-item label="物料" prop="mhItem">
-            <el-select filterable clearable remote remote-show-suffix :remote-method="remoteMethod" :loading="loading "
-              v-model="queryParams.mhItem"
+            <el-select filterable clearable remote remote-show-suffix :remote-method="remoteMethod_sql_mats_list"
+              :loading="loading " v-model="queryParams.mhItem"
               :placeholder="$t('btn.selectSearchPrefix')+'物料'+$t('btn.selectSearchSuffix')">
               <el-option v-for="item in   remotequery_sql_mats_list " :key="item.dictValue" :label="item.dictLabel"
                 :value="item.dictValue">
@@ -123,20 +121,11 @@
           <dict-tag :options=" options.sys_plant_list " :value="scope.row.mhPlant" />
         </template>
       </el-table-column>
-      <el-table-column prop="mhModelType" label="机种名" align="center" v-if="columns.showColumn('mhModelType')">
-        <!-- <template #default="scope">
-          <dict-tag :options=" options.sql_model_region " :value="scope.row.mhModelType"  />
-        </template> -->
-      </el-table-column>
-      <el-table-column prop="mhRegionType" label="仕向别" align="center" v-if="columns.showColumn('mhRegionType')">
-        <!-- <template #default="scope">
-          <dict-tag :options=" options.mhRegionTypeOptions" :value="scope.row.mhRegionType"  />
-        </template> -->
-      </el-table-column>
+      <el-table-column prop="mhModelType" label="机种名" align="center" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('mhModelType')" />
+      <el-table-column prop="mhRegionType" label="仕向别" align="center" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('mhRegionType')" />
       <el-table-column prop="mhItem" label="物料" align="center" v-if="columns.showColumn('mhItem')">
-        <!-- <template #default="scope">
-          <dict-tag :options=" options.sql_mats_list " :value="scope.row.mhItem"  />
-        </template> -->
       </el-table-column>
       <el-table-column prop="mhItemText" label="物料文本" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('mhItemText')" />
@@ -212,29 +201,21 @@
 
               <el-col :lg="12">
                 <el-form-item label="机种名" prop="mhModelType">
-                  <el-select filterable clearable v-model="form.mhModelType"
-                    :placeholder="$t('btn.selectPrefix')+'机种名'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sql_model_region" :key="item.dictValue" :label="item.dictLabel"
-                      :value="item.dictValue"></el-option>
-                  </el-select>
+                  <el-input v-model="form.mhModelType"
+                    :placeholder="$t('btn.enterPrefix')+'机种名'+$t('btn.enterSuffix')" />
                 </el-form-item>
               </el-col>
-
 
               <el-col :lg="12">
                 <el-form-item label="仕向别" prop="mhRegionType">
-                  <el-select filterable clearable v-model="form.mhRegionType"
-                    :placeholder="$t('btn.selectPrefix')+'仕向别'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.mhRegionTypeOptions" :key="item.dictValue"
-                      :label="item.dictLabel" :value="item.dictValue"></el-option>
-                  </el-select>
+                  <el-input v-model="form.mhRegionType"
+                    :placeholder="$t('btn.enterPrefix')+'仕向别'+$t('btn.enterSuffix')" />
                 </el-form-item>
               </el-col>
 
-
               <el-col :lg="12">
                 <el-form-item label="物料" prop="mhItem">
-                  <el-select filterable clearable remote remote-show-suffix :remote-method="remoteMethod"
+                  <el-select filterable clearable remote remote-show-suffix :remote-method="remoteMethod_sql_mats_list"
                     :loading="loading " v-model="form.mhItem"
                     :placeholder="$t('btn.selectPrefix')+'物料'+$t('btn.selectSuffix')">
                     <el-option v-for="item in  remotequery_sql_mats_list" :key="item.dictValue" :label="item.dictLabel"
@@ -466,6 +447,8 @@
     //是否查询（1是）
     mhModelType: undefined,
     //是否查询（1是）
+    mhRegionType: undefined,
+    //是否查询（1是）
     mhItem: undefined,
     //是否查询（1是）
     mhWcName: undefined,
@@ -500,46 +483,35 @@
   const queryRef = ref()
   //定义起始时间
   const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-
-
-
   // 生效日期时间范围
   const dateRangeMhEffDate = ref([])
-
-
-
-
-
   //定义远程搜索变量
-  const remotequeryList = ref([])
+  const remotequeryList_sql_mats_list = ref([])
   //定义远程搜索变量
   const remotequery_sql_mats_list = ref([])
-
   //远程字典参数
-  var remotedictParams = [
-
+  var remotedictParams_sql_mats_list = [
     { dictType: "sql_mats_list" },
-
   ]
   //远程搜索组件实例
   onMounted(() => {
-    proxy.getDicts(remotedictParams).then((response) => {
+    proxy.getDicts(remotedictParams_sql_mats_list).then((response) => {
       response.data.forEach((element) => {
-        remotequeryList.value = element.list
+        remotequeryList_sql_mats_list.value = element.list
       })
-      //console.log(remotequeryList)
+      //console.log(remotequeryList_sql_mats_list)
     })
   })
   //远程搜索
-  const remoteMethod = debounce((query) => {
+  const remoteMethod_sql_mats_list = debounce((query) => {
     if (query) {
       loading.value = true
       setTimeout(() => {
         loading.value = false
-        // remotequery_sql_mats_list.value = remotequeryList.value.filter((item) => {
+        // remotequery_sql_mats_list.value = remotequeryList_sql_mats_list.value.filter((item) => {
         //   return item.dictValue.toLowerCase().includes(query.toLowerCase())
         // })
-        filterMethod(query)
+        filterMethod_sql_mats_list(query)
       }, 2000)
     } else {
       //默认显示前15条记录
@@ -547,20 +519,20 @@
     }
   }, 300)
   // 筛选方法
-  const filterMethod = debounce((query) => {
-    let arr = remotequeryList.value.filter((item) => {
+  const filterMethod_sql_mats_list = debounce((query) => {
+    let arr = remotequeryList_sql_mats_list.value.filter((item) => {
       return item.dictValue.toLowerCase().includes(query) || item.dictLabel.toLowerCase().includes(query);
     })
     if (arr.length > 5) {
       remotequery_sql_mats_list.value = arr.slice(0, 5)
-      addFilterOptions(query)
+      addFilterOptions_sql_mats_list(query)
     } else {
       remotequery_sql_mats_list.value = arr
     }
   }, 300)
   // 精准筛选方法
-  const addFilterOptions = debounce((dictValue) => {
-    let target = remotequeryList.value.find((item) => {
+  const addFilterOptions_sql_mats_list = debounce((dictValue) => {
+    let target = remotequeryList_sql_mats_list.value.find((item) => {
       return item.dictValue === dictValue
     })
     if (target) {
@@ -570,24 +542,9 @@
     }
   }, 300)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   //字典参数
   var dictParams = [
     { dictType: "sys_plant_list" },
-    { dictType: "sql_model_region" },
     { dictType: "sys_work_center" },
     { dictType: "sys_is_deleted" },
   ]
@@ -665,7 +622,7 @@
     rules: {
       mhSFID: [{ required: true, message: "SFID" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
       mhPlant: [{ required: true, message: "工厂" + proxy.$t('btn.isEmpty'), trigger: "change" }],
-      mhModelType: [{ required: true, message: "机种名" + proxy.$t('btn.isEmpty'), trigger: "change" }],
+      mhModelType: [{ required: true, message: "机种名" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
       mhWcName: [{ required: true, message: "工作中心" + proxy.$t('btn.isEmpty'), trigger: "change" }],
       mhStdShort: [{ required: true, message: "标准点数" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
       mhToMinRate: [{ required: true, message: "点数换算汇率" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
@@ -675,10 +632,6 @@
     options: {
       // 工厂 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sys_plant_list: [],
-      // 机种名 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-      sql_model_region: [],
-      // 仕向别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-      mhRegionTypeOptions: [],
       // 工作中心 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sys_work_center: [],
       // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
@@ -730,8 +683,6 @@
     opertype.value = 1
     form.value.mhEffDate = new Date()
     form.value.mhPlant = []
-    form.value.mhModelType = []
-    form.value.mhRegionType = []
     form.value.mhWcName = []
     form.value.mhStdShort = 0
     form.value.mhToMinRate = 0

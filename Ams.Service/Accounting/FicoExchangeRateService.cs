@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 汇率表
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:26:55
+    /// @Date: 2024/7/26 17:00:23
     /// </summary>
     [AppService(ServiceType = typeof(IFicoExchangeRateService), ServiceLifetime = LifeTime.Transient)]
     public class FicoExchangeRateService : BaseService<FicoExchangeRate>, IFicoExchangeRateService
@@ -23,12 +23,12 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("FerEffDate desc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoExchangeRate, FicoExchangeRateDto>(parm);
 
             return response;
         }
-
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -37,7 +37,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FerSFID.ToString() == enterString);
+            int count = Count(it => it. FerSfid.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,17 +49,16 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FerSFID"></param>
+        /// <param name="FerSfid"></param>
         /// <returns></returns>
-        public FicoExchangeRate GetInfo(long FerSFID)
+        public FicoExchangeRate GetInfo(long FerSfid)
         {
             var response = Queryable()
-                .Where(x => x.FerSFID == FerSFID)
+                .Where(x => x.FerSfid == FerSfid)
                 .First();
 
             return response;
         }
-
         /// <summary>
         /// 添加汇率表
         /// </summary>
@@ -70,7 +69,6 @@ namespace Ams.Service.Accounting
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
-
         /// <summary>
         /// 修改汇率表
         /// </summary>
@@ -89,7 +87,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FerSFID.IsEmpty(), "FSID不能为空")
+                .SplitError(x => x.Item.FerSfid.IsEmpty(), "ID不能为空")
                 .SplitError(x => x.Item.FerCorp.IsEmpty(), "公司不能为空")
                 .SplitError(x => x.Item.FerEffDate.IsEmpty(), "日期不能为空")
                 .SplitError(x => x.Item.FerStd.IsEmpty(), "基数不能为空")
@@ -155,8 +153,8 @@ namespace Ams.Service.Accounting
             predicate = predicate.AndIF(parm.BeginFerEffDate == null, it => it.FerEffDate >= new DateTime(DateTime.Now.Year, 1, 1));
             predicate = predicate.AndIF(parm.BeginFerEffDate != null, it => it.FerEffDate >= parm.BeginFerEffDate);
             predicate = predicate.AndIF(parm.EndFerEffDate != null, it => it.FerEffDate <= parm.EndFerEffDate);
-            predicate = predicate.AndIF(parm.FerStd != null, it => it.FerStd == parm.FerStd);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FerfmCcy), it => it.FerfmCcy == parm.FerfmCcy);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FertoCcy), it => it.FertoCcy == parm.FertoCcy);
             return predicate;
         }
     }

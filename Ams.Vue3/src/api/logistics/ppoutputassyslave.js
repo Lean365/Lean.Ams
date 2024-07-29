@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import QS from 'qs'
 import { downFile } from '@/utils/request'
 
 /**
@@ -10,6 +11,9 @@ export function listPpOutputAssySlave(query) {
     url: 'Logistics/PpOutputAssySlave/list',
     method: 'get',
     params: query,
+    paramsSerializer: function (params) {
+      return QS.stringify(params, { indices: false })
+    }
   })
 }
 

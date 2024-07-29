@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 制一OPH主表
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 14:35:19
+    /// @Date: 2024/7/26 16:09:23
     /// </summary>
     [Verify]
     [Route("Logistics/PpOutputAssyMaster")]
@@ -156,7 +156,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [AllowAnonymous]
         public IActionResult ImportTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<PpOutputAssyMasterDto>() { }, "PpOutputAssyMaster");
+            var result = DownloadImportTemplate(new List<PpOutputAssyMasterImportTpl>() { }, "PpOutputAssyMaster_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

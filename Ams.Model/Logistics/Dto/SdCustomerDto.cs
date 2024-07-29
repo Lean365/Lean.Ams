@@ -4,7 +4,7 @@ namespace Ams.Model.Logistics.Dto
     /// 顾客信息
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:26:23
+    /// @Date: 2024/7/26 13:49:23
     /// </summary>
     public class SdCustomerQueryDto : PagerInfo
     {
@@ -14,6 +14,7 @@ namespace Ams.Model.Logistics.Dto
         public string ScCode { get; set; }
         public string ScAbbr { get; set; }
         public string ScName { get; set; }
+        public string ScTaxNo { get; set; }
         public string ScTaxType { get; set; }
         public string ScCcy { get; set; }
         public string ScPayTerms { get; set; }
@@ -23,9 +24,8 @@ namespace Ams.Model.Logistics.Dto
         public string ScShippingTerms { get; set; }
         public string ScCustomerGrade { get; set; }
         public string ScCustomerCredit { get; set; }
-        public DateTime? BeginScFirstTransDate { get; set; }
-        public DateTime? EndScFirstTransDate { get; set; }
         public string ScRegionCode { get; set; }
+        public string ScState { get; set; }
         public int? IsFroze { get; set; }
     }
 
@@ -33,7 +33,7 @@ namespace Ams.Model.Logistics.Dto
     /// 顾客信息
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:26:23
+    /// @Date: 2024/7/26 13:49:23
     /// </summary>
     public class SdCustomerDto
     {
@@ -41,7 +41,7 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "SFID")]
         [ExcelColumnName("SFID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long ScSFID { get; set; }
+        public long ScSfid { get; set; }
 
         [Required(ErrorMessage = "销售组织不能为空")]
         [ExcelColumn(Name = "销售组织")]
@@ -78,15 +78,15 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("企业法人")]
         public string ScEbe { get; set; }
 
-        [Required(ErrorMessage = "营业执照不能为空")]
-        [ExcelColumn(Name = "营业执照")]
-        [ExcelColumnName("营业执照")]
-        public string ScBusinessNo { get; set; }
-
         [Required(ErrorMessage = "税号不能为空")]
         [ExcelColumn(Name = "税号")]
         [ExcelColumnName("税号")]
         public string ScTaxNo { get; set; }
+
+        [Required(ErrorMessage = "营业执照不能为空")]
+        [ExcelColumn(Name = "营业执照")]
+        [ExcelColumnName("营业执照")]
+        public string ScBusinessNo { get; set; }
 
         [Required(ErrorMessage = "税别不能为空")]
         [ExcelColumn(Name = "税别")]
@@ -347,6 +347,15 @@ namespace Ams.Model.Logistics.Dto
 
         [ExcelColumn(Name = "银行所在国")]
         public string ScBankCountryLabel { get; set; }
+
+        [ExcelColumn(Name = "银行所在州省")]
+        public string ScBankStateLabel { get; set; }
+
+        [ExcelColumn(Name = "银行所在市")]
+        public string ScBankCityLabel { get; set; }
+
+        [ExcelColumn(Name = "银行所在县")]
+        public string ScBankCountyLabel { get; set; }
 
         [ExcelColumn(Name = "冻结标记")]
         public string IsFrozeLabel { get; set; }
@@ -359,7 +368,7 @@ namespace Ams.Model.Logistics.Dto
     /// 顾客信息
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:26:23
+    /// @Date: 2024/7/26 13:49:23
     /// </summary>
     public class SdCustomerImportTpl
     {
@@ -367,7 +376,7 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "SFID")]
         [ExcelColumnName("SFID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long ScSFID { get; set; }
+        public long ScSfid { get; set; }
 
         [Required(ErrorMessage = "销售组织不能为空")]
         [ExcelColumn(Name = "销售组织")]
@@ -404,15 +413,15 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("企业法人")]
         public string ScEbe { get; set; }
 
-        [Required(ErrorMessage = "营业执照不能为空")]
-        [ExcelColumn(Name = "营业执照")]
-        [ExcelColumnName("营业执照")]
-        public string ScBusinessNo { get; set; }
-
         [Required(ErrorMessage = "税号不能为空")]
         [ExcelColumn(Name = "税号")]
         [ExcelColumnName("税号")]
         public string ScTaxNo { get; set; }
+
+        [Required(ErrorMessage = "营业执照不能为空")]
+        [ExcelColumn(Name = "营业执照")]
+        [ExcelColumnName("营业执照")]
+        public string ScBusinessNo { get; set; }
 
         [Required(ErrorMessage = "税别不能为空")]
         [ExcelColumn(Name = "税别")]
@@ -686,6 +695,18 @@ namespace Ams.Model.Logistics.Dto
         [ExcelIgnore]
         [ExcelColumn(Name = "银行所在国")]
         public string ScBankCountryLabel { get; set; }
+
+        [ExcelIgnore]
+        [ExcelColumn(Name = "银行所在州省")]
+        public string ScBankStateLabel { get; set; }
+
+        [ExcelIgnore]
+        [ExcelColumn(Name = "银行所在市")]
+        public string ScBankCityLabel { get; set; }
+
+        [ExcelIgnore]
+        [ExcelColumn(Name = "银行所在县")]
+        public string ScBankCountyLabel { get; set; }
 
         [ExcelIgnore]
         [ExcelColumn(Name = "冻结标记")]

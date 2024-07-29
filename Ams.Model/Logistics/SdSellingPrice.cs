@@ -4,7 +4,7 @@ namespace Ams.Model.Logistics
     /// 销售价格
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:30:10
+    /// @Date: 2024/7/26 10:59:46
     /// </summary>
     [SugarTable("sd_selling_price", "销售价格")]
     public class SdSellingPrice : SysBase
@@ -13,7 +13,7 @@ namespace Ams.Model.Logistics
         /// SFID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = false, ColumnName = "ssp_SFID")]
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = false, ColumnName = "ssp_Sfid")]
         public long SspSfid { get; set; }
 
         /// <summary>

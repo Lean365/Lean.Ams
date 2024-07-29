@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// 从设变
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 10:27:37
+    /// @Date: 2024/7/26 16:30:08
     /// </summary>
     [AppService(ServiceType = typeof(IPpEcSlaveService), ServiceLifetime = LifeTime.Transient)]
     public class PpEcSlaveService : BaseService<PpEcSlave>, IPpEcSlaveService
@@ -28,7 +28,6 @@ namespace Ams.Service.Logistics
 
             return response;
         }
-
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -37,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. EsSFID.ToString() == enterString);
+            int count = Count(it => it. EcsSfid.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,17 +48,16 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="EsSFID"></param>
+        /// <param name="EcsSfid"></param>
         /// <returns></returns>
-        public PpEcSlave GetInfo(long EsSFID)
+        public PpEcSlave GetInfo(long EcsSfid)
         {
             var response = Queryable()
-                .Where(x => x.EsSFID == EsSFID)
+                .Where(x => x.EcsSfid == EcsSfid)
                 .First();
 
             return response;
         }
-
         /// <summary>
         /// 添加从设变
         /// </summary>
@@ -70,7 +68,6 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
-
         /// <summary>
         /// 修改从设变
         /// </summary>
@@ -89,21 +86,21 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.EsSFID.IsEmpty(), "SFID不能为空")
-                .SplitError(x => x.Item.EsParentSfid.IsEmpty(), "EsParentSfid不能为空")
-                .SplitError(x => x.Item.EsEntryDate.IsEmpty(), "输入日不能为空")
-                .SplitError(x => x.Item.EsEcNo.IsEmpty(), "设变No.不能为空")
-                .SplitError(x => x.Item.EsModel.IsEmpty(), "机种不能为空")
-                .SplitError(x => x.Item.EsItem.IsEmpty(), "物料不能为空")
-                .SplitError(x => x.Item.EsOldUsageQty.IsEmpty(), "用量不能为空")
-                .SplitError(x => x.Item.EsNewUsageQty.IsEmpty(), "用量不能为空")
-                .SplitError(x => x.Item.EsBomDate.IsEmpty(), "bom日期不能为空")
-                .SplitError(x => x.Item.EmEcImpDept.IsEmpty(), "实施部门不能为空")
-                .SplitError(x => x.Item.EsPurType.IsEmpty(), "采购类型不能为空")
-                .SplitError(x => x.Item.EsSloc.IsEmpty(), "仓库不能为空")
-                .SplitError(x => x.Item.EsSopStae.IsEmpty(), "SOP不能为空")
-                .SplitError(x => x.Item.EsOldCurrStock.IsEmpty(), "旧品库存不能为空")
-                .SplitError(x => x.Item.EsNewCurrStock.IsEmpty(), "新品库存不能为空")
+                .SplitError(x => x.Item.EcsParentSfid.IsEmpty(), "父ID不能为空")
+                .SplitError(x => x.Item.EcsEcNo.IsEmpty(), "设变No.不能为空")
+                .SplitError(x => x.Item.EcsModel.IsEmpty(), "机种不能为空")
+                .SplitError(x => x.Item.EcsItem.IsEmpty(), "物料不能为空")
+                .SplitError(x => x.Item.EcsItemText.IsEmpty(), "物料文本不能为空")
+                .SplitError(x => x.Item.EcsOldCurrStock.IsEmpty(), "旧品库存不能为空")
+                .SplitError(x => x.Item.EcsOldUsageQty.IsEmpty(), "用量不能为空")
+                .SplitError(x => x.Item.EcsNewCurrStock.IsEmpty(), "新品库存不能为空")
+                .SplitError(x => x.Item.EcsNewUsageQty.IsEmpty(), "用量不能为空")
+                .SplitError(x => x.Item.EcsBomDate.IsEmpty(), "bom日期不能为空")
+                .SplitError(x => x.Item.EcsPurType.IsEmpty(), "采购类型不能为空")
+                .SplitError(x => x.Item.EcsPurGroup.IsEmpty(), "采购组不能为空")
+                .SplitError(x => x.Item.EcsSloc.IsEmpty(), "仓库不能为空")
+                .SplitError(x => x.Item.EcsSopStated.IsEmpty(), "SOP不能为空")
+                .SplitError(x => x.Item.EcsImplStated.IsEmpty(), "实施标记不能为空")
                 .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
                 .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
                 .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
@@ -144,9 +141,12 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpEcSlaveDto()
                 {
-                    EsPurTypeLabel = it.EsPurType.GetConfigValue<SysDictData>("sys_pur_type"),
-                    EsInsmkLabel = it.EsInsmk.GetConfigValue<SysDictData>("sys_normal_whether"),
-                    EsSopStaeLabel = it.EsSopStae.GetConfigValue<SysDictData>("sys_sop_yn"),
+                    EcsPurTypeLabel = it.EcsPurType.GetConfigValue<SysDictData>("sys_pur_type"),
+                    EcsPurGroupLabel = it.EcsPurGroup.GetConfigValue<SysDictData>("sys_pur_group"),
+                    EcsSlocLabel = it.EcsSloc.GetConfigValue<SysDictData>("sys_sloc_list"),
+                    EcsInsmkLabel = it.EcsInsmk.GetConfigValue<SysDictData>("sys_flag_list"),
+                    EcsPlntStatedLabel = it.EcsPlntStated.GetConfigValue<SysDictData>("sys_eol_list"),
+                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
 
@@ -162,6 +162,18 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpEcSlave>();
 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcsEcNo), it => it.EcsEcNo.Contains(parm.EcsEcNo));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcsModel), it => it.EcsModel.Contains(parm.EcsModel));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcsItem), it => it.EcsItem.Contains(parm.EcsItem));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcsSubItem), it => it.EcsSubItem.Contains(parm.EcsSubItem));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcsOldItem), it => it.EcsOldItem.Contains(parm.EcsOldItem));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcsPurType), it => it.EcsPurType == parm.EcsPurType);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcsPurGroup), it => it.EcsPurGroup == parm.EcsPurGroup);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcsSloc), it => it.EcsSloc == parm.EcsSloc);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcsInsmk), it => it.EcsInsmk == parm.EcsInsmk);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EcsPlntStated), it => it.EcsPlntStated == parm.EcsPlntStated);
+            predicate = predicate.AndIF(parm.EcsSopStated != null, it => it.EcsSopStated == parm.EcsSopStated);
+            predicate = predicate.AndIF(parm.EcsImplStated != null, it => it.EcsImplStated == parm.EcsImplStated);
             return predicate;
         }
     }
