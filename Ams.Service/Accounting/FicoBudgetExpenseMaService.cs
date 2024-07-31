@@ -39,7 +39,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.FbeSfid.ToString() == enterString);
+            int count = Count(it => it.FbeSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -50,13 +50,13 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FbeSfid"></param>
+        /// <param name="FbeSfId"></param>
         /// <returns></returns>
-        public FicoBudgetExpenseMa GetInfo(long FbeSfid)
+        public FicoBudgetExpenseMa GetInfo(long FbeSfId)
         {
             var response = Queryable()
                 .Includes(x => x.FicoBudgetExpenseSlvNav) //填充子对象
-                .Where(x => x.FbeSfid == FbeSfid)
+                .Where(x => x.FbeSfId == FbeSfId)
                 .First();
 
             return response;
@@ -90,7 +90,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FbeSfid.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.FbeSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.FbeCorp.IsEmpty(), "公司不能为空")
                 .SplitError(x => x.Item.FbeDept.IsEmpty(), "部门不能为空")
                 .SplitError(x => x.Item.FbeFy.IsEmpty(), "财年不能为空")

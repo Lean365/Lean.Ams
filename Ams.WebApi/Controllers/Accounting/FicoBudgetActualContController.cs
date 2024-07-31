@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询预算实际明细详情
         /// </summary>
-        /// <param name="FbSfid"></param>
+        /// <param name="FbSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FbSfid}")]
+        [HttpGet("{FbSfId}")]
         [ActionPermissionFilter(Permission = "fico:budgetactualcont:query")]
-        public IActionResult GetFicoBudgetActualCont(long FbSfid)
+        public IActionResult GetFicoBudgetActualCont(long FbSfId)
         {
-            var response = _FicoBudgetActualContService.GetInfo(FbSfid);
+            var response = _FicoBudgetActualContService.GetInfo(FbSfId);
             
             var info = response.Adapt<FicoBudgetActualContDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetActualContService.CheckInputUnique(parm.FbSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetActualContService.CheckInputUnique(parm.FbSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增预算实际明细 '{parm.FbSfid}'失败(Add failed)，输入的预算实际明细已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增预算实际明细 '{parm.FbSfId}'失败(Add failed)，输入的预算实际明细已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoBudgetActualCont>().ToCreate(HttpContext);
 

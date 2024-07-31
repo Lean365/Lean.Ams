@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询Pmc设变详情
         /// </summary>
-        /// <param name="PmcSfid"></param>
+        /// <param name="PmcSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PmcSfid}")]
+        [HttpGet("{PmcSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecslavepmc:query")]
-        public IActionResult GetPpEcSlavePmc(long PmcSfid)
+        public IActionResult GetPpEcSlavePmc(long PmcSfId)
         {
-            var response = _PpEcSlavePmcService.GetInfo(PmcSfid);
+            var response = _PpEcSlavePmcService.GetInfo(PmcSfId);
             
             var info = response.Adapt<PpEcSlavePmcDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlavePmcService.CheckInputUnique(parm.PmcSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlavePmcService.CheckInputUnique(parm.PmcSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增Pmc设变 '{parm.PmcSfid}'失败(Add failed)，输入的Pmc设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增Pmc设变 '{parm.PmcSfId}'失败(Add failed)，输入的Pmc设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcSlavePmc>().ToCreate(HttpContext);
 

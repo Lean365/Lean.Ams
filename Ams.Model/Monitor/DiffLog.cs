@@ -5,7 +5,7 @@
     public class DiffLog : SysBase
     {
         /// <summary>
-        /// 主键
+        /// ID
         /// </summary>
         [SugarColumn(IsPrimaryKey = true)]
         [JsonConverter(typeof(ValueToStringConverter))]
@@ -51,7 +51,7 @@
         public string UserName { get; set; }
 
         /// <summary>
-        /// 数据库配置id
+        /// 数据库配置ID
         /// </summary>
         public string ConfigId { get; set; }
     }

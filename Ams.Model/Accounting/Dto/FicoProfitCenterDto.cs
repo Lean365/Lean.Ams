@@ -32,7 +32,7 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FpSfid { get; set; }
+        public long FpSfId { get; set; }
 
         [Required(ErrorMessage = "集团不能为空")]
         [ExcelColumn(Name = "集团")]
@@ -157,7 +157,7 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FpSfid { get; set; }
+        public long FpSfId { get; set; }
 
         [Required(ErrorMessage = "集团不能为空")]
         [ExcelColumn(Name = "集团")]

@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询加班预算详情
         /// </summary>
-        /// <param name="FbosSfid"></param>
+        /// <param name="FbosSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FbosSfid}")]
+        [HttpGet("{FbosSfId}")]
         [ActionPermissionFilter(Permission = "fico:budgetovertimeslv:query")]
-        public IActionResult GetFicoBudgetOvertimeSlv(long FbosSfid)
+        public IActionResult GetFicoBudgetOvertimeSlv(long FbosSfId)
         {
-            var response = _FicoBudgetOvertimeSlvService.GetInfo(FbosSfid);
+            var response = _FicoBudgetOvertimeSlvService.GetInfo(FbosSfId);
             
             var info = response.Adapt<FicoBudgetOvertimeSlvDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetOvertimeSlvService.CheckInputUnique(parm.FbosSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetOvertimeSlvService.CheckInputUnique(parm.FbosSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增加班预算 '{parm.FbosSfid}'失败(Add failed)，输入的加班预算已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增加班预算 '{parm.FbosSfId}'失败(Add failed)，输入的加班预算已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoBudgetOvertimeSlv>().ToCreate(HttpContext);
 

@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取固定资产信息
         /// </summary>
-        /// <param name="FaSfid"></param>
+        /// <param name="FaSfId"></param>
         /// <returns></returns>
-        FicoMonthlyAssets GetInfo(long FaSfid);
+        FicoMonthlyAssets GetInfo(long FaSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

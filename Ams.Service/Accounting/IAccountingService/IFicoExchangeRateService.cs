@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取汇率表信息
         /// </summary>
-        /// <param name="FerSfid"></param>
+        /// <param name="FerSfId"></param>
         /// <returns></returns>
-        FicoExchangeRate GetInfo(long FerSfid);
+        FicoExchangeRate GetInfo(long FerSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

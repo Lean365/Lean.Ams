@@ -24,11 +24,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpRepairAssyMaDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PpdSfid { get; set; }
+        public long PpdSfId { get; set; }
 
         [ExcelColumn(Name = "生产订单")]
         [ExcelColumnName("生产订单")]
@@ -133,11 +133,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpRepairAssyMaImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PpdSfid { get; set; }
+        public long PpdSfId { get; set; }
 
         [ExcelColumn(Name = "生产订单")]
         [ExcelColumnName("生产订单")]

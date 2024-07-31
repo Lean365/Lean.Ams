@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. Sfid.ToString() == enterString);
+            int count = Count(it => it. SfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        public PpSourceModelRegion GetInfo(long Sfid)
+        public PpSourceModelRegion GetInfo(long SfId)
         {
             var response = Queryable()
-                .Where(x => x.Sfid == Sfid)
+                .Where(x => x.SfId == SfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.Sfid.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.SfId.IsEmpty(), "ID不能为空")
                 .SplitError(x => x.Item.Destz001.IsEmpty(), "物料不能为空")
                 .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）

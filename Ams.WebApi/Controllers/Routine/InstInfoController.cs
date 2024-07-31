@@ -42,13 +42,13 @@ namespace Ams.WebApi.Controllers.Routine
         /// <summary>
         /// 查询机构信息详情
         /// </summary>
-        /// <param name="IiSFID"></param>
+        /// <param name="IiSfId"></param>
         /// <returns></returns>
-        [HttpGet("{IiSFID}")]
+        [HttpGet("{IiSfId}")]
         [ActionPermissionFilter(Permission = "inst:info:query")]
-        public IActionResult GetInstInfo(long IiSFID)
+        public IActionResult GetInstInfo(long IiSfId)
         {
-            var response = _InstInfoService.GetInfo(IiSFID);
+            var response = _InstInfoService.GetInfo(IiSfId);
 
             var info = response.Adapt<InstInfoDto>();
             return SUCCESS(info);

@@ -8,7 +8,7 @@
     public class GenTable : SysBase
     {
         /// <summary>
-        /// 表id
+        /// 表ID
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long TableId { get; set; }

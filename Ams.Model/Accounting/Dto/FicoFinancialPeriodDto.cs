@@ -24,11 +24,11 @@ namespace Ams.Model.Accounting.Dto
     /// </summary>
     public class FicoFinancialPeriodDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FpSfid { get; set; }
+        public long FpSfId { get; set; }
 
         [Required(ErrorMessage = "财年不能为空")]
         [ExcelColumn(Name = "财年")]
@@ -90,11 +90,11 @@ namespace Ams.Model.Accounting.Dto
     /// </summary>
     public class FicoFinancialPeriodImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FpSfid { get; set; }
+        public long FpSfId { get; set; }
 
         [Required(ErrorMessage = "财年不能为空")]
         [ExcelColumn(Name = "财年")]

@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询财务期间详情
         /// </summary>
-        /// <param name="FpSfid"></param>
+        /// <param name="FpSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FpSfid}")]
+        [HttpGet("{FpSfId}")]
         [ActionPermissionFilter(Permission = "fico:financialperiod:query")]
-        public IActionResult GetFicoFinancialPeriod(long FpSfid)
+        public IActionResult GetFicoFinancialPeriod(long FpSfId)
         {
-            var response = _FicoFinancialPeriodService.GetInfo(FpSfid);
+            var response = _FicoFinancialPeriodService.GetInfo(FpSfId);
             
             var info = response.Adapt<FicoFinancialPeriodDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoFinancialPeriodService.CheckInputUnique(parm.FpSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoFinancialPeriodService.CheckInputUnique(parm.FpSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增财务期间 '{parm.FpSfid}'失败(Add failed)，输入的财务期间已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增财务期间 '{parm.FpSfId}'失败(Add failed)，输入的财务期间已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoFinancialPeriod>().ToCreate(HttpContext);
 

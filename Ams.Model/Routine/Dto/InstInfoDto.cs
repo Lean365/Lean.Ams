@@ -26,11 +26,11 @@ namespace Ams.Model.Routine.Dto
     /// </summary>
     public class InstInfoDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long IiSFID { get; set; }
+        public long IiSfId { get; set; }
 
         [Required(ErrorMessage = "语言不能为空")]
         [ExcelColumn(Name = "语言")]
@@ -244,11 +244,11 @@ namespace Ams.Model.Routine.Dto
     /// </summary>
     public class InstInfoImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long IiSFID { get; set; }
+        public long IiSfId { get; set; }
 
         [Required(ErrorMessage = "语言不能为空")]
         [ExcelColumn(Name = "语言")]

@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取检查日报ma信息
         /// </summary>
-        /// <param name="PdiSfid"></param>
+        /// <param name="PdiSfId"></param>
         /// <returns></returns>
-        PpInspPcbaMa GetInfo(long PdiSfid);
+        PpInspPcbaMa GetInfo(long PdiSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

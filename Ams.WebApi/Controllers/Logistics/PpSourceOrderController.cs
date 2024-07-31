@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询源订单详情
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        [HttpGet("{Sfid}")]
+        [HttpGet("{SfId}")]
         [ActionPermissionFilter(Permission = "pp:sourceorder:query")]
-        public IActionResult GetPpSourceOrder(long Sfid)
+        public IActionResult GetPpSourceOrder(long SfId)
         {
-            var response = _PpSourceOrderService.GetInfo(Sfid);
+            var response = _PpSourceOrderService.GetInfo(SfId);
             
             var info = response.Adapt<PpSourceOrderDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceOrderService.CheckInputUnique(parm.Sfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceOrderService.CheckInputUnique(parm.SfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增源订单 '{parm.Sfid}'失败(Add failed)，输入的源订单已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增源订单 '{parm.SfId}'失败(Add failed)，输入的源订单已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpSourceOrder>().ToCreate(HttpContext);
 

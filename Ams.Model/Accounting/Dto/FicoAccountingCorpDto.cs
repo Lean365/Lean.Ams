@@ -25,7 +25,7 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumn(Name = "FSID")]
         [ExcelColumnName("FSID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FctSfid { get; set; }
+        public long FctSfId { get; set; }
 
         [Required(ErrorMessage = "公司代码不能为空")]
         [ExcelColumn(Name = "公司代码")]
@@ -78,7 +78,7 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumn(Name = "FSID")]
         [ExcelColumnName("FSID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FctSfid { get; set; }
+        public long FctSfId { get; set; }
 
         [Required(ErrorMessage = "公司代码不能为空")]
         [ExcelColumn(Name = "公司代码")]

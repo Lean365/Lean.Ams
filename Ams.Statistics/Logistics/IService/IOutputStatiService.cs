@@ -12,7 +12,7 @@ namespace Ams.Statistics.Logistics.IService
         /// 查找当前表中最大ID
         /// </summary>
         /// <returns></returns>
-        string GetMaxSfid();
+        string GetMaxSfId();
 
         /// <summary>
         /// 本月OPH台数

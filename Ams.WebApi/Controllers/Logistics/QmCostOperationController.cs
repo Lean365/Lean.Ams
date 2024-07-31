@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询品质业务详情
         /// </summary>
-        /// <param name="QcodSFID"></param>
+        /// <param name="QcodSfId"></param>
         /// <returns></returns>
-        [HttpGet("{QcodSFID}")]
+        [HttpGet("{QcodSfId}")]
         [ActionPermissionFilter(Permission = "qm:costoperation:query")]
-        public IActionResult GetQmCostOperation(long QcodSFID)
+        public IActionResult GetQmCostOperation(long QcodSfId)
         {
-            var response = _QmCostOperationService.GetInfo(QcodSFID);
+            var response = _QmCostOperationService.GetInfo(QcodSfId);
             
             var info = response.Adapt<QmCostOperationDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmCostOperationService.CheckInputUnique(parm.QcodSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmCostOperationService.CheckInputUnique(parm.QcodSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增品质业务 '{parm.QcodSFID}'失败(Add failed)，输入的品质业务已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增品质业务 '{parm.QcodSfId}'失败(Add failed)，输入的品质业务已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmCostOperation>().ToCreate(HttpContext);
 

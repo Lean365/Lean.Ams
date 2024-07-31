@@ -8,13 +8,13 @@ namespace Ams.Model.Monitor
     public class DurationLog : SysBase
     {
         /// <summary>
-        /// Id
+        /// ID
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
         public long Id { get; set; }
 
         /// <summary>
-        /// 用户id
+        /// 用户ID
         /// </summary>
         public long UserId { get; set; }
 

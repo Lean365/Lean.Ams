@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取部门消耗信息
         /// </summary>
-        /// <param name="DcSfid"></param>
+        /// <param name="DcSfId"></param>
         /// <returns></returns>
-        FicoCostingDeptConsuming GetInfo(long DcSfid);
+        FicoCostingDeptConsuming GetInfo(long DcSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

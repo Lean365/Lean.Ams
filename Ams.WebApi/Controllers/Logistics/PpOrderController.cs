@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询生产工单详情
         /// </summary>
-        /// <param name="MoSfid"></param>
+        /// <param name="MoSfId"></param>
         /// <returns></returns>
-        [HttpGet("{MoSfid}")]
+        [HttpGet("{MoSfId}")]
         [ActionPermissionFilter(Permission = "pp:order:query")]
-        public IActionResult GetPpOrder(long MoSfid)
+        public IActionResult GetPpOrder(long MoSfId)
         {
-            var response = _PpOrderService.GetInfo(MoSfid);
+            var response = _PpOrderService.GetInfo(MoSfId);
             
             var info = response.Adapt<PpOrderDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpOrderService.CheckInputUnique(parm.MoSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpOrderService.CheckInputUnique(parm.MoSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增生产工单 '{parm.MoSfid}'失败(Add failed)，输入的生产工单已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增生产工单 '{parm.MoSfId}'失败(Add failed)，输入的生产工单已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpOrder>().ToCreate(HttpContext);
 

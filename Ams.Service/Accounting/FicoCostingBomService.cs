@@ -37,7 +37,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. BcSfid.ToString() == enterString);
+            int count = Count(it => it. BcSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,12 +49,12 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="BcSfid"></param>
+        /// <param name="BcSfId"></param>
         /// <returns></returns>
-        public FicoCostingBom GetInfo(long BcSfid)
+        public FicoCostingBom GetInfo(long BcSfId)
         {
             var response = Queryable()
-                .Where(x => x.BcSfid == BcSfid)
+                .Where(x => x.BcSfId == BcSfId)
                 .First();
 
             return response;
@@ -87,7 +87,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.BcSfid.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.BcSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.BcPlant.IsEmpty(), "工厂不能为空")
                 .SplitError(x => x.Item.BcFy.IsEmpty(), "期间不能为空")
                 .SplitError(x => x.Item.BcYm.IsEmpty(), "年月不能为空")

@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. SuSFID.ToString() == enterString);
+            int count = Count(it => it. SuSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="SuSFID"></param>
+        /// <param name="SuSfId"></param>
         /// <returns></returns>
-        public MmSupplier GetInfo(long SuSFID)
+        public MmSupplier GetInfo(long SuSfId)
         {
             var response = Queryable()
-                .Where(x => x.SuSFID == SuSFID)
+                .Where(x => x.SuSfId == SuSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.SuSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.SuSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.SuOrg.IsEmpty(), "购买组织不能为空")
                 .SplitError(x => x.Item.SuIndustryType.IsEmpty(), "行业类别不能为空")
                 .SplitError(x => x.Item.SuEnterpriseNature.IsEmpty(), "企业性质不能为空")

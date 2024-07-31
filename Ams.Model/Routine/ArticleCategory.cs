@@ -8,13 +8,21 @@
     public class ArticleCategory : SysBase
     {
         /// <summary>
-        /// 目录id
+        /// 目录ID
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true, ColumnName = "category_id")]
         public int CategoryId { get; set; }
 
+        /// <summary>
+        /// 目录名
+        /// </summary>
+
         [SugarColumn(ColumnDescription = "目录名", Length = 20, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string Name { get; set; }
+
+        /// <summary>
+        /// 图标
+        /// </summary>
 
         [SugarColumn(ColumnDescription = "图标")]
         public string Icon { get; set; }
@@ -23,6 +31,10 @@
         /// 排序id
         /// </summary>
         public int SortingNum { get; set; }
+
+        /// <summary>
+        /// 父级目录ID
+        /// </summary>
 
         public int? ParentId { get; set; }
 

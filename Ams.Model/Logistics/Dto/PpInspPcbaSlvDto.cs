@@ -31,12 +31,12 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PdiSfid { get; set; }
+        public long PdiSfId { get; set; }
 
-        [Required(ErrorMessage = "PdiParentSfid不能为空")]
-        [ExcelColumn(Name = "PdiParentSfid")]
-        [ExcelColumnName("PdiParentSfid")]
-        public long PdiParentSfid { get; set; }
+        [Required(ErrorMessage = "PdiParentSfId不能为空")]
+        [ExcelColumn(Name = "PdiParentSfId")]
+        [ExcelColumnName("PdiParentSfId")]
+        public long PdiParentSfId { get; set; }
 
         [ExcelColumn(Name = "批次")]
         [ExcelColumnName("批次")]
@@ -212,12 +212,12 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PdiSfid { get; set; }
+        public long PdiSfId { get; set; }
 
-        [Required(ErrorMessage = "PdiParentSfid不能为空")]
-        [ExcelColumn(Name = "PdiParentSfid")]
-        [ExcelColumnName("PdiParentSfid")]
-        public long PdiParentSfid { get; set; }
+        [Required(ErrorMessage = "PdiParentSfId不能为空")]
+        [ExcelColumn(Name = "PdiParentSfId")]
+        [ExcelColumnName("PdiParentSfId")]
+        public long PdiParentSfId { get; set; }
 
         [ExcelColumn(Name = "批次")]
         [ExcelColumnName("批次")]

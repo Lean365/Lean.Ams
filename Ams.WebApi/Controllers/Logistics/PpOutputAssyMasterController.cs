@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询制一OPH主表详情
         /// </summary>
-        /// <param name="PomSfid"></param>
+        /// <param name="PomSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PomSfid}")]
+        [HttpGet("{PomSfId}")]
         [ActionPermissionFilter(Permission = "pp:outputassymaster:query")]
-        public IActionResult GetPpOutputAssyMaster(long PomSfid)
+        public IActionResult GetPpOutputAssyMaster(long PomSfId)
         {
-            var response = _PpOutputAssyMasterService.GetInfo(PomSfid);
+            var response = _PpOutputAssyMasterService.GetInfo(PomSfId);
             
             var info = response.Adapt<PpOutputAssyMasterDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpOutputAssyMasterService.CheckInputUnique(parm.PomSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpOutputAssyMasterService.CheckInputUnique(parm.PomSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增制一OPH主表 '{parm.PomSfid}'失败(Add failed)，输入的制一OPH主表已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增制一OPH主表 '{parm.PomSfId}'失败(Add failed)，输入的制一OPH主表已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpOutputAssyMaster>().ToCreate(HttpContext);
 

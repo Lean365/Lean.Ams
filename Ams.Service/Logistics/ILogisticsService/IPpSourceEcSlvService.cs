@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取从源设变信息
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        PpSourceEcSlv GetInfo(long Sfid);
+        PpSourceEcSlv GetInfo(long SfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

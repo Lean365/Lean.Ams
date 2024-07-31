@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询部门消耗详情
         /// </summary>
-        /// <param name="DcSfid"></param>
+        /// <param name="DcSfId"></param>
         /// <returns></returns>
-        [HttpGet("{DcSfid}")]
+        [HttpGet("{DcSfId}")]
         [ActionPermissionFilter(Permission = "fico:costingdeptconsuming:query")]
-        public IActionResult GetFicoCostingDeptConsuming(long DcSfid)
+        public IActionResult GetFicoCostingDeptConsuming(long DcSfId)
         {
-            var response = _FicoCostingDeptConsumingService.GetInfo(DcSfid);
+            var response = _FicoCostingDeptConsumingService.GetInfo(DcSfId);
             
             var info = response.Adapt<FicoCostingDeptConsumingDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoCostingDeptConsumingService.CheckInputUnique(parm.DcSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoCostingDeptConsumingService.CheckInputUnique(parm.DcSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增部门消耗 '{parm.DcSfid}'失败(Add failed)，输入的部门消耗已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增部门消耗 '{parm.DcSfId}'失败(Add failed)，输入的部门消耗已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoCostingDeptConsuming>().ToCreate(HttpContext);
 

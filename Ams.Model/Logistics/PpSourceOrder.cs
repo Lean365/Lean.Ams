@@ -10,11 +10,11 @@ namespace Ams.Model.Logistics
     public class PpSourceOrder : SysBase
     {
         /// <summary>
-        /// Sfid
+        /// ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         /// <summary>
         /// 工厂
@@ -69,11 +69,5 @@ namespace Ams.Model.Logistics
         /// </summary>
         [SugarColumn(ColumnName = "Cooisma008", ColumnDescription = "作业手顺 ", Length = 10)]
         public string Cooisma008 { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        [SugarColumn(ColumnName = "IsDeleted", ColumnDescription = "软删除 ", DefaultValue = "0")]
-        public int IsDeleted { get; set; }
     }
 }

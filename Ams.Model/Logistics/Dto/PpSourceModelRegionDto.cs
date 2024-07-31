@@ -25,7 +25,7 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         [Required(ErrorMessage = "物料不能为空")]
         [ExcelColumn(Name = "物料")]
@@ -61,7 +61,7 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         [Required(ErrorMessage = "物料不能为空")]
         [ExcelColumn(Name = "物料")]

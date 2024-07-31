@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取财务期间信息
         /// </summary>
-        /// <param name="FpSfid"></param>
+        /// <param name="FpSfId"></param>
         /// <returns></returns>
-        FicoFinancialPeriod GetInfo(long FpSfid);
+        FicoFinancialPeriod GetInfo(long FpSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

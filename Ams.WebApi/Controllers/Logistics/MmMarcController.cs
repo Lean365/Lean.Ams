@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询工厂物料详情
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        [HttpGet("{Sfid}")]
+        [HttpGet("{SfId}")]
         [ActionPermissionFilter(Permission = "mm:marc:query")]
-        public IActionResult GetMmMarc(long Sfid)
+        public IActionResult GetMmMarc(long SfId)
         {
-            var response = _MmMarcService.GetInfo(Sfid);
+            var response = _MmMarcService.GetInfo(SfId);
             
             var info = response.Adapt<MmMarcDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_MmMarcService.CheckInputUnique(parm.Sfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_MmMarcService.CheckInputUnique(parm.SfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增工厂物料 '{parm.Sfid}'失败(Add failed)，输入的工厂物料已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增工厂物料 '{parm.SfId}'失败(Add failed)，输入的工厂物料已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<MmMarc>().ToCreate(HttpContext);
 

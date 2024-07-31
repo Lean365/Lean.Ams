@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. QmcsSFID.ToString() == enterString);
+            int count = Count(it => it. QmcsSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="QmcsSFID"></param>
+        /// <param name="QmcsSfId"></param>
         /// <returns></returns>
-        public QmComplaintsSlave GetInfo(long QmcsSFID)
+        public QmComplaintsSlave GetInfo(long QmcsSfId)
         {
             var response = Queryable()
-                .Where(x => x.QmcsSFID == QmcsSFID)
+                .Where(x => x.QmcsSfId == QmcsSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.QmcsSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.QmcsSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.QmcsIssuesNo.IsEmpty(), "外部客诉No.不能为空")
                 .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
                 .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")

@@ -37,7 +37,7 @@ namespace Ams.Model.Routine
         /// <summary>
         /// 公告附件
         /// </summary>
-        [SugarColumn(ColumnName = "file_url", ColumnDataType = StaticConfig.CodeFirst_BigString)]
+        [SugarColumn(ColumnName = "file_url", Length = 99)]
         public string FileUrl { get; set; }
 
         /// <summary>

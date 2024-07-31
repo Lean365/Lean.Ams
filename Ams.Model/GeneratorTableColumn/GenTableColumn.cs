@@ -10,7 +10,7 @@ namespace Ams.Model.GeneratorTableColumn
     public class GenTableColumn : SysBase
     {
         /// <summary>
-        /// 列id
+        /// 列ID
         /// </summary>
         [SugarColumn(IsIdentity = true, IsPrimaryKey = true)]
         public long ColumnId { get; set; }
@@ -20,8 +20,16 @@ namespace Ams.Model.GeneratorTableColumn
         /// </summary>
         public string ColumnName { get; set; }
 
+        /// <summary>
+        /// 表ID
+        /// </summary>
+
         [SugarColumn(IsOnlyIgnoreUpdate = true)]
         public long TableId { get; set; }
+
+        /// <summary>
+        /// 表名
+        /// </summary>
 
         [SugarColumn(IsOnlyIgnoreUpdate = true)]
         public string TableName { get; set; }
@@ -31,6 +39,9 @@ namespace Ams.Model.GeneratorTableColumn
         /// </summary>
         private string columnComment;
 
+        /// <summary>
+        /// 列说明
+        /// </summary>
         public string ColumnComment
         {
             get

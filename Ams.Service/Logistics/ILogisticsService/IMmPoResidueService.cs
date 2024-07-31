@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取PO残清单信息
         /// </summary>
-        /// <param name="PrSFID"></param>
+        /// <param name="PrSfId"></param>
         /// <returns></returns>
-        MmPoResidue GetInfo(long PrSFID);
+        MmPoResidue GetInfo(long PrSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

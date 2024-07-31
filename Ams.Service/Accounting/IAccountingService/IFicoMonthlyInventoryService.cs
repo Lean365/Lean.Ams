@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取月度存货信息
         /// </summary>
-        /// <param name="MiSfid"></param>
+        /// <param name="MiSfId"></param>
         /// <returns></returns>
-        FicoMonthlyInventory GetInfo(long MiSfid);
+        FicoMonthlyInventory GetInfo(long MiSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

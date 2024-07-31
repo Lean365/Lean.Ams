@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询分析对策详情
         /// </summary>
-        /// <param name="QirdSFID"></param>
+        /// <param name="QirdSfId"></param>
         /// <returns></returns>
-        [HttpGet("{QirdSFID}")]
+        [HttpGet("{QirdSfId}")]
         [ActionPermissionFilter(Permission = "qm:improvementreplyletter:query")]
-        public IActionResult GetQmImprovementReplyletter(long QirdSFID)
+        public IActionResult GetQmImprovementReplyletter(long QirdSfId)
         {
-            var response = _QmImprovementReplyletterService.GetInfo(QirdSFID);
+            var response = _QmImprovementReplyletterService.GetInfo(QirdSfId);
             
             var info = response.Adapt<QmImprovementReplyletterDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmImprovementReplyletterService.CheckInputUnique(parm.QirdSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmImprovementReplyletterService.CheckInputUnique(parm.QirdSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增分析对策 '{parm.QirdSFID}'失败(Add failed)，输入的分析对策已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增分析对策 '{parm.QirdSfId}'失败(Add failed)，输入的分析对策已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmImprovementReplyletter>().ToCreate(HttpContext);
 

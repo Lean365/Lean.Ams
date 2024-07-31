@@ -62,7 +62,7 @@ namespace Ams.Statistics.Logistics.Service
             //var queryableRight = db.Queryable<PpOutputPdoneSlave>();
             ////int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             //var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-            //    (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+            //    (x1, x2) => x1.PomSfId == x2.PosParentSfId)
             //    // .Where((x1, x2) => Convert.ToDateTime(x1.PomDate).ToString("yyyy-MM") == DateTime.Now.ToString("yyyy-MM"))
             //    //.GroupBy((x1, x2) => x1.ColumnName)
             //    .GroupBy((x1, x2) => Convert.ToDateTime(x1.PomDate).ToString("yyyy-MM"))
@@ -103,7 +103,7 @@ namespace Ams.Statistics.Logistics.Service
             //var queryableRight = db.Queryable<PpOutputPdoneSlave>();
             ////int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             //var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-            //    (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+            //    (x1, x2) => x1.PomSfId == x2.PosParentSfId)
             //    //.GroupBy((x1, x2) => x1.ColumnName)
             //    .GroupBy((x1, x2) => Convert.ToDateTime(x1.PomDate).ToString("yyyy-MM"))
             //    .Select((x1, x2) => new

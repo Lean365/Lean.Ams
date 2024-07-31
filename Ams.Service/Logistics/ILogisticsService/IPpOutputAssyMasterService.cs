@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取制一OPH主表信息
         /// </summary>
-        /// <param name="PomSfid"></param>
+        /// <param name="PomSfId"></param>
         /// <returns></returns>
-        PpOutputAssyMaster GetInfo(long PomSfid);
+        PpOutputAssyMaster GetInfo(long PomSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

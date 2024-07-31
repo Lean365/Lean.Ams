@@ -10,11 +10,11 @@ namespace Ams.Model.Logistics
     public class MmPoResidue : SysBase
     {
         /// <summary>
-        /// SFID
+        /// ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long PrSFID { get; set; }
+        public long PrSfId { get; set; }
 
         /// <summary>
         /// 工厂
@@ -132,11 +132,5 @@ namespace Ams.Model.Logistics
         /// PO残发行日期
         /// </summary>
         public DateTime? PrBalancedate { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        [SugarColumn(ColumnName = "IsDeleted", ColumnDescription = "软删除 ", DefaultValue = "0")]
-        public int IsDeleted { get; set; }
     }
 }

@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取废弃部品信息
         /// </summary>
-        /// <param name="QcwdSFID"></param>
+        /// <param name="QcwdSfId"></param>
         /// <returns></returns>
-        QmCostWaste GetInfo(long QcwdSFID);
+        QmCostWaste GetInfo(long QcwdSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

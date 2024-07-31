@@ -20,16 +20,16 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpOutputAssySlaveDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PosSfid { get; set; }
+        public long PosSfId { get; set; }
 
-        [Required(ErrorMessage = "父SFID不能为空")]
-        [ExcelColumn(Name = "父SFID")]
-        [ExcelColumnName("父SFID")]
-        public long PosParentSfid { get; set; }
+        [Required(ErrorMessage = "父SfId不能为空")]
+        [ExcelColumn(Name = "父SfId")]
+        [ExcelColumnName("父SfId")]
+        public long PosParentSfId { get; set; }
 
         [ExcelColumn(Name = "生产时段")]
         [ExcelColumnName("生产时段")]
@@ -165,16 +165,16 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpOutputAssySlaveImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PosSfid { get; set; }
+        public long PosSfId { get; set; }
 
-        [Required(ErrorMessage = "父SFID不能为空")]
-        [ExcelColumn(Name = "父SFID")]
-        [ExcelColumnName("父SFID")]
-        public long PosParentSfid { get; set; }
+        [Required(ErrorMessage = "父SfId不能为空")]
+        [ExcelColumn(Name = "父SfId")]
+        [ExcelColumnName("父SfId")]
+        public long PosParentSfId { get; set; }
 
         [ExcelColumn(Name = "生产时段")]
         [ExcelColumnName("生产时段")]

@@ -7,6 +7,9 @@
     [Tenant("0")]
     public class LoginLog : SysBase
     {
+        /// <summary>
+        /// ID
+        /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long InfoId { get; set; }
 
@@ -51,17 +54,28 @@
         /// </summary>
         public DateTime LoginTime { get; set; } = DateTime.Now;
 
+        /// <summary>
+        /// 开始时间
+        /// </summary>
+
         [SugarColumn(IsIgnore = true)]
         public DateTime? BeginTime { get; set; }
+
+        /// <summary>
+        /// 结束时间
+        /// </summary>
 
         [SugarColumn(IsIgnore = true)]
         public DateTime? EndTime { get; set; }
 
         /// <summary>
-        /// 客户端id
+        /// 客户端ID
         /// </summary>
         public string ClientId { get; set; }
 
+        /// <summary>
+        /// 用户ID
+        /// </summary>
         public long UserId { get; set; }
 
         [SugarColumn(IsIgnore = true)]

@@ -9,7 +9,7 @@
     public class SysDictType : SysBase
     {
         /// <summary>
-        /// 字典主键
+        /// 类别ID
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long DictId { get; set; }

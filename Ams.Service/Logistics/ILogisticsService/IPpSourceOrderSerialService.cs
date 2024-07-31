@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取源订单序列号信息
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        PpSourceOrderSerial GetInfo(string Sfid);
+        PpSourceOrderSerial GetInfo(string SfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

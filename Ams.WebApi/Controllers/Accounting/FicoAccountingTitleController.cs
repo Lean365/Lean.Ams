@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询会计科目详情
         /// </summary>
-        /// <param name="FatSfid"></param>
+        /// <param name="FatSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FatSfid}")]
+        [HttpGet("{FatSfId}")]
         [ActionPermissionFilter(Permission = "fico:accountingtitle:query")]
-        public IActionResult GetFicoAccountingTitle(long FatSfid)
+        public IActionResult GetFicoAccountingTitle(long FatSfId)
         {
-            var response = _FicoAccountingTitleService.GetInfo(FatSfid);
+            var response = _FicoAccountingTitleService.GetInfo(FatSfId);
             
             var info = response.Adapt<FicoAccountingTitleDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingTitleService.CheckInputUnique(parm.FatSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingTitleService.CheckInputUnique(parm.FatSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增会计科目 '{parm.FatSfid}'失败(Add failed)，输入的会计科目已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增会计科目 '{parm.FatSfId}'失败(Add failed)，输入的会计科目已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoAccountingTitle>().ToCreate(HttpContext);
 

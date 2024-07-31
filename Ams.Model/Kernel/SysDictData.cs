@@ -8,7 +8,7 @@
     public class SysDictData : SysBase
     {
         /// <summary>
-        /// 字典编码
+        /// 字典ID
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long DictCode { get; set; }

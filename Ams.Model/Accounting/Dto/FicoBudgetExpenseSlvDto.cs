@@ -31,12 +31,12 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FbesSfid { get; set; }
+        public long FbesSfId { get; set; }
 
         [Required(ErrorMessage = "父ID不能为空")]
         [ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long FbesParentSfid { get; set; }
+        public long FbesParentSfId { get; set; }
 
         [Required(ErrorMessage = "科目不能为空")]
         [ExcelColumn(Name = "科目")]
@@ -191,12 +191,12 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FbesSfid { get; set; }
+        public long FbesSfId { get; set; }
 
         [Required(ErrorMessage = "父ID不能为空")]
         [ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long FbesParentSfid { get; set; }
+        public long FbesParentSfId { get; set; }
 
         [Required(ErrorMessage = "科目不能为空")]
         [ExcelColumn(Name = "科目")]

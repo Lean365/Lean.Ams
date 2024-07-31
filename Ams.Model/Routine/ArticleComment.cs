@@ -12,7 +12,7 @@
         public long CommentId { get; set; }
 
         /// <summary>
-        /// 用户id
+        /// 用户ID
         /// </summary>
         public long UserId { get; set; }
 
@@ -22,17 +22,17 @@
         public string Content { get; set; }
 
         /// <summary>
-        /// 最顶级留言id
+        /// 最顶级留言ID
         /// </summary>
         public long ParentId { get; set; } = 0;
 
         /// <summary>
-        /// 回复用户id
+        /// 回复用户ID
         /// </summary>
         public long ReplyUserId { get; set; }
 
         /// <summary>
-        /// 回复留言id
+        /// 回复留言ID
         /// </summary>
         public long ReplyId { get; set; }
 
@@ -60,13 +60,6 @@
         /// 审核状态 0、待审核 1、通过 -1、未通过
         /// </summary>
         public int AuditStatus { get; set; }
-
-        /// <summary>
-        /// 描述 :是否删除 1、删除 0、正常
-        /// 空值 : true
-        /// </summary>
-        [JsonIgnore]
-        public int IsDelete { get; set; } = 0;
 
         /// <summary>
         /// 聊天图片

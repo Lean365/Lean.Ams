@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询从源设变详情
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        [HttpGet("{Sfid}")]
+        [HttpGet("{SfId}")]
         [ActionPermissionFilter(Permission = "pp:sourceecslv:query")]
-        public IActionResult GetPpSourceEcSlv(long Sfid)
+        public IActionResult GetPpSourceEcSlv(long SfId)
         {
-            var response = _PpSourceEcSlvService.GetInfo(Sfid);
+            var response = _PpSourceEcSlvService.GetInfo(SfId);
             
             var info = response.Adapt<PpSourceEcSlvDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceEcSlvService.CheckInputUnique(parm.Sfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceEcSlvService.CheckInputUnique(parm.SfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增从源设变 '{parm.Sfid}'失败(Add failed)，输入的从源设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增从源设变 '{parm.SfId}'失败(Add failed)，输入的从源设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpSourceEcSlv>().ToCreate(HttpContext);
 

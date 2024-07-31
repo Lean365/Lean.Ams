@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取Pmc设变信息
         /// </summary>
-        /// <param name="PmcSfid"></param>
+        /// <param name="PmcSfId"></param>
         /// <returns></returns>
-        PpEcSlavePmc GetInfo(long PmcSfid);
+        PpEcSlavePmc GetInfo(long PmcSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

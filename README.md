@@ -102,7 +102,7 @@
 ├─Ams.Service                        ->[服务层类库]：提供WebApi接口调用
 ├─Ams.Tasks                          ->[定时任务类库]：提供项目定时任务实现功能
 ├─Ams.WebApi                         ->[webapi接口]：为Vue版或其他三方系统提供接口服务
-├─Ams.Vue                            ->[前端UI]：vue2.0版本UI层
+├─Ams.Vue                            ->[前端UI]：vue2.0版本UI层(弃用)
 ├─Ams.Vue3                           ->[前端UI]：vue3.0版本UI层
 ```
 ### Flexible Manufacturing
@@ -116,7 +116,7 @@
 ├─Fms.Service                        ->[服务层类库]：提供WebApi接口调用
 ├─Fms.Tasks                          ->[定时任务类库]：提供项目定时任务实现功能
 ├─Fms.WebApi                         ->[webapi接口]：为Vue版或其他三方系统提供接口服务
-├─Fms.Vue                            ->[前端UI]：vue2.0版本UI层
+├─Fms.Vue                            ->[前端UI]：vue2.0版本UI层(弃用)
 ├─Fms.Vue3                           ->[前端UI]：vue3.0版本UI层
 ```
 ### Jit Manufacturing
@@ -130,7 +130,7 @@
 ├─Jms.Service                        ->[服务层类库]：提供WebApi接口调用
 ├─Jms.Tasks                          ->[定时任务类库]：提供项目定时任务实现功能
 ├─Jms.WebApi                         ->[webapi接口]：为Vue版或其他三方系统提供接口服务
-├─Jms.Vue                            ->[前端UI]：vue2.0版本UI层
+├─Jms.Vue                            ->[前端UI]：vue2.0版本UI层(弃用)
 ├─Jms.Vue3                           ->[前端UI]：vue3.0版本UI层
 ```
 ### Lean Manufacturing
@@ -144,7 +144,7 @@
 ├─La.Service                        ->[服务层类库]：提供WebApi接口调用
 ├─La.Tasks                          ->[定时任务类库]：提供项目定时任务实现功能
 ├─La.WebApi                         ->[webapi接口]：为Vue版或其他三方系统提供接口服务
-├─La.Vue                            ->[前端UI]：vue2.0版本UI层
+├─La.Vue                            ->[前端UI]：vue2.0版本UI层(弃用)
 ├─La.Vue3                           ->[前端UI]：vue3.0版本UI层
 ```
 ### Lean Production
@@ -158,7 +158,7 @@
 ├─Lps.Service                        ->[服务层类库]：提供WebApi接口调用
 ├─Lps.Tasks                          ->[定时任务类库]：提供项目定时任务实现功能
 ├─Lps.WebApi                         ->[webapi接口]：为Vue版或其他三方系统提供接口服务
-├─Lps.Vue                            ->[前端UI]：vue2.0版本UI层
+├─Lps.Vue                            ->[前端UI]：vue2.0版本UI层(弃用)
 ├─Lps.Vue3                           ->[前端UI]：vue3.0版本UI层
 ```
 ### 前端总体结构

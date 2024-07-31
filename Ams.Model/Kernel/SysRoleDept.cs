@@ -4,8 +4,15 @@
     [Tenant(0)]
     public class SysRoleDept : SysBase
     {
+        /// <summary>
+        /// 角色ID
+        /// </summary>
         [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL, IsPrimaryKey = true)]
         public long RoleId { get; set; }
+
+        /// <summary>
+        /// 部门ID
+        /// </summary>
 
         [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL, IsPrimaryKey = false)]
         public long DeptId { get; set; }

@@ -28,7 +28,7 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FerSfid { get; set; }
+        public long FerSfId { get; set; }
 
         [Required(ErrorMessage = "公司不能为空")]
         [ExcelColumn(Name = "公司")]
@@ -103,7 +103,7 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FerSfid { get; set; }
+        public long FerSfId { get; set; }
 
         [Required(ErrorMessage = "公司不能为空")]
         [ExcelColumn(Name = "公司")]

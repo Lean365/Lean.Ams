@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取常规物料信息
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        MmMara GetInfo(long Sfid);
+        MmMara GetInfo(long SfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

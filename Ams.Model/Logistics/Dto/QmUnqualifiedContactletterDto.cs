@@ -30,11 +30,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class QmUnqualifiedContactletterDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long QucdSFID { get; set; }
+        public long QucdSfId { get; set; }
 
         [Required(ErrorMessage = "检查员不能为空")]
         [ExcelColumn(Name = "检查员")]
@@ -165,11 +165,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class QmUnqualifiedContactletterImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long QucdSFID { get; set; }
+        public long QucdSfId { get; set; }
 
         [Required(ErrorMessage = "检查员不能为空")]
         [ExcelColumn(Name = "检查员")]

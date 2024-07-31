@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. QirdSFID.ToString() == enterString);
+            int count = Count(it => it. QirdSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="QirdSFID"></param>
+        /// <param name="QirdSfId"></param>
         /// <returns></returns>
-        public QmImprovementReplyletter GetInfo(long QirdSFID)
+        public QmImprovementReplyletter GetInfo(long QirdSfId)
         {
             var response = Queryable()
-                .Where(x => x.QirdSFID == QirdSFID)
+                .Where(x => x.QirdSfId == QirdSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.QirdSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.QirdSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.QirdInspector.IsEmpty(), "检查员不能为空")
                 .SplitError(x => x.Item.QirdLine.IsEmpty(), "班组不能为空")
                 .SplitError(x => x.Item.QirdOrder.IsEmpty(), "订单不能为空")

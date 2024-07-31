@@ -42,13 +42,13 @@ namespace Ams.WebApi.Controllers.Routine
         /// <summary>
         /// 查询计算公式详情
         /// </summary>
-        /// <param name="IfSFID"></param>
+        /// <param name="IfSfId"></param>
         /// <returns></returns>
-        [HttpGet("{IfSFID}")]
+        [HttpGet("{IfSfId}")]
         [ActionPermissionFilter(Permission = "inst:formula:query")]
-        public IActionResult GetInstFormula(long IfSFID)
+        public IActionResult GetInstFormula(long IfSfId)
         {
-            var response = _InstFormulaService.GetInfo(IfSFID);
+            var response = _InstFormulaService.GetInfo(IfSfId);
 
             var info = response.Adapt<InstFormulaDto>();
             return SUCCESS(info);

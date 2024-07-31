@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取物料评估信息
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        MmMbew GetInfo(long Sfid);
+        MmMbew GetInfo(long SfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

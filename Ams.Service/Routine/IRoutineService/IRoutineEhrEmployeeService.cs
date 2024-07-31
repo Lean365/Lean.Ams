@@ -4,26 +4,26 @@ using Ams.Model.Routine;
 namespace Ams.Service.Routine.IRoutineService
 {
     /// <summary>
-    /// 人事信息
+    /// 人事
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 11:48:53
+    /// @Date: 2024/7/29 16:57:41
     /// </summary>
     public interface IRoutineEhrEmployeeService : IBaseService<RoutineEhrEmployee>
     {
         /// <summary>
-        /// 获取人事信息列表
+        /// 获取人事列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         PagedInfo<RoutineEhrEmployeeDto> GetList(RoutineEhrEmployeeQueryDto parm);
 
         /// <summary>
-        /// 获取人事信息信息
+        /// 获取人事信息
         /// </summary>
-        /// <param name="EeSFID"></param>
+        /// <param name="EeSfId"></param>
         /// <returns></returns>
-        RoutineEhrEmployee GetInfo(long EeSFID);
+        RoutineEhrEmployee GetInfo(long EeSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -33,7 +33,7 @@ namespace Ams.Service.Routine.IRoutineService
         public string CheckInputUnique(string enterString);
         /// <summary>
         /// 新增
-        /// 人事信息
+        /// 人事
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace Ams.Service.Routine.IRoutineService
 
         /// <summary>
         /// 更新
-        /// 人事信息
+        /// 人事
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace Ams.Service.Routine.IRoutineService
 
         /// <summary>
         /// 批量导入
-        /// 人事信息
+        /// 人事
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace Ams.Service.Routine.IRoutineService
 
         /// <summary>
         /// 导出
-        /// 人事信息
+        /// 人事
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>

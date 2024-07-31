@@ -38,7 +38,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.PpdSfid.ToString() == enterString);
+            int count = Count(it => it.PpdSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,13 +49,13 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="PpdSfid"></param>
+        /// <param name="PpdSfId"></param>
         /// <returns></returns>
-        public PpRepairAssyMa GetInfo(long PpdSfid)
+        public PpRepairAssyMa GetInfo(long PpdSfId)
         {
             var response = Queryable()
                 .Includes(x => x.PpDefectAssyRepairSlvNav) //填充子对象
-                .Where(x => x.PpdSfid == PpdSfid)
+                .Where(x => x.PpdSfId == PpdSfId)
                 .First();
 
             return response;
@@ -89,7 +89,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.PpdSfid.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.PpdSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.PpdOrderQty.IsEmpty(), "订单数量不能为空")
                 .SplitError(x => x.Item.PpdRealQty.IsEmpty(), "生产实绩不能为空")
                 .SplitError(x => x.Item.PpdNobadQty.IsEmpty(), "无不良数不能为空")

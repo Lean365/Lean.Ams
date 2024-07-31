@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询销售价格详情
         /// </summary>
-        /// <param name="SspSfid"></param>
+        /// <param name="SspSfId"></param>
         /// <returns></returns>
-        [HttpGet("{SspSfid}")]
+        [HttpGet("{SspSfId}")]
         [ActionPermissionFilter(Permission = "sd:sellingprice:query")]
-        public IActionResult GetSdSellingPrice(long SspSfid)
+        public IActionResult GetSdSellingPrice(long SspSfId)
         {
-            var response = _SdSellingPriceService.GetInfo(SspSfid);
+            var response = _SdSellingPriceService.GetInfo(SspSfId);
             
             var info = response.Adapt<SdSellingPriceDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_SdSellingPriceService.CheckInputUnique(parm.SspSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_SdSellingPriceService.CheckInputUnique(parm.SspSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增销售价格 '{parm.SspSfid}'失败(Add failed)，输入的销售价格已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增销售价格 '{parm.SspSfId}'失败(Add failed)，输入的销售价格已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<SdSellingPrice>().ToCreate(HttpContext);
 

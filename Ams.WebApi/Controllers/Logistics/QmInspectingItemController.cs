@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询检测项目详情
         /// </summary>
-        /// <param name="QminsItemSFID"></param>
+        /// <param name="QminsItemSfId"></param>
         /// <returns></returns>
-        [HttpGet("{QminsItemSFID}")]
+        [HttpGet("{QminsItemSfId}")]
         [ActionPermissionFilter(Permission = "qm:inspectingitem:query")]
-        public IActionResult GetQmInspectingItem(long QminsItemSFID)
+        public IActionResult GetQmInspectingItem(long QminsItemSfId)
         {
-            var response = _QmInspectingItemService.GetInfo(QminsItemSFID);
+            var response = _QmInspectingItemService.GetInfo(QminsItemSfId);
             
             var info = response.Adapt<QmInspectingItemDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmInspectingItemService.CheckInputUnique(parm.QminsItemSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmInspectingItemService.CheckInputUnique(parm.QminsItemSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增检测项目 '{parm.QminsItemSFID}'失败(Add failed)，输入的检测项目已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增检测项目 '{parm.QminsItemSfId}'失败(Add failed)，输入的检测项目已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmInspectingItem>().ToCreate(HttpContext);
 

@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取生产班组信息
         /// </summary>
-        /// <param name="PlSFID"></param>
+        /// <param name="PlSfId"></param>
         /// <returns></returns>
-        PpLine GetInfo(long PlSFID);
+        PpLine GetInfo(long PlSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

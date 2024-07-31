@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取会计科目信息
         /// </summary>
-        /// <param name="FatSfid"></param>
+        /// <param name="FatSfId"></param>
         /// <returns></returns>
-        FicoAccountingTitle GetInfo(long FatSfid);
+        FicoAccountingTitle GetInfo(long FatSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

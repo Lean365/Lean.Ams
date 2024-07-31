@@ -47,12 +47,12 @@ namespace Ams.Service.Routine
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="IiSFID"></param>
+        /// <param name="IiSfId"></param>
         /// <returns></returns>
-        public InstInfo GetInfo(long IiSFID)
+        public InstInfo GetInfo(long IiSfId)
         {
             var response = Queryable()
-                .Where(x => x.IiSFID == IiSFID)
+                .Where(x => x.IiSfId == IiSfId)
                 .First();
 
             return response;
@@ -87,7 +87,7 @@ namespace Ams.Service.Routine
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.IiSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.IiSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.IiLangkey.IsEmpty(), "语言不能为空")
                 .SplitError(x => x.Item.IiCategory.IsEmpty(), "类别不能为空")
                 .SplitError(x => x.Item.IiInstCode.IsEmpty(), "编号不能为空")

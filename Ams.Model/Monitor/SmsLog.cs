@@ -7,6 +7,9 @@
     [Tenant("0")]
     public class SmsLog : SysBase
     {
+        /// <summary>
+        /// ID
+        /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true)]
         public long Id { get; set; }
@@ -17,7 +20,7 @@
         public string SmsCode { get; set; }
 
         /// <summary>
-        /// 用户id
+        /// 用户ID
         /// </summary>
         public long Userid { get; set; }
 

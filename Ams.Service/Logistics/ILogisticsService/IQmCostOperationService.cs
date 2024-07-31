@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取品质业务信息
         /// </summary>
-        /// <param name="QcodSFID"></param>
+        /// <param name="QcodSfId"></param>
         /// <returns></returns>
-        QmCostOperation GetInfo(long QcodSFID);
+        QmCostOperation GetInfo(long QcodSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

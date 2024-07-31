@@ -8,13 +8,13 @@
     public class TasksQzLog : SysBase
     {
         /// <summary>
-        /// 日志Id
+        /// 日志ID
         /// </summary>
         [SugarColumn(IsIdentity = true, IsPrimaryKey = true)]
         public long JobLogId { get; set; }
 
         /// <summary>
-        /// 任务Id
+        /// 任务ID
         /// </summary>
         [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string JobId { get; set; }

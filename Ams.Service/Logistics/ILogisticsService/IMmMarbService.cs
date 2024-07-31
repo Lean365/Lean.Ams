@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取物料信息信息
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        MmMarb GetInfo(long Sfid);
+        MmMarb GetInfo(long SfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

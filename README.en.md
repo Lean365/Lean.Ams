@@ -114,7 +114,7 @@ Due to being a personal project, funds are limited!!!
 ├─Fms.Service                        ->[service layer class library]: provides WebApi interface calls;
 ├─Fms.Tasks                          ->[Timed Tasks library]: provide project timed tasks to achieve functionality
 ├─Fms.WebApi                         ->[webapi interface]: provides interface services for Vue version or other three-party systems.
-├─Fms.Vue                            ->[front-end UI]: vue2.0 version UI layer
+├─Fms.Vue                            ->[front-end UI]: vue2.0 version UI layer(Disposal)
 ├─Fms.Vue3                           ->[front-end UI]: vue3.0 version UI layer
 ```
 ### Jit Manufacturing
@@ -128,7 +128,7 @@ Due to being a personal project, funds are limited!!!
 ├─Jms.Service                        ->[service layer class library]: provides WebApi interface calls;
 ├─Jms.Tasks                          ->[Timed Tasks library]: provide project timed tasks to achieve functionality
 ├─Jms.WebApi                         ->[webapi interface]: provides interface services for Vue version or other three-party systems.
-├─Jms.Vue                            ->[front-end UI]: vue2.0 version UI layer
+├─Jms.Vue                            ->[front-end UI]: vue2.0 version UI layer(Disposal)
 ├─Jms.Vue3                           ->[front-end UI]: vue3.0 version UI layer
 ```
 ### Lean Manufacturing
@@ -142,7 +142,7 @@ Due to being a personal project, funds are limited!!!
 ├─La.Service                        ->[service layer class library]: provides WebApi interface calls;
 ├─La.Tasks                          ->[Timed Tasks library]: provide project timed tasks to achieve functionality
 ├─La.WebApi                         ->[webapi interface]: provides interface services for Vue version or other three-party systems.
-├─La.Vue                            ->[front-end UI]: vue2.0 version UI layer
+├─La.Vue                            ->[front-end UI]: vue2.0 version UI layer(Disposal)
 ├─La.Vue3                           ->[front-end UI]: vue3.0 version UI layer
 ```
 ### Lean Production
@@ -156,7 +156,7 @@ Due to being a personal project, funds are limited!!!
 ├─Lps.Service                        ->[service layer class library]: provides WebApi interface calls;
 ├─Lps.Tasks                          ->[Timed Tasks library]: provide project timed tasks to achieve functionality
 ├─Lps.WebApi                         ->[webapi interface]: provides interface services for Vue version or other three-party systems.
-├─Lps.Vue                            ->[front-end UI]: vue2.0 version UI layer
+├─Lps.Vue                            ->[front-end UI]: vue2.0 version UI layer(Disposal)
 ├─Lps.Vue3                           ->[front-end UI]: vue3.0 version UI layer
 ```
 ### front-end overall structure

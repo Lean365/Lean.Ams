@@ -18,10 +18,10 @@ namespace Ams.Statistics.Logistics.Service
         {
             string? MaxID;
             var db = Context;
-            long Sfid = db.Queryable<PpOrder>().Where(s => s.MoType == Type).Max(it => it.MoNumber).ParseToLong();//异步
-            if (!string.IsNullOrEmpty(Sfid.ToString()) && Sfid != 0)
+            long SfId = db.Queryable<PpOrder>().Where(s => s.MoType == Type).Max(it => it.MoNumber).ParseToLong();//异步
+            if (!string.IsNullOrEmpty(SfId.ToString()) && SfId != 0)
             {
-                MaxID = (Sfid + 1).ToString();
+                MaxID = (SfId + 1).ToString();
             }
             else
             {

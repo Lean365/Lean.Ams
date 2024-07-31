@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取原因类别信息
         /// </summary>
-        /// <param name="CtSFID"></param>
+        /// <param name="CtSfId"></param>
         /// <returns></returns>
-        PpCauseType GetInfo(long CtSFID);
+        PpCauseType GetInfo(long CtSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

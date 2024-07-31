@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询返工改修详情
         /// </summary>
-        /// <param name="QcrdSFID"></param>
+        /// <param name="QcrdSfId"></param>
         /// <returns></returns>
-        [HttpGet("{QcrdSFID}")]
+        [HttpGet("{QcrdSfId}")]
         [ActionPermissionFilter(Permission = "qm:costrework:query")]
-        public IActionResult GetQmCostRework(long QcrdSFID)
+        public IActionResult GetQmCostRework(long QcrdSfId)
         {
-            var response = _QmCostReworkService.GetInfo(QcrdSFID);
+            var response = _QmCostReworkService.GetInfo(QcrdSfId);
             
             var info = response.Adapt<QmCostReworkDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmCostReworkService.CheckInputUnique(parm.QcrdSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmCostReworkService.CheckInputUnique(parm.QcrdSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增返工改修 '{parm.QcrdSFID}'失败(Add failed)，输入的返工改修已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增返工改修 '{parm.QcrdSfId}'失败(Add failed)，输入的返工改修已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmCostRework>().ToCreate(HttpContext);
 

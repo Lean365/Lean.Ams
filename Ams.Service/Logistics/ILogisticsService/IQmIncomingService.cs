@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取进料检验信息
         /// </summary>
-        /// <param name="QminSFID"></param>
+        /// <param name="QminSfId"></param>
         /// <returns></returns>
-        QmIncoming GetInfo(long QminSFID);
+        QmIncoming GetInfo(long QminSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

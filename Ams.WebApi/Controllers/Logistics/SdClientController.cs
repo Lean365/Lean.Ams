@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询客户信息详情
         /// </summary>
-        /// <param name="ScSfid"></param>
+        /// <param name="ScSfId"></param>
         /// <returns></returns>
-        [HttpGet("{ScSfid}")]
+        [HttpGet("{ScSfId}")]
         [ActionPermissionFilter(Permission = "sd:client:query")]
-        public IActionResult GetSdClient(long ScSfid)
+        public IActionResult GetSdClient(long ScSfId)
         {
-            var response = _SdClientService.GetInfo(ScSfid);
+            var response = _SdClientService.GetInfo(ScSfId);
             
             var info = response.Adapt<SdClientDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_SdClientService.CheckInputUnique(parm.ScSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_SdClientService.CheckInputUnique(parm.ScSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增客户信息 '{parm.ScSfid}'失败(Add failed)，输入的客户信息已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增客户信息 '{parm.ScSfId}'失败(Add failed)，输入的客户信息已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<SdClient>().ToCreate(HttpContext);
 

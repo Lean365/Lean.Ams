@@ -26,11 +26,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpManhoursDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long MhSFID { get; set; }
+        public long MhSfId { get; set; }
 
         [ExcelColumn(Name = "生效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("生效日期")]
@@ -129,11 +129,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpManhoursImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long MhSFID { get; set; }
+        public long MhSfId { get; set; }
 
         [ExcelColumn(Name = "生效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("生效日期")]

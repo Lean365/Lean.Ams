@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询主源设变详情
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        [HttpGet("{Sfid}")]
+        [HttpGet("{SfId}")]
         [ActionPermissionFilter(Permission = "pp:sourceecma:query")]
-        public IActionResult GetPpSourceEcMa(long Sfid)
+        public IActionResult GetPpSourceEcMa(long SfId)
         {
-            var response = _PpSourceEcMaService.GetInfo(Sfid);
+            var response = _PpSourceEcMaService.GetInfo(SfId);
             
             var info = response.Adapt<PpSourceEcMaDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceEcMaService.CheckInputUnique(parm.Sfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceEcMaService.CheckInputUnique(parm.SfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增主源设变 '{parm.Sfid}'失败(Add failed)，输入的主源设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增主源设变 '{parm.SfId}'失败(Add failed)，输入的主源设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpSourceEcMa>().ToCreate(HttpContext);
 

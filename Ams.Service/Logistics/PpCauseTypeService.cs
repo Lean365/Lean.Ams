@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. CtSFID.ToString() == enterString);
+            int count = Count(it => it. CtSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="CtSFID"></param>
+        /// <param name="CtSfId"></param>
         /// <returns></returns>
-        public PpCauseType GetInfo(long CtSFID)
+        public PpCauseType GetInfo(long CtSfId)
         {
             var response = Queryable()
-                .Where(x => x.CtSFID == CtSFID)
+                .Where(x => x.CtSfId == CtSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.CtSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.CtSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.CtCauseType.IsEmpty(), "原因类别不能为空")
                 .SplitError(x => x.Item.CtCauseLangCode.IsEmpty(), "语言Key不能为空")
                 .SplitError(x => x.Item.CtCauseText.IsEmpty(), "原因名称不能为空")

@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. QminsItemSFID.ToString() == enterString);
+            int count = Count(it => it. QminsItemSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="QminsItemSFID"></param>
+        /// <param name="QminsItemSfId"></param>
         /// <returns></returns>
-        public QmInspectingItem GetInfo(long QminsItemSFID)
+        public QmInspectingItem GetInfo(long QminsItemSfId)
         {
             var response = Queryable()
-                .Where(x => x.QminsItemSFID == QminsItemSFID)
+                .Where(x => x.QminsItemSfId == QminsItemSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.QminsItemSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.QminsItemSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.QminsItemCode.IsEmpty(), "项目代码不能为空")
                 .SplitError(x => x.Item.QminsItemName.IsEmpty(), "项目名称不能为空")
                 .SplitError(x => x.Item.QminsItemType.IsEmpty(), "项目类别不能为空")

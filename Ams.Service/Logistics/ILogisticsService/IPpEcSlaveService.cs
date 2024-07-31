@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取从设变信息
         /// </summary>
-        /// <param name="EcsSfid"></param>
+        /// <param name="EcsSfId"></param>
         /// <returns></returns>
-        PpEcSlave GetInfo(long EcsSfid);
+        PpEcSlave GetInfo(long EcsSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

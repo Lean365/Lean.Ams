@@ -38,7 +38,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.EcmSfid.ToString() == enterString);
+            int count = Count(it => it.EcmSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,13 +49,13 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="EcmSfid"></param>
+        /// <param name="EcmSfId"></param>
         /// <returns></returns>
-        public PpEcMaster GetInfo(long EcmSfid)
+        public PpEcMaster GetInfo(long EcmSfId)
         {
             var response = Queryable()
                 .Includes(x => x.PpEcSlaveNav) //填充子对象
-                .Where(x => x.EcmSfid == EcmSfid)
+                .Where(x => x.EcmSfId == EcmSfId)
                 .First();
 
             return response;

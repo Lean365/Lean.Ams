@@ -11,7 +11,7 @@
     public class SysConfig : SysBase
     {
         /// <summary>
-        /// 配置id
+        /// 参数ID
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public int ConfigId { get; set; }

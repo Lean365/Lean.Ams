@@ -14,21 +14,21 @@ namespace Ams.Statistics.Logistics.Service
         /// 查询最大ID
         /// </summary>
         /// <returns></returns>
-        public string GetMaxSfid()
+        public string GetMaxSfId()
         {
-            string? MaxSfid;
+            string? MaxSfId;
             var db = Context;
-            long Sfid = db.Queryable<PpOutputAssyMaster>().Max(it => it.PomSfid).ParseToLong();//异步
-            if (!string.IsNullOrEmpty(Sfid.ToString()) && Sfid != 0)
+            long SfId = db.Queryable<PpOutputAssyMaster>().Max(it => it.PomSfId).ParseToLong();//异步
+            if (!string.IsNullOrEmpty(SfId.ToString()) && SfId != 0)
             {
-                MaxSfid = (Sfid + 1).ToString();
+                MaxSfId = (SfId + 1).ToString();
             }
             else
             {
-                MaxSfid = SnowFlakeSingle.instance.NextId().ToString();
+                MaxSfId = SnowFlakeSingle.instance.NextId().ToString();
             }
 
-            return MaxSfid;
+            return MaxSfId;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 // .Where((x1, x2) => Convert.ToDateTime(x1.PomDate).ToString("yyyy-MM") == DateTime.Now.ToString("yyyy-MM"))
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => Convert.ToDateTime(x1.PomDate).ToString("yyyy-MM"))
@@ -81,7 +81,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => Convert.ToDateTime(x1.PomDate).ToString("yyyy-MM"))
                 .Select((x1, x2) => new
@@ -121,7 +121,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => Convert.ToDateTime(x1.PomDate).ToString("yyyy-MM"))
                 .Select((x1, x2) => new
@@ -160,7 +160,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => new
                 {
@@ -222,7 +222,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => new
                 {
@@ -273,7 +273,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => new
                 {
@@ -324,7 +324,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => new
                 {
@@ -386,7 +386,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => new
                 {
@@ -437,7 +437,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => new
                 {
@@ -488,7 +488,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => Convert.ToDateTime(x1.PomDate).ToString("yyyy"))
                 .Select((x1, x2) => new
@@ -527,7 +527,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => Convert.ToDateTime(x1.PomDate).ToString("yyyy"))
                 .Select((x1, x2) => new
@@ -566,7 +566,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => new
                 {
@@ -628,7 +628,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => new
                 {
@@ -690,7 +690,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => new
                 {
@@ -741,7 +741,7 @@ namespace Ams.Statistics.Logistics.Service
             var queryableRight = db.Queryable<PpOutputAssySlave>();
             //int pageIndex = 1; int pageSize = 20; int totalCount = 0; //单表分页
             var response = db.Queryable(queryableLeft, queryableRight, JoinType.Left,
-                (x1, x2) => x1.PomSfid == x2.PosParentSfid)
+                (x1, x2) => x1.PomSfId == x2.PosParentSfId)
                 //.GroupBy((x1, x2) => x1.ColumnName)
                 .GroupBy((x1, x2) => new
                 {

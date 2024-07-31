@@ -31,11 +31,11 @@ namespace Ams.Statistics.Logistics.Controllers
         /// </summary>
         ///
         /// <returns></returns>
-        [HttpGet("MaxSfid")]
+        [HttpGet("MaxSfId")]
         [ActionPermissionFilter(Permission = "pp:outputmaster:list")]
-        public IActionResult GetMaxSfid()
+        public IActionResult GetMaxSfId()
         {
-            var response = _OutputStatiService.GetMaxSfid();
+            var response = _OutputStatiService.GetMaxSfId();
             return SUCCESS(response);
         }
 

@@ -38,7 +38,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.PomSfid.ToString() == enterString);
+            int count = Count(it => it.PomSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,13 +49,13 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="PomSfid"></param>
+        /// <param name="PomSfId"></param>
         /// <returns></returns>
-        public PpOutputAssyMaster GetInfo(long PomSfid)
+        public PpOutputAssyMaster GetInfo(long PomSfId)
         {
             var response = Queryable()
                 .Includes(x => x.PpOutputAssySlaveNav) //填充子对象
-                .Where(x => x.PomSfid == PomSfid)
+                .Where(x => x.PomSfId == PomSfId)
                 .First();
 
             return response;
@@ -89,7 +89,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.PomSfid.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.PomSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.PomOrderType.IsEmpty(), "工单类别不能为空")
                 .SplitError(x => x.Item.PomOrderNo.IsEmpty(), "工单号码不能为空")
                 .SplitError(x => x.Item.PomOrderQty.IsEmpty(), "工单数量不能为空")

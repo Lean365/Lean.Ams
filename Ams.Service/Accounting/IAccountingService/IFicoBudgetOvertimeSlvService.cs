@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取加班预算信息
         /// </summary>
-        /// <param name="FbosSfid"></param>
+        /// <param name="FbosSfId"></param>
         /// <returns></returns>
-        FicoBudgetOvertimeSlv GetInfo(long FbosSfid);
+        FicoBudgetOvertimeSlv GetInfo(long FbosSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

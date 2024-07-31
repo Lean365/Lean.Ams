@@ -29,11 +29,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpEcMasterDto
     {
-        [Required(ErrorMessage = "Sfid不能为空")]
-        [ExcelColumn(Name = "Sfid")]
-        [ExcelColumnName("Sfid")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long EcmSfid { get; set; }
+        public long EcmSfId { get; set; }
 
         [Required(ErrorMessage = "发行日期不能为空")]
         [ExcelColumn(Name = "发行日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
@@ -228,11 +228,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpEcMasterImportTpl
     {
-        [Required(ErrorMessage = "Sfid不能为空")]
-        [ExcelColumn(Name = "Sfid")]
-        [ExcelColumnName("Sfid")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long EcmSfid { get; set; }
+        public long EcmSfId { get; set; }
 
         [Required(ErrorMessage = "发行日期不能为空")]
         [ExcelColumn(Name = "发行日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]

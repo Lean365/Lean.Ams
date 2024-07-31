@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取预算科目信息
         /// </summary>
-        /// <param name="FbasSfid"></param>
+        /// <param name="FbasSfId"></param>
         /// <returns></returns>
-        FicoBudgetAccountingMa GetInfo(long FbasSfid);
+        FicoBudgetAccountingMa GetInfo(long FbasSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取源工时信息
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        PpSourceManhours GetInfo(long Sfid);
+        PpSourceManhours GetInfo(long SfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

@@ -1,6 +1,4 @@
-﻿using Ams.Infrastructure.Attribute;
-
-namespace Ams.Service.Content
+﻿namespace Ams.Service.Content
 {
     [AppService(ServiceType = typeof(IArticlePraiseService), ServiceLifetime = LifeTime.Transient)]
     public class ArticlePraiseService : BaseService<ArticlePraise>, IArticlePraiseService
@@ -52,7 +50,7 @@ namespace Ams.Service.Content
                 }
                 else
                 {
-                    if (praiseInfo.IsDelete == 0)
+                    if (praiseInfo.IsDeleted == 0)
                     {
                         result = CanclePraise(dto.UserId, dto.ArticleId);
                         //文章点赞-1

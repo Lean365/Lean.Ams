@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询公司科目详情
         /// </summary>
-        /// <param name="FctSfid"></param>
+        /// <param name="FctSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FctSfid}")]
+        [HttpGet("{FctSfId}")]
         [ActionPermissionFilter(Permission = "fico:accountingcorp:query")]
-        public IActionResult GetFicoAccountingCorp(long FctSfid)
+        public IActionResult GetFicoAccountingCorp(long FctSfId)
         {
-            var response = _FicoAccountingCorpService.GetInfo(FctSfid);
+            var response = _FicoAccountingCorpService.GetInfo(FctSfId);
             
             var info = response.Adapt<FicoAccountingCorpDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingCorpService.CheckInputUnique(parm.FctSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingCorpService.CheckInputUnique(parm.FctSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增公司科目 '{parm.FctSfid}'失败(Add failed)，输入的公司科目已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增公司科目 '{parm.FctSfId}'失败(Add failed)，输入的公司科目已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoAccountingCorp>().ToCreate(HttpContext);
 

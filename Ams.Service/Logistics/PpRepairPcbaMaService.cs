@@ -38,7 +38,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.PdrSfid.ToString() == enterString);
+            int count = Count(it => it.PdrSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,13 +49,13 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="PdrSfid"></param>
+        /// <param name="PdrSfId"></param>
         /// <returns></returns>
-        public PpRepairPcbaMa GetInfo(long PdrSfid)
+        public PpRepairPcbaMa GetInfo(long PdrSfId)
         {
             var response = Queryable()
                 .Includes(x => x.PpRepairPcbaSlvNav) //填充子对象
-                .Where(x => x.PdrSfid == PdrSfid)
+                .Where(x => x.PdrSfId == PdrSfId)
                 .First();
 
             return response;
@@ -89,7 +89,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.PdrSfid.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.PdrSfId.IsEmpty(), "ID不能为空")
                 .SplitError(x => x.Item.Pdrorderqty.IsEmpty(), "订单台数不能为空")
                 .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
                 .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")

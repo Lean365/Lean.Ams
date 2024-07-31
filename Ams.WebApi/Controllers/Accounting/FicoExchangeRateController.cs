@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询汇率表详情
         /// </summary>
-        /// <param name="FerSfid"></param>
+        /// <param name="FerSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FerSfid}")]
+        [HttpGet("{FerSfId}")]
         [ActionPermissionFilter(Permission = "fico:exchangerate:query")]
-        public IActionResult GetFicoExchangeRate(long FerSfid)
+        public IActionResult GetFicoExchangeRate(long FerSfId)
         {
-            var response = _FicoExchangeRateService.GetInfo(FerSfid);
+            var response = _FicoExchangeRateService.GetInfo(FerSfId);
             
             var info = response.Adapt<FicoExchangeRateDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoExchangeRateService.CheckInputUnique(parm.FerSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoExchangeRateService.CheckInputUnique(parm.FerSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增汇率表 '{parm.FerSfid}'失败(Add failed)，输入的汇率表已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增汇率表 '{parm.FerSfId}'失败(Add failed)，输入的汇率表已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoExchangeRate>().ToCreate(HttpContext);
 

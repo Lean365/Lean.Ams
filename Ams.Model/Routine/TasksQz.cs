@@ -12,7 +12,7 @@
         }
 
         /// <summary>
-        /// 任务id
+        /// 任务ID
         /// </summary>
         [Display(Name = "任务id")]
         //[JsonConverter(typeof(ValueToStringConverter))]

@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取利润中心信息
         /// </summary>
-        /// <param name="FpSfid"></param>
+        /// <param name="FpSfId"></param>
         /// <returns></returns>
-        FicoProfitCenter GetInfo(long FpSfid);
+        FicoProfitCenter GetInfo(long FpSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

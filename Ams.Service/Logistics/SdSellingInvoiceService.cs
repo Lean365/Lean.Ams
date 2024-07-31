@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. SsiSfid.ToString() == enterString);
+            int count = Count(it => it. SsiSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="SsiSfid"></param>
+        /// <param name="SsiSfId"></param>
         /// <returns></returns>
-        public SdSellingInvoice GetInfo(long SsiSfid)
+        public SdSellingInvoice GetInfo(long SsiSfId)
         {
             var response = Queryable()
-                .Where(x => x.SsiSfid == SsiSfid)
+                .Where(x => x.SsiSfId == SsiSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.SsiSfid.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.SsiSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.SsiPlnt.IsEmpty(), "工厂不能为空")
                 .SplitError(x => x.Item.SsiFy.IsEmpty(), "期间不能为空")
                 .SplitError(x => x.Item.SsiYm.IsEmpty(), "年月不能为空")

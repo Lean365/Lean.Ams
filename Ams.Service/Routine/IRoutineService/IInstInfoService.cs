@@ -21,9 +21,9 @@ namespace Ams.Service.Routine.IRoutineService
         /// <summary>
         /// 获取机构信息信息
         /// </summary>
-        /// <param name="IiSFID"></param>
+        /// <param name="IiSfId"></param>
         /// <returns></returns>
-        InstInfo GetInfo(long IiSFID);
+        InstInfo GetInfo(long IiSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

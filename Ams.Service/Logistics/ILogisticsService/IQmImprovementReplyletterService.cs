@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取分析对策信息
         /// </summary>
-        /// <param name="QirdSFID"></param>
+        /// <param name="QirdSfId"></param>
         /// <returns></returns>
-        QmImprovementReplyletter GetInfo(long QirdSFID);
+        QmImprovementReplyletter GetInfo(long QirdSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

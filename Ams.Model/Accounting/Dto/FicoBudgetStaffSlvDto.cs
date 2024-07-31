@@ -26,16 +26,16 @@ namespace Ams.Model.Accounting.Dto
     /// </summary>
     public class FicoBudgetStaffSlvDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FbssSfid { get; set; }
+        public long FbssSfId { get; set; }
 
-        [Required(ErrorMessage = "FbssParentSfid不能为空")]
-        [ExcelColumn(Name = "FbssParentSfid")]
-        [ExcelColumnName("FbssParentSfid")]
-        public long FbssParentSfid { get; set; }
+        [Required(ErrorMessage = "FbssParentSfId不能为空")]
+        [ExcelColumn(Name = "FbssParentSfId")]
+        [ExcelColumnName("FbssParentSfId")]
+        public long FbssParentSfId { get; set; }
 
         [Required(ErrorMessage = "科目不能为空")]
         [ExcelColumn(Name = "科目")]
@@ -176,16 +176,16 @@ namespace Ams.Model.Accounting.Dto
     /// </summary>
     public class FicoBudgetStaffSlvImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FbssSfid { get; set; }
+        public long FbssSfId { get; set; }
 
-        [Required(ErrorMessage = "FbssParentSfid不能为空")]
-        [ExcelColumn(Name = "FbssParentSfid")]
-        [ExcelColumnName("FbssParentSfid")]
-        public long FbssParentSfid { get; set; }
+        [Required(ErrorMessage = "FbssParentSfId不能为空")]
+        [ExcelColumn(Name = "FbssParentSfId")]
+        [ExcelColumnName("FbssParentSfId")]
+        public long FbssParentSfId { get; set; }
 
         [Required(ErrorMessage = "科目不能为空")]
         [ExcelColumn(Name = "科目")]

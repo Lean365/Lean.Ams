@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取供应商信息信息
         /// </summary>
-        /// <param name="SuSFID"></param>
+        /// <param name="SuSfId"></param>
         /// <returns></returns>
-        MmSupplier GetInfo(long SuSFID);
+        MmSupplier GetInfo(long SuSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

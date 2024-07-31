@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询费用预算详情
         /// </summary>
-        /// <param name="FbeSfid"></param>
+        /// <param name="FbeSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FbeSfid}")]
+        [HttpGet("{FbeSfId}")]
         [ActionPermissionFilter(Permission = "fico:budgetexpensema:query")]
-        public IActionResult GetFicoBudgetExpenseMa(long FbeSfid)
+        public IActionResult GetFicoBudgetExpenseMa(long FbeSfId)
         {
-            var response = _FicoBudgetExpenseMaService.GetInfo(FbeSfid);
+            var response = _FicoBudgetExpenseMaService.GetInfo(FbeSfId);
             
             var info = response.Adapt<FicoBudgetExpenseMaDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetExpenseMaService.CheckInputUnique(parm.FbeSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetExpenseMaService.CheckInputUnique(parm.FbeSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增费用预算 '{parm.FbeSfid}'失败(Add failed)，输入的费用预算已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增费用预算 '{parm.FbeSfId}'失败(Add failed)，输入的费用预算已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoBudgetExpenseMa>().ToCreate(HttpContext);
 

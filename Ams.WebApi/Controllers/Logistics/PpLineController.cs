@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询生产班组详情
         /// </summary>
-        /// <param name="PlSFID"></param>
+        /// <param name="PlSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PlSFID}")]
+        [HttpGet("{PlSfId}")]
         [ActionPermissionFilter(Permission = "pp:line:query")]
-        public IActionResult GetPpLine(long PlSFID)
+        public IActionResult GetPpLine(long PlSfId)
         {
-            var response = _PpLineService.GetInfo(PlSFID);
+            var response = _PpLineService.GetInfo(PlSfId);
             
             var info = response.Adapt<PpLineDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpLineService.CheckInputUnique(parm.PlSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpLineService.CheckInputUnique(parm.PlSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增生产班组 '{parm.PlSFID}'失败(Add failed)，输入的生产班组已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增生产班组 '{parm.PlSfId}'失败(Add failed)，输入的生产班组已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpLine>().ToCreate(HttpContext);
 

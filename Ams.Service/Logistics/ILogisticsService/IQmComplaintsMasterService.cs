@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取主客诉管理信息
         /// </summary>
-        /// <param name="QmcmSFID"></param>
+        /// <param name="QmcmSfId"></param>
         /// <returns></returns>
-        QmComplaintsMaster GetInfo(long QmcmSFID);
+        QmComplaintsMaster GetInfo(long QmcmSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

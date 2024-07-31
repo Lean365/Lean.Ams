@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询工资率详情
         /// </summary>
-        /// <param name="FwSfid"></param>
+        /// <param name="FwSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FwSfid}")]
+        [HttpGet("{FwSfId}")]
         [ActionPermissionFilter(Permission = "fico:wagerates:query")]
-        public IActionResult GetFicoWageRates(long FwSfid)
+        public IActionResult GetFicoWageRates(long FwSfId)
         {
-            var response = _FicoWageRatesService.GetInfo(FwSfid);
+            var response = _FicoWageRatesService.GetInfo(FwSfId);
             
             var info = response.Adapt<FicoWageRatesDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoWageRatesService.CheckInputUnique(parm.FwSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoWageRatesService.CheckInputUnique(parm.FwSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增工资率 '{parm.FwSfid}'失败(Add failed)，输入的工资率已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增工资率 '{parm.FwSfId}'失败(Add failed)，输入的工资率已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoWageRates>().ToCreate(HttpContext);
 

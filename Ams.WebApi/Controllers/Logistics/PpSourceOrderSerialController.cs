@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询源订单序列号详情
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        [HttpGet("{Sfid}")]
+        [HttpGet("{SfId}")]
         [ActionPermissionFilter(Permission = "pp:sourceorderserial:query")]
-        public IActionResult GetPpSourceOrderSerial(string Sfid)
+        public IActionResult GetPpSourceOrderSerial(string SfId)
         {
-            var response = _PpSourceOrderSerialService.GetInfo(Sfid);
+            var response = _PpSourceOrderSerialService.GetInfo(SfId);
             
             var info = response.Adapt<PpSourceOrderSerialDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceOrderSerialService.CheckInputUnique(parm.Sfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceOrderSerialService.CheckInputUnique(parm.SfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增源订单序列号 '{parm.Sfid}'失败(Add failed)，输入的源订单序列号已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增源订单序列号 '{parm.SfId}'失败(Add failed)，输入的源订单序列号已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpSourceOrderSerial>().ToCreate(HttpContext);
 

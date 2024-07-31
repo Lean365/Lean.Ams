@@ -1,4 +1,3 @@
-
 namespace Ams.Model.Accounting
 {
     /// <summary>
@@ -7,199 +6,89 @@ namespace Ams.Model.Accounting
     /// @Author: Lean365(Davis.Ching)
     /// @Date: 2024/7/29 9:25:23
     /// </summary>
-    [SugarTable("fico_budget_staff_slv","人员预算")]
-    public class FicoBudgetStaffSlv
+    [SugarTable("fico_budget_staff_slv", "人员预算")]
+    public class FicoBudgetStaffSlv : SysBase
     {
         /// <summary>
-        /// SFID 
+        /// ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long FbssSfid { get; set; }
+        public long FbssSfId { get; set; }
 
         /// <summary>
-        /// FbssParentSfid 
+        /// 父ID
         /// </summary>
-        public long FbssParentSfid { get; set; }
+        public long FbssParentSfId { get; set; }
 
         /// <summary>
-        /// 科目 
+        /// 科目
         /// </summary>
-        [SugarColumn(ColumnName="FbssTitle", ColumnDescription = "科目 ",Length = 40)]
+        [SugarColumn(ColumnName = "FbssTitle", ColumnDescription = "科目 ", Length = 40)]
         public string FbssTitle { get; set; }
 
         /// <summary>
-        /// 名称 
+        /// 名称
         /// </summary>
-        [SugarColumn(ColumnName="FbssClass", ColumnDescription = "名称 ",Length = 100)]
+        [SugarColumn(ColumnName = "FbssClass", ColumnDescription = "名称 ", Length = 100)]
         public string FbssClass { get; set; }
 
         /// <summary>
-        /// 类别 
+        /// 类别
         /// </summary>
-        [SugarColumn(ColumnName="FbssCategory", ColumnDescription = "类别 ",Length = 100)]
+        [SugarColumn(ColumnName = "FbssCategory", ColumnDescription = "类别 ", Length = 100)]
         public string FbssCategory { get; set; }
 
         /// <summary>
-        /// 保有 
+        /// 保有
         /// </summary>
-        [SugarColumn(ColumnName="FbssKeepPersonnel", ColumnDescription = "保有 ",DefaultValue = "0")]
+        [SugarColumn(ColumnName = "FbssKeepPersonnel", ColumnDescription = "保有 ", DefaultValue = "0")]
         public int FbssKeepPersonnel { get; set; }
 
         /// <summary>
-        /// 现有 
+        /// 现有
         /// </summary>
-        [SugarColumn(ColumnName="FbssNowPersonnel", ColumnDescription = "现有 ",DefaultValue = "0")]
+        [SugarColumn(ColumnName = "FbssNowPersonnel", ColumnDescription = "现有 ", DefaultValue = "0")]
         public int FbssNowPersonnel { get; set; }
 
         /// <summary>
-        /// 预算 
+        /// 预算
         /// </summary>
-        [SugarColumn(ColumnName="FbssPersonnel", ColumnDescription = "预算 ",DefaultValue = "0")]
+        [SugarColumn(ColumnName = "FbssPersonnel", ColumnDescription = "预算 ", DefaultValue = "0")]
         public int FbssPersonnel { get; set; }
 
         /// <summary>
-        /// 启用 
+        /// 启用
         /// </summary>
-        [SugarColumn(ColumnName="FbssFlag", ColumnDescription = "启用 ",DefaultValue = "0")]
+        [SugarColumn(ColumnName = "FbssFlag", ColumnDescription = "启用 ", DefaultValue = "0")]
         public int FbssFlag { get; set; }
 
         /// <summary>
-        /// 审核 
+        /// 审核
         /// </summary>
-        [SugarColumn(ColumnName="FbssAudit", ColumnDescription = "审核 ",DefaultValue = "0")]
+        [SugarColumn(ColumnName = "FbssAudit", ColumnDescription = "审核 ", DefaultValue = "0")]
         public int FbssAudit { get; set; }
 
         /// <summary>
-        /// 审核人员 
+        /// 审核人员
         /// </summary>
-        [SugarColumn(ColumnName="FbssAuditName", ColumnDescription = "审核人员 ",Length = 20)]
+        [SugarColumn(ColumnName = "FbssAuditName", ColumnDescription = "审核人员 ", Length = 20)]
         public string FbssAuditName { get; set; }
 
         /// <summary>
-        /// 审核日期 
+        /// 审核日期
         /// </summary>
         public DateTime? FbssAuditDate { get; set; }
 
         /// <summary>
-        /// 撤消人员 
+        /// 撤消人员
         /// </summary>
-        [SugarColumn(ColumnName="FbssUndoName", ColumnDescription = "撤消人员 ",Length = 20)]
+        [SugarColumn(ColumnName = "FbssUndoName", ColumnDescription = "撤消人员 ", Length = 20)]
         public string FbssUndoName { get; set; }
 
         /// <summary>
-        /// 撤消日期 
+        /// 撤消日期
         /// </summary>
         public DateTime? FbssUndoDate { get; set; }
-
-        /// <summary>
-        /// 自定义A 
-        /// </summary>
-        [SugarColumn(ColumnName="UDF01", ColumnDescription = "自定义A ",Length = 200)]
-        public string UDF01 { get; set; }
-
-        /// <summary>
-        /// 自定义B 
-        /// </summary>
-        [SugarColumn(ColumnName="UDF02", ColumnDescription = "自定义B ",Length = 200)]
-        public string UDF02 { get; set; }
-
-        /// <summary>
-        /// 自定义C 
-        /// </summary>
-        [SugarColumn(ColumnName="UDF03", ColumnDescription = "自定义C ",Length = 200)]
-        public string UDF03 { get; set; }
-
-        /// <summary>
-        /// 自定义D 
-        /// </summary>
-        [SugarColumn(ColumnName="UDF04", ColumnDescription = "自定义D ",Length = 200)]
-        public string UDF04 { get; set; }
-
-        /// <summary>
-        /// 自定义E 
-        /// </summary>
-        [SugarColumn(ColumnName="UDF05", ColumnDescription = "自定义E ",Length = 200)]
-        public string UDF05 { get; set; }
-
-        /// <summary>
-        /// 自定义F 
-        /// </summary>
-        [SugarColumn(ColumnName="UDF06", ColumnDescription = "自定义F ",Length = 200)]
-        public string UDF06 { get; set; }
-
-        /// <summary>
-        /// 自定义1 
-        /// </summary>
-        [SugarColumn(ColumnName="UDF51", ColumnDescription = "自定义1 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
-        public decimal UDF51 { get; set; }
-
-        /// <summary>
-        /// 自定义2 
-        /// </summary>
-        [SugarColumn(ColumnName="UDF52", ColumnDescription = "自定义2 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
-        public decimal UDF52 { get; set; }
-
-        /// <summary>
-        /// 自定义3 
-        /// </summary>
-        [SugarColumn(ColumnName="UDF53", ColumnDescription = "自定义3 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
-        public decimal UDF53 { get; set; }
-
-        /// <summary>
-        /// 自定义4 
-        /// </summary>
-        [SugarColumn(ColumnName="UDF54", ColumnDescription = "自定义4 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
-        public decimal UDF54 { get; set; }
-
-        /// <summary>
-        /// 自定义5 
-        /// </summary>
-        [SugarColumn(ColumnName="UDF55", ColumnDescription = "自定义5 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
-        public decimal UDF55 { get; set; }
-
-        /// <summary>
-        /// 自定义6 
-        /// </summary>
-        [SugarColumn(ColumnName="UDF56", ColumnDescription = "自定义6 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
-        public decimal UDF56 { get; set; }
-
-        /// <summary>
-        /// 备注 
-        /// </summary>
-        [SugarColumn(ColumnName="Remark", ColumnDescription = "备注 ",Length = 2000)]
-        public string Remark { get; set; }
-
-        /// <summary>
-        /// 软删除 
-        /// </summary>
-        [SugarColumn(ColumnName="IsDeleted", ColumnDescription = "软删除 ",DefaultValue = "0")]
-        public int IsDeleted { get; set; }
-
-        /// <summary>
-        /// 创建者 
-        /// </summary>
-        [SugarColumn(ColumnName = "create_by")]
-        public string CreateBy { get; set; }
-
-        /// <summary>
-        /// 创建时间 
-        /// </summary>
-        [SugarColumn(ColumnName = "create_time")]
-        public DateTime? CreateTime { get; set; }
-
-        /// <summary>
-        /// 更新者 
-        /// </summary>
-        [SugarColumn(ColumnName = "update_by")]
-        public string UpdateBy { get; set; }
-
-        /// <summary>
-        /// 更新时间 
-        /// </summary>
-        [SugarColumn(ColumnName = "update_time")]
-        public DateTime? UpdateTime { get; set; }
-
     }
 }

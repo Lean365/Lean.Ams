@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. Sfid.ToString() == enterString);
+            int count = Count(it => it. SfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        public PpSourceEcSlv GetInfo(long Sfid)
+        public PpSourceEcSlv GetInfo(long SfId)
         {
             var response = Queryable()
-                .Where(x => x.Sfid == Sfid)
+                .Where(x => x.SfId == SfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.ParentSfid.IsEmpty(), "父ID不能为空")
+                .SplitError(x => x.Item.ParentSfId.IsEmpty(), "父ID不能为空")
                 .SplitError(x => x.Item.Zpabds006.IsEmpty(), "数量不能为空")
                 .SplitError(x => x.Item.Zpabds010.IsEmpty(), "数量不能为空")
                 .SplitError(x => x.Item.IsSolved.IsEmpty(), "处理标记不能为空")

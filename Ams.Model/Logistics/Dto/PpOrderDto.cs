@@ -25,11 +25,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpOrderDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long MoSfid { get; set; }
+        public long MoSfId { get; set; }
 
         [Required(ErrorMessage = "生产工厂不能为空")]
         [ExcelColumn(Name = "生产工厂")]
@@ -124,11 +124,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpOrderImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long MoSfid { get; set; }
+        public long MoSfId { get; set; }
 
         [Required(ErrorMessage = "生产工厂不能为空")]
         [ExcelColumn(Name = "生产工厂")]

@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询固定资产详情
         /// </summary>
-        /// <param name="FaSfid"></param>
+        /// <param name="FaSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FaSfid}")]
+        [HttpGet("{FaSfId}")]
         [ActionPermissionFilter(Permission = "fico:monthlyassets:query")]
-        public IActionResult GetFicoMonthlyAssets(long FaSfid)
+        public IActionResult GetFicoMonthlyAssets(long FaSfId)
         {
-            var response = _FicoMonthlyAssetsService.GetInfo(FaSfid);
+            var response = _FicoMonthlyAssetsService.GetInfo(FaSfId);
             
             var info = response.Adapt<FicoMonthlyAssetsDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoMonthlyAssetsService.CheckInputUnique(parm.FaSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoMonthlyAssetsService.CheckInputUnique(parm.FaSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增固定资产 '{parm.FaSfid}'失败(Add failed)，输入的固定资产已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增固定资产 '{parm.FaSfId}'失败(Add failed)，输入的固定资产已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoMonthlyAssets>().ToCreate(HttpContext);
 

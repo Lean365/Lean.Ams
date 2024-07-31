@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询利润中心详情
         /// </summary>
-        /// <param name="FpSfid"></param>
+        /// <param name="FpSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FpSfid}")]
+        [HttpGet("{FpSfId}")]
         [ActionPermissionFilter(Permission = "fico:profitcenter:query")]
-        public IActionResult GetFicoProfitCenter(long FpSfid)
+        public IActionResult GetFicoProfitCenter(long FpSfId)
         {
-            var response = _FicoProfitCenterService.GetInfo(FpSfid);
+            var response = _FicoProfitCenterService.GetInfo(FpSfId);
             
             var info = response.Adapt<FicoProfitCenterDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoProfitCenterService.CheckInputUnique(parm.FpSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoProfitCenterService.CheckInputUnique(parm.FpSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增利润中心 '{parm.FpSfid}'失败(Add failed)，输入的利润中心已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增利润中心 '{parm.FpSfId}'失败(Add failed)，输入的利润中心已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoProfitCenter>().ToCreate(HttpContext);
 

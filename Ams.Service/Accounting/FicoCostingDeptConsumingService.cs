@@ -37,7 +37,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. DcSfid.ToString() == enterString);
+            int count = Count(it => it. DcSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,12 +49,12 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="DcSfid"></param>
+        /// <param name="DcSfId"></param>
         /// <returns></returns>
-        public FicoCostingDeptConsuming GetInfo(long DcSfid)
+        public FicoCostingDeptConsuming GetInfo(long DcSfId)
         {
             var response = Queryable()
-                .Where(x => x.DcSfid == DcSfid)
+                .Where(x => x.DcSfId == DcSfId)
                 .First();
 
             return response;
@@ -87,7 +87,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.DcSfid.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.DcSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.DcFy.IsEmpty(), "期间不能为空")
                 .SplitError(x => x.Item.DcYm.IsEmpty(), "年月不能为空")
                 .SplitError(x => x.Item.DcCorpCode.IsEmpty(), "公司代码不能为空")

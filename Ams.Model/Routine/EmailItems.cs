@@ -7,6 +7,9 @@
     [Tenant("0")]
     public class EmailItems : SysBase
     {
+        /// <summary>
+        /// ID
+        /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
         public long Id { get; set; }

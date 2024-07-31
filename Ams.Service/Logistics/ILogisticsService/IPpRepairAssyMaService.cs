@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取组立不良ma信息
         /// </summary>
-        /// <param name="PpdSfid"></param>
+        /// <param name="PpdSfId"></param>
         /// <returns></returns>
-        PpRepairAssyMa GetInfo(long PpdSfid);
+        PpRepairAssyMa GetInfo(long PpdSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

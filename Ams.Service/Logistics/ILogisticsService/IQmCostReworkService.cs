@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取返工改修信息
         /// </summary>
-        /// <param name="QcrdSFID"></param>
+        /// <param name="QcrdSfId"></param>
         /// <returns></returns>
-        QmCostRework GetInfo(long QcrdSFID);
+        QmCostRework GetInfo(long QcrdSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

@@ -5,7 +5,7 @@
     public class OperLog : SysBase
     {
         /// <summary>
-        /// 操作id
+        /// 操作ID
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long OperId { get; set; }
@@ -99,6 +99,9 @@
         /// </summary>
         public long Elapsed { get; set; }
 
+        /// <summary>
+        /// 部门名称
+        /// </summary>
         public string DeptName { get; set; }
     }
 }

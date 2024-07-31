@@ -21,9 +21,9 @@ namespace Ams.Service.Routine.IRoutineService
         /// <summary>
         /// 获取计算公式信息
         /// </summary>
-        /// <param name="IfSFID"></param>
+        /// <param name="IfSfId"></param>
         /// <returns></returns>
-        InstFormula GetInfo(long IfSFID);
+        InstFormula GetInfo(long IfSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

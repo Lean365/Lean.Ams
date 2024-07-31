@@ -37,7 +37,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FbSfid.ToString() == enterString);
+            int count = Count(it => it. FbSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,12 +49,12 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FbSfid"></param>
+        /// <param name="FbSfId"></param>
         /// <returns></returns>
-        public FicoBudgetActualCont GetInfo(long FbSfid)
+        public FicoBudgetActualCont GetInfo(long FbSfId)
         {
             var response = Queryable()
-                .Where(x => x.FbSfid == FbSfid)
+                .Where(x => x.FbSfId == FbSfId)
                 .First();
 
             return response;
@@ -87,7 +87,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FbSfid.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.FbSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.FbFy.IsEmpty(), "期间不能为空")
                 .SplitError(x => x.Item.FbYm.IsEmpty(), "年月不能为空")
                 .SplitError(x => x.Item.FbCorpCode.IsEmpty(), "公司代码不能为空")

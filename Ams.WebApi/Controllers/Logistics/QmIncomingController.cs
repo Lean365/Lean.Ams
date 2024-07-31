@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询进料检验详情
         /// </summary>
-        /// <param name="QminSFID"></param>
+        /// <param name="QminSfId"></param>
         /// <returns></returns>
-        [HttpGet("{QminSFID}")]
+        [HttpGet("{QminSfId}")]
         [ActionPermissionFilter(Permission = "qm:incoming:query")]
-        public IActionResult GetQmIncoming(long QminSFID)
+        public IActionResult GetQmIncoming(long QminSfId)
         {
-            var response = _QmIncomingService.GetInfo(QminSFID);
+            var response = _QmIncomingService.GetInfo(QminSfId);
             
             var info = response.Adapt<QmIncomingDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmIncomingService.CheckInputUnique(parm.QminSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmIncomingService.CheckInputUnique(parm.QminSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增进料检验 '{parm.QminSFID}'失败(Add failed)，输入的进料检验已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增进料检验 '{parm.QminSfId}'失败(Add failed)，输入的进料检验已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmIncoming>().ToCreate(HttpContext);
 

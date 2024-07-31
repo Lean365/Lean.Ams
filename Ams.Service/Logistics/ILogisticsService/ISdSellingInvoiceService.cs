@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取销售凭证信息
         /// </summary>
-        /// <param name="SsiSfid"></param>
+        /// <param name="SsiSfId"></param>
         /// <returns></returns>
-        SdSellingInvoice GetInfo(long SsiSfid);
+        SdSellingInvoice GetInfo(long SsiSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

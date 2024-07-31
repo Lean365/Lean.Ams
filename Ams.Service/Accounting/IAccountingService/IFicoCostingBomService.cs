@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取bom成本核算信息
         /// </summary>
-        /// <param name="BcSfid"></param>
+        /// <param name="BcSfId"></param>
         /// <returns></returns>
-        FicoCostingBom GetInfo(long BcSfid);
+        FicoCostingBom GetInfo(long BcSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

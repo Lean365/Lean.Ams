@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询物料信息详情
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        [HttpGet("{Sfid}")]
+        [HttpGet("{SfId}")]
         [ActionPermissionFilter(Permission = "mm:marb:query")]
-        public IActionResult GetMmMarb(long Sfid)
+        public IActionResult GetMmMarb(long SfId)
         {
-            var response = _MmMarbService.GetInfo(Sfid);
+            var response = _MmMarbService.GetInfo(SfId);
             
             var info = response.Adapt<MmMarbDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_MmMarbService.CheckInputUnique(parm.Sfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_MmMarbService.CheckInputUnique(parm.SfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增物料信息 '{parm.Sfid}'失败(Add failed)，输入的物料信息已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增物料信息 '{parm.SfId}'失败(Add failed)，输入的物料信息已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<MmMarb>().ToCreate(HttpContext);
 

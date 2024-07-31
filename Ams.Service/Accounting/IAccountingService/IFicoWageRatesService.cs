@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取工资率信息
         /// </summary>
-        /// <param name="FwSfid"></param>
+        /// <param name="FwSfId"></param>
         /// <returns></returns>
-        FicoWageRates GetInfo(long FwSfid);
+        FicoWageRates GetInfo(long FwSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

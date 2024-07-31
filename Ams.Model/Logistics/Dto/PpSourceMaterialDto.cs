@@ -35,11 +35,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpSourceMaterialDto
     {
-        [Required(ErrorMessage = "Sfid不能为空")]
-        [ExcelColumn(Name = "Sfid")]
-        [ExcelColumnName("Sfid")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         [ExcelColumn(Name = "Plnt")]
         [ExcelColumnName("Plnt")]
@@ -239,11 +239,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpSourceMaterialImportTpl
     {
-        [Required(ErrorMessage = "Sfid不能为空")]
-        [ExcelColumn(Name = "Sfid")]
-        [ExcelColumnName("Sfid")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         [ExcelColumn(Name = "Plnt")]
         [ExcelColumnName("Plnt")]

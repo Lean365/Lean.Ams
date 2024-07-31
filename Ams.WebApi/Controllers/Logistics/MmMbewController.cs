@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询物料评估详情
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        [HttpGet("{Sfid}")]
+        [HttpGet("{SfId}")]
         [ActionPermissionFilter(Permission = "mm:mbew:query")]
-        public IActionResult GetMmMbew(long Sfid)
+        public IActionResult GetMmMbew(long SfId)
         {
-            var response = _MmMbewService.GetInfo(Sfid);
+            var response = _MmMbewService.GetInfo(SfId);
             
             var info = response.Adapt<MmMbewDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_MmMbewService.CheckInputUnique(parm.Sfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_MmMbewService.CheckInputUnique(parm.SfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增物料评估 '{parm.Sfid}'失败(Add failed)，输入的物料评估已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增物料评估 '{parm.SfId}'失败(Add failed)，输入的物料评估已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<MmMbew>().ToCreate(HttpContext);
 

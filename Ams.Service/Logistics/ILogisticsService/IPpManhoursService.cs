@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取标准工时信息
         /// </summary>
-        /// <param name="MhSFID"></param>
+        /// <param name="MhSfId"></param>
         /// <returns></returns>
-        PpManhours GetInfo(long MhSFID);
+        PpManhours GetInfo(long MhSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询制二OPH从表详情
         /// </summary>
-        /// <param name="PosSfid"></param>
+        /// <param name="PosSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PosSfid}")]
+        [HttpGet("{PosSfId}")]
         [ActionPermissionFilter(Permission = "pp:outputpcbaslave:query")]
-        public IActionResult GetPpOutputPcbaSlave(long PosSfid)
+        public IActionResult GetPpOutputPcbaSlave(long PosSfId)
         {
-            var response = _PpOutputPcbaSlaveService.GetInfo(PosSfid);
+            var response = _PpOutputPcbaSlaveService.GetInfo(PosSfId);
             
             var info = response.Adapt<PpOutputPcbaSlaveDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpOutputPcbaSlaveService.CheckInputUnique(parm.PosSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpOutputPcbaSlaveService.CheckInputUnique(parm.PosSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增制二OPH从表 '{parm.PosSfid}'失败(Add failed)，输入的制二OPH从表已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增制二OPH从表 '{parm.PosSfId}'失败(Add failed)，输入的制二OPH从表已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpOutputPcbaSlave>().ToCreate(HttpContext);
 

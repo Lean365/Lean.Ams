@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询月度存货详情
         /// </summary>
-        /// <param name="MiSfid"></param>
+        /// <param name="MiSfId"></param>
         /// <returns></returns>
-        [HttpGet("{MiSfid}")]
+        [HttpGet("{MiSfId}")]
         [ActionPermissionFilter(Permission = "fico:monthlyinventory:query")]
-        public IActionResult GetFicoMonthlyInventory(long MiSfid)
+        public IActionResult GetFicoMonthlyInventory(long MiSfId)
         {
-            var response = _FicoMonthlyInventoryService.GetInfo(MiSfid);
+            var response = _FicoMonthlyInventoryService.GetInfo(MiSfId);
             
             var info = response.Adapt<FicoMonthlyInventoryDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoMonthlyInventoryService.CheckInputUnique(parm.MiSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoMonthlyInventoryService.CheckInputUnique(parm.MiSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增月度存货 '{parm.MiSfid}'失败(Add failed)，输入的月度存货已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增月度存货 '{parm.MiSfId}'失败(Add failed)，输入的月度存货已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoMonthlyInventory>().ToCreate(HttpContext);
 

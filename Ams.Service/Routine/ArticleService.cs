@@ -119,7 +119,7 @@ namespace Ams.Service.Content
                 Context.ThenMapper(response.Result, item =>
                 {
                     item.IsPraise = Context.Queryable<ArticlePraise>()
-                    .Where(f => f.UserId == parm.UserId && f.IsDelete == 0)
+                    .Where(f => f.UserId == parm.UserId && f.IsDeleted == 0)
                     .SetContext(scl => scl.ArticleId, () => item.Cid, item).Any() ? 1 : 0;
                 });
             }
@@ -166,7 +166,7 @@ namespace Ams.Service.Content
                 Context.ThenMapper(response.Result, item =>
                 {
                     item.IsPraise = Context.Queryable<ArticlePraise>()
-                    .Where(f => f.UserId == parm.UserId && f.IsDelete == 0)
+                    .Where(f => f.UserId == parm.UserId && f.IsDeleted == 0)
                     .SetContext(scl => scl.ArticleId, () => item.Cid, item).Any() ? 1 : 0;
                 });
             }
@@ -387,7 +387,7 @@ namespace Ams.Service.Content
             if (userId > 0)
             {
                 model.IsPraise = Context.Queryable<ArticlePraise>()
-               .Where(f => f.UserId == userId && f.ArticleId == cid && f.IsDelete == 0)
+               .Where(f => f.UserId == userId && f.ArticleId == cid && f.IsDeleted == 0)
                .Any() ? 1 : 0;
             }
 

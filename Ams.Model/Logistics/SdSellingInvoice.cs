@@ -10,11 +10,11 @@ namespace Ams.Model.Logistics
     public class SdSellingInvoice : SysBase
     {
         /// <summary>
-        /// SFID
+        /// ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = false, ColumnName = "ssi_Sfid")]
-        public long SsiSfid { get; set; }
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = false, ColumnName = "ssi_SfId")]
+        public long SsiSfId { get; set; }
 
         /// <summary>
         /// 工厂
@@ -165,11 +165,5 @@ namespace Ams.Model.Logistics
         /// </summary>
         [SugarColumn(ColumnName = "ssi_AccDocText")]
         public string SsiAccdoctext { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        [SugarColumn(ColumnName = "IsDeleted", ColumnDescription = "软删除 ", DefaultValue = "0")]
-        public int IsDeleted { get; set; }
     }
 }

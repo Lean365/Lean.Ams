@@ -37,7 +37,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FaSfid.ToString() == enterString);
+            int count = Count(it => it. FaSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,12 +49,12 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FaSfid"></param>
+        /// <param name="FaSfId"></param>
         /// <returns></returns>
-        public FicoMonthlyAssets GetInfo(long FaSfid)
+        public FicoMonthlyAssets GetInfo(long FaSfId)
         {
             var response = Queryable()
-                .Where(x => x.FaSfid == FaSfid)
+                .Where(x => x.FaSfId == FaSfId)
                 .First();
 
             return response;
@@ -87,7 +87,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FaSfid.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.FaSfId.IsEmpty(), "SfId不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;

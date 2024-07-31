@@ -10,7 +10,7 @@ namespace Ams.Model.Kernel
     public class SysLocaleLang : SysBase
     {
         /// <summary>
-        /// id
+        /// ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true)]
@@ -34,7 +34,7 @@ namespace Ams.Model.Kernel
         /// 名称
         /// </summary>
         [DisplayName("名称")]
-        [SugarColumn(ColumnName = "lang_name", Length = 2000, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName = "lang_name", ColumnDataType = StaticConfig.CodeFirst_BigString, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string LangName { get; set; }
     }
 }

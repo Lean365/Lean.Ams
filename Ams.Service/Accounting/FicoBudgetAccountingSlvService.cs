@@ -36,7 +36,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FbasSfid.ToString() == enterString);
+            int count = Count(it => it. FbasSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FbasSfid"></param>
+        /// <param name="FbasSfId"></param>
         /// <returns></returns>
-        public FicoBudgetAccountingSlv GetInfo(long FbasSfid)
+        public FicoBudgetAccountingSlv GetInfo(long FbasSfId)
         {
             var response = Queryable()
-                .Where(x => x.FbasSfid == FbasSfid)
+                .Where(x => x.FbasSfId == FbasSfId)
                 .First();
 
             return response;
@@ -86,8 +86,8 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FbasSfid.IsEmpty(), "ID不能为空")
-                .SplitError(x => x.Item.FbasParentSfid.IsEmpty(), "父ID不能为空")
+                .SplitError(x => x.Item.FbasSfId.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.FbasParentSfId.IsEmpty(), "父ID不能为空")
                 .SplitError(x => x.Item.FbasSpras.IsEmpty(), "语言Key不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();

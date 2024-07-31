@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. PmcSfid.ToString() == enterString);
+            int count = Count(it => it. PmcSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="PmcSfid"></param>
+        /// <param name="PmcSfId"></param>
         /// <returns></returns>
-        public PpEcSlavePmc GetInfo(long PmcSfid)
+        public PpEcSlavePmc GetInfo(long PmcSfId)
         {
             var response = Queryable()
-                .Where(x => x.PmcSfid == PmcSfid)
+                .Where(x => x.PmcSfId == PmcSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.PmcParentSfid.IsEmpty(), "父ID不能为空")
+                .SplitError(x => x.Item.PmcParentSfId.IsEmpty(), "父ID不能为空")
                 .SplitError(x => x.Item.PmcEcNo.IsEmpty(), "设变No.不能为空")
                 .SplitError(x => x.Item.PmcModel.IsEmpty(), "机种不能为空")
                 .SplitError(x => x.Item.PmcItem.IsEmpty(), "物料不能为空")

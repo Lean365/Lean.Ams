@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取厂商信息信息
         /// </summary>
-        /// <param name="VeSFID"></param>
+        /// <param name="VeSfId"></param>
         /// <returns></returns>
-        MmVendor GetInfo(long VeSFID);
+        MmVendor GetInfo(long VeSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

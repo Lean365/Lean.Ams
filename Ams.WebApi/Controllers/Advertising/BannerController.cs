@@ -128,9 +128,9 @@ namespace Ams.WebApi.Controllers.Advertising
         public IActionResult ChangeSort(int id = 0, int value = 0)
         {
             if (id <= 0) { return ToResponse(ApiResult.Error(101, "请求参数错误")); }
-            var response = _BannerConfigService.Update(w => w.Id == id, it => new Banner()
+            var response = _BannerConfigService.Update(w => w.SfId == id, it => new Banner()
             {
-                SortId = value,
+                SortingNum = value,
             });
 
             return ToResponse(response);

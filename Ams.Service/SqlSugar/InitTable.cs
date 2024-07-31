@@ -37,6 +37,7 @@ namespace Ams.Service.SqlSugar
             db.CodeFirst.InitTables(typeof(SysLocaleLang));
             db.CodeFirst.InitTables(typeof(SysDictData));
             db.CodeFirst.InitTables(typeof(SysDictType));
+            db.CodeFirst.InitTables(typeof(SysTableFields));
 
             db.CodeFirst.InitTables(typeof(DiffLog));
             db.CodeFirst.InitTables(typeof(SmsLog));
@@ -57,8 +58,19 @@ namespace Ams.Service.SqlSugar
             db.CodeFirst.InitTables(typeof(ArticleTopic));
             db.CodeFirst.InitTables(typeof(Banner));
 
+            db.CodeFirst.InitTables(typeof(RoutineEhrEmployee));
+            db.CodeFirst.InitTables(typeof(RoutineEhrPerformance));
+            db.CodeFirst.InitTables(typeof(RoutineEhrBenefits));
+            db.CodeFirst.InitTables(typeof(RoutineEhrAttendance));
+            db.CodeFirst.InitTables(typeof(RoutineEhrFunds));
+            db.CodeFirst.InitTables(typeof(RoutineEhrPayroll));
+            db.CodeFirst.InitTables(typeof(RoutineEhrRecruitment));
+            db.CodeFirst.InitTables(typeof(RoutineEhrRewardPenalties));
+            db.CodeFirst.InitTables(typeof(RoutineEhrSocialSecurity));
+            db.CodeFirst.InitTables(typeof(RoutineEhrTraining));
+
             //机构管理
-            db.CodeFirst.InitTables(typeof(InstKpi));
+            db.CodeFirst.InitTables(typeof(InstTarget));
             db.CodeFirst.InitTables(typeof(InstFormula));
             db.CodeFirst.InitTables(typeof(InstInfo));
 
@@ -118,6 +130,10 @@ namespace Ams.Service.SqlSugar
             db.CodeFirst.InitTables(typeof(PpManhours));
             db.CodeFirst.InitTables(typeof(PpEcMaster));
             db.CodeFirst.InitTables(typeof(PpEcSlave));
+            db.CodeFirst.InitTables(typeof(PpEcMasterPmc));
+            db.CodeFirst.InitTables(typeof(PpEcSlavePmc));
+            db.CodeFirst.InitTables(typeof(PpEcMasterTe));
+
             db.CodeFirst.InitTables(typeof(PpOutputAssyMaster));
             db.CodeFirst.InitTables(typeof(PpOutputAssySlave));
             db.CodeFirst.InitTables(typeof(PpOutputPcbaMaster));

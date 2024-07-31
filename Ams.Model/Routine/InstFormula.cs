@@ -10,11 +10,11 @@ namespace Ams.Model.Routine
     public class InstFormula : SysBase
     {
         /// <summary>
-        /// SFID
+        /// ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long IfSFID { get; set; }
+        public long IfSfId { get; set; }
 
         /// <summary>
         /// 类别
@@ -30,11 +30,5 @@ namespace Ams.Model.Routine
         /// 公式
         /// </summary>
         public string IfFormula { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        [SugarColumn(DefaultValue = "0")]
-        public int IsDeleted { get; set; }
     }
 }

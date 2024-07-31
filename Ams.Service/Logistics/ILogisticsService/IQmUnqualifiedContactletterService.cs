@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取不合格联络信息
         /// </summary>
-        /// <param name="QucdSFID"></param>
+        /// <param name="QucdSfId"></param>
         /// <returns></returns>
-        QmUnqualifiedContactletter GetInfo(long QucdSFID);
+        QmUnqualifiedContactletter GetInfo(long QucdSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

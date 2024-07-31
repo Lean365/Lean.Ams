@@ -10,11 +10,11 @@ namespace Ams.Model.Logistics
     public class SdSellingPrice : SysBase
     {
         /// <summary>
-        /// SFID
+        /// ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = false, ColumnName = "ssp_Sfid")]
-        public long SspSfid { get; set; }
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = false, ColumnName = "ssp_SfId")]
+        public long SspSfId { get; set; }
 
         /// <summary>
         /// 工厂
@@ -105,11 +105,5 @@ namespace Ams.Model.Logistics
         /// </summary>
         [SugarColumn(ColumnName = "ssp_ExpDate")]
         public DateTime? SspExpdate { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        [SugarColumn(ColumnName = "IsDeleted", ColumnDescription = "软删除 ", DefaultValue = "0")]
-        public int IsDeleted { get; set; }
     }
 }

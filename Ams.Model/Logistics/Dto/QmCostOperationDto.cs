@@ -20,11 +20,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class QmCostOperationDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long QcodSFID { get; set; }
+        public long QcodSfId { get; set; }
 
         [Required(ErrorMessage = "日期不能为空")]
         [ExcelColumn(Name = "日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
@@ -265,11 +265,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class QmCostOperationImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long QcodSFID { get; set; }
+        public long QcodSfId { get; set; }
 
         [Required(ErrorMessage = "日期不能为空")]
         [ExcelColumn(Name = "日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]

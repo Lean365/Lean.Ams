@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取主设变信息
         /// </summary>
-        /// <param name="EcmSfid"></param>
+        /// <param name="EcmSfId"></param>
         /// <returns></returns>
-        PpEcMaster GetInfo(long EcmSfid);
+        PpEcMaster GetInfo(long EcmSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

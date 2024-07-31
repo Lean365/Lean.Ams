@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取序列号扫描信息
         /// </summary>
-        /// <param name="QmserSFID"></param>
+        /// <param name="QmserSfId"></param>
         /// <returns></returns>
-        QmSerial GetInfo(long QmserSFID);
+        QmSerial GetInfo(long QmserSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

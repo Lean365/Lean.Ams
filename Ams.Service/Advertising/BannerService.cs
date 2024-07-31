@@ -1,4 +1,3 @@
-using Ams.Infrastructure.Attribute;
 using Mapster;
 
 namespace Ams.Service.Advertising
@@ -33,7 +32,7 @@ namespace Ams.Service.Advertising
         public Banner GetInfo(int Id)
         {
             var response = Queryable()
-                .Where(x => x.Id == Id)
+                .Where(x => x.SfId == Id)
                 .First();
 
             return response;

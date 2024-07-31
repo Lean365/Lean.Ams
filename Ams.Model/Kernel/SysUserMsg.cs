@@ -39,11 +39,6 @@ namespace Ams.Model.Kernel
         public UserMsgType MsgType { get; set; }
 
         /// <summary>
-        /// 是否删除
-        /// </summary>
-        public int IsDelete { get; set; }
-
-        /// <summary>
         /// 来源用户
         /// </summary>
         public long FromUserid { get; set; }

@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询序列号扫描详情
         /// </summary>
-        /// <param name="QmserSFID"></param>
+        /// <param name="QmserSfId"></param>
         /// <returns></returns>
-        [HttpGet("{QmserSFID}")]
+        [HttpGet("{QmserSfId}")]
         [ActionPermissionFilter(Permission = "qm:serial:query")]
-        public IActionResult GetQmSerial(long QmserSFID)
+        public IActionResult GetQmSerial(long QmserSfId)
         {
-            var response = _QmSerialService.GetInfo(QmserSFID);
+            var response = _QmSerialService.GetInfo(QmserSfId);
             
             var info = response.Adapt<QmSerialDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmSerialService.CheckInputUnique(parm.QmserSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmSerialService.CheckInputUnique(parm.QmserSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增序列号扫描 '{parm.QmserSFID}'失败(Add failed)，输入的序列号扫描已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增序列号扫描 '{parm.QmserSfId}'失败(Add failed)，输入的序列号扫描已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmSerial>().ToCreate(HttpContext);
 

@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询主客诉管理详情
         /// </summary>
-        /// <param name="QmcmSFID"></param>
+        /// <param name="QmcmSfId"></param>
         /// <returns></returns>
-        [HttpGet("{QmcmSFID}")]
+        [HttpGet("{QmcmSfId}")]
         [ActionPermissionFilter(Permission = "qm:complaintsmaster:query")]
-        public IActionResult GetQmComplaintsMaster(long QmcmSFID)
+        public IActionResult GetQmComplaintsMaster(long QmcmSfId)
         {
-            var response = _QmComplaintsMasterService.GetInfo(QmcmSFID);
+            var response = _QmComplaintsMasterService.GetInfo(QmcmSfId);
             
             var info = response.Adapt<QmComplaintsMasterDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmComplaintsMasterService.CheckInputUnique(parm.QmcmSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmComplaintsMasterService.CheckInputUnique(parm.QmcmSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增主客诉管理 '{parm.QmcmSFID}'失败(Add failed)，输入的主客诉管理已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增主客诉管理 '{parm.QmcmSfId}'失败(Add failed)，输入的主客诉管理已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmComplaintsMaster>().ToCreate(HttpContext);
 

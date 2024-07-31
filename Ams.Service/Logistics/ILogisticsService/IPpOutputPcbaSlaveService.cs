@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取制二OPH从表信息
         /// </summary>
-        /// <param name="PosSfid"></param>
+        /// <param name="PosSfId"></param>
         /// <returns></returns>
-        PpOutputPcbaSlave GetInfo(long PosSfid);
+        PpOutputPcbaSlave GetInfo(long PosSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

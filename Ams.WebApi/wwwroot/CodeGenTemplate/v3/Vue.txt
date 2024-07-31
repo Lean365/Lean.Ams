@@ -3,6 +3,7 @@
  * @Version: ${ReplaceDto.EndVersion}
  * @Author: ${ReplaceDto.Author}
  * @Date: ${ReplaceDto.CreateTime}
+ * @column：${genTable.Columns.count}
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>

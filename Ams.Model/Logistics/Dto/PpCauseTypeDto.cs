@@ -21,11 +21,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpCauseTypeDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long CtSFID { get; set; }
+        public long CtSfId { get; set; }
 
         [Required(ErrorMessage = "原因类别不能为空")]
         [ExcelColumn(Name = "原因类别")]
@@ -79,11 +79,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpCauseTypeImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long CtSFID { get; set; }
+        public long CtSfId { get; set; }
 
         [Required(ErrorMessage = "原因类别不能为空")]
         [ExcelColumn(Name = "原因类别")]

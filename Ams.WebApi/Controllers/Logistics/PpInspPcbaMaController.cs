@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询检查日报ma详情
         /// </summary>
-        /// <param name="PdiSfid"></param>
+        /// <param name="PdiSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PdiSfid}")]
+        [HttpGet("{PdiSfId}")]
         [ActionPermissionFilter(Permission = "pp:inscbama:query")]
-        public IActionResult GetPpInspPcbaMa(long PdiSfid)
+        public IActionResult GetPpInspPcbaMa(long PdiSfId)
         {
-            var response = _PpInspPcbaMaService.GetInfo(PdiSfid);
+            var response = _PpInspPcbaMaService.GetInfo(PdiSfId);
             
             var info = response.Adapt<PpInspPcbaMaDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpInspPcbaMaService.CheckInputUnique(parm.PdiSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpInspPcbaMaService.CheckInputUnique(parm.PdiSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增检查日报ma '{parm.PdiSfid}'失败(Add failed)，输入的检查日报ma已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增检查日报ma '{parm.PdiSfId}'失败(Add failed)，输入的检查日报ma已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpInspPcbaMa>().ToCreate(HttpContext);
 

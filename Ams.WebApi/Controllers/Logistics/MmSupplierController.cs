@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询供应商信息详情
         /// </summary>
-        /// <param name="SuSFID"></param>
+        /// <param name="SuSfId"></param>
         /// <returns></returns>
-        [HttpGet("{SuSFID}")]
+        [HttpGet("{SuSfId}")]
         [ActionPermissionFilter(Permission = "mm:supplier:query")]
-        public IActionResult GetMmSupplier(long SuSFID)
+        public IActionResult GetMmSupplier(long SuSfId)
         {
-            var response = _MmSupplierService.GetInfo(SuSFID);
+            var response = _MmSupplierService.GetInfo(SuSfId);
             
             var info = response.Adapt<MmSupplierDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_MmSupplierService.CheckInputUnique(parm.SuSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_MmSupplierService.CheckInputUnique(parm.SuSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增供应商信息 '{parm.SuSFID}'失败(Add failed)，输入的供应商信息已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增供应商信息 '{parm.SuSfId}'失败(Add failed)，输入的供应商信息已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<MmSupplier>().ToCreate(HttpContext);
 

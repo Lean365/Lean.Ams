@@ -267,7 +267,7 @@
       sortingNum: 999,
       isFrame: '0',
       isCache: '0',
-      visible: 0,
+      visible: '0',
       isStatus: 0
     }
     proxy.resetForm('menuRef')

@@ -88,7 +88,7 @@ namespace Ams.CodeGenerator.Service
                 tableList = tableList.Where(f => f.Name.ToLower().Contains(tableName.ToLower())).ToList();
             }
             //tableList = tableList.Where(f => !new string[] { "gen", "sys_" }.Contains(f.Name)).ToList();
-            tableList = tableList.Where(f => !f.Name.Contains("sys_")).ToList();
+            //tableList = tableList.Where(f => !f.Name.Contains("sys_")).ToList();
             tableList = tableList.Where(f => !f.Name.Contains("gen_")).ToList();
             pager.TotalNum = tableList.Count;
             return tableList.Skip(pager.PageSize * (pager.PageNum - 1)).Take(pager.PageSize).OrderBy(f => f.Name).ToList();

@@ -26,12 +26,12 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PdrSfid { get; set; }
+        public long PdrSfId { get; set; }
 
         [Required(ErrorMessage = "父ID不能为空")]
         [ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long PdrParentSfid { get; set; }
+        public long PdrParentSfId { get; set; }
 
         [ExcelColumn(Name = "Pdrlot")]
         [ExcelColumnName("Pdrlot")]
@@ -179,12 +179,12 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PdrSfid { get; set; }
+        public long PdrSfId { get; set; }
 
         [Required(ErrorMessage = "父ID不能为空")]
         [ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long PdrParentSfid { get; set; }
+        public long PdrParentSfId { get; set; }
 
         [ExcelColumn(Name = "Pdrlot")]
         [ExcelColumnName("Pdrlot")]

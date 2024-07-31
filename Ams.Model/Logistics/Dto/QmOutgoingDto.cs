@@ -35,11 +35,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class QmOutgoingDto
     {
-        [Required(ErrorMessage = "QmoutSFID不能为空")]
-        [ExcelColumn(Name = "QmoutSFID")]
-        [ExcelColumnName("QmoutSFID")]
+        [Required(ErrorMessage = "QmoutSfId不能为空")]
+        [ExcelColumn(Name = "QmoutSfId")]
+        [ExcelColumnName("QmoutSfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long QmoutSFID { get; set; }
+        public long QmoutSfId { get; set; }
 
         [Required(ErrorMessage = "生产工单不能为空")]
         [ExcelColumn(Name = "生产工单")]
@@ -226,11 +226,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class QmOutgoingImportTpl
     {
-        [Required(ErrorMessage = "QmoutSFID不能为空")]
-        [ExcelColumn(Name = "QmoutSFID")]
-        [ExcelColumnName("QmoutSFID")]
+        [Required(ErrorMessage = "QmoutSfId不能为空")]
+        [ExcelColumn(Name = "QmoutSfId")]
+        [ExcelColumnName("QmoutSfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long QmoutSFID { get; set; }
+        public long QmoutSfId { get; set; }
 
         [Required(ErrorMessage = "生产工单不能为空")]
         [ExcelColumn(Name = "生产工单")]

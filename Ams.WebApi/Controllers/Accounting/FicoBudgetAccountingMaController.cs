@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询预算科目详情
         /// </summary>
-        /// <param name="FbasSfid"></param>
+        /// <param name="FbasSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FbasSfid}")]
+        [HttpGet("{FbasSfId}")]
         [ActionPermissionFilter(Permission = "fico:budgetaccountingma:query")]
-        public IActionResult GetFicoBudgetAccountingMa(long FbasSfid)
+        public IActionResult GetFicoBudgetAccountingMa(long FbasSfId)
         {
-            var response = _FicoBudgetAccountingMaService.GetInfo(FbasSfid);
+            var response = _FicoBudgetAccountingMaService.GetInfo(FbasSfId);
             
             var info = response.Adapt<FicoBudgetAccountingMaDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetAccountingMaService.CheckInputUnique(parm.FbasSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetAccountingMaService.CheckInputUnique(parm.FbasSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增预算科目 '{parm.FbasSfid}'失败(Add failed)，输入的预算科目已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增预算科目 '{parm.FbasSfId}'失败(Add failed)，输入的预算科目已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoBudgetAccountingMa>().ToCreate(HttpContext);
 

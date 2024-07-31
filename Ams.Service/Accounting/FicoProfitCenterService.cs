@@ -37,7 +37,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FpSfid.ToString() == enterString);
+            int count = Count(it => it. FpSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,12 +49,12 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FpSfid"></param>
+        /// <param name="FpSfId"></param>
         /// <returns></returns>
-        public FicoProfitCenter GetInfo(long FpSfid)
+        public FicoProfitCenter GetInfo(long FpSfId)
         {
             var response = Queryable()
-                .Where(x => x.FpSfid == FpSfid)
+                .Where(x => x.FpSfId == FpSfId)
                 .First();
 
             return response;
@@ -87,7 +87,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FpSfid.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.FpSfId.IsEmpty(), "ID不能为空")
                 .SplitError(x => x.Item.Mandt.IsEmpty(), "集团不能为空")
                 .SplitError(x => x.Item.Prctr.IsEmpty(), "利润中心不能为空")
                 .SplitError(x => x.Item.Kokrs.IsEmpty(), "控制范围不能为空")

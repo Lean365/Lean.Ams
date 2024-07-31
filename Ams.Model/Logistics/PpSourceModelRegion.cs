@@ -14,7 +14,7 @@ namespace Ams.Model.Logistics
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         /// <summary>
         /// 物料
@@ -33,11 +33,5 @@ namespace Ams.Model.Logistics
         /// </summary>
         [SugarColumn(ColumnName = "Destz003", ColumnDescription = "仕向 ", Length = 40)]
         public string Destz003 { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        [SugarColumn(ColumnName = "IsDeleted", ColumnDescription = "软删除 ", DefaultValue = "0")]
-        public int IsDeleted { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. VeSFID.ToString() == enterString);
+            int count = Count(it => it. VeSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="VeSFID"></param>
+        /// <param name="VeSfId"></param>
         /// <returns></returns>
-        public MmVendor GetInfo(long VeSFID)
+        public MmVendor GetInfo(long VeSfId)
         {
             var response = Queryable()
-                .Where(x => x.VeSFID == VeSFID)
+                .Where(x => x.VeSfId == VeSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.VeSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.VeSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.VeOrg.IsEmpty(), "购买组织不能为空")
                 .SplitError(x => x.Item.VeIndustryType.IsEmpty(), "行业类别不能为空")
                 .SplitError(x => x.Item.VeEnterpriseNature.IsEmpty(), "企业性质不能为空")

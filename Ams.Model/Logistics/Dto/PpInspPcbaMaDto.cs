@@ -27,7 +27,7 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PdiSfid { get; set; }
+        public long PdiSfId { get; set; }
 
         [ExcelColumn(Name = "检查日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("检查日期")]
@@ -137,7 +137,7 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PdiSfid { get; set; }
+        public long PdiSfId { get; set; }
 
         [ExcelColumn(Name = "检查日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("检查日期")]

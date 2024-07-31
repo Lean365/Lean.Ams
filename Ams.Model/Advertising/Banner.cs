@@ -7,13 +7,14 @@ namespace Ams.Model.Advertising
     public class Banner : SysBase
     {
         /// <summary>
-        /// id
+        /// ID
         /// </summary>
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
-        public int Id { get; set; }
+        [JsonConverter(typeof(ValueToStringConverter))]
+        [SugarColumn(IsPrimaryKey = true)]
+        public int SfId { get; set; }
 
         /// <summary>
-        /// Title
+        /// 标题
         /// </summary>
         public string Title { get; set; }
 
@@ -53,18 +54,18 @@ namespace Ams.Model.Advertising
         public int AdType { get; set; }
 
         /// <summary>
-        /// BeginTime
+        /// 开始时间
         /// </summary>
         public DateTime? BeginTime { get; set; }
 
         /// <summary>
-        /// EndTime
+        /// 结束时间
         /// </summary>
         public DateTime? EndTime { get; set; }
 
         /// <summary>
-        /// 排序id
+        /// 显示顺序
         /// </summary>
-        public int? SortId { get; set; }
+        public int? SortingNum { get; set; }
     }
 }

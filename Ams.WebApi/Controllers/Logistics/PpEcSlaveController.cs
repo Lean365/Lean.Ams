@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询从设变详情
         /// </summary>
-        /// <param name="EcsSfid"></param>
+        /// <param name="EcsSfId"></param>
         /// <returns></returns>
-        [HttpGet("{EcsSfid}")]
+        [HttpGet("{EcsSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecslave:query")]
-        public IActionResult GetPpEcSlave(long EcsSfid)
+        public IActionResult GetPpEcSlave(long EcsSfId)
         {
-            var response = _PpEcSlaveService.GetInfo(EcsSfid);
+            var response = _PpEcSlaveService.GetInfo(EcsSfId);
             
             var info = response.Adapt<PpEcSlaveDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveService.CheckInputUnique(parm.EcsSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveService.CheckInputUnique(parm.EcsSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增从设变 '{parm.EcsSfid}'失败(Add failed)，输入的从设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增从设变 '{parm.EcsSfId}'失败(Add failed)，输入的从设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcSlave>().ToCreate(HttpContext);
 

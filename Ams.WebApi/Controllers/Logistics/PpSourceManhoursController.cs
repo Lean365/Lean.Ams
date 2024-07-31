@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询源工时详情
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        [HttpGet("{Sfid}")]
+        [HttpGet("{SfId}")]
         [ActionPermissionFilter(Permission = "pp:sourcemanhours:query")]
-        public IActionResult GetPpSourceManhours(long Sfid)
+        public IActionResult GetPpSourceManhours(long SfId)
         {
-            var response = _PpSourceManhoursService.GetInfo(Sfid);
+            var response = _PpSourceManhoursService.GetInfo(SfId);
             
             var info = response.Adapt<PpSourceManhoursDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceManhoursService.CheckInputUnique(parm.Sfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceManhoursService.CheckInputUnique(parm.SfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增源工时 '{parm.Sfid}'失败(Add failed)，输入的源工时已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增源工时 '{parm.SfId}'失败(Add failed)，输入的源工时已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpSourceManhours>().ToCreate(HttpContext);
 

@@ -1,4 +1,3 @@
-
 namespace Ams.Model.Logistics
 {
     /// <summary>
@@ -7,117 +6,79 @@ namespace Ams.Model.Logistics
     /// @Author: Lean365(Davis.Ching)
     /// @Date: 2024/7/26 15:07:48
     /// </summary>
-    [SugarTable("pp_order","生产工单")]
-    public class PpOrder
+    [SugarTable("pp_order", "生产工单")]
+    public class PpOrder : SysBase
     {
         /// <summary>
-        /// SFID 
+        /// ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long MoSfid { get; set; }
+        public long MoSfId { get; set; }
 
         /// <summary>
-        /// 生产工厂 
+        /// 生产工厂
         /// </summary>
-        [SugarColumn(ColumnName="MoPlant", ColumnDescription = "生产工厂 ",Length = 4)]
+        [SugarColumn(ColumnName = "MoPlant", ColumnDescription = "生产工厂 ", Length = 4)]
         public string MoPlant { get; set; }
 
         /// <summary>
-        /// 订单类型 
+        /// 订单类型
         /// </summary>
-        [SugarColumn(ColumnName="MoType", ColumnDescription = "订单类型 ",Length = 4)]
+        [SugarColumn(ColumnName = "MoType", ColumnDescription = "订单类型 ", Length = 4)]
         public string MoType { get; set; }
 
         /// <summary>
-        /// 订单号码 
+        /// 订单号码
         /// </summary>
-        [SugarColumn(ColumnName="MoNumber", ColumnDescription = "订单号码 ",Length = 7)]
+        [SugarColumn(ColumnName = "MoNumber", ColumnDescription = "订单号码 ", Length = 7)]
         public string MoNumber { get; set; }
 
         /// <summary>
-        /// 物料 
+        /// 物料
         /// </summary>
-        [SugarColumn(ColumnName="MoItem", ColumnDescription = "物料 ",Length = 20)]
+        [SugarColumn(ColumnName = "MoItem", ColumnDescription = "物料 ", Length = 20)]
         public string MoItem { get; set; }
 
         /// <summary>
-        /// 生产批次 
+        /// 生产批次
         /// </summary>
-        [SugarColumn(ColumnName="MoLot", ColumnDescription = "生产批次 ",Length = 20)]
+        [SugarColumn(ColumnName = "MoLot", ColumnDescription = "生产批次 ", Length = 20)]
         public string MoLot { get; set; }
 
         /// <summary>
-        /// 工单数量 
+        /// 工单数量
         /// </summary>
-        [SugarColumn(ColumnName="MoPlanQty", ColumnDescription = "工单数量 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName = "MoPlanQty", ColumnDescription = "工单数量 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
         public decimal MoPlanQty { get; set; }
 
         /// <summary>
-        /// 生产数量 
+        /// 生产数量
         /// </summary>
-        [SugarColumn(ColumnName="MoProdQty", ColumnDescription = "生产数量 ",DefaultValue = "0",Length = 18, DecimalDigits = 2)]
+        [SugarColumn(ColumnName = "MoProdQty", ColumnDescription = "生产数量 ", DefaultValue = "0", Length = 18, DecimalDigits = 2)]
         public decimal MoProdQty { get; set; }
 
         /// <summary>
-        /// 订单日期 
+        /// 订单日期
         /// </summary>
         public DateTime? MorDate { get; set; }
 
         /// <summary>
-        /// 工艺路线 
+        /// 工艺路线
         /// </summary>
-        [SugarColumn(ColumnName="MoRoute", ColumnDescription = "工艺路线 ",Length = 8)]
+        [SugarColumn(ColumnName = "MoRoute", ColumnDescription = "工艺路线 ", Length = 8)]
         public string MoRoute { get; set; }
 
         /// <summary>
-        /// 序列号 
+        /// 序列号
         /// </summary>
-        [SugarColumn(ColumnName="MoSerial", ColumnDescription = "序列号 ",Length = 50)]
+        [SugarColumn(ColumnName = "MoSerial", ColumnDescription = "序列号 ", Length = 50)]
         public string MoSerial { get; set; }
 
         /// <summary>
-        /// 状态 
+        /// 状态
         /// </summary>
-        [SugarColumn(ColumnName="IsStatus", ColumnDescription = "状态 ",DefaultValue = "0")]
+        [SugarColumn(ColumnName = "IsStatus", ColumnDescription = "状态 ", DefaultValue = "0")]
         public int IsStatus { get; set; }
-
-        /// <summary>
-        /// 软删除 
-        /// </summary>
-        [SugarColumn(ColumnName="IsDeleted", ColumnDescription = "软删除 ",DefaultValue = "0")]
-        public int IsDeleted { get; set; }
-
-        /// <summary>
-        /// 备注 
-        /// </summary>
-        [SugarColumn(ColumnName="Remark", ColumnDescription = "备注 ",Length = 2000)]
-        public string Remark { get; set; }
-
-        /// <summary>
-        /// 创建者 
-        /// </summary>
-        [SugarColumn(ColumnName = "create_by")]
-        public string CreateBy { get; set; }
-
-        /// <summary>
-        /// 创建时间 
-        /// </summary>
-        [SugarColumn(ColumnName = "create_time")]
-        public DateTime? CreateTime { get; set; }
-
-        /// <summary>
-        /// 更新者 
-        /// </summary>
-        [SugarColumn(ColumnName = "update_by")]
-        public string UpdateBy { get; set; }
-
-        /// <summary>
-        /// 更新时间 
-        /// </summary>
-        [SugarColumn(ColumnName = "update_time")]
-        public DateTime? UpdateTime { get; set; }
-
     }
 }

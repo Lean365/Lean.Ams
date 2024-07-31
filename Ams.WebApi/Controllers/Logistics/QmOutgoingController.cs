@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询出货检验详情
         /// </summary>
-        /// <param name="QmoutSFID"></param>
+        /// <param name="QmoutSfId"></param>
         /// <returns></returns>
-        [HttpGet("{QmoutSFID}")]
+        [HttpGet("{QmoutSfId}")]
         [ActionPermissionFilter(Permission = "qm:outgoing:query")]
-        public IActionResult GetQmOutgoing(long QmoutSFID)
+        public IActionResult GetQmOutgoing(long QmoutSfId)
         {
-            var response = _QmOutgoingService.GetInfo(QmoutSFID);
+            var response = _QmOutgoingService.GetInfo(QmoutSfId);
             
             var info = response.Adapt<QmOutgoingDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmOutgoingService.CheckInputUnique(parm.QmoutSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmOutgoingService.CheckInputUnique(parm.QmoutSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增出货检验 '{parm.QmoutSFID}'失败(Add failed)，输入的出货检验已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增出货检验 '{parm.QmoutSfId}'失败(Add failed)，输入的出货检验已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmOutgoing>().ToCreate(HttpContext);
 

@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询修理日报slv详情
         /// </summary>
-        /// <param name="PdrSfid"></param>
+        /// <param name="PdrSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PdrSfid}")]
+        [HttpGet("{PdrSfId}")]
         [ActionPermissionFilter(Permission = "pp:repairpcbaslv:query")]
-        public IActionResult GetPpRepairPcbaSlv(long PdrSfid)
+        public IActionResult GetPpRepairPcbaSlv(long PdrSfId)
         {
-            var response = _PpRepairPcbaSlvService.GetInfo(PdrSfid);
+            var response = _PpRepairPcbaSlvService.GetInfo(PdrSfId);
             
             var info = response.Adapt<PpRepairPcbaSlvDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpRepairPcbaSlvService.CheckInputUnique(parm.PdrSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpRepairPcbaSlvService.CheckInputUnique(parm.PdrSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增修理日报slv '{parm.PdrSfid}'失败(Add failed)，输入的修理日报slv已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增修理日报slv '{parm.PdrSfId}'失败(Add failed)，输入的修理日报slv已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpRepairPcbaSlv>().ToCreate(HttpContext);
 

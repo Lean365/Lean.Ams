@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取出货检验信息
         /// </summary>
-        /// <param name="QmoutSFID"></param>
+        /// <param name="QmoutSfId"></param>
         /// <returns></returns>
-        QmOutgoing GetInfo(long QmoutSFID);
+        QmOutgoing GetInfo(long QmoutSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

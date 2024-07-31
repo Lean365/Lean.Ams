@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取修理日报slv信息
         /// </summary>
-        /// <param name="PdrSfid"></param>
+        /// <param name="PdrSfId"></param>
         /// <returns></returns>
-        PpRepairPcbaSlv GetInfo(long PdrSfid);
+        PpRepairPcbaSlv GetInfo(long PdrSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

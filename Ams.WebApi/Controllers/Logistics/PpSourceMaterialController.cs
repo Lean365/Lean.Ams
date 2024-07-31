@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询源物料详情
         /// </summary>
-        /// <param name="Sfid"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        [HttpGet("{Sfid}")]
+        [HttpGet("{SfId}")]
         [ActionPermissionFilter(Permission = "pp:sourcematerial:query")]
-        public IActionResult GetPpSourceMaterial(long Sfid)
+        public IActionResult GetPpSourceMaterial(long SfId)
         {
-            var response = _PpSourceMaterialService.GetInfo(Sfid);
+            var response = _PpSourceMaterialService.GetInfo(SfId);
             
             var info = response.Adapt<PpSourceMaterialDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceMaterialService.CheckInputUnique(parm.Sfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceMaterialService.CheckInputUnique(parm.SfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增源物料 '{parm.Sfid}'失败(Add failed)，输入的源物料已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增源物料 '{parm.SfId}'失败(Add failed)，输入的源物料已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpSourceMaterial>().ToCreate(HttpContext);
 

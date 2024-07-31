@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询组立不良ma详情
         /// </summary>
-        /// <param name="PpdSfid"></param>
+        /// <param name="PpdSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PpdSfid}")]
+        [HttpGet("{PpdSfId}")]
         [ActionPermissionFilter(Permission = "pp:repairassyma:query")]
-        public IActionResult GetPpRepairAssyMa(long PpdSfid)
+        public IActionResult GetPpRepairAssyMa(long PpdSfId)
         {
-            var response = _PpRepairAssyMaService.GetInfo(PpdSfid);
+            var response = _PpRepairAssyMaService.GetInfo(PpdSfId);
             
             var info = response.Adapt<PpRepairAssyMaDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpRepairAssyMaService.CheckInputUnique(parm.PpdSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpRepairAssyMaService.CheckInputUnique(parm.PpdSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增组立不良ma '{parm.PpdSfid}'失败(Add failed)，输入的组立不良ma已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增组立不良ma '{parm.PpdSfId}'失败(Add failed)，输入的组立不良ma已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpRepairAssyMa>().ToCreate(HttpContext);
 

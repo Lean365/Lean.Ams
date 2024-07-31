@@ -23,11 +23,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class QmComplaintsSlaveDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long QmcsSFID { get; set; }
+        public long QmcsSfId { get; set; }
 
         [Required(ErrorMessage = "外部客诉No.不能为空")]
         [ExcelColumn(Name = "外部客诉No.")]
@@ -135,11 +135,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class QmComplaintsSlaveImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long QmcsSFID { get; set; }
+        public long QmcsSfId { get; set; }
 
         [Required(ErrorMessage = "外部客诉No.不能为空")]
         [ExcelColumn(Name = "外部客诉No.")]

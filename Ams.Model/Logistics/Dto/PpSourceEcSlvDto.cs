@@ -24,16 +24,16 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpSourceEcSlvDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         [Required(ErrorMessage = "父ID不能为空")]
         [ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long ParentSfid { get; set; }
+        public long ParentSfId { get; set; }
 
         [ExcelColumn(Name = "设变No.")]
         [ExcelColumnName("设变No.")]
@@ -130,16 +130,16 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpSourceEcSlvImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         [Required(ErrorMessage = "父ID不能为空")]
         [ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long ParentSfid { get; set; }
+        public long ParentSfId { get; set; }
 
         [ExcelColumn(Name = "设变No.")]
         [ExcelColumnName("设变No.")]

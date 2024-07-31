@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询废弃部品详情
         /// </summary>
-        /// <param name="QcwdSFID"></param>
+        /// <param name="QcwdSfId"></param>
         /// <returns></returns>
-        [HttpGet("{QcwdSFID}")]
+        [HttpGet("{QcwdSfId}")]
         [ActionPermissionFilter(Permission = "qm:costwaste:query")]
-        public IActionResult GetQmCostWaste(long QcwdSFID)
+        public IActionResult GetQmCostWaste(long QcwdSfId)
         {
-            var response = _QmCostWasteService.GetInfo(QcwdSFID);
+            var response = _QmCostWasteService.GetInfo(QcwdSfId);
             
             var info = response.Adapt<QmCostWasteDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmCostWasteService.CheckInputUnique(parm.QcwdSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmCostWasteService.CheckInputUnique(parm.QcwdSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增废弃部品 '{parm.QcwdSFID}'失败(Add failed)，输入的废弃部品已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增废弃部品 '{parm.QcwdSfId}'失败(Add failed)，输入的废弃部品已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmCostWaste>().ToCreate(HttpContext);
 

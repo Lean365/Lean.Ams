@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. PosSfid.ToString() == enterString);
+            int count = Count(it => it. PosSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="PosSfid"></param>
+        /// <param name="PosSfId"></param>
         /// <returns></returns>
-        public PpOutputPcbaSlave GetInfo(long PosSfid)
+        public PpOutputPcbaSlave GetInfo(long PosSfId)
         {
             var response = Queryable()
-                .Where(x => x.PosSfid == PosSfid)
+                .Where(x => x.PosSfId == PosSfId)
                 .First();
 
             return response;
@@ -86,8 +86,8 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.PosSfid.IsEmpty(), "SFID不能为空")
-                .SplitError(x => x.Item.PosParentSfid.IsEmpty(), "父SFID不能为空")
+                .SplitError(x => x.Item.PosSfId.IsEmpty(), "SfId不能为空")
+                .SplitError(x => x.Item.PosParentSfId.IsEmpty(), "父SfId不能为空")
                 .SplitError(x => x.Item.PosLineName.IsEmpty(), "班组不能为空")
                 .SplitError(x => x.Item.PosPcbaType.IsEmpty(), "板别不能为空")
                 .SplitError(x => x.Item.PosPcbaSide.IsEmpty(), "板面不能为空")

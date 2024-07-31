@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取抽样标准信息
         /// </summary>
-        /// <param name="QcaSFID"></param>
+        /// <param name="QcaSfId"></param>
         /// <returns></returns>
-        QmCheckAql GetInfo(long QcaSFID);
+        QmCheckAql GetInfo(long QcaSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

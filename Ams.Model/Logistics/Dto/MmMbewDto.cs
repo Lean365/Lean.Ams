@@ -27,7 +27,7 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "ID主键")]
         [ExcelColumnName("ID主键")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         [ExcelColumn(Name = "集团")]
         [ExcelColumnName("集团")]
@@ -537,7 +537,7 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "ID主键")]
         [ExcelColumnName("ID主键")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         [ExcelColumn(Name = "集团")]
         [ExcelColumnName("集团")]

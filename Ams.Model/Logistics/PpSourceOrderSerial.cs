@@ -10,11 +10,11 @@ namespace Ams.Model.Logistics
     public class PpSourceOrderSerial : SysBase
     {
         /// <summary>
-        /// Sfid
+        /// ID
         /// </summary>
 
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public string Sfid { get; set; }
+        public string SfId { get; set; }
 
         /// <summary>
         /// 工厂
@@ -39,11 +39,5 @@ namespace Ams.Model.Logistics
         /// </summary>
         [SugarColumn(ColumnName = "Serialc004", ColumnDescription = "序列号 ", Length = 40)]
         public string Serialc004 { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        [SugarColumn(ColumnName = "IsDeleted", ColumnDescription = "软删除 ", DefaultValue = "0")]
-        public int IsDeleted { get; set; }
     }
 }

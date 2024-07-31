@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询销售凭证详情
         /// </summary>
-        /// <param name="SsiSfid"></param>
+        /// <param name="SsiSfId"></param>
         /// <returns></returns>
-        [HttpGet("{SsiSfid}")]
+        [HttpGet("{SsiSfId}")]
         [ActionPermissionFilter(Permission = "sd:sellinginvoice:query")]
-        public IActionResult GetSdSellingInvoice(long SsiSfid)
+        public IActionResult GetSdSellingInvoice(long SsiSfId)
         {
-            var response = _SdSellingInvoiceService.GetInfo(SsiSfid);
+            var response = _SdSellingInvoiceService.GetInfo(SsiSfId);
             
             var info = response.Adapt<SdSellingInvoiceDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_SdSellingInvoiceService.CheckInputUnique(parm.SsiSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_SdSellingInvoiceService.CheckInputUnique(parm.SsiSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增销售凭证 '{parm.SsiSfid}'失败(Add failed)，输入的销售凭证已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增销售凭证 '{parm.SsiSfId}'失败(Add failed)，输入的销售凭证已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<SdSellingInvoice>().ToCreate(HttpContext);
 

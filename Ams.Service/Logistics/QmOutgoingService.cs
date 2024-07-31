@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. QmoutSFID.ToString() == enterString);
+            int count = Count(it => it. QmoutSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="QmoutSFID"></param>
+        /// <param name="QmoutSfId"></param>
         /// <returns></returns>
-        public QmOutgoing GetInfo(long QmoutSFID)
+        public QmOutgoing GetInfo(long QmoutSfId)
         {
             var response = Queryable()
-                .Where(x => x.QmoutSFID == QmoutSFID)
+                .Where(x => x.QmoutSfId == QmoutSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.QmoutSFID.IsEmpty(), "QmoutSFID不能为空")
+                .SplitError(x => x.Item.QmoutSfId.IsEmpty(), "QmoutSfId不能为空")
                 .SplitError(x => x.Item.QmoutProOrder.IsEmpty(), "生产工单不能为空")
                 .SplitError(x => x.Item.QmoutProLine.IsEmpty(), "班组不能为空")
                 .SplitError(x => x.Item.QmoutProMaterial.IsEmpty(), "物料不能为空")

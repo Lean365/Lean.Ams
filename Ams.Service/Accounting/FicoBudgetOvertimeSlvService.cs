@@ -36,7 +36,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FbosSfid.ToString() == enterString);
+            int count = Count(it => it. FbosSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FbosSfid"></param>
+        /// <param name="FbosSfId"></param>
         /// <returns></returns>
-        public FicoBudgetOvertimeSlv GetInfo(long FbosSfid)
+        public FicoBudgetOvertimeSlv GetInfo(long FbosSfId)
         {
             var response = Queryable()
-                .Where(x => x.FbosSfid == FbosSfid)
+                .Where(x => x.FbosSfId == FbosSfId)
                 .First();
 
             return response;
@@ -86,8 +86,8 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FbosSfid.IsEmpty(), "SFID不能为空")
-                .SplitError(x => x.Item.FbosParentSfid.IsEmpty(), "FbosParentSfid不能为空")
+                .SplitError(x => x.Item.FbosSfId.IsEmpty(), "SfId不能为空")
+                .SplitError(x => x.Item.FbosParentSfId.IsEmpty(), "FbosParentSfId不能为空")
                 .SplitError(x => x.Item.FbosTitle.IsEmpty(), "科目不能为空")
                 .SplitError(x => x.Item.FbosClass.IsEmpty(), "名称不能为空")
                 .SplitError(x => x.Item.FbosRequiredst.IsEmpty(), "必要工数不能为空")

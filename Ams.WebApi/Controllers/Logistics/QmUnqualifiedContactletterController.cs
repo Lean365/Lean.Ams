@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询不合格联络详情
         /// </summary>
-        /// <param name="QucdSFID"></param>
+        /// <param name="QucdSfId"></param>
         /// <returns></returns>
-        [HttpGet("{QucdSFID}")]
+        [HttpGet("{QucdSfId}")]
         [ActionPermissionFilter(Permission = "qm:unqualifiedcontactletter:query")]
-        public IActionResult GetQmUnqualifiedContactletter(long QucdSFID)
+        public IActionResult GetQmUnqualifiedContactletter(long QucdSfId)
         {
-            var response = _QmUnqualifiedContactletterService.GetInfo(QucdSFID);
+            var response = _QmUnqualifiedContactletterService.GetInfo(QucdSfId);
             
             var info = response.Adapt<QmUnqualifiedContactletterDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmUnqualifiedContactletterService.CheckInputUnique(parm.QucdSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmUnqualifiedContactletterService.CheckInputUnique(parm.QucdSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增不合格联络 '{parm.QucdSFID}'失败(Add failed)，输入的不合格联络已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增不合格联络 '{parm.QucdSfId}'失败(Add failed)，输入的不合格联络已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmUnqualifiedContactletter>().ToCreate(HttpContext);
 

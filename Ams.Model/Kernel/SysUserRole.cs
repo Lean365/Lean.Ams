@@ -7,8 +7,15 @@
     [Tenant("0")]
     public class SysUserRole : SysBase
     {
+        /// <summary>
+        /// 用户ID
+        /// </summary>
         [SugarColumn(ColumnName = "user_id", IsPrimaryKey = true)]
         public long UserId { get; set; }
+
+        /// <summary>
+        /// 角色ID
+        /// </summary>
 
         [SugarColumn(ColumnName = "role_id", IsPrimaryKey = true)]
         public long RoleId { get; set; }

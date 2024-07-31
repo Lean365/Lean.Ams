@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取顾客信息信息
         /// </summary>
-        /// <param name="ScSfid"></param>
+        /// <param name="ScSfId"></param>
         /// <returns></returns>
-        SdCustomer GetInfo(long ScSfid);
+        SdCustomer GetInfo(long ScSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

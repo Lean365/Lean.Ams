@@ -5,16 +5,16 @@ using Ams.Service.Routine.IRoutineService;
 namespace Ams.Service.Routine
 {
     /// <summary>
-    /// 人事信息
+    /// 人事
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/16 11:48:53
+    /// @Date: 2024/7/29 16:57:41
     /// </summary>
     [AppService(ServiceType = typeof(IRoutineEhrEmployeeService), ServiceLifetime = LifeTime.Transient)]
     public class RoutineEhrEmployeeService : BaseService<RoutineEhrEmployee>, IRoutineEhrEmployeeService
     {
         /// <summary>
-        /// 查询人事信息列表
+        /// 查询人事列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -23,6 +23,7 @@ namespace Ams.Service.Routine
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("EeBeginDate desc")
                 .Where(predicate.ToExpression())
                 .ToPage<RoutineEhrEmployee, RoutineEhrEmployeeDto>(parm);
 
@@ -36,7 +37,7 @@ namespace Ams.Service.Routine
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. EeSFID.ToString() == enterString);
+            int count = Count(it => it. EeSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,18 +49,18 @@ namespace Ams.Service.Routine
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="EeSFID"></param>
+        /// <param name="EeSfId"></param>
         /// <returns></returns>
-        public RoutineEhrEmployee GetInfo(long EeSFID)
+        public RoutineEhrEmployee GetInfo(long EeSfId)
         {
             var response = Queryable()
-                .Where(x => x.EeSFID == EeSFID)
+                .Where(x => x.EeSfId == EeSfId)
                 .First();
 
             return response;
         }
         /// <summary>
-        /// 添加人事信息
+        /// 添加人事
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -69,24 +70,24 @@ namespace Ams.Service.Routine
             return model;
         }
         /// <summary>
-        /// 修改人事信息
+        /// 修改人事
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         public int UpdateRoutineEhrEmployee(RoutineEhrEmployee model)
         {
-            return Update(model, true, "修改人事信息");
+            return Update(model, true, "修改人事");
         }
 
         /// <summary>
-        /// 导入人事信息
+        /// 导入人事
         /// </summary>
         /// <returns></returns>
         public (string, object, object) ImportRoutineEhrEmployee(List<RoutineEhrEmployee> list)
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.EeSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.EeSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.EeName.IsEmpty(), "姓名不能为空")
                 .SplitError(x => x.Item.EeGender.IsEmpty(), "性别不能为空")
                 .SplitError(x => x.Item.EeBirthday.IsEmpty(), "出生日期不能为空")
@@ -134,7 +135,7 @@ namespace Ams.Service.Routine
         }
 
         /// <summary>
-        /// 导出人事信息
+        /// 导出人事
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -149,9 +150,12 @@ namespace Ams.Service.Routine
                     EeGenderLabel = it.EeGender.GetConfigValue<SysDictData>("sys_gender_type"),
                     EeWedlockLabel = it.EeWedlock.GetConfigValue<SysDictData>("sys_wedlock_state"),
                     EeNationIdLabel = it.EeNationId.GetConfigValue<SysDictData>("sys_nation_list"),
+                    EeNativePlaceLabel = it.EeNativePlace.GetConfigValue<SysDictData>("sql_region_city"),
                     EePoliticIdLabel = it.EePoliticId.GetConfigValue<SysDictData>("sys_politic_list"),
                     EeCountryLabel = it.EeCountry.GetConfigValue<SysDictData>("sys_country_list"),
+                    EeProvinceLabel = it.EeProvince.GetConfigValue<SysDictData>("sql_region_province"),
                     EeHouseholdTypeLabel = it.EeHouseholdType.GetConfigValue<SysDictData>("sys_household_type"),
+                    EeDepartmentIdLabel = it.EeDepartmentId.GetConfigValue<SysDictData>("sql_dept_list"),
                     EeTitlesIdLabel = it.EeTitlesId.GetConfigValue<SysDictData>("sys_titles_list"),
                     EePostIdLabel = it.EePostId.GetConfigValue<SysDictData>("sql_posts_list"),
                     EePostLevelLabel = it.EePostLevel.GetConfigValue<SysDictData>("sys_post_level"),
@@ -160,6 +164,9 @@ namespace Ams.Service.Routine
                     EeTiptopDegrEeLabel = it.EeTiptopDegrEe.GetConfigValue<SysDictData>("sys_level_education"),
                     EeSpecialtyLabel = it.EeSpecialty.GetConfigValue<SysDictData>("sys_specialty_list"),
                     EeWorkStateLabel = it.EeWorkState.GetConfigValue<SysDictData>("sys_serve_state"),
+                    EeClockInLabel = it.EeClockIn.GetConfigValue<SysDictData>("sys_flag_list"),
+                    EeShiftsTypeLabel = it.EeShiftsType.GetConfigValue<SysDictData>("sys_line_type"),
+                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
 
@@ -184,13 +191,13 @@ namespace Ams.Service.Routine
             predicate = predicate.AndIF(parm.BeginEeBirthday == null, it => it.EeBirthday >= new DateTime(DateTime.Now.Year, 1, 1));
             predicate = predicate.AndIF(parm.BeginEeBirthday != null, it => it.EeBirthday >= parm.BeginEeBirthday);
             predicate = predicate.AndIF(parm.EndEeBirthday != null, it => it.EeBirthday <= parm.EndEeBirthday);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeIdentityCard), it => it.EeIdentityCard == parm.EeIdentityCard);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeWedlock), it => it.EeWedlock == parm.EeWedlock);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeNationId), it => it.EeNationId == parm.EeNationId);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeNativePlace), it => it.EeNativePlace == parm.EeNativePlace);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EePoliticId), it => it.EePoliticId == parm.EePoliticId);
+            predicate = predicate.AndIF(parm.EeWedlock != null, it => it.EeWedlock == parm.EeWedlock);
+            predicate = predicate.AndIF(parm.EeNationId != null, it => it.EeNationId == parm.EeNationId);
+            predicate = predicate.AndIF(parm.EeNativePlace != null, it => it.EeNativePlace == parm.EeNativePlace);
+            predicate = predicate.AndIF(parm.EePoliticId != null, it => it.EePoliticId == parm.EePoliticId);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeCountry), it => it.EeCountry == parm.EeCountry);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeHouseholdType), it => it.EeHouseholdType == parm.EeHouseholdType);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeProvince), it => it.EeProvince == parm.EeProvince);
+            predicate = predicate.AndIF(parm.EeHouseholdType != null, it => it.EeHouseholdType == parm.EeHouseholdType);
             predicate = predicate.AndIF(parm.EeDepartmentId != null, it => it.EeDepartmentId == parm.EeDepartmentId);
             predicate = predicate.AndIF(parm.EeTitlesId != null, it => it.EeTitlesId == parm.EeTitlesId);
             predicate = predicate.AndIF(parm.EePostId != null, it => it.EePostId == parm.EePostId);
@@ -200,14 +207,46 @@ namespace Ams.Service.Routine
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeEngageForm), it => it.EeEngageForm == parm.EeEngageForm);
             predicate = predicate.AndIF(parm.EeTiptopDegrEe != null, it => it.EeTiptopDegrEe == parm.EeTiptopDegrEe);
             predicate = predicate.AndIF(parm.EeSpecialty != null, it => it.EeSpecialty == parm.EeSpecialty);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeWorkID), it => it.EeWorkID == parm.EeWorkID);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeWorkID), it => it.EeWorkID.Contains(parm.EeWorkID));
             //当日期条件为空时，默认查询大于今天的所有数据
             //predicate = predicate.AndIF(parm.BeginEeBeginDate == null, it => it.EeBeginDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
             predicate = predicate.AndIF(parm.BeginEeBeginDate == null, it => it.EeBeginDate >= new DateTime(DateTime.Now.Year, 1, 1));
             predicate = predicate.AndIF(parm.BeginEeBeginDate != null, it => it.EeBeginDate >= parm.BeginEeBeginDate);
             predicate = predicate.AndIF(parm.EndEeBeginDate != null, it => it.EeBeginDate <= parm.EndEeBeginDate);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeWorkState), it => it.EeWorkState == parm.EeWorkState);
+            predicate = predicate.AndIF(parm.EeWorkState != null, it => it.EeWorkState == parm.EeWorkState);
+            //当日期条件为空时，默认查询大于今天的所有数据
+            //predicate = predicate.AndIF(parm.BeginEeConversionTime == null, it => it.EeConversionTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //当日期条件为空时，默认查询大于今年的所有数据
+            predicate = predicate.AndIF(parm.BeginEeConversionTime == null, it => it.EeConversionTime >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginEeConversionTime != null, it => it.EeConversionTime >= parm.BeginEeConversionTime);
+            predicate = predicate.AndIF(parm.EndEeConversionTime != null, it => it.EeConversionTime <= parm.EndEeConversionTime);
+            //当日期条件为空时，默认查询大于今天的所有数据
+            //predicate = predicate.AndIF(parm.BeginEeLeaveDate == null, it => it.EeLeaveDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //当日期条件为空时，默认查询大于今年的所有数据
+            predicate = predicate.AndIF(parm.BeginEeLeaveDate == null, it => it.EeLeaveDate >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginEeLeaveDate != null, it => it.EeLeaveDate >= parm.BeginEeLeaveDate);
+            predicate = predicate.AndIF(parm.EndEeLeaveDate != null, it => it.EeLeaveDate <= parm.EndEeLeaveDate);
+            //当日期条件为空时，默认查询大于今天的所有数据
+            //predicate = predicate.AndIF(parm.BeginEeBeginContract == null, it => it.EeBeginContract >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //当日期条件为空时，默认查询大于今年的所有数据
+            predicate = predicate.AndIF(parm.BeginEeBeginContract == null, it => it.EeBeginContract >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginEeBeginContract != null, it => it.EeBeginContract >= parm.BeginEeBeginContract);
+            predicate = predicate.AndIF(parm.EndEeBeginContract != null, it => it.EeBeginContract <= parm.EndEeBeginContract);
+            //当日期条件为空时，默认查询大于今天的所有数据
+            //predicate = predicate.AndIF(parm.BeginEeEndContract == null, it => it.EeEndContract >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //当日期条件为空时，默认查询大于今年的所有数据
+            predicate = predicate.AndIF(parm.BeginEeEndContract == null, it => it.EeEndContract >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginEeEndContract != null, it => it.EeEndContract >= parm.BeginEeEndContract);
+            predicate = predicate.AndIF(parm.EndEeEndContract != null, it => it.EeEndContract <= parm.EndEeEndContract);
+            //当日期条件为空时，默认查询大于今天的所有数据
+            //predicate = predicate.AndIF(parm.BeginEeRetireDate == null, it => it.EeRetireDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //当日期条件为空时，默认查询大于今年的所有数据
+            predicate = predicate.AndIF(parm.BeginEeRetireDate == null, it => it.EeRetireDate >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginEeRetireDate != null, it => it.EeRetireDate >= parm.BeginEeRetireDate);
+            predicate = predicate.AndIF(parm.EndEeRetireDate != null, it => it.EeRetireDate <= parm.EndEeRetireDate);
+            predicate = predicate.AndIF(parm.EeClockIn != null, it => it.EeClockIn == parm.EeClockIn);
+            predicate = predicate.AndIF(parm.EeShiftsType != null, it => it.EeShiftsType == parm.EeShiftsType);
             return predicate;
         }
     }

@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. QcaSFID.ToString() == enterString);
+            int count = Count(it => it. QcaSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="QcaSFID"></param>
+        /// <param name="QcaSfId"></param>
         /// <returns></returns>
-        public QmCheckAql GetInfo(long QcaSFID)
+        public QmCheckAql GetInfo(long QcaSfId)
         {
             var response = Queryable()
-                .Where(x => x.QcaSFID == QcaSFID)
+                .Where(x => x.QcaSfId == QcaSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.QcaSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.QcaSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.QcaLevel.IsEmpty(), "查检水平不能为空")
                 .SplitError(x => x.Item.QcaRange.IsEmpty(), "批量范围不能为空")
                 .SplitError(x => x.Item.QcaRangeMinmum.IsEmpty(), "最小值不能为空")

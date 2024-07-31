@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. QcrdSFID.ToString() == enterString);
+            int count = Count(it => it. QcrdSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="QcrdSFID"></param>
+        /// <param name="QcrdSfId"></param>
         /// <returns></returns>
-        public QmCostRework GetInfo(long QcrdSFID)
+        public QmCostRework GetInfo(long QcrdSfId)
         {
             var response = Queryable()
-                .Where(x => x.QcrdSFID == QcrdSFID)
+                .Where(x => x.QcrdSfId == QcrdSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.QcrdSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.QcrdSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.Qcrd001.IsEmpty(), "日期不能为空")
                 .SplitError(x => x.Item.Qcrd004.IsEmpty(), "直接人员赁率不能为空")
                 .SplitError(x => x.Item.Qcrd005.IsEmpty(), "间接人员赁率不能为空")

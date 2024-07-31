@@ -5,7 +5,7 @@
     public class FileStorage : SysBase
     {
         /// <summary>
-        /// 自增id
+        /// 文件ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true)]

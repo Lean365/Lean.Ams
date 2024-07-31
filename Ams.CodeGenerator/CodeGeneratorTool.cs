@@ -465,7 +465,7 @@ namespace Ams.CodeGenerator
             {
                 dto.CodeGen.ModuleName = "Accounting";
             }
-            if (dto.TableName.StartsWith("routine_") || dto.TableName.StartsWith("bpm_"))
+            if (dto.TableName.StartsWith("routine_") || dto.TableName.StartsWith("bpm_") || dto.TableName.StartsWith("inst_"))
             {
                 dto.CodeGen.ModuleName = "Routine";
             }

@@ -33,7 +33,7 @@ namespace Ams.Service.Content
         public PagedInfo<ArticleCommentDto> GetMessageList(MessageQueryDto dto)
         {
             var predicate = Expressionable.Create<ArticleComment>();
-            predicate.And(it => it.IsDelete == 0);
+            predicate.And(it => it.IsDeleted == 0);
             predicate.And(it => it.ParentId == dto.CommentId);
             predicate.AndIF(dto.UserId != null, it => it.UserId == dto.UserId);
             predicate.AndIF(dto.CommentId > 0, it => it.CommentId > dto.CommentId);//分页使用
@@ -94,7 +94,7 @@ namespace Ams.Service.Content
         {
             return Queryable()
                             .LeftJoin<SysUser>((f, u) => f.UserId == u.UserId)
-                            .Where(f => f.ParentId == cid && f.IsDelete == 0)
+                            .Where(f => f.ParentId == cid && f.IsDeleted == 0)
                             //.WhereIF(cid > 0, f => f.MId > cid)
                             //.Includes(f => f.User.MappingField(z => z.Useridx, () => f.Useridx))
                             .OrderBy(f => f.CommentId)
@@ -206,7 +206,7 @@ namespace Ams.Service.Content
             var deleteNum = 0;
             var result = UseTran(() =>
             {
-                Update(it => it.CommentId == commentId, it => new ArticleComment() { IsDelete = 1 });
+                Update(it => it.CommentId == commentId, it => new ArticleComment() { IsDeleted = 1 });
                 if (info.ParentId > 0)
                 {
                     //评论表 评论数 - 1
@@ -234,7 +234,7 @@ namespace Ams.Service.Content
         public PagedInfo<ArticleCommentDto> GetMyMessageList(MessageQueryDto dto)
         {
             var predicate = Expressionable.Create<ArticleComment>();
-            predicate.And(it => it.IsDelete == 0);
+            predicate.And(it => it.IsDeleted == 0);
             //predicate.And(it => it.ParentId == dto.MId);
             predicate.AndIF(dto.UserId != null, it => it.UserId == dto.UserId);
             predicate.AndIF(dto.CommentId > 0, it => it.CommentId > dto.CommentId);//分页使用

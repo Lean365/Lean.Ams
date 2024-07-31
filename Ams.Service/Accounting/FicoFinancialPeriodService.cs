@@ -36,7 +36,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FpSfid.ToString() == enterString);
+            int count = Count(it => it. FpSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FpSfid"></param>
+        /// <param name="FpSfId"></param>
         /// <returns></returns>
-        public FicoFinancialPeriod GetInfo(long FpSfid)
+        public FicoFinancialPeriod GetInfo(long FpSfId)
         {
             var response = Queryable()
-                .Where(x => x.FpSfid == FpSfid)
+                .Where(x => x.FpSfId == FpSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FpSfid.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.FpSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.FpFinancialYear.IsEmpty(), "财年不能为空")
                 .SplitError(x => x.Item.FpYearMonth.IsEmpty(), "年月不能为空")
                 .SplitError(x => x.Item.FpYear.IsEmpty(), "年不能为空")

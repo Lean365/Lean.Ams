@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取生产工单信息
         /// </summary>
-        /// <param name="MoSfid"></param>
+        /// <param name="MoSfId"></param>
         /// <returns></returns>
-        PpOrder GetInfo(long MoSfid);
+        PpOrder GetInfo(long MoSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

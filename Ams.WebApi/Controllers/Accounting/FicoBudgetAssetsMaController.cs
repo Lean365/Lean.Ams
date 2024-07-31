@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询资产预算详情
         /// </summary>
-        /// <param name="FbaSfid"></param>
+        /// <param name="FbaSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FbaSfid}")]
+        [HttpGet("{FbaSfId}")]
         [ActionPermissionFilter(Permission = "fico:budgetassetsma:query")]
-        public IActionResult GetFicoBudgetAssetsMa(long FbaSfid)
+        public IActionResult GetFicoBudgetAssetsMa(long FbaSfId)
         {
-            var response = _FicoBudgetAssetsMaService.GetInfo(FbaSfid);
+            var response = _FicoBudgetAssetsMaService.GetInfo(FbaSfId);
             
             var info = response.Adapt<FicoBudgetAssetsMaDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetAssetsMaService.CheckInputUnique(parm.FbaSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetAssetsMaService.CheckInputUnique(parm.FbaSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增资产预算 '{parm.FbaSfid}'失败(Add failed)，输入的资产预算已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增资产预算 '{parm.FbaSfId}'失败(Add failed)，输入的资产预算已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoBudgetAssetsMa>().ToCreate(HttpContext);
 

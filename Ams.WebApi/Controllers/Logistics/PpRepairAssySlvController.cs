@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询组立不良slv详情
         /// </summary>
-        /// <param name="PpdSfid"></param>
+        /// <param name="PpdSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PpdSfid}")]
+        [HttpGet("{PpdSfId}")]
         [ActionPermissionFilter(Permission = "pp:repairassyslv:query")]
-        public IActionResult GetPpRepairAssySlv(long PpdSfid)
+        public IActionResult GetPpRepairAssySlv(long PpdSfId)
         {
-            var response = _PpRepairAssySlvService.GetInfo(PpdSfid);
+            var response = _PpRepairAssySlvService.GetInfo(PpdSfId);
             
             var info = response.Adapt<PpRepairAssySlvDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpRepairAssySlvService.CheckInputUnique(parm.PpdSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpRepairAssySlvService.CheckInputUnique(parm.PpdSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增组立不良slv '{parm.PpdSfid}'失败(Add failed)，输入的组立不良slv已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增组立不良slv '{parm.PpdSfId}'失败(Add failed)，输入的组立不良slv已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpRepairAssySlv>().ToCreate(HttpContext);
 

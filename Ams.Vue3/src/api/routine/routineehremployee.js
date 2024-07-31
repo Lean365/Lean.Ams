@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 人事信息分页查询
+ * 人事分页查询
  * @param {查询条件} data
  */
 export function listRoutineEhrEmployee(query) {
@@ -14,7 +14,7 @@ export function listRoutineEhrEmployee(query) {
 }
 
 /**
- * 新增人事信息
+ * 新增人事
  * @param data
  */
 export function addRoutineEhrEmployee(data) {
@@ -25,7 +25,7 @@ export function addRoutineEhrEmployee(data) {
   })
 }
 /**
- * 修改人事信息
+ * 修改人事
  * @param data
  */
 export function updateRoutineEhrEmployee(data) {
@@ -36,7 +36,7 @@ export function updateRoutineEhrEmployee(data) {
   })
 }
 /**
- * 获取人事信息详情
+ * 获取人事详情
  * @param {Id}
  */
 export function getRoutineEhrEmployee(id) {
@@ -47,7 +47,7 @@ export function getRoutineEhrEmployee(id) {
 }
 
 /**
- * 删除人事信息
+ * 删除人事
  * @param {主键} pid
  */
 export function delRoutineEhrEmployee(pid) {
@@ -56,7 +56,7 @@ export function delRoutineEhrEmployee(pid) {
     method: 'delete'
   })
 }
-// 导出人事信息
+// 导出人事
 export async function exportRoutineEhrEmployee(query) {
   await downFile('Routine/RoutineEhrEmployee/export', { ...query })
 }

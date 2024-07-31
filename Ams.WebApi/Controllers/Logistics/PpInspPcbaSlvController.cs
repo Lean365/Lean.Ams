@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询检查日报slv详情
         /// </summary>
-        /// <param name="PdiSfid"></param>
+        /// <param name="PdiSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PdiSfid}")]
+        [HttpGet("{PdiSfId}")]
         [ActionPermissionFilter(Permission = "pp:inscbaslv:query")]
-        public IActionResult GetPpInspPcbaSlv(long PdiSfid)
+        public IActionResult GetPpInspPcbaSlv(long PdiSfId)
         {
-            var response = _PpInspPcbaSlvService.GetInfo(PdiSfid);
+            var response = _PpInspPcbaSlvService.GetInfo(PdiSfId);
             
             var info = response.Adapt<PpInspPcbaSlvDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpInspPcbaSlvService.CheckInputUnique(parm.PdiSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpInspPcbaSlvService.CheckInputUnique(parm.PdiSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增检查日报slv '{parm.PdiSfid}'失败(Add failed)，输入的检查日报slv已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增检查日报slv '{parm.PdiSfId}'失败(Add failed)，输入的检查日报slv已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpInspPcbaSlv>().ToCreate(HttpContext);
 

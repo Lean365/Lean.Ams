@@ -28,11 +28,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpOutputPcbaMasterDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PomSfid { get; set; }
+        public long PomSfId { get; set; }
 
         [Required(ErrorMessage = "订单类别不能为空")]
         [ExcelColumn(Name = "订单类别")]
@@ -179,11 +179,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpOutputPcbaMasterImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PomSfid { get; set; }
+        public long PomSfId { get; set; }
 
         [Required(ErrorMessage = "订单类别不能为空")]
         [ExcelColumn(Name = "订单类别")]

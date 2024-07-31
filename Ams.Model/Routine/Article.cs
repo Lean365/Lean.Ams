@@ -8,7 +8,7 @@
     public class Article : SysBase
     {
         /// <summary>
-        /// 文章id
+        /// 文章ID
         /// </summary>
         [SugarColumn(IsIdentity = true, IsPrimaryKey = true)]
         public long Cid { get; set; }

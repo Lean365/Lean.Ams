@@ -24,11 +24,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpSourceEcMaDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         [ExcelColumn(Name = "设变No.")]
         [ExcelColumnName("设变No.")]
@@ -169,11 +169,11 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpSourceEcMaImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         [ExcelColumn(Name = "设变No.")]
         [ExcelColumnName("设变No.")]

@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取销售价格信息
         /// </summary>
-        /// <param name="SspSfid"></param>
+        /// <param name="SspSfId"></param>
         /// <returns></returns>
-        SdSellingPrice GetInfo(long SspSfid);
+        SdSellingPrice GetInfo(long SspSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

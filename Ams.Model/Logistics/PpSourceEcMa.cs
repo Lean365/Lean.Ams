@@ -10,11 +10,11 @@ namespace Ams.Model.Logistics
     public class PpSourceEcMa : SysBase
     {
         /// <summary>
-        /// SFID
+        /// ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         /// <summary>
         /// 设变No.
@@ -183,13 +183,7 @@ namespace Ams.Model.Logistics
         [SugarColumn(ColumnName = "IsSolved", ColumnDescription = "处理标记 ", Length = 3)]
         public string IsSolved { get; set; }
 
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        [SugarColumn(ColumnName = "IsDeleted", ColumnDescription = "软删除 ", DefaultValue = "0")]
-        public int IsDeleted { get; set; }
-
-        [Navigate(NavigateType.OneToMany, nameof(PpSourceEcSlv.ParentSfid), nameof(Sfid))] //自定义关系映射
+        [Navigate(NavigateType.OneToMany, nameof(PpSourceEcSlv.ParentSfId), nameof(SfId))] //自定义关系映射
         public List<PpSourceEcSlv> PpSourceEcSlvNav { get; set; }
     }
 }

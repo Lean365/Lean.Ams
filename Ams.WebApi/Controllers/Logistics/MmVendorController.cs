@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询厂商信息详情
         /// </summary>
-        /// <param name="VeSFID"></param>
+        /// <param name="VeSfId"></param>
         /// <returns></returns>
-        [HttpGet("{VeSFID}")]
+        [HttpGet("{VeSfId}")]
         [ActionPermissionFilter(Permission = "mm:vendor:query")]
-        public IActionResult GetMmVendor(long VeSFID)
+        public IActionResult GetMmVendor(long VeSfId)
         {
-            var response = _MmVendorService.GetInfo(VeSFID);
+            var response = _MmVendorService.GetInfo(VeSfId);
             
             var info = response.Adapt<MmVendorDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_MmVendorService.CheckInputUnique(parm.VeSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_MmVendorService.CheckInputUnique(parm.VeSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增厂商信息 '{parm.VeSFID}'失败(Add failed)，输入的厂商信息已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增厂商信息 '{parm.VeSfId}'失败(Add failed)，输入的厂商信息已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<MmVendor>().ToCreate(HttpContext);
 

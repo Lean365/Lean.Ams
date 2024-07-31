@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询bom成本核算详情
         /// </summary>
-        /// <param name="BcSfid"></param>
+        /// <param name="BcSfId"></param>
         /// <returns></returns>
-        [HttpGet("{BcSfid}")]
+        [HttpGet("{BcSfId}")]
         [ActionPermissionFilter(Permission = "fico:costingbom:query")]
-        public IActionResult GetFicoCostingBom(long BcSfid)
+        public IActionResult GetFicoCostingBom(long BcSfId)
         {
-            var response = _FicoCostingBomService.GetInfo(BcSfid);
+            var response = _FicoCostingBomService.GetInfo(BcSfId);
             
             var info = response.Adapt<FicoCostingBomDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Accounting
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoCostingBomService.CheckInputUnique(parm.BcSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoCostingBomService.CheckInputUnique(parm.BcSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增bom成本核算 '{parm.BcSfid}'失败(Add failed)，输入的bom成本核算已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增bom成本核算 '{parm.BcSfId}'失败(Add failed)，输入的bom成本核算已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoCostingBom>().ToCreate(HttpContext);
 

@@ -21,10 +21,10 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpSourceOrderSerialDto
     {
-        [Required(ErrorMessage = "Sfid不能为空")]
-        [ExcelColumn(Name = "Sfid")]
-        [ExcelColumnName("Sfid")]
-        public string Sfid { get; set; }
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
+        public string SfId { get; set; }
 
         [ExcelColumn(Name = "工厂")]
         [ExcelColumnName("工厂")]
@@ -80,10 +80,10 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpSourceOrderSerialImportTpl
     {
-        [Required(ErrorMessage = "Sfid不能为空")]
-        [ExcelColumn(Name = "Sfid")]
-        [ExcelColumnName("Sfid")]
-        public string Sfid { get; set; }
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
+        public string SfId { get; set; }
 
         [ExcelColumn(Name = "工厂")]
         [ExcelColumnName("工厂")]

@@ -35,12 +35,12 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long EcsSfid { get; set; }
+        public long EcsSfId { get; set; }
 
         [Required(ErrorMessage = "父ID不能为空")]
         [ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long EcsParentSfid { get; set; }
+        public long EcsParentSfId { get; set; }
 
         [Required(ErrorMessage = "设变No.不能为空")]
         [ExcelColumn(Name = "设变No.")]
@@ -367,12 +367,12 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long EcsSfid { get; set; }
+        public long EcsSfId { get; set; }
 
         [Required(ErrorMessage = "父ID不能为空")]
         [ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long EcsParentSfid { get; set; }
+        public long EcsParentSfId { get; set; }
 
         [Required(ErrorMessage = "设变No.不能为空")]
         [ExcelColumn(Name = "设变No.")]

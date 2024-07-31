@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询抽样标准详情
         /// </summary>
-        /// <param name="QcaSFID"></param>
+        /// <param name="QcaSfId"></param>
         /// <returns></returns>
-        [HttpGet("{QcaSFID}")]
+        [HttpGet("{QcaSfId}")]
         [ActionPermissionFilter(Permission = "qm:checkaql:query")]
-        public IActionResult GetQmCheckAql(long QcaSFID)
+        public IActionResult GetQmCheckAql(long QcaSfId)
         {
-            var response = _QmCheckAqlService.GetInfo(QcaSFID);
+            var response = _QmCheckAqlService.GetInfo(QcaSfId);
             
             var info = response.Adapt<QmCheckAqlDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmCheckAqlService.CheckInputUnique(parm.QcaSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmCheckAqlService.CheckInputUnique(parm.QcaSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增抽样标准 '{parm.QcaSFID}'失败(Add failed)，输入的抽样标准已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增抽样标准 '{parm.QcaSfId}'失败(Add failed)，输入的抽样标准已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmCheckAql>().ToCreate(HttpContext);
 

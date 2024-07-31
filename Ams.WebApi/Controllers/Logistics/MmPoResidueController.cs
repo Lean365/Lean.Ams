@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询PO残清单详情
         /// </summary>
-        /// <param name="PrSFID"></param>
+        /// <param name="PrSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PrSFID}")]
+        [HttpGet("{PrSfId}")]
         [ActionPermissionFilter(Permission = "mm:poresidue:query")]
-        public IActionResult GetMmPoResidue(long PrSFID)
+        public IActionResult GetMmPoResidue(long PrSfId)
         {
-            var response = _MmPoResidueService.GetInfo(PrSFID);
+            var response = _MmPoResidueService.GetInfo(PrSfId);
             
             var info = response.Adapt<MmPoResidueDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_MmPoResidueService.CheckInputUnique(parm.PrSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_MmPoResidueService.CheckInputUnique(parm.PrSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增PO残清单 '{parm.PrSFID}'失败(Add failed)，输入的PO残清单已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增PO残清单 '{parm.PrSfId}'失败(Add failed)，输入的PO残清单已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<MmPoResidue>().ToCreate(HttpContext);
 

@@ -10,11 +10,11 @@ namespace Ams.Model.Logistics
     public class PpSourceMaterial : SysBase
     {
         /// <summary>
-        /// Sfid
+        /// ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long Sfid { get; set; }
+        public long SfId { get; set; }
 
         /// <summary>
         /// Plnt
@@ -219,11 +219,5 @@ namespace Ams.Model.Logistics
         /// </summary>
         [SugarColumn(ColumnName = "Zcadz034", ColumnDescription = "状态 ", Length = 2)]
         public string Zcadz034 { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        [SugarColumn(ColumnName = "IsDeleted", ColumnDescription = "软删除 ", DefaultValue = "0")]
-        public int IsDeleted { get; set; }
     }
 }

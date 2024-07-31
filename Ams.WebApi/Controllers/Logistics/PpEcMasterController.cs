@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询主设变详情
         /// </summary>
-        /// <param name="EcmSfid"></param>
+        /// <param name="EcmSfId"></param>
         /// <returns></returns>
-        [HttpGet("{EcmSfid}")]
+        [HttpGet("{EcmSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecmaster:query")]
-        public IActionResult GetPpEcMaster(long EcmSfid)
+        public IActionResult GetPpEcMaster(long EcmSfId)
         {
-            var response = _PpEcMasterService.GetInfo(EcmSfid);
+            var response = _PpEcMasterService.GetInfo(EcmSfId);
             
             var info = response.Adapt<PpEcMasterDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcMasterService.CheckInputUnique(parm.EcmSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcMasterService.CheckInputUnique(parm.EcmSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增主设变 '{parm.EcmSfid}'失败(Add failed)，输入的主设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增主设变 '{parm.EcmSfId}'失败(Add failed)，输入的主设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcMaster>().ToCreate(HttpContext);
 

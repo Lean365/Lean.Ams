@@ -25,11 +25,11 @@ namespace Ams.Model.Accounting.Dto
     /// </summary>
     public class FicoMonthlyInventoryDto
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long MiSfid { get; set; }
+        public long MiSfId { get; set; }
 
         [Required(ErrorMessage = "工厂不能为空")]
         [ExcelColumn(Name = "工厂")]
@@ -136,11 +136,11 @@ namespace Ams.Model.Accounting.Dto
     /// </summary>
     public class FicoMonthlyInventoryImportTpl
     {
-        [Required(ErrorMessage = "SFID不能为空")]
-        [ExcelColumn(Name = "SFID")]
-        [ExcelColumnName("SFID")]
+        [Required(ErrorMessage = "SfId不能为空")]
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long MiSfid { get; set; }
+        public long MiSfId { get; set; }
 
         [Required(ErrorMessage = "工厂不能为空")]
         [ExcelColumn(Name = "工厂")]

@@ -7,9 +7,16 @@
     [Tenant("0")]
     public class SysRoleMenu : SysBase
     {
+        /// <summary>
+        /// 角色ID
+        /// </summary>
         [JsonProperty("roleId")]
         [SugarColumn(IsPrimaryKey = true, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public long Role_id { get; set; }
+
+        /// <summary>
+        /// 菜单ID
+        /// </summary>
         [JsonProperty("menuId")]
         [SugarColumn(IsPrimaryKey = true, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public long Menu_id { get; set; }

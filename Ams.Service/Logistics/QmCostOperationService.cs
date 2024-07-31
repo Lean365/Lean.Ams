@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. QcodSFID.ToString() == enterString);
+            int count = Count(it => it. QcodSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="QcodSFID"></param>
+        /// <param name="QcodSfId"></param>
         /// <returns></returns>
-        public QmCostOperation GetInfo(long QcodSFID)
+        public QmCostOperation GetInfo(long QcodSfId)
         {
             var response = Queryable()
-                .Where(x => x.QcodSFID == QcodSFID)
+                .Where(x => x.QcodSfId == QcodSfId)
                 .First();
 
             return response;
@@ -86,7 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.QcodSFID.IsEmpty(), "SFID不能为空")
+                .SplitError(x => x.Item.QcodSfId.IsEmpty(), "SfId不能为空")
                 .SplitError(x => x.Item.Qcod001.IsEmpty(), "日期不能为空")
                 .SplitError(x => x.Item.Qcod002.IsEmpty(), "间接赁率不能为空")
                 .SplitError(x => x.Item.Qcod003.IsEmpty(), "IQC检查费用不能为空")
