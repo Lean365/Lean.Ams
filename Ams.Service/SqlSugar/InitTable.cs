@@ -23,22 +23,23 @@ namespace Ams.Service.SqlSugar
             db.DbMaintenance.CreateDatabase();// 注意 ：Oracle和个别国产库需不支持该方法，需要手动建库
             db.CodeFirst.InitTables(typeof(GenTable));
             db.CodeFirst.InitTables(typeof(GenTableColumn));
+
+            db.CodeFirst.InitTables(typeof(SysConfig));
             db.CodeFirst.InitTables(typeof(SysUser));
             db.CodeFirst.InitTables(typeof(SysRole));
             db.CodeFirst.InitTables(typeof(SysDept));
             db.CodeFirst.InitTables(typeof(SysPost));
-            db.CodeFirst.InitTables(typeof(SysConfig));
             db.CodeFirst.InitTables(typeof(SysMenu));
+            db.CodeFirst.InitTables(typeof(SysLocaleLang));
             db.CodeFirst.InitTables(typeof(SysRoleMenu));
             db.CodeFirst.InitTables(typeof(SysRoleDept));
             db.CodeFirst.InitTables(typeof(SysUserRole));
             db.CodeFirst.InitTables(typeof(SysUserPost));
             db.CodeFirst.InitTables(typeof(SysUserMsg));
-            db.CodeFirst.InitTables(typeof(SysLocaleLang));
             db.CodeFirst.InitTables(typeof(SysDictData));
             db.CodeFirst.InitTables(typeof(SysDictType));
-            db.CodeFirst.InitTables(typeof(SysTableFields));
             db.CodeFirst.InitTables(typeof(SysTable));
+            db.CodeFirst.InitTables(typeof(SysTableFields));
 
             db.CodeFirst.InitTables(typeof(DiffLog));
             db.CodeFirst.InitTables(typeof(SmsLog));
