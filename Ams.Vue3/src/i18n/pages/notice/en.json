@@ -8,6 +8,7 @@
     "noticeId": "ID",
     "noticeTitle": "Title",
     "noticeType": "Type",
+    "noticeFileUrl": "Annexes",
     "noticeContent": "Content",
     "isState": "State",
     "publisher": "Publisher",

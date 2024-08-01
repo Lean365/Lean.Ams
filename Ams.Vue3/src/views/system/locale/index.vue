@@ -122,6 +122,7 @@
       <el-table-column prop="zh-cn" :label="$t('plang.simplified')" align="center" :show-overflow-tooltip="true" />
       <el-table-column prop="zh-tw" :label="$t('plang.traditional')" align="center" :show-overflow-tooltip="true" />
       <el-table-column prop="ja" :label="$t('plang.japanese')" align="center" :show-overflow-tooltip="true" />
+      <el-table-column prop="fr" :label="$t('plang.french')" align="center" :show-overflow-tooltip="true" />
       <el-table-column prop="en" :label="$t('plang.english')" align="center" :show-overflow-tooltip="true" />
       <el-table-column :label="$t('btn.operation')" align="center" width="140">
         <template #default="scope">
@@ -323,6 +324,11 @@
         {
           langCode: 'ja',
           label: proxy.$t('plang.japanese'),
+          langName: undefined
+        },
+        {
+          langCode: 'fr',
+          label: proxy.$t('plang.french'),
           langName: undefined
         },
         {
