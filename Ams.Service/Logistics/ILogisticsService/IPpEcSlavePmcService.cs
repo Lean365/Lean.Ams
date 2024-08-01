@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// Pmc设变
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/24 15:34:41
+    /// @Date: 2024/7/31 15:45:42
     /// </summary>
     public interface IPpEcSlavePmcService : IBaseService<PpEcSlavePmc>
     {

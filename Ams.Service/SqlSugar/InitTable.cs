@@ -38,6 +38,7 @@ namespace Ams.Service.SqlSugar
             db.CodeFirst.InitTables(typeof(SysDictData));
             db.CodeFirst.InitTables(typeof(SysDictType));
             db.CodeFirst.InitTables(typeof(SysTableFields));
+            db.CodeFirst.InitTables(typeof(SysTable));
 
             db.CodeFirst.InitTables(typeof(DiffLog));
             db.CodeFirst.InitTables(typeof(SmsLog));
@@ -56,6 +57,7 @@ namespace Ams.Service.SqlSugar
             db.CodeFirst.InitTables(typeof(ArticlePraise));
             db.CodeFirst.InitTables(typeof(ArticleComment));
             db.CodeFirst.InitTables(typeof(ArticleTopic));
+
             db.CodeFirst.InitTables(typeof(Banner));
 
             db.CodeFirst.InitTables(typeof(RoutineEhrEmployee));
@@ -130,9 +132,25 @@ namespace Ams.Service.SqlSugar
             db.CodeFirst.InitTables(typeof(PpManhours));
             db.CodeFirst.InitTables(typeof(PpEcMaster));
             db.CodeFirst.InitTables(typeof(PpEcSlave));
+
+            db.CodeFirst.InitTables(typeof(PpEcMasterTe));
+            db.CodeFirst.InitTables(typeof(PpEcSlaveTe));
             db.CodeFirst.InitTables(typeof(PpEcMasterPmc));
             db.CodeFirst.InitTables(typeof(PpEcSlavePmc));
-            db.CodeFirst.InitTables(typeof(PpEcMasterTe));
+            db.CodeFirst.InitTables(typeof(PpEcMasterPur));
+            db.CodeFirst.InitTables(typeof(PpEcSlavePur));
+            db.CodeFirst.InitTables(typeof(PpEcMasterMm));
+            db.CodeFirst.InitTables(typeof(PpEcSlaveMm));
+            db.CodeFirst.InitTables(typeof(PpEcMasterIqc));
+            db.CodeFirst.InitTables(typeof(PpEcSlaveIqc));
+            db.CodeFirst.InitTables(typeof(PpEcMasterPcba));
+            db.CodeFirst.InitTables(typeof(PpEcSlavePcba));
+            db.CodeFirst.InitTables(typeof(PpEcMasterAssy));
+            db.CodeFirst.InitTables(typeof(PpEcSlaveAssy));
+            db.CodeFirst.InitTables(typeof(PpEcMasterFqc));
+            db.CodeFirst.InitTables(typeof(PpEcSlaveFqc));
+            db.CodeFirst.InitTables(typeof(PpEcMasterPe));
+            db.CodeFirst.InitTables(typeof(PpEcSlavePe));
 
             db.CodeFirst.InitTables(typeof(PpOutputAssyMaster));
             db.CodeFirst.InitTables(typeof(PpOutputAssySlave));

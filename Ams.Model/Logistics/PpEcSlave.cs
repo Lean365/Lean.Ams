@@ -13,12 +13,13 @@ namespace Ams.Model.Logistics
         /// ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
         public long EcsSfId { get; set; }
 
         /// <summary>
         /// 父ID
         /// </summary>
+        [JsonConverter(typeof(ValueToStringConverter))]
         public long EcsParentSfId { get; set; }
 
         /// <summary>

@@ -2,7 +2,8 @@
  * @Descripttion: 生管/pp_ec_master_pmc
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/24 14:46:21
+ * @Date: 2024/7/31 15:49:28
+ * @column：46
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -22,46 +23,26 @@
           :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="设变No." prop="ecmNo">
-        <el-input v-model="queryParams.ecmNo" :placeholder="$t('btn.enterSearchPrefix')+'设变No.'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="设变No. " prop="ecmNo">
+        <el-input v-model="queryParams.ecmNo" :placeholder="$t('btn.enterSearchPrefix')+'设变No. '+$t('btn.enterSearchSuffix')" />
       </el-form-item>
-      <el-form-item label="设变状态" prop="ecmStated">
-        <el-select filterable clearable   v-model="queryParams.ecmStated" :placeholder="$t('btn.selectSearchPrefix')+'设变状态'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_ec_status " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
+      <el-form-item label="标题 " prop="ecmTitle">
+        <el-input v-model="queryParams.ecmTitle" :placeholder="$t('btn.enterSearchPrefix')+'标题 '+$t('btn.enterSearchSuffix')" />
       </el-form-item>
-      <el-form-item label="标题" prop="ecmTitle">
-        <el-input v-model="queryParams.ecmTitle" :placeholder="$t('btn.enterSearchPrefix')+'标题'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="内容 " prop="ecmContent">
+        <el-input v-model="queryParams.ecmContent" :placeholder="$t('btn.enterSearchPrefix')+'内容 '+$t('btn.enterSearchSuffix')" />
       </el-form-item>
-      <el-form-item label="内容" prop="ecmContent">
-        <el-input v-model="queryParams.ecmContent" :placeholder="$t('btn.enterSearchPrefix')+'内容'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="担当" prop="ecmLeader">
-        <el-select filterable clearable   v-model="queryParams.ecmLeader" :placeholder="$t('btn.selectSearchPrefix')+'担当'+$t('btn.selectSearchSuffix')">
+      <el-form-item label="担当 " prop="ecmLeader">
+        <el-select filterable clearable   v-model="queryParams.ecmLeader" :placeholder="$t('btn.selectSearchPrefix')+'担当 '+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   options.sql_ec_group " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="联络No." prop="ecmLiaisonNo">
-        <el-input v-model="queryParams.ecmLiaisonNo" :placeholder="$t('btn.enterSearchPrefix')+'联络No.'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="EppNo." prop="ecmEppLiaisonNo">
-        <el-input v-model="queryParams.ecmEppLiaisonNo" :placeholder="$t('btn.enterSearchPrefix')+'EppNo.'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="FppNo." prop="ecmFppLiaisonNo">
-        <el-input v-model="queryParams.ecmFppLiaisonNo" :placeholder="$t('btn.enterSearchPrefix')+'FppNo.'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="外部No." prop="ecmExternalNo">
-        <el-input v-model="queryParams.ecmExternalNo" :placeholder="$t('btn.enterSearchPrefix')+'外部No.'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="输入部门" prop="ecmEnteredDept">
-        <el-select filterable clearable   v-model="queryParams.ecmEnteredDept" :placeholder="$t('btn.selectSearchPrefix')+'输入部门'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_dept_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="管理区分 " prop="ecmManageCategory">
+        <el-select filterable clearable   v-model="queryParams.ecmManageCategory" :placeholder="$t('btn.selectSearchPrefix')+'管理区分 '+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sys_ec_mgtype " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -78,13 +59,17 @@
           :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="SOP更新否" prop="ecmSopStated">
-        <el-select filterable clearable   v-model="queryParams.ecmSopStated" :placeholder="$t('btn.selectSearchPrefix')+'SOP更新否'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_normal_whether " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
+      <el-form-item label="SOP更新否 " prop="ecmSopStated">
+        <el-radio-group v-model="queryParams.ecmSopStated">
+          <el-radio>{{$t('common.all')}}</el-radio>
+          <el-radio v-for="item in  options.sys_flag_list " :key="item.dictValue" :value="item.dictValue">{{item.dictLabel}}</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="实施标记 " prop="ecmImplStated">
+        <el-radio-group v-model="queryParams.ecmImplStated">
+          <el-radio>{{$t('common.all')}}</el-radio>
+          <el-radio v-for="item in  options.sys_flag_list " :key="item.dictValue" :value="item.dictValue">{{item.dictLabel}}</el-radio>
+        </el-radio-group>
       </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
@@ -153,56 +138,58 @@
           <el-button class="btn-view" plain  icon="view" size="small" @click="rowClick(scope.row)" :title=" $t('btn.details') "></el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="ecmSFID" label="Sfid" align="center" v-if="columns.showColumn('ecmSFID')"/>
+      <el-table-column prop="ecmSfId" label="ID" align="center" v-if="columns.showColumn('ecmSfId')"/>
       <el-table-column prop="ecmIssueDate" label="发行日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('ecmIssueDate')"/>
-      <el-table-column prop="ecmNo" label="设变No." align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmNo')"/>
-      <el-table-column prop="ecmFileUrl" label="关联文件" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmFileUrl')"/>
-      <el-table-column prop="ecmStated" label="设变状态" align="center" v-if="columns.showColumn('ecmStated')">
+      <el-table-column prop="ecmNo" label="设变No. " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmNo')"/>
+      <el-table-column prop="ecmFileUrl" label="关联文件 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmFileUrl')"/>
+      <el-table-column prop="ecmStated" label="设变状态 " align="center" v-if="columns.showColumn('ecmStated')">
         <template #default="scope">
           <dict-tag :options=" options.sys_ec_status " :value="scope.row.ecmStated"  />
         </template>
       </el-table-column>
-      <el-table-column prop="ecmTitle" label="标题" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmTitle')"/>
-      <el-table-column prop="ecmContent" label="内容" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmContent')"/>
-      <el-table-column prop="ecmLeader" label="担当" align="center" v-if="columns.showColumn('ecmLeader')">
+      <el-table-column prop="ecmTitle" label="标题 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmTitle')"/>
+      <el-table-column prop="ecmContent" label="内容 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmContent')"/>
+      <el-table-column prop="ecmLeader" label="担当 " align="center" v-if="columns.showColumn('ecmLeader')">
         <template #default="scope">
           <dict-tag :options=" options.sql_ec_group " :value="scope.row.ecmLeader"  />
         </template>
       </el-table-column>
-      <el-table-column prop="ecmLossAmount" label="损失金额" align="center" v-if="columns.showColumn('ecmLossAmount')"/>
-      <el-table-column prop="ecmManageCategory" label="管理区分" align="center" v-if="columns.showColumn('ecmManageCategory')">
+      <el-table-column prop="ecmLossAmount" label="损失金额 " align="center" v-if="columns.showColumn('ecmLossAmount')"/>
+      <el-table-column prop="ecmManageCategory" label="管理区分 " align="center" v-if="columns.showColumn('ecmManageCategory')">
         <template #default="scope">
           <dict-tag :options=" options.sys_ec_mgtype " :value="scope.row.ecmManageCategory"  />
         </template>
       </el-table-column>
-      <el-table-column prop="ecmLiaisonNo" label="联络No." align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmLiaisonNo')"/>
-      <el-table-column prop="ecmLiaisonFileUrl" label="联络文件" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmLiaisonFileUrl')"/>
-      <el-table-column prop="ecmEppLiaisonNo" label="EppNo." align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmEppLiaisonNo')"/>
-      <el-table-column prop="ecmEppLiaisonFileUrl" label="Epp文件" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmEppLiaisonFileUrl')"/>
-      <el-table-column prop="ecmFppLiaisonNo" label="FppNo." align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmFppLiaisonNo')"/>
-      <el-table-column prop="ecmFppLiaisonFileUrl" label="Fpp文件" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmFppLiaisonFileUrl')"/>
-      <el-table-column prop="ecmExternalNo" label="外部No." align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmExternalNo')"/>
-      <el-table-column prop="ecmExternalFileUrl" label="外部文件" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmExternalFileUrl')"/>
-      <el-table-column prop="ecmEnteredDept" label="输入部门" align="center" v-if="columns.showColumn('ecmEnteredDept')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_dept_list " :value="scope.row.ecmEnteredDept"  />
-        </template>
-      </el-table-column>
+      <el-table-column prop="ecmLiaisonNo" label="联络No. " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmLiaisonNo')"/>
+      <el-table-column prop="ecmLiaisonFileUrl" label="联络文件 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmLiaisonFileUrl')"/>
+      <el-table-column prop="ecmEppLiaisonNo" label="EppNo. " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmEppLiaisonNo')"/>
+      <el-table-column prop="ecmEppLiaisonFileUrl" label="Epp文件 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmEppLiaisonFileUrl')"/>
+      <el-table-column prop="ecmFppLiaisonNo" label="FppNo. " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmFppLiaisonNo')"/>
+      <el-table-column prop="ecmFppLiaisonFileUrl" label="Fpp文件 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmFppLiaisonFileUrl')"/>
+      <el-table-column prop="ecmExternalNo" label="外部No. " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmExternalNo')"/>
+      <el-table-column prop="ecmExternalFileUrl" label="外部文件 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmExternalFileUrl')"/>
+      <el-table-column prop="ecmEnteredDept" label="输入部门 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ecmEnteredDept')"/>
       <el-table-column prop="ecmEnteredDate" label="输入日" :show-overflow-tooltip="true"  v-if="columns.showColumn('ecmEnteredDate')"/>
-      <el-table-column prop="ecmSopStated" label="SOP更新否" align="center" v-if="columns.showColumn('ecmSopStated')">
+      <el-table-column prop="ecmSopStated" label="SOP更新否 " align="center" v-if="columns.showColumn('ecmSopStated')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_normal_whether " :value="scope.row.ecmSopStated"  />
+          <dict-tag :options=" options.sys_flag_list " :value="scope.row.ecmSopStated"  />
         </template>
       </el-table-column>
-      <el-table-column prop="ecmImplStated" label="实施标记" align="center" v-if="columns.showColumn('ecmImplStated')">
+      <el-table-column prop="ecmImplStated" label="实施标记 " align="center" v-if="columns.showColumn('ecmImplStated')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_normal_whether " :value="scope.row.ecmImplStated"  />
+          <dict-tag :options=" options.sys_flag_list " :value="scope.row.ecmImplStated"  />
         </template>
       </el-table-column>
-      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
+      <el-table-column prop="rEF01" label="预留A " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF01')"/>
+      <el-table-column prop="rEF02" label="预留B " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF02')"/>
+      <el-table-column prop="rEF03" label="预留C " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF03')"/>
+      <el-table-column prop="rEF04" label="预留1 " align="center" v-if="columns.showColumn('rEF04')"/>
+      <el-table-column prop="rEF05" label="预留2 " align="center" v-if="columns.showColumn('rEF05')"/>
+      <el-table-column prop="rEF06" label="预留3" align="center" v-if="columns.showColumn('rEF06')"/>
+      <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
+      <el-table-column prop="createBy" label="创建人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
       <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
-      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
+      <el-table-column prop="updateBy" label="更新人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
       <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
@@ -219,28 +206,34 @@
     <el-drawer v-model="drawer" size="65%" direction="rtl">
       <el-table :data="ppEcSlavePmcList" header-row-class-name="text-navy">
         <el-table-column :label="$t('layout.indexNo')" type="index" width="80" />
-        <el-table-column prop="pmcSfid" label="ID"/>
-        <el-table-column prop="pmcParentSfid" label="父ID"/>
-        <el-table-column prop="pmcEcNo" label="设变No."/>
-        <el-table-column prop="pmcModel" label="机种"/>
-        <el-table-column prop="pmcItem" label="物料"/>
-        <el-table-column prop="pmcImplStated" label="实施标记">
+        <el-table-column prop="pmcSfId" label="ID"/>
+        <el-table-column prop="pmcParentSfId" label="父ID"/>
+        <el-table-column prop="pmcEcNo" label="设变No. "/>
+        <el-table-column prop="pmcModel" label="机种 "/>
+        <el-table-column prop="pmcItem" label="物料 "/>
+        <el-table-column prop="pmcImplStated" label="实施标记 ">
           <template #default="scope">
-            <dict-tag :options=" options.sys_normal_whether " :value="scope.row.pmcImplStated"  />
+            <dict-tag :options=" options.sys_flag_list " :value="scope.row.pmcImplStated"  />
           </template>
         </el-table-column>
-        <el-table-column prop="pmcDnteredDate" label="输入日期"/>
-        <el-table-column prop="pmcPreLot" label="预投批次"/>
-        <el-table-column prop="pmcDisposal" label="旧品处理">
+        <el-table-column prop="pmcEnteredDate" label="输入日期"/>
+        <el-table-column prop="pmcPreLot" label="预投批次 "/>
+        <el-table-column prop="pmcDisposal" label="旧品处理 ">
           <template #default="scope">
             <dict-tag :options=" options.sys_old_disposal " :value="scope.row.pmcDisposal"  />
           </template>
         </el-table-column>
-        <el-table-column prop="pmcNote" label="记事"/>
-        <el-table-column prop="remark" label="备注"/>
-        <el-table-column prop="createBy" label="创建者"/>
+        <el-table-column prop="pmcNote" label="记事 "/>
+        <el-table-column prop="rEF01" label="预留A "/>
+        <el-table-column prop="rEF02" label="预留B "/>
+        <el-table-column prop="rEF03" label="预留C "/>
+        <el-table-column prop="rEF04" label="预留1 "/>
+        <el-table-column prop="rEF05" label="预留2 "/>
+        <el-table-column prop="rEF06" label="预留3"/>
+        <el-table-column prop="remark" label="备注说明"/>
+        <el-table-column prop="createBy" label="创建人员"/>
         <el-table-column prop="createTime" label="创建时间"/>
-        <el-table-column prop="updateBy" label="更新者"/>
+        <el-table-column prop="updateBy" label="更新人员"/>
         <el-table-column prop="updateTime" label="更新时间"/>
       </el-table>
     </el-drawer>
@@ -252,8 +245,8 @@
         <el-row :gutter="20">
             
           <el-col :lg="12" v-if="opertype != 1">
-            <el-form-item label="Sfid" prop="ecmSFID">
-              <el-input-number v-model.number="form.ecmSFID" controls-position="right" :placeholder="$t('btn.enterPrefix')+'Sfid'+$t('btn.enterSuffix')" :disabled="true"/>
+            <el-form-item label="ID" prop="ecmSfId">
+              <el-input-number v-model.number="form.ecmSfId" controls-position="right" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="true"/>
             </el-form-item>
           </el-col>
 
@@ -264,20 +257,20 @@
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="设变No." prop="ecmNo">
-              <el-input v-model="form.ecmNo" :placeholder="$t('btn.enterPrefix')+'设变No.'+$t('btn.enterSuffix')" />
+            <el-form-item label="设变No. " prop="ecmNo">
+              <el-input v-model="form.ecmNo" :placeholder="$t('btn.enterPrefix')+'设变No. '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="关联文件" prop="ecmFileUrl">
-              <el-input v-model="form.ecmFileUrl" :placeholder="$t('btn.enterPrefix')+'关联文件'+$t('btn.enterSuffix')" />
+            <el-form-item label="关联文件 " prop="ecmFileUrl">
+              <el-input v-model="form.ecmFileUrl" :placeholder="$t('btn.enterPrefix')+'关联文件 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="设变状态" prop="ecmStated">
-              <el-select filterable clearable   v-model="form.ecmStated"  :placeholder="$t('btn.selectPrefix')+'设变状态'+$t('btn.selectSuffix')">
+            <el-form-item label="设变状态 " prop="ecmStated">
+              <el-select filterable clearable   v-model="form.ecmStated"  :placeholder="$t('btn.selectPrefix')+'设变状态 '+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sys_ec_status" 
                   :key="item.dictValue" 
@@ -289,20 +282,20 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="标题" prop="ecmTitle">
-              <el-input v-model="form.ecmTitle" :placeholder="$t('btn.enterPrefix')+'标题'+$t('btn.enterSuffix')" />
+            <el-form-item label="标题 " prop="ecmTitle">
+              <el-input v-model="form.ecmTitle" :placeholder="$t('btn.enterPrefix')+'标题 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="内容" prop="ecmContent">
-              <el-input v-model="form.ecmContent" :placeholder="$t('btn.enterPrefix')+'内容'+$t('btn.enterSuffix')" />
+            <el-form-item label="内容 " prop="ecmContent">
+              <el-input v-model="form.ecmContent" :placeholder="$t('btn.enterPrefix')+'内容 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="担当" prop="ecmLeader">
-              <el-select filterable clearable   v-model="form.ecmLeader"  :placeholder="$t('btn.selectPrefix')+'担当'+$t('btn.selectSuffix')">
+            <el-form-item label="担当 " prop="ecmLeader">
+              <el-select filterable clearable   v-model="form.ecmLeader"  :placeholder="$t('btn.selectPrefix')+'担当 '+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_ec_group" 
                   :key="item.dictValue" 
@@ -314,14 +307,14 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="损失金额" prop="ecmLossAmount">
-              <el-input-number v-model.number="form.ecmLossAmount" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'损失金额'+$t('btn.enterSuffix')" />
+            <el-form-item label="损失金额 " prop="ecmLossAmount">
+              <el-input-number v-model.number="form.ecmLossAmount" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'损失金额 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="管理区分" prop="ecmManageCategory">
-              <el-select filterable clearable   v-model="form.ecmManageCategory"  :placeholder="$t('btn.selectPrefix')+'管理区分'+$t('btn.selectSuffix')">
+            <el-form-item label="管理区分 " prop="ecmManageCategory">
+              <el-select filterable clearable   v-model="form.ecmManageCategory"  :placeholder="$t('btn.selectPrefix')+'管理区分 '+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sys_ec_mgtype" 
                   :key="item.dictValue" 
@@ -333,65 +326,58 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="联络No." prop="ecmLiaisonNo">
-              <el-input v-model="form.ecmLiaisonNo" :placeholder="$t('btn.enterPrefix')+'联络No.'+$t('btn.enterSuffix')" />
+            <el-form-item label="联络No. " prop="ecmLiaisonNo">
+              <el-input v-model="form.ecmLiaisonNo" :placeholder="$t('btn.enterPrefix')+'联络No. '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="联络文件" prop="ecmLiaisonFileUrl">
-              <el-input v-model="form.ecmLiaisonFileUrl" :placeholder="$t('btn.enterPrefix')+'联络文件'+$t('btn.enterSuffix')" />
+            <el-form-item label="联络文件 " prop="ecmLiaisonFileUrl">
+              <el-input v-model="form.ecmLiaisonFileUrl" :placeholder="$t('btn.enterPrefix')+'联络文件 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="EppNo." prop="ecmEppLiaisonNo">
-              <el-input v-model="form.ecmEppLiaisonNo" :placeholder="$t('btn.enterPrefix')+'EppNo.'+$t('btn.enterSuffix')" />
+            <el-form-item label="EppNo. " prop="ecmEppLiaisonNo">
+              <el-input v-model="form.ecmEppLiaisonNo" :placeholder="$t('btn.enterPrefix')+'EppNo. '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="Epp文件" prop="ecmEppLiaisonFileUrl">
-              <el-input v-model="form.ecmEppLiaisonFileUrl" :placeholder="$t('btn.enterPrefix')+'Epp文件'+$t('btn.enterSuffix')" />
+            <el-form-item label="Epp文件 " prop="ecmEppLiaisonFileUrl">
+              <el-input v-model="form.ecmEppLiaisonFileUrl" :placeholder="$t('btn.enterPrefix')+'Epp文件 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="FppNo." prop="ecmFppLiaisonNo">
-              <el-input v-model="form.ecmFppLiaisonNo" :placeholder="$t('btn.enterPrefix')+'FppNo.'+$t('btn.enterSuffix')" />
+            <el-form-item label="FppNo. " prop="ecmFppLiaisonNo">
+              <el-input v-model="form.ecmFppLiaisonNo" :placeholder="$t('btn.enterPrefix')+'FppNo. '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="Fpp文件" prop="ecmFppLiaisonFileUrl">
-              <el-input v-model="form.ecmFppLiaisonFileUrl" :placeholder="$t('btn.enterPrefix')+'Fpp文件'+$t('btn.enterSuffix')" />
+            <el-form-item label="Fpp文件 " prop="ecmFppLiaisonFileUrl">
+              <el-input v-model="form.ecmFppLiaisonFileUrl" :placeholder="$t('btn.enterPrefix')+'Fpp文件 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="外部No." prop="ecmExternalNo">
-              <el-input v-model="form.ecmExternalNo" :placeholder="$t('btn.enterPrefix')+'外部No.'+$t('btn.enterSuffix')" />
+            <el-form-item label="外部No. " prop="ecmExternalNo">
+              <el-input v-model="form.ecmExternalNo" :placeholder="$t('btn.enterPrefix')+'外部No. '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="外部文件" prop="ecmExternalFileUrl">
-              <el-input v-model="form.ecmExternalFileUrl" :placeholder="$t('btn.enterPrefix')+'外部文件'+$t('btn.enterSuffix')" />
+            <el-form-item label="外部文件 " prop="ecmExternalFileUrl">
+              <el-input v-model="form.ecmExternalFileUrl" :placeholder="$t('btn.enterPrefix')+'外部文件 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="输入部门" prop="ecmEnteredDept">
-              <el-select filterable clearable   v-model="form.ecmEnteredDept"  :placeholder="$t('btn.selectPrefix')+'输入部门'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sql_dept_list" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
+            <el-form-item label="输入部门 " prop="ecmEnteredDept">
+              <el-input v-model="form.ecmEnteredDept" :placeholder="$t('btn.enterPrefix')+'输入部门 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
-
 
           <el-col :lg="12">
             <el-form-item label="输入日" prop="ecmEnteredDate">
@@ -400,100 +386,130 @@
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="SOP更新否" prop="ecmSopStated">
-              <el-select filterable clearable   v-model="form.ecmSopStated"  :placeholder="$t('btn.selectPrefix')+'SOP更新否'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sys_normal_whether" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="parseInt(item.dictValue)"></el-option>
-              </el-select>
+            <el-form-item label="SOP更新否 " prop="ecmSopStated">
+              <el-radio-group v-model="form.ecmSopStated">
+                <el-radio v-for="item in options.sys_flag_list" :key="item.dictValue" :value="parseInt(item.dictValue)">
+                  {{item.dictLabel}}
+                </el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
-
             
           <el-col :lg="12">
-            <el-form-item label="实施标记" prop="ecmImplStated">
-              <el-select filterable clearable   v-model="form.ecmImplStated"  :placeholder="$t('btn.selectPrefix')+'实施标记'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sys_normal_whether" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="parseInt(item.dictValue)"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :lg="12">
-            <el-form-item label="自定义A" prop="uDF01">
-              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A'+$t('btn.enterSuffix')" />
+            <el-form-item label="实施标记 " prop="ecmImplStated">
+              <el-radio-group v-model="form.ecmImplStated">
+                <el-radio v-for="item in options.sys_flag_list" :key="item.dictValue" :value="parseInt(item.dictValue)">
+                  {{item.dictLabel}}
+                </el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义B" prop="uDF02">
-              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留A " prop="rEF01">
+              <el-input v-model="form.rEF01" :placeholder="$t('btn.enterPrefix')+'预留A '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义C" prop="uDF03">
-              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留B " prop="rEF02">
+              <el-input v-model="form.rEF02" :placeholder="$t('btn.enterPrefix')+'预留B '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义D" prop="uDF04">
-              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留C " prop="rEF03">
+              <el-input v-model="form.rEF03" :placeholder="$t('btn.enterPrefix')+'预留C '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义E" prop="uDF05">
-              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留1 " prop="rEF04">
+              <el-input-number v-model.number="form.rEF04" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留1 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义F" prop="uDF06">
-              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留2 " prop="rEF05">
+              <el-input-number v-model.number="form.rEF05" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留2 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义1" prop="uDF51">
-              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留3" prop="rEF06">
+              <el-input-number v-model.number="form.rEF06" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留3'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义2" prop="uDF52">
-              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义A " prop="uDF01">
+              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义3" prop="uDF53">
-              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义B " prop="uDF02">
+              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义4" prop="uDF54">
-              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义C " prop="uDF03">
+              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义5" prop="uDF55">
-              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义D " prop="uDF04">
+              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义6" prop="uDF56">
-              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义E " prop="uDF05">
+              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义F " prop="uDF06">
+              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="自定义1 " prop="uDF51">
+              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="自定义2 " prop="uDF52">
+              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="自定义3 " prop="uDF53">
+              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义4 " prop="uDF54">
+              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义5 " prop="uDF55">
+              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义6 " prop="uDF56">
+              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
@@ -507,15 +523,15 @@
             </el-form-item>
           </el-col>
 
-          <el-col :lg="24">
-            <el-form-item label="备注" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')"/>
+          <el-col :lg="12">
+            <el-form-item label="备注说明" prop="remark">
+              <el-input v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="创建者" prop="createBy">
-              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
+            <el-form-item label="创建人员" prop="createBy">
+              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建人员'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
@@ -526,8 +542,8 @@
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="更新者" prop="updateBy">
-              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
+            <el-form-item label="更新人员" prop="updateBy">
+              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新人员'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
@@ -625,45 +641,45 @@
         <el-table :data="ppEcSlavePmcList" :row-class-name="rowPpEcSlavePmcIndex" @selection-change="handlePpEcSlavePmcSelectionChange" ref="PpEcSlavePmcRef">
           <el-table-column type="selection" width="40" align="center" />
           <el-table-column :label="$t('layout.indexNo')" align="center" prop="index" width="50"/>
-          <el-table-column label="设变No." align="center" prop="pmcEcNo">
+          <el-table-column label="设变No. " align="center" prop="pmcEcNo">
             <template #default="scope">
-              <el-input v-model="scope.row.pmcEcNo" :placeholder="$t('btn.enterPrefix')+'设变No.'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.pmcEcNo" :placeholder="$t('btn.enterPrefix')+'设变No. '+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="机种" align="center" prop="pmcModel">
+          <el-table-column label="机种 " align="center" prop="pmcModel">
             <template #default="scope">
-              <el-input v-model="scope.row.pmcModel" :placeholder="$t('btn.enterPrefix')+'机种'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.pmcModel" :placeholder="$t('btn.enterPrefix')+'机种 '+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="物料" align="center" prop="pmcItem">
+          <el-table-column label="物料 " align="center" prop="pmcItem">
             <template #default="scope">
-              <el-input v-model="scope.row.pmcItem" :placeholder="$t('btn.enterPrefix')+'物料'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.pmcItem" :placeholder="$t('btn.enterPrefix')+'物料 '+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="实施标记" prop="pmcImplStated">
+          <el-table-column label="实施标记 " prop="pmcImplStated">
             <template #default="scope">
-              <el-select filterable clearable  v-model="scope.row.pmcImplStated" :placeholder="$t('btn.enterPrefix')+'实施标记'+$t('btn.enterSuffix')">
+              <el-select filterable clearable  v-model="scope.row.pmcImplStated" :placeholder="$t('btn.enterPrefix')+'实施标记 '+$t('btn.enterSuffix')">
                 <el-option
-                  v-for="item in options.sys_normal_whether" 
+                  v-for="item in options.sys_flag_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="parseInt(item.dictValue)"></el-option>
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="输入日期" align="center" prop="pmcDnteredDate">
+          <el-table-column label="输入日期" align="center" prop="pmcEnteredDate">
             <template #default="scope">
-              <el-date-picker clearable v-model="scope.row.pmcDnteredDate" type="date" :placeholder="$t('btn.dateselect')"></el-date-picker>
+              <el-date-picker clearable v-model="scope.row.pmcEnteredDate" type="date" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </template>
           </el-table-column>
-          <el-table-column label="预投批次" align="center" prop="pmcPreLot">
+          <el-table-column label="预投批次 " align="center" prop="pmcPreLot">
             <template #default="scope">
-              <el-input v-model="scope.row.pmcPreLot" :placeholder="$t('btn.enterPrefix')+'预投批次'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.pmcPreLot" :placeholder="$t('btn.enterPrefix')+'预投批次 '+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="旧品处理" prop="pmcDisposal">
+          <el-table-column label="旧品处理 " prop="pmcDisposal">
             <template #default="scope">
-              <el-select filterable clearable  v-model="scope.row.pmcDisposal" :placeholder="$t('btn.enterPrefix')+'旧品处理'+$t('btn.enterSuffix')">
+              <el-select filterable clearable  v-model="scope.row.pmcDisposal" :placeholder="$t('btn.enterPrefix')+'旧品处理 '+$t('btn.enterSuffix')">
                 <el-option
                   v-for="item in options.sys_old_disposal" 
                   :key="item.dictValue" 
@@ -672,19 +688,49 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="记事" align="center" prop="pmcNote">
+          <el-table-column label="记事 " align="center" prop="pmcNote">
             <template #default="scope">
-              <el-input v-model="scope.row.pmcNote" :placeholder="$t('btn.enterPrefix')+'记事'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.pmcNote" :placeholder="$t('btn.enterPrefix')+'记事 '+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="备注" align="center" prop="remark">
+          <el-table-column label="预留A " align="center" prop="rEF01">
             <template #default="scope">
-              <el-input v-model="scope.row.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.rEF01" :placeholder="$t('btn.enterPrefix')+'预留A '+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="创建者" align="center" prop="createBy">
+          <el-table-column label="预留B " align="center" prop="rEF02">
             <template #default="scope">
-              <el-input v-model="scope.row.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.rEF02" :placeholder="$t('btn.enterPrefix')+'预留B '+$t('btn.enterSuffix')" />
+            </template>
+          </el-table-column>
+          <el-table-column label="预留C " align="center" prop="rEF03">
+            <template #default="scope">
+              <el-input v-model="scope.row.rEF03" :placeholder="$t('btn.enterPrefix')+'预留C '+$t('btn.enterSuffix')" />
+            </template>
+          </el-table-column>
+          <el-table-column label="预留1 " align="center" prop="rEF04" width="140">
+            <template #default="scope">
+              <el-input-number v-model="scope.row.rEF04" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留1 '+$t('btn.enterSuffix')" />
+            </template>
+          </el-table-column>
+          <el-table-column label="预留2 " align="center" prop="rEF05" width="140">
+            <template #default="scope">
+              <el-input-number v-model="scope.row.rEF05" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留2 '+$t('btn.enterSuffix')" />
+            </template>
+          </el-table-column>
+          <el-table-column label="预留3" align="center" prop="rEF06" width="140">
+            <template #default="scope">
+              <el-input-number v-model="scope.row.rEF06" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留3'+$t('btn.enterSuffix')" />
+            </template>
+          </el-table-column>
+          <el-table-column label="备注说明" align="center" prop="remark">
+            <template #default="scope">
+              <el-input v-model="scope.row.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" />
+            </template>
+          </el-table-column>
+          <el-table-column label="创建人员" align="center" prop="createBy">
+            <template #default="scope">
+              <el-input v-model="scope.row.createBy" :placeholder="$t('btn.enterPrefix')+'创建人员'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
           <el-table-column label="创建时间" align="center" prop="createTime">
@@ -692,9 +738,9 @@
               <el-date-picker clearable v-model="scope.row.createTime" type="date" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </template>
           </el-table-column>
-          <el-table-column label="更新者" align="center" prop="updateBy">
+          <el-table-column label="更新人员" align="center" prop="updateBy">
             <template #default="scope">
-              <el-input v-model="scope.row.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.updateBy" :placeholder="$t('btn.enterPrefix')+'更新人员'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
           <el-table-column label="更新时间" align="center" prop="updateTime">
@@ -740,14 +786,12 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: '',
-  sortType: 'asc',
+  sort: 'EcmIssueDate',
+  sortType: 'desc',
 //是否查询（1是）
   ecmIssueDate: undefined,
 //是否查询（1是）
   ecmNo: undefined,
-//是否查询（1是）
-  ecmStated: undefined,
 //是否查询（1是）
   ecmTitle: undefined,
 //是否查询（1是）
@@ -755,48 +799,48 @@ const queryParams = reactive({
 //是否查询（1是）
   ecmLeader: undefined,
 //是否查询（1是）
-  ecmLiaisonNo: undefined,
-//是否查询（1是）
-  ecmEppLiaisonNo: undefined,
-//是否查询（1是）
-  ecmFppLiaisonNo: undefined,
-//是否查询（1是）
-  ecmExternalNo: undefined,
-//是否查询（1是）
-  ecmEnteredDept: undefined,
+  ecmManageCategory: undefined,
 //是否查询（1是）
   ecmEnteredDate: undefined,
 //是否查询（1是）
   ecmSopStated: undefined,
+//是否查询（1是）
+  ecmImplStated: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'ecmSFID', label: 'Sfid' },
+  { visible: true, prop: 'ecmSfId', label: 'ID' },
   { visible: true, prop: 'ecmIssueDate', label: '发行日期' },
-  { visible: true, prop: 'ecmNo', label: '设变No.' },
-  { visible: true, prop: 'ecmFileUrl', label: '关联文件' },
-  { visible: true, prop: 'ecmStated', label: '设变状态' },
-  { visible: true, prop: 'ecmTitle', label: '标题' },
-  { visible: true, prop: 'ecmContent', label: '内容' },
-  { visible: true, prop: 'ecmLeader', label: '担当' },
-  { visible: false, prop: 'ecmLossAmount', label: '损失金额' },
-  { visible: false, prop: 'ecmManageCategory', label: '管理区分' },
-  { visible: false, prop: 'ecmLiaisonNo', label: '联络No.' },
-  { visible: false, prop: 'ecmLiaisonFileUrl', label: '联络文件' },
-  { visible: false, prop: 'ecmEppLiaisonNo', label: 'EppNo.' },
-  { visible: false, prop: 'ecmEppLiaisonFileUrl', label: 'Epp文件' },
-  { visible: false, prop: 'ecmFppLiaisonNo', label: 'FppNo.' },
-  { visible: false, prop: 'ecmFppLiaisonFileUrl', label: 'Fpp文件' },
-  { visible: false, prop: 'ecmExternalNo', label: '外部No.' },
-  { visible: false, prop: 'ecmExternalFileUrl', label: '外部文件' },
-  { visible: false, prop: 'ecmEnteredDept', label: '输入部门' },
+  { visible: true, prop: 'ecmNo', label: '设变No. ' },
+  { visible: true, prop: 'ecmFileUrl', label: '关联文件 ' },
+  { visible: true, prop: 'ecmStated', label: '设变状态 ' },
+  { visible: true, prop: 'ecmTitle', label: '标题 ' },
+  { visible: true, prop: 'ecmContent', label: '内容 ' },
+  { visible: true, prop: 'ecmLeader', label: '担当 ' },
+  { visible: false, prop: 'ecmLossAmount', label: '损失金额 ' },
+  { visible: false, prop: 'ecmManageCategory', label: '管理区分 ' },
+  { visible: false, prop: 'ecmLiaisonNo', label: '联络No. ' },
+  { visible: false, prop: 'ecmLiaisonFileUrl', label: '联络文件 ' },
+  { visible: false, prop: 'ecmEppLiaisonNo', label: 'EppNo. ' },
+  { visible: false, prop: 'ecmEppLiaisonFileUrl', label: 'Epp文件 ' },
+  { visible: false, prop: 'ecmFppLiaisonNo', label: 'FppNo. ' },
+  { visible: false, prop: 'ecmFppLiaisonFileUrl', label: 'Fpp文件 ' },
+  { visible: false, prop: 'ecmExternalNo', label: '外部No. ' },
+  { visible: false, prop: 'ecmExternalFileUrl', label: '外部文件 ' },
+  { visible: false, prop: 'ecmEnteredDept', label: '输入部门 ' },
   { visible: false, prop: 'ecmEnteredDate', label: '输入日' },
-  { visible: false, prop: 'ecmSopStated', label: 'SOP更新否' },
-  { visible: false, prop: 'ecmImplStated', label: '实施标记' },
-  { visible: false, prop: 'remark', label: '备注' },
-  { visible: false, prop: 'createBy', label: '创建者' },
+  { visible: false, prop: 'ecmSopStated', label: 'SOP更新否 ' },
+  { visible: false, prop: 'ecmImplStated', label: '实施标记 ' },
+  { visible: false, prop: 'rEF01', label: '预留A ' },
+  { visible: false, prop: 'rEF02', label: '预留B ' },
+  { visible: false, prop: 'rEF03', label: '预留C ' },
+  { visible: false, prop: 'rEF04', label: '预留1 ' },
+  { visible: false, prop: 'rEF05', label: '预留2 ' },
+  { visible: false, prop: 'rEF06', label: '预留3' },
+  { visible: false, prop: 'remark', label: '备注说明' },
+  { visible: false, prop: 'createBy', label: '创建人员' },
   { visible: false, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新者' },
+  { visible: false, prop: 'updateBy', label: '更新人员' },
   { visible: false, prop: 'updateTime', label: '更新时间' },
 ])
 // 记录数
@@ -817,8 +861,7 @@ var dictParams = [
   { dictType: "sys_ec_status" },
   { dictType: "sql_ec_group" },
   { dictType: "sys_ec_mgtype" },
-  { dictType: "sql_dept_list" },
-  { dictType: "sys_normal_whether" },
+  { dictType: "sys_flag_list" },
   { dictType: "sys_is_deleted" },
   { dictType: "sys_old_disposal" },
 ]
@@ -861,7 +904,7 @@ function resetQuery(){
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.ecmSFID);
+  ids.value = selection.map((item) => item.ecmSfId);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -897,44 +940,20 @@ const state = reactive({
   multiple: true,
   form: {},
   rules: {
-    ecmSFID: [{ required: true, message: "Sfid"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    ecmIssueDate: [{ required: true, message: "发行日期"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    ecmNo: [{ required: true, message: "设变No."+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    ecmStated: [{ required: true, message: "设变状态"+proxy.$t('btn.isEmpty'), trigger: "change"    , type: "number"  }],
-    ecmTitle: [{ required: true, message: "标题"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    ecmContent: [{ required: true, message: "内容"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    ecmLeader: [{ required: true, message: "担当"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    ecmLossAmount: [{ required: true, message: "损失金额"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    ecmManageCategory: [{ required: true, message: "管理区分"+proxy.$t('btn.isEmpty'), trigger: "change"    , type: "number"  }],
-    ecmEnteredDept: [{ required: true, message: "输入部门"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    ecmEnteredDate: [{ required: true, message: "输入日"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    ecmSopStated: [{ required: true, message: "SOP更新否"+proxy.$t('btn.isEmpty'), trigger: "change"    , type: "number"  }],
-    ecmImplStated: [{ required: true, message: "实施标记"+proxy.$t('btn.isEmpty'), trigger: "change"    , type: "number"  }],
-    uDF51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF54: [{ required: true, message: "自定义4"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF55: [{ required: true, message: "自定义5"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF56: [{ required: true, message: "自定义6"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
   },
   options: {
-    // 设变状态 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 设变状态  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_ec_status: [],
-    // 担当 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 担当  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_ec_group: [],
-    // 管理区分 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 管理区分  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_ec_mgtype: [],
-    // 输入部门 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_dept_list: [],
-    // SOP更新否 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_normal_whether: [],
+    // SOP更新否  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sys_flag_list: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_is_deleted: [],
-    // 旧品处理 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 旧品处理  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_old_disposal: [],
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-isDeletedOptions: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -949,7 +968,7 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    ecmSFID: 0,
+    ecmSfId: 0,
     ecmIssueDate: null,
     ecmNo: null,
     ecmFileUrl: null,
@@ -971,6 +990,12 @@ function reset() {
     ecmEnteredDate: null,
     ecmSopStated: 0,
     ecmImplStated: 0,
+    rEF01: null,
+    rEF02: null,
+    rEF03: null,
+    rEF04: 0,
+    rEF05: 0,
+    rEF06: 0,
     uDF01: null,
     uDF02: null,
     uDF03: null,
@@ -1006,17 +1031,19 @@ function handleAdd() {
   form.value.ecmLeader= []
   form.value.ecmLossAmount= 0
   form.value.ecmManageCategory= 0
-  form.value.ecmEnteredDept= []
   form.value.ecmEnteredDate= new Date()
   form.value.ecmSopStated= 0
   form.value.ecmImplStated= 0
+  form.value.rEF04= 0
+  form.value.rEF05= 0
+  form.value.rEF06= 0
   form.value.createTime= new Date()
   form.value.updateTime= new Date()
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.ecmSFID || ids.value
+  const id = row.ecmSfId || ids.value
   getPpEcMasterPmc(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -1038,7 +1065,7 @@ function submitForm() {
     if (valid) {
 
       form.value.ppEcSlavePmcNav = ppEcSlavePmcList.value
-      if (form.value.ecmSFID != undefined && opertype.value === 2) {
+      if (form.value.ecmSfId != undefined && opertype.value === 2) {
         updatePpEcMasterPmc(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -1057,7 +1084,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.ecmSFID || ids.value
+  const Ids = row.ecmSfId || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {
@@ -1120,10 +1147,16 @@ function handleAddPpEcSlavePmc() {
   //obj.pmcModel = null;
   //obj.pmcItem = null;
   //obj.pmcImplStated = null;
-  //obj.pmcDnteredDate = null;
+  //obj.pmcEnteredDate = null;
   //obj.pmcPreLot = null;
   //obj.pmcDisposal = null;
   //obj.pmcNote = null;
+  //obj.rEF01 = null;
+  //obj.rEF02 = null;
+  //obj.rEF03 = null;
+  //obj.rEF04 = null;
+  //obj.rEF05 = null;
+  //obj.rEF06 = null;
   //obj.remark = null;
   //obj.createBy = null;
   //obj.createTime = null;
@@ -1152,7 +1185,7 @@ function handleDeletePpEcSlavePmc() {
 
 /** Pmc设变详情 */
 function rowClick(row) {
-  const id = row.ecmSFID || ids.value
+  const id = row.ecmSfId || ids.value
   getPpEcMasterPmc(id).then((res) => {
     const { code, data } = res
     if (code == 200) {

@@ -8,7 +8,7 @@ namespace Ams.Service.Logistics
     /// Pmc设变
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/24 15:34:41
+    /// @Date: 2024/7/31 15:45:42
     /// </summary>
     [AppService(ServiceType = typeof(IPpEcSlavePmcService), ServiceLifetime = LifeTime.Transient)]
     public class PpEcSlavePmcService : BaseService<PpEcSlavePmc>, IPpEcSlavePmcService
@@ -86,19 +86,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.PmcParentSfId.IsEmpty(), "父ID不能为空")
-                .SplitError(x => x.Item.PmcEcNo.IsEmpty(), "设变No.不能为空")
-                .SplitError(x => x.Item.PmcModel.IsEmpty(), "机种不能为空")
-                .SplitError(x => x.Item.PmcItem.IsEmpty(), "物料不能为空")
-                .SplitError(x => x.Item.PmcImplStated.IsEmpty(), "实施标记不能为空")
-                .SplitError(x => x.Item.PmcDisposal.IsEmpty(), "旧品处理不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.PmcImplStated.IsEmpty(), "实施标记 不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;

@@ -1,3 +1,4 @@
+using Ams.Model.Logistics;
 
 namespace Ams.Model.Logistics.Dto
 {
@@ -5,126 +6,143 @@ namespace Ams.Model.Logistics.Dto
     /// 技术
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 11:44:01
+    /// @Date: 2024/7/31 16:05:58
     /// </summary>
     public class PpEcMasterTeQueryDto : PagerInfo 
     {
+        public DateTime? BeginEcmIssueDate { get; set; }
+        public DateTime? EndEcmIssueDate { get; set; }
         public string EcmNo { get; set; }
         public string EcmTitle { get; set; }
         public string EcmContent { get; set; }
         public string EcmLeader { get; set; }
-        public string EcmEnteredDept { get; set; }
+        public int? EcmManageCategory { get; set; }
+        public DateTime? BeginEcmEnteredDate { get; set; }
+        public DateTime? EndEcmEnteredDate { get; set; }
+        public int? EcmSopStated { get; set; }
+        public int? EcmImplStated { get; set; }
     }
 
     /// <summary>
     /// 技术
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 11:44:01
+    /// @Date: 2024/7/31 16:05:58
     /// </summary>
     public class PpEcMasterTeDto
     {
-        [Required(ErrorMessage = "SfId不能为空")]
-        [ExcelColumn(Name = "SfId")]
-        [ExcelColumnName("SfId")]
+        [ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long EcmSfId { get; set; }
+        public long? EcmSfId { get; set; }
 
-        [Required(ErrorMessage = "发行日期不能为空")]
         [ExcelColumn(Name = "发行日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("发行日期")]
         public DateTime? EcmIssueDate { get; set; }
 
-        [Required(ErrorMessage = "设变No.不能为空")]
-        [ExcelColumn(Name = "设变No.")]
-        [ExcelColumnName("设变No.")]
+        [ExcelColumn(Name = "设变No. ")]
+        [ExcelColumnName("设变No. ")]
         public string EcmNo { get; set; }
 
-        [ExcelColumn(Name = "关联文件")]
-        [ExcelColumnName("关联文件")]
+        [ExcelColumn(Name = "关联文件 ")]
+        [ExcelColumnName("关联文件 ")]
         public string EcmFileUrl { get; set; }
 
-        [Required(ErrorMessage = "设变状态不能为空")]
-        [ExcelColumn(Name = "设变状态")]
-        [ExcelColumnName("设变状态")]
-        public int EcmStated { get; set; }
+        [ExcelColumn(Name = "设变状态 ")]
+        [ExcelColumnName("设变状态 ")]
+        public int? EcmStated { get; set; }
 
-        [Required(ErrorMessage = "标题不能为空")]
-        [ExcelColumn(Name = "标题")]
-        [ExcelColumnName("标题")]
+        [ExcelColumn(Name = "标题 ")]
+        [ExcelColumnName("标题 ")]
         public string EcmTitle { get; set; }
 
-        [Required(ErrorMessage = "内容不能为空")]
-        [ExcelColumn(Name = "内容")]
-        [ExcelColumnName("内容")]
+        [ExcelColumn(Name = "内容 ")]
+        [ExcelColumnName("内容 ")]
         public string EcmContent { get; set; }
 
-        [Required(ErrorMessage = "担当不能为空")]
-        [ExcelColumn(Name = "担当")]
-        [ExcelColumnName("担当")]
+        [ExcelColumn(Name = "担当 ")]
+        [ExcelColumnName("担当 ")]
         public string EcmLeader { get; set; }
 
-        [Required(ErrorMessage = "损失金额不能为空")]
-        [ExcelColumn(Name = "损失金额")]
-        [ExcelColumnName("损失金额")]
+        [ExcelColumn(Name = "损失金额 ")]
+        [ExcelColumnName("损失金额 ")]
         public decimal EcmLossAmount { get; set; }
 
-        [Required(ErrorMessage = "管理区分不能为空")]
-        [ExcelColumn(Name = "管理区分")]
-        [ExcelColumnName("管理区分")]
-        public int EcmManageCategory { get; set; }
+        [ExcelColumn(Name = "管理区分 ")]
+        [ExcelColumnName("管理区分 ")]
+        public int? EcmManageCategory { get; set; }
 
-        [ExcelColumn(Name = "联络No.")]
-        [ExcelColumnName("联络No.")]
+        [ExcelColumn(Name = "联络No. ")]
+        [ExcelColumnName("联络No. ")]
         public string EcmLiaisonNo { get; set; }
 
-        [ExcelColumn(Name = "联络文件")]
-        [ExcelColumnName("联络文件")]
+        [ExcelColumn(Name = "联络文件 ")]
+        [ExcelColumnName("联络文件 ")]
         public string EcmLiaisonFileUrl { get; set; }
 
-        [ExcelColumn(Name = "EppNo.")]
-        [ExcelColumnName("EppNo.")]
+        [ExcelColumn(Name = "EppNo. ")]
+        [ExcelColumnName("EppNo. ")]
         public string EcmEppLiaisonNo { get; set; }
 
-        [ExcelColumn(Name = "Epp文件")]
-        [ExcelColumnName("Epp文件")]
+        [ExcelColumn(Name = "Epp文件 ")]
+        [ExcelColumnName("Epp文件 ")]
         public string EcmEppLiaisonFileUrl { get; set; }
 
-        [ExcelColumn(Name = "FppNo.")]
-        [ExcelColumnName("FppNo.")]
+        [ExcelColumn(Name = "FppNo. ")]
+        [ExcelColumnName("FppNo. ")]
         public string EcmFppLiaisonNo { get; set; }
 
-        [ExcelColumn(Name = "Fpp文件")]
-        [ExcelColumnName("Fpp文件")]
+        [ExcelColumn(Name = "Fpp文件 ")]
+        [ExcelColumnName("Fpp文件 ")]
         public string EcmFppLiaisonFileUrl { get; set; }
 
-        [ExcelColumn(Name = "外部No.")]
-        [ExcelColumnName("外部No.")]
+        [ExcelColumn(Name = "外部No. ")]
+        [ExcelColumnName("外部No. ")]
         public string EcmExternalNo { get; set; }
 
-        [ExcelColumn(Name = "外部文件")]
-        [ExcelColumnName("外部文件")]
+        [ExcelColumn(Name = "外部文件 ")]
+        [ExcelColumnName("外部文件 ")]
         public string EcmExternalFileUrl { get; set; }
 
-        [Required(ErrorMessage = "输入部门不能为空")]
-        [ExcelColumn(Name = "输入部门")]
-        [ExcelColumnName("输入部门")]
+        [ExcelColumn(Name = "输入部门 ")]
+        [ExcelColumnName("输入部门 ")]
         public string EcmEnteredDept { get; set; }
 
-        [Required(ErrorMessage = "输入日不能为空")]
         [ExcelColumn(Name = "输入日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("输入日")]
         public DateTime? EcmEnteredDate { get; set; }
 
-        [Required(ErrorMessage = "SOP更新否不能为空")]
-        [ExcelColumn(Name = "SOP更新否")]
-        [ExcelColumnName("SOP更新否")]
-        public int EcmSopStated { get; set; }
+        [ExcelColumn(Name = "SOP更新否 ")]
+        [ExcelColumnName("SOP更新否 ")]
+        public int? EcmSopStated { get; set; }
 
-        [Required(ErrorMessage = "实施标记不能为空")]
-        [ExcelColumn(Name = "实施标记")]
-        [ExcelColumnName("实施标记")]
-        public int EcmImplStated { get; set; }
+        [ExcelColumn(Name = "实施标记 ")]
+        [ExcelColumnName("实施标记 ")]
+        public int? EcmImplStated { get; set; }
+
+        [ExcelColumn(Name = "预留A ")]
+        [ExcelColumnName("预留A ")]
+        public string REF01 { get; set; }
+
+        [ExcelColumn(Name = "预留B ")]
+        [ExcelColumnName("预留B ")]
+        public string REF02 { get; set; }
+
+        [ExcelColumn(Name = "预留C ")]
+        [ExcelColumnName("预留C ")]
+        public string REF03 { get; set; }
+
+        [ExcelColumn(Name = "预留1 ")]
+        [ExcelColumnName("预留1 ")]
+        public decimal REF04 { get; set; }
+
+        [ExcelColumn(Name = "预留2 ")]
+        [ExcelColumnName("预留2 ")]
+        public decimal REF05 { get; set; }
+
+        [ExcelColumn(Name = "预留3")]
+        [ExcelColumnName("预留3")]
+        public decimal REF06 { get; set; }
 
         [ExcelIgnore]
         public string UDF01 { get; set; }
@@ -144,37 +162,30 @@ namespace Ams.Model.Logistics.Dto
         [ExcelIgnore]
         public string UDF06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
         [ExcelIgnore]
-        public decimal UDF51 { get; set; }
+        public int? UDF51 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
         [ExcelIgnore]
-        public decimal UDF52 { get; set; }
+        public int? UDF52 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
         [ExcelIgnore]
-        public decimal UDF53 { get; set; }
+        public int? UDF53 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
         [ExcelIgnore]
         public decimal UDF54 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
         [ExcelIgnore]
         public decimal UDF55 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
         [ExcelIgnore]
         public decimal UDF56 { get; set; }
 
-        [Required(ErrorMessage = "软删除不能为空")]
         [ExcelColumn(Name = "软删除")]
         [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        public int? IsDeleted { get; set; }
 
-        [ExcelColumn(Name = "备注")]
-        [ExcelColumnName("备注")]
+        [ExcelColumn(Name = "备注说明")]
+        [ExcelColumnName("备注说明")]
         public string Remark { get; set; }
 
         [ExcelIgnore]
@@ -191,119 +202,146 @@ namespace Ams.Model.Logistics.Dto
 
 
 
+        [ExcelIgnore]
+        public List<PpEcSlaveTeDto> PpEcSlaveTeNav { get; set; }
+        [ExcelColumn(Name = "设变状态 ")]
+        public string EcmStatedLabel { get; set; }
+        [ExcelColumn(Name = "担当 ")]
+        public string EcmLeaderLabel { get; set; }
+        [ExcelColumn(Name = "管理区分 ")]
+        public string EcmManageCategoryLabel { get; set; }
+        [ExcelColumn(Name = "SOP更新否 ")]
+        public string EcmSopStatedLabel { get; set; }
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
+        [ExcelColumn(Name = "采购类型")]
+        public string TePurTypeLabel { get; set; }
+        [ExcelColumn(Name = "仓库")]
+        public string TeSlocLabel { get; set; }
+        [ExcelColumn(Name = "工厂状态")]
+        public string TePlntStatedLabel { get; set; }
     }
 
     /// <summary>
     /// 技术
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 11:44:01
+    /// @Date: 2024/7/31 16:05:58
     /// </summary>
     public class PpEcMasterTeImportTpl
     {
-        [Required(ErrorMessage = "SfId不能为空")]
-        [ExcelColumn(Name = "SfId")]
-        [ExcelColumnName("SfId")]
+        [ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long EcmSfId { get; set; }
+        public long? EcmSfId { get; set; }
 
-        [Required(ErrorMessage = "发行日期不能为空")]
         [ExcelColumn(Name = "发行日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("发行日期")]
         public DateTime? EcmIssueDate { get; set; }
 
-        [Required(ErrorMessage = "设变No.不能为空")]
-        [ExcelColumn(Name = "设变No.")]
-        [ExcelColumnName("设变No.")]
+        [ExcelColumn(Name = "设变No. ")]
+        [ExcelColumnName("设变No. ")]
         public string EcmNo { get; set; }
 
-        [ExcelColumn(Name = "关联文件")]
-        [ExcelColumnName("关联文件")]
+        [ExcelColumn(Name = "关联文件 ")]
+        [ExcelColumnName("关联文件 ")]
         public string EcmFileUrl { get; set; }
 
-        [Required(ErrorMessage = "设变状态不能为空")]
-        [ExcelColumn(Name = "设变状态")]
-        [ExcelColumnName("设变状态")]
-        public int EcmStated { get; set; }
+        [ExcelColumn(Name = "设变状态 ")]
+        [ExcelColumnName("设变状态 ")]
+        public int? EcmStated { get; set; }
 
-        [Required(ErrorMessage = "标题不能为空")]
-        [ExcelColumn(Name = "标题")]
-        [ExcelColumnName("标题")]
+        [ExcelColumn(Name = "标题 ")]
+        [ExcelColumnName("标题 ")]
         public string EcmTitle { get; set; }
 
-        [Required(ErrorMessage = "内容不能为空")]
-        [ExcelColumn(Name = "内容")]
-        [ExcelColumnName("内容")]
+        [ExcelColumn(Name = "内容 ")]
+        [ExcelColumnName("内容 ")]
         public string EcmContent { get; set; }
 
-        [Required(ErrorMessage = "担当不能为空")]
-        [ExcelColumn(Name = "担当")]
-        [ExcelColumnName("担当")]
+        [ExcelColumn(Name = "担当 ")]
+        [ExcelColumnName("担当 ")]
         public string EcmLeader { get; set; }
 
-        [Required(ErrorMessage = "损失金额不能为空")]
-        [ExcelColumn(Name = "损失金额")]
-        [ExcelColumnName("损失金额")]
+        [ExcelColumn(Name = "损失金额 ")]
+        [ExcelColumnName("损失金额 ")]
         public decimal EcmLossAmount { get; set; }
 
-        [Required(ErrorMessage = "管理区分不能为空")]
-        [ExcelColumn(Name = "管理区分")]
-        [ExcelColumnName("管理区分")]
-        public int EcmManageCategory { get; set; }
+        [ExcelColumn(Name = "管理区分 ")]
+        [ExcelColumnName("管理区分 ")]
+        public int? EcmManageCategory { get; set; }
 
-        [ExcelColumn(Name = "联络No.")]
-        [ExcelColumnName("联络No.")]
+        [ExcelColumn(Name = "联络No. ")]
+        [ExcelColumnName("联络No. ")]
         public string EcmLiaisonNo { get; set; }
 
-        [ExcelColumn(Name = "联络文件")]
-        [ExcelColumnName("联络文件")]
+        [ExcelColumn(Name = "联络文件 ")]
+        [ExcelColumnName("联络文件 ")]
         public string EcmLiaisonFileUrl { get; set; }
 
-        [ExcelColumn(Name = "EppNo.")]
-        [ExcelColumnName("EppNo.")]
+        [ExcelColumn(Name = "EppNo. ")]
+        [ExcelColumnName("EppNo. ")]
         public string EcmEppLiaisonNo { get; set; }
 
-        [ExcelColumn(Name = "Epp文件")]
-        [ExcelColumnName("Epp文件")]
+        [ExcelColumn(Name = "Epp文件 ")]
+        [ExcelColumnName("Epp文件 ")]
         public string EcmEppLiaisonFileUrl { get; set; }
 
-        [ExcelColumn(Name = "FppNo.")]
-        [ExcelColumnName("FppNo.")]
+        [ExcelColumn(Name = "FppNo. ")]
+        [ExcelColumnName("FppNo. ")]
         public string EcmFppLiaisonNo { get; set; }
 
-        [ExcelColumn(Name = "Fpp文件")]
-        [ExcelColumnName("Fpp文件")]
+        [ExcelColumn(Name = "Fpp文件 ")]
+        [ExcelColumnName("Fpp文件 ")]
         public string EcmFppLiaisonFileUrl { get; set; }
 
-        [ExcelColumn(Name = "外部No.")]
-        [ExcelColumnName("外部No.")]
+        [ExcelColumn(Name = "外部No. ")]
+        [ExcelColumnName("外部No. ")]
         public string EcmExternalNo { get; set; }
 
-        [ExcelColumn(Name = "外部文件")]
-        [ExcelColumnName("外部文件")]
+        [ExcelColumn(Name = "外部文件 ")]
+        [ExcelColumnName("外部文件 ")]
         public string EcmExternalFileUrl { get; set; }
 
-        [Required(ErrorMessage = "输入部门不能为空")]
-        [ExcelColumn(Name = "输入部门")]
-        [ExcelColumnName("输入部门")]
+        [ExcelColumn(Name = "输入部门 ")]
+        [ExcelColumnName("输入部门 ")]
         public string EcmEnteredDept { get; set; }
 
-        [Required(ErrorMessage = "输入日不能为空")]
         [ExcelColumn(Name = "输入日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("输入日")]
         public DateTime? EcmEnteredDate { get; set; }
 
-        [Required(ErrorMessage = "SOP更新否不能为空")]
-        [ExcelColumn(Name = "SOP更新否")]
-        [ExcelColumnName("SOP更新否")]
-        public int EcmSopStated { get; set; }
+        [ExcelColumn(Name = "SOP更新否 ")]
+        [ExcelColumnName("SOP更新否 ")]
+        public int? EcmSopStated { get; set; }
 
-        [Required(ErrorMessage = "实施标记不能为空")]
-        [ExcelColumn(Name = "实施标记")]
-        [ExcelColumnName("实施标记")]
-        public int EcmImplStated { get; set; }
+        [ExcelColumn(Name = "实施标记 ")]
+        [ExcelColumnName("实施标记 ")]
+        public int? EcmImplStated { get; set; }
+
+        [ExcelColumn(Name = "预留A ")]
+        [ExcelColumnName("预留A ")]
+        public string REF01 { get; set; }
+
+        [ExcelColumn(Name = "预留B ")]
+        [ExcelColumnName("预留B ")]
+        public string REF02 { get; set; }
+
+        [ExcelColumn(Name = "预留C ")]
+        [ExcelColumnName("预留C ")]
+        public string REF03 { get; set; }
+
+        [ExcelColumn(Name = "预留1 ")]
+        [ExcelColumnName("预留1 ")]
+        public decimal REF04 { get; set; }
+
+        [ExcelColumn(Name = "预留2 ")]
+        [ExcelColumnName("预留2 ")]
+        public decimal REF05 { get; set; }
+
+        [ExcelColumn(Name = "预留3")]
+        [ExcelColumnName("预留3")]
+        public decimal REF06 { get; set; }
 
         [ExcelIgnore]
         public string UDF01 { get; set; }
@@ -323,37 +361,30 @@ namespace Ams.Model.Logistics.Dto
         [ExcelIgnore]
         public string UDF06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
         [ExcelIgnore]
-        public decimal UDF51 { get; set; }
+        public int? UDF51 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
         [ExcelIgnore]
-        public decimal UDF52 { get; set; }
+        public int? UDF52 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
         [ExcelIgnore]
-        public decimal UDF53 { get; set; }
+        public int? UDF53 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
         [ExcelIgnore]
         public decimal UDF54 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
         [ExcelIgnore]
         public decimal UDF55 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
         [ExcelIgnore]
         public decimal UDF56 { get; set; }
 
-        [Required(ErrorMessage = "软删除不能为空")]
         [ExcelColumn(Name = "软删除")]
         [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        public int? IsDeleted { get; set; }
 
-        [ExcelColumn(Name = "备注")]
-        [ExcelColumnName("备注")]
+        [ExcelColumn(Name = "备注说明")]
+        [ExcelColumnName("备注说明")]
         public string Remark { get; set; }
 
         [ExcelIgnore]
@@ -371,8 +402,31 @@ namespace Ams.Model.Logistics.Dto
 
 
         [ExcelIgnore]
+        public List<PpEcSlaveTeDto> PpEcSlaveTeNav { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "设变状态 ")]
+        public string EcmStatedLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "担当 ")]
+        public string EcmLeaderLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "管理区分 ")]
+        public string EcmManageCategoryLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "SOP更新否 ")]
+        public string EcmSopStatedLabel { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "采购类型")]
+        public string TePurTypeLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "仓库")]
+        public string TeSlocLabel { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "工厂状态")]
+        public string TePlntStatedLabel { get; set; }
     }
 
 }

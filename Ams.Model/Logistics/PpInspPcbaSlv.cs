@@ -19,6 +19,7 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 父ID
         /// </summary>
+        [JsonConverter(typeof(ValueToStringConverter))]
         public long PdiParentSfId { get; set; }
 
         /// <summary>

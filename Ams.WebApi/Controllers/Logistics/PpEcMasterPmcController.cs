@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 生管
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/24 14:46:21
+    /// @Date: 2024/7/31 15:49:28
     /// </summary>
     [Verify]
     [Route("Logistics/PpEcMasterPmc")]

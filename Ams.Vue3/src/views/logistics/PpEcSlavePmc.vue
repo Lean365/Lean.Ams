@@ -2,7 +2,8 @@
  * @Descripttion: Pmc设变/pp_ec_slave_pmc
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/24 15:34:41
+ * @Date: 2024/7/31 15:45:42
+ * @column：34
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,22 +12,20 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="设变No." prop="pmcEcNo">
-        <el-input v-model="queryParams.pmcEcNo" :placeholder="$t('btn.enterSearchPrefix')+'设变No.'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="设变No. " prop="pmcEcNo">
+        <el-input v-model="queryParams.pmcEcNo" :placeholder="$t('btn.enterSearchPrefix')+'设变No. '+$t('btn.enterSearchSuffix')" />
       </el-form-item>
-      <el-form-item label="机种" prop="pmcModel">
-        <el-input v-model="queryParams.pmcModel" :placeholder="$t('btn.enterSearchPrefix')+'机种'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="机种 " prop="pmcModel">
+        <el-input v-model="queryParams.pmcModel" :placeholder="$t('btn.enterSearchPrefix')+'机种 '+$t('btn.enterSearchSuffix')" />
       </el-form-item>
-      <el-form-item label="物料" prop="pmcItem">
-        <el-input v-model="queryParams.pmcItem" :placeholder="$t('btn.enterSearchPrefix')+'物料'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="物料 " prop="pmcItem">
+        <el-input v-model="queryParams.pmcItem" :placeholder="$t('btn.enterSearchPrefix')+'物料 '+$t('btn.enterSearchSuffix')" />
       </el-form-item>
-      <el-form-item label="实施标记" prop="pmcImplStated">
-        <el-select filterable clearable   v-model="queryParams.pmcImplStated" :placeholder="$t('btn.selectSearchPrefix')+'实施标记'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_flag_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
+      <el-form-item label="实施标记 " prop="pmcImplStated">
+        <el-radio-group v-model="queryParams.pmcImplStated">
+          <el-radio>{{$t('common.all')}}</el-radio>
+          <el-radio v-for="item in  options.sys_flag_list " :key="item.dictValue" :value="item.dictValue">{{item.dictLabel}}</el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="输入日期">
         <el-date-picker
@@ -39,11 +38,11 @@
           :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="预投批次" prop="pmcPreLot">
-        <el-input v-model="queryParams.pmcPreLot" :placeholder="$t('btn.enterSearchPrefix')+'预投批次'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="预投批次 " prop="pmcPreLot">
+        <el-input v-model="queryParams.pmcPreLot" :placeholder="$t('btn.enterSearchPrefix')+'预投批次 '+$t('btn.enterSearchSuffix')" />
       </el-form-item>
-      <el-form-item label="旧品处理" prop="pmcDisposal">
-        <el-select filterable clearable   v-model="queryParams.pmcDisposal" :placeholder="$t('btn.selectSearchPrefix')+'旧品处理'+$t('btn.selectSearchSuffix')">
+      <el-form-item label="旧品处理 " prop="pmcDisposal">
+        <el-select filterable clearable   v-model="queryParams.pmcDisposal" :placeholder="$t('btn.selectSearchPrefix')+'旧品处理 '+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   options.sys_old_disposal " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
@@ -112,28 +111,34 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="pmcSfid" label="ID" align="center" v-if="columns.showColumn('pmcSfid')"/>
-      <el-table-column prop="pmcParentSfid" label="父ID" align="center" v-if="columns.showColumn('pmcParentSfid')"/>
-      <el-table-column prop="pmcEcNo" label="设变No." align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pmcEcNo')"/>
-      <el-table-column prop="pmcModel" label="机种" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pmcModel')"/>
-      <el-table-column prop="pmcItem" label="物料" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pmcItem')"/>
-      <el-table-column prop="pmcImplStated" label="实施标记" align="center" v-if="columns.showColumn('pmcImplStated')">
+      <el-table-column prop="pmcSfId" label="ID" align="center" v-if="columns.showColumn('pmcSfId')"/>
+      <el-table-column prop="pmcParentSfId" label="父ID" align="center" v-if="columns.showColumn('pmcParentSfId')"/>
+      <el-table-column prop="pmcEcNo" label="设变No. " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pmcEcNo')"/>
+      <el-table-column prop="pmcModel" label="机种 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pmcModel')"/>
+      <el-table-column prop="pmcItem" label="物料 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pmcItem')"/>
+      <el-table-column prop="pmcImplStated" label="实施标记 " align="center" v-if="columns.showColumn('pmcImplStated')">
         <template #default="scope">
           <dict-tag :options=" options.sys_flag_list " :value="scope.row.pmcImplStated"  />
         </template>
       </el-table-column>
       <el-table-column prop="pmcEnteredDate" label="输入日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('pmcEnteredDate')"/>
-      <el-table-column prop="pmcPreLot" label="预投批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pmcPreLot')"/>
-      <el-table-column prop="pmcDisposal" label="旧品处理" align="center" v-if="columns.showColumn('pmcDisposal')">
+      <el-table-column prop="pmcPreLot" label="预投批次 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pmcPreLot')"/>
+      <el-table-column prop="pmcDisposal" label="旧品处理 " align="center" v-if="columns.showColumn('pmcDisposal')">
         <template #default="scope">
           <dict-tag :options=" options.sys_old_disposal " :value="scope.row.pmcDisposal"  />
         </template>
       </el-table-column>
-      <el-table-column prop="pmcNote" label="记事" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pmcNote')"/>
-      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
+      <el-table-column prop="pmcNote" label="记事 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pmcNote')"/>
+      <el-table-column prop="rEF01" label="预留A " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF01')"/>
+      <el-table-column prop="rEF02" label="预留B " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF02')"/>
+      <el-table-column prop="rEF03" label="预留C " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF03')"/>
+      <el-table-column prop="rEF04" label="预留1 " align="center" v-if="columns.showColumn('rEF04')"/>
+      <el-table-column prop="rEF05" label="预留2 " align="center" v-if="columns.showColumn('rEF05')"/>
+      <el-table-column prop="rEF06" label="预留3" align="center" v-if="columns.showColumn('rEF06')"/>
+      <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
+      <el-table-column prop="createBy" label="创建人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
       <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
-      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
+      <el-table-column prop="updateBy" label="更新人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
       <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
@@ -154,47 +159,44 @@
         <el-row :gutter="20">
             
           <el-col :lg="12" v-if="opertype != 1">
-            <el-form-item label="ID" prop="pmcSfid">
-              <el-input-number v-model.number="form.pmcSfid" controls-position="right" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="true"/>
+            <el-form-item label="ID" prop="pmcSfId">
+              <el-input-number v-model.number="form.pmcSfId" controls-position="right" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="true"/>
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="父ID" prop="pmcParentSfid">
-              <el-input v-model.number="form.pmcParentSfid" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')" />
+            <el-form-item label="父ID" prop="pmcParentSfId">
+              <el-input v-model.number="form.pmcParentSfId" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="设变No." prop="pmcEcNo">
-              <el-input v-model="form.pmcEcNo" :placeholder="$t('btn.enterPrefix')+'设变No.'+$t('btn.enterSuffix')" />
+            <el-form-item label="设变No. " prop="pmcEcNo">
+              <el-input v-model="form.pmcEcNo" :placeholder="$t('btn.enterPrefix')+'设变No. '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="机种" prop="pmcModel">
-              <el-input v-model="form.pmcModel" :placeholder="$t('btn.enterPrefix')+'机种'+$t('btn.enterSuffix')" />
+            <el-form-item label="机种 " prop="pmcModel">
+              <el-input v-model="form.pmcModel" :placeholder="$t('btn.enterPrefix')+'机种 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="物料" prop="pmcItem">
-              <el-input v-model="form.pmcItem" :placeholder="$t('btn.enterPrefix')+'物料'+$t('btn.enterSuffix')" />
+            <el-form-item label="物料 " prop="pmcItem">
+              <el-input v-model="form.pmcItem" :placeholder="$t('btn.enterPrefix')+'物料 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="实施标记" prop="pmcImplStated">
-              <el-select filterable clearable   v-model="form.pmcImplStated"  :placeholder="$t('btn.selectPrefix')+'实施标记'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sys_flag_list" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="parseInt(item.dictValue)"></el-option>
-              </el-select>
+            <el-form-item label="实施标记 " prop="pmcImplStated">
+              <el-radio-group v-model="form.pmcImplStated">
+                <el-radio v-for="item in options.sys_flag_list" :key="item.dictValue" :value="parseInt(item.dictValue)">
+                  {{item.dictLabel}}
+                </el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
-
 
           <el-col :lg="12">
             <el-form-item label="输入日期" prop="pmcEnteredDate">
@@ -203,14 +205,14 @@
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="预投批次" prop="pmcPreLot">
-              <el-input v-model="form.pmcPreLot" :placeholder="$t('btn.enterPrefix')+'预投批次'+$t('btn.enterSuffix')" />
+            <el-form-item label="预投批次 " prop="pmcPreLot">
+              <el-input v-model="form.pmcPreLot" :placeholder="$t('btn.enterPrefix')+'预投批次 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="旧品处理" prop="pmcDisposal">
-              <el-select filterable clearable   v-model="form.pmcDisposal"  :placeholder="$t('btn.selectPrefix')+'旧品处理'+$t('btn.selectSuffix')">
+            <el-form-item label="旧品处理 " prop="pmcDisposal">
+              <el-select filterable clearable   v-model="form.pmcDisposal"  :placeholder="$t('btn.selectPrefix')+'旧品处理 '+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sys_old_disposal" 
                   :key="item.dictValue" 
@@ -221,81 +223,117 @@
           </el-col>
 
 
-          <el-col :lg="24">
-            <el-form-item label="记事" prop="pmcNote">
-              <el-input type="textarea" v-model="form.pmcNote" :placeholder="$t('btn.enterPrefix')+'记事'+$t('btn.enterSuffix')"/>
+          <el-col :lg="12">
+            <el-form-item label="记事 " prop="pmcNote">
+              <el-input v-model="form.pmcNote" :placeholder="$t('btn.enterPrefix')+'记事 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义A" prop="uDF01">
-              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留A " prop="rEF01">
+              <el-input v-model="form.rEF01" :placeholder="$t('btn.enterPrefix')+'预留A '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义B" prop="uDF02">
-              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留B " prop="rEF02">
+              <el-input v-model="form.rEF02" :placeholder="$t('btn.enterPrefix')+'预留B '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义C" prop="uDF03">
-              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留C " prop="rEF03">
+              <el-input v-model="form.rEF03" :placeholder="$t('btn.enterPrefix')+'预留C '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义D" prop="uDF04">
-              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留1 " prop="rEF04">
+              <el-input-number v-model.number="form.rEF04" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留1 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义E" prop="uDF05">
-              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留2 " prop="rEF05">
+              <el-input-number v-model.number="form.rEF05" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留2 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义F" prop="uDF06">
-              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留3" prop="rEF06">
+              <el-input-number v-model.number="form.rEF06" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留3'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义1" prop="uDF51">
-              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义A " prop="uDF01">
+              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义2" prop="uDF52">
-              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义B " prop="uDF02">
+              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义3" prop="uDF53">
-              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义C " prop="uDF03">
+              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义4" prop="uDF54">
-              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义D " prop="uDF04">
+              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义5" prop="uDF55">
-              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义E " prop="uDF05">
+              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义6" prop="uDF56">
-              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义F " prop="uDF06">
+              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="自定义1 " prop="uDF51">
+              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="自定义2 " prop="uDF52">
+              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="自定义3 " prop="uDF53">
+              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义4 " prop="uDF54">
+              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义5 " prop="uDF55">
+              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义6 " prop="uDF56">
+              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
@@ -309,15 +347,15 @@
             </el-form-item>
           </el-col>
 
-          <el-col :lg="24">
-            <el-form-item label="备注" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')"/>
+          <el-col :lg="12">
+            <el-form-item label="备注说明" prop="remark">
+              <el-input v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="创建者" prop="createBy">
-              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
+            <el-form-item label="创建人员" prop="createBy">
+              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建人员'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
@@ -328,8 +366,8 @@
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="更新者" prop="updateBy">
-              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
+            <el-form-item label="更新人员" prop="updateBy">
+              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新人员'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
@@ -466,20 +504,26 @@ const queryParams = reactive({
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'pmcSfid', label: 'ID' },
-  { visible: true, prop: 'pmcParentSfid', label: '父ID' },
-  { visible: true, prop: 'pmcEcNo', label: '设变No.' },
-  { visible: true, prop: 'pmcModel', label: '机种' },
-  { visible: true, prop: 'pmcItem', label: '物料' },
-  { visible: true, prop: 'pmcImplStated', label: '实施标记' },
+  { visible: true, prop: 'pmcSfId', label: 'ID' },
+  { visible: true, prop: 'pmcParentSfId', label: '父ID' },
+  { visible: true, prop: 'pmcEcNo', label: '设变No. ' },
+  { visible: true, prop: 'pmcModel', label: '机种 ' },
+  { visible: true, prop: 'pmcItem', label: '物料 ' },
+  { visible: true, prop: 'pmcImplStated', label: '实施标记 ' },
   { visible: true, prop: 'pmcEnteredDate', label: '输入日期' },
-  { visible: true, prop: 'pmcPreLot', label: '预投批次' },
-  { visible: false, prop: 'pmcDisposal', label: '旧品处理' },
-  { visible: false, prop: 'pmcNote', label: '记事' },
-  { visible: false, prop: 'remark', label: '备注' },
-  { visible: false, prop: 'createBy', label: '创建者' },
+  { visible: true, prop: 'pmcPreLot', label: '预投批次 ' },
+  { visible: false, prop: 'pmcDisposal', label: '旧品处理 ' },
+  { visible: false, prop: 'pmcNote', label: '记事 ' },
+  { visible: false, prop: 'rEF01', label: '预留A ' },
+  { visible: false, prop: 'rEF02', label: '预留B ' },
+  { visible: false, prop: 'rEF03', label: '预留C ' },
+  { visible: false, prop: 'rEF04', label: '预留1 ' },
+  { visible: false, prop: 'rEF05', label: '预留2 ' },
+  { visible: false, prop: 'rEF06', label: '预留3' },
+  { visible: false, prop: 'remark', label: '备注说明' },
+  { visible: false, prop: 'createBy', label: '创建人员' },
   { visible: false, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新者' },
+  { visible: false, prop: 'updateBy', label: '更新人员' },
   { visible: false, prop: 'updateTime', label: '更新时间' },
 ])
 // 记录数
@@ -535,7 +579,7 @@ function resetQuery(){
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.pmcSfid);
+  ids.value = selection.map((item) => item.pmcSfId);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -571,25 +615,12 @@ const state = reactive({
   multiple: true,
   form: {},
   rules: {
-    pmcSfid: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    pmcParentSfid: [{ required: true, message: "父ID"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    pmcEcNo: [{ required: true, message: "设变No."+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    pmcModel: [{ required: true, message: "机种"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    pmcItem: [{ required: true, message: "物料"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    pmcImplStated: [{ required: true, message: "实施标记"+proxy.$t('btn.isEmpty'), trigger: "change"    , type: "number"  }],
-    pmcDisposal: [{ required: true, message: "旧品处理"+proxy.$t('btn.isEmpty'), trigger: "change"    , type: "number"  }],
-    uDF51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF54: [{ required: true, message: "自定义4"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF55: [{ required: true, message: "自定义5"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF56: [{ required: true, message: "自定义6"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    pmcImplStated: [{ required: true, message: "实施标记 "+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
   },
   options: {
-    // 实施标记 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 实施标记  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_flag_list: [],
-    // 旧品处理 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 旧品处理  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_old_disposal: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_is_deleted: [],
@@ -607,8 +638,8 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    pmcSfid: 0,
-    pmcParentSfid: 0,
+    pmcSfId: 0,
+    pmcParentSfId: 0,
     pmcEcNo: null,
     pmcModel: null,
     pmcItem: null,
@@ -617,6 +648,12 @@ function reset() {
     pmcPreLot: null,
     pmcDisposal: 0,
     pmcNote: null,
+    rEF01: null,
+    rEF02: null,
+    rEF03: null,
+    rEF04: 0,
+    rEF05: 0,
+    rEF06: 0,
     uDF01: null,
     uDF02: null,
     uDF03: null,
@@ -649,13 +686,16 @@ function handleAdd() {
   form.value.pmcImplStated= 0
   form.value.pmcEnteredDate= new Date()
   form.value.pmcDisposal= 0
+  form.value.rEF04= 0
+  form.value.rEF05= 0
+  form.value.rEF06= 0
   form.value.createTime= new Date()
   form.value.updateTime= new Date()
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.pmcSfid || ids.value
+  const id = row.pmcSfId || ids.value
   getPpEcSlavePmc(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -675,7 +715,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.pmcSfid != undefined && opertype.value === 2) {
+      if (form.value.pmcSfId != undefined && opertype.value === 2) {
         updatePpEcSlavePmc(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -694,7 +734,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.pmcSfid || ids.value
+  const Ids = row.pmcSfId || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {
