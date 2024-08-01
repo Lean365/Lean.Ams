@@ -26,10 +26,16 @@ namespace Ams.Model.Dto.Routine
         [ExcelColumnName("公告标题")]
         public string NoticeTitle { get; set; }
 
+
+
         [Required(ErrorMessage = "公告类型不能为空")]
         [ExcelColumn(Name = "公告类型", Ignore = true)]
         [ExcelColumnName("公告类型")]
         public int NoticeType { get; set; }
+        //[Required(ErrorMessage = "公告附件不能为空")]
+        [ExcelColumn(Name = "公告附件", Width = 40)]
+        [ExcelColumnName("公告附件")]
+        public string FileUrl { get; set; }
 
         [ExcelColumn(Name = "公告内容", Width = 80)]
         [ExcelColumnName("公告内容")]

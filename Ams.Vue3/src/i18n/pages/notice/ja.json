@@ -8,6 +8,7 @@
     "noticeId": "ID",
     "noticeTitle": "タイトル",
     "noticeType": "タイプ",
+    "noticeFileUrl": "添付",
     "noticeContent": "コンテンツ",
     "isState": "状態",
     "publisher": "発行者",

@@ -41,7 +41,7 @@
     "monitorOnlineLog": "オンラインログ",
     "monitorDurationLog": "オンライン時間",
     "monitorOnlineUser": "オンラインユーザー",
-    "monitorOperLog": "業務ログ",
+    "monitorOperLog": "業務",
     "monitorService": "サービス",
     "monitorSmsLog": "SMS認証",
     "monitorSqldiffLog": "SQL差分",

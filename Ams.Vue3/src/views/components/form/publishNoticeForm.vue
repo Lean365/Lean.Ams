@@ -49,6 +49,11 @@
           </el-form-item>
         </el-col>
         <el-col :lg="24">
+          <el-form-item :label="$t('pnotice.noticeFileUrl')" prop="fileUrl">
+            <UploadFile v-model="form.fileUrl" :data="{ uploadType: 1 }" />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="24">
           <editor v-model="form.noticeContent" :toolbarConfig="toolbarConfig" :min-height="196" />
         </el-col>
       </el-row>
@@ -126,7 +131,8 @@
       noticeTitle: undefined,
       noticeType: 1,
       noticeContent: undefined,
-      isStated: 0,
+      fileUrl: undefined,
+      isStatus: 0,
       beginTime: undefined,
       endTime: undefined,
       publisher: undefined

@@ -52,6 +52,11 @@
           <dict-tag :options="options.sys_notice_type" :value="scope.row.noticeType" />
         </template>
       </el-table-column>
+      <el-table-column :label="$t('pnotice.noticeFileUrl')" align="center" prop="fileUrl">
+        <template #default="{ row }">
+          <el-link :href="row.fileUrl" target="_blank">{{ row.fileUrl }}</el-link>
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStatus">
         <template #default="scope">
           <dict-tag :options="options.sys_notice_status" :value="scope.row.isStatus" />
@@ -192,7 +197,7 @@
         type: "warning",
       })
       .then(function () {
-        return delPpLine(Ids)
+        return delNotice(Ids)
       })
       .then(() => {
         getList()

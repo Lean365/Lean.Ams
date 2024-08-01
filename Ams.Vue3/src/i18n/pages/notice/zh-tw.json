@@ -8,6 +8,7 @@
     "noticeId": "ID",
     "noticeTitle": "公告標題",
     "noticeType": "類型",
+    "noticeFileUrl": "附件",
     "noticeContent": "內容",
     "isState": "狀態",
     "publisher": "發佈者",

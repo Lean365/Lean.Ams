@@ -7,6 +7,7 @@
     "notice": "公告通知",
     "noticeTitle": "公告标题",
     "noticeType": "类型",
+    "noticeFileUrl": "附件",
     "noticeContent": "内容",
     "isState": "状态",
     "publisher": "发布者",
