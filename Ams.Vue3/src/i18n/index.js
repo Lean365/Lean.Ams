@@ -11,6 +11,7 @@ const language = computed(() => {
 import Cn from './lang/zh-cn.json'
 import Tw from './lang/zh-tw.json'
 import Ja from './lang/ja.json'
+import fr from './lang/fr.json'
 import En from './lang/en.json'
 //vue-table
 import vxeTableCn from 'vxe-table/lib/locale/lang/zh-CN'
@@ -269,7 +270,7 @@ const i18n = createI18n({
       ...pageWelcomeEn,
     },
     fr: {
-      ...En,
+      ...fr,
       ...vxeTableEn,
       ...pageArticleEn,
       ...pageComponentsEn,
