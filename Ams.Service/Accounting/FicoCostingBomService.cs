@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// bom成本核算
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 17:04:41
+    /// @Date: 2024/8/5 16:43:24
     /// </summary>
     [AppService(ServiceType = typeof(IFicoCostingBomService), ServiceLifetime = LifeTime.Transient)]
     public class FicoCostingBomService : BaseService<FicoCostingBom>, IFicoCostingBomService
@@ -23,7 +23,6 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("BcYm asc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoCostingBom, FicoCostingBomDto>(parm);
 
@@ -87,16 +86,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.BcSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.BcPlant.IsEmpty(), "工厂不能为空")
-                .SplitError(x => x.Item.BcFy.IsEmpty(), "期间不能为空")
-                .SplitError(x => x.Item.BcYm.IsEmpty(), "年月不能为空")
-                .SplitError(x => x.Item.BcBomItem.IsEmpty(), "成品物料不能为空")
-                .SplitError(x => x.Item.BcItemText.IsEmpty(), "物料文本不能为空")
-                .SplitError(x => x.Item.BcBomCost.IsEmpty(), "成本不能为空")
-                .SplitError(x => x.Item.BcCurrency.IsEmpty(), "币种不能为空")
-                .SplitError(x => x.Item.BcBalancedate.IsEmpty(), "核算日期不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.BcSfId.IsEmpty(), "ID不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -154,6 +144,7 @@ namespace Ams.Service.Accounting
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.BcFy), it => it.BcFy == parm.BcFy);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.BcYm), it => it.BcYm == parm.BcYm);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.BcBomItem), it => it.BcBomItem.Contains(parm.BcBomItem));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.BcCurrency), it => it.BcCurrency == parm.BcCurrency);
             return predicate;
         }
     }

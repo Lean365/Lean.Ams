@@ -48,7 +48,7 @@ namespace Ams.Statistics.Accounting
         {
             string currentMonth = DateTime.Now.ToString("yyyyMM");
             var predicate = Expressionable.Create<FicoBudgetActualCont>();
-            predicate = predicate.AndIF(string.IsNullOrEmpty(parm.FbCorpCode), it => it.FbExpCategory == "F");
+            predicate = predicate.AndIF(string.IsNullOrEmpty(parm.FbCorpCode), it => it.FbCostType == "F");
             if (parm.FbYm == null)
             {
                 predicate = predicate.AndIF(true, it => it.FbYm == "202201");

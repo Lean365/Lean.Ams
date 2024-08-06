@@ -36,7 +36,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. TeSfid.ToString() == enterString);
+            int count = Count(it => it. TeSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,12 +48,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="TeSfid"></param>
+        /// <param name="TeSfId"></param>
         /// <returns></returns>
-        public PpEcSlaveTe GetInfo(long TeSfid)
+        public PpEcSlaveTe GetInfo(long TeSfId)
         {
             var response = Queryable()
-                .Where(x => x.TeSfid == TeSfid)
+                .Where(x => x.TeSfId == TeSfId)
                 .First();
 
             return response;

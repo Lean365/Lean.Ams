@@ -43,7 +43,7 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 供应商简称
         /// </summary>
-        [SugarColumn(ColumnName = "VeAbbr", ColumnDescription = "供应商简称 ", Length = 4)]
+        [SugarColumn(ColumnName = "VeAbbr", ColumnDescription = "供应商简称 ", Length = 20)]
         public string VeAbbr { get; set; }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 统驭科目
         /// </summary>
-        [SugarColumn(ColumnName = "VeRecAccount", ColumnDescription = "统驭科目 ", Length = 3)]
+        [SugarColumn(ColumnName = "VeRecAccount", ColumnDescription = "统驭科目 ", Length = 6)]
         public string VeRecAccount { get; set; }
 
         /// <summary>
@@ -185,19 +185,19 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 银行地址
         /// </summary>
-        [SugarColumn(ColumnName = "VeBankAddr", ColumnDescription = "银行地址 ", Length = 40)]
+        [SugarColumn(ColumnName = "VeBankAddr", ColumnDescription = "银行地址 ", Length = 400)]
         public string VeBankAddr { get; set; }
 
         /// <summary>
         /// 银行地址1
         /// </summary>
-        [SugarColumn(ColumnName = "VeBankAddr1", ColumnDescription = "银行地址1 ", Length = 40)]
+        [SugarColumn(ColumnName = "VeBankAddr1", ColumnDescription = "银行地址1 ", Length = 400)]
         public string VeBankAddr1 { get; set; }
 
         /// <summary>
         /// 银行地址2
         /// </summary>
-        [SugarColumn(ColumnName = "VeBankAddr2", ColumnDescription = "银行地址2 ", Length = 40)]
+        [SugarColumn(ColumnName = "VeBankAddr2", ColumnDescription = "银行地址2 ", Length = 400)]
         public string VeBankAddr2 { get; set; }
 
         /// <summary>
@@ -239,19 +239,19 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 地址
         /// </summary>
-        [SugarColumn(ColumnName = "VeAddr", ColumnDescription = "地址 ", Length = 40)]
+        [SugarColumn(ColumnName = "VeAddr", ColumnDescription = "地址 ", Length = 400)]
         public string VeAddr { get; set; }
 
         /// <summary>
         /// 地址1
         /// </summary>
-        [SugarColumn(ColumnName = "VeAddr1", ColumnDescription = "地址1 ", Length = 40)]
+        [SugarColumn(ColumnName = "VeAddr1", ColumnDescription = "地址1 ", Length = 400)]
         public string VeAddr1 { get; set; }
 
         /// <summary>
         /// 地址2
         /// </summary>
-        [SugarColumn(ColumnName = "VeAddr2", ColumnDescription = "地址2 ", Length = 40)]
+        [SugarColumn(ColumnName = "VeAddr2", ColumnDescription = "地址2 ", Length = 400)]
         public string VeAddr2 { get; set; }
 
         /// <summary>
@@ -269,19 +269,19 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 电话
         /// </summary>
-        [SugarColumn(ColumnName = "VeTelNo", ColumnDescription = "电话 ", Length = 16)]
+        [SugarColumn(ColumnName = "VeTelNo", ColumnDescription = "电话 ", Length = 160)]
         public string VeTelNo { get; set; }
 
         /// <summary>
         /// 传真
         /// </summary>
-        [SugarColumn(ColumnName = "VeFaxNp", ColumnDescription = "传真 ", Length = 16)]
+        [SugarColumn(ColumnName = "VeFaxNp", ColumnDescription = "传真 ", Length = 160)]
         public string VeFaxNp { get; set; }
 
         /// <summary>
         /// 手机
         /// </summary>
-        [SugarColumn(ColumnName = "VePhoneNo", ColumnDescription = "手机 ", Length = 16)]
+        [SugarColumn(ColumnName = "VePhoneNo", ColumnDescription = "手机 ", Length = 160)]
         public string VePhoneNo { get; set; }
 
         /// <summary>

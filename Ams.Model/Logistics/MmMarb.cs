@@ -205,7 +205,7 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 库存仓位
         /// </summary>
-        [SugarColumn(ColumnName = "Lgpbe", ColumnDescription = "库存仓位 ", Length = 10)]
+        [SugarColumn(ColumnName = "Lgpbe", ColumnDescription = "库存仓位 ", Length = 40)]
         public string Lgpbe { get; set; }
 
         /// <summary>

@@ -2,7 +2,8 @@
  * @Descripttion: 工资率/fico_wage_rates
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/26 16:39:08
+ * @Date: 2024/8/5 16:43:12
+ * @column：38
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,24 +12,24 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="公司" prop="fwCrop">
-        <el-select filterable clearable   v-model="queryParams.fwCrop" :placeholder="$t('btn.selectSearchPrefix')+'公司'+$t('btn.selectSearchSuffix')">
+      <el-form-item label="公司 " prop="fwCrop">
+        <el-select filterable clearable   v-model="queryParams.fwCrop" :placeholder="$t('btn.selectSearchPrefix')+'公司 '+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   options.sys_crop_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="年月" prop="fwYm">
-        <el-select filterable clearable   v-model="queryParams.fwYm" :placeholder="$t('btn.selectSearchPrefix')+'年月'+$t('btn.selectSearchSuffix')">
+      <el-form-item label="年月 " prop="fwYm">
+        <el-select filterable clearable   v-model="queryParams.fwYm" :placeholder="$t('btn.selectSearchPrefix')+'年月 '+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   options.sql_fy_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="币种" prop="fwCcy">
-        <el-select filterable clearable   v-model="queryParams.fwCcy" :placeholder="$t('btn.selectSearchPrefix')+'币种'+$t('btn.selectSearchSuffix')">
+      <el-form-item label="币种 " prop="fwCcy">
+        <el-select filterable clearable   v-model="queryParams.fwCcy" :placeholder="$t('btn.selectSearchPrefix')+'币种 '+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   options.sql_ym_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
@@ -97,36 +98,42 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="fwSfid" label="SFID" align="center" v-if="columns.showColumn('fwSfid')"/>
-      <el-table-column prop="fwCrop" label="公司" align="center" v-if="columns.showColumn('fwCrop')">
+      <el-table-column prop="fwSfId" label="ID" align="center" v-if="columns.showColumn('fwSfId')"/>
+      <el-table-column prop="fwCrop" label="公司 " align="center" v-if="columns.showColumn('fwCrop')">
         <template #default="scope">
           <dict-tag :options=" options.sys_crop_list " :value="scope.row.fwCrop"  />
         </template>
       </el-table-column>
-      <el-table-column prop="fwYm" label="年月" align="center" v-if="columns.showColumn('fwYm')">
+      <el-table-column prop="fwYm" label="年月 " align="center" v-if="columns.showColumn('fwYm')">
         <template #default="scope">
           <dict-tag :options=" options.sql_fy_list " :value="scope.row.fwYm"  />
         </template>
       </el-table-column>
-      <el-table-column prop="fwCcy" label="币种" align="center" v-if="columns.showColumn('fwCcy')">
+      <el-table-column prop="fwCcy" label="币种 " align="center" v-if="columns.showColumn('fwCcy')">
         <template #default="scope">
           <dict-tag :options=" options.sql_ym_list " :value="scope.row.fwCcy"  />
         </template>
       </el-table-column>
-      <el-table-column prop="fwSalesVolume" label="销售额" align="center" v-if="columns.showColumn('fwSalesVolume')"/>
-      <el-table-column prop="fwWorkingDays" label="工作天数" align="center" v-if="columns.showColumn('fwWorkingDays')"/>
-      <el-table-column prop="fwDirectWageRate" label="直接工资率" align="center" v-if="columns.showColumn('fwDirectWageRate')"/>
-      <el-table-column prop="fwDirect" label="直接人数" align="center" v-if="columns.showColumn('fwDirect')"/>
-      <el-table-column prop="fwDirectOverTime" label="直接加班费" align="center" v-if="columns.showColumn('fwDirectOverTime')"/>
-      <el-table-column prop="fwDirectWages" label="直接工资" align="center" v-if="columns.showColumn('fwDirectWages')"/>
-      <el-table-column prop="fwInDirectWageRate" label="间接工资率" align="center" v-if="columns.showColumn('fwInDirectWageRate')"/>
-      <el-table-column prop="fwInDirect" label="间接人数" align="center" v-if="columns.showColumn('fwInDirect')"/>
-      <el-table-column prop="fwInDirectOverTime" label="间接加班费" align="center" v-if="columns.showColumn('fwInDirectOverTime')"/>
-      <el-table-column prop="fwInDirectWages" label="间接工资" align="center" v-if="columns.showColumn('fwInDirectWages')"/>
-      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
+      <el-table-column prop="fwSalesVolume" label="销售额 " align="center" v-if="columns.showColumn('fwSalesVolume')"/>
+      <el-table-column prop="fwWorkingDays" label="工作天数 " align="center" v-if="columns.showColumn('fwWorkingDays')"/>
+      <el-table-column prop="fwDirectWageRate" label="直接工资率 " align="center" v-if="columns.showColumn('fwDirectWageRate')"/>
+      <el-table-column prop="fwDirect" label="直接人数 " align="center" v-if="columns.showColumn('fwDirect')"/>
+      <el-table-column prop="fwDirectOverTime" label="直接加班费 " align="center" v-if="columns.showColumn('fwDirectOverTime')"/>
+      <el-table-column prop="fwDirectWages" label="直接工资 " align="center" v-if="columns.showColumn('fwDirectWages')"/>
+      <el-table-column prop="fwInDirectWageRate" label="间接工资率 " align="center" v-if="columns.showColumn('fwInDirectWageRate')"/>
+      <el-table-column prop="fwInDirect" label="间接人数 " align="center" v-if="columns.showColumn('fwInDirect')"/>
+      <el-table-column prop="fwInDirectOverTime" label="间接加班费 " align="center" v-if="columns.showColumn('fwInDirectOverTime')"/>
+      <el-table-column prop="fwInDirectWages" label="间接工资 " align="center" v-if="columns.showColumn('fwInDirectWages')"/>
+      <el-table-column prop="rEF01" label="预留A " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF01')"/>
+      <el-table-column prop="rEF02" label="预留B " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF02')"/>
+      <el-table-column prop="rEF03" label="预留C " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF03')"/>
+      <el-table-column prop="rEF04" label="预留1 " align="center" v-if="columns.showColumn('rEF04')"/>
+      <el-table-column prop="rEF05" label="预留2 " align="center" v-if="columns.showColumn('rEF05')"/>
+      <el-table-column prop="rEF06" label="预留3" align="center" v-if="columns.showColumn('rEF06')"/>
+      <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
+      <el-table-column prop="createBy" label="创建人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
       <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
-      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
+      <el-table-column prop="updateBy" label="更新人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
       <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
@@ -147,14 +154,14 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="SFID" prop="fwSfid">
-              <el-input v-model.number="form.fwSfid" :placeholder="$t('btn.enterPrefix')+'SFID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
+            <el-form-item label="ID" prop="fwSfId">
+              <el-input v-model.number="form.fwSfId" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="公司" prop="fwCrop">
-              <el-select filterable clearable   v-model="form.fwCrop"  :placeholder="$t('btn.selectPrefix')+'公司'+$t('btn.selectSuffix')">
+            <el-form-item label="公司 " prop="fwCrop">
+              <el-select filterable clearable   v-model="form.fwCrop"  :placeholder="$t('btn.selectPrefix')+'公司 '+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sys_crop_list" 
                   :key="item.dictValue" 
@@ -166,8 +173,8 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="年月" prop="fwYm">
-              <el-select filterable clearable   v-model="form.fwYm"  :placeholder="$t('btn.selectPrefix')+'年月'+$t('btn.selectSuffix')">
+            <el-form-item label="年月 " prop="fwYm">
+              <el-select filterable clearable   v-model="form.fwYm"  :placeholder="$t('btn.selectPrefix')+'年月 '+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_fy_list" 
                   :key="item.dictValue" 
@@ -179,8 +186,8 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="币种" prop="fwCcy">
-              <el-select filterable clearable   v-model="form.fwCcy"  :placeholder="$t('btn.selectPrefix')+'币种'+$t('btn.selectSuffix')">
+            <el-form-item label="币种 " prop="fwCcy">
+              <el-select filterable clearable   v-model="form.fwCcy"  :placeholder="$t('btn.selectPrefix')+'币种 '+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_ym_list" 
                   :key="item.dictValue" 
@@ -192,134 +199,170 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="销售额" prop="fwSalesVolume">
-              <el-input-number v-model.number="form.fwSalesVolume" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'销售额'+$t('btn.enterSuffix')" />
+            <el-form-item label="销售额 " prop="fwSalesVolume">
+              <el-input-number v-model.number="form.fwSalesVolume" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'销售额 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="工作天数" prop="fwWorkingDays">
-              <el-input-number v-model.number="form.fwWorkingDays" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'工作天数'+$t('btn.enterSuffix')" />
+            <el-form-item label="工作天数 " prop="fwWorkingDays">
+              <el-input-number v-model.number="form.fwWorkingDays" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'工作天数 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="直接工资率" prop="fwDirectWageRate">
-              <el-input-number v-model.number="form.fwDirectWageRate" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'直接工资率'+$t('btn.enterSuffix')" />
+            <el-form-item label="直接工资率 " prop="fwDirectWageRate">
+              <el-input-number v-model.number="form.fwDirectWageRate" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'直接工资率 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="直接人数" prop="fwDirect">
-              <el-input-number v-model.number="form.fwDirect" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'直接人数'+$t('btn.enterSuffix')" />
+            <el-form-item label="直接人数 " prop="fwDirect">
+              <el-input-number v-model.number="form.fwDirect" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'直接人数 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="直接加班费" prop="fwDirectOverTime">
-              <el-input-number v-model.number="form.fwDirectOverTime" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'直接加班费'+$t('btn.enterSuffix')" />
+            <el-form-item label="直接加班费 " prop="fwDirectOverTime">
+              <el-input-number v-model.number="form.fwDirectOverTime" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'直接加班费 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="直接工资" prop="fwDirectWages">
-              <el-input-number v-model.number="form.fwDirectWages" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'直接工资'+$t('btn.enterSuffix')" />
+            <el-form-item label="直接工资 " prop="fwDirectWages">
+              <el-input-number v-model.number="form.fwDirectWages" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'直接工资 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="间接工资率" prop="fwInDirectWageRate">
-              <el-input-number v-model.number="form.fwInDirectWageRate" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'间接工资率'+$t('btn.enterSuffix')" />
+            <el-form-item label="间接工资率 " prop="fwInDirectWageRate">
+              <el-input-number v-model.number="form.fwInDirectWageRate" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'间接工资率 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="间接人数" prop="fwInDirect">
-              <el-input-number v-model.number="form.fwInDirect" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'间接人数'+$t('btn.enterSuffix')" />
+            <el-form-item label="间接人数 " prop="fwInDirect">
+              <el-input-number v-model.number="form.fwInDirect" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'间接人数 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="间接加班费" prop="fwInDirectOverTime">
-              <el-input-number v-model.number="form.fwInDirectOverTime" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'间接加班费'+$t('btn.enterSuffix')" />
+            <el-form-item label="间接加班费 " prop="fwInDirectOverTime">
+              <el-input-number v-model.number="form.fwInDirectOverTime" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'间接加班费 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="间接工资" prop="fwInDirectWages">
-              <el-input-number v-model.number="form.fwInDirectWages" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'间接工资'+$t('btn.enterSuffix')" />
+            <el-form-item label="间接工资 " prop="fwInDirectWages">
+              <el-input-number v-model.number="form.fwInDirectWages" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'间接工资 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义A" prop="uDF01">
-              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留A " prop="rEF01">
+              <el-input v-model="form.rEF01" :placeholder="$t('btn.enterPrefix')+'预留A '+$t('btn.enterSuffix')"  show-word-limit maxlength="1"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义B" prop="uDF02">
-              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留B " prop="rEF02">
+              <el-input v-model="form.rEF02" :placeholder="$t('btn.enterPrefix')+'预留B '+$t('btn.enterSuffix')"  show-word-limit maxlength="8"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义C" prop="uDF03">
-              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留C " prop="rEF03">
+              <el-input v-model="form.rEF03" :placeholder="$t('btn.enterPrefix')+'预留C '+$t('btn.enterSuffix')"  show-word-limit maxlength="30"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义D" prop="uDF04">
-              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留1 " prop="rEF04">
+              <el-input-number v-model.number="form.rEF04" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留1 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义E" prop="uDF05">
-              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留2 " prop="rEF05">
+              <el-input-number v-model.number="form.rEF05" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留2 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义F" prop="uDF06">
-              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留3" prop="rEF06">
+              <el-input-number v-model.number="form.rEF06" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留3'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义1" prop="uDF51">
-              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义A " prop="uDF01">
+              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A '+$t('btn.enterSuffix')"  show-word-limit maxlength="200"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义2" prop="uDF52">
-              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义B " prop="uDF02">
+              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B '+$t('btn.enterSuffix')"  show-word-limit maxlength="200"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义3" prop="uDF53">
-              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义C " prop="uDF03">
+              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C '+$t('btn.enterSuffix')"  show-word-limit maxlength="200"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义4" prop="uDF54">
-              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义D " prop="uDF04">
+              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D '+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义5" prop="uDF55">
-              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义E " prop="uDF05">
+              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E '+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="自定义6" prop="uDF56">
-              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
+            <el-form-item label="自定义F " prop="uDF06">
+              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F '+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="自定义1 " prop="uDF51">
+              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="自定义2 " prop="uDF52">
+              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="自定义3 " prop="uDF53">
+              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义4 " prop="uDF54">
+              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义5 " prop="uDF55">
+              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义6 " prop="uDF56">
+              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
@@ -333,15 +376,15 @@
             </el-form-item>
           </el-col>
 
-          <el-col :lg="24">
-            <el-form-item label="备注" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')"/>
+          <el-col :lg="12">
+            <el-form-item label="备注说明" prop="remark">
+              <el-input v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="创建者" prop="createBy">
-              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
+            <el-form-item label="创建人员" prop="createBy">
+              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
             </el-form-item>
           </el-col>
 
@@ -352,8 +395,8 @@
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="更新者" prop="updateBy">
-              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
+            <el-form-item label="更新人员" prop="updateBy">
+              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
             </el-form-item>
           </el-col>
 
@@ -482,24 +525,30 @@ const queryParams = reactive({
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'fwSfid', label: 'SFID' },
-  { visible: true, prop: 'fwCrop', label: '公司' },
-  { visible: true, prop: 'fwYm', label: '年月' },
-  { visible: true, prop: 'fwCcy', label: '币种' },
-  { visible: true, prop: 'fwSalesVolume', label: '销售额' },
-  { visible: true, prop: 'fwWorkingDays', label: '工作天数' },
-  { visible: true, prop: 'fwDirectWageRate', label: '直接工资率' },
-  { visible: true, prop: 'fwDirect', label: '直接人数' },
-  { visible: false, prop: 'fwDirectOverTime', label: '直接加班费' },
-  { visible: false, prop: 'fwDirectWages', label: '直接工资' },
-  { visible: false, prop: 'fwInDirectWageRate', label: '间接工资率' },
-  { visible: false, prop: 'fwInDirect', label: '间接人数' },
-  { visible: false, prop: 'fwInDirectOverTime', label: '间接加班费' },
-  { visible: false, prop: 'fwInDirectWages', label: '间接工资' },
-  { visible: false, prop: 'remark', label: '备注' },
-  { visible: false, prop: 'createBy', label: '创建者' },
+  { visible: true, prop: 'fwSfId', label: 'ID' },
+  { visible: true, prop: 'fwCrop', label: '公司 ' },
+  { visible: true, prop: 'fwYm', label: '年月 ' },
+  { visible: true, prop: 'fwCcy', label: '币种 ' },
+  { visible: true, prop: 'fwSalesVolume', label: '销售额 ' },
+  { visible: true, prop: 'fwWorkingDays', label: '工作天数 ' },
+  { visible: true, prop: 'fwDirectWageRate', label: '直接工资率 ' },
+  { visible: true, prop: 'fwDirect', label: '直接人数 ' },
+  { visible: false, prop: 'fwDirectOverTime', label: '直接加班费 ' },
+  { visible: false, prop: 'fwDirectWages', label: '直接工资 ' },
+  { visible: false, prop: 'fwInDirectWageRate', label: '间接工资率 ' },
+  { visible: false, prop: 'fwInDirect', label: '间接人数 ' },
+  { visible: false, prop: 'fwInDirectOverTime', label: '间接加班费 ' },
+  { visible: false, prop: 'fwInDirectWages', label: '间接工资 ' },
+  { visible: false, prop: 'rEF01', label: '预留A ' },
+  { visible: false, prop: 'rEF02', label: '预留B ' },
+  { visible: false, prop: 'rEF03', label: '预留C ' },
+  { visible: false, prop: 'rEF04', label: '预留1 ' },
+  { visible: false, prop: 'rEF05', label: '预留2 ' },
+  { visible: false, prop: 'rEF06', label: '预留3' },
+  { visible: false, prop: 'remark', label: '备注说明' },
+  { visible: false, prop: 'createBy', label: '创建人员' },
   { visible: false, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新者' },
+  { visible: false, prop: 'updateBy', label: '更新人员' },
   { visible: false, prop: 'updateTime', label: '更新时间' },
 ])
 // 记录数
@@ -551,7 +600,7 @@ function resetQuery(){
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.fwSfid);
+  ids.value = selection.map((item) => item.fwSfId);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -587,34 +636,14 @@ const state = reactive({
   multiple: true,
   form: {},
   rules: {
-    fwSfid: [{ required: true, message: "SFID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    fwCrop: [{ required: true, message: "公司"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    fwYm: [{ required: true, message: "年月"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    fwCcy: [{ required: true, message: "币种"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    fwSalesVolume: [{ required: true, message: "销售额"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    fwWorkingDays: [{ required: true, message: "工作天数"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    fwDirectWageRate: [{ required: true, message: "直接工资率"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    fwDirect: [{ required: true, message: "直接人数"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    fwDirectOverTime: [{ required: true, message: "直接加班费"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    fwDirectWages: [{ required: true, message: "直接工资"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    fwInDirectWageRate: [{ required: true, message: "间接工资率"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    fwInDirect: [{ required: true, message: "间接人数"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    fwInDirectOverTime: [{ required: true, message: "间接加班费"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    fwInDirectWages: [{ required: true, message: "间接工资"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF54: [{ required: true, message: "自定义4"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF55: [{ required: true, message: "自定义5"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF56: [{ required: true, message: "自定义6"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    fwSfId: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
   },
   options: {
-    // 公司 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 公司  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_crop_list: [],
-    // 年月 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 年月  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_fy_list: [],
-    // 币种 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 币种  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_ym_list: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_is_deleted: [],
@@ -632,7 +661,7 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    fwSfid: 0,
+    fwSfId: 0,
     fwCrop: null,
     fwYm: null,
     fwCcy: null,
@@ -646,6 +675,12 @@ function reset() {
     fwInDirect: 0,
     fwInDirectOverTime: 0,
     fwInDirectWages: 0,
+    rEF01: null,
+    rEF02: null,
+    rEF03: null,
+    rEF04: 0,
+    rEF05: 0,
+    rEF06: 0,
     uDF01: null,
     uDF02: null,
     uDF03: null,
@@ -688,13 +723,16 @@ function handleAdd() {
   form.value.fwInDirect= 0
   form.value.fwInDirectOverTime= 0
   form.value.fwInDirectWages= 0
+  form.value.rEF04= 0
+  form.value.rEF05= 0
+  form.value.rEF06= 0
   form.value.createTime= new Date()
   form.value.updateTime= new Date()
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.fwSfid || ids.value
+  const id = row.fwSfId || ids.value
   getFicoWageRates(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -714,7 +752,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.fwSfid != undefined && opertype.value === 2) {
+      if (form.value.fwSfId != undefined && opertype.value === 2) {
         updateFicoWageRates(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -733,7 +771,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.fwSfid || ids.value
+  const Ids = row.fwSfId || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {

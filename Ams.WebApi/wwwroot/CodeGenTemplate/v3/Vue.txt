@@ -330,10 +330,10 @@ $elseif(column.HtmlType == "radio" || column.HtmlType == "selectRadio")
               </el-radio-group>
             </el-form-item>
           </el-col>
-$elseif(column.HtmlType == "textarea")
+$elseif(column.HtmlType == "textarea"||column.columnName == "remark")
           <el-col :lg="24">
             <el-form-item label="${labelName}" prop="${columnName}">
-              <el-input type="textarea" v-model="form.${columnName}" :placeholder="${t}t('btn.enterPrefix')+'${labelName}'+${t}t('btn.enterSuffix')"${column.DisabledStr}/>
+              <el-input type="textarea" v-model="form.${columnName}" :placeholder="${t}t('btn.enterPrefix')+'${labelName}'+${t}t('btn.enterSuffix')"${column.DisabledStr} show-word-limit maxlength="${column.CsharpLength}"/>
             </el-form-item>
           </el-col>
 $elseif(column.HtmlType == "editor")
@@ -387,7 +387,7 @@ $elseif(column.HtmlType == "switch")
 $else
           <el-col :lg="${options.ColNum}">
             <el-form-item label="${labelName}" prop="${columnName}">
-              <el-input v-model${number}="form.${columnName}" :placeholder="${t}t('btn.enterPrefix')+'${labelName}'+${t}t('btn.enterSuffix')" ${column.DisabledStr}/>
+              <el-input v-model${number}="form.${columnName}" :placeholder="${t}t('btn.enterPrefix')+'${labelName}'+${t}t('btn.enterSuffix')" ${column.DisabledStr} show-word-limit maxlength="${column.CsharpLength}"/>
             </el-form-item>
           </el-col>
 $end

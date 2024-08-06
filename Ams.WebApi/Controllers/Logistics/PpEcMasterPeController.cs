@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询制技详情
         /// </summary>
-        /// <param name="EcmSFID"></param>
+        /// <param name="EcmSfId"></param>
         /// <returns></returns>
-        [HttpGet("{EcmSFID}")]
+        [HttpGet("{EcmSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecmasterpe:query")]
-        public IActionResult GetPpEcMasterPe(long EcmSFID)
+        public IActionResult GetPpEcMasterPe(long EcmSfId)
         {
-            var response = _PpEcMasterPeService.GetInfo(EcmSFID);
+            var response = _PpEcMasterPeService.GetInfo(EcmSfId);
             
             var info = response.Adapt<PpEcMasterPeDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcMasterPeService.CheckInputUnique(parm.EcmSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcMasterPeService.CheckInputUnique(parm.EcmSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增制技 '{parm.EcmSFID}'失败(Add failed)，输入的制技已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增制技 '{parm.EcmSfId}'失败(Add failed)，输入的制技已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcMasterPe>().ToCreate(HttpContext);
 

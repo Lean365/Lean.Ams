@@ -8,7 +8,7 @@ namespace Ams.Service.Routine
     /// 人事
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/29 16:57:41
+    /// @Date: 2024/8/6 8:07:34
     /// </summary>
     [AppService(ServiceType = typeof(IRoutineEhrEmployeeService), ServiceLifetime = LifeTime.Transient)]
     public class RoutineEhrEmployeeService : BaseService<RoutineEhrEmployee>, IRoutineEhrEmployeeService
@@ -87,33 +87,8 @@ namespace Ams.Service.Routine
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.EeSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.EeName.IsEmpty(), "姓名不能为空")
-                .SplitError(x => x.Item.EeGender.IsEmpty(), "性别不能为空")
-                .SplitError(x => x.Item.EeBirthday.IsEmpty(), "出生日期不能为空")
-                .SplitError(x => x.Item.EeIdentityCard.IsEmpty(), "身份证号不能为空")
-                .SplitError(x => x.Item.EeWedlock.IsEmpty(), "婚姻状态不能为空")
-                .SplitError(x => x.Item.EeNationId.IsEmpty(), "民族不能为空")
-                .SplitError(x => x.Item.EeNativePlace.IsEmpty(), "籍贯不能为空")
-                .SplitError(x => x.Item.EePoliticId.IsEmpty(), "政治面貌不能为空")
-                .SplitError(x => x.Item.EeCountry.IsEmpty(), "国家/地区不能为空")
-                .SplitError(x => x.Item.EeProvince.IsEmpty(), "省区不能为空")
-                .SplitError(x => x.Item.EeCity.IsEmpty(), "市区不能为空")
-                .SplitError(x => x.Item.EeCounty.IsEmpty(), "县区不能为空")
-                .SplitError(x => x.Item.EeHomeAddress.IsEmpty(), "家庭住址不能为空")
-                .SplitError(x => x.Item.EeDepartmentId.IsEmpty(), "部门不能为空")
-                .SplitError(x => x.Item.EeTitlesId.IsEmpty(), "职称不能为空")
-                .SplitError(x => x.Item.EePostId.IsEmpty(), "职位不能为空")
-                .SplitError(x => x.Item.EePostLevel.IsEmpty(), "职级不能为空")
-                .SplitError(x => x.Item.EeDutyName.IsEmpty(), "职务不能为空")
-                .SplitError(x => x.Item.EeRecruited.IsEmpty(), "招聘来源不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.EeSfId.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.EeWorkID.IsEmpty(), "工号 不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -150,10 +125,11 @@ namespace Ams.Service.Routine
                     EeGenderLabel = it.EeGender.GetConfigValue<SysDictData>("sys_gender_type"),
                     EeWedlockLabel = it.EeWedlock.GetConfigValue<SysDictData>("sys_wedlock_state"),
                     EeNationIdLabel = it.EeNationId.GetConfigValue<SysDictData>("sys_nation_list"),
-                    EeNativePlaceLabel = it.EeNativePlace.GetConfigValue<SysDictData>("sql_region_city"),
+                    EeNativePlaceLabel = it.EeNativePlace.GetConfigValue<SysDictData>("sql_region_county"),
                     EePoliticIdLabel = it.EePoliticId.GetConfigValue<SysDictData>("sys_politic_list"),
                     EeCountryLabel = it.EeCountry.GetConfigValue<SysDictData>("sys_country_list"),
                     EeProvinceLabel = it.EeProvince.GetConfigValue<SysDictData>("sql_region_province"),
+                    EeCityLabel = it.EeCity.GetConfigValue<SysDictData>("sql_region_city"),
                     EeHouseholdTypeLabel = it.EeHouseholdType.GetConfigValue<SysDictData>("sys_household_type"),
                     EeDepartmentIdLabel = it.EeDepartmentId.GetConfigValue<SysDictData>("sql_dept_list"),
                     EeTitlesIdLabel = it.EeTitlesId.GetConfigValue<SysDictData>("sys_titles_list"),
@@ -165,8 +141,7 @@ namespace Ams.Service.Routine
                     EeSpecialtyLabel = it.EeSpecialty.GetConfigValue<SysDictData>("sys_specialty_list"),
                     EeWorkStateLabel = it.EeWorkState.GetConfigValue<SysDictData>("sys_serve_state"),
                     EeClockInLabel = it.EeClockIn.GetConfigValue<SysDictData>("sys_flag_list"),
-                    EeShiftsTypeLabel = it.EeShiftsType.GetConfigValue<SysDictData>("sys_line_type"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    EeShiftsTypeLabel = it.EeShiftsType.GetConfigValue<SysDictData>("sys_shifts_list"),
                 }, true)
                 .ToPage(parm);
 
@@ -183,7 +158,6 @@ namespace Ams.Service.Routine
             var predicate = Expressionable.Create<RoutineEhrEmployee>();
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeName), it => it.EeName.Contains(parm.EeName));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeEnglishName), it => it.EeEnglishName.Contains(parm.EeEnglishName));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeGender), it => it.EeGender == parm.EeGender);
             //当日期条件为空时，默认查询大于今天的所有数据
             //predicate = predicate.AndIF(parm.BeginEeBirthday == null, it => it.EeBirthday >= DateTime.Now.ToShortDateString().ParseToDateTime());
@@ -191,6 +165,7 @@ namespace Ams.Service.Routine
             predicate = predicate.AndIF(parm.BeginEeBirthday == null, it => it.EeBirthday >= new DateTime(DateTime.Now.Year, 1, 1));
             predicate = predicate.AndIF(parm.BeginEeBirthday != null, it => it.EeBirthday >= parm.BeginEeBirthday);
             predicate = predicate.AndIF(parm.EndEeBirthday != null, it => it.EeBirthday <= parm.EndEeBirthday);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeIdentityCard), it => it.EeIdentityCard.Contains(parm.EeIdentityCard));
             predicate = predicate.AndIF(parm.EeWedlock != null, it => it.EeWedlock == parm.EeWedlock);
             predicate = predicate.AndIF(parm.EeNationId != null, it => it.EeNationId == parm.EeNationId);
             predicate = predicate.AndIF(parm.EeNativePlace != null, it => it.EeNativePlace == parm.EeNativePlace);
@@ -228,12 +203,6 @@ namespace Ams.Service.Routine
             predicate = predicate.AndIF(parm.BeginEeLeaveDate != null, it => it.EeLeaveDate >= parm.BeginEeLeaveDate);
             predicate = predicate.AndIF(parm.EndEeLeaveDate != null, it => it.EeLeaveDate <= parm.EndEeLeaveDate);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginEeBeginContract == null, it => it.EeBeginContract >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginEeBeginContract == null, it => it.EeBeginContract >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginEeBeginContract != null, it => it.EeBeginContract >= parm.BeginEeBeginContract);
-            predicate = predicate.AndIF(parm.EndEeBeginContract != null, it => it.EeBeginContract <= parm.EndEeBeginContract);
-            //当日期条件为空时，默认查询大于今天的所有数据
             //predicate = predicate.AndIF(parm.BeginEeEndContract == null, it => it.EeEndContract >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
             predicate = predicate.AndIF(parm.BeginEeEndContract == null, it => it.EeEndContract >= new DateTime(DateTime.Now.Year, 1, 1));
@@ -245,8 +214,6 @@ namespace Ams.Service.Routine
             predicate = predicate.AndIF(parm.BeginEeRetireDate == null, it => it.EeRetireDate >= new DateTime(DateTime.Now.Year, 1, 1));
             predicate = predicate.AndIF(parm.BeginEeRetireDate != null, it => it.EeRetireDate >= parm.BeginEeRetireDate);
             predicate = predicate.AndIF(parm.EndEeRetireDate != null, it => it.EeRetireDate <= parm.EndEeRetireDate);
-            predicate = predicate.AndIF(parm.EeClockIn != null, it => it.EeClockIn == parm.EeClockIn);
-            predicate = predicate.AndIF(parm.EeShiftsType != null, it => it.EeShiftsType == parm.EeShiftsType);
             return predicate;
         }
     }

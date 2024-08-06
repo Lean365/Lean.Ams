@@ -113,7 +113,7 @@
       header-cell-class-name="el-table-header-cell" highlight-current-row @sort-change="sortChange"
       @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
-      <el-table-column prop="mhSFID" label="SFID" align="center" v-if="columns.showColumn('mhSFID')" />
+      <el-table-column prop="mhSfId" label="SFID" align="center" v-if="columns.showColumn('mhSfId')" />
       <el-table-column prop="mhEffDate" label="生效日期" :show-overflow-tooltip="true"
         v-if="columns.showColumn('mhEffDate')" />
       <el-table-column prop="mhPlant" label="工厂" align="center" v-if="columns.showColumn('mhPlant')">
@@ -175,8 +175,8 @@
             <el-row :gutter="20">
 
               <el-col :lg="12">
-                <el-form-item label="SFID" prop="mhSFID">
-                  <el-input v-model.number="form.mhSFID"
+                <el-form-item label="SFID" prop="mhSfId">
+                  <el-input v-model.number="form.mhSfId"
                     :placeholder="$t('btn.enterPrefix')+'SFID'+$t('btn.enterSuffix')" :disabled="opertype != 1" />
                 </el-form-item>
               </el-col>
@@ -455,7 +455,7 @@
   })
   //字段显示控制
   const columns = ref([
-    { visible: true, prop: 'mhSFID', label: 'SFID' },
+    { visible: true, prop: 'mhSfId', label: 'SFID' },
     { visible: true, prop: 'mhEffDate', label: '生效日期' },
     { visible: true, prop: 'mhPlant', label: '工厂' },
     { visible: true, prop: 'mhModelType', label: '机种名' },
@@ -584,7 +584,7 @@
   }
   // 多选框选中数据
   function handleSelectionChange(selection) {
-    ids.value = selection.map((item) => item.mhSFID);
+    ids.value = selection.map((item) => item.mhSfId);
     single.value = selection.length != 1
     multiple.value = !selection.length;
   }
@@ -620,7 +620,7 @@
     multiple: true,
     form: {},
     rules: {
-      mhSFID: [{ required: true, message: "SFID" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      mhSfId: [{ required: true, message: "SFID" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
       mhPlant: [{ required: true, message: "工厂" + proxy.$t('btn.isEmpty'), trigger: "change" }],
       mhModelType: [{ required: true, message: "机种名" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
       mhWcName: [{ required: true, message: "工作中心" + proxy.$t('btn.isEmpty'), trigger: "change" }],
@@ -650,7 +650,7 @@
   // 重置表单
   function reset() {
     form.value = {
-      mhSFID: 0,
+      mhSfId: 0,
       mhEffDate: null,
       mhPlant: null,
       mhModelType: null,
@@ -693,7 +693,7 @@
   // 修改按钮操作
   function handleUpdate(row) {
     reset()
-    const id = row.mhSFID || ids.value
+    const id = row.mhSfId || ids.value
     getPpManhours(id).then((res) => {
       const { code, data } = res
       if (code == 200) {
@@ -713,7 +713,7 @@
     proxy.$refs["formRef"].validate((valid) => {
       if (valid) {
 
-        if (form.value.mhSFID != undefined && opertype.value === 2) {
+        if (form.value.mhSfId != undefined && opertype.value === 2) {
           updatePpManhours(form.value).then((res) => {
             proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
             open.value = false
@@ -732,7 +732,7 @@
 
   // 删除按钮操作
   function handleDelete(row) {
-    const Ids = row.mhSFID || ids.value
+    const Ids = row.mhSfId || ids.value
 
     proxy
       .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {

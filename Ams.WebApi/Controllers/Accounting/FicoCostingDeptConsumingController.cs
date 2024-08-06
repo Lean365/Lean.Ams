@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 部门消耗
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 17:02:09
+    /// @Date: 2024/8/5 16:43:22
     /// </summary>
     [Verify]
     [Route("Accounting/FicoCostingDeptConsuming")]

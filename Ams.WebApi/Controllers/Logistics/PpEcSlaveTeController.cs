@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询Te设变详情
         /// </summary>
-        /// <param name="TeSfid"></param>
+        /// <param name="TeSfId"></param>
         /// <returns></returns>
-        [HttpGet("{TeSfid}")]
+        [HttpGet("{TeSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecslavete:query")]
-        public IActionResult GetPpEcSlaveTe(long TeSfid)
+        public IActionResult GetPpEcSlaveTe(long TeSfId)
         {
-            var response = _PpEcSlaveTeService.GetInfo(TeSfid);
+            var response = _PpEcSlaveTeService.GetInfo(TeSfId);
             
             var info = response.Adapt<PpEcSlaveTeDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveTeService.CheckInputUnique(parm.TeSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveTeService.CheckInputUnique(parm.TeSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增Te设变 '{parm.TeSfid}'失败(Add failed)，输入的Te设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增Te设变 '{parm.TeSfId}'失败(Add failed)，输入的Te设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcSlaveTe>().ToCreate(HttpContext);
 

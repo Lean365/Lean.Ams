@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// bom成本核算
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 17:04:41
+    /// @Date: 2024/8/5 16:43:24
     /// </summary>
     public interface IFicoCostingBomService : IBaseService<FicoCostingBom>
     {

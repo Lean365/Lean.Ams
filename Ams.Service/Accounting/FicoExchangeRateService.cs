@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 汇率表
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 17:00:23
+    /// @Date: 2024/8/5 16:43:18
     /// </summary>
     [AppService(ServiceType = typeof(IFicoExchangeRateService), ServiceLifetime = LifeTime.Transient)]
     public class FicoExchangeRateService : BaseService<FicoExchangeRate>, IFicoExchangeRateService
@@ -23,7 +23,6 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("FerEffDate desc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoExchangeRate, FicoExchangeRateDto>(parm);
 
@@ -88,13 +87,6 @@ namespace Ams.Service.Accounting
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
                 .SplitError(x => x.Item.FerSfId.IsEmpty(), "ID不能为空")
-                .SplitError(x => x.Item.FerCorp.IsEmpty(), "公司不能为空")
-                .SplitError(x => x.Item.FerEffDate.IsEmpty(), "日期不能为空")
-                .SplitError(x => x.Item.FerStd.IsEmpty(), "基数不能为空")
-                .SplitError(x => x.Item.FerfmCcy.IsEmpty(), "从币种不能为空")
-                .SplitError(x => x.Item.FerRate.IsEmpty(), "汇率不能为空")
-                .SplitError(x => x.Item.FertoCcy.IsEmpty(), "到币种不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;

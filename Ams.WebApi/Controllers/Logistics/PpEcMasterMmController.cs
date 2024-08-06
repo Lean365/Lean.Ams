@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询部管详情
         /// </summary>
-        /// <param name="EcmSFID"></param>
+        /// <param name="EcmSfId"></param>
         /// <returns></returns>
-        [HttpGet("{EcmSFID}")]
+        [HttpGet("{EcmSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecmastermm:query")]
-        public IActionResult GetPpEcMasterMm(long EcmSFID)
+        public IActionResult GetPpEcMasterMm(long EcmSfId)
         {
-            var response = _PpEcMasterMmService.GetInfo(EcmSFID);
+            var response = _PpEcMasterMmService.GetInfo(EcmSfId);
             
             var info = response.Adapt<PpEcMasterMmDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcMasterMmService.CheckInputUnique(parm.EcmSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcMasterMmService.CheckInputUnique(parm.EcmSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增部管 '{parm.EcmSFID}'失败(Add failed)，输入的部管已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增部管 '{parm.EcmSfId}'失败(Add failed)，输入的部管已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcMasterMm>().ToCreate(HttpContext);
 

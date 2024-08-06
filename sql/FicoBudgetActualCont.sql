@@ -1,8 +1,8 @@
 use Ams_Tes;
 
--- 预算实际明细菜单
+-- 实际对比菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('预算实际明细', 1137, 999, 'FicoBudgetActualCont', 'accounting/FicoBudgetActualCont', 0, 0, 'C', '0', '0', 'fico:budgetactualcont:list', 'icon1', 'Lean365', GETDATE(), 'menu.fico.budgetactualcont');
+VALUES ('实际对比', 1137, 999, 'FicoBudgetActualCont', 'accounting/FicoBudgetActualCont', 0, 0, 'C', '0', '0', 'fico:budgetactualcont:list', 'icon1', 'Lean365', GETDATE(), 'menu.fico.budgetactualcont');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -28,17 +28,17 @@ SELECT * FROM sys_menu WHERE parentId = @menuId;
 SELECT * FROM sys_menu WHERE menuId = @menuId;
 
 
--- 预算实际明细多语言
+-- 实际对比多语言
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1137001,'zh-cn', 'menu.fico.budgetactualcont', '预算实际明细', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1137001,'zh-cn', 'menu.fico.budgetactualcont', '实际对比', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1137002,'zh-tw', 'menu.fico.budgetactualcont', 'TW_预算实际明细', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1137002,'zh-tw', 'menu.fico.budgetactualcont', 'TW_实际对比', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1137003,'en', 'menu.fico.budgetactualcont', 'EN_预算实际明细', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1137003,'en', 'menu.fico.budgetactualcont', 'EN_实际对比', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1137004,'ja', 'menu.fico.budgetactualcont', 'JA_预算实际明细', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1137004,'ja', 'menu.fico.budgetactualcont', 'JA_实际对比', 'Lean365', GETDATE());

@@ -185,19 +185,19 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 银行地址
         /// </summary>
-        [SugarColumn(ColumnName = "ScBankAddr", ColumnDescription = "银行地址 ", Length = 40)]
+        [SugarColumn(ColumnName = "ScBankAddr", ColumnDescription = "银行地址 ", Length = 400)]
         public string ScBankAddr { get; set; }
 
         /// <summary>
         /// 银行地址1
         /// </summary>
-        [SugarColumn(ColumnName = "ScBankAddr1", ColumnDescription = "银行地址1 ", Length = 40)]
+        [SugarColumn(ColumnName = "ScBankAddr1", ColumnDescription = "银行地址1 ", Length = 400)]
         public string ScBankAddr1 { get; set; }
 
         /// <summary>
         /// 银行地址2
         /// </summary>
-        [SugarColumn(ColumnName = "ScBankAddr2", ColumnDescription = "银行地址2 ", Length = 40)]
+        [SugarColumn(ColumnName = "ScBankAddr2", ColumnDescription = "银行地址2 ", Length = 400)]
         public string ScBankAddr2 { get; set; }
 
         /// <summary>
@@ -239,19 +239,19 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 地址
         /// </summary>
-        [SugarColumn(ColumnName = "ScAddr", ColumnDescription = "地址 ", Length = 40)]
+        [SugarColumn(ColumnName = "ScAddr", ColumnDescription = "地址 ", Length = 400)]
         public string ScAddr { get; set; }
 
         /// <summary>
         /// 地址1
         /// </summary>
-        [SugarColumn(ColumnName = "ScAddr1", ColumnDescription = "地址1 ", Length = 40)]
+        [SugarColumn(ColumnName = "ScAddr1", ColumnDescription = "地址1 ", Length = 400)]
         public string ScAddr1 { get; set; }
 
         /// <summary>
         /// 地址2
         /// </summary>
-        [SugarColumn(ColumnName = "ScAddr2", ColumnDescription = "地址2 ", Length = 40)]
+        [SugarColumn(ColumnName = "ScAddr2", ColumnDescription = "地址2 ", Length = 400)]
         public string ScAddr2 { get; set; }
 
         /// <summary>
@@ -269,19 +269,19 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 电话
         /// </summary>
-        [SugarColumn(ColumnName = "ScTelNo", ColumnDescription = "电话 ", Length = 16)]
+        [SugarColumn(ColumnName = "ScTelNo", ColumnDescription = "电话 ", Length = 160)]
         public string ScTelNo { get; set; }
 
         /// <summary>
         /// 传真
         /// </summary>
-        [SugarColumn(ColumnName = "ScFaxNp", ColumnDescription = "传真 ", Length = 16)]
+        [SugarColumn(ColumnName = "ScFaxNp", ColumnDescription = "传真 ", Length = 160)]
         public string ScFaxNp { get; set; }
 
         /// <summary>
         /// 手机
         /// </summary>
-        [SugarColumn(ColumnName = "ScPhoneNo", ColumnDescription = "手机 ", Length = 16)]
+        [SugarColumn(ColumnName = "ScPhoneNo", ColumnDescription = "手机 ", Length = 160)]
         public string ScPhoneNo { get; set; }
 
         /// <summary>

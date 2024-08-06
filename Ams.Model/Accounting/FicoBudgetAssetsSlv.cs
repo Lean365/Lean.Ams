@@ -22,6 +22,12 @@ namespace Ams.Model.Accounting
         public long FbasParentSfId { get; set; }
 
         /// <summary>
+        /// 年月
+        /// </summary>
+        [SugarColumn(ColumnName = "FbasYm", ColumnDescription = "年月 ", Length = 4)]
+        public string FbasYm { get; set; }
+
+        /// <summary>
         /// 科目
         /// </summary>
         [SugarColumn(ColumnName = "FbasTitle", ColumnDescription = "科目 ", Length = 40)]

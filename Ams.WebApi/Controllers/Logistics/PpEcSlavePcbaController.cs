@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询Pcba设变详情
         /// </summary>
-        /// <param name="PcbaSfid"></param>
+        /// <param name="PcbaSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PcbaSfid}")]
+        [HttpGet("{PcbaSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecslavepcba:query")]
-        public IActionResult GetPpEcSlavePcba(long PcbaSfid)
+        public IActionResult GetPpEcSlavePcba(long PcbaSfId)
         {
-            var response = _PpEcSlavePcbaService.GetInfo(PcbaSfid);
+            var response = _PpEcSlavePcbaService.GetInfo(PcbaSfId);
             
             var info = response.Adapt<PpEcSlavePcbaDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlavePcbaService.CheckInputUnique(parm.PcbaSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlavePcbaService.CheckInputUnique(parm.PcbaSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增Pcba设变 '{parm.PcbaSfid}'失败(Add failed)，输入的Pcba设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增Pcba设变 '{parm.PcbaSfId}'失败(Add failed)，输入的Pcba设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcSlavePcba>().ToCreate(HttpContext);
 

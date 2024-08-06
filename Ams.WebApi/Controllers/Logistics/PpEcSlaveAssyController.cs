@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询组立详情
         /// </summary>
-        /// <param name="AssySfid"></param>
+        /// <param name="AssySfId"></param>
         /// <returns></returns>
-        [HttpGet("{AssySfid}")]
+        [HttpGet("{AssySfId}")]
         [ActionPermissionFilter(Permission = "pp:ecslaveassy:query")]
-        public IActionResult GetPpEcSlaveAssy(long AssySfid)
+        public IActionResult GetPpEcSlaveAssy(long AssySfId)
         {
-            var response = _PpEcSlaveAssyService.GetInfo(AssySfid);
+            var response = _PpEcSlaveAssyService.GetInfo(AssySfId);
             
             var info = response.Adapt<PpEcSlaveAssyDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveAssyService.CheckInputUnique(parm.AssySfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveAssyService.CheckInputUnique(parm.AssySfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增组立 '{parm.AssySfid}'失败(Add failed)，输入的组立已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增组立 '{parm.AssySfId}'失败(Add failed)，输入的组立已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcSlaveAssy>().ToCreate(HttpContext);
 

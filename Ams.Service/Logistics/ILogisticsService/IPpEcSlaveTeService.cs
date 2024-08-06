@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取Te设变信息
         /// </summary>
-        /// <param name="TeSfid"></param>
+        /// <param name="TeSfId"></param>
         /// <returns></returns>
-        PpEcSlaveTe GetInfo(long TeSfid);
+        PpEcSlaveTe GetInfo(long TeSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

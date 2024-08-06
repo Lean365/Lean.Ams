@@ -2,7 +2,8 @@
  * @Descripttion: 部门消耗/fico_costing_dept_consuming
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/26 17:02:09
+ * @Date: 2024/8/5 16:43:22
+ * @column：50
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,43 +12,29 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="期间" prop="dcFy">
-        <el-select filterable clearable   v-model="queryParams.dcFy" :placeholder="$t('btn.selectSearchPrefix')+'期间'+$t('btn.selectSearchSuffix')">
+      <el-form-item label="期间 " prop="dcFy">
+        <el-select filterable clearable   v-model="queryParams.dcFy" :placeholder="$t('btn.selectSearchPrefix')+'期间 '+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   options.sql_fy_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="年月" prop="dcYm">
-        <el-select filterable clearable   v-model="queryParams.dcYm" :placeholder="$t('btn.selectSearchPrefix')+'年月'+$t('btn.selectSearchSuffix')">
+      <el-form-item label="年月 " prop="dcYm">
+        <el-select filterable clearable   v-model="queryParams.dcYm" :placeholder="$t('btn.selectSearchPrefix')+'年月 '+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   options.sql_ym_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="公司代码" prop="dcCorpCode">
-        <el-select filterable clearable   v-model="queryParams.dcCorpCode" :placeholder="$t('btn.selectSearchPrefix')+'公司代码'+$t('btn.selectSearchSuffix')">
+      <el-form-item label="公司代码 " prop="dcCorpCode">
+        <el-select filterable clearable   v-model="queryParams.dcCorpCode" :placeholder="$t('btn.selectSearchPrefix')+'公司代码 '+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   options.sys_crop_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="工厂" prop="dcPlant">
-        <el-select filterable clearable   v-model="queryParams.dcPlant" :placeholder="$t('btn.selectSearchPrefix')+'工厂'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_plant_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="物料" prop="dcMateriel">
-        <el-input v-model="queryParams.dcMateriel" :placeholder="$t('btn.enterSearchPrefix')+'物料'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="仓库" prop="dcStorageLocation">
-        <el-input v-model="queryParams.dcStorageLocation" :placeholder="$t('btn.enterSearchPrefix')+'仓库'+$t('btn.enterSearchSuffix')" />
       </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
@@ -111,51 +98,74 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="dcSfid" label="SFID" align="center" v-if="columns.showColumn('dcSfid')"/>
-      <el-table-column prop="dcFy" label="期间" align="center" v-if="columns.showColumn('dcFy')">
+      <el-table-column prop="dcSfId" label="ID" align="center" v-if="columns.showColumn('dcSfId')"/>
+      <el-table-column prop="dcFy" label="期间 " align="center" v-if="columns.showColumn('dcFy')">
         <template #default="scope">
           <dict-tag :options=" options.sql_fy_list " :value="scope.row.dcFy"  />
         </template>
       </el-table-column>
-      <el-table-column prop="dcYm" label="年月" align="center" v-if="columns.showColumn('dcYm')">
+      <el-table-column prop="dcYm" label="年月 " align="center" v-if="columns.showColumn('dcYm')">
         <template #default="scope">
           <dict-tag :options=" options.sql_ym_list " :value="scope.row.dcYm"  />
         </template>
       </el-table-column>
-      <el-table-column prop="dcCorpCode" label="公司代码" align="center" v-if="columns.showColumn('dcCorpCode')">
+      <el-table-column prop="dcCorpCode" label="公司代码 " align="center" v-if="columns.showColumn('dcCorpCode')">
         <template #default="scope">
           <dict-tag :options=" options.sys_crop_list " :value="scope.row.dcCorpCode"  />
         </template>
       </el-table-column>
-      <el-table-column prop="dcCorpName" label="公司名称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcCorpName')"/>
-      <el-table-column prop="dcExpCategory" label="统计类别" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcExpCategory')"/>
-      <el-table-column prop="dcCostCode" label="成本代码" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcCostCode')"/>
-      <el-table-column prop="dcCostName" label="成本名称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcCostName')"/>
-      <el-table-column prop="dcTitleCode" label="科目代码" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcTitleCode')"/>
-      <el-table-column prop="dcTitleName" label="科目名称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcTitleName')"/>
-      <el-table-column prop="dcTitleNote" label="科目分类" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcTitleNote')"/>
-      <el-table-column prop="dcBudgetAmt" label="预算" align="center" v-if="columns.showColumn('dcBudgetAmt')"/>
-      <el-table-column prop="dcActualAmt" label="实际" align="center" v-if="columns.showColumn('dcActualAmt')"/>
-      <el-table-column prop="dcDiffAmt" label="差异" align="center" v-if="columns.showColumn('dcDiffAmt')"/>
-      <el-table-column prop="dcPlant" label="工厂" align="center" v-if="columns.showColumn('dcPlant')">
+      <el-table-column prop="dcCorpName" label="公司名称 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcCorpName')"/>
+      <el-table-column prop="dcExpCategory" label="统计类别 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcExpCategory')"/>
+      <el-table-column prop="dcCostCode" label="成本代码 " align="center" v-if="columns.showColumn('dcCostCode')">
+        <template #default="scope">
+          <dict-tag :options=" options.sql_dept_list " :value="scope.row.dcCostCode"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="dcCostName" label="成本名称 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcCostName')"/>
+      <el-table-column prop="dcTitleCode" label="科目代码 " align="center" v-if="columns.showColumn('dcTitleCode')">
+        <template #default="scope">
+          <dict-tag :options=" options.sql_accounting_title " :value="scope.row.dcTitleCode"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="dcTitleName" label="科目名称 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcTitleName')"/>
+      <el-table-column prop="dcTitleNote" label="科目分类 " align="center" v-if="columns.showColumn('dcTitleNote')">
+        <template #default="scope">
+          <dict-tag :options=" options.sys_costs_type " :value="scope.row.dcTitleNote"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="dcBudgetAmt" label="预算 " align="center" v-if="columns.showColumn('dcBudgetAmt')"/>
+      <el-table-column prop="dcActualAmt" label="实际 " align="center" v-if="columns.showColumn('dcActualAmt')"/>
+      <el-table-column prop="dcDiffAmt" label="差异 " align="center" v-if="columns.showColumn('dcDiffAmt')"/>
+      <el-table-column prop="dcPlant" label="工厂 " align="center" v-if="columns.showColumn('dcPlant')">
         <template #default="scope">
           <dict-tag :options=" options.sys_plant_list " :value="scope.row.dcPlant"  />
         </template>
       </el-table-column>
-      <el-table-column prop="dcMateriel" label="物料" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcMateriel')"/>
-      <el-table-column prop="dcStorageLocation" label="仓库" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcStorageLocation')"/>
-      <el-table-column prop="dcMoveType" label="移动类型" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcMoveType')"/>
-      <el-table-column prop="dcMaterielDoc" label="物料凭证" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcMaterielDoc')"/>
-      <el-table-column prop="dcMaterielDocDetails" label="凭证明细" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcMaterielDocDetails')"/>
-      <el-table-column prop="dcUseQty" label="数量" align="center" v-if="columns.showColumn('dcUseQty')"/>
-      <el-table-column prop="dcUseAmt" label="金额" align="center" v-if="columns.showColumn('dcUseAmt')"/>
-      <el-table-column prop="dcReserveDoc" label="预留单" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcReserveDoc')"/>
-      <el-table-column prop="dcAccountant" label="预留明细" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcAccountant')"/>
+      <el-table-column prop="dcMateriel" label="物料 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcMateriel')"/>
+      <el-table-column prop="dcStorageLocation" label="仓库 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcStorageLocation')"/>
+      <el-table-column prop="dcMoveType" label="移动类型 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcMoveType')"/>
+      <el-table-column prop="dcMaterielDoc" label="物料凭证 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcMaterielDoc')"/>
+      <el-table-column prop="dcMaterielDocDetails" label="凭证明细 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcMaterielDocDetails')"/>
+      <el-table-column prop="dcUseQty" label="数量 " align="center" v-if="columns.showColumn('dcUseQty')"/>
+      <el-table-column prop="dcCcy" label="币种" align="center" v-if="columns.showColumn('dcCcy')">
+        <template #default="scope">
+          <dict-tag :options=" options.sys_ccy_type " :value="scope.row.dcCcy"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="dcUseAmt" label="金额 " align="center" v-if="columns.showColumn('dcUseAmt')"/>
+      <el-table-column prop="dcReserveDoc" label="预留单 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcReserveDoc')"/>
+      <el-table-column prop="dcAccountant" label="预留明细 " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('dcAccountant')"/>
       <el-table-column prop="dcBalanceDate" label="登录日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('dcBalanceDate')"/>
-      <el-table-column prop="remark" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
+      <el-table-column prop="rEF01" label="预留A " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF01')"/>
+      <el-table-column prop="rEF02" label="预留B " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF02')"/>
+      <el-table-column prop="rEF03" label="预留C " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF03')"/>
+      <el-table-column prop="rEF04" label="预留1 " align="center" v-if="columns.showColumn('rEF04')"/>
+      <el-table-column prop="rEF05" label="预留2 " align="center" v-if="columns.showColumn('rEF05')"/>
+      <el-table-column prop="rEF06" label="预留3" align="center" v-if="columns.showColumn('rEF06')"/>
+      <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
+      <el-table-column prop="createBy" label="创建人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
       <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
-      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
+      <el-table-column prop="updateBy" label="更新人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
       <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
@@ -176,14 +186,14 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="SFID" prop="dcSfid">
-              <el-input v-model.number="form.dcSfid" :placeholder="$t('btn.enterPrefix')+'SFID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
+            <el-form-item label="ID" prop="dcSfId">
+              <el-input v-model.number="form.dcSfId" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="期间" prop="dcFy">
-              <el-select filterable clearable   v-model="form.dcFy"  :placeholder="$t('btn.selectPrefix')+'期间'+$t('btn.selectSuffix')">
+            <el-form-item label="期间 " prop="dcFy">
+              <el-select filterable clearable   v-model="form.dcFy"  :placeholder="$t('btn.selectPrefix')+'期间 '+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_fy_list" 
                   :key="item.dictValue" 
@@ -195,8 +205,8 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="年月" prop="dcYm">
-              <el-select filterable clearable   v-model="form.dcYm"  :placeholder="$t('btn.selectPrefix')+'年月'+$t('btn.selectSuffix')">
+            <el-form-item label="年月 " prop="dcYm">
+              <el-select filterable clearable   v-model="form.dcYm"  :placeholder="$t('btn.selectPrefix')+'年月 '+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_ym_list" 
                   :key="item.dictValue" 
@@ -208,8 +218,8 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="公司代码" prop="dcCorpCode">
-              <el-select filterable clearable   v-model="form.dcCorpCode"  :placeholder="$t('btn.selectPrefix')+'公司代码'+$t('btn.selectSuffix')">
+            <el-form-item label="公司代码 " prop="dcCorpCode">
+              <el-select filterable clearable   v-model="form.dcCorpCode"  :placeholder="$t('btn.selectPrefix')+'公司代码 '+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sys_crop_list" 
                   :key="item.dictValue" 
@@ -221,68 +231,89 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="公司名称" prop="dcCorpName">
-              <el-input v-model="form.dcCorpName" :placeholder="$t('btn.enterPrefix')+'公司名称'+$t('btn.enterSuffix')" />
+            <el-form-item label="公司名称 " prop="dcCorpName">
+              <el-input v-model="form.dcCorpName" :placeholder="$t('btn.enterPrefix')+'公司名称 '+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="统计类别" prop="dcExpCategory">
-              <el-input v-model="form.dcExpCategory" :placeholder="$t('btn.enterPrefix')+'统计类别'+$t('btn.enterSuffix')" />
+            <el-form-item label="统计类别 " prop="dcExpCategory">
+              <el-input v-model="form.dcExpCategory" :placeholder="$t('btn.enterPrefix')+'统计类别 '+$t('btn.enterSuffix')"  show-word-limit maxlength="10"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="成本代码" prop="dcCostCode">
-              <el-input v-model="form.dcCostCode" :placeholder="$t('btn.enterPrefix')+'成本代码'+$t('btn.enterSuffix')" />
+            <el-form-item label="成本代码 " prop="dcCostCode">
+              <el-select filterable clearable   v-model="form.dcCostCode"  :placeholder="$t('btn.selectPrefix')+'成本代码 '+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sql_dept_list" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+
+          <el-col :lg="12">
+            <el-form-item label="成本名称 " prop="dcCostName">
+              <el-input v-model="form.dcCostName" :placeholder="$t('btn.enterPrefix')+'成本名称 '+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="成本名称" prop="dcCostName">
-              <el-input v-model="form.dcCostName" :placeholder="$t('btn.enterPrefix')+'成本名称'+$t('btn.enterSuffix')" />
+            <el-form-item label="科目代码 " prop="dcTitleCode">
+              <el-select filterable clearable   v-model="form.dcTitleCode"  :placeholder="$t('btn.selectPrefix')+'科目代码 '+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sql_accounting_title" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+
+          <el-col :lg="12">
+            <el-form-item label="科目名称 " prop="dcTitleName">
+              <el-input v-model="form.dcTitleName" :placeholder="$t('btn.enterPrefix')+'科目名称 '+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="科目代码" prop="dcTitleCode">
-              <el-input v-model="form.dcTitleCode" :placeholder="$t('btn.enterPrefix')+'科目代码'+$t('btn.enterSuffix')" />
+            <el-form-item label="科目分类 " prop="dcTitleNote">
+              <el-select filterable clearable   v-model="form.dcTitleNote"  :placeholder="$t('btn.selectPrefix')+'科目分类 '+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sys_costs_type" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+
+          <el-col :lg="12">
+            <el-form-item label="预算 " prop="dcBudgetAmt">
+              <el-input-number v-model.number="form.dcBudgetAmt" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预算 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="科目名称" prop="dcTitleName">
-              <el-input v-model="form.dcTitleName" :placeholder="$t('btn.enterPrefix')+'科目名称'+$t('btn.enterSuffix')" />
+            <el-form-item label="实际 " prop="dcActualAmt">
+              <el-input-number v-model.number="form.dcActualAmt" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'实际 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="科目分类" prop="dcTitleNote">
-              <el-input v-model="form.dcTitleNote" :placeholder="$t('btn.enterPrefix')+'科目分类'+$t('btn.enterSuffix')" />
+            <el-form-item label="差异 " prop="dcDiffAmt">
+              <el-input-number v-model.number="form.dcDiffAmt" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'差异 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="预算" prop="dcBudgetAmt">
-              <el-input-number v-model.number="form.dcBudgetAmt" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预算'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="实际" prop="dcActualAmt">
-              <el-input-number v-model.number="form.dcActualAmt" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'实际'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="差异" prop="dcDiffAmt">
-              <el-input-number v-model.number="form.dcDiffAmt" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'差异'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="工厂" prop="dcPlant">
-              <el-select filterable clearable   v-model="form.dcPlant"  :placeholder="$t('btn.selectPrefix')+'工厂'+$t('btn.selectSuffix')">
+            <el-form-item label="工厂 " prop="dcPlant">
+              <el-select filterable clearable   v-model="form.dcPlant"  :placeholder="$t('btn.selectPrefix')+'工厂 '+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sys_plant_list" 
                   :key="item.dictValue" 
@@ -294,62 +325,183 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="物料" prop="dcMateriel">
-              <el-input v-model="form.dcMateriel" :placeholder="$t('btn.enterPrefix')+'物料'+$t('btn.enterSuffix')" />
+            <el-form-item label="物料 " prop="dcMateriel">
+              <el-input v-model="form.dcMateriel" :placeholder="$t('btn.enterPrefix')+'物料 '+$t('btn.enterSuffix')"  show-word-limit maxlength="20"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="仓库" prop="dcStorageLocation">
-              <el-input v-model="form.dcStorageLocation" :placeholder="$t('btn.enterPrefix')+'仓库'+$t('btn.enterSuffix')" />
+            <el-form-item label="仓库 " prop="dcStorageLocation">
+              <el-input v-model="form.dcStorageLocation" :placeholder="$t('btn.enterPrefix')+'仓库 '+$t('btn.enterSuffix')"  show-word-limit maxlength="4"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="移动类型" prop="dcMoveType">
-              <el-input v-model="form.dcMoveType" :placeholder="$t('btn.enterPrefix')+'移动类型'+$t('btn.enterSuffix')" />
+            <el-form-item label="移动类型 " prop="dcMoveType">
+              <el-input v-model="form.dcMoveType" :placeholder="$t('btn.enterPrefix')+'移动类型 '+$t('btn.enterSuffix')"  show-word-limit maxlength="3"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="物料凭证" prop="dcMaterielDoc">
-              <el-input v-model="form.dcMaterielDoc" :placeholder="$t('btn.enterPrefix')+'物料凭证'+$t('btn.enterSuffix')" />
+            <el-form-item label="物料凭证 " prop="dcMaterielDoc">
+              <el-input v-model="form.dcMaterielDoc" :placeholder="$t('btn.enterPrefix')+'物料凭证 '+$t('btn.enterSuffix')"  show-word-limit maxlength="10"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="凭证明细" prop="dcMaterielDocDetails">
-              <el-input v-model="form.dcMaterielDocDetails" :placeholder="$t('btn.enterPrefix')+'凭证明细'+$t('btn.enterSuffix')" />
+            <el-form-item label="凭证明细 " prop="dcMaterielDocDetails">
+              <el-input v-model="form.dcMaterielDocDetails" :placeholder="$t('btn.enterPrefix')+'凭证明细 '+$t('btn.enterSuffix')"  show-word-limit maxlength="5"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="数量" prop="dcUseQty">
-              <el-input-number v-model.number="form.dcUseQty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'数量'+$t('btn.enterSuffix')" />
+            <el-form-item label="数量 " prop="dcUseQty">
+              <el-input-number v-model.number="form.dcUseQty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'数量 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="金额" prop="dcUseAmt">
-              <el-input-number v-model.number="form.dcUseAmt" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'金额'+$t('btn.enterSuffix')" />
+            <el-form-item label="币种" prop="dcCcy">
+              <el-select filterable clearable   v-model="form.dcCcy"  :placeholder="$t('btn.selectPrefix')+'币种'+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sys_ccy_type" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+
+          <el-col :lg="12">
+            <el-form-item label="金额 " prop="dcUseAmt">
+              <el-input-number v-model.number="form.dcUseAmt" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'金额 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="预留单" prop="dcReserveDoc">
-              <el-input v-model="form.dcReserveDoc" :placeholder="$t('btn.enterPrefix')+'预留单'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留单 " prop="dcReserveDoc">
+              <el-input v-model="form.dcReserveDoc" :placeholder="$t('btn.enterPrefix')+'预留单 '+$t('btn.enterSuffix')"  show-word-limit maxlength="10"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="预留明细" prop="dcAccountant">
-              <el-input v-model="form.dcAccountant" :placeholder="$t('btn.enterPrefix')+'预留明细'+$t('btn.enterSuffix')" />
+            <el-form-item label="预留明细 " prop="dcAccountant">
+              <el-input v-model="form.dcAccountant" :placeholder="$t('btn.enterPrefix')+'预留明细 '+$t('btn.enterSuffix')"  show-word-limit maxlength="10"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="登录日期" prop="dcBalanceDate">
               <el-date-picker v-model="form.dcBalanceDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="预留A " prop="rEF01">
+              <el-input v-model="form.rEF01" :placeholder="$t('btn.enterPrefix')+'预留A '+$t('btn.enterSuffix')"  show-word-limit maxlength="1"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="预留B " prop="rEF02">
+              <el-input v-model="form.rEF02" :placeholder="$t('btn.enterPrefix')+'预留B '+$t('btn.enterSuffix')"  show-word-limit maxlength="8"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="预留C " prop="rEF03">
+              <el-input v-model="form.rEF03" :placeholder="$t('btn.enterPrefix')+'预留C '+$t('btn.enterSuffix')"  show-word-limit maxlength="30"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="预留1 " prop="rEF04">
+              <el-input-number v-model.number="form.rEF04" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留1 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="预留2 " prop="rEF05">
+              <el-input-number v-model.number="form.rEF05" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留2 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="预留3" prop="rEF06">
+              <el-input-number v-model.number="form.rEF06" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留3'+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义A " prop="uDF01">
+              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A '+$t('btn.enterSuffix')"  show-word-limit maxlength="200"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义B " prop="uDF02">
+              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B '+$t('btn.enterSuffix')"  show-word-limit maxlength="200"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义C " prop="uDF03">
+              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C '+$t('btn.enterSuffix')"  show-word-limit maxlength="200"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义D " prop="uDF04">
+              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D '+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义E " prop="uDF05">
+              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E '+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义F " prop="uDF06">
+              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F '+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="自定义1 " prop="uDF51">
+              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="自定义2 " prop="uDF52">
+              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="自定义3 " prop="uDF53">
+              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义4 " prop="uDF54">
+              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义5 " prop="uDF55">
+              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5 '+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="自定义6 " prop="uDF56">
+              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6 '+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
@@ -363,15 +515,15 @@
             </el-form-item>
           </el-col>
 
-          <el-col :lg="24">
-            <el-form-item label="说明" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')"/>
+          <el-col :lg="12">
+            <el-form-item label="备注说明" prop="remark">
+              <el-input v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="创建者" prop="createBy">
-              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
+            <el-form-item label="创建人员" prop="createBy">
+              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
             </el-form-item>
           </el-col>
 
@@ -382,8 +534,8 @@
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="更新者" prop="updateBy">
-              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
+            <el-form-item label="更新人员" prop="updateBy">
+              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
             </el-form-item>
           </el-col>
 
@@ -501,52 +653,53 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: 'DcYm',
-  sortType: 'desc',
+  sort: '',
+  sortType: 'asc',
 //是否查询（1是）
   dcFy: undefined,
 //是否查询（1是）
   dcYm: undefined,
 //是否查询（1是）
   dcCorpCode: undefined,
-//是否查询（1是）
-  dcPlant: undefined,
-//是否查询（1是）
-  dcMateriel: undefined,
-//是否查询（1是）
-  dcStorageLocation: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'dcSfid', label: 'SFID' },
-  { visible: true, prop: 'dcFy', label: '期间' },
-  { visible: true, prop: 'dcYm', label: '年月' },
-  { visible: true, prop: 'dcCorpCode', label: '公司代码' },
-  { visible: true, prop: 'dcCorpName', label: '公司名称' },
-  { visible: true, prop: 'dcExpCategory', label: '统计类别' },
-  { visible: true, prop: 'dcCostCode', label: '成本代码' },
-  { visible: true, prop: 'dcCostName', label: '成本名称' },
-  { visible: false, prop: 'dcTitleCode', label: '科目代码' },
-  { visible: false, prop: 'dcTitleName', label: '科目名称' },
-  { visible: false, prop: 'dcTitleNote', label: '科目分类' },
-  { visible: false, prop: 'dcBudgetAmt', label: '预算' },
-  { visible: false, prop: 'dcActualAmt', label: '实际' },
-  { visible: false, prop: 'dcDiffAmt', label: '差异' },
-  { visible: false, prop: 'dcPlant', label: '工厂' },
-  { visible: false, prop: 'dcMateriel', label: '物料' },
-  { visible: false, prop: 'dcStorageLocation', label: '仓库' },
-  { visible: false, prop: 'dcMoveType', label: '移动类型' },
-  { visible: false, prop: 'dcMaterielDoc', label: '物料凭证' },
-  { visible: false, prop: 'dcMaterielDocDetails', label: '凭证明细' },
-  { visible: false, prop: 'dcUseQty', label: '数量' },
-  { visible: false, prop: 'dcUseAmt', label: '金额' },
-  { visible: false, prop: 'dcReserveDoc', label: '预留单' },
-  { visible: false, prop: 'dcAccountant', label: '预留明细' },
+  { visible: true, prop: 'dcSfId', label: 'ID' },
+  { visible: true, prop: 'dcFy', label: '期间 ' },
+  { visible: true, prop: 'dcYm', label: '年月 ' },
+  { visible: true, prop: 'dcCorpCode', label: '公司代码 ' },
+  { visible: true, prop: 'dcCorpName', label: '公司名称 ' },
+  { visible: true, prop: 'dcExpCategory', label: '统计类别 ' },
+  { visible: true, prop: 'dcCostCode', label: '成本代码 ' },
+  { visible: true, prop: 'dcCostName', label: '成本名称 ' },
+  { visible: false, prop: 'dcTitleCode', label: '科目代码 ' },
+  { visible: false, prop: 'dcTitleName', label: '科目名称 ' },
+  { visible: false, prop: 'dcTitleNote', label: '科目分类 ' },
+  { visible: false, prop: 'dcBudgetAmt', label: '预算 ' },
+  { visible: false, prop: 'dcActualAmt', label: '实际 ' },
+  { visible: false, prop: 'dcDiffAmt', label: '差异 ' },
+  { visible: false, prop: 'dcPlant', label: '工厂 ' },
+  { visible: false, prop: 'dcMateriel', label: '物料 ' },
+  { visible: false, prop: 'dcStorageLocation', label: '仓库 ' },
+  { visible: false, prop: 'dcMoveType', label: '移动类型 ' },
+  { visible: false, prop: 'dcMaterielDoc', label: '物料凭证 ' },
+  { visible: false, prop: 'dcMaterielDocDetails', label: '凭证明细 ' },
+  { visible: false, prop: 'dcUseQty', label: '数量 ' },
+  { visible: false, prop: 'dcCcy', label: '币种' },
+  { visible: false, prop: 'dcUseAmt', label: '金额 ' },
+  { visible: false, prop: 'dcReserveDoc', label: '预留单 ' },
+  { visible: false, prop: 'dcAccountant', label: '预留明细 ' },
   { visible: false, prop: 'dcBalanceDate', label: '登录日期' },
-  { visible: false, prop: 'remark', label: '说明' },
-  { visible: false, prop: 'createBy', label: '创建者' },
+  { visible: false, prop: 'rEF01', label: '预留A ' },
+  { visible: false, prop: 'rEF02', label: '预留B ' },
+  { visible: false, prop: 'rEF03', label: '预留C ' },
+  { visible: false, prop: 'rEF04', label: '预留1 ' },
+  { visible: false, prop: 'rEF05', label: '预留2 ' },
+  { visible: false, prop: 'rEF06', label: '预留3' },
+  { visible: false, prop: 'remark', label: '备注说明' },
+  { visible: false, prop: 'createBy', label: '创建人员' },
   { visible: false, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新者' },
+  { visible: false, prop: 'updateBy', label: '更新人员' },
   { visible: false, prop: 'updateTime', label: '更新时间' },
 ])
 // 记录数
@@ -563,7 +716,11 @@ var dictParams = [
   { dictType: "sql_fy_list" },
   { dictType: "sql_ym_list" },
   { dictType: "sys_crop_list" },
+  { dictType: "sql_dept_list" },
+  { dictType: "sql_accounting_title" },
+  { dictType: "sys_costs_type" },
   { dictType: "sys_plant_list" },
+  { dictType: "sys_ccy_type" },
   { dictType: "sys_is_deleted" },
 ]
 
@@ -599,7 +756,7 @@ function resetQuery(){
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.dcSfid);
+  ids.value = selection.map((item) => item.dcSfId);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -635,42 +792,25 @@ const state = reactive({
   multiple: true,
   form: {},
   rules: {
-    dcSfid: [{ required: true, message: "SFID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    dcFy: [{ required: true, message: "期间"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    dcYm: [{ required: true, message: "年月"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    dcCorpCode: [{ required: true, message: "公司代码"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    dcCorpName: [{ required: true, message: "公司名称"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcExpCategory: [{ required: true, message: "统计类别"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcCostCode: [{ required: true, message: "成本代码"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcCostName: [{ required: true, message: "成本名称"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcTitleCode: [{ required: true, message: "科目代码"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcTitleName: [{ required: true, message: "科目名称"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcTitleNote: [{ required: true, message: "科目分类"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcBudgetAmt: [{ required: true, message: "预算"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcActualAmt: [{ required: true, message: "实际"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcDiffAmt: [{ required: true, message: "差异"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcPlant: [{ required: true, message: "工厂"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    dcMateriel: [{ required: true, message: "物料"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcStorageLocation: [{ required: true, message: "仓库"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcMoveType: [{ required: true, message: "移动类型"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcMaterielDoc: [{ required: true, message: "物料凭证"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcMaterielDocDetails: [{ required: true, message: "凭证明细"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcUseQty: [{ required: true, message: "数量"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcUseAmt: [{ required: true, message: "金额"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcReserveDoc: [{ required: true, message: "预留单"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcAccountant: [{ required: true, message: "预留明细"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    dcBalanceDate: [{ required: true, message: "登录日期"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    dcSfId: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
   },
   options: {
-    // 期间 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 期间  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_fy_list: [],
-    // 年月 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 年月  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_ym_list: [],
-    // 公司代码 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 公司代码  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_crop_list: [],
-    // 工厂 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 成本代码  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_dept_list: [],
+    // 科目代码  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_accounting_title: [],
+    // 科目分类  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sys_costs_type: [],
+    // 工厂  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_plant_list: [],
+    // 币种 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sys_ccy_type: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_is_deleted: [],
   }
@@ -687,7 +827,7 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    dcSfid: 0,
+    dcSfId: 0,
     dcFy: null,
     dcYm: null,
     dcCorpCode: null,
@@ -708,10 +848,29 @@ function reset() {
     dcMaterielDoc: null,
     dcMaterielDocDetails: null,
     dcUseQty: 0,
+    dcCcy: null,
     dcUseAmt: 0,
     dcReserveDoc: null,
     dcAccountant: null,
     dcBalanceDate: null,
+    rEF01: null,
+    rEF02: null,
+    rEF03: null,
+    rEF04: 0,
+    rEF05: 0,
+    rEF06: 0,
+    uDF01: null,
+    uDF02: null,
+    uDF03: null,
+    uDF04: null,
+    uDF05: null,
+    uDF06: null,
+    uDF51: 0,
+    uDF52: 0,
+    uDF53: 0,
+    uDF54: 0,
+    uDF55: 0,
+    uDF56: 0,
     isDeleted: 0,
     remark: null,
     createBy: null,
@@ -732,20 +891,27 @@ function handleAdd() {
   form.value.dcFy= []
   form.value.dcYm= []
   form.value.dcCorpCode= []
+  form.value.dcCostCode= []
+  form.value.dcTitleCode= []
+  form.value.dcTitleNote= []
   form.value.dcBudgetAmt= 0
   form.value.dcActualAmt= 0
   form.value.dcDiffAmt= 0
   form.value.dcPlant= []
   form.value.dcUseQty= 0
+  form.value.dcCcy= []
   form.value.dcUseAmt= 0
   form.value.dcBalanceDate= new Date()
+  form.value.rEF04= 0
+  form.value.rEF05= 0
+  form.value.rEF06= 0
   form.value.createTime= new Date()
   form.value.updateTime= new Date()
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.dcSfid || ids.value
+  const id = row.dcSfId || ids.value
   getFicoCostingDeptConsuming(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -765,7 +931,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.dcSfid != undefined && opertype.value === 2) {
+      if (form.value.dcSfId != undefined && opertype.value === 2) {
         updateFicoCostingDeptConsuming(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -784,7 +950,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.dcSfid || ids.value
+  const Ids = row.dcSfId || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {

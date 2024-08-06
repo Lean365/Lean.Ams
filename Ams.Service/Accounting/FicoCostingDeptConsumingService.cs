@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 部门消耗
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 17:02:09
+    /// @Date: 2024/8/5 16:43:22
     /// </summary>
     [AppService(ServiceType = typeof(IFicoCostingDeptConsumingService), ServiceLifetime = LifeTime.Transient)]
     public class FicoCostingDeptConsumingService : BaseService<FicoCostingDeptConsuming>, IFicoCostingDeptConsumingService
@@ -23,7 +23,6 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("DcYm desc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoCostingDeptConsuming, FicoCostingDeptConsumingDto>(parm);
 
@@ -87,32 +86,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.DcSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.DcFy.IsEmpty(), "期间不能为空")
-                .SplitError(x => x.Item.DcYm.IsEmpty(), "年月不能为空")
-                .SplitError(x => x.Item.DcCorpCode.IsEmpty(), "公司代码不能为空")
-                .SplitError(x => x.Item.DcCorpName.IsEmpty(), "公司名称不能为空")
-                .SplitError(x => x.Item.DcExpCategory.IsEmpty(), "统计类别不能为空")
-                .SplitError(x => x.Item.DcCostCode.IsEmpty(), "成本代码不能为空")
-                .SplitError(x => x.Item.DcCostName.IsEmpty(), "成本名称不能为空")
-                .SplitError(x => x.Item.DcTitleCode.IsEmpty(), "科目代码不能为空")
-                .SplitError(x => x.Item.DcTitleName.IsEmpty(), "科目名称不能为空")
-                .SplitError(x => x.Item.DcTitleNote.IsEmpty(), "科目分类不能为空")
-                .SplitError(x => x.Item.DcBudgetAmt.IsEmpty(), "预算不能为空")
-                .SplitError(x => x.Item.DcActualAmt.IsEmpty(), "实际不能为空")
-                .SplitError(x => x.Item.DcDiffAmt.IsEmpty(), "差异不能为空")
-                .SplitError(x => x.Item.DcPlant.IsEmpty(), "工厂不能为空")
-                .SplitError(x => x.Item.DcMateriel.IsEmpty(), "物料不能为空")
-                .SplitError(x => x.Item.DcStorageLocation.IsEmpty(), "仓库不能为空")
-                .SplitError(x => x.Item.DcMoveType.IsEmpty(), "移动类型不能为空")
-                .SplitError(x => x.Item.DcMaterielDoc.IsEmpty(), "物料凭证不能为空")
-                .SplitError(x => x.Item.DcMaterielDocDetails.IsEmpty(), "凭证明细不能为空")
-                .SplitError(x => x.Item.DcUseQty.IsEmpty(), "数量不能为空")
-                .SplitError(x => x.Item.DcUseAmt.IsEmpty(), "金额不能为空")
-                .SplitError(x => x.Item.DcReserveDoc.IsEmpty(), "预留单不能为空")
-                .SplitError(x => x.Item.DcAccountant.IsEmpty(), "预留明细不能为空")
-                .SplitError(x => x.Item.DcBalanceDate.IsEmpty(), "登录日期不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.DcSfId.IsEmpty(), "ID不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -149,7 +123,11 @@ namespace Ams.Service.Accounting
                     DcFyLabel = it.DcFy.GetConfigValue<SysDictData>("sql_fy_list"),
                     DcYmLabel = it.DcYm.GetConfigValue<SysDictData>("sql_ym_list"),
                     DcCorpCodeLabel = it.DcCorpCode.GetConfigValue<SysDictData>("sys_crop_list"),
+                    DcCostCodeLabel = it.DcCostCode.GetConfigValue<SysDictData>("sql_dept_list"),
+                    DcTitleCodeLabel = it.DcTitleCode.GetConfigValue<SysDictData>("sql_accounting_title"),
+                    DcTitleNoteLabel = it.DcTitleNote.GetConfigValue<SysDictData>("sys_costs_type"),
                     DcPlantLabel = it.DcPlant.GetConfigValue<SysDictData>("sys_plant_list"),
+                    DcCcyLabel = it.DcCcy.GetConfigValue<SysDictData>("sys_ccy_type"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
@@ -169,9 +147,6 @@ namespace Ams.Service.Accounting
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DcFy), it => it.DcFy == parm.DcFy);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DcYm), it => it.DcYm == parm.DcYm);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DcCorpCode), it => it.DcCorpCode == parm.DcCorpCode);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DcPlant), it => it.DcPlant == parm.DcPlant);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DcMateriel), it => it.DcMateriel.Contains(parm.DcMateriel));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DcStorageLocation), it => it.DcStorageLocation == parm.DcStorageLocation);
             return predicate;
         }
     }

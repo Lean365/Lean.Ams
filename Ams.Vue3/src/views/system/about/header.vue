@@ -163,6 +163,7 @@
 
 <style scoped lang="scss">
   .big-data-up {
+
     height: 55px;
     width: 100%;
     display: flex;
@@ -171,6 +172,7 @@
     color: var(--el-color-primary);
     overflow: hidden;
     position: relative;
+
 
     .up-left {
       position: absolute;
@@ -197,6 +199,7 @@
       -webkit-box-reflect: below -2px -webkit-gradient(linear, left top, left bottom, from(transparent), to(hsla(0, 0%, 100%, 0.1)));
       position: relative;
 
+
       @keyframes masked-animation {
         0% {
           background-position: 0 0;
@@ -207,7 +210,9 @@
         }
       }
 
-      position: relative;
+      & {
+        position: relative;
+      }
 
       &::after {
         content: '';

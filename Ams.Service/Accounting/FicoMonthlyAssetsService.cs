@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 固定资产
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:56:51
+    /// @Date: 2024/8/5 16:43:16
     /// </summary>
     [AppService(ServiceType = typeof(IFicoMonthlyAssetsService), ServiceLifetime = LifeTime.Transient)]
     public class FicoMonthlyAssetsService : BaseService<FicoMonthlyAssets>, IFicoMonthlyAssetsService
@@ -23,7 +23,6 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("FaCheckedDate asc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoMonthlyAssets, FicoMonthlyAssetsDto>(parm);
 
@@ -87,7 +86,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FaSfId.IsEmpty(), "SfId不能为空")
+                .SplitError(x => x.Item.FaSfId.IsEmpty(), "ID不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -125,11 +124,9 @@ namespace Ams.Service.Accounting
                     FaDeptLabel = it.FaDept.GetConfigValue<SysDictData>("sql_dept_list"),
                     FaClassCodeLabel = it.FaClassCode.GetConfigValue<SysDictData>("sys_assets_type"),
                     FaCostCenterLabel = it.FaCostCenter.GetConfigValue<SysDictData>("sql_cost_center"),
-                    FaAssetUnitLabel = it.FaAssetUnit.GetConfigValue<SysDictData>("sys_unit_list"),
                     FaAssetManaLabel = it.FaAssetMana.GetConfigValue<SysDictData>("sys_assets_dist"),
                     FaAssetCcyLabel = it.FaAssetCcy.GetConfigValue<SysDictData>("sys_ccy_type"),
                     FaAssetStopLabel = it.FaAssetStop.GetConfigValue<SysDictData>("sys_flag_list"),
-                    FaEntityLabel = it.FaEntity.GetConfigValue<SysDictData>("sys_assets_pattern"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
@@ -153,6 +150,8 @@ namespace Ams.Service.Accounting
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaCostCenter), it => it.FaCostCenter == parm.FaCostCenter);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaAssetShortName), it => it.FaAssetShortName.Contains(parm.FaAssetShortName));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaAssetFullName), it => it.FaAssetFullName.Contains(parm.FaAssetFullName));
+            predicate = predicate.AndIF(parm.FaAssetMana != null, it => it.FaAssetMana == parm.FaAssetMana);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaAssetCcy), it => it.FaAssetCcy == parm.FaAssetCcy);
             //当日期条件为空时，默认查询大于今天的所有数据
             //predicate = predicate.AndIF(parm.BeginFaCapitalizedDate == null, it => it.FaCapitalizedDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
@@ -166,12 +165,6 @@ namespace Ams.Service.Accounting
             predicate = predicate.AndIF(parm.BeginFaScrapDate != null, it => it.FaScrapDate >= parm.BeginFaScrapDate);
             predicate = predicate.AndIF(parm.EndFaScrapDate != null, it => it.FaScrapDate <= parm.EndFaScrapDate);
             predicate = predicate.AndIF(parm.FaAssetStop != null, it => it.FaAssetStop == parm.FaAssetStop);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginFaCheckedDate == null, it => it.FaCheckedDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginFaCheckedDate == null, it => it.FaCheckedDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginFaCheckedDate != null, it => it.FaCheckedDate >= parm.BeginFaCheckedDate);
-            predicate = predicate.AndIF(parm.EndFaCheckedDate != null, it => it.FaCheckedDate <= parm.EndFaCheckedDate);
             return predicate;
         }
     }

@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 月度存货
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:46:48
+    /// @Date: 2024/8/5 16:43:14
     /// </summary>
     [Verify]
     [Route("Accounting/FicoMonthlyInventory")]

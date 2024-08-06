@@ -43,6 +43,7 @@ $panGreen: #30b08f;
   --base-color-white: #ffffff;
   --el-menu-text-color: var(--el-text-color-primary);
 }
+
 // 黑色主题
 html.dark {
   /* custom dark bg color */
@@ -69,24 +70,31 @@ html.dark {
   }
 
   .header-search {
-    .el-select {
+    &.el-select {
+
       background-color: #000;
+
     }
   }
 
   // wangEditor
-  --w-e-textarea-bg-color: #111;
-  --w-e-textarea-color: #fff;
+  & {
+    --w-e-textarea-bg-color: #111;
+    --w-e-textarea-color: #fff;
 
-  --w-e-toolbar-color: #fff;
-  --w-e-toolbar-bg-color: #111;
-  --w-e-toolbar-active-color: #ccc;
-  --w-e-toolbar-active-bg-color: #111;
+    --w-e-toolbar-color: #fff;
+    --w-e-toolbar-bg-color: #111;
+    --w-e-toolbar-active-color: #ccc;
+    --w-e-toolbar-active-bg-color: #111;
+  }
+
   /* ...其他... */
 }
+
 html.cafe {
   filter: sepia(0.9) hue-rotate(315deg) brightness(0.9);
 }
+
 html.contrast {
   filter: contrast(2);
 }

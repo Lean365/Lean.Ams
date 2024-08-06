@@ -175,6 +175,7 @@ namespace Ams.WebApi.Controllers
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
         {
             List<SysLocaleLang> list = new();
+            //HttpContext.GetName();
             var nowTime = DateTime.Now;
             using (var stream = formFile.OpenReadStream())
             {
@@ -182,10 +183,11 @@ namespace Ams.WebApi.Controllers
 
                 foreach (var item in rows)
                 {
-                    list.Add(new SysLocaleLang() { LangCode = "zh-cn", LangKey = item.A, LangName = item.B, Create_time = nowTime });
-                    list.Add(new SysLocaleLang() { LangCode = "zh-tw", LangKey = item.A, LangName = item.C, Create_time = nowTime });
-                    list.Add(new SysLocaleLang() { LangCode = "ja", LangKey = item.A, LangName = item.D, Create_time = nowTime });
-                    list.Add(new SysLocaleLang() { LangCode = "en", LangKey = item.A, LangName = item.E, Create_time = nowTime });
+                    list.Add(new SysLocaleLang() { LangCode = "zh-cn", LangKey = item.A, LangName = item.B, Create_by = HttpContext.GetName(), Create_time = nowTime });
+                    list.Add(new SysLocaleLang() { LangCode = "zh-tw", LangKey = item.A, LangName = item.C, Create_by = HttpContext.GetName(), Create_time = nowTime });
+                    list.Add(new SysLocaleLang() { LangCode = "ja", LangKey = item.A, LangName = item.D, Create_by = HttpContext.GetName(), Create_time = nowTime });
+                    list.Add(new SysLocaleLang() { LangCode = "fr", LangKey = item.A, LangName = item.E, Create_by = HttpContext.GetName(), Create_time = nowTime });
+                    list.Add(new SysLocaleLang() { LangCode = "en", LangKey = item.A, LangName = item.f, Create_by = HttpContext.GetName(), Create_time = nowTime });
                 }
             }
 

@@ -1,5 +1,5 @@
-using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Model.Accounting.Dto;
 
 namespace Ams.Service.Accounting.IAccountingService
 {
@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 利润中心
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:41:52
+    /// @Date: 2024/8/6 14:40:21
     /// </summary>
     public interface IFicoProfitCenterService : IBaseService<FicoProfitCenter>
     {
@@ -24,13 +24,16 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <param name="FpSfId"></param>
         /// <returns></returns>
         FicoProfitCenter GetInfo(long FpSfId);
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
         /// </summary>
-        /// <param name="enterString"></param>
+        /// <param name="Prctr"></param>
+        /// <param name="Kokrs"></param>
         /// <returns></returns>
-        public string CheckInputUnique(string enterString);
+        public string CheckInputUnique(string Prctr, string Kokrs);
+
         /// <summary>
         /// 新增
         /// 利润中心
@@ -46,7 +49,6 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <param name="parm"></param>
         /// <returns></returns>
         int UpdateFicoProfitCenter(FicoProfitCenter parm);
-
 
         /// <summary>
         /// 批量导入

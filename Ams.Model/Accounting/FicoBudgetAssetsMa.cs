@@ -34,12 +34,6 @@ namespace Ams.Model.Accounting
         [SugarColumn(ColumnName = "FbaFy", ColumnDescription = "财年 ", Length = 6)]
         public string FbaFy { get; set; }
 
-        /// <summary>
-        /// 年月
-        /// </summary>
-        [SugarColumn(ColumnName = "FbaFm", ColumnDescription = "年月 ", Length = 100)]
-        public string FbaFm { get; set; }
-
         [Navigate(NavigateType.OneToMany, nameof(FicoBudgetAssetsSlv.FbasParentSfId), nameof(FbaSfId))] //自定义关系映射
         public List<FicoBudgetAssetsSlv> FicoBudgetAssetsSlvNav { get; set; }
     }

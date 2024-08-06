@@ -1,5 +1,5 @@
-using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Model.Accounting.Dto;
 using Ams.Service.Accounting.IAccountingService;
 
 namespace Ams.Service.Accounting
@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 财务期间
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:59:13
+    /// @Date: 2024/8/6 13:51:07
     /// </summary>
     [AppService(ServiceType = typeof(IFicoFinancialPeriodService), ServiceLifetime = LifeTime.Transient)]
     public class FicoFinancialPeriodService : BaseService<FicoFinancialPeriod>, IFicoFinancialPeriodService
@@ -23,11 +23,13 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("FpYearMonth asc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoFinancialPeriod, FicoFinancialPeriodDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,14 +38,13 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FpSfId.ToString() == enterString);
+            int count = Count(it => it.FpYearMonth.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
             }
             return UserConstants.UNIQUE;
         }
-
 
         /// <summary>
         /// 获取详情
@@ -58,6 +59,7 @@ namespace Ams.Service.Accounting
 
             return response;
         }
+
         /// <summary>
         /// 添加财务期间
         /// </summary>
@@ -68,6 +70,7 @@ namespace Ams.Service.Accounting
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改财务期间
         /// </summary>
@@ -86,21 +89,15 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FpSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.FpFinancialYear.IsEmpty(), "财年不能为空")
-                .SplitError(x => x.Item.FpYearMonth.IsEmpty(), "年月不能为空")
-                .SplitError(x => x.Item.FpYear.IsEmpty(), "年不能为空")
-                .SplitError(x => x.Item.FpMonth.IsEmpty(), "月不能为空")
-                .SplitError(x => x.Item.FpQuarter.IsEmpty(), "季度不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.FpSfId.IsEmpty(), "ID不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
 
-            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";                    
+            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";
             Console.WriteLine(msg);
 
-            //输出错误信息               
+            //输出错误信息
             foreach (var item in x.ErrorList)
             {
                 Console.WriteLine("错误" + item.StorageMessage);
@@ -142,11 +139,8 @@ namespace Ams.Service.Accounting
         {
             var predicate = Expressionable.Create<FicoFinancialPeriod>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FpFinancialYear), it => it.FpFinancialYear == parm.FpFinancialYear);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FpFinancialYear), it => it.FpFinancialYear.Contains(parm.FpFinancialYear));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FpYearMonth), it => it.FpYearMonth == parm.FpYearMonth);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FpYear), it => it.FpYear == parm.FpYear);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FpMonth), it => it.FpMonth == parm.FpMonth);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FpQuarter), it => it.FpQuarter == parm.FpQuarter);
             return predicate;
         }
     }

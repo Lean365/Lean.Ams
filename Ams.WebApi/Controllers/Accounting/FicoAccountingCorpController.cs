@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Model.Accounting.Dto;
 using Ams.Service.Accounting.IAccountingService;
+using Microsoft.AspNetCore.Mvc;
 using MiniExcelLibs;
-
 
 namespace Ams.WebApi.Controllers.Accounting
 {
@@ -11,7 +10,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 公司科目
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 17:05:40
+    /// @Date: 2024/8/6 11:09:24
     /// </summary>
     [Verify]
     [Route("Accounting/FicoAccountingCorp")]
@@ -41,18 +40,17 @@ namespace Ams.WebApi.Controllers.Accounting
             return SUCCESS(response);
         }
 
-
         /// <summary>
         /// 查询公司科目详情
         /// </summary>
-        /// <param name="FctSfId"></param>
+        /// <param name="SfId"></param>
         /// <returns></returns>
-        [HttpGet("{FctSfId}")]
+        [HttpGet("{SfId}")]
         [ActionPermissionFilter(Permission = "fico:accountingcorp:query")]
-        public IActionResult GetFicoAccountingCorp(long FctSfId)
+        public IActionResult GetFicoAccountingCorp(long SfId)
         {
-            var response = _FicoAccountingCorpService.GetInfo(FctSfId);
-            
+            var response = _FicoAccountingCorpService.GetInfo(SfId);
+
             var info = response.Adapt<FicoAccountingCorpDto>();
             return SUCCESS(info);
         }
@@ -66,11 +64,11 @@ namespace Ams.WebApi.Controllers.Accounting
         [Log(Title = "公司科目", BusinessType = BusinessType.INSERT)]
         public IActionResult AddFicoAccountingCorp([FromBody] FicoAccountingCorpDto parm)
         {
-           // 校验输入项目唯一性
+            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingCorpService.CheckInputUnique(parm.FctSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingCorpService.CheckInputUnique(parm.Bukrs.ToString(), parm.Saknr.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增公司科目 '{parm.FctSfId}'失败(Add failed)，输入的公司科目已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增公司科目 '{"公司代码：" + parm.Bukrs + ",科目代码：" + parm.Saknr}'失败(Add failed)，输入的公司科目已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoAccountingCorp>().ToCreate(HttpContext);
 
@@ -101,7 +99,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "fico:accountingcorp:delete")]
         [Log(Title = "公司科目", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteFicoAccountingCorp([FromRoute]string ids)
+        public IActionResult DeleteFicoAccountingCorp([FromRoute] string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -159,6 +157,5 @@ namespace Ams.WebApi.Controllers.Accounting
             var result = DownloadImportTemplate(new List<FicoAccountingCorpImportTpl>() { }, "FicoAccountingCorp_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
-
     }
 }

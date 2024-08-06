@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询Mm设变详情
         /// </summary>
-        /// <param name="MmSfid"></param>
+        /// <param name="MmSfId"></param>
         /// <returns></returns>
-        [HttpGet("{MmSfid}")]
+        [HttpGet("{MmSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecslavemm:query")]
-        public IActionResult GetPpEcSlaveMm(long MmSfid)
+        public IActionResult GetPpEcSlaveMm(long MmSfId)
         {
-            var response = _PpEcSlaveMmService.GetInfo(MmSfid);
+            var response = _PpEcSlaveMmService.GetInfo(MmSfId);
             
             var info = response.Adapt<PpEcSlaveMmDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveMmService.CheckInputUnique(parm.MmSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveMmService.CheckInputUnique(parm.MmSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增Mm设变 '{parm.MmSfid}'失败(Add failed)，输入的Mm设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增Mm设变 '{parm.MmSfId}'失败(Add failed)，输入的Mm设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcSlaveMm>().ToCreate(HttpContext);
 

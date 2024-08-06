@@ -94,7 +94,7 @@ namespace Ams.Service.Accounting
                 .SplitError(x => x.Item.FbeCorp.IsEmpty(), "公司不能为空")
                 .SplitError(x => x.Item.FbeDept.IsEmpty(), "部门不能为空")
                 .SplitError(x => x.Item.FbeFy.IsEmpty(), "财年不能为空")
-                .SplitError(x => x.Item.FbeFm.IsEmpty(), "年月不能为空")
+                //.SplitError(x => x.Item.FbeFm.IsEmpty(), "年月不能为空")
                 .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
                 .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
                 .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
@@ -138,7 +138,7 @@ namespace Ams.Service.Accounting
                     FbeCorpLabel = it.FbeCorp.GetConfigValue<SysDictData>("sys_crop_list"),
                     FbeDeptLabel = it.FbeDept.GetConfigValue<SysDictData>("sql_dept_list"),
                     FbeFyLabel = it.FbeFy.GetConfigValue<SysDictData>("sql_fy_list"),
-                    FbeFmLabel = it.FbeFm.GetConfigValue<SysDictData>("sql_ym_list"),
+                    // FbeFmLabel = it.FbeFm.GetConfigValue<SysDictData>("sql_ym_list"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                     //FbesTitleLabel = it.FbesTitle.GetConfigValue<SysDictData>("sql_budget_title"),
                     //FbesTitlesubLabel = it.FbesTitlesub.GetConfigValue<SysDictData>("sql_budget_details"),
@@ -161,7 +161,7 @@ namespace Ams.Service.Accounting
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbeCorp), it => it.FbeCorp == parm.FbeCorp);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbeDept), it => it.FbeDept == parm.FbeDept);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbeFy), it => it.FbeFy == parm.FbeFy);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbeFm), it => it.FbeFm == parm.FbeFm);
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbeFm), it => it.FbeFm == parm.FbeFm);
             return predicate;
         }
     }

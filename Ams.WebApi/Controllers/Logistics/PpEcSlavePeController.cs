@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询Pe设变详情
         /// </summary>
-        /// <param name="PeSfid"></param>
+        /// <param name="PeSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PeSfid}")]
+        [HttpGet("{PeSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecslavepe:query")]
-        public IActionResult GetPpEcSlavePe(long PeSfid)
+        public IActionResult GetPpEcSlavePe(long PeSfId)
         {
-            var response = _PpEcSlavePeService.GetInfo(PeSfid);
+            var response = _PpEcSlavePeService.GetInfo(PeSfId);
             
             var info = response.Adapt<PpEcSlavePeDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlavePeService.CheckInputUnique(parm.PeSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlavePeService.CheckInputUnique(parm.PeSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增Pe设变 '{parm.PeSfid}'失败(Add failed)，输入的Pe设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增Pe设变 '{parm.PeSfId}'失败(Add failed)，输入的Pe设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcSlavePe>().ToCreate(HttpContext);
 

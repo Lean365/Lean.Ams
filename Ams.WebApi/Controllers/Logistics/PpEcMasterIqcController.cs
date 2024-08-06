@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询受检详情
         /// </summary>
-        /// <param name="EcmSFID"></param>
+        /// <param name="EcmSfId"></param>
         /// <returns></returns>
-        [HttpGet("{EcmSFID}")]
+        [HttpGet("{EcmSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecmasteriqc:query")]
-        public IActionResult GetPpEcMasterIqc(long EcmSFID)
+        public IActionResult GetPpEcMasterIqc(long EcmSfId)
         {
-            var response = _PpEcMasterIqcService.GetInfo(EcmSFID);
+            var response = _PpEcMasterIqcService.GetInfo(EcmSfId);
             
             var info = response.Adapt<PpEcMasterIqcDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcMasterIqcService.CheckInputUnique(parm.EcmSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcMasterIqcService.CheckInputUnique(parm.EcmSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增受检 '{parm.EcmSFID}'失败(Add failed)，输入的受检已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增受检 '{parm.EcmSfId}'失败(Add failed)，输入的受检已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcMasterIqc>().ToCreate(HttpContext);
 

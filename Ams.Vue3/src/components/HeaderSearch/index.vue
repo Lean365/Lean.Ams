@@ -198,17 +198,19 @@
 
 <style lang="scss" scoped>
   .header-search {
-    // height: 100%;
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
+    /* height: 100%;*/
+    /* display: flex;*/
+    /* justify-content: center;*/
+    /* align-items: center;*/
 
     :deep(.el-dialog) {
       .el-dialog__header {
         display: none !important;
       }
 
-      --el-dialog-bg-color: #00000;
+      & {
+        --el-dialog-bg-color: #00000;
+      }
 
       .el-dialog__body {
         padding: 0;

@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Model.Accounting.Dto;
 using Ams.Service.Accounting.IAccountingService;
+using Microsoft.AspNetCore.Mvc;
 using MiniExcelLibs;
-
 
 namespace Ams.WebApi.Controllers.Accounting
 {
@@ -11,7 +10,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 利润中心
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:41:52
+    /// @Date: 2024/8/6 14:40:21
     /// </summary>
     [Verify]
     [Route("Accounting/FicoProfitCenter")]
@@ -41,7 +40,6 @@ namespace Ams.WebApi.Controllers.Accounting
             return SUCCESS(response);
         }
 
-
         /// <summary>
         /// 查询利润中心详情
         /// </summary>
@@ -52,7 +50,7 @@ namespace Ams.WebApi.Controllers.Accounting
         public IActionResult GetFicoProfitCenter(long FpSfId)
         {
             var response = _FicoProfitCenterService.GetInfo(FpSfId);
-            
+
             var info = response.Adapt<FicoProfitCenterDto>();
             return SUCCESS(info);
         }
@@ -66,11 +64,11 @@ namespace Ams.WebApi.Controllers.Accounting
         [Log(Title = "利润中心", BusinessType = BusinessType.INSERT)]
         public IActionResult AddFicoProfitCenter([FromBody] FicoProfitCenterDto parm)
         {
-           // 校验输入项目唯一性
+            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoProfitCenterService.CheckInputUnique(parm.FpSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoProfitCenterService.CheckInputUnique(parm.Prctr.ToString(), parm.Kokrs.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增利润中心 '{parm.FpSfId}'失败(Add failed)，输入的利润中心已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增利润中心 '{"利润中心：" + parm.Prctr + ",控制领域：" + parm.Kokrs}'失败(Add failed)，输入的利润中心已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoProfitCenter>().ToCreate(HttpContext);
 
@@ -101,7 +99,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "fico:profitcenter:delete")]
         [Log(Title = "利润中心", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteFicoProfitCenter([FromRoute]string ids)
+        public IActionResult DeleteFicoProfitCenter([FromRoute] string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -159,6 +157,5 @@ namespace Ams.WebApi.Controllers.Accounting
             var result = DownloadImportTemplate(new List<FicoProfitCenterImportTpl>() { }, "FicoProfitCenter_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
-
     }
 }

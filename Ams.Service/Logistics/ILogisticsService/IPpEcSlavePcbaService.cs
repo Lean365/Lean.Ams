@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取Pcba设变信息
         /// </summary>
-        /// <param name="PcbaSfid"></param>
+        /// <param name="PcbaSfId"></param>
         /// <returns></returns>
-        PpEcSlavePcba GetInfo(long PcbaSfid);
+        PpEcSlavePcba GetInfo(long PcbaSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

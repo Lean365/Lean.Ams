@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 预算实际明细分页查询
+ * 实际对比分页查询
  * @param {查询条件} data
  */
 export function listFicoBudgetActualCont(query) {
@@ -14,7 +14,7 @@ export function listFicoBudgetActualCont(query) {
 }
 
 /**
- * 新增预算实际明细
+ * 新增实际对比
  * @param data
  */
 export function addFicoBudgetActualCont(data) {
@@ -25,7 +25,7 @@ export function addFicoBudgetActualCont(data) {
   })
 }
 /**
- * 修改预算实际明细
+ * 修改实际对比
  * @param data
  */
 export function updateFicoBudgetActualCont(data) {
@@ -36,7 +36,7 @@ export function updateFicoBudgetActualCont(data) {
   })
 }
 /**
- * 获取预算实际明细详情
+ * 获取实际对比详情
  * @param {Id}
  */
 export function getFicoBudgetActualCont(id) {
@@ -47,7 +47,7 @@ export function getFicoBudgetActualCont(id) {
 }
 
 /**
- * 删除预算实际明细
+ * 删除实际对比
  * @param {主键} pid
  */
 export function delFicoBudgetActualCont(pid) {
@@ -56,7 +56,7 @@ export function delFicoBudgetActualCont(pid) {
     method: 'delete'
   })
 }
-// 导出预算实际明细
+// 导出实际对比
 export async function exportFicoBudgetActualCont(query) {
   await downFile('Accounting/FicoBudgetActualCont/export', { ...query })
 }

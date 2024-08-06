@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询品管详情
         /// </summary>
-        /// <param name="FqcSfid"></param>
+        /// <param name="FqcSfId"></param>
         /// <returns></returns>
-        [HttpGet("{FqcSfid}")]
+        [HttpGet("{FqcSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecslavefqc:query")]
-        public IActionResult GetPpEcSlaveFqc(long FqcSfid)
+        public IActionResult GetPpEcSlaveFqc(long FqcSfId)
         {
-            var response = _PpEcSlaveFqcService.GetInfo(FqcSfid);
+            var response = _PpEcSlaveFqcService.GetInfo(FqcSfId);
             
             var info = response.Adapt<PpEcSlaveFqcDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveFqcService.CheckInputUnique(parm.FqcSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveFqcService.CheckInputUnique(parm.FqcSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增品管 '{parm.FqcSfid}'失败(Add failed)，输入的品管已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增品管 '{parm.FqcSfId}'失败(Add failed)，输入的品管已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcSlaveFqc>().ToCreate(HttpContext);
 

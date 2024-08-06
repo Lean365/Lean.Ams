@@ -31,9 +31,9 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpEcMasterPurDto
     {
-        [ExcelColumn(Name = "Sfid")]
-        [ExcelColumnName("Sfid")]
-        public long? EcmSFID { get; set; }
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
+        public long? EcmSfId { get; set; }
 
         [ExcelColumn(Name = "发行日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("发行日期")]
@@ -201,9 +201,9 @@ namespace Ams.Model.Logistics.Dto
     /// </summary>
     public class PpEcMasterPurImportTpl
     {
-        [ExcelColumn(Name = "Sfid")]
-        [ExcelColumnName("Sfid")]
-        public long? EcmSFID { get; set; }
+        [ExcelColumn(Name = "SfId")]
+        [ExcelColumnName("SfId")]
+        public long? EcmSfId { get; set; }
 
         [ExcelColumn(Name = "发行日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("发行日期")]

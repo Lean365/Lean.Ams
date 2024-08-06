@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// bom成本核算
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 17:04:41
+    /// @Date: 2024/8/5 16:43:24
     /// </summary>
     [Verify]
     [Route("Accounting/FicoCostingBom")]

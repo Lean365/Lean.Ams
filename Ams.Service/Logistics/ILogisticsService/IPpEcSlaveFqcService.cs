@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取品管信息
         /// </summary>
-        /// <param name="FqcSfid"></param>
+        /// <param name="FqcSfId"></param>
         /// <returns></returns>
-        PpEcSlaveFqc GetInfo(long FqcSfid);
+        PpEcSlaveFqc GetInfo(long FqcSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

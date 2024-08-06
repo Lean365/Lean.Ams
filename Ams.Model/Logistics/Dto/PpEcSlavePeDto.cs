@@ -26,11 +26,11 @@ namespace Ams.Model.Logistics.Dto
     {
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
-        public long? PeSfid { get; set; }
+        public long? PeSfId { get; set; }
 
         [ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long? PeParentSfid { get; set; }
+        public long? PeParentSfId { get; set; }
 
         [ExcelColumn(Name = "设变No.")]
         [ExcelColumnName("设变No.")]
@@ -154,11 +154,11 @@ namespace Ams.Model.Logistics.Dto
     {
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
-        public long? PeSfid { get; set; }
+        public long? PeSfId { get; set; }
 
         [ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long? PeParentSfid { get; set; }
+        public long? PeParentSfId { get; set; }
 
         [ExcelColumn(Name = "设变No.")]
         [ExcelColumnName("设变No.")]

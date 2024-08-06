@@ -29,12 +29,12 @@ namespace Ams.Model.Logistics.Dto
         [Required(ErrorMessage = "ID不能为空")]
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
-        public long PurSfid { get; set; }
+        public long PurSfId { get; set; }
 
         [Required(ErrorMessage = "父ID不能为空")]
         [ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long PurParentSfid { get; set; }
+        public long PurParentSfId { get; set; }
 
         [Required(ErrorMessage = "设变No.不能为空")]
         [ExcelColumn(Name = "设变No.")]
@@ -180,12 +180,12 @@ namespace Ams.Model.Logistics.Dto
         [Required(ErrorMessage = "ID不能为空")]
         [ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
-        public long PurSfid { get; set; }
+        public long PurSfId { get; set; }
 
         [Required(ErrorMessage = "父ID不能为空")]
         [ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long PurParentSfid { get; set; }
+        public long PurParentSfId { get; set; }
 
         [Required(ErrorMessage = "设变No.不能为空")]
         [ExcelColumn(Name = "设变No.")]

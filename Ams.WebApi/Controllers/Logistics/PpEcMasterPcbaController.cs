@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询制二详情
         /// </summary>
-        /// <param name="EcmSFID"></param>
+        /// <param name="EcmSfId"></param>
         /// <returns></returns>
-        [HttpGet("{EcmSFID}")]
+        [HttpGet("{EcmSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecmasterpcba:query")]
-        public IActionResult GetPpEcMasterPcba(long EcmSFID)
+        public IActionResult GetPpEcMasterPcba(long EcmSfId)
         {
-            var response = _PpEcMasterPcbaService.GetInfo(EcmSFID);
+            var response = _PpEcMasterPcbaService.GetInfo(EcmSfId);
             
             var info = response.Adapt<PpEcMasterPcbaDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcMasterPcbaService.CheckInputUnique(parm.EcmSFID.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcMasterPcbaService.CheckInputUnique(parm.EcmSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增制二 '{parm.EcmSFID}'失败(Add failed)，输入的制二已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增制二 '{parm.EcmSfId}'失败(Add failed)，输入的制二已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcMasterPcba>().ToCreate(HttpContext);
 

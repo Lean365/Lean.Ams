@@ -37,7 +37,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. AssySfid.ToString() == enterString);
+            int count = Count(it => it. AssySfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,12 +49,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="AssySfid"></param>
+        /// <param name="AssySfId"></param>
         /// <returns></returns>
-        public PpEcSlaveAssy GetInfo(long AssySfid)
+        public PpEcSlaveAssy GetInfo(long AssySfId)
         {
             var response = Queryable()
-                .Where(x => x.AssySfid == AssySfid)
+                .Where(x => x.AssySfId == AssySfId)
                 .First();
 
             return response;

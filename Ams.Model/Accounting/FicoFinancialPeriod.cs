@@ -4,7 +4,7 @@ namespace Ams.Model.Accounting
     /// 财务期间
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:59:13
+    /// @Date: 2024/8/6 13:51:07
     /// </summary>
     [SugarTable("fico_financial_period", "财务期间")]
     public class FicoFinancialPeriod : SysBase
@@ -19,31 +19,31 @@ namespace Ams.Model.Accounting
         /// <summary>
         /// 财年
         /// </summary>
-        [SugarColumn(ColumnName = "FpFinancialYear", ColumnDescription = "财年 ", Length = 6)]
+        [SugarColumn(ColumnName = "FpFinancialYear", ColumnDescription = "财年  ", Length = 6)]
         public string FpFinancialYear { get; set; }
 
         /// <summary>
         /// 年月
         /// </summary>
-        [SugarColumn(ColumnName = "FpYearMonth", ColumnDescription = "年月 ", Length = 6)]
+        [SugarColumn(ColumnName = "FpYearMonth", ColumnDescription = "年月  ", Length = 6)]
         public string FpYearMonth { get; set; }
 
         /// <summary>
         /// 年
         /// </summary>
-        [SugarColumn(ColumnName = "FpYear", ColumnDescription = "年 ", Length = 4)]
+        [SugarColumn(ColumnName = "FpYear", ColumnDescription = "年  ", Length = 4)]
         public string FpYear { get; set; }
 
         /// <summary>
         /// 月
         /// </summary>
-        [SugarColumn(ColumnName = "FpMonth", ColumnDescription = "月 ", Length = 2)]
+        [SugarColumn(ColumnName = "FpMonth", ColumnDescription = "月  ", Length = 2)]
         public string FpMonth { get; set; }
 
         /// <summary>
         /// 季度
         /// </summary>
-        [SugarColumn(ColumnName = "FpQuarter", ColumnDescription = "季度 ", Length = 2)]
+        [SugarColumn(ColumnName = "FpQuarter", ColumnDescription = "季度  ", Length = 2)]
         public string FpQuarter { get; set; }
     }
 }

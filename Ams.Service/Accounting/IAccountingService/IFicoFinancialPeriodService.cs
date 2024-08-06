@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 财务期间
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:59:13
+    /// @Date: 2024/8/6 13:51:07
     /// </summary>
     public interface IFicoFinancialPeriodService : IBaseService<FicoFinancialPeriod>
     {

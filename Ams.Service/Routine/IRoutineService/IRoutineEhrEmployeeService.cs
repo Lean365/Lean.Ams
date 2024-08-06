@@ -7,7 +7,7 @@ namespace Ams.Service.Routine.IRoutineService
     /// 人事
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/29 16:57:41
+    /// @Date: 2024/8/6 8:07:34
     /// </summary>
     public interface IRoutineEhrEmployeeService : IBaseService<RoutineEhrEmployee>
     {

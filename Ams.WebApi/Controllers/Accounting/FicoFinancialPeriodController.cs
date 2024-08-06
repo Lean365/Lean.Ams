@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Model.Accounting.Dto;
 using Ams.Service.Accounting.IAccountingService;
+using Microsoft.AspNetCore.Mvc;
 using MiniExcelLibs;
-
 
 namespace Ams.WebApi.Controllers.Accounting
 {
@@ -11,7 +10,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 财务期间
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:59:13
+    /// @Date: 2024/8/6 13:51:07
     /// </summary>
     [Verify]
     [Route("Accounting/FicoFinancialPeriod")]
@@ -41,7 +40,6 @@ namespace Ams.WebApi.Controllers.Accounting
             return SUCCESS(response);
         }
 
-
         /// <summary>
         /// 查询财务期间详情
         /// </summary>
@@ -52,7 +50,7 @@ namespace Ams.WebApi.Controllers.Accounting
         public IActionResult GetFicoFinancialPeriod(long FpSfId)
         {
             var response = _FicoFinancialPeriodService.GetInfo(FpSfId);
-            
+
             var info = response.Adapt<FicoFinancialPeriodDto>();
             return SUCCESS(info);
         }
@@ -66,11 +64,11 @@ namespace Ams.WebApi.Controllers.Accounting
         [Log(Title = "财务期间", BusinessType = BusinessType.INSERT)]
         public IActionResult AddFicoFinancialPeriod([FromBody] FicoFinancialPeriodDto parm)
         {
-           // 校验输入项目唯一性
+            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoFinancialPeriodService.CheckInputUnique(parm.FpSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoFinancialPeriodService.CheckInputUnique(parm.FpYearMonth.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增财务期间 '{parm.FpSfId}'失败(Add failed)，输入的财务期间已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增财务期间 '{parm.FpYearMonth}'失败(Add failed)，输入的财务期间已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoFinancialPeriod>().ToCreate(HttpContext);
 
@@ -101,7 +99,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "fico:financialperiod:delete")]
         [Log(Title = "财务期间", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteFicoFinancialPeriod([FromRoute]string ids)
+        public IActionResult DeleteFicoFinancialPeriod([FromRoute] string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -159,6 +157,5 @@ namespace Ams.WebApi.Controllers.Accounting
             var result = DownloadImportTemplate(new List<FicoFinancialPeriodImportTpl>() { }, "FicoFinancialPeriod_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
-
     }
 }

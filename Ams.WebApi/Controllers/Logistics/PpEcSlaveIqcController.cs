@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询Iqc设变详情
         /// </summary>
-        /// <param name="IqcSfid"></param>
+        /// <param name="IqcSfId"></param>
         /// <returns></returns>
-        [HttpGet("{IqcSfid}")]
+        [HttpGet("{IqcSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecslaveiqc:query")]
-        public IActionResult GetPpEcSlaveIqc(long IqcSfid)
+        public IActionResult GetPpEcSlaveIqc(long IqcSfId)
         {
-            var response = _PpEcSlaveIqcService.GetInfo(IqcSfid);
+            var response = _PpEcSlaveIqcService.GetInfo(IqcSfId);
             
             var info = response.Adapt<PpEcSlaveIqcDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveIqcService.CheckInputUnique(parm.IqcSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveIqcService.CheckInputUnique(parm.IqcSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增Iqc设变 '{parm.IqcSfid}'失败(Add failed)，输入的Iqc设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增Iqc设变 '{parm.IqcSfId}'失败(Add failed)，输入的Iqc设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcSlaveIqc>().ToCreate(HttpContext);
 

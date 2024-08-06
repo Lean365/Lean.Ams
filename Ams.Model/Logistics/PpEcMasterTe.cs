@@ -140,7 +140,7 @@ namespace Ams.Model.Logistics
         [SugarColumn(ColumnName = "EcmImplStated", ColumnDescription = "实施标记  ", DefaultValue = "0")]
         public int? EcmImplStated { get; set; }
 
-        [Navigate(NavigateType.OneToMany, nameof(PpEcSlaveTe.TeParentSfid), nameof(EcmSfId))] //自定义关系映射
+        [Navigate(NavigateType.OneToMany, nameof(PpEcSlaveTe.TeParentSfId), nameof(EcmSfId))] //自定义关系映射
         public List<PpEcSlaveTe> PpEcSlaveTeNav { get; set; }
     }
 }

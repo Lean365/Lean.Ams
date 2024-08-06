@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取组立信息
         /// </summary>
-        /// <param name="AssySfid"></param>
+        /// <param name="AssySfId"></param>
         /// <returns></returns>
-        PpEcSlaveAssy GetInfo(long AssySfid);
+        PpEcSlaveAssy GetInfo(long AssySfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

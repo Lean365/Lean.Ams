@@ -1,4 +1,3 @@
-
 namespace Ams.Model.Logistics.Dto
 {
     /// <summary>
@@ -7,7 +6,7 @@ namespace Ams.Model.Logistics.Dto
     /// @Author: Lean365(Davis.Ching)
     /// @Date: 2024/7/18 15:20:14
     /// </summary>
-    public class PpSourceOrderQueryDto : PagerInfo 
+    public class PpSourceOrderQueryDto : PagerInfo
     {
         public string Cooisma001 { get; set; }
         public string Cooisma009 { get; set; }
@@ -91,14 +90,15 @@ namespace Ams.Model.Logistics.Dto
         [ExcelIgnore]
         public DateTime? UpdateTime { get; set; }
 
-
-
         [ExcelColumn(Name = "工厂")]
         public string Cooisma001Label { get; set; }
+
         [ExcelColumn(Name = "订单类型")]
         public string Cooisma009Label { get; set; }
+
         [ExcelColumn(Name = "品号")]
         public string Cooisma003Label { get; set; }
+
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
@@ -179,20 +179,20 @@ namespace Ams.Model.Logistics.Dto
         [ExcelIgnore]
         public DateTime? UpdateTime { get; set; }
 
-
-
         [ExcelIgnore]
         [ExcelColumn(Name = "工厂")]
         public string Cooisma001Label { get; set; }
+
         [ExcelIgnore]
         [ExcelColumn(Name = "订单类型")]
         public string Cooisma009Label { get; set; }
+
         [ExcelIgnore]
         [ExcelColumn(Name = "品号")]
         public string Cooisma003Label { get; set; }
+
         [ExcelIgnore]
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
-
 }

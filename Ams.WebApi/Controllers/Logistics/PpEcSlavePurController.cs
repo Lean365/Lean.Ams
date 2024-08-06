@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询Pur设变详情
         /// </summary>
-        /// <param name="PurSfid"></param>
+        /// <param name="PurSfId"></param>
         /// <returns></returns>
-        [HttpGet("{PurSfid}")]
+        [HttpGet("{PurSfId}")]
         [ActionPermissionFilter(Permission = "pp:ecslavepur:query")]
-        public IActionResult GetPpEcSlavePur(long PurSfid)
+        public IActionResult GetPpEcSlavePur(long PurSfId)
         {
-            var response = _PpEcSlavePurService.GetInfo(PurSfid);
+            var response = _PpEcSlavePurService.GetInfo(PurSfId);
             
             var info = response.Adapt<PpEcSlavePurDto>();
             return SUCCESS(info);
@@ -68,9 +68,9 @@ namespace Ams.WebApi.Controllers.Logistics
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlavePurService.CheckInputUnique(parm.PurSfid.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlavePurService.CheckInputUnique(parm.PurSfId.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增Pur设变 '{parm.PurSfid}'失败(Add failed)，输入的Pur设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增Pur设变 '{parm.PurSfId}'失败(Add failed)，输入的Pur设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcSlavePur>().ToCreate(HttpContext);
 

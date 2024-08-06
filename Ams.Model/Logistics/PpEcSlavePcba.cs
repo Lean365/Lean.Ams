@@ -14,13 +14,13 @@ namespace Ams.Model.Logistics
         /// </summary>
 
         [SugarColumn(IsPrimaryKey = false, IsIdentity = false)]
-        public long? PcbaSfid { get; set; }
+        public long? PcbaSfId { get; set; }
 
         /// <summary>
         /// 父ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long? PcbaParentSfid { get; set; }
+        public long? PcbaParentSfId { get; set; }
 
         /// <summary>
         /// 设变No.

@@ -37,7 +37,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. PurSfid.ToString() == enterString);
+            int count = Count(it => it. PurSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,12 +49,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="PurSfid"></param>
+        /// <param name="PurSfId"></param>
         /// <returns></returns>
-        public PpEcSlavePur GetInfo(long PurSfid)
+        public PpEcSlavePur GetInfo(long PurSfId)
         {
             var response = Queryable()
-                .Where(x => x.PurSfid == PurSfid)
+                .Where(x => x.PurSfId == PurSfId)
                 .First();
 
             return response;
@@ -87,7 +87,7 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.PurParentSfid.IsEmpty(), "父ID不能为空")
+                .SplitError(x => x.Item.PurParentSfId.IsEmpty(), "父ID不能为空")
                 .SplitError(x => x.Item.PurEcNo.IsEmpty(), "设变No.不能为空")
                 .SplitError(x => x.Item.PurModel.IsEmpty(), "机种不能为空")
                 .SplitError(x => x.Item.PurNewCurrStock.IsEmpty(), "新品库存不能为空")

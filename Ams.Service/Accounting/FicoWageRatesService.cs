@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 工资率
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:39:08
+    /// @Date: 2024/8/5 16:43:12
     /// </summary>
     [AppService(ServiceType = typeof(IFicoWageRatesService), ServiceLifetime = LifeTime.Transient)]
     public class FicoWageRatesService : BaseService<FicoWageRates>, IFicoWageRatesService
@@ -86,27 +86,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FwSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.FwCrop.IsEmpty(), "公司不能为空")
-                .SplitError(x => x.Item.FwYm.IsEmpty(), "年月不能为空")
-                .SplitError(x => x.Item.FwCcy.IsEmpty(), "币种不能为空")
-                .SplitError(x => x.Item.FwSalesVolume.IsEmpty(), "销售额不能为空")
-                .SplitError(x => x.Item.FwWorkingDays.IsEmpty(), "工作天数不能为空")
-                .SplitError(x => x.Item.FwDirectWageRate.IsEmpty(), "直接工资率不能为空")
-                .SplitError(x => x.Item.FwDirect.IsEmpty(), "直接人数不能为空")
-                .SplitError(x => x.Item.FwDirectOverTime.IsEmpty(), "直接加班费不能为空")
-                .SplitError(x => x.Item.FwDirectWages.IsEmpty(), "直接工资不能为空")
-                .SplitError(x => x.Item.FwInDirectWageRate.IsEmpty(), "间接工资率不能为空")
-                .SplitError(x => x.Item.FwInDirect.IsEmpty(), "间接人数不能为空")
-                .SplitError(x => x.Item.FwInDirectOverTime.IsEmpty(), "间接加班费不能为空")
-                .SplitError(x => x.Item.FwInDirectWages.IsEmpty(), "间接工资不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.FwSfId.IsEmpty(), "ID不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;

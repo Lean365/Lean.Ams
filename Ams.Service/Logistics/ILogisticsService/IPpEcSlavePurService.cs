@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取Pur设变信息
         /// </summary>
-        /// <param name="PurSfid"></param>
+        /// <param name="PurSfId"></param>
         /// <returns></returns>
-        PpEcSlavePur GetInfo(long PurSfid);
+        PpEcSlavePur GetInfo(long PurSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

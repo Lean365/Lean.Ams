@@ -1,4 +1,3 @@
-
 namespace Ams.Model.Logistics.Dto
 {
     /// <summary>
@@ -7,7 +6,7 @@ namespace Ams.Model.Logistics.Dto
     /// @Author: Lean365(Davis.Ching)
     /// @Date: 2024/7/26 14:45:07
     /// </summary>
-    public class PpLineQueryDto : PagerInfo 
+    public class PpLineQueryDto : PagerInfo
     {
         public string PlLineType { get; set; }
         public string PlLineCode { get; set; }
@@ -69,10 +68,9 @@ namespace Ams.Model.Logistics.Dto
         [ExcelIgnore]
         public DateTime? UpdateTime { get; set; }
 
-
-
         [ExcelColumn(Name = "班组类别")]
         public string PlLineTypeLabel { get; set; }
+
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
@@ -132,14 +130,12 @@ namespace Ams.Model.Logistics.Dto
         [ExcelIgnore]
         public DateTime? UpdateTime { get; set; }
 
-
-
         [ExcelIgnore]
         [ExcelColumn(Name = "班组类别")]
         public string PlLineTypeLabel { get; set; }
+
         [ExcelIgnore]
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
-
 }

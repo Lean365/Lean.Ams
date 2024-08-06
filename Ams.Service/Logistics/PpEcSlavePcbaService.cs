@@ -37,7 +37,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. PcbaSfid.ToString() == enterString);
+            int count = Count(it => it. PcbaSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,12 +49,12 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="PcbaSfid"></param>
+        /// <param name="PcbaSfId"></param>
         /// <returns></returns>
-        public PpEcSlavePcba GetInfo(long PcbaSfid)
+        public PpEcSlavePcba GetInfo(long PcbaSfId)
         {
             var response = Queryable()
-                .Where(x => x.PcbaSfid == PcbaSfid)
+                .Where(x => x.PcbaSfId == PcbaSfId)
                 .First();
 
             return response;

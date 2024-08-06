@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 工资率
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:39:08
+    /// @Date: 2024/8/5 16:43:12
     /// </summary>
     public interface IFicoWageRatesService : IBaseService<FicoWageRates>
     {

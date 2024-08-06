@@ -1,3 +1,5 @@
+using Ams.Infrastructure;
+
 namespace Ams.Service.Kernel
 {
     /// <summary>
@@ -69,7 +71,11 @@ namespace Ams.Service.Kernel
             {
                 langs.Add(new SysLocaleLang()
                 {
+                    //用户名
+                    Create_by = App.UserName,
                     Create_time = DateTime.Now,
+                    Update_by = App.UserName,
+                    Update_time = DateTime.Now,
                     LangKey = parm.LangKey,
                     LangCode = item.LangCode,
                     LangName = item.LangName,
@@ -80,7 +86,8 @@ namespace Ams.Service.Kernel
                 .ToStorage();
 
             storage.AsInsertable.ExecuteReturnSnowflakeIdList();//执行插入
-            storage.AsUpdateable.UpdateColumns(it => new { it.LangName }).ExecuteCommand();//执行修改
+
+            storage.AsUpdateable.UpdateColumns(it => new { it.LangName, it.Update_by, it.Update_time }).ExecuteCommand();//执行修改
         }
 
         public Dictionary<string, object> SetLang(List<SysLocaleLang> msgList)

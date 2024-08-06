@@ -2,7 +2,7 @@ use Ams_Tes;
 
 -- 月度存货菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('月度存货', 1138, 999, 'FicoMonthlyInventory', 'accounting/FicoMonthlyInventory', 0, 0, 'C', '0', '0', 'fico:monthlyinventory:list', 'icon1', 'Lean365', GETDATE(), 'menu.fico.monthlyinventory');
+VALUES ('月度存货', 1137, 999, 'FicoMonthlyInventory', 'accounting/FicoMonthlyInventory', 0, 0, 'C', '0', '0', 'fico:monthlyinventory:list', 'icon1', 'Lean365', GETDATE(), 'menu.fico.monthlyinventory');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -32,13 +32,13 @@ SELECT * FROM sys_menu WHERE menuId = @menuId;
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138001,'zh-cn', 'menu.fico.monthlyinventory', '月度存货', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1137001,'zh-cn', 'menu.fico.monthlyinventory', '月度存货', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138002,'zh-tw', 'menu.fico.monthlyinventory', 'TW_月度存货', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1137002,'zh-tw', 'menu.fico.monthlyinventory', 'TW_月度存货', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138003,'en', 'menu.fico.monthlyinventory', 'EN_月度存货', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1137003,'en', 'menu.fico.monthlyinventory', 'EN_月度存货', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138004,'ja', 'menu.fico.monthlyinventory', 'JA_月度存货', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1137004,'ja', 'menu.fico.monthlyinventory', 'JA_月度存货', 'Lean365', GETDATE());

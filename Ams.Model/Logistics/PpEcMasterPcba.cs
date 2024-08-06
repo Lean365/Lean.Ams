@@ -14,7 +14,7 @@ namespace Ams.Model.Logistics
         /// </summary>
 
         [SugarColumn(IsPrimaryKey = false, IsIdentity = false)]
-        public long? EcmSFID { get; set; }
+        public long? EcmSfId { get; set; }
 
         /// <summary>
         /// 发行日期
@@ -140,7 +140,7 @@ namespace Ams.Model.Logistics
         [SugarColumn(ColumnName = "EcmImplStated", ColumnDescription = "实施标记 ", DefaultValue = "0")]
         public int? EcmImplStated { get; set; }
 
-        [Navigate(NavigateType.OneToMany, nameof(PpEcSlavePcba.PcbaParentSfid), nameof(EcmSFID))] //自定义关系映射
+        [Navigate(NavigateType.OneToMany, nameof(PpEcSlavePcba.PcbaParentSfId), nameof(EcmSfId))] //自定义关系映射
         public List<PpEcSlavePcba> PpEcSlavePcbaNav { get; set; }
     }
 }

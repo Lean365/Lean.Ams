@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting
     /// 月度存货
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:46:48
+    /// @Date: 2024/8/5 16:43:14
     /// </summary>
     [AppService(ServiceType = typeof(IFicoMonthlyInventoryService), ServiceLifetime = LifeTime.Transient)]
     public class FicoMonthlyInventoryService : BaseService<FicoMonthlyInventory>, IFicoMonthlyInventoryService
@@ -23,7 +23,6 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("MiYm asc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoMonthlyInventory, FicoMonthlyInventoryDto>(parm);
 
@@ -87,20 +86,7 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.MiSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.MiPlant.IsEmpty(), "工厂不能为空")
-                .SplitError(x => x.Item.MiFy.IsEmpty(), "期间不能为空")
-                .SplitError(x => x.Item.MiYm.IsEmpty(), "年月不能为空")
-                .SplitError(x => x.Item.MiItem.IsEmpty(), "物料不能为空")
-                .SplitError(x => x.Item.MiValType.IsEmpty(), "评估类不能为空")
-                .SplitError(x => x.Item.MiPriceControl.IsEmpty(), "价格控制不能为空")
-                .SplitError(x => x.Item.MiMovingAverage.IsEmpty(), "移动平均价不能为空")
-                .SplitError(x => x.Item.MiPerUnit.IsEmpty(), "Per单位不能为空")
-                .SplitError(x => x.Item.MiLocalCcy.IsEmpty(), "币种不能为空")
-                .SplitError(x => x.Item.MiInventoryQty.IsEmpty(), "库存不能为空")
-                .SplitError(x => x.Item.MiInventoryAmount.IsEmpty(), "金额不能为空")
-                .SplitError(x => x.Item.MiBalancedate.IsEmpty(), "登录日期不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.MiSfId.IsEmpty(), "ID不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -159,8 +145,6 @@ namespace Ams.Service.Accounting
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MiFy), it => it.MiFy == parm.MiFy);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MiYm), it => it.MiYm == parm.MiYm);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MiItem), it => it.MiItem.Contains(parm.MiItem));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MiValType), it => it.MiValType == parm.MiValType);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MiLocalCcy), it => it.MiLocalCcy == parm.MiLocalCcy);
             return predicate;
         }
     }

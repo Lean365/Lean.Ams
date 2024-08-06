@@ -94,7 +94,7 @@ namespace Ams.Service.Accounting
                 .SplitError(x => x.Item.FboCorp.IsEmpty(), "公司不能为空")
                 .SplitError(x => x.Item.FboDept.IsEmpty(), "部门不能为空")
                 .SplitError(x => x.Item.FboFy.IsEmpty(), "财年不能为空")
-                .SplitError(x => x.Item.FboFm.IsEmpty(), "年月不能为空")
+                //.SplitError(x => x.Item.FboFm.IsEmpty(), "年月不能为空")
                 .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
                 .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
                 .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
@@ -138,7 +138,7 @@ namespace Ams.Service.Accounting
                     FboCorpLabel = it.FboCorp.GetConfigValue<SysDictData>("sys_crop_list"),
                     FboDeptLabel = it.FboDept.GetConfigValue<SysDictData>("sql_dept_list"),
                     FboFyLabel = it.FboFy.GetConfigValue<SysDictData>("sql_fy_list"),
-                    FboFmLabel = it.FboFm.GetConfigValue<SysDictData>("sql_ym_list"),
+                    //FboFmLabel = it.FboFm.GetConfigValue<SysDictData>("sql_ym_list"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                     //FbosTitleLabel = it.FbosTitle.GetConfigValue<SysDictData>("sql_budget_title"),
                     //FbosFlagLabel = it.FbosFlag.GetConfigValue<SysDictData>("sys_flag_list"),
@@ -160,7 +160,7 @@ namespace Ams.Service.Accounting
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FboCorp), it => it.FboCorp == parm.FboCorp);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FboDept), it => it.FboDept == parm.FboDept);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FboFy), it => it.FboFy == parm.FboFy);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FboFm), it => it.FboFm == parm.FboFm);
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FboFm), it => it.FboFm == parm.FboFm);
             return predicate;
         }
     }

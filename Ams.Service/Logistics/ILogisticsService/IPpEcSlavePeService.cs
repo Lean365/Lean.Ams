@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取Pe设变信息
         /// </summary>
-        /// <param name="PeSfid"></param>
+        /// <param name="PeSfId"></param>
         /// <returns></returns>
-        PpEcSlavePe GetInfo(long PeSfid);
+        PpEcSlavePe GetInfo(long PeSfId);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

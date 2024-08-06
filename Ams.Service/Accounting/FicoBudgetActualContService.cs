@@ -5,16 +5,16 @@ using Ams.Service.Accounting.IAccountingService;
 namespace Ams.Service.Accounting
 {
     /// <summary>
-    /// 预算实际明细
+    /// 实际对比
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 17:40:38
+    /// @Date: 2024/8/5 17:07:36
     /// </summary>
     [AppService(ServiceType = typeof(IFicoBudgetActualContService), ServiceLifetime = LifeTime.Transient)]
     public class FicoBudgetActualContService : BaseService<FicoBudgetActualCont>, IFicoBudgetActualContService
     {
         /// <summary>
-        /// 查询预算实际明细列表
+        /// 查询实际对比列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -23,7 +23,6 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("FbYm asc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoBudgetActualCont, FicoBudgetActualContDto>(parm);
 
@@ -60,7 +59,7 @@ namespace Ams.Service.Accounting
             return response;
         }
         /// <summary>
-        /// 添加预算实际明细
+        /// 添加实际对比
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -70,40 +69,24 @@ namespace Ams.Service.Accounting
             return model;
         }
         /// <summary>
-        /// 修改预算实际明细
+        /// 修改实际对比
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         public int UpdateFicoBudgetActualCont(FicoBudgetActualCont model)
         {
-            return Update(model, true, "修改预算实际明细");
+            return Update(model, true, "修改实际对比");
         }
 
         /// <summary>
-        /// 导入预算实际明细
+        /// 导入实际对比
         /// </summary>
         /// <returns></returns>
         public (string, object, object) ImportFicoBudgetActualCont(List<FicoBudgetActualCont> list)
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FbSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.FbFy.IsEmpty(), "期间不能为空")
-                .SplitError(x => x.Item.FbYm.IsEmpty(), "年月不能为空")
-                .SplitError(x => x.Item.FbCorpCode.IsEmpty(), "公司代码不能为空")
-                .SplitError(x => x.Item.FbCorpName.IsEmpty(), "公司名称不能为空")
-                .SplitError(x => x.Item.FbExpCategory.IsEmpty(), "统计类别不能为空")
-                .SplitError(x => x.Item.FbCostCode.IsEmpty(), "成本代码不能为空")
-                .SplitError(x => x.Item.FbCostName.IsEmpty(), "成本名称不能为空")
-                .SplitError(x => x.Item.FbTitleCode.IsEmpty(), "科目代码不能为空")
-                .SplitError(x => x.Item.FbTitleName.IsEmpty(), "科目名称不能为空")
-                .SplitError(x => x.Item.FbTitleNote.IsEmpty(), "科目分类不能为空")
-                .SplitError(x => x.Item.FbBudgetAmt.IsEmpty(), "预算不能为空")
-                .SplitError(x => x.Item.FbActualAmt.IsEmpty(), "实际不能为空")
-                .SplitError(x => x.Item.FbDiffAmt.IsEmpty(), "差异不能为空")
-                .SplitError(x => x.Item.FbAccountant.IsEmpty(), "会计人员不能为空")
-                .SplitError(x => x.Item.FbBalanceDate.IsEmpty(), "日期不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "删除不能为空")
+                .SplitError(x => x.Item.FbSfId.IsEmpty(), "ID不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -125,7 +108,7 @@ namespace Ams.Service.Accounting
         }
 
         /// <summary>
-        /// 导出预算实际明细
+        /// 导出实际对比
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -140,6 +123,11 @@ namespace Ams.Service.Accounting
                     FbFyLabel = it.FbFy.GetConfigValue<SysDictData>("sql_fy_list"),
                     FbYmLabel = it.FbYm.GetConfigValue<SysDictData>("sql_ym_list"),
                     FbCorpCodeLabel = it.FbCorpCode.GetConfigValue<SysDictData>("sys_crop_list"),
+                    FbStatCategoryLabel = it.FbStatCategory.GetConfigValue<SysDictData>("sys_stat_type"),
+                    FbCostCodeLabel = it.FbCostCode.GetConfigValue<SysDictData>("sql_cost_center"),
+                    FbCostTypeLabel = it.FbCostType.GetConfigValue<SysDictData>("sys_costs_type"),
+                    FbTitleCodeLabel = it.FbTitleCode.GetConfigValue<SysDictData>("sql_accounting_title"),
+                    FbCcyLabel = it.FbCcy.GetConfigValue<SysDictData>("sys_ccy_type"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
@@ -159,6 +147,11 @@ namespace Ams.Service.Accounting
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbFy), it => it.FbFy == parm.FbFy);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbYm), it => it.FbYm == parm.FbYm);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbCorpCode), it => it.FbCorpCode == parm.FbCorpCode);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbStatCategory), it => it.FbStatCategory == parm.FbStatCategory);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbCostCode), it => it.FbCostCode == parm.FbCostCode);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbCostType), it => it.FbCostType == parm.FbCostType);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbTitleCode), it => it.FbTitleCode == parm.FbTitleCode);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbCcy), it => it.FbCcy == parm.FbCcy);
             return predicate;
         }
     }

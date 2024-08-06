@@ -162,7 +162,7 @@
   const queryParams = reactive({
     pageNum: 1,
     pageSize: 10,
-    sort: 'id',
+    sort: 'sfId',
     sortType: 'desc',
     title: undefined,
     jumpType: undefined,
@@ -170,7 +170,7 @@
     adType: undefined
   })
   const columns = ref([
-    { visible: true, prop: 'id', label: 'id' },
+    { visible: true, prop: 'sfId', label: 'sfId' },
     { visible: true, prop: 'title', label: '标题' },
     { visible: true, prop: 'content', label: '说明' },
     { visible: true, prop: 'link', label: '链接', showOverflowTooltip: true },

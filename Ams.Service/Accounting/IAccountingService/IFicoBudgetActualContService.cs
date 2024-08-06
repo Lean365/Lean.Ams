@@ -4,22 +4,22 @@ using Ams.Model.Accounting;
 namespace Ams.Service.Accounting.IAccountingService
 {
     /// <summary>
-    /// 预算实际明细
+    /// 实际对比
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 17:40:38
+    /// @Date: 2024/8/5 17:07:36
     /// </summary>
     public interface IFicoBudgetActualContService : IBaseService<FicoBudgetActualCont>
     {
         /// <summary>
-        /// 获取预算实际明细列表
+        /// 获取实际对比列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         PagedInfo<FicoBudgetActualContDto> GetList(FicoBudgetActualContQueryDto parm);
 
         /// <summary>
-        /// 获取预算实际明细信息
+        /// 获取实际对比信息
         /// </summary>
         /// <param name="FbSfId"></param>
         /// <returns></returns>
@@ -33,7 +33,7 @@ namespace Ams.Service.Accounting.IAccountingService
         public string CheckInputUnique(string enterString);
         /// <summary>
         /// 新增
-        /// 预算实际明细
+        /// 实际对比
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace Ams.Service.Accounting.IAccountingService
 
         /// <summary>
         /// 更新
-        /// 预算实际明细
+        /// 实际对比
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace Ams.Service.Accounting.IAccountingService
 
         /// <summary>
         /// 批量导入
-        /// 预算实际明细
+        /// 实际对比
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace Ams.Service.Accounting.IAccountingService
 
         /// <summary>
         /// 导出
-        /// 预算实际明细
+        /// 实际对比
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>

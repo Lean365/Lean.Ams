@@ -94,7 +94,7 @@ namespace Ams.Service.Accounting
                 .SplitError(x => x.Item.FbsCorp.IsEmpty(), "公司不能为空")
                 .SplitError(x => x.Item.FbsDept.IsEmpty(), "部门不能为空")
                 .SplitError(x => x.Item.FbsFy.IsEmpty(), "财年不能为空")
-                .SplitError(x => x.Item.FbsFm.IsEmpty(), "年月不能为空")
+                // .SplitError(x => x.Item.FbsFm.IsEmpty(), "年月不能为空")
                 .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
                 .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
                 .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
@@ -137,7 +137,7 @@ namespace Ams.Service.Accounting
                 {
                     FbsDeptLabel = it.FbsDept.GetConfigValue<SysDictData>("sql_dept_list"),
                     FbsFyLabel = it.FbsFy.GetConfigValue<SysDictData>("sql_fy_list"),
-                    FbsFmLabel = it.FbsFm.GetConfigValue<SysDictData>("sql_ym_list"),
+                    //FbsFmLabel = it.FbsFm.GetConfigValue<SysDictData>("sql_ym_list"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                     //FbssTitleLabel = it.FbssTitle.GetConfigValue<SysDictData>("sql_budget_title"),
                     //FbssCategoryLabel = it.FbssCategory.GetConfigValue<SysDictData>("sys_exp_type"),
@@ -160,7 +160,7 @@ namespace Ams.Service.Accounting
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbsCorp), it => it.FbsCorp == parm.FbsCorp);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbsDept), it => it.FbsDept == parm.FbsDept);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbsFy), it => it.FbsFy == parm.FbsFy);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbsFm), it => it.FbsFm == parm.FbsFm);
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbsFm), it => it.FbsFm == parm.FbsFm);
             return predicate;
         }
     }

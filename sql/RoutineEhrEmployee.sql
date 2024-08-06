@@ -2,7 +2,7 @@ use Ams_Tes;
 
 -- 人事菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('人事', 1210, 999, 'RoutineEhrEmployee', 'routine/RoutineEhrEmployee', 0, 0, 'C', '0', '0', 'routine:ehremployee:list', 'icon1', 'Lean365', GETDATE(), 'menu.routine.ehremployee');
+VALUES ('人事', 1912, 999, 'RoutineEhrEmployee', 'routine/RoutineEhrEmployee', 0, 0, 'C', '0', '0', 'routine:ehremployee:list', 'icon1', 'Lean365', GETDATE(), 'menu.routine.ehremployee');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -32,13 +32,13 @@ SELECT * FROM sys_menu WHERE menuId = @menuId;
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210001,'zh-cn', 'menu.routine.ehremployee', '人事', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912001,'zh-cn', 'menu.routine.ehremployee', '人事', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210002,'zh-tw', 'menu.routine.ehremployee', 'TW_人事', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912002,'zh-tw', 'menu.routine.ehremployee', 'TW_人事', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210003,'en', 'menu.routine.ehremployee', 'EN_人事', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'en', 'menu.routine.ehremployee', 'EN_人事', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210004,'ja', 'menu.routine.ehremployee', 'JA_人事', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912004,'ja', 'menu.routine.ehremployee', 'JA_人事', 'Lean365', GETDATE());

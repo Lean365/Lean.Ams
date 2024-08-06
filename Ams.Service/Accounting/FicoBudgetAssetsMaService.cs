@@ -1,5 +1,5 @@
-using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Model.Accounting.Dto;
 using Ams.Service.Accounting.IAccountingService;
 
 namespace Ams.Service.Accounting
@@ -30,6 +30,7 @@ namespace Ams.Service.Accounting
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -38,14 +39,13 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FbaSfId.ToString() == enterString);
+            int count = Count(it => it.FbaSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
             }
             return UserConstants.UNIQUE;
         }
-
 
         /// <summary>
         /// 获取详情
@@ -61,6 +61,7 @@ namespace Ams.Service.Accounting
 
             return response;
         }
+
         /// <summary>
         /// 添加资产预算
         /// </summary>
@@ -70,6 +71,7 @@ namespace Ams.Service.Accounting
         {
             return Context.InsertNav(model).Include(s1 => s1.FicoBudgetAssetsSlvNav).ExecuteReturnEntity();
         }
+
         /// <summary>
         /// 修改资产预算
         /// </summary>
@@ -92,7 +94,7 @@ namespace Ams.Service.Accounting
                 .SplitError(x => x.Item.FbaCorp.IsEmpty(), "公司不能为空")
                 .SplitError(x => x.Item.FbaDept.IsEmpty(), "部门不能为空")
                 .SplitError(x => x.Item.FbaFy.IsEmpty(), "财年不能为空")
-                .SplitError(x => x.Item.FbaFm.IsEmpty(), "年月不能为空")
+                //.SplitError(x => x.Item.FbaFm.IsEmpty(), "年月不能为空")
                 .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
                 .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
                 .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
@@ -104,10 +106,10 @@ namespace Ams.Service.Accounting
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
 
-            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";                    
+            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";
             Console.WriteLine(msg);
 
-            //输出错误信息               
+            //输出错误信息
             foreach (var item in x.ErrorList)
             {
                 Console.WriteLine("错误" + item.StorageMessage);
@@ -136,7 +138,7 @@ namespace Ams.Service.Accounting
                     FbaCorpLabel = it.FbaCorp.GetConfigValue<SysDictData>("sys_crop_list"),
                     FbaDeptLabel = it.FbaDept.GetConfigValue<SysDictData>("sql_dept_list"),
                     FbaFyLabel = it.FbaFy.GetConfigValue<SysDictData>("sql_fy_list"),
-                    FbaFmLabel = it.FbaFm.GetConfigValue<SysDictData>("sql_ym_list"),
+                    //FbaFmLabel = it.FbaFm.GetConfigValue<SysDictData>("sql_ym_list"),
                     IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
@@ -156,7 +158,7 @@ namespace Ams.Service.Accounting
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbaCorp), it => it.FbaCorp == parm.FbaCorp);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbaDept), it => it.FbaDept == parm.FbaDept);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbaFy), it => it.FbaFy == parm.FbaFy);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbaFm), it => it.FbaFm == parm.FbaFm);
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbaFm), it => it.FbaFm == parm.FbaFm);
             return predicate;
         }
     }

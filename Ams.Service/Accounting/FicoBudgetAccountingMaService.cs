@@ -1,5 +1,5 @@
-using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Model.Accounting.Dto;
 using Ams.Service.Accounting.IAccountingService;
 
 namespace Ams.Service.Accounting
@@ -29,6 +29,7 @@ namespace Ams.Service.Accounting
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -37,14 +38,13 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FbasSfId.ToString() == enterString);
+            int count = Count(it => it.FbamSfId.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
             }
             return UserConstants.UNIQUE;
         }
-
 
         /// <summary>
         /// 获取详情
@@ -55,11 +55,12 @@ namespace Ams.Service.Accounting
         {
             var response = Queryable()
                 .Includes(x => x.FicoBudgetAccountingSlvNav) //填充子对象
-                .Where(x => x.FbasSfId == FbasSfId)
+                .Where(x => x.FbamSfId == FbasSfId)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加预算科目
         /// </summary>
@@ -69,6 +70,7 @@ namespace Ams.Service.Accounting
         {
             return Context.InsertNav(model).Include(s1 => s1.FicoBudgetAccountingSlvNav).ExecuteReturnEntity();
         }
+
         /// <summary>
         /// 修改预算科目
         /// </summary>
@@ -87,18 +89,18 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FbasSfId.IsEmpty(), "ID不能为空")
-                .SplitError(x => x.Item.FbasMandt.IsEmpty(), "集团不能为空")
-                .SplitError(x => x.Item.FbasBukrs.IsEmpty(), "公司代码不能为空")
-                .SplitError(x => x.Item.FbasSpras.IsEmpty(), "语言Key不能为空")
+                //.SplitError(x => x.Item.FbasSfId.IsEmpty(), "ID不能为空")
+                //.SplitError(x => x.Item.FbasMandt.IsEmpty(), "集团不能为空")
+                //.SplitError(x => x.Item.FbasBukrs.IsEmpty(), "公司代码不能为空")
+                //.SplitError(x => x.Item.FbasSpras.IsEmpty(), "语言Key不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
 
-            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";                    
+            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";
             Console.WriteLine(msg);
 
-            //输出错误信息               
+            //输出错误信息
             foreach (var item in x.ErrorList)
             {
                 Console.WriteLine("错误" + item.StorageMessage);
@@ -124,13 +126,13 @@ namespace Ams.Service.Accounting
                 .Where(predicate.ToExpression())
                 .Select((it) => new FicoBudgetAccountingMaDto()
                 {
-                    FbasBukrsLabel = it.FbasBukrs.GetConfigValue<SysDictData>("sys_crop_list"),
-                    FbasSaknrLabel = it.FbasSaknr.GetConfigValue<SysDictData>("sql_accounting_title"),
-                    FbasGvtypLabel = it.FbasGvtyp.GetConfigValue<SysDictData>("sys_exp_type"),
-                    FbasXspeaLabel = it.FbasXspea.GetConfigValue<SysDictData>("sys_freeze_flag"),
-                    FbasMitkzLabel = it.FbasMitkz.GetConfigValue<SysDictData>("sys_normal_whether"),
-                    FbasWaersLabel = it.FbasWaers.GetConfigValue<SysDictData>("sys_ccy_type"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //FbasBukrsLabel = it.FbasBukrs.GetConfigValue<SysDictData>("sys_crop_list"),
+                    //FbasSaknrLabel = it.FbasSaknr.GetConfigValue<SysDictData>("sql_accounting_title"),
+                    //FbasGvtypLabel = it.FbasGvtyp.GetConfigValue<SysDictData>("sys_exp_type"),
+                    //FbasXspeaLabel = it.FbasXspea.GetConfigValue<SysDictData>("sys_freeze_flag"),
+                    //FbasMitkzLabel = it.FbasMitkz.GetConfigValue<SysDictData>("sys_normal_whether"),
+                    //FbasWaersLabel = it.FbasWaers.GetConfigValue<SysDictData>("sys_ccy_type"),
+                    //IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
 
@@ -146,15 +148,15 @@ namespace Ams.Service.Accounting
         {
             var predicate = Expressionable.Create<FicoBudgetAccountingMa>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasBukrs), it => it.FbasBukrs == parm.FbasBukrs);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasFipls), it => it.FbasFipls.Contains(parm.FbasFipls));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasSaknr), it => it.FbasSaknr == parm.FbasSaknr);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasSatext), it => it.FbasSatext.Contains(parm.FbasSatext));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasLtext), it => it.FbasLtext.Contains(parm.FbasLtext));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasGvtyp), it => it.FbasGvtyp == parm.FbasGvtyp);
-            predicate = predicate.AndIF(parm.FbasXspea != null, it => it.FbasXspea == parm.FbasXspea);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasMitkz), it => it.FbasMitkz == parm.FbasMitkz);
-            predicate = predicate.AndIF(parm.FbasWaers != null, it => it.FbasWaers == parm.FbasWaers);
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasBukrs), it => it.FbasBukrs == parm.FbasBukrs);
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasFipls), it => it.FbasFipls.Contains(parm.FbasFipls));
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasSaknr), it => it.FbasSaknr == parm.FbasSaknr);
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasSatext), it => it.FbasSatext.Contains(parm.FbasSatext));
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasLtext), it => it.FbasLtext.Contains(parm.FbasLtext));
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasGvtyp), it => it.FbasGvtyp == parm.FbasGvtyp);
+            //predicate = predicate.AndIF(parm.FbasXspea != null, it => it.FbasXspea == parm.FbasXspea);
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FbasMitkz), it => it.FbasMitkz == parm.FbasMitkz);
+            //predicate = predicate.AndIF(parm.FbasWaers != null, it => it.FbasWaers == parm.FbasWaers);
             return predicate;
         }
     }

@@ -231,7 +231,7 @@
       header-cell-class-name="el-table-header-cell" highlight-current-row @sort-change="sortChange"
       @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
-      <el-table-column prop="scSfid" label="SFID" align="center" v-if="columns.showColumn('scSfid')" />
+      <el-table-column prop="scSfId" label="SFID" align="center" v-if="columns.showColumn('scSfId')" />
       <el-table-column prop="scOrg" label="销售组织" align="center" v-if="columns.showColumn('scOrg')">
         <template #default="scope">
           <dict-tag :options=" options.sys_crop_list " :value="scope.row.scOrg" />
@@ -425,8 +425,8 @@
             <el-row :gutter="20">
 
               <el-col :lg="12">
-                <el-form-item label="SFID" prop="scSfid">
-                  <el-input v-model.number="form.scSfid"
+                <el-form-item label="SFID" prop="scSfId">
+                  <el-input v-model.number="form.scSfId"
                     :placeholder="$t('btn.enterPrefix')+'SFID'+$t('btn.enterSuffix')" :disabled="opertype != 1" />
                 </el-form-item>
               </el-col>
@@ -1112,7 +1112,7 @@
   })
   //字段显示控制
   const columns = ref([
-    { visible: true, prop: 'scSfid', label: 'SFID' },
+    { visible: true, prop: 'scSfId', label: 'SFID' },
     { visible: true, prop: 'scOrg', label: '销售组织' },
     { visible: true, prop: 'scIndustryType', label: '行业类别' },
     { visible: true, prop: 'scEnterpriseNature', label: '企业性质' },
@@ -1230,7 +1230,7 @@
   }
   // 多选框选中数据
   function handleSelectionChange(selection) {
-    ids.value = selection.map((item) => item.scSfid);
+    ids.value = selection.map((item) => item.scSfId);
     single.value = selection.length != 1
     multiple.value = !selection.length;
   }
@@ -1266,7 +1266,7 @@
     multiple: true,
     form: {},
     rules: {
-      scSfid: [{ required: true, message: "SFID" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      scSfId: [{ required: true, message: "SFID" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
       scOrg: [{ required: true, message: "销售组织" + proxy.$t('btn.isEmpty'), trigger: "change" }],
       scIndustryType: [{ required: true, message: "行业类别" + proxy.$t('btn.isEmpty'), trigger: "change" }],
       scEnterpriseNature: [{ required: true, message: "企业性质" + proxy.$t('btn.isEmpty'), trigger: "change" }],
@@ -1411,7 +1411,7 @@
   // 重置表单
   function reset() {
     form.value = {
-      scSfid: 0,
+      scSfId: 0,
       scOrg: null,
       scIndustryType: null,
       scEnterpriseNature: null,
@@ -1518,7 +1518,7 @@
   // 修改按钮操作
   function handleUpdate(row) {
     reset()
-    const id = row.scSfid || ids.value
+    const id = row.scSfId || ids.value
     getSdCustomer(id).then((res) => {
       const { code, data } = res
       if (code == 200) {
@@ -1538,7 +1538,7 @@
     proxy.$refs["formRef"].validate((valid) => {
       if (valid) {
 
-        if (form.value.scSfid != undefined && opertype.value === 2) {
+        if (form.value.scSfId != undefined && opertype.value === 2) {
           updateSdCustomer(form.value).then((res) => {
             proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
             open.value = false
@@ -1557,7 +1557,7 @@
 
   // 删除按钮操作
   function handleDelete(row) {
-    const Ids = row.scSfid || ids.value
+    const Ids = row.scSfId || ids.value
 
     proxy
       .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
