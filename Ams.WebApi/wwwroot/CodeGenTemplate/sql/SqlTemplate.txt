@@ -1,0 +1,92 @@
+﻿use Ams_Tes;
+
+-- ${genTable.functionName}菜单
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
+VALUES ('${genTable.functionName}', ${parentId}, 999, '${genTable.BusinessName}', '${tool.FirstLowerCase(genTable.ModuleName)}/${genTable.BusinessName}', 0, 0, 'C', '0', '0', '${ReplaceDto.PermissionPrefix}:list', 'icon1', 'Lean365', GETDATE(), 'menu.${ReplaceDto.LocalePrefix}');
+
+-- 按钮父菜单id
+declare @menuId int = @@identity
+
+
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('查询', @menuId, 1, '#', NULL, 0, 0, 'F', '0', '0', '${ReplaceDto.PermissionPrefix}:query', '', 'Lean365', GETDATE(), 'btn.search');
+
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('新增', @menuId, 2, '#', NULL, 0, 0, 'F', '0', '0', '${ReplaceDto.PermissionPrefix}:add', '', 'Lean365', GETDATE(), 'btn.add');
+
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('删除', @menuId, 3, '#', NULL, 0, 0, 'F', '0', '0', '${ReplaceDto.PermissionPrefix}:delete', '', 'Lean365', GETDATE(), 'btn.delete');
+
+$if(ReplaceDto.ShowBtnEdit)
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('修改', @menuId, 4, '#', NULL, 0, 0, 'F', '0', '0', '${ReplaceDto.PermissionPrefix}:edit', '', 'Lean365', GETDATE(), 'btn.edit');
+$end
+$if(ReplaceDto.ShowBtnExport)
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('导出', @menuId, 5, '#', NULL, 0, 0, 'F', '0', '0', '${ReplaceDto.PermissionPrefix}:export', '', 'Lean365', GETDATE(), 'btn.export');
+$end
+$if(ReplaceDto.ShowBtnImport)
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('导入', @menuId, 6, '#', NULL, 0, 0, 'F', '0', '0', '${ReplaceDto.PermissionPrefix}:import', '', 'Lean365', GETDATE(), 'btn.import');
+$end
+$if(ReplaceDto.ShowBtnAudit)
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('审核', @menuId, 7, '#', NULL, 0, 0, 'F', '0', '0', '${ReplaceDto.PermissionPrefix}:audit', '', 'Lean365', GETDATE(), 'btn.audit');
+$end
+$if(ReplaceDto.ShowBtnRevoke)
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('撤回', @menuId, 8, '#', NULL, 0, 0, 'F', '0', '0', '${ReplaceDto.PermissionPrefix}:revoke', '', 'Lean365', GETDATE(), 'btn.revoke');
+$end
+$if(ReplaceDto.ShowBtnView)
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('查看', @menuId, 9, '#', NULL, 0, 0, 'F', '0', '0', '${ReplaceDto.PermissionPrefix}:view', '', 'Lean365', GETDATE(), 'btn.view');
+$end
+$if(ReplaceDto.ShowBtnPreview)
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('预览', @menuId, 10, '#', NULL, 0, 0, 'F', '0', '0', '${ReplaceDto.PermissionPrefix}:preview', '', 'Lean365', GETDATE(), 'btn.preview');
+$end
+$if(ReplaceDto.ShowBtnPrint)
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('打印', @menuId, 11, '#', NULL, 0, 0, 'F', '0', '0', '${ReplaceDto.PermissionPrefix}:print', '', 'Lean365', GETDATE(), 'btn.print');
+$end
+$if(ReplaceDto.ShowBtnEmpty)
+INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by,Create_time,menuName_key) 
+VALUES ('清空', @menuId, 12, '#', NULL, 0, 0, 'F', '0', '0', '${ReplaceDto.PermissionPrefix}:empty', '', 'Lean365', GETDATE(), 'btn.empty');
+$end
+
+SELECT * FROM sys_menu WHERE parentId = @menuId;
+SELECT * FROM sys_menu WHERE menuId = @menuId;
+
+
+-- ${genTable.functionName}多语言
+-- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}001,'zh-cn', 'menu.${ReplaceDto.LocalePrefix}', '${genTable.functionName}', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}002,'zh-tw', 'menu.${ReplaceDto.LocalePrefix}', 'TW_${genTable.functionName}', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'en', 'menu.${ReplaceDto.LocalePrefix}', 'EN_${genTable.functionName}', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}004,'ja', 'menu.${ReplaceDto.LocalePrefix}', 'JA_${genTable.functionName}', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'fr', 'menu.${ReplaceDto.LocalePrefix}', 'FR_${genTable.functionName}', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'fr', 'menu.${ReplaceDto.LocalePrefix}', 'KO_${genTable.functionName}', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'fr', 'menu.${ReplaceDto.LocalePrefix}', 'AR_${genTable.functionName}', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'fr', 'menu.${ReplaceDto.LocalePrefix}', 'RU_${genTable.functionName}', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'fr', 'menu.${ReplaceDto.LocalePrefix}', 'DE_${genTable.functionName}', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'fr', 'menu.${ReplaceDto.LocalePrefix}', 'ES_${genTable.functionName}', 'Lean365', GETDATE());

@@ -1,0 +1,94 @@
+﻿using ${options.DtosNamespace}.${options.SubNamespace}.Dto;
+using ${options.ModelsNamespace}.${options.SubNamespace};
+
+namespace ${options.IServicsNamespace}.${options.SubNamespace}.I${options.SubNamespace}Service
+{
+    /// <summary>
+    /// ${genTable.FunctionName}
+    /// 业务层接口
+    /// @Author: ${replaceDto.Author}
+    /// @Date: ${replaceDto.createTime}
+    /// </summary>
+    public interface I${replaceDto.ModelTypeName}Service : IBaseService<${replaceDto.ModelTypeName}>
+    {
+        /// <summary>
+        /// 获取${genTable.FunctionName}列表
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        PagedInfo<${replaceDto.ModelTypeName}Dto> GetList(${replaceDto.ModelTypeName}QueryDto parm);
+
+        /// <summary>
+        /// 获取${genTable.FunctionName}信息
+        /// </summary>
+        /// <param name="${ReplaceDto.PKName}"></param>
+        /// <returns></returns>
+        ${replaceDto.ModelTypeName} GetInfo(${replaceDto.PKType} ${replaceDto.PKName});
+$if(replaceDto.ShowBtnAdd)
+        /// <summary>
+        /// 校验
+        /// 输入项目唯一性
+        /// </summary>
+        /// <param name="enterString"></param>
+        /// <returns></returns>
+        public string CheckInputUnique(string enterString);
+$end
+$if(genTable.TplCategory == "tree")
+        /// <summary>
+        /// 获取${genTable.FunctionName}树信息
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        List<${replaceDto.ModelTypeName}> GetTreeList(${replaceDto.ModelTypeName}QueryDto parm);
+$end
+$if(replaceDto.ShowBtnAdd)
+        /// <summary>
+        /// 新增
+        /// ${genTable.FunctionName}
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        ${replaceDto.ModelTypeName} Add${replaceDto.ModelTypeName}(${replaceDto.ModelTypeName} parm);
+$end
+$if(replaceDto.ShowBtnEdit)
+
+        /// <summary>
+        /// 更新
+        /// ${genTable.FunctionName}
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        int Update${replaceDto.ModelTypeName}(${replaceDto.ModelTypeName} parm);
+$end
+$if(replaceDto.ShowBtnTruncate)
+
+        /// <summary>
+        /// 清空
+        /// ${genTable.FunctionName}
+        /// </summary>
+        /// <returns></returns>    
+        bool Truncate${replaceDto.ModelTypeName}();
+$end
+
+$if(replaceDto.ShowBtnImport)
+
+        /// <summary>
+        /// 批量导入
+        /// ${genTable.FunctionName}
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        (string, object, object) Import${replaceDto.ModelTypeName}(List<${replaceDto.ModelTypeName}> list);
+$end
+
+$if(replaceDto.ShowBtnExport)
+        /// <summary>
+        /// 导出
+        /// ${genTable.FunctionName}
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        PagedInfo<${replaceDto.ModelTypeName}Dto> ExportList(${replaceDto.ModelTypeName}QueryDto parm);
+$end
+    }
+}

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="JinianNet.JNTemplate" Version="2.4.2" />
+		<PackageReference Include="SqlSugarCoreNoDrive" Version="5.1.4.157" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Ams.Common\Ams.Common.csproj" />
+	  <ProjectReference Include="..\Ams.Infrastructure\Ams.Infrastructure.csproj" />
+	  <ProjectReference Include="..\Ams.Service\Ams.Service.csproj" />
+	</ItemGroup>
+</Project>

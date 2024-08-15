@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="5.3.2" />
+    <PackageReference Include="Quartz" Version="3.9.0" />
+    <PackageReference Include="Quartz.Serialization.Json" Version="3.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ams.Model\Ams.Model.csproj" />
+    <ProjectReference Include="..\Ams.Service\Ams.Service.csproj" />
+  </ItemGroup>
+
+</Project>

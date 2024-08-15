@@ -1,0 +1,16 @@
+﻿using Infrastructure.Attribute;
+using ${options.ModelsNamespace}.${options.SubNamespace};
+
+namespace ${options.RepositoriesNamespace}
+{
+    /// <summary>
+    /// ${genTable.FunctionName}
+    /// 仓储层处理
+    /// @Author: ${ReplaceDto.Author}
+    /// @Date: ${ReplaceDto.createTime}
+    /// </summary>
+    [AppService(ServiceLifetime = LifeTime.Transient)]
+    public class ${replaceDto.ModelTypeName}Repository : BaseRepository<${replaceDto.ModelTypeName}>
+    {
+    }
+}
