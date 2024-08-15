@@ -1,0 +1,1149 @@
+/* button新增按钮 青色*/
+.btn-add {
+  color: rgb(64, 158, 255);
+  background-color: rgba(64, 158, 255, 0.116);
+  border-color: rgb(64, 158, 255);
+}
+
+.btn-delete:disabled {
+  color: rgba(64, 158, 255, 0.3);
+  background-color: rgba(64, 158, 255, 0.15);
+  border-color: rgba(64, 158, 255, 0.3);
+}
+
+.btn-delete:disabled:hover {
+  color: rgba(64, 158, 255, 0.3);
+  background-color: rgba(64, 158, 255, 0.15);
+  border-color: rgba(64, 158, 255, 0.3);
+
+}
+
+.btn-add:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(64, 158, 255);
+  border-color: rgb(64, 158, 255);
+}
+
+/* 编辑按钮 绿色*/
+.btn-edit {
+  color: rgb(103, 194, 58);
+  background-color: rgba(103, 194, 58, 0.116);
+  border-color: rgb(103, 194, 58);
+}
+
+.btn-edit:disabled {
+  color: rgba(103, 194, 58, 0.3);
+  background-color: rgba(103, 194, 58, 0.15);
+  border-color: rgba(103, 194, 58, 0.3);
+}
+
+.btn-edit:disabled:hover {
+  color: rgba(103, 194, 58, 0.3);
+  //color: rgb(237, 90, 101);
+  background-color: rgba(103, 194, 58, 0.15);
+  border-color: rgba(103, 194, 58, 0.3);
+
+}
+
+.btn-edit:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(103, 194, 58);
+  border-color: rgb(103, 194, 58);
+}
+
+/* 删除按钮 红色*/
+.btn-delete {
+  color: rgb(237, 90, 101);
+  background-color: rgba(237, 90, 101, 0.116);
+  border-color: rgb(237, 90, 101);
+}
+
+.btn-delete:disabled {
+  color: rgba(237, 90, 101, 0.3);
+  background-color: rgba(237, 90, 101, 0.15);
+  border-color: rgba(237, 90, 101, 0.3);
+}
+
+.btn-delete:disabled:hover {
+  color: rgba(237, 90, 101, 0.3);
+  background-color: rgba(237, 90, 101, 0.15);
+  border-color: rgba(237, 90, 101, 0.3);
+
+}
+
+.btn-delete:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(237, 90, 101);
+  border-color: rgb(237, 90, 101);
+}
+
+/* 批量删除按钮 淡蕊香红 danruixianghong*/
+.btn-deletebatch {
+  color: rgb(238, 72, 102);
+  background-color: rgba(238, 72, 102, 0.116);
+  border-color: rgb(238, 72, 102);
+}
+
+.btn-deletebatch:disabled {
+  color: rgba(238, 72, 102, 0.3);
+  background-color: rgba(238, 72, 102, 0.15);
+  border-color: rgba(238, 72, 102, 0.3);
+}
+
+.btn-deletebatch:disabled:hover {
+  color: rgba(238, 72, 102, 0.3);
+  background-color: rgba(238, 72, 102, 0.15);
+  border-color: rgba(238, 72, 102, 0.3);
+
+}
+
+.btn-deletebatch:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(238, 72, 102);
+  border-color: rgb(238, 72, 102);
+}
+
+/* 导入按钮 青矾绿 qingfanlv*/
+.btn-import {
+  color: rgb(44, 150, 120);
+  background-color: rgba(44, 150, 120, 0.116);
+  border-color: rgb(44, 150, 120);
+}
+
+.btn-import:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(44, 150, 120);
+  border-color: rgb(44, 150, 120);
+}
+
+/* 导出按钮 桔梗紫 jiegengzi*/
+.btn-export {
+  color: rgb(129, 60, 133);
+  background-color: rgba(129, 60, 133, 0.116);
+  border-color: rgb(129, 60, 133);
+}
+
+.btn-export:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(129, 60, 133);
+  border-color: rgb(129, 60, 133);
+}
+
+
+
+/* 查看按钮 胆矾蓝 danfanlan*/
+.btn-view {
+  color: rgb(15, 149, 176);
+  background-color: rgba(15, 149, 176, 0.116);
+  border-color: rgb(15, 149, 176);
+}
+
+.btn-view:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(15, 149, 176);
+  border-color: rgb(15, 149, 176);
+}
+
+/* 清空按钮 陶瓷红 taocihong*/
+.btn-empty {
+  color: rgb(196, 90, 101);
+  background-color: rgba(196, 90, 101, 0.116);
+  border-color: rgb(196, 90, 101);
+}
+
+.btn-empty:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(196, 90, 101);
+  border-color: rgb(196, 90, 101);
+}
+
+/* 预览按钮 桔梗紫 jiegengzi*/
+.btn-preview {
+  color: rgb(129, 60, 133);
+  background-color: rgba(129, 60, 133, 0.116);
+  border-color: rgb(129, 60, 133);
+}
+
+.btn-preview:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(129, 60, 133);
+  border-color: rgb(129, 60, 133);
+}
+
+/* 信息按钮 月灰/yuehui*/
+.btn-infos {
+  color: rgb(183,174,143);
+  background-color: rgba(183,174,143, 0.116);
+  border-color: rgb(183,174,143);
+}
+
+.btn-infos:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(183,174,143);
+  border-color: rgb(183,174,143);
+}
+
+/* 代码生成按钮 翠蓝 cuilan*/
+.btn-generator {
+  color: rgb(104, 210, 232);
+  background-color: rgba(104, 210, 232, 0.116);
+  border-color: rgb(104, 210, 232);
+}
+
+.btn-generator:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(104, 210, 232);
+  border-color: rgb(104, 210, 232);
+}
+
+/* 刷新按钮 新禾绿 xinhelv*/
+.btn-refresh {
+  color: rgb(90, 178, 255);
+  background-color: rgba(90, 178, 255, 0.116);
+  border-color: rgb(90, 178, 255);
+}
+
+.btn-refresh:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(90, 178, 255);
+  border-color: rgb(90, 178, 255);
+}
+
+/* 更多按钮 野菊紫 yejuzi*/
+.btn-more {
+  color: rgb(82, 82, 136);
+  background-color: rgba(82, 82, 136, 0.116);
+  border-color: rgb(82, 82, 136);
+}
+
+.btn-more:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(82, 82, 136);
+  border-color: rgb(82, 82, 136);
+}
+/* 日志按钮 晨曦红/chenxihong*/
+.btn-log {
+  color: rgb(234,137,88);
+  background-color: rgba(234,137,88, 0.116);
+  border-color: rgb(234,137,88);
+}
+
+.btn-log:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(234,137,88);
+  border-color: rgb(234,137,88);
+}
+/* 停止按钮 松叶牡丹红/songyemudanhong#c21f30*/
+.btn-stop {
+  color: rgb(235,60,112);
+  background-color: rgba(235,60,112, 0.116);
+  border-color: rgb(235,60,112);
+}
+
+.btn-stop:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(235,60,112);
+  border-color: rgb(235,60,112);
+}
+/* 运行按钮 初荷红/chuhehong #e16c96/rgb(225,108,150)*/
+.btn-start {
+  color: rgb(225,108,150);
+  background-color: rgba(225,108,150, 0.116);
+  border-color: rgb(225,108,150);
+}
+
+.btn-start:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(225,108,150);
+  border-color: rgb(225,108,150);
+}
+/* forced强退按钮 尖晶玉红/JIANJINGYUHONG #cc163a/rgb(204,22,58)*/
+.btn-forced {
+  color: rgb(204,22,58);
+  background-color: rgba(204,22,58, 0.116);
+  border-color: rgb(204,22,58);
+}
+
+.btn-forced:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(204,22,58);
+  border-color: rgb(204,22,58);
+}
+/* chat消息按钮 酸橙绿/LimeGreen #32CD32/rgb(50,205,50)*/
+.btn-chat {
+  color: rgb(50,205,50);
+  background-color: rgba(50,205,50, 0.116);
+  border-color: rgb(50,205,50);
+}
+
+.btn-chat:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(50,205,50);
+  border-color: rgb(50,205,50);
+}
+/* copy复制按钮 青绿Turquoise #81D8CF/rgb(129,216,207)*/
+.btn-copy {
+  color: rgb(64,224,208);
+  background-color: rgba(64,224,208, 0.116);
+  border-color: rgb(64,224,208);
+}
+
+.btn-copy:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(64,224,208);
+  border-color: rgb(64,224,208);
+}
+/* down下载按钮 提香红Titian Red #B05923/RGB (176,89,35)*/
+.btn-down {
+  color: rgb(176,89,35);
+  background-color: rgba(176,89,35, 0.116);
+  border-color: rgb(176,89,35);
+}
+
+.btn-down:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(176,89,35);
+  border-color: rgb(176,89,35);
+}
+/* run运行按钮 马尔斯绿Mars Green #01847F/RGB (1,132,127)*/
+.btn-run {
+  color: rgb(1,132,127);
+  background-color: rgba(1,132,127, 0.116);
+  border-color: rgb(1,132,127);
+}
+
+.btn-run:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(1,132,127);
+  border-color: rgb(1,132,127);
+}
+/* pwd密码重置按钮 酡颜Tuó Yán #f9906f/RGB (249,144,111)*/
+.btn-pwd {
+  color: rgb(249,144,111);
+  background-color: rgba(249,144,111, 0.116);
+  border-color: rgb(249,144,111);
+}
+
+.btn-pwd:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(249,144,111);
+  border-color: rgb(249,144,111);
+}
+/* open打开按钮 普鲁士蓝 Prussian Blue #003152 RGB(0, 49, 82)*/
+.btn-open {
+  color: rgb(0, 49, 82);
+  background-color: rgba(0, 49, 82, 0.116);
+  border-color: rgb(0, 49, 82);
+}
+
+.btn-open:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(0, 49, 82);
+  border-color: rgb(0, 49, 82);
+}
+/* close关闭按钮 凡戴克粽 Vandyke Brown #8F4B28 RGB(143, 75, 40)*/
+.btn-close {
+  color: rgb(143, 75, 40);
+  background-color: rgba(143, 75, 40, 0.116);
+  border-color: rgb(143, 75, 40);
+}
+
+.btn-close:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(143, 75, 40);
+  border-color: rgb(143, 75, 40);
+}
+/* tag标签新增按钮 青色*/
+.el-tag--add {
+  color: rgb(64, 158, 255);
+  background-color: rgba(64, 158, 255, 0.116);
+  border-color: rgb(64, 158, 255);
+}
+
+.el-tag--delete:disabled {
+  color: rgba(64, 158, 255, 0.3);
+  background-color: rgba(64, 158, 255, 0.15);
+  border-color: rgba(64, 158, 255, 0.3);
+}
+
+.el-tag--delete:disabled:hover {
+  color: rgba(64, 158, 255, 0.3);
+  background-color: rgba(64, 158, 255, 0.15);
+  border-color: rgba(64, 158, 255, 0.3);
+
+}
+
+.el-tag--add:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(64, 158, 255);
+  border-color: rgb(64, 158, 255);
+}
+
+/* 编辑按钮 绿色*/
+.el-tag--edit {
+  color: rgb(103, 194, 58);
+  background-color: rgba(103, 194, 58, 0.116);
+  border-color: rgb(103, 194, 58);
+}
+
+.el-tag--edit:disabled {
+  color: rgba(103, 194, 58, 0.3);
+  background-color: rgba(103, 194, 58, 0.15);
+  border-color: rgba(103, 194, 58, 0.3);
+}
+
+.el-tag--edit:disabled:hover {
+  color: rgba(103, 194, 58, 0.3);
+  //color: rgb(237, 90, 101);
+  background-color: rgba(103, 194, 58, 0.15);
+  border-color: rgba(103, 194, 58, 0.3);
+
+}
+
+.el-tag--edit:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(103, 194, 58);
+  border-color: rgb(103, 194, 58);
+}
+
+/* 删除按钮 红色*/
+.el-tag--delete {
+  color: rgb(237, 90, 101);
+  background-color: rgba(237, 90, 101, 0.116);
+  border-color: rgb(237, 90, 101);
+}
+
+.el-tag--delete:disabled {
+  color: rgba(237, 90, 101, 0.3);
+  background-color: rgba(237, 90, 101, 0.15);
+  border-color: rgba(237, 90, 101, 0.3);
+}
+
+.el-tag--delete:disabled:hover {
+  color: rgba(237, 90, 101, 0.3);
+  background-color: rgba(237, 90, 101, 0.15);
+  border-color: rgba(237, 90, 101, 0.3);
+
+}
+
+.el-tag--delete:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(237, 90, 101);
+  border-color: rgb(237, 90, 101);
+}
+
+/* 批量删除按钮 淡蕊香红 danruixianghong*/
+.el-tag--deletebatch {
+  color: rgb(238, 72, 102);
+  background-color: rgba(238, 72, 102, 0.116);
+  border-color: rgb(238, 72, 102);
+}
+
+.el-tag--deletebatch:disabled {
+  color: rgba(238, 72, 102, 0.3);
+  background-color: rgba(238, 72, 102, 0.15);
+  border-color: rgba(238, 72, 102, 0.3);
+}
+
+.el-tag--deletebatch:disabled:hover {
+  color: rgba(238, 72, 102, 0.3);
+  background-color: rgba(238, 72, 102, 0.15);
+  border-color: rgba(238, 72, 102, 0.3);
+
+}
+
+.el-tag--deletebatch:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(238, 72, 102);
+  border-color: rgb(238, 72, 102);
+}
+
+/* 导入按钮 青矾绿 qingfanlv*/
+.el-tag--import {
+  color: rgb(44, 150, 120);
+  background-color: rgba(44, 150, 120, 0.116);
+  border-color: rgb(44, 150, 120);
+}
+
+.el-tag--import:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(44, 150, 120);
+  border-color: rgb(44, 150, 120);
+}
+
+/* 导出按钮 桔梗紫 jiegengzi*/
+.el-tag--export {
+  color: rgb(129, 60, 133);
+  background-color: rgba(129, 60, 133, 0.116);
+  border-color: rgb(129, 60, 133);
+}
+
+.el-tag--export:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(129, 60, 133);
+  border-color: rgb(129, 60, 133);
+}
+
+
+
+/* 查看按钮 胆矾蓝 danfanlan*/
+.el-tag--view {
+  color: rgb(15, 149, 176);
+  background-color: rgba(15, 149, 176, 0.116);
+  border-color: rgb(15, 149, 176);
+}
+
+.el-tag--view:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(15, 149, 176);
+  border-color: rgb(15, 149, 176);
+}
+
+/* 清空按钮 陶瓷红 taocihong*/
+.el-tag--empty {
+  color: rgb(196, 90, 101);
+  background-color: rgba(196, 90, 101, 0.116);
+  border-color: rgb(196, 90, 101);
+}
+
+.el-tag--empty:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(196, 90, 101);
+  border-color: rgb(196, 90, 101);
+}
+
+/* 预览按钮 桔梗紫 jiegengzi*/
+.el-tag--preview {
+  color: rgb(129, 60, 133);
+  background-color: rgba(129, 60, 133, 0.116);
+  border-color: rgb(129, 60, 133);
+}
+
+.el-tag--preview:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(129, 60, 133);
+  border-color: rgb(129, 60, 133);
+}
+
+/* 信息按钮 月灰/yuehui*/
+.el-tag--infos {
+  color: rgb(183,174,143);
+  background-color: rgba(183,174,143, 0.116);
+  border-color: rgb(183,174,143);
+}
+
+.el-tag--infos:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(183,174,143);
+  border-color: rgb(183,174,143);
+}
+
+/* 代码生成按钮 翠蓝 cuilan*/
+.el-tag--generator {
+  color: rgb(104, 210, 232);
+  background-color: rgba(104, 210, 232, 0.116);
+  border-color: rgb(104, 210, 232);
+}
+
+.el-tag--generator:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(104, 210, 232);
+  border-color: rgb(104, 210, 232);
+}
+
+/* 刷新按钮 新禾绿 xinhelv*/
+.el-tag--refresh {
+  color: rgb(90, 178, 255);
+  background-color: rgba(90, 178, 255, 0.116);
+  border-color: rgb(90, 178, 255);
+}
+
+.el-tag--refresh:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(90, 178, 255);
+  border-color: rgb(90, 178, 255);
+}
+
+/* 更多按钮 野菊紫 yejuzi*/
+.el-tag--more {
+  color: rgb(82, 82, 136);
+  background-color: rgba(82, 82, 136, 0.116);
+  border-color: rgb(82, 82, 136);
+}
+
+.el-tag--more:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(82, 82, 136);
+  border-color: rgb(82, 82, 136);
+}
+/* 日志按钮 晨曦红/chenxihong*/
+.el-tag--log {
+  color: rgb(234,137,88);
+  background-color: rgba(234,137,88, 0.116);
+  border-color: rgb(234,137,88);
+}
+
+.el-tag--log:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(234,137,88);
+  border-color: rgb(234,137,88);
+}
+/* 停止按钮 松叶牡丹红/songyemudanhong#c21f30*/
+.el-tag--stop {
+  color: rgb(235,60,112);
+  background-color: rgba(235,60,112, 0.116);
+  border-color: rgb(235,60,112);
+}
+
+.el-tag--stop:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(235,60,112);
+  border-color: rgb(235,60,112);
+}
+/* 运行按钮 初荷红/chuhehong #e16c96/rgb(225,108,150)*/
+.el-tag--start {
+  color: rgb(225,108,150);
+  background-color: rgba(225,108,150, 0.116);
+  border-color: rgb(225,108,150);
+}
+
+.el-tag--start:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(225,108,150);
+  border-color: rgb(225,108,150);
+}
+/* slider滑块新增按钮 青色*/
+.el-slider--add {
+  color: rgb(64, 158, 255);
+  background-color: rgba(64, 158, 255, 0.116);
+  border-color: rgb(64, 158, 255);
+}
+
+.el-slider--delete:disabled {
+  color: rgba(64, 158, 255, 0.3);
+  background-color: rgba(64, 158, 255, 0.15);
+  border-color: rgba(64, 158, 255, 0.3);
+}
+
+.el-slider--delete:disabled:hover {
+  color: rgba(64, 158, 255, 0.3);
+  background-color: rgba(64, 158, 255, 0.15);
+  border-color: rgba(64, 158, 255, 0.3);
+
+}
+
+.el-slider--add:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(64, 158, 255);
+  border-color: rgb(64, 158, 255);
+}
+
+/* 编辑按钮 绿色*/
+.el-slider--edit {
+  color: rgb(103, 194, 58);
+  background-color: rgba(103, 194, 58, 0.116);
+  border-color: rgb(103, 194, 58);
+}
+
+.el-slider--edit:disabled {
+  color: rgba(103, 194, 58, 0.3);
+  background-color: rgba(103, 194, 58, 0.15);
+  border-color: rgba(103, 194, 58, 0.3);
+}
+
+.el-slider--edit:disabled:hover {
+  color: rgba(103, 194, 58, 0.3);
+  //color: rgb(237, 90, 101);
+  background-color: rgba(103, 194, 58, 0.15);
+  border-color: rgba(103, 194, 58, 0.3);
+
+}
+
+.el-slider--edit:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(103, 194, 58);
+  border-color: rgb(103, 194, 58);
+}
+
+/* 删除按钮 红色*/
+.el-slider--delete {
+  color: rgb(237, 90, 101);
+  background-color: rgba(237, 90, 101, 0.116);
+  border-color: rgb(237, 90, 101);
+}
+
+.el-slider--delete:disabled {
+  color: rgba(237, 90, 101, 0.3);
+  background-color: rgba(237, 90, 101, 0.15);
+  border-color: rgba(237, 90, 101, 0.3);
+}
+
+.el-slider--delete:disabled:hover {
+  color: rgba(237, 90, 101, 0.3);
+  background-color: rgba(237, 90, 101, 0.15);
+  border-color: rgba(237, 90, 101, 0.3);
+
+}
+
+.el-slider--delete:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(237, 90, 101);
+  border-color: rgb(237, 90, 101);
+}
+
+/* 批量删除按钮 淡蕊香红 danruixianghong*/
+.el-slider--deletebatch {
+  color: rgb(238, 72, 102);
+  background-color: rgba(238, 72, 102, 0.116);
+  border-color: rgb(238, 72, 102);
+}
+
+.el-slider--deletebatch:disabled {
+  color: rgba(238, 72, 102, 0.3);
+  background-color: rgba(238, 72, 102, 0.15);
+  border-color: rgba(238, 72, 102, 0.3);
+}
+
+.el-slider--deletebatch:disabled:hover {
+  color: rgba(238, 72, 102, 0.3);
+  background-color: rgba(238, 72, 102, 0.15);
+  border-color: rgba(238, 72, 102, 0.3);
+
+}
+
+.el-slider--deletebatch:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(238, 72, 102);
+  border-color: rgb(238, 72, 102);
+}
+
+/* 导入按钮 青矾绿 qingfanlv*/
+.el-slider--import {
+  color: rgb(44, 150, 120);
+  background-color: rgba(44, 150, 120, 0.116);
+  border-color: rgb(44, 150, 120);
+}
+
+.el-slider--import:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(44, 150, 120);
+  border-color: rgb(44, 150, 120);
+}
+
+/* 导出按钮 桔梗紫 jiegengzi*/
+.el-slider--export {
+  color: rgb(129, 60, 133);
+  background-color: rgba(129, 60, 133, 0.116);
+  border-color: rgb(129, 60, 133);
+}
+
+.el-slider--export:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(129, 60, 133);
+  border-color: rgb(129, 60, 133);
+}
+
+
+
+/* 查看按钮 胆矾蓝 danfanlan*/
+.el-slider--view {
+  color: rgb(15, 149, 176);
+  background-color: rgba(15, 149, 176, 0.116);
+  border-color: rgb(15, 149, 176);
+}
+
+.el-slider--view:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(15, 149, 176);
+  border-color: rgb(15, 149, 176);
+}
+
+/* 清空按钮 陶瓷红 taocihong*/
+.el-slider--empty {
+  color: rgb(196, 90, 101);
+  background-color: rgba(196, 90, 101, 0.116);
+  border-color: rgb(196, 90, 101);
+}
+
+.el-slider--empty:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(196, 90, 101);
+  border-color: rgb(196, 90, 101);
+}
+
+/* 预览按钮 桔梗紫 jiegengzi*/
+.el-slider--preview {
+  color: rgb(129, 60, 133);
+  background-color: rgba(129, 60, 133, 0.116);
+  border-color: rgb(129, 60, 133);
+}
+
+.el-slider--preview:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(129, 60, 133);
+  border-color: rgb(129, 60, 133);
+}
+
+/* 信息按钮 月灰/yuehui*/
+.el-slider--infos {
+  color: rgb(183,174,143);
+  background-color: rgba(183,174,143, 0.116);
+  border-color: rgb(183,174,143);
+}
+
+.el-slider--infos:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(183,174,143);
+  border-color: rgb(183,174,143);
+}
+
+/* 代码生成按钮 翠蓝 cuilan*/
+.el-slider--generator {
+  color: rgb(104, 210, 232);
+  background-color: rgba(104, 210, 232, 0.116);
+  border-color: rgb(104, 210, 232);
+}
+
+.el-slider--generator:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(104, 210, 232);
+  border-color: rgb(104, 210, 232);
+}
+
+/* 刷新按钮 新禾绿 xinhelv*/
+.el-slider--refresh {
+  color: rgb(90, 178, 255);
+  background-color: rgba(90, 178, 255, 0.116);
+  border-color: rgb(90, 178, 255);
+}
+
+.el-slider--refresh:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(90, 178, 255);
+  border-color: rgb(90, 178, 255);
+}
+
+/* 更多按钮 野菊紫 yejuzi*/
+.el-slider--more {
+  color: rgb(82, 82, 136);
+  background-color: rgba(82, 82, 136, 0.116);
+  border-color: rgb(82, 82, 136);
+}
+
+.el-slider--more:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(82, 82, 136);
+  border-color: rgb(82, 82, 136);
+}
+/* 日志按钮 晨曦红/chenxihong*/
+.el-slider--log {
+  color: rgb(234,137,88);
+  background-color: rgba(234,137,88, 0.116);
+  border-color: rgb(234,137,88);
+}
+
+.el-slider--log:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(234,137,88);
+  border-color: rgb(234,137,88);
+}
+/* 停止按钮 松叶牡丹红/songyemudanhong#c21f30*/
+.el-slider--stop {
+  color: rgb(235,60,112);
+  background-color: rgba(235,60,112, 0.116);
+  border-color: rgb(235,60,112);
+}
+
+.el-slider--stop:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(235,60,112);
+  border-color: rgb(235,60,112);
+}
+/* 运行按钮 初荷红/chuhehong #e16c96/rgb(225,108,150)*/
+.el-slider--start {
+  color: rgb(225,108,150);
+  background-color: rgba(225,108,150, 0.116);
+  border-color: rgb(225,108,150);
+}
+
+.el-slider--start:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(225,108,150);
+  border-color: rgb(225,108,150);
+}
+/* switch开关新增按钮 青色*/
+.el-switch--add {
+  color: rgb(64, 158, 255);
+  background-color: rgba(64, 158, 255, 0.116);
+  border-color: rgb(64, 158, 255);
+}
+
+.el-switch--delete:disabled {
+  color: rgba(64, 158, 255, 0.3);
+  background-color: rgba(64, 158, 255, 0.15);
+  border-color: rgba(64, 158, 255, 0.3);
+}
+
+.el-switch--delete:disabled:hover {
+  color: rgba(64, 158, 255, 0.3);
+  background-color: rgba(64, 158, 255, 0.15);
+  border-color: rgba(64, 158, 255, 0.3);
+
+}
+
+.el-switch--add:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(64, 158, 255);
+  border-color: rgb(64, 158, 255);
+}
+
+/* 编辑按钮 绿色*/
+.el-switch--edit {
+  color: rgb(103, 194, 58);
+  background-color: rgba(103, 194, 58, 0.116);
+  border-color: rgb(103, 194, 58);
+}
+
+.el-switch--edit:disabled {
+  color: rgba(103, 194, 58, 0.3);
+  background-color: rgba(103, 194, 58, 0.15);
+  border-color: rgba(103, 194, 58, 0.3);
+}
+
+.el-switch--edit:disabled:hover {
+  color: rgba(103, 194, 58, 0.3);
+  //color: rgb(237, 90, 101);
+  background-color: rgba(103, 194, 58, 0.15);
+  border-color: rgba(103, 194, 58, 0.3);
+
+}
+
+.el-switch--edit:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(103, 194, 58);
+  border-color: rgb(103, 194, 58);
+}
+
+/* 删除按钮 红色*/
+.el-switch--delete {
+  color: rgb(237, 90, 101);
+  background-color: rgba(237, 90, 101, 0.116);
+  border-color: rgb(237, 90, 101);
+}
+
+.el-switch--delete:disabled {
+  color: rgba(237, 90, 101, 0.3);
+  background-color: rgba(237, 90, 101, 0.15);
+  border-color: rgba(237, 90, 101, 0.3);
+}
+
+.el-switch--delete:disabled:hover {
+  color: rgba(237, 90, 101, 0.3);
+  background-color: rgba(237, 90, 101, 0.15);
+  border-color: rgba(237, 90, 101, 0.3);
+
+}
+
+.el-switch--delete:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(237, 90, 101);
+  border-color: rgb(237, 90, 101);
+}
+
+/* 批量删除按钮 淡蕊香红 danruixianghong*/
+.el-switch--deletebatch {
+  color: rgb(238, 72, 102);
+  background-color: rgba(238, 72, 102, 0.116);
+  border-color: rgb(238, 72, 102);
+}
+
+.el-switch--deletebatch:disabled {
+  color: rgba(238, 72, 102, 0.3);
+  background-color: rgba(238, 72, 102, 0.15);
+  border-color: rgba(238, 72, 102, 0.3);
+}
+
+.el-switch--deletebatch:disabled:hover {
+  color: rgba(238, 72, 102, 0.3);
+  background-color: rgba(238, 72, 102, 0.15);
+  border-color: rgba(238, 72, 102, 0.3);
+
+}
+
+.el-switch--deletebatch:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(238, 72, 102);
+  border-color: rgb(238, 72, 102);
+}
+
+/* 导入按钮 青矾绿 qingfanlv*/
+.el-switch--import {
+  color: rgb(44, 150, 120);
+  background-color: rgba(44, 150, 120, 0.116);
+  border-color: rgb(44, 150, 120);
+}
+
+.el-switch--import:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(44, 150, 120);
+  border-color: rgb(44, 150, 120);
+}
+
+/* 导出按钮 桔梗紫 jiegengzi*/
+.el-switch--export {
+  color: rgb(129, 60, 133);
+  background-color: rgba(129, 60, 133, 0.116);
+  border-color: rgb(129, 60, 133);
+}
+
+.el-switch--export:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(129, 60, 133);
+  border-color: rgb(129, 60, 133);
+}
+
+
+
+/* 查看按钮 胆矾蓝 danfanlan*/
+.el-switch--view {
+  color: rgb(15, 149, 176);
+  background-color: rgba(15, 149, 176, 0.116);
+  border-color: rgb(15, 149, 176);
+}
+
+.el-switch--view:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(15, 149, 176);
+  border-color: rgb(15, 149, 176);
+}
+
+/* 清空按钮 陶瓷红 taocihong*/
+.el-switch--empty {
+  color: rgb(196, 90, 101);
+  background-color: rgba(196, 90, 101, 0.116);
+  border-color: rgb(196, 90, 101);
+}
+
+.el-switch--empty:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(196, 90, 101);
+  border-color: rgb(196, 90, 101);
+}
+
+/* 预览按钮 桔梗紫 jiegengzi*/
+.el-switch--preview {
+  color: rgb(129, 60, 133);
+  background-color: rgba(129, 60, 133, 0.116);
+  border-color: rgb(129, 60, 133);
+}
+
+.el-switch--preview:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(129, 60, 133);
+  border-color: rgb(129, 60, 133);
+}
+
+/* 信息按钮 月灰/yuehui*/
+.el-switch--infos {
+  color: rgb(183,174,143);
+  background-color: rgba(183,174,143, 0.116);
+  border-color: rgb(183,174,143);
+}
+
+.el-switch--infos:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(183,174,143);
+  border-color: rgb(183,174,143);
+}
+
+/* 代码生成按钮 翠蓝 cuilan*/
+.el-switch--generator {
+  color: rgb(104, 210, 232);
+  background-color: rgba(104, 210, 232, 0.116);
+  border-color: rgb(104, 210, 232);
+}
+
+.el-switch--generator:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(104, 210, 232);
+  border-color: rgb(104, 210, 232);
+}
+
+/* 刷新按钮 新禾绿 xinhelv*/
+.el-switch--refresh {
+  color: rgb(90, 178, 255);
+  background-color: rgba(90, 178, 255, 0.116);
+  border-color: rgb(90, 178, 255);
+}
+
+.el-switch--refresh:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(90, 178, 255);
+  border-color: rgb(90, 178, 255);
+}
+
+/* 更多按钮 野菊紫 yejuzi*/
+.el-switch--more {
+  color: rgb(82, 82, 136);
+  background-color: rgba(82, 82, 136, 0.116);
+  border-color: rgb(82, 82, 136);
+}
+
+.el-switch--more:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(82, 82, 136);
+  border-color: rgb(82, 82, 136);
+}
+/* 日志按钮 晨曦红/chenxihong*/
+.el-switch--log {
+  color: rgb(234,137,88);
+  background-color: rgba(234,137,88, 0.116);
+  border-color: rgb(234,137,88);
+}
+
+.el-switch--log:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(234,137,88);
+  border-color: rgb(234,137,88);
+}
+/* 停止按钮 松叶牡丹红/songyemudanhong#c21f30*/
+.el-switch--stop {
+  color: rgb(235,60,112);
+  background-color: rgba(235,60,112, 0.116);
+  border-color: rgb(235,60,112);
+}
+
+.el-switch--stop:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(235,60,112);
+  border-color: rgb(235,60,112);
+}
+/* 运行按钮 初荷红/chuhehong #e16c96/rgb(225,108,150)*/
+.el-switch--start {
+  color: rgb(225,108,150);
+  background-color: rgba(225,108,150, 0.116);
+  border-color: rgb(225,108,150);
+}
+
+.el-switch--start:hover {
+  color: rgb(246, 241, 248);
+  background-color: rgb(225,108,150);
+  border-color: rgb(225,108,150);
+}
+
+/* #01克莱因蓝Klein Blue #002FA7/RGB (0,47,167)*/
+/* # 02蒂芙尼蓝Tiffany Blue #81D8CF/RGB (129,216,207)*/
+/* # 03普鲁士蓝Prussian Blue #003152/RGB (0,49,82)*/
+/* # 04提香红Titian Red #B05923/RGB (176,89,35)*/
+/* #05中国红China Red #E60000/RGB (230,0,0)*/
+/* #06勃艮第红Burgundy Red #900021/RGB (144,0,33)*/
+/* #07申布伦黄Shenbulun Yellow #FBD26A/RGB(251,210,106)*/
+/* #08凡戴克粽Vandyke Brown #8F4B28/RGB (143,75,40)*/
+/* #09马尔斯绿Mars Green #01847F/RGB (1,132,127)*/
+/* #10只此青绿Turquoise #40E0D0/RGB(64,224,208)*/
+
+
+
+
+
+

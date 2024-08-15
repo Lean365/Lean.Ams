@@ -1,0 +1,29 @@
+{
+  "pmailtpl": {
+    "name": "模板名称",
+    "content": "模板内容"
+  },
+  "pmailsend": {
+    "fromName": "发送者",
+    "fromEmail": "发送邮箱",
+    "toName": "接收人",
+    "toEmails": "接收邮箱",
+    "subject": "主题",
+    "emailTpl": "模板",
+    "isSend": "是否立即送出",
+    "sendTime": "发送时间",
+    "htmlContent": "内容",
+    "sendMe": "发送自己",
+    "fileUrl": "附件",
+    "leastOneContact": "请至少保留一位联系人",
+    "unsuccessful": "未通过",
+    "upToLabels": "最多5个标签",
+    "validEmailAddress": "请输入有效的邮箱"
+  },
+  "pmailitem": {
+    "sendTime": "发送时间",
+    "Sent": "已发",
+    "unsent": "未发",
+    "sendResult": "发送结果"
+  }
+}

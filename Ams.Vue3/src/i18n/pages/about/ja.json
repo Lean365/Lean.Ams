@@ -1,0 +1,11 @@
+{
+  "pabout": {
+    "projectCurrentVersion": "現在のバージョン",
+    "projectDependencies": "依存関係",
+    "projectDevDependencies": "依存関係の開発",
+    "projectInfo": "リーンソフト--アジャイル生産管理(Lean365.Ams),フロントエンドとバックエンドの分離(.Net7.0 + Vue3.x)。",
+    "projectInformation": "Lean365情報",
+    "projectLastBulid": "最后更新日期",
+    "projectLicense": "著作権"
+  }
+}

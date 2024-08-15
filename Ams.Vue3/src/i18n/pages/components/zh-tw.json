@@ -1,0 +1,16 @@
+{
+  "pcomponents": {
+    "networkIcon": "網絡圖標",
+    "networkIconUrls": "網絡圖標路徑",
+    "loadFailed": "加載失敗",
+    "accessPath": "訪問路徑",
+    "uploadFile": "上傳文件",
+    "uploadType": "僅允許導入xlsx格式文件。",
+    "downloadTpl": "下載模板",
+    "importDataFailed": "導入數據失敗,原因：",
+    "showColumn": "顯隱列",
+    "hiddenSearch": "隱藏搜索",
+    "showSearch": "顯示搜索",
+    "showHidden": "顯示/隱藏"
+  }
+}

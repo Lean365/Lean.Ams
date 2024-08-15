@@ -1,0 +1,11 @@
+{
+  "pabout": {
+    "projectCurrentVersion": "Current version",
+    "projectDependencies": "Dependencies",
+    "projectDevDependencies": "devDependencies",
+    "projectInfo": "Lean soft--Agile Manufacturing System(Lean365.Ams), front-end and back-end separation (.Net7.0 + Vue3.x).",
+    "projectInformation": "Project Information",
+    "projectLastBulid": "Last Bulid Date",
+    "projectLicense": "License"
+  }
+}

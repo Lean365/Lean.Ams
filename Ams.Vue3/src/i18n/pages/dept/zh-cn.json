@@ -1,0 +1,13 @@
+{
+  "pdept": {
+    "parentDepartment": "上级部门",
+    "deptName": "部门名称",
+    "isStated": "状态",
+    "leader": "负责人",
+    "sort": "排序",
+    "phone": "联系电话",
+    "email": "邮箱",
+    "dept": "部门",
+    "deptMembership": "成员人数"
+  }
+}

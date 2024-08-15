@@ -1,0 +1,11 @@
+{
+  "pabout": {
+    "projectCurrentVersion": "當前版本",
+    "projectDependencies": "項目依賴",
+    "projectDevDependencies": "開發依賴",
+    "projectInfo": "靈蘭軟件--中小製造業敏捷生產管理系統(Lean365.Ams),(生產技術,管理手段，人力資源)前後端分離(Net70+Vue3x)",
+    "projectInformation": "項目信息",
+    "projectLastBulid": "最後更新日期",
+    "projectLicense": "版權"
+  }
+}

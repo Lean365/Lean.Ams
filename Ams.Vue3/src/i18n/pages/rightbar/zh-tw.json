@@ -1,0 +1,8 @@
+{
+  "prightbar": {
+    "showGridColumns": "顯示或隱藏數據列",
+    "showSearch": "顯示搜索欄",
+    "hideSearch": "隱藏搜索欄",
+    "pageRefresh": "刷新頁面"
+  }
+}

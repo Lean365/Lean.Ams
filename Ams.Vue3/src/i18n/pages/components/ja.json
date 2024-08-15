@@ -1,0 +1,16 @@
+{
+  "pcomponents": {
+    "networkIcon": "ネットアイコン",
+    "networkIconUrls": "ネットアイコン Url",
+    "loadFailed": "読込失敗",
+    "accessPath": "パスにアクセス",
+    "uploadFile": "アップロード",
+    "uploadType": "xlsx 形式のファイルのみ。",
+    "downloadTpl": "テンプレートをダウンロードする",
+    "importDataFailed": "インポート失敗。理由:",
+    "showColumn": "列非表示",
+    "hiddenSearch": "検索非表示",
+    "showSearch": "検索表示",
+    "showHidden": "表示/非表示"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "plang": {
+    "language": "Localization",
+    "languageKey": "TranslationKey",
+    "languageName": "value",
+    "languageContent": "content",
+    "showWay": "Show Way",
+    "arabic": "Arabe",
+    "russian": "Russe",
+    "spanish": "Espagnol",
+    "german": "Allemand",
+    "simplified": "Chinois (simplifié)",
+    "traditional": "Chinois traditionnel",
+    "japanese": "Japonais",
+    "korean": "Coréen",
+    "french": "Français",
+    "english": "English",
+    "langKeycontent": "Translation key,eg:message.title,menu.title",
+    "lang": "LocalizationLanguage"
+  }
+}

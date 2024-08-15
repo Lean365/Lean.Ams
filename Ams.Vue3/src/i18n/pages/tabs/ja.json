@@ -1,0 +1,23 @@
+{
+  "ptabs": {
+    "accounting": "会計",
+    "attachment": "添付ファイル",
+    "bank": "銀行",
+    "basicInfo": "基本情報",
+    "contact": "連絡先",
+    "content": "コンテンツ",
+    "customization": "カスタマイズ",
+    "depreciation": "減価償却",
+    "incoming": "IQC",
+    "onboarding": "オンボード",
+    "outgoing": "QA",
+    "oper": "作業関連",
+    "production": "生產",
+    "purchase": "購買",
+    "qualifications": "学歴",
+    "sales": "銷售",
+    "stocktaking": "棚卸",
+    "trade": "取引",
+    "warehouse": "在庫"
+  }
+}

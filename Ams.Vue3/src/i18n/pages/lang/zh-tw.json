@@ -1,0 +1,21 @@
+{
+  "plang": {
+    "language": "本地化",
+    "languageKey": "翻譯key",
+    "languageName": "翻譯值",
+    "languageContent": "翻譯內容",
+    "showWay": "顯示方式",
+    "arabic": "阿拉伯文",
+    "russian": "俄文",
+    "spanish": "西班牙文",
+    "german": "德文",
+    "simplified": "簡體中文",
+    "traditional": "繁體中文",
+    "japanese": "日文",
+    "korean": "韓文",
+    "french": "法文",
+    "english": "英文",
+    "langKeycontent": "翻譯key,eg:message.title,menu.title",
+    "lang": "本地化語言"
+  }
+}

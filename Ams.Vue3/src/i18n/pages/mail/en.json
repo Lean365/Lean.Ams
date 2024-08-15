@@ -1,0 +1,29 @@
+{
+  "pmailtpl": {
+    "name": "TemplateName",
+    "content": "TemplateContent"
+  },
+  "pmailsend": {
+    "fromName": "Sender",
+    "fromEmail": "Sender email",
+    "toName": "Recipient",
+    "toEmails": "Receiving email",
+    "subject": "Subject",
+    "emailTpl": "Template",
+    "isSend": "Is it sent immediately",
+    "sendTime": "SentTime",
+    "htmlContent": "Content",
+    "sendMe": "Send yourself",
+    "fileUrl": "Attachment",
+    "leastOneContact": "Please keep at least one contact",
+    "Unsuccessful": "Unsuccessful",
+    "upToLabels": "up to 5 tags",
+    "validEmailAddress": "Please enter a valid email address"
+  },
+  "pmailitem": {
+    "sendTime": "sendtime",
+    "Sent": "Sent",
+    "unsent": "Unsent",
+    "sendResult": "send result"
+  }
+}

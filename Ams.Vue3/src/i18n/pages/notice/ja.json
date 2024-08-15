@@ -1,0 +1,18 @@
+{
+  "pnotice": {
+    "none": "まだありません",
+    "noticeCenter": "コールセンター",
+    "notification": "お知らせ",
+    "announcement": "公告",
+    "notice": "お知らせ",
+    "noticeId": "ID",
+    "noticeTitle": "タイトル",
+    "noticeType": "タイプ",
+    "noticeFileUrl": "添付",
+    "noticeContent": "コンテンツ",
+    "isState": "状態",
+    "publisher": "発行者",
+    "displayTime": "表示時刻",
+    "noticeSend": "お知らせが送信されました"
+  }
+}

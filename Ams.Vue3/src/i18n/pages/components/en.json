@@ -1,0 +1,16 @@
+{
+  "pcomponents": {
+    "networkIcon": "Net Icon",
+    "networkIconUrls": "Net Icon Url",
+    "loadFailed": "Load Failed",
+    "accessPath": "Access path",
+    "uploadFile": "Upload file",
+    "uploadType": "Only xlsx format files.",
+    "downloadTpl": "Download Template",
+    "importDataFailed": "Import data failed due to:",
+    "showColumn": "Show/Hidden column",
+    "hiddenSearch": "Hidden search",
+    "showSearch": "Show search",
+    "showHidden": "Show/Hidden"
+  }
+}

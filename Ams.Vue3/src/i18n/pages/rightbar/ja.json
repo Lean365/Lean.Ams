@@ -1,0 +1,8 @@
+{
+  "prightbar": {
+    "showGridColumns": "列を表示または非表示",
+    "showSearch": "検索バーを表示する",
+    "hideSearch": "検索バーを非表示する",
+    "pageRefresh": "リフレッシュ"
+  }
+}

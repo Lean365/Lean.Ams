@@ -1,0 +1,10 @@
+{
+  "ppost": {
+    "post": "役職",
+    "postName": "役職名",
+    "postCode": "役職番号",
+    "postSort": "順番",
+    "postLevel": "職階",
+    "postMembership": "メンバーの数"
+  }
+}

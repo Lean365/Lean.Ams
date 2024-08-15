@@ -1,0 +1,37 @@
+{
+  "WelcomeMessage": {
+    "Morning": "Bonjour！",
+    "Forenoon": "Bonjour！",
+    "Noon": "Bonjour！",
+    "Afternoon": "Bon après - midi！",
+    "Night": "Bonsoir！"
+  },
+  "WelcomeContent": {
+    "ContentA": "🔸Il ne faut pas vendre la peau de l'ours avant de l'avoir tué.🔸",
+    "ContentB": "🔸Quand on parle du loup, on en voit la queue.🔸",
+    "ContentC": "🔸Il n'y a pas de petites économies.🔸",
+    "ContentD": "🔸Les conseilleurs ne sont pas les payeurs.🔸",
+    "ContentE": "🔸Tant va la cruche à l'eau qu'à la fin elle se casse.🔸",
+    "ContentF": "🔸Nul n'est prophète en son pays.🔸",
+    "ContentG": "🔸Plus on est de fous, plus on rit.🔸",
+    "ContentH": "🔸On ne peut pas être au four et au moulin.🔸",
+    "ContentI": "🔸Les chiens aboient, la caravane passe.🔸",
+    "ContentJ": "🔸Faute de grives, on mange des merles.🔸",
+    "ContentK": "🔸La fin justifie les moyens.🔸",
+    "ContentL": "🔸A cheval donné, on ne regarde pas les dents.🔸",
+    "ContentM": "🔸Les bons comptes font les bons amis.🔸",
+    "ContentN": "🔸Tout vient à point à qui sait attendre.🔸",
+    "ContentO": "🔸La valeur n'attend pas le nombre des années.🔸",
+    "ContentP": "🔸Deux précautions valent mieux qu'une.🔸",
+    "ContentQ": "🔸Un tiens vaut mieux que deux tu l'auras.🔸",
+    "ContentR": "🔸On ne tire pas sur l'ambulance.🔸",
+    "ContentS": "🔸Garder une poire pour la soif.🔸",
+    "ContentT": "🔸Il passera de l'eau sous les ponts.🔸",
+    "ContentU": "🔸Il vaut mieux s'adresser à Dieu qu'à ses saints.🔸",
+    "ContentV": "🔸22. Les chiens ne font pas des chats.🔸",
+    "ContentW": "🔸Il faut séparer le bon grain de l'ivraie.🔸",
+    "ContentX": "🔸A tout seigneur, tout honneur.🔸",
+    "ContentY": "🔸Tout ce qui brille n'est pas or.🔸",
+    "ContentZ": "🔸L'argent n'a pas d'odeur.🔸"
+  }
+}

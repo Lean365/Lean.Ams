@@ -1,0 +1,9 @@
+{
+  "pconfig": {
+    "configName": "Param name",
+    "configKey": "Param Key",
+    "configValue": "Param Value",
+    "configType": "Built-in",
+    "config": "parameter"
+  }
+}

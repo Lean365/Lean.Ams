@@ -1,0 +1,8 @@
+{
+  "prightbar": {
+    "showGridColumns": "Show or hide columns",
+    "showSearch": "Show Search",
+    "hideSearch": "Hidden Search",
+    "pageRefresh": "Refresh"
+  }
+}

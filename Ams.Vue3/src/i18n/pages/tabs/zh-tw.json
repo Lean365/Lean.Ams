@@ -1,0 +1,23 @@
+{
+  "ptabs": {
+    "accounting": "會計",
+    "attachment": "附文",
+    "bank": "银行",
+    "basicInfo": "基本",
+    "contact": "聯繫",
+    "content": "内容",
+    "customization": "自定義",
+    "depreciation": "折舊",
+    "incoming": "IQC",
+    "onboarding": "入職",
+    "outgoing": "QA",
+    "oper": "操作相關",
+    "production": "生產",
+    "purchase": "採購",
+    "qualifications": "學歷",
+    "sales": "銷售",
+    "stocktaking": "盤點",
+    "trade": "交易",
+    "warehouse": "庫存"
+  }
+}

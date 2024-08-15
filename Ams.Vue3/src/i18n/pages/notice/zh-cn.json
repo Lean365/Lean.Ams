@@ -1,0 +1,17 @@
+{
+  "pnotice": {
+    "none": "暂无",
+    "noticeCenter": "前往通知中心",
+    "notification": "通知",
+    "announcement": "公告",
+    "notice": "公告通知",
+    "noticeTitle": "公告标题",
+    "noticeType": "类型",
+    "noticeFileUrl": "附件",
+    "noticeContent": "内容",
+    "isState": "状态",
+    "publisher": "发布者",
+    "displayTime": "显示时间",
+    "noticeSend": "通知发送成功"
+  }
+}

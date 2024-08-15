@@ -1,0 +1,11 @@
+{
+  "pabout": {
+    "projectCurrentVersion": "当前版本",
+    "projectDependencies": "项目依赖",
+    "projectDevDependencies": "开发依赖",
+    "projectInfo": "灵兰软件--中小制造业敏捷生产管理系统(Lean365.Ams),(生产技术,管理手段，人力资源)前后端分离(Net70+Vue3x)",
+    "projectInformation": "项目信息",
+    "projectLastBulid": "最后更新日期",
+    "projectLicense": "版权"
+  }
+}

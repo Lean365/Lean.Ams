@@ -1,0 +1,18 @@
+{
+  "pnotice": {
+    "none": "None",
+    "noticeCenter": "Notification Center",
+    "notification": "Notification",
+    "announcement": "Announcement",
+    "notice": "Notice",
+    "noticeId": "ID",
+    "noticeTitle": "Title",
+    "noticeType": "Type",
+    "noticeFileUrl": "Annexes",
+    "noticeContent": "Content",
+    "isState": "State",
+    "publisher": "Publisher",
+    "displayTime": "Display Time",
+    "noticeSend": "Notification sent successfully"
+  }
+}

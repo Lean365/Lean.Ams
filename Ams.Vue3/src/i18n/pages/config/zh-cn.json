@@ -1,0 +1,9 @@
+{
+  "pconfig": {
+    "configName": "参数名称",
+    "configKey": "参数键名",
+    "configValue": "参数键值",
+    "configType": "系统内置",
+    "config": "参数"
+  }
+}

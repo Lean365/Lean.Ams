@@ -1,0 +1,23 @@
+{
+  "ptabs": {
+    "accounting": "Accounting",
+    "attachment": "Annex",
+    "bank": "Bank",
+    "basicInfo": "Basic",
+    "contact": "Contact",
+    "content": "Content",
+    "customization": "Customization",
+    "depreciation": "Depreciation",
+    "incoming": "IQC",
+    "onboarding": "Onboarding",
+    "outgoing": "QA",
+    "oper": "Operation",
+    "production": "Production",
+    "purchase": "Purchasing",
+    "qualifications": "Qualifications",
+    "sales": "Sales",
+    "stocktaking": "Stocktaking",
+    "trade": "Trade",
+    "warehouse": "Storage"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "ppost": {
+    "post": "崗位",
+    "postName": "名稱",
+    "postCode": "編碼",
+    "postSort": "排序",
+    "postLevel": "職級",
+    "postMembership": "成員人數"
+  }
+}

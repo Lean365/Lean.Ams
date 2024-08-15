@@ -1,0 +1,23 @@
+{
+  "ptabs": {
+    "accounting": "会计",
+    "attachment": "附件",
+    "bank": "银行",
+    "basicInfo": "基本",
+    "contact": "联系",
+    "content": "内容",
+    "customization": "自定义",
+    "depreciation": "折旧信息",
+    "incoming": "IQC",
+    "onboarding": "入职",
+    "outgoing": "QA",
+    "oper": "操作相关",
+    "production": "生产",
+    "purchase": "采购",
+    "qualifications": "学历",
+    "sales": "销售",
+    "stocktaking": "盘点信息",
+    "trade": "交易",
+    "warehouse": "库存"
+  }
+}

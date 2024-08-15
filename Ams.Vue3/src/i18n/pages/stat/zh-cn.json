@@ -1,0 +1,16 @@
+{
+  "pstat": {
+    "monthOph": "OPH月报",
+    "monthLineOph": "OPH月报-班组",
+    "monthModelOph": "OPH月报-机种",
+    "monthTime": "月度工数",
+    "monthDef": "不良集计",
+    "monthEc": "月度设变",
+    "monthSales": "月度销售",
+    "yearOph": "OPH年报",
+    "yearLineOph": "OPH年报-班组",
+    "yearModelOph": "OPH年报-机种",
+    "yearEc": "年度设变",
+    "yearSales": "年度销售"
+  }
+}

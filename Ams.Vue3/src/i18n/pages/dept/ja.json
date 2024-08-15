@@ -1,0 +1,13 @@
+{
+  "pdept": {
+    "parentDepartment": "親部門",
+    "deptName": "部署名",
+    "isStated": "ステータス",
+    "leader": "リーダー",
+    "sort": "並べ替え",
+    "phone": "連絡先番号",
+    "email": "電子メール",
+    "dept": "部門",
+    "deptMembership": "メンバーの数"
+  }
+}
