@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Routine
     /// 薪资
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:32:33
+    /// @Date: 2024/9/12 15:20:02
     /// </summary>
     [Verify]
     [Route("Routine/RoutineEhrPayroll")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Routine
         /// <summary>
         /// 查询薪资详情
         /// </summary>
-        /// <param name="EeSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{EeSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "routine:ehrpayroll:query")]
-        public IActionResult GetRoutineEhrPayroll(long EeSfId)
+        public IActionResult GetRoutineEhrPayroll(int Id)
         {
-            var response = _RoutineEhrPayrollService.GetInfo(EeSfId);
+            var response = _RoutineEhrPayrollService.GetInfo(Id);
             
             var info = response.Adapt<RoutineEhrPayrollDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "routine:ehrpayroll:add")]
-        [Log(Title = "薪资", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "薪资", BusinessType = BusinessType.ADD)]
         public IActionResult AddRoutineEhrPayroll([FromBody] RoutineEhrPayrollDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_RoutineEhrPayrollService.CheckInputUnique(parm.EeSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_RoutineEhrPayrollService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增薪资 '{parm.EeSfId}'失败(Add failed)，输入的薪资已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增薪资 '{parm.Id}'失败(Add failed)，输入的薪资已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<RoutineEhrPayroll>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "routine:ehrpayroll:edit")]
-        [Log(Title = "薪资", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "薪资", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateRoutineEhrPayroll([FromBody] RoutineEhrPayrollDto parm)
         {
             var modal = parm.Adapt<RoutineEhrPayroll>().ToUpdate(HttpContext);
@@ -103,7 +103,7 @@ namespace Ams.WebApi.Controllers.Routine
         [Log(Title = "薪资", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteRoutineEhrPayroll([FromRoute]string ids)
         {
-            var idArr = Tools.SplitAndConvert<long>(ids);
+            var idArr = Tools.SplitAndConvert<int>(ids);
 
             return ToResponse(_RoutineEhrPayrollService.Delete(idArr, "删除薪资"));
         }
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// 导出薪资
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "薪资", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "薪资导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "routine:ehrpayroll:export")]
         public IActionResult Export([FromQuery] RoutineEhrPayrollQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 导入
+        /// 导入薪资
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "薪资导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "routine:ehrpayroll:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<RoutineEhrPayrollDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 薪资导入模板下载
+        /// 薪资
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "薪资模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<RoutineEhrPayrollImportTpl>() { }, "RoutineEhrPayroll_tpl");
             return ExportExcel(result.Item2, result.Item1);

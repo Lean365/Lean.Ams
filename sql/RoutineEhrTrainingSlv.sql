@@ -47,16 +47,16 @@ INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create
 VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrtrainingslv', 'FR_培训', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrtrainingslv', 'KO_培训', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ko', 'menu.routine.ehrtrainingslv', 'KO_培训', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrtrainingslv', 'AR_培训', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ar', 'menu.routine.ehrtrainingslv', 'AR_培训', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrtrainingslv', 'RU_培训', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ru', 'menu.routine.ehrtrainingslv', 'RU_培训', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrtrainingslv', 'DE_培训', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'de', 'menu.routine.ehrtrainingslv', 'DE_培训', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrtrainingslv', 'ES_培训', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'es', 'menu.routine.ehrtrainingslv', 'ES_培训', 'Lean365', GETDATE());

@@ -8,10 +8,10 @@ using MiniExcelLibs;
 namespace Ams.WebApi.Controllers.Accounting
 {
     /// <summary>
-    /// 汇率表
+    /// 币种汇率
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/5 16:43:18
+    /// @Date: 2024/9/10 16:52:45
     /// </summary>
     [Verify]
     [Route("Accounting/FicoExchangeRate")]
@@ -19,7 +19,7 @@ namespace Ams.WebApi.Controllers.Accounting
     public class FicoExchangeRateController : BaseController
     {
         /// <summary>
-        /// 汇率表接口
+        /// 币种汇率接口
         /// </summary>
         private readonly IFicoExchangeRateService _FicoExchangeRateService;
 
@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 查询汇率表列表
+        /// 查询币种汇率列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -43,34 +43,34 @@ namespace Ams.WebApi.Controllers.Accounting
 
 
         /// <summary>
-        /// 查询汇率表详情
+        /// 查询币种汇率详情
         /// </summary>
-        /// <param name="FerSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{FerSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "fico:exchangerate:query")]
-        public IActionResult GetFicoExchangeRate(long FerSfId)
+        public IActionResult GetFicoExchangeRate(long Id)
         {
-            var response = _FicoExchangeRateService.GetInfo(FerSfId);
+            var response = _FicoExchangeRateService.GetInfo(Id);
             
             var info = response.Adapt<FicoExchangeRateDto>();
             return SUCCESS(info);
         }
 
         /// <summary>
-        /// 添加汇率表
+        /// 添加币种汇率
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "fico:exchangerate:add")]
-        [Log(Title = "汇率表", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "币种汇率", BusinessType = BusinessType.ADD)]
         public IActionResult AddFicoExchangeRate([FromBody] FicoExchangeRateDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoExchangeRateService.CheckInputUnique(parm.FerSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoExchangeRateService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增汇率表 '{parm.FerSfId}'失败(Add failed)，输入的汇率表已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增币种汇率 '{parm.Id}'失败(Add failed)，输入的币种汇率已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoExchangeRate>().ToCreate(HttpContext);
 
@@ -80,12 +80,12 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 更新汇率表
+        /// 更新币种汇率
         /// </summary>
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "fico:exchangerate:edit")]
-        [Log(Title = "汇率表", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "币种汇率", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateFicoExchangeRate([FromBody] FicoExchangeRateDto parm)
         {
             var modal = parm.Adapt<FicoExchangeRate>().ToUpdate(HttpContext);
@@ -95,24 +95,24 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 删除汇率表
+        /// 删除币种汇率
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "fico:exchangerate:delete")]
-        [Log(Title = "汇率表", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "币种汇率", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteFicoExchangeRate([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
-            return ToResponse(_FicoExchangeRateService.Delete(idArr, "删除汇率表"));
+            return ToResponse(_FicoExchangeRateService.Delete(idArr, "删除币种汇率"));
         }
 
         /// <summary>
-        /// 导出汇率表
+        /// 导出币种汇率
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "汇率表", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "币种汇率导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "fico:exchangerate:export")]
         public IActionResult Export([FromQuery] FicoExchangeRateQueryDto parm)
@@ -124,19 +124,19 @@ namespace Ams.WebApi.Controllers.Accounting
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "汇率表", "汇率表");
+            var result = ExportExcelMini(list, "币种汇率", "币种汇率");
             return ExportExcel(result.Item2, result.Item1);
         }
 
         /// <summary>
-        /// 导入
+        /// 导入币种汇率
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
-        [Log(Title = "汇率表导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
+      [HttpPost("importData")]
+        [Log(Title = "币种汇率导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "fico:exchangerate:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<FicoExchangeRateDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 汇率表导入模板下载
+        /// 币种汇率
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
-        [Log(Title = "汇率表模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "币种汇率模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<FicoExchangeRateImportTpl>() { }, "FicoExchangeRate_tpl");
             return ExportExcel(result.Item2, result.Item1);

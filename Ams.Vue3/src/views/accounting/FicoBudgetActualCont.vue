@@ -1,8 +1,8 @@
 <!--
  * @Descripttion: 实际对比/fico_budget_actual_cont
- * @Version: 1.0.0.0
+ * @Version: 0.24.619.25246
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/8/9 11:50:08
+ * @Date: 2024/9/10 14:38:54
  * @column：38
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
@@ -12,51 +12,37 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="期间" prop="fbLfgja">
-        <el-select filterable clearable   v-model="queryParams.fbLfgja" :placeholder="$t('btn.selectSearchPrefix')+'期间'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_fy_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="期间" prop="me002">
+        <el-select filterable clearable   v-model="queryParams.me002" :placeholder="$t('btn.selectSearchPrefix')+'期间'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_attr_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="年月" prop="fbLfmon">
-        <el-select filterable clearable   v-model="queryParams.fbLfmon" :placeholder="$t('btn.selectSearchPrefix')+'年月'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_ym_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="年月" prop="me003">
+        <el-select filterable clearable   v-model="queryParams.me003" :placeholder="$t('btn.selectSearchPrefix')+'年月'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_ymdt_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="公司代码" prop="fbBukrs">
-        <el-select filterable clearable   v-model="queryParams.fbBukrs" :placeholder="$t('btn.selectSearchPrefix')+'公司代码'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_crop_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="公司代码" prop="me004">
+        <el-select filterable clearable   v-model="queryParams.me004" :placeholder="$t('btn.selectSearchPrefix')+'公司代码'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_corp_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="统计类别" prop="fbStatyp">
-        <el-select filterable clearable   v-model="queryParams.fbStatyp" :placeholder="$t('btn.selectSearchPrefix')+'统计类别'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_stat_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="币种" prop="me009">
+        <el-select filterable clearable   v-model="queryParams.me009" :placeholder="$t('btn.selectSearchPrefix')+'币种'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_global_currency " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="成本科目" prop="fbKtosl">
-        <el-input v-model="queryParams.fbKtosl" :placeholder="$t('btn.enterSearchPrefix')+'成本科目'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="成本分类" prop="fbKotyp">
-        <el-select filterable clearable   v-model="queryParams.fbKotyp" :placeholder="$t('btn.selectSearchPrefix')+'成本分类'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_costs_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="科目代码" prop="fbKonto">
-        <el-input v-model="queryParams.fbKonto" :placeholder="$t('btn.enterSearchPrefix')+'科目代码'+$t('btn.enterSearchSuffix')" />
       </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
@@ -120,44 +106,36 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="fbSfId" label="ID" align="center" v-if="columns.showColumn('fbSfId')"/>
-      <el-table-column prop="fbLfgja" label="期间" align="center" v-if="columns.showColumn('fbLfgja')">
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
+      <el-table-column prop="me002" label="期间" align="center" v-if="columns.showColumn('me002')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_fy_list " :value="scope.row.fbLfgja"  />
+          <dict-tag :options=" options.sql_attr_list " :value="scope.row.me002"  />
         </template>
       </el-table-column>
-      <el-table-column prop="fbLfmon" label="年月" align="center" v-if="columns.showColumn('fbLfmon')">
+      <el-table-column prop="me003" label="年月" align="center" v-if="columns.showColumn('me003')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_ym_list " :value="scope.row.fbLfmon"  />
+          <dict-tag :options=" options.sql_ymdt_list " :value="scope.row.me003"  />
         </template>
       </el-table-column>
-      <el-table-column prop="fbBukrs" label="公司代码" align="center" v-if="columns.showColumn('fbBukrs')">
+      <el-table-column prop="me004" label="公司代码" align="center" v-if="columns.showColumn('me004')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_crop_list " :value="scope.row.fbBukrs"  />
+          <dict-tag :options=" options.sql_corp_list " :value="scope.row.me004"  />
         </template>
       </el-table-column>
-      <el-table-column prop="fbStatyp" label="统计类别" align="center" v-if="columns.showColumn('fbStatyp')">
+      <el-table-column prop="me005" label="统计类别" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('me005')"/>
+      <el-table-column prop="me006" label="成本科目" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('me006')"/>
+      <el-table-column prop="me007" label="成本分类" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('me007')"/>
+      <el-table-column prop="me008" label="科目代码" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('me008')"/>
+      <el-table-column prop="me009" label="币种" align="center" v-if="columns.showColumn('me009')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_stat_type " :value="scope.row.fbStatyp"  />
+          <dict-tag :options=" options.sql_global_currency " :value="scope.row.me009"  />
         </template>
       </el-table-column>
-      <el-table-column prop="fbKtosl" label="成本科目" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbKtosl')"/>
-      <el-table-column prop="fbKotyp" label="成本分类" align="center" v-if="columns.showColumn('fbKotyp')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_costs_type " :value="scope.row.fbKotyp"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="fbKonto" label="科目代码" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbKonto')"/>
-      <el-table-column prop="fbWerks" label="币种" align="center" v-if="columns.showColumn('fbWerks')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_ccy_type " :value="scope.row.fbWerks"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="fbAnval" label="预算" align="center" v-if="columns.showColumn('fbAnval')"/>
-      <el-table-column prop="fbDmist" label="实际" align="center" v-if="columns.showColumn('fbDmist')"/>
-      <el-table-column prop="fbBfaac" label="差异" align="center" v-if="columns.showColumn('fbBfaac')"/>
-      <el-table-column prop="fbPresp" label="核算人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbPresp')"/>
-      <el-table-column prop="fbZkdat" label="核算日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('fbZkdat')"/>
+      <el-table-column prop="me010" label="预算" align="center" v-if="columns.showColumn('me010')"/>
+      <el-table-column prop="me011" label="实际" align="center" v-if="columns.showColumn('me011')"/>
+      <el-table-column prop="me012" label="差异" align="center" v-if="columns.showColumn('me012')"/>
+      <el-table-column prop="me013" label="核算人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('me013')"/>
+      <el-table-column prop="me014" label="核算日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('me014')"/>
       <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
@@ -178,10 +156,10 @@
         <el-row :gutter="20">
 
           <el-col :lg="12">
-            <el-form-item label="期间" prop="fbLfgja">
-              <el-select filterable clearable   v-model="form.fbLfgja"  :placeholder="$t('btn.selectPrefix')+'期间'+$t('btn.selectSuffix')">
+            <el-form-item label="期间" prop="me002">
+              <el-select filterable clearable   v-model="form.me002"  :placeholder="$t('btn.selectPrefix')+'期间'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_fy_list" 
+                  v-for="item in  options.sql_attr_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -191,10 +169,10 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="年月" prop="fbLfmon">
-              <el-select filterable clearable   v-model="form.fbLfmon"  :placeholder="$t('btn.selectPrefix')+'年月'+$t('btn.selectSuffix')">
+            <el-form-item label="年月" prop="me003">
+              <el-select filterable clearable   v-model="form.me003"  :placeholder="$t('btn.selectPrefix')+'年月'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_ym_list" 
+                  v-for="item in  options.sql_ymdt_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -204,10 +182,10 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="公司代码" prop="fbBukrs">
-              <el-select filterable clearable   v-model="form.fbBukrs"  :placeholder="$t('btn.selectPrefix')+'公司代码'+$t('btn.selectSuffix')">
+            <el-form-item label="公司代码" prop="me004">
+              <el-select filterable clearable   v-model="form.me004"  :placeholder="$t('btn.selectPrefix')+'公司代码'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sys_crop_list" 
+                  v-for="item in  options.sql_corp_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -217,10 +195,34 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="统计类别" prop="fbStatyp">
-              <el-select filterable clearable   v-model="form.fbStatyp"  :placeholder="$t('btn.selectPrefix')+'统计类别'+$t('btn.selectSuffix')">
+            <el-form-item label="统计类别" prop="me005">
+              <el-input   v-model="form.me005" :placeholder="$t('btn.enterPrefix')+'统计类别'+$t('btn.enterSuffix')"  show-word-limit   maxlength="4"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="成本科目" prop="me006">
+              <el-input   v-model="form.me006" :placeholder="$t('btn.enterPrefix')+'成本科目'+$t('btn.enterSuffix')"  show-word-limit   maxlength="10"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="成本分类" prop="me007">
+              <el-input   v-model="form.me007" :placeholder="$t('btn.enterPrefix')+'成本分类'+$t('btn.enterSuffix')"  show-word-limit   maxlength="1"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="科目代码" prop="me008">
+              <el-input   v-model="form.me008" :placeholder="$t('btn.enterPrefix')+'科目代码'+$t('btn.enterSuffix')"  show-word-limit   maxlength="10"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="币种" prop="me009">
+              <el-select filterable clearable   v-model="form.me009"  :placeholder="$t('btn.selectPrefix')+'币种'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sys_stat_type" 
+                  v-for="item in  options.sql_global_currency" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -230,70 +232,32 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="成本科目" prop="fbKtosl">
-              <el-input v-model="form.fbKtosl" :placeholder="$t('btn.enterPrefix')+'成本科目'+$t('btn.enterSuffix')"  show-word-limit maxlength="10"/>
+            <el-form-item label="预算" prop="me010">
+              <el-input-number v-model.number="form.me010" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预算'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="成本分类" prop="fbKotyp">
-              <el-select filterable clearable   v-model="form.fbKotyp"  :placeholder="$t('btn.selectPrefix')+'成本分类'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sys_costs_type" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :lg="12">
-            <el-form-item label="科目代码" prop="fbKonto">
-              <el-input v-model="form.fbKonto" :placeholder="$t('btn.enterPrefix')+'科目代码'+$t('btn.enterSuffix')"  show-word-limit maxlength="10"/>
+            <el-form-item label="实际" prop="me011">
+              <el-input-number v-model.number="form.me011" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'实际'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="币种" prop="fbWerks">
-              <el-select filterable clearable   v-model="form.fbWerks"  :placeholder="$t('btn.selectPrefix')+'币种'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sys_ccy_type" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :lg="12">
-            <el-form-item label="预算" prop="fbAnval">
-              <el-input-number v-model.number="form.fbAnval" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预算'+$t('btn.enterSuffix')" />
+            <el-form-item label="差异" prop="me012">
+              <el-input-number v-model.number="form.me012" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'差异'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="实际" prop="fbDmist">
-              <el-input-number v-model.number="form.fbDmist" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'实际'+$t('btn.enterSuffix')" />
+            <el-form-item label="核算人员" prop="me013">
+              <el-input   v-model="form.me013" :placeholder="$t('btn.enterPrefix')+'核算人员'+$t('btn.enterSuffix')"  show-word-limit   maxlength="10"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="差异" prop="fbBfaac">
-              <el-input-number v-model.number="form.fbBfaac" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'差异'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="核算人员" prop="fbPresp">
-              <el-input v-model="form.fbPresp" :placeholder="$t('btn.enterPrefix')+'核算人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="10"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="核算日期" prop="fbZkdat">
-              <el-date-picker v-model="form.fbZkdat" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="核算日期" prop="me014">
+              <el-date-picker v-model="form.me014" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
@@ -411,39 +375,33 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: 'FbLfmon',
+  sort: 'Me003',
   sortType: 'desc',
-//是否查询（1是）
-  fbLfgja: undefined,
-//是否查询（1是）
-  fbLfmon: undefined,
-//是否查询（1是）
-  fbBukrs: undefined,
-//是否查询（1是）
-  fbStatyp: undefined,
-//是否查询（1是）
-  fbKtosl: undefined,
-//是否查询（1是）
-  fbKotyp: undefined,
-//是否查询（1是）
-  fbKonto: undefined,
+  //是否查询（1是）
+  me002: undefined,
+  //是否查询（1是）
+  me003: undefined,
+  //是否查询（1是）
+  me004: undefined,
+  //是否查询（1是）
+  me009: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'fbSfId', label: 'ID' },
-  { visible: true, prop: 'fbLfgja', label: '期间' },
-  { visible: true, prop: 'fbLfmon', label: '年月' },
-  { visible: true, prop: 'fbBukrs', label: '公司代码' },
-  { visible: true, prop: 'fbStatyp', label: '统计类别' },
-  { visible: true, prop: 'fbKtosl', label: '成本科目' },
-  { visible: true, prop: 'fbKotyp', label: '成本分类' },
-  { visible: true, prop: 'fbKonto', label: '科目代码' },
-  { visible: false, prop: 'fbWerks', label: '币种' },
-  { visible: false, prop: 'fbAnval', label: '预算' },
-  { visible: false, prop: 'fbDmist', label: '实际' },
-  { visible: false, prop: 'fbBfaac', label: '差异' },
-  { visible: false, prop: 'fbPresp', label: '核算人员' },
-  { visible: false, prop: 'fbZkdat', label: '核算日期' },
+  { visible: true, prop: 'id', label: 'ID' },
+  { visible: true, prop: 'me002', label: '期间' },
+  { visible: true, prop: 'me003', label: '年月' },
+  { visible: true, prop: 'me004', label: '公司代码' },
+  { visible: true, prop: 'me005', label: '统计类别' },
+  { visible: true, prop: 'me006', label: '成本科目' },
+  { visible: true, prop: 'me007', label: '成本分类' },
+  { visible: true, prop: 'me008', label: '科目代码' },
+  { visible: false, prop: 'me009', label: '币种' },
+  { visible: false, prop: 'me010', label: '预算' },
+  { visible: false, prop: 'me011', label: '实际' },
+  { visible: false, prop: 'me012', label: '差异' },
+  { visible: false, prop: 'me013', label: '核算人员' },
+  { visible: false, prop: 'me014', label: '核算日期' },
   { visible: false, prop: 'remark', label: '备注说明' },
 ])
 // 记录数
@@ -457,13 +415,10 @@ const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23,
 
 //字典参数
 var dictParams = [
-  { dictType: "sql_fy_list" },
-  { dictType: "sql_ym_list" },
-  { dictType: "sys_crop_list" },
-  { dictType: "sys_stat_type" },
-  { dictType: "sys_costs_type" },
-  { dictType: "sys_ccy_type" },
-  { dictType: "sys_is_deleted" },
+  { dictType: "sql_attr_list" },
+  { dictType: "sql_ymdt_list" },
+  { dictType: "sql_corp_list" },
+  { dictType: "sql_global_currency" },
 ]
 
 //字典加载
@@ -498,7 +453,7 @@ function resetQuery(){
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.fbSfId);
+  ids.value = selection.map((item) => item.id);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -533,24 +488,36 @@ const state = reactive({
   single: true,
   multiple: true,
   form: {},
+//正则表达式
   rules: {
-    fbSfId: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
+    id: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
+    me002: [{ required: true, message: "期间"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    me003: [{ required: true, message: "年月"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    me004: [{ required: true, message: "公司代码"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    me009: [{ required: true, message: "币种"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    me010: [{ required: true, message: "预算"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    me011: [{ required: true, message: "实际"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    me012: [{ required: true, message: "差异"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ref04: [{ required: true, message: "预留1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ref05: [{ required: true, message: "预留2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ref06: [{ required: true, message: "预留3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    udf51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    udf52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    udf53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    udf54: [{ required: true, message: "自定义4"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    udf55: [{ required: true, message: "自定义5"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    udf56: [{ required: true, message: "自定义6"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
   },
+//字典名称
   options: {
     // 期间 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_fy_list: [],
+sql_attr_list: [],
     // 年月 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_ym_list: [],
+sql_ymdt_list: [],
     // 公司代码 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_crop_list: [],
-    // 统计类别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_stat_type: [],
-    // 成本分类 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_costs_type: [],
+sql_corp_list: [],
     // 币种 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_ccy_type: [],
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_deleted: [],
+sql_global_currency: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -565,44 +532,20 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    fbSfId: 0,
-    fbLfgja: null,
-    fbLfmon: null,
-    fbBukrs: null,
-    fbStatyp: null,
-    fbKtosl: null,
-    fbKotyp: null,
-    fbKonto: null,
-    fbWerks: null,
-    fbAnval: 0,
-    fbDmist: 0,
-    fbBfaac: 0,
-    fbPresp: null,
-    fbZkdat: null,
-    rEF01: null,
-    rEF02: null,
-    rEF03: null,
-    rEF04: 0,
-    rEF05: 0,
-    rEF06: 0,
-    uDF01: null,
-    uDF02: null,
-    uDF03: null,
-    uDF04: null,
-    uDF05: null,
-    uDF06: null,
-    uDF51: 0,
-    uDF52: 0,
-    uDF53: 0,
-    uDF54: 0,
-    uDF55: 0,
-    uDF56: 0,
-    isDeleted: 0,
+    me002: [],
+    me003: [],
+    me004: [],
+    me005: null,
+    me006: null,
+    me007: null,
+    me008: null,
+    me009: [],
+    me010: 0,
+    me011: 0,
+    me012: 0,
+    me013: null,
+    me014: null,
     remark: null,
-    createBy: null,
-    createTime: null,
-    updateBy: null,
-    updateTime: null,
   };
   proxy.resetForm("formRef")
 }
@@ -614,21 +557,19 @@ function handleAdd() {
   open.value = true
   title.value = proxy.$t('btn.add')+" "+'实际对比'
   opertype.value = 1
-  form.value.fbLfgja= []
-  form.value.fbLfmon= []
-  form.value.fbBukrs= []
-  form.value.fbStatyp= []
-  form.value.fbKotyp= []
-  form.value.fbWerks= []
-  form.value.fbAnval= 0
-  form.value.fbDmist= 0
-  form.value.fbBfaac= 0
-  form.value.fbZkdat= new Date()
+  form.value.me002= []
+  form.value.me003= []
+  form.value.me004= []
+  form.value.me009= []
+  form.value.me010= 0
+  form.value.me011= 0
+  form.value.me012= 0
+  form.value.me014= new Date()
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.fbSfId || ids.value
+  const id = row.id || ids.value
   getFicoBudgetActualCont(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -648,7 +589,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.fbSfId != undefined && opertype.value === 2) {
+      if (form.value.id != undefined && opertype.value === 2) {
         updateFicoBudgetActualCont(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -667,7 +608,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.fbSfId || ids.value
+  const Ids = row.id || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {

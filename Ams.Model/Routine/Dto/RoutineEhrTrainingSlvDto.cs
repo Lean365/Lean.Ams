@@ -5,289 +5,333 @@ namespace Ams.Model.Routine.Dto
     /// 培训
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 17:22:49
+    /// @Date: 2024/9/12 16:38:39
     /// </summary>
     public class RoutineEhrTrainingSlvQueryDto : PagerInfo 
     {
-        public int? EpTrainingItems { get; set; }
-        public string EpTrainingContent { get; set; }
-        public string EpTrainingResults { get; set; }
-        public DateTime? BeginEpTrainingDate { get; set; }
-        public DateTime? EndEpTrainingDate { get; set; }
     }
 
     /// <summary>
     /// 培训
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 17:22:49
+    /// @Date: 2024/9/12 16:38:39
     /// </summary>
     public class RoutineEhrTrainingSlvDto
     {
-        [Required(ErrorMessage = "ID不能为空")]
-        [ExcelIgnore]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long EpSfId { get; set; }
 
-        [ExcelIgnore]
-        public long? EpParentSfId { get; set; }
+        public long Id { get; set; }
 
-        [ExcelColumn(Name = "项目")]
+        //[ExcelColumn(Name = "父ID")]
+        [ExcelColumnName("父ID")]
+        [JsonConverter(typeof(ValueToStringConverter))]
+
+        public long? ParentId { get; set; }
+
+        [Required(ErrorMessage = "项目不能为空")]
+        //[ExcelColumn(Name = "项目")]
         [ExcelColumnName("项目")]
-        public int? EpTrainingItems { get; set; }
 
-        [ExcelColumn(Name = "内容")]
+        public int Mr003 { get; set; }
+
+        //[ExcelColumn(Name = "内容")]
         [ExcelColumnName("内容")]
-        public string EpTrainingContent { get; set; }
 
-        [ExcelColumn(Name = "目的")]
+        public string Mr004 { get; set; }
+
+        //[ExcelColumn(Name = "目的")]
         [ExcelColumnName("目的")]
-        public string EpTrainingPurpose { get; set; }
 
-        [ExcelColumn(Name = "分数")]
+        public string Mr005 { get; set; }
+
+        [Required(ErrorMessage = "分数不能为空")]
+        //[ExcelColumn(Name = "分数")]
         [ExcelColumnName("分数")]
-        public int? EpTrainingScore { get; set; }
 
-        [ExcelColumn(Name = "结果")]
+        public int Mr006 { get; set; }
+
+        //[ExcelColumn(Name = "结果")]
         [ExcelColumnName("结果")]
-        public string EpTrainingResults { get; set; }
 
-        [ExcelColumn(Name = "日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public string Mr007 { get; set; }
+
+        //[ExcelColumn(Name = "日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("日期")]
-        public DateTime? EpTrainingDate { get; set; }
 
-        [ExcelColumn(Name = "指导老师")]
+        public DateTime? Mr008 { get; set; }
+
+        //[ExcelColumn(Name = "指导老师")]
         [ExcelColumnName("指导老师")]
-        public string EpTrainingTeacher { get; set; }
 
-        [ExcelColumn(Name = "确认")]
+        public string Mr009 { get; set; }
+
+        //[ExcelColumn(Name = "确认")]
         [ExcelColumnName("确认")]
-        public string EpFirstConfirmer { get; set; }
 
-        [ExcelColumn(Name = "确认")]
+        public string Mr010 { get; set; }
+
+        //[ExcelColumn(Name = "确认")]
         [ExcelColumnName("确认")]
-        public string EpSecondConfirmer { get; set; }
 
-        [ExcelColumn(Name = "确认")]
+        public string Mr011 { get; set; }
+
+        //[ExcelColumn(Name = "确认")]
         [ExcelColumnName("确认")]
-        public string EpThirdConfirmer { get; set; }
 
-        [ExcelColumn(Name = "承认")]
+        public string Mr012 { get; set; }
+
+        //[ExcelColumn(Name = "承认")]
         [ExcelColumnName("承认")]
-        public string EpFourthApprover { get; set; }
 
-        [ExcelColumn(Name = "承认")]
+        public string Mr013 { get; set; }
+
+        //[ExcelColumn(Name = "承认")]
         [ExcelColumnName("承认")]
-        public string EpFifthApprover { get; set; }
 
-        [ExcelColumn(Name = "承认")]
+        public string Mr014 { get; set; }
+
+        //[ExcelColumn(Name = "承认")]
         [ExcelColumnName("承认")]
-        public string EpSixthApprover { get; set; }
+
+        public string Mr015 { get; set; }
 
         [ExcelIgnore]
-        public string REF01 { get; set; }
+
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string REF02 { get; set; }
+
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string REF03 { get; set; }
+
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF04 { get; set; }
+
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF05 { get; set; }
+
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF06 { get; set; }
+
+        public decimal Ref06 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+
+        public string Udf01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+
+        public string Udf02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+
+        public string Udf03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+
+        public string Udf04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+
+        public string Udf05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
+
+        public string Udf06 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF51 { get; set; }
+
+        public int? Udf51 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF52 { get; set; }
+
+        public int? Udf52 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF53 { get; set; }
+
+        public int? Udf53 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
+
+        public decimal Udf54 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
+
+        public decimal Udf55 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
+
+        public decimal Udf56 { get; set; }
+
+        [Required(ErrorMessage = "软删除不能为空")]
+        [ExcelIgnore]
+
+        public int IsDeleted { get; set; }
 
         [ExcelIgnore]
-        public int? IsDeleted { get; set; }
 
-        [ExcelIgnore]
         public string Remark { get; set; }
 
         [ExcelIgnore]
+
         public string CreateBy { get; set; }
 
         [ExcelIgnore]
+
         public DateTime? CreateTime { get; set; }
 
         [ExcelIgnore]
+
         public string UpdateBy { get; set; }
 
         [ExcelIgnore]
+
         public DateTime? UpdateTime { get; set; }
 
 
 
         [ExcelColumn(Name = "项目")]
-        public string EpTrainingItemsLabel { get; set; }
+        public string Mr003Label { get; set; }
         [ExcelColumn(Name = "结果")]
-        public string EpTrainingResultsLabel { get; set; }
+        public string Mr007Label { get; set; }
     }
 
     /// <summary>
     /// 培训
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 17:22:49
+    /// @Date: 2024/9/12 16:38:39
     /// </summary>
     public class RoutineEhrTrainingSlvImportTpl
     {
-        [Required(ErrorMessage = "ID不能为空")]
-        [ExcelIgnore]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long EpSfId { get; set; }
+        public long Id { get; set; }
 
-        [ExcelIgnore]
-        public long? EpParentSfId { get; set; }
+        //[ExcelColumn(Name = "父ID")]
+        [ExcelColumnName("父ID")]
+        [JsonConverter(typeof(ValueToStringConverter))]
+        public long? ParentId { get; set; }
 
-        [ExcelColumn(Name = "项目")]
+        [Required(ErrorMessage = "项目不能为空")]
+        //[ExcelColumn(Name = "项目")]
         [ExcelColumnName("项目")]
-        public int? EpTrainingItems { get; set; }
+        public int Mr003 { get; set; }
 
-        [ExcelColumn(Name = "内容")]
+        //[ExcelColumn(Name = "内容")]
         [ExcelColumnName("内容")]
-        public string EpTrainingContent { get; set; }
+        public string Mr004 { get; set; }
 
-        [ExcelColumn(Name = "目的")]
+        //[ExcelColumn(Name = "目的")]
         [ExcelColumnName("目的")]
-        public string EpTrainingPurpose { get; set; }
+        public string Mr005 { get; set; }
 
-        [ExcelColumn(Name = "分数")]
+        [Required(ErrorMessage = "分数不能为空")]
+        //[ExcelColumn(Name = "分数")]
         [ExcelColumnName("分数")]
-        public int? EpTrainingScore { get; set; }
+        public int Mr006 { get; set; }
 
-        [ExcelColumn(Name = "结果")]
+        //[ExcelColumn(Name = "结果")]
         [ExcelColumnName("结果")]
-        public string EpTrainingResults { get; set; }
+        public string Mr007 { get; set; }
 
-        [ExcelColumn(Name = "日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("日期")]
-        public DateTime? EpTrainingDate { get; set; }
+        public DateTime? Mr008 { get; set; }
 
-        [ExcelColumn(Name = "指导老师")]
+        //[ExcelColumn(Name = "指导老师")]
         [ExcelColumnName("指导老师")]
-        public string EpTrainingTeacher { get; set; }
+        public string Mr009 { get; set; }
 
-        [ExcelColumn(Name = "确认")]
+        //[ExcelColumn(Name = "确认")]
         [ExcelColumnName("确认")]
-        public string EpFirstConfirmer { get; set; }
+        public string Mr010 { get; set; }
 
-        [ExcelColumn(Name = "确认")]
+        //[ExcelColumn(Name = "确认")]
         [ExcelColumnName("确认")]
-        public string EpSecondConfirmer { get; set; }
+        public string Mr011 { get; set; }
 
-        [ExcelColumn(Name = "确认")]
+        //[ExcelColumn(Name = "确认")]
         [ExcelColumnName("确认")]
-        public string EpThirdConfirmer { get; set; }
+        public string Mr012 { get; set; }
 
-        [ExcelColumn(Name = "承认")]
+        //[ExcelColumn(Name = "承认")]
         [ExcelColumnName("承认")]
-        public string EpFourthApprover { get; set; }
+        public string Mr013 { get; set; }
 
-        [ExcelColumn(Name = "承认")]
+        //[ExcelColumn(Name = "承认")]
         [ExcelColumnName("承认")]
-        public string EpFifthApprover { get; set; }
+        public string Mr014 { get; set; }
 
-        [ExcelColumn(Name = "承认")]
+        //[ExcelColumn(Name = "承认")]
         [ExcelColumnName("承认")]
-        public string EpSixthApprover { get; set; }
+        public string Mr015 { get; set; }
 
         [ExcelIgnore]
-        public string REF01 { get; set; }
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string REF02 { get; set; }
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string REF03 { get; set; }
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF04 { get; set; }
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF05 { get; set; }
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF06 { get; set; }
+        public decimal Ref06 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+        public string Udf01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+        public string Udf02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+        public string Udf03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+        public string Udf04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+        public string Udf05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
+        public string Udf06 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF51 { get; set; }
+        public int? Udf51 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF52 { get; set; }
+        public int? Udf52 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF53 { get; set; }
+        public int? Udf53 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
+        public decimal Udf54 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
+        public decimal Udf55 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
+        public decimal Udf56 { get; set; }
 
+        [Required(ErrorMessage = "软删除不能为空")]
         [ExcelIgnore]
-        public int? IsDeleted { get; set; }
+        public int IsDeleted { get; set; }
 
         [ExcelIgnore]
         public string Remark { get; set; }
@@ -308,10 +352,10 @@ namespace Ams.Model.Routine.Dto
 
         [ExcelIgnore]
         [ExcelColumn(Name = "项目")]
-        public string EpTrainingItemsLabel { get; set; }
+        public string Mr003Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "结果")]
-        public string EpTrainingResultsLabel { get; set; }
+        public string Mr007Label { get; set; }
     }
 
 }

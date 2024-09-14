@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 月度资产
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 11:59:43
+    /// @Date: 2024/9/10 16:54:31
     /// </summary>
     public interface IFicoMonthlyAssetsService : IBaseService<FicoMonthlyAssets>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取月度资产信息
         /// </summary>
-        /// <param name="FaSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        FicoMonthlyAssets GetInfo(long FaSfId);
+        FicoMonthlyAssets GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

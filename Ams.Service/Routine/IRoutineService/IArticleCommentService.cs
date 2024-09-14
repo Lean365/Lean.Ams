@@ -1,7 +1,4 @@
-﻿using Ams.Model;
-using Ams.Model.Routine.Dto;
-
-namespace Ams.Service.Routine.IRoutineService
+﻿namespace Ams.Service.Routine.IRoutineService
 {
     public interface IArticleCommentService
     {

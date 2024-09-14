@@ -61,7 +61,7 @@ $elseif(column.HtmlType == "datePicker")
       </el-form-item>
 $elseif(column.HtmlType.Contains("select"))
       <el-form-item label="${labelName}" prop="${columnName}">
-        <el-select filterable clearable $if(column.HtmlType == "selectMulti")multiple collapse-tags collapse-tags-tooltip$end $if(column.HtmlType == "selectRemote") remote remote-show-suffix :remote-method="remoteMethod_${column.DictType}" :loading="loading "$end v-model="queryParams.${columnName}" :placeholder="${t}t('btn.selectSearchPrefix')+'${labelName}'+${t}t('btn.selectSearchSuffix')">
+        <el-select filterable clearable $if(column.HtmlType == "selectMulti")multiple collapse-tags collapse-tags-tooltip$end $if(column.HtmlType == "selectRemote") remote remote-show-suffix :remote-method="remoteMethod_${column.DictType}" :loading="loading"$end v-model="queryParams.${columnName}" :placeholder="${t}t('btn.selectSearchPrefix')+'${labelName}'+${t}t('btn.selectSearchSuffix')">
           <el-option v-for="item in $if(column.DictType != "") $if(column.HtmlType == "selectRemote") remotequery_$else options.$end${column.DictType} $else options.${column.CsharpFieldFl}Options$end" :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
@@ -71,7 +71,7 @@ $elseif(column.HtmlType.Contains("select"))
 $elseif(column.HtmlType == "radio")
       <el-form-item label="${labelName}" prop="${columnName}">
         <el-radio-group v-model="queryParams.${columnName}">
-          <el-radio>{{${t}t('common.all')}}</el-radio>
+          <el-radio :value="-1">{{${t}t('common.all')}}</el-radio>
           <el-radio v-for="item in $if(column.DictType != "") options.${column.DictType} $else options.${column.CsharpFieldFl}Options$end" :key="item.dictValue" :value="item.dictValue">{{item.dictLabel}}</el-radio>
         </el-radio-group>
       </el-form-item>
@@ -353,7 +353,7 @@ $elseif(column.HtmlType == "select" || column.HtmlType == "selectMulti"|| column
           <el-col :lg="${options.ColNum}">
             <el-form-item label="${labelName}" prop="${columnName}">
               <el-select filterable clearable $if(column.HtmlType == "selectMulti")multiple collapse-tags collapse-tags-tooltip$end $if(column.HtmlType == "selectRemote")remote remote-show-suffix :remote-method="remoteMethod_${column.DictType}" 
-              :loading="loading "$end v-model="form.${columnName}$if(column.HtmlType == "selectMulti")Checked$end"  :placeholder="${t}t('btn.selectPrefix')+'${labelName}'+${t}t('btn.selectSuffix')"${column.DisabledStr}>
+              :loading="loading"$end v-model="form.${columnName}$if(column.HtmlType == "selectMulti")Checked$end"  :placeholder="${t}t('btn.selectPrefix')+'${labelName}'+${t}t('btn.selectSuffix')"${column.DisabledStr}>
                 <el-option
                   v-for="item in $if(column.DictType != "")$if(column.HtmlType == "selectRemote") remotequery_$elseif(column.HtmlType != "selectRemote") options.$end${column.DictType}${else}$if(column.HtmlType == "selectRemote") remotequery_$elseif(column.HtmlType != "selectRemote") options.$end${column.CsharpFieldFl}Options$end" 
                   :key="item.dictValue" 
@@ -388,7 +388,7 @@ $elseif(column.HtmlType == "switch")
 $else
           <el-col :lg="${options.ColNum}">
             <el-form-item label="${labelName}" prop="${columnName}">
-              <el-input v-model${number}="form.${columnName}" :placeholder="${t}t('btn.enterPrefix')+'${labelName}'+${t}t('btn.enterSuffix')" ${column.DisabledStr} show-word-limit maxlength="${column.CsharpLength}"/>
+              <el-input  $if(column.CsharpLength >200||column.CsharpLength == -1)type="textarea" $end v-model${number}="form.${columnName}" :placeholder="${t}t('btn.enterPrefix')+'${labelName}'+${t}t('btn.enterSuffix')" ${column.DisabledStr} show-word-limit $if(column.CsharpLength == -1 && column.ColumnType.Contains("var")):rows="8" maxlength="4000" $elseif(column.CsharpLength >200) :rows="2" maxlength="${column.CsharpLength}"$else maxlength="${column.CsharpLength}"$end/>
             </el-form-item>
           </el-col>
 $end
@@ -596,8 +596,13 @@ const queryParams = reactive({
   sortType: '${genTable.Options.SortType}',
 $foreach(item in genTable.Columns)
 $if(item.IsQuery == true)
-//是否查询（1是）
+$if(item.HtmlType == "radio")
+   //是否查询（1是）
+  ${item.CsharpFieldFl}: -1,
+$else
+  //是否查询（1是）
   ${item.CsharpFieldFl}: undefined,
+$end
 $end
 $end
 })
@@ -814,6 +819,7 @@ const state = reactive({
   single: true,
   multiple: true,
   form: {},
+//正则表达式
   rules: {
 $foreach(column in genTable.Columns)
 $if(column.IsRequired && column.IsPk && ReplaceDto.useSnowflakeId)
@@ -824,6 +830,7 @@ $elseif(column.IsRequired && column.IsIncrement == false)
 $end
 $end
   },
+//字典名称
   options: {
 $foreach(column in dicts)
 $if(column.HtmlType == "radio" || column.HtmlType.Contains("select") || column.HtmlType == "checkbox")
@@ -846,12 +853,14 @@ function cancel(){
 function reset() {
   form.value = {
 $foreach(item in genTable.Columns)
-$if(item.HtmlType == "checkbox" || item.HtmlType == "selectMulti"|| item.HtmlType == "selectRemote")
-    ${item.CsharpFieldFl}Checked: [],
+$if(item.IsEdit)
+$if(item.HtmlType == "checkbox" || item.HtmlType.Contains( "select"))
+    ${item.CsharpFieldFl}: [],
 $elseif(item.CsharpType == "int" || item.CsharpType == "long" || item.CsharpType == "decimal")
     $item.CsharpFieldFl: 0,
 $else
     $item.CsharpFieldFl: null,
+$end
 $end
 $end
   };
@@ -906,7 +915,7 @@ $elseif(item.HtmlType == "datetime" && item.csharpField != "Create_time" || item
   form.value.$item.CsharpFieldFl= new Date()
 $elseif(item.CsharpType == "decimal" || item.CsharpType == "int")
   form.value.$item.CsharpFieldFl= 0
-$elseif(item.HtmlType == "select")
+$elseif(item.HtmlType.Contains("select"))
   form.value.$item.CsharpFieldFl= []
 $elseif(item.HtmlType == "radio")
   form.value.$item.CsharpFieldFl= 0

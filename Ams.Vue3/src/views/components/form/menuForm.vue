@@ -27,7 +27,8 @@
         <el-col :lg="24">
           <el-form-item :label="$t('pmenu.menuName')" prop="menuName">
             <el-input v-model="form.menuName"
-              :placeholder="$t('btn.enterPrefix')+$t('pmenu.menuName')+$t('btn.enterSuffix')" />
+              :placeholder="$t('btn.enterPrefix')+$t('pmenu.menuName')+$t('btn.enterSuffix')" show-word-limit
+              maxlength="40" />
           </el-form-item>
         </el-col>
         <el-col :lg="24">
@@ -43,7 +44,8 @@
               </span>
             </template>
             <el-input v-model="form.menuNameKey"
-              :placeholder="$t('btn.enterPrefix')+$t('pmenu.menuName')+$t('btn.enterSuffix')">
+              :placeholder="$t('btn.enterPrefix')+$t('pmenu.menuName')+$t('btn.enterSuffix')" show-word-limit
+              maxlength="80">
               <template #prepend>
                 <span style="width: 30px">menu.</span>
               </template>
@@ -86,7 +88,8 @@
               </span>
             </template>
             <el-input v-model="form.path"
-              :placeholder="$t('btn.enterPrefix')+$t('pmenu.routePath')+$t('btn.enterSuffix')" />
+              :placeholder="$t('btn.enterPrefix')+$t('pmenu.routePath')+$t('btn.enterSuffix')" show-word-limit
+              maxlength="40" />
           </el-form-item>
         </el-col>
         <el-col :lg="24" v-if="form.menuType != 'F'">
@@ -102,7 +105,8 @@
               </span>
             </template>
             <el-input v-model="form.component"
-              :placeholder="$t('btn.enterPrefix')+$t('pmenu.componentPath')+$t('btn.enterSuffix')">
+              :placeholder="$t('btn.enterPrefix')+$t('pmenu.componentPath')+$t('btn.enterSuffix')" show-word-limit
+              maxlength="120">
               <template #prepend>
                 <span style="width: 50px">src/views/</span>
               </template>
@@ -112,7 +116,8 @@
         <el-col :lg="24">
           <el-form-item>
             <el-input v-model="form.perms"
-              :placeholder="$t('btn.enterPrefix')+$t('pmenu.permissionStr')+$t('btn.enterSuffix')" maxlength="100" />
+              :placeholder="$t('btn.enterPrefix')+$t('pmenu.permissionStr')+$t('btn.enterSuffix')" show-word-limit
+              maxlength="80" />
             <template #label>
               <span>
                 <el-tooltip :content="$t('pmenu.permissionStrmemo')" placement="top">

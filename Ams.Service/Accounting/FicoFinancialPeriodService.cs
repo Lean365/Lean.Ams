@@ -1,20 +1,23 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Accounting;
 using Ams.Model.Accounting.Dto;
+using Ams.Repository;
 using Ams.Service.Accounting.IAccountingService;
 
 namespace Ams.Service.Accounting
 {
     /// <summary>
-    /// 财务期间
+    /// 财政年度
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/6 13:51:07
+    /// @Date: 2024/9/5 15:42:58
     /// </summary>
     [AppService(ServiceType = typeof(IFicoFinancialPeriodService), ServiceLifetime = LifeTime.Transient)]
     public class FicoFinancialPeriodService : BaseService<FicoFinancialPeriod>, IFicoFinancialPeriodService
     {
         /// <summary>
-        /// 查询财务期间列表
+        /// 查询财政年度列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -23,7 +26,7 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("FpYearMonth asc")
+                //.OrderBy("Mn002 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoFinancialPeriod, FicoFinancialPeriodDto>(parm);
 
@@ -38,7 +41,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.FpYearMonth.ToString() == enterString);
+            int count = Count(it => it.Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,19 +52,19 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FpSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public FicoFinancialPeriod GetInfo(long FpSfId)
+        public FicoFinancialPeriod GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.FpSfId == FpSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
 
         /// <summary>
-        /// 添加财务期间
+        /// 添加财政年度
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -72,24 +75,29 @@ namespace Ams.Service.Accounting
         }
 
         /// <summary>
-        /// 修改财务期间
+        /// 修改财政年度
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         public int UpdateFicoFinancialPeriod(FicoFinancialPeriod model)
         {
-            return Update(model, true, "修改财务期间");
+            return Update(model, true, "修改财政年度");
         }
 
         /// <summary>
-        /// 导入财务期间
+        /// 导入财政年度
         /// </summary>
         /// <returns></returns>
         public (string, object, object) ImportFicoFinancialPeriod(List<FicoFinancialPeriod> list)
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FpSfId.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.Id.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.Mn002.IsEmpty(), "期间不能为空")
+                .SplitError(x => x.Item.Mn003.IsEmpty(), "年月不能为空")
+                .SplitError(x => x.Item.Mn004.IsEmpty(), "年不能为空")
+                .SplitError(x => x.Item.Mn005.IsEmpty(), "月不能为空")
+                .SplitError(x => x.Item.Mn006.IsEmpty(), "季度不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -111,7 +119,7 @@ namespace Ams.Service.Accounting
         }
 
         /// <summary>
-        /// 导出财务期间
+        /// 导出财政年度
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -123,7 +131,8 @@ namespace Ams.Service.Accounting
                 .Where(predicate.ToExpression())
                 .Select((it) => new FicoFinancialPeriodDto()
                 {
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <软删除>
+                    //IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_Is_deleted"),
                 }, true)
                 .ToPage(parm);
 
@@ -139,8 +148,10 @@ namespace Ams.Service.Accounting
         {
             var predicate = Expressionable.Create<FicoFinancialPeriod>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FpFinancialYear), it => it.FpFinancialYear.Contains(parm.FpFinancialYear));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FpYearMonth), it => it.FpYearMonth == parm.FpYearMonth);
+            //查询字段: <期间>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mn002), it => it.Mn002.Contains(parm.Mn002));
+            //查询字段: <年月>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mn003), it => it.Mn003.Contains(parm.Mn003));
             return predicate;
         }
     }

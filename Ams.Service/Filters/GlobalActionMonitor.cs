@@ -1,8 +1,5 @@
-﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using Ams.Infrastructure.IPTools;
+﻿using Ams.Infrastructure.IPTools;
 using Ams.Infrastructure.Model;
-using Ams.Service.Monitor.IMonitorService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -89,7 +86,7 @@ namespace Ams.Service.Filters
                 string ip = HttpContextExtension.GetClientUserIp(context.HttpContext);
                 var ip_info = IpTool.Search(ip);
 
-                OperLog sysOperLog = new()
+                OperLog OperLog = new()
                 {
                     IsStatus = 0,
                     OperName = userName,
@@ -106,24 +103,24 @@ namespace Ams.Service.Filters
 
                 if (logAttribute != null)
                 {
-                    sysOperLog.Title = logAttribute?.Title;
-                    sysOperLog.BusinessType = (int)logAttribute.BusinessType;
-                    sysOperLog.OperParam = logAttribute.IsSaveRequestData ? sysOperLog.OperParam : "";
-                    sysOperLog.JsonResult = logAttribute.IsSaveResponseData ? sysOperLog.JsonResult : "";
+                    OperLog.Title = logAttribute?.Title;
+                    OperLog.BusinessType = (int)logAttribute.BusinessType;
+                    OperLog.OperParam = logAttribute.IsSaveRequestData ? OperLog.OperParam : "";
+                    OperLog.JsonResult = logAttribute.IsSaveResponseData ? OperLog.JsonResult : "";
                 }
                 if (statusCode == 403)
                 {
-                    sysOperLog.IsStatus = 1;
-                    sysOperLog.ErrorMsg = "无权限访问";
+                    OperLog.IsStatus = 1;
+                    OperLog.ErrorMsg = "无权限访问";
                 }
-                LogEventInfo ei = new(NLog.LogLevel.Info, "GlobalActionMonitor", "");
+                LogEventInfo ei = new(LogLevel.Info, "GlobalActionMonitor", "");
 
                 ei.Properties["jsonResult"] = !HttpMethods.IsGet(method) ? jsonResult : "";
-                ei.Properties["requestParam"] = sysOperLog.OperParam;
+                ei.Properties["requestParam"] = OperLog.OperParam;
                 ei.Properties["user"] = userName;
                 logger.Log(ei);
 
-                OperLogService.InsertOperlog(sysOperLog);
+                OperLogService.InsertOperlog(OperLog);
             }
             catch (Exception ex)
             {

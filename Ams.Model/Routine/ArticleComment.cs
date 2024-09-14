@@ -1,5 +1,11 @@
 ﻿namespace Ams.Model.Routine
 {
+    /// <summary>
+    /// 评论记录
+    /// 数据实体对象
+    /// @author lean365(Davis.Ching)
+    /// @date 2024-01-01
+    /// </summary>
     [SugarTable("routine_article_comment", "评论记录")]
     [Tenant(0)]
     public class ArticleComment : SysBase
@@ -12,38 +18,41 @@
         public long CommentId { get; set; }
 
         /// <summary>
-        /// 用户ID
+        /// 用户id
         /// </summary>
         public long UserId { get; set; }
 
         /// <summary>
         /// 内容
         /// </summary>
+        [SugarColumn(Length = 500)]
         public string Content { get; set; }
 
         /// <summary>
-        /// 最顶级留言ID
+        /// 最顶级留言id
         /// </summary>
         public long ParentId { get; set; } = 0;
 
         /// <summary>
-        /// 回复用户ID
+        /// 回复用户id
         /// </summary>
         public long ReplyUserId { get; set; }
 
         /// <summary>
-        /// 回复留言ID
+        /// 回复留言id
         /// </summary>
         public long ReplyId { get; set; }
 
         /// <summary>
         /// 用户ip
         /// </summary>
+        [SugarColumn(Length = 20)]
         public string UserIP { get; set; }
 
         /// <summary>
         /// 地理位置
         /// </summary>
+        [SugarColumn(Length = 200)]
         public string Location { get; set; } = string.Empty;
 
         /// <summary>
@@ -64,6 +73,7 @@
         /// <summary>
         /// 聊天图片
         /// </summary>
+        [SugarColumn(Length = 500)]
         public string ChatImg { get; set; }
 
         /// <summary>

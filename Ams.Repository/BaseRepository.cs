@@ -105,7 +105,7 @@ namespace Ams.Repository
         }
 
         /// <summary>
-        /// 更新指定列 eg：Update(w => w.NoticeId == model.NoticeId, it => new SysNotice(){ Update_time = DateTime.Now, Title = "通知标题" });
+        /// 更新指定列 eg：Update(w => w.NoticeId == model.NoticeId, it => new NoticeStorage(){ Update_time = DateTime.Now, Title = "通知标题" });
         /// </summary>
         /// <param name="where"></param>
         /// <param name="columns"></param>

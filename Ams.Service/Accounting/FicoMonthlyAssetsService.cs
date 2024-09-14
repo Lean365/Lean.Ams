@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Repository;
 using Ams.Service.Accounting.IAccountingService;
 
 namespace Ams.Service.Accounting
@@ -8,7 +11,7 @@ namespace Ams.Service.Accounting
     /// 月度资产
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 11:59:43
+    /// @Date: 2024/9/10 16:54:31
     /// </summary>
     [AppService(ServiceType = typeof(IFicoMonthlyAssetsService), ServiceLifetime = LifeTime.Transient)]
     public class FicoMonthlyAssetsService : BaseService<FicoMonthlyAssets>, IFicoMonthlyAssetsService
@@ -23,12 +26,13 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("FaLfmon desc")
+                //.OrderBy("Mo003 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoMonthlyAssets, FicoMonthlyAssetsDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -37,7 +41,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. FaSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,16 +53,17 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FaSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public FicoMonthlyAssets GetInfo(long FaSfId)
+        public FicoMonthlyAssets GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.FaSfId == FaSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加月度资产
         /// </summary>
@@ -69,6 +74,7 @@ namespace Ams.Service.Accounting
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改月度资产
         /// </summary>
@@ -87,7 +93,29 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FaSfId.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.Id.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.Mo002.IsEmpty(), "期间不能为空")
+                .SplitError(x => x.Item.Mo003.IsEmpty(), "年月不能为空")
+                .SplitError(x => x.Item.Mo004.IsEmpty(), "公司不能为空")
+                .SplitError(x => x.Item.Mo012.IsEmpty(), "数量不能为空")
+                .SplitError(x => x.Item.Mo013.IsEmpty(), "管理区分不能为空")
+                .SplitError(x => x.Item.Mo014.IsEmpty(), "币种不能为空")
+                .SplitError(x => x.Item.Mo015.IsEmpty(), "购买价格不能为空")
+                .SplitError(x => x.Item.Mo017.IsEmpty(), "折旧价值不能为空")
+                .SplitError(x => x.Item.Mo019.IsEmpty(), "残值不能为空")
+                .SplitError(x => x.Item.Mo021.IsEmpty(), "使用年限不能为空")
+                .SplitError(x => x.Item.Mo022.IsEmpty(), "是否停用不能为空")
+                .SplitError(x => x.Item.Mo027.IsEmpty(), "资产形态不能为空")
+                .SplitError(x => x.Item.Mo028.IsEmpty(), "资产存在否不能为空")
+                .SplitError(x => x.Item.Ref04.IsEmpty(), "预留1不能为空")
+                .SplitError(x => x.Item.Ref05.IsEmpty(), "预留2不能为空")
+                .SplitError(x => x.Item.Ref06.IsEmpty(), "预留3不能为空")
+                .SplitError(x => x.Item.Udf51.IsEmpty(), "自定义1不能为空")
+                .SplitError(x => x.Item.Udf52.IsEmpty(), "自定义2不能为空")
+                .SplitError(x => x.Item.Udf53.IsEmpty(), "自定义3不能为空")
+                .SplitError(x => x.Item.Udf54.IsEmpty(), "自定义4不能为空")
+                .SplitError(x => x.Item.Udf55.IsEmpty(), "自定义5不能为空")
+                .SplitError(x => x.Item.Udf56.IsEmpty(), "自定义6不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -121,16 +149,16 @@ namespace Ams.Service.Accounting
                 .Where(predicate.ToExpression())
                 .Select((it) => new FicoMonthlyAssetsDto()
                 {
-                    FaLfgjaLabel = it.FaLfgja.GetConfigValue<SysDictData>("sql_fy_list"),
-                    FaLfmonLabel = it.FaLfmon.GetConfigValue<SysDictData>("sql_ym_list"),
-                    FaBukrsLabel = it.FaBukrs.GetConfigValue<SysDictData>("sys_crop_list"),
-                    FaBtabtLabel = it.FaBtabt.GetConfigValue<SysDictData>("sql_dept_name"),
-                    FaAnlklLabel = it.FaAnlkl.GetConfigValue<SysDictData>("sys_assets_type"),
-                    FaKostlLabel = it.FaKostl.GetConfigValue<SysDictData>("sql_cost_center"),
-                    FaBsakzLabel = it.FaBsakz.GetConfigValue<SysDictData>("sys_assets_dist"),
-                    FaWaersLabel = it.FaWaers.GetConfigValue<SysDictData>("sys_ccy_type"),
-                    FaParkflgLabel = it.FaParkflg.GetConfigValue<SysDictData>("sys_is_status"),
-                    FaEntityLabel = it.FaEntity.GetConfigValue<SysDictData>("sys_assets_pattern"),
+                    //查询字典: <期间> 
+                    Mo002Label = it.Mo002.GetConfigValue<SysDictData>("sql_attr_list"),
+                    //查询字典: <年月> 
+                    Mo003Label = it.Mo003.GetConfigValue<SysDictData>("sql_ymdt_list"),
+                    //查询字典: <公司> 
+                    Mo004Label = it.Mo004.GetConfigValue<SysDictData>("sql_corp_list"),
+                    //查询字典: <成本中心> 
+                    Mo008Label = it.Mo008.GetConfigValue<SysDictData>("sql_cost_center"),
+                    //查询字典: <是否停用> 
+                    Mo022Label = it.Mo022.GetConfigValue<SysDictData>("sys_is_flag"),
                 }, true)
                 .ToPage(parm);
 
@@ -146,27 +174,36 @@ namespace Ams.Service.Accounting
         {
             var predicate = Expressionable.Create<FicoMonthlyAssets>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaLfgja), it => it.FaLfgja == parm.FaLfgja);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaLfmon), it => it.FaLfmon == parm.FaLfmon);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaBukrs), it => it.FaBukrs == parm.FaBukrs);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaBtabt), it => it.FaBtabt == parm.FaBtabt);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaAnlkl), it => it.FaAnlkl == parm.FaAnlkl);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaAnln), it => it.FaAnln.Contains(parm.FaAnln));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaKostl), it => it.FaKostl == parm.FaKostl);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FaStext), it => it.FaStext.Contains(parm.FaStext));
+            //查询字段: <期间> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mo002), it => it.Mo002 == parm.Mo002);
+            //查询字段: <年月> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mo003), it => it.Mo003 == parm.Mo003);
+            //查询字段: <公司> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mo004), it => it.Mo004 == parm.Mo004);
+            //查询字段: <成本中心> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mo008), it => it.Mo008 == parm.Mo008);
+            //查询字段: <资产简称> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mo009), it => it.Mo009.Contains(parm.Mo009));
+            //查询字段: <资本化日期> 
+            //predicate = predicate.AndIF(parm.BeginMo016 == null, it => it.Mo016 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMo016 != null, it => it.Mo016 >= parm.BeginMo016);
+            //predicate = predicate.AndIF(parm.EndMo016 != null, it => it.Mo016 <= parm.EndMo016);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginFaAktiv == null, it => it.FaAktiv >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMo016 == null, it => it.Mo016 >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginFaAktiv == null, it => it.FaAktiv >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginFaAktiv != null, it => it.FaAktiv >= parm.BeginFaAktiv);
-            predicate = predicate.AndIF(parm.EndFaAktiv != null, it => it.FaAktiv <= parm.EndFaAktiv);
+            predicate = predicate.AndIF(parm.BeginMo016 == null, it => it.Mo016 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMo016 != null, it => it.Mo016 >= parm.BeginMo016);
+            predicate = predicate.AndIF(parm.EndMo016 != null, it => it.Mo016 <= parm.EndMo016);
+            //查询字段: <报废日期> 
+            //predicate = predicate.AndIF(parm.BeginMo018 == null, it => it.Mo018 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMo018 != null, it => it.Mo018 >= parm.BeginMo018);
+            //predicate = predicate.AndIF(parm.EndMo018 != null, it => it.Mo018 <= parm.EndMo018);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginFaDeakt == null, it => it.FaDeakt >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMo018 == null, it => it.Mo018 >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginFaDeakt == null, it => it.FaDeakt >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginFaDeakt != null, it => it.FaDeakt >= parm.BeginFaDeakt);
-            predicate = predicate.AndIF(parm.EndFaDeakt != null, it => it.FaDeakt <= parm.EndFaDeakt);
-            predicate = predicate.AndIF(parm.FaParkflg != null, it => it.FaParkflg == parm.FaParkflg);
+            predicate = predicate.AndIF(parm.BeginMo018 == null, it => it.Mo018 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMo018 != null, it => it.Mo018 >= parm.BeginMo018);
+            predicate = predicate.AndIF(parm.EndMo018 != null, it => it.Mo018 <= parm.EndMo018);
             return predicate;
         }
     }

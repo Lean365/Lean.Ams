@@ -47,16 +47,16 @@ INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create
 VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrperformancema', 'FR_绩效', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrperformancema', 'KO_绩效', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ko', 'menu.routine.ehrperformancema', 'KO_绩效', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrperformancema', 'AR_绩效', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ar', 'menu.routine.ehrperformancema', 'AR_绩效', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrperformancema', 'RU_绩效', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ru', 'menu.routine.ehrperformancema', 'RU_绩效', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrperformancema', 'DE_绩效', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'de', 'menu.routine.ehrperformancema', 'DE_绩效', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrperformancema', 'ES_绩效', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'es', 'menu.routine.ehrperformancema', 'ES_绩效', 'Lean365', GETDATE());

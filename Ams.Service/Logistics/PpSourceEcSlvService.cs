@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
@@ -8,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 从源设变
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:04:44
+    /// @Date: 2024/9/10 17:08:51
     /// </summary>
     [AppService(ServiceType = typeof(IPpSourceEcSlvService), ServiceLifetime = LifeTime.Transient)]
     public class PpSourceEcSlvService : BaseService<PpSourceEcSlv>, IPpSourceEcSlvService
@@ -23,11 +26,13 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Zb004 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<PpSourceEcSlv, PpSourceEcSlvDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. SfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,16 +53,17 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public PpSourceEcSlv GetInfo(long SfId)
+        public PpSourceEcSlv GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.SfId == SfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加从源设变
         /// </summary>
@@ -68,6 +74,7 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改从源设变
         /// </summary>
@@ -86,11 +93,20 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.ParentSfId.IsEmpty(), "父ID不能为空")
-                .SplitError(x => x.Item.Zpabds006.IsEmpty(), "数量不能为空")
-                .SplitError(x => x.Item.Zpabds010.IsEmpty(), "数量不能为空")
-                .SplitError(x => x.Item.IsSolved.IsEmpty(), "处理标记不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Zb002.IsEmpty(), "父ID不能为空")
+                .SplitError(x => x.Item.Zb003.IsEmpty(), "设变No.不能为空")
+                .SplitError(x => x.Item.Zb004.IsEmpty(), "完成品不能为空")
+                .SplitError(x => x.Item.Zb008.IsEmpty(), "数量不能为空")
+                .SplitError(x => x.Item.Zb012.IsEmpty(), "数量不能为空")
+                .SplitError(x => x.Item.Ref04.IsEmpty(), "预留1不能为空")
+                .SplitError(x => x.Item.Ref05.IsEmpty(), "预留2不能为空")
+                .SplitError(x => x.Item.Ref06.IsEmpty(), "预留3不能为空")
+                .SplitError(x => x.Item.Udf51.IsEmpty(), "自定义1不能为空")
+                .SplitError(x => x.Item.Udf52.IsEmpty(), "自定义2不能为空")
+                .SplitError(x => x.Item.Udf53.IsEmpty(), "自定义3不能为空")
+                .SplitError(x => x.Item.Udf54.IsEmpty(), "自定义4不能为空")
+                .SplitError(x => x.Item.Udf55.IsEmpty(), "自定义5不能为空")
+                .SplitError(x => x.Item.Udf56.IsEmpty(), "自定义6不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -124,8 +140,6 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpSourceEcSlvDto()
                 {
-                    IsSolvedLabel = it.IsSolved.GetConfigValue<SysDictData>("sys_normal_whether"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
 
@@ -141,12 +155,10 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpSourceEcSlv>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zpabds001), it => it.Zpabds001.Contains(parm.Zpabds001));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zpabds002), it => it.Zpabds002.Contains(parm.Zpabds002));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zpabds003), it => it.Zpabds003.Contains(parm.Zpabds003));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zpabds004), it => it.Zpabds004.Contains(parm.Zpabds004));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zpabds008), it => it.Zpabds008.Contains(parm.Zpabds008));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IsSolved), it => it.IsSolved == parm.IsSolved);
+            //查询字段: <设变No.> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zb003), it => it.Zb003.Contains(parm.Zb003));
+            //查询字段: <完成品> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zb004), it => it.Zb004.Contains(parm.Zb004));
             return predicate;
         }
     }

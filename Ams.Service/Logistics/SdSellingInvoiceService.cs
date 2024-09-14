@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
@@ -8,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 销售凭证
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 13:36:22
+    /// @Date: 2024/9/11 15:47:09
     /// </summary>
     [AppService(ServiceType = typeof(ISdSellingInvoiceService), ServiceLifetime = LifeTime.Transient)]
     public class SdSellingInvoiceService : BaseService<SdSellingInvoice>, ISdSellingInvoiceService
@@ -23,11 +26,13 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Mc004 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<SdSellingInvoice, SdSellingInvoiceDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. SsiSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,16 +53,17 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="SsiSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public SdSellingInvoice GetInfo(long SsiSfId)
+        public SdSellingInvoice GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.SsiSfId == SsiSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加销售凭证
         /// </summary>
@@ -68,6 +74,7 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改销售凭证
         /// </summary>
@@ -86,33 +93,15 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.SsiSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.SsiPlnt.IsEmpty(), "工厂不能为空")
-                .SplitError(x => x.Item.SsiFy.IsEmpty(), "期间不能为空")
-                .SplitError(x => x.Item.SsiYm.IsEmpty(), "年月不能为空")
-                .SplitError(x => x.Item.SsiAccdocno.IsEmpty(), "销售凭证不能为空")
-                .SplitError(x => x.Item.SsiAccdoclineno.IsEmpty(), "凭证明细不能为空")
-                .SplitError(x => x.Item.SsiCustomercode.IsEmpty(), "客户不能为空")
-                .SplitError(x => x.Item.SsiPrctr.IsEmpty(), "利润中心不能为空")
-                .SplitError(x => x.Item.SsiSalesitem.IsEmpty(), "物料不能为空")
-                .SplitError(x => x.Item.SsiAccountcode.IsEmpty(), "科目不能为空")
-                .SplitError(x => x.Item.SsiSalesqty.IsEmpty(), "销售数量不能为空")
-                .SplitError(x => x.Item.SsiSalesunit.IsEmpty(), "销售单位不能为空")
-                .SplitError(x => x.Item.SsiOriginalamount.IsEmpty(), "原币销售额不能为空")
-                .SplitError(x => x.Item.SsiOriginalccy.IsEmpty(), "原币币种不能为空")
-                .SplitError(x => x.Item.SsiLocalamount.IsEmpty(), "本币销售额不能为空")
-                .SplitError(x => x.Item.SsiLocalccy.IsEmpty(), "本币币种不能为空")
-                .SplitError(x => x.Item.SsiRefdocno.IsEmpty(), "参考凭证不能为空")
-                .SplitError(x => x.Item.SsiRefdoclineno.IsEmpty(), "参考明细不能为空")
-                .SplitError(x => x.Item.SsiPostingdate.IsEmpty(), "过账日期不能为空")
-                .SplitError(x => x.Item.SsiPostinguser.IsEmpty(), "用户不能为空")
-                .SplitError(x => x.Item.SsiEntrydate.IsEmpty(), "输入日期不能为空")
-                .SplitError(x => x.Item.SsiEntrytime.IsEmpty(), "输入时间不能为空")
-                .SplitError(x => x.Item.SsiOrigin.IsEmpty(), "来源不能为空")
-                .SplitError(x => x.Item.SsiPgroup.IsEmpty(), "产品组不能为空")
-                .SplitError(x => x.Item.SsiAccdoctype.IsEmpty(), "凭证类型不能为空")
-                .SplitError(x => x.Item.SsiAccdoctext.IsEmpty(), "凭证名称不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Mc002.IsEmpty(), "工厂不能为空")
+                .SplitError(x => x.Item.Mc003.IsEmpty(), "期间不能为空")
+                .SplitError(x => x.Item.Mc004.IsEmpty(), "年月不能为空")
+                .SplitError(x => x.Item.Mc007.IsEmpty(), "客户不能为空")
+                .SplitError(x => x.Item.Mc008.IsEmpty(), "利润中心不能为空")
+                .SplitError(x => x.Item.Mc009.IsEmpty(), "物料不能为空")
+                .SplitError(x => x.Item.Mc011.IsEmpty(), "销售数量不能为空")
+                .SplitError(x => x.Item.Mc013.IsEmpty(), "原币销售额不能为空")
+                .SplitError(x => x.Item.Mc015.IsEmpty(), "本币销售额不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -146,13 +135,12 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new SdSellingInvoiceDto()
                 {
-                    SsiPlntLabel = it.SsiPlnt.GetConfigValue<SysDictData>("sys_plant_list"),
-                    SsiFyLabel = it.SsiFy.GetConfigValue<SysDictData>("sql_fy_list"),
-                    SsiYmLabel = it.SsiYm.GetConfigValue<SysDictData>("sql_ym_list"),
-                    SsiCustomercodeLabel = it.SsiCustomercode.GetConfigValue<SysDictData>("sql_cus_list"),
-                    SsiPrctrLabel = it.SsiPrctr.GetConfigValue<SysDictData>("sql_prctr_list"),
-                    SsiOriginalccyLabel = it.SsiOriginalccy.GetConfigValue<SysDictData>("sys_ccy_type"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <工厂> 
+                    Mc002Label = it.Mc002.GetConfigValue<SysDictData>("sql_plant_list"),
+                    //查询字典: <期间> 
+                    Mc003Label = it.Mc003.GetConfigValue<SysDictData>("sql_attr_list"),
+                    //查询字典: <年月> 
+                    Mc004Label = it.Mc004.GetConfigValue<SysDictData>("sql_ymdt_list"),
                 }, true)
                 .ToPage(parm);
 
@@ -168,19 +156,18 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<SdSellingInvoice>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SsiPlnt), it => it.SsiPlnt == parm.SsiPlnt);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SsiFy), it => it.SsiFy == parm.SsiFy);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SsiYm), it => it.SsiYm == parm.SsiYm);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SsiCustomercode), it => it.SsiCustomercode == parm.SsiCustomercode);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SsiPrctr), it => it.SsiPrctr == parm.SsiPrctr);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SsiSalesitem), it => it.SsiSalesitem == parm.SsiSalesitem);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.SsiOriginalccy), it => it.SsiOriginalccy == parm.SsiOriginalccy);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginSsiPostingdate == null, it => it.SsiPostingdate >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginSsiPostingdate == null, it => it.SsiPostingdate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginSsiPostingdate != null, it => it.SsiPostingdate >= parm.BeginSsiPostingdate);
-            predicate = predicate.AndIF(parm.EndSsiPostingdate != null, it => it.SsiPostingdate <= parm.EndSsiPostingdate);
+            //查询字段: <工厂> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc002), it => it.Mc002 == parm.Mc002);
+            //查询字段: <期间> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc003), it => it.Mc003 == parm.Mc003);
+            //查询字段: <年月> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc004), it => it.Mc004 == parm.Mc004);
+            //查询字段: <客户> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc007), it => it.Mc007.Contains(parm.Mc007));
+            //查询字段: <利润中心> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc008), it => it.Mc008.Contains(parm.Mc008));
+            //查询字段: <物料> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc009), it => it.Mc009.Contains(parm.Mc009));
             return predicate;
         }
     }

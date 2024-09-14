@@ -1,20 +1,23 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics;
 using Ams.Model.Logistics.Dto;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
 {
     /// <summary>
-    /// 组立不良ma
+    /// 不良
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 12:00:50
+    /// @Date: 2024/9/12 16:33:52
     /// </summary>
     [AppService(ServiceType = typeof(IPpRepairAssyMaService), ServiceLifetime = LifeTime.Transient)]
     public class PpRepairAssyMaService : BaseService<PpRepairAssyMa>, IPpRepairAssyMaService
     {
         /// <summary>
-        /// 查询组立不良ma列表
+        /// 查询不良列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -23,7 +26,8 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.Includes(x => x.PpDefectAssyRepairSlvNav) //填充子对象
+                //.Includes(x => x.PpRepairAssySlvNav) //填充子对象
+                //.OrderBy("Mea006 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<PpRepairAssyMa, PpRepairAssyMaDto>(parm);
 
@@ -38,7 +42,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.PpdSfId.ToString() == enterString);
+            int count = Count(it => it.Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,57 +53,50 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="PpdSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public PpRepairAssyMa GetInfo(long PpdSfId)
+        public PpRepairAssyMa GetInfo(long Id)
         {
             var response = Queryable()
-                .Includes(x => x.PpDefectAssyRepairSlvNav) //填充子对象
-                .Where(x => x.PpdSfId == PpdSfId)
+                .Includes(x => x.PpRepairAssySlvNav) //填充子对象
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
 
         /// <summary>
-        /// 添加组立不良ma
+        /// 添加不良
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         public PpRepairAssyMa AddPpRepairAssyMa(PpRepairAssyMa model)
         {
-            return Context.InsertNav(model).Include(s1 => s1.PpDefectAssyRepairSlvNav).ExecuteReturnEntity();
+            return Context.InsertNav(model).Include(s1 => s1.PpRepairAssySlvNav).ExecuteReturnEntity();
         }
 
         /// <summary>
-        /// 修改组立不良ma
+        /// 修改不良
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         public int UpdatePpRepairAssyMa(PpRepairAssyMa model)
         {
-            return Context.UpdateNav(model).Include(z1 => z1.PpDefectAssyRepairSlvNav).ExecuteCommand() ? 1 : 0;
+            return Context.UpdateNav(model).Include(z1 => z1.PpRepairAssySlvNav).ExecuteCommand() ? 1 : 0;
         }
 
         /// <summary>
-        /// 导入组立不良ma
+        /// 导入不良
         /// </summary>
         /// <returns></returns>
         public (string, object, object) ImportPpRepairAssyMa(List<PpRepairAssyMa> list)
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.PpdSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.PpdOrderQty.IsEmpty(), "订单数量不能为空")
-                .SplitError(x => x.Item.PpdRealQty.IsEmpty(), "生产实绩不能为空")
-                .SplitError(x => x.Item.PpdNobadQty.IsEmpty(), "无不良数不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Mea002.IsEmpty(), "生产订单不能为空")
+                .SplitError(x => x.Item.Mea003.IsEmpty(), "订单数量不能为空")
+                .SplitError(x => x.Item.Mea008.IsEmpty(), "生产实绩不能为空")
+                .SplitError(x => x.Item.Mea009.IsEmpty(), "无不良数不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -121,7 +118,7 @@ namespace Ams.Service.Logistics
         }
 
         /// <summary>
-        /// 导出组立不良ma
+        /// 导出不良
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -133,9 +130,12 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpRepairAssyMaDto()
                 {
-                    PpdLineNameLabel = it.PpdLineName.GetConfigValue<SysDictData>("sql_line_list"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
-                    //PpdBadTypeLabel = it.PpdBadType.GetConfigValue<SysDictData>("sql_bad_dist"),
+                    //查询字典: <生产订单>
+                    Mea002Label = it.Mea002.GetConfigValue<SysDictData>("sql_moc_assy"),
+                    //查询字典: <生产班组>
+                    Mea007Label = it.Mea007.GetConfigValue<SysDictData>("sql_assy_line"),
+                    //查询字典: <不良区分>
+                    //Mfa003Label = it.Mfa003.GetConfigValue<SysDictData>("sql_bad_dist"),
                 }, true)
                 .ToPage(parm);
 
@@ -151,16 +151,24 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpRepairAssyMa>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PpdOrderNo), it => it.PpdOrderNo == parm.PpdOrderNo);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PpdLot), it => it.PpdLot.Contains(parm.PpdLot));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PpdModel), it => it.PpdModel.Contains(parm.PpdModel));
+            //查询字段: <生产订单>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mea002), it => it.Mea002 == parm.Mea002);
+            //查询字段: <生产批次>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mea004), it => it.Mea004.Contains(parm.Mea004));
+            //查询字段: <生产机种>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mea005), it => it.Mea005.Contains(parm.Mea005));
+            //查询字段: <生产日期>
+            //predicate = predicate.AndIF(parm.BeginMea006 == null, it => it.Mea006 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMea006 != null, it => it.Mea006 >= parm.BeginMea006);
+            //predicate = predicate.AndIF(parm.EndMea006 != null, it => it.Mea006 <= parm.EndMea006);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginPpdDate == null, it => it.PpdDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMea006 == null, it => it.Mea006 >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginPpdDate == null, it => it.PpdDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginPpdDate != null, it => it.PpdDate >= parm.BeginPpdDate);
-            predicate = predicate.AndIF(parm.EndPpdDate != null, it => it.PpdDate <= parm.EndPpdDate);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PpdLineName), it => it.PpdLineName == parm.PpdLineName);
+            predicate = predicate.AndIF(parm.BeginMea006 == null, it => it.Mea006 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMea006 != null, it => it.Mea006 >= parm.BeginMea006);
+            predicate = predicate.AndIF(parm.EndMea006 != null, it => it.Mea006 <= parm.EndMea006);
+            //查询字段: <生产班组>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mea007), it => it.Mea007 == parm.Mea007);
             return predicate;
         }
     }

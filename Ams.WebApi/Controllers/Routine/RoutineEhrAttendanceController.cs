@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Routine
     /// 考勤
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:31:57
+    /// @Date: 2024/9/12 15:26:15
     /// </summary>
     [Verify]
     [Route("Routine/RoutineEhrAttendance")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Routine
         /// <summary>
         /// 查询考勤详情
         /// </summary>
-        /// <param name="EeSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{EeSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "routine:ehrattendance:query")]
-        public IActionResult GetRoutineEhrAttendance(long EeSfId)
+        public IActionResult GetRoutineEhrAttendance(long Id)
         {
-            var response = _RoutineEhrAttendanceService.GetInfo(EeSfId);
+            var response = _RoutineEhrAttendanceService.GetInfo(Id);
             
             var info = response.Adapt<RoutineEhrAttendanceDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "routine:ehrattendance:add")]
-        [Log(Title = "考勤", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "考勤", BusinessType = BusinessType.ADD)]
         public IActionResult AddRoutineEhrAttendance([FromBody] RoutineEhrAttendanceDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_RoutineEhrAttendanceService.CheckInputUnique(parm.EeSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_RoutineEhrAttendanceService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增考勤 '{parm.EeSfId}'失败(Add failed)，输入的考勤已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增考勤 '{parm.Id}'失败(Add failed)，输入的考勤已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<RoutineEhrAttendance>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "routine:ehrattendance:edit")]
-        [Log(Title = "考勤", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "考勤", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateRoutineEhrAttendance([FromBody] RoutineEhrAttendanceDto parm)
         {
             var modal = parm.Adapt<RoutineEhrAttendance>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// 导出考勤
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "考勤", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "考勤导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "routine:ehrattendance:export")]
         public IActionResult Export([FromQuery] RoutineEhrAttendanceQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 导入
+        /// 导入考勤
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "考勤导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "routine:ehrattendance:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<RoutineEhrAttendanceDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 考勤导入模板下载
+        /// 考勤
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "考勤模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<RoutineEhrAttendanceImportTpl>() { }, "RoutineEhrAttendance_tpl");
             return ExportExcel(result.Item2, result.Item1);

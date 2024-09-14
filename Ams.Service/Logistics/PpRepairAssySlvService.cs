@@ -1,20 +1,23 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
 {
     /// <summary>
-    /// 组立不良slv
+    /// 不良明细
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 11:58:58
+    /// @Date: 2024/9/12 16:38:50
     /// </summary>
     [AppService(ServiceType = typeof(IPpRepairAssySlvService), ServiceLifetime = LifeTime.Transient)]
     public class PpRepairAssySlvService : BaseService<PpRepairAssySlv>, IPpRepairAssySlvService
     {
         /// <summary>
-        /// 查询组立不良slv列表
+        /// 查询不良明细列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -28,6 +31,7 @@ namespace Ams.Service.Logistics
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +40,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. PpdSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,18 +52,19 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="PpdSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public PpRepairAssySlv GetInfo(long PpdSfId)
+        public PpRepairAssySlv GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.PpdSfId == PpdSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
-        /// 添加组立不良slv
+        /// 添加不良明细
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -68,35 +73,27 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
-        /// 修改组立不良slv
+        /// 修改不良明细
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         public int UpdatePpRepairAssySlv(PpRepairAssySlv model)
         {
-            return Update(model, true, "修改组立不良slv");
+            return Update(model, true, "修改不良明细");
         }
 
         /// <summary>
-        /// 导入组立不良slv
+        /// 导入不良明细
         /// </summary>
         /// <returns></returns>
         public (string, object, object) ImportPpRepairAssySlv(List<PpRepairAssySlv> list)
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.PpdSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.PpdParentSfId.IsEmpty(), "PpdParentSfId不能为空")
-                .SplitError(x => x.Item.PpdBadQty.IsEmpty(), "不良数量不能为空")
-                .SplitError(x => x.Item.PpdBadTotal.IsEmpty(), "不良总数不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Mfa004.IsEmpty(), "不良数量不能为空")
+                .SplitError(x => x.Item.Mfa005.IsEmpty(), "不良总数不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -118,7 +115,7 @@ namespace Ams.Service.Logistics
         }
 
         /// <summary>
-        /// 导出组立不良slv
+        /// 导出不良明细
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -130,8 +127,8 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpRepairAssySlvDto()
                 {
-                    PpdBadTypeLabel = it.PpdBadType.GetConfigValue<SysDictData>("sql_bad_dist"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <不良区分> 
+                    Mfa003Label = it.Mfa003.GetConfigValue<SysDictData>("sql_bad_dist"),
                 }, true)
                 .ToPage(parm);
 
@@ -147,10 +144,6 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpRepairAssySlv>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PpdBadType), it => it.PpdBadType == parm.PpdBadType);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PpdBadSymptom), it => it.PpdBadSymptom.Contains(parm.PpdBadSymptom));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PpdBadPosition), it => it.PpdBadPosition.Contains(parm.PpdBadPosition));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PpdBadReason), it => it.PpdBadReason.Contains(parm.PpdBadReason));
             return predicate;
         }
     }

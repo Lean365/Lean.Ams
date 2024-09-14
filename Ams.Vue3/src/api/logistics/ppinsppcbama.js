@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 检查日报ma分页查询
+ * 检查分页查询
  * @param {查询条件} data
  */
 export function listPpInspPcbaMa(query) {
@@ -14,7 +14,7 @@ export function listPpInspPcbaMa(query) {
 }
 
 /**
- * 新增检查日报ma
+ * 新增检查
  * @param data
  */
 export function addPpInspPcbaMa(data) {
@@ -25,7 +25,7 @@ export function addPpInspPcbaMa(data) {
   })
 }
 /**
- * 修改检查日报ma
+ * 修改检查
  * @param data
  */
 export function updatePpInspPcbaMa(data) {
@@ -36,7 +36,7 @@ export function updatePpInspPcbaMa(data) {
   })
 }
 /**
- * 获取检查日报ma详情
+ * 获取检查详情
  * @param {Id}
  */
 export function getPpInspPcbaMa(id) {
@@ -47,7 +47,7 @@ export function getPpInspPcbaMa(id) {
 }
 
 /**
- * 删除检查日报ma
+ * 删除检查
  * @param {主键} pid
  */
 export function delPpInspPcbaMa(pid) {
@@ -56,7 +56,7 @@ export function delPpInspPcbaMa(pid) {
     method: 'delete'
   })
 }
-// 导出检查日报ma
+// 导出检查
 export async function exportPpInspPcbaMa(query) {
   await downFile('Logistics/PpInspPcbaMa/export', { ...query })
 }

@@ -98,15 +98,18 @@
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-form-item :label="$t('pconfig.configName')" prop="configName">
           <el-input v-model="form.configName"
-            :placeholder="$t('btn.enterPrefix')+$t('pconfig.configName')+$t('btn.enterSuffix')" />
+            :placeholder="$t('btn.enterPrefix')+$t('pconfig.configName')+$t('btn.enterSuffix')" show-word-limit
+            maxlength="80" />
         </el-form-item>
         <el-form-item :label="$t('pconfig.configKey')" prop="configKey">
           <el-input v-model="form.configKey"
-            :placeholder="$t('btn.enterPrefix')+$t('pconfig.configKey')+$t('btn.enterSuffix')" />
+            :placeholder="$t('btn.enterPrefix')+$t('pconfig.configKey')+$t('btn.enterSuffix')" show-word-limit
+            maxlength="80" />
         </el-form-item>
         <el-form-item :label="$t('pconfig.configValue')" prop="configValue">
-          <el-input v-model="form.configValue"
-            :placeholder="$t('btn.enterPrefix')+$t('pconfig.configValue')+$t('btn.enterSuffix')" />
+          <el-input v-model="form.configValue" type="textarea"
+            :placeholder="$t('btn.enterPrefix')+$t('pconfig.configValue')+$t('btn.enterSuffix')" show-word-limit
+            maxlength="400" />
         </el-form-item>
         <el-form-item :label="$t('pconfig.configType')" prop="configType">
           <el-radio-group v-model="form.configType">
@@ -116,7 +119,8 @@
         </el-form-item>
         <el-form-item :label="$t('common.tipRemarks')" prop="remark">
           <el-input v-model="form.remark" type="textarea"
-            :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')" />
+            :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')" show-word-limit
+            maxlength="400" />
         </el-form-item>
       </el-form>
       <template #footer>

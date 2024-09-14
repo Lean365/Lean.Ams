@@ -28,7 +28,7 @@ namespace Ams.Model
             {
                 if (TotalNum > 0)
                 {
-                    return TotalNum % this.PageSize == 0 ? TotalNum / this.PageSize : TotalNum / this.PageSize + 1;
+                    return TotalNum % PageSize == 0 ? TotalNum / PageSize : TotalNum / PageSize + 1;
                 }
                 else
                 {

@@ -105,7 +105,8 @@
           <el-col :lg="24">
             <el-form-item :label="$t('pdept.deptName')" prop="deptName">
               <el-input v-model="form.deptName"
-                :placeholder="$t('btn.enterPrefix')+$t('pdept.deptName')+$t('btn.enterSuffix')" />
+                :placeholder="$t('btn.enterPrefix')+$t('pdept.deptName')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="20" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
@@ -116,19 +117,22 @@
           <el-col :lg="24">
             <el-form-item :label="$t('pdept.leader')" prop="leader">
               <el-input v-model="form.leader"
-                :placeholder="$t('btn.enterPrefix')+$t('pdept.leader')+$t('btn.enterSuffix')" maxlength="20" />
+                :placeholder="$t('btn.enterPrefix')+$t('pdept.leader')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="20" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
             <el-form-item :label="$t('pdept.phone')" prop="phone">
               <el-input v-model="form.phone"
-                :placeholder="$t('btn.enterPrefix')+$t('pdept.phone')+$t('btn.enterSuffix')" maxlength="11" />
+                :placeholder="$t('btn.enterPrefix')+$t('pdept.phone')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="11" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
             <el-form-item :label="$t('pdept.email')" prop="email">
               <el-input v-model="form.email"
-                :placeholder="$t('btn.enterPrefix')+$t('pdept.email')+$t('btn.enterSuffix')" maxlength="50" />
+                :placeholder="$t('btn.enterPrefix')+$t('pdept.email')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="40" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">

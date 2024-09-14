@@ -80,7 +80,7 @@ $if(replaceDto.ShowBtnAdd)
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:add")]
-        [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.ADD)]
         public IActionResult Add${replaceDto.ModelTypeName}([FromBody] ${replaceDto.ModelTypeName}Dto parm)
         {
            // 校验输入项目唯一性
@@ -104,7 +104,7 @@ $if(replaceDto.ShowBtnEdit)
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:edit")]
-        [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.EDIT)]
         public IActionResult Update${replaceDto.ModelTypeName}([FromBody] ${replaceDto.ModelTypeName}Dto parm)
         {
             var modal = parm.Adapt<${replaceDto.ModelTypeName}>().ToUpdate(HttpContext);
@@ -135,7 +135,7 @@ $if(replaceDto.ShowBtnExport)
         /// 导出${genTable.FunctionName}
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "${genTable.FunctionName}", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "${genTable.FunctionName}导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:export")]
         public IActionResult Export([FromQuery] ${replaceDto.ModelTypeName}QueryDto parm)
@@ -172,14 +172,14 @@ $if(replaceDto.ShowBtnTruncate)
 $end
 $if(replaceDto.ShowBtnImport)
         /// <summary>
-        /// 导入
+        /// 导入${genTable.FunctionName}
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "${genTable.FunctionName}导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<${replaceDto.ModelTypeName}Dto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -191,13 +191,14 @@ $if(replaceDto.ShowBtnImport)
         }
 
         /// <summary>
-        /// ${genTable.FunctionName}导入模板下载
+        /// ${genTable.FunctionName}
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "${genTable.FunctionName}模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<${replaceDto.ModelTypeName}ImportTpl>() { }, "${replaceDto.ModelTypeName}_tpl");
             return ExportExcel(result.Item2, result.Item1);

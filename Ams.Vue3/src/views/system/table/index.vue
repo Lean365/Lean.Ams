@@ -1,9 +1,9 @@
 <!--
  * @Descripttion: 表名称/sys_table
- * @Version: 1.0.0.0
+ * @Version: 0.24.613.26771
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/31 10:27:13
- * @column：40
+ * @Date: 2024/9/4 16:50:06
+ * @column：33
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -13,12 +13,12 @@
       label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-          <el-form-item label="表名 " prop="tb001">
-            <el-input v-model="queryParams.tb001"
-              :placeholder="$t('btn.enterSearchPrefix')+'表名 '+$t('btn.enterSearchSuffix')" />
-          </el-form-item>
-          <el-form-item label="表描述" prop="tb002">
+          <el-form-item label="表名" prop="tb002">
             <el-input v-model="queryParams.tb002"
+              :placeholder="$t('btn.enterSearchPrefix')+'表名'+$t('btn.enterSearchSuffix')" />
+          </el-form-item>
+          <el-form-item label="表描述" prop="tb003">
+            <el-input v-model="queryParams.tb003"
               :placeholder="$t('btn.enterSearchPrefix')+'表描述'+$t('btn.enterSearchSuffix')" />
           </el-form-item>
         </el-col>
@@ -57,7 +57,7 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="upload">
-                <importData templateUrl="Kernel/SysTable/importTemplate" importUrl="/Kernel/SysTable/importData"
+                <importData templateUrl="Admin/SysTable/importTemplate" importUrl="/Admin/SysTable/importData"
                   @success="handleFileSuccess"></importData>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -77,56 +77,25 @@
       header-cell-class-name="el-table-header-cell" highlight-current-row @sort-change="sortChange"
       @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
-      <el-table-column prop="tbId" label="ID" align="center" v-if="columns.showColumn('tbId')" />
-      <el-table-column prop="tb001" label="表名 " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('tb001')" />
-      <el-table-column prop="tb002" label="表描述" align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')" />
+      <el-table-column prop="tb002" label="表名" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('tb002')" />
-      <el-table-column prop="tb003" label="序号 " align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="tb003" label="表描述" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('tb003')" />
-      <el-table-column prop="tb004" label="简称" align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="tb004" label="序号" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('tb004')" />
-      <el-table-column prop="tb005" label="缩写" align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="tb005" label="简称" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('tb005')" />
-      <el-table-column prop="tb006" label="表名称" align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="tb006" label="缩写" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('tb006')" />
-      <el-table-column prop="tb007" label="字段名称(tw) " align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="tb007" label="前缀" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('tb007')" />
-      <el-table-column prop="tb008" label="字段名称(ja) " align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="tb008" label="表名" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('tb008')" />
-      <el-table-column prop="tb009" label="字段名称(ko) " align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="tb009" label="翻译" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('tb009')" />
-      <el-table-column prop="tb010" label="字段名称(ar) " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('tb010')" />
-      <el-table-column prop="tb011" label="字段名称(ru) " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('tb011')" />
-      <el-table-column prop="tb012" label="字段名称(es) " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('tb012')" />
-      <el-table-column prop="tb013" label="字段名称(fr) " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('tb013')" />
-      <el-table-column prop="tb014" label="字段名称(de) " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('tb014')" />
-      <el-table-column prop="tb015" label="字段名称(en) " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('tb015')" />
-      <el-table-column prop="rEF01" label="预留A " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('rEF01')" />
-      <el-table-column prop="rEF02" label="预留B " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('rEF02')" />
-      <el-table-column prop="rEF03" label="预留C " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('rEF03')" />
-      <el-table-column prop="rEF04" label="预留1 " align="center" v-if="columns.showColumn('rEF04')" />
-      <el-table-column prop="rEF05" label="预留2 " align="center" v-if="columns.showColumn('rEF05')" />
-      <el-table-column prop="rEF06" label="预留3" align="center" v-if="columns.showColumn('rEF06')" />
       <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('remark')" />
-      <el-table-column prop="createBy" label="创建人员" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('createBy')" />
-      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('createTime')" />
-      <el-table-column prop="updateBy" label="更新人员" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('updateBy')" />
-      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('updateTime')" />
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button-group>
@@ -148,272 +117,66 @@
           <el-tab-pane :label="$t('ptabs.basicInfo')" name="first">
             <el-row :gutter="20">
 
-              <el-col :lg="12">
-                <el-form-item label="ID" prop="tbId">
-                  <el-input v-model.number="form.tbId" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')"
-                    :disabled="opertype != 1" />
+              <el-col :lg="24">
+                <el-form-item label="表名" prop="tb002">
+                  <el-input v-model="form.tb002" :placeholder="$t('btn.enterPrefix')+'表名'+$t('btn.enterSuffix')"
+                    show-word-limit maxlength="255" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="表名 " prop="tb001">
-                  <el-input v-model="form.tb001" :placeholder="$t('btn.enterPrefix')+'表名 '+$t('btn.enterSuffix')"
-                    :disabled="opertype != 1" />
+                <el-form-item label="表描述" prop="tb003">
+                  <el-input v-model="form.tb003" :placeholder="$t('btn.enterPrefix')+'表描述'+$t('btn.enterSuffix')"
+                    show-word-limit maxlength="40" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="表描述" prop="tb002">
-                  <el-input v-model="form.tb002" :placeholder="$t('btn.enterPrefix')+'表描述'+$t('btn.enterSuffix')" />
+                <el-form-item label="序号" prop="tb004">
+                  <el-input v-model="form.tb004" :placeholder="$t('btn.enterPrefix')+'序号'+$t('btn.enterSuffix')"
+                    show-word-limit maxlength="255" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="序号 " prop="tb003">
-                  <el-input v-model="form.tb003" :placeholder="$t('btn.enterPrefix')+'序号 '+$t('btn.enterSuffix')"
-                    :disabled="opertype != 1" />
+                <el-form-item label="数据库名称" prop="tb005">
+                  <el-input v-model="form.tb005" :placeholder="$t('btn.enterPrefix')+'数据库名称'+$t('btn.enterSuffix')"
+                    show-word-limit maxlength="100" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="简称" prop="tb004">
-                  <el-input v-model="form.tb004" :placeholder="$t('btn.enterPrefix')+'简称'+$t('btn.enterSuffix')" />
+                <el-form-item label="访问方式" prop="tb006">
+                  <el-input v-model="form.tb006" :placeholder="$t('btn.enterPrefix')+'缩写'+$t('btn.enterSuffix')"
+                    show-word-limit maxlength="20" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="缩写" prop="tb005">
-                  <el-input v-model="form.tb005" :placeholder="$t('btn.enterPrefix')+'缩写'+$t('btn.enterSuffix')" />
+                <el-form-item label="前缀" prop="tb007">
+                  <el-input v-model="form.tb007" :placeholder="$t('btn.enterPrefix')+'前缀'+$t('btn.enterSuffix')"
+                    show-word-limit maxlength="4000" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="表名称" prop="tb006">
-                  <el-input v-model="form.tb006" :placeholder="$t('btn.enterPrefix')+'表名称'+$t('btn.enterSuffix')"
-                    :disabled="opertype != 1" />
+                <el-form-item label="表名" prop="tb008">
+                  <el-input v-model="form.tb008" :placeholder="$t('btn.enterPrefix')+'表名'+$t('btn.enterSuffix')"
+                    show-word-limit maxlength="255" />
                 </el-form-item>
               </el-col>
 
-              <el-col :lg="12">
-                <el-form-item label="字段名称(tw) " prop="tb007">
-                  <el-input v-model="form.tb007"
-                    :placeholder="$t('btn.enterPrefix')+'字段名称(tw) '+$t('btn.enterSuffix')" />
+              <el-col :lg="24">
+                <el-form-item label="翻译" prop="tb009">
+                  <el-input type="textarea" v-model="form.tb009"
+                    :placeholder="$t('btn.enterPrefix')+'翻译'+$t('btn.enterSuffix')" show-word-limit maxlength="4000" />
                 </el-form-item>
               </el-col>
 
-              <el-col :lg="12">
-                <el-form-item label="字段名称(ja) " prop="tb008">
-                  <el-input v-model="form.tb008"
-                    :placeholder="$t('btn.enterPrefix')+'字段名称(ja) '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="字段名称(ko) " prop="tb009">
-                  <el-input v-model="form.tb009"
-                    :placeholder="$t('btn.enterPrefix')+'字段名称(ko) '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="字段名称(ar) " prop="tb010">
-                  <el-input v-model="form.tb010"
-                    :placeholder="$t('btn.enterPrefix')+'字段名称(ar) '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="字段名称(ru) " prop="tb011">
-                  <el-input v-model="form.tb011"
-                    :placeholder="$t('btn.enterPrefix')+'字段名称(ru) '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="字段名称(es) " prop="tb012">
-                  <el-input v-model="form.tb012"
-                    :placeholder="$t('btn.enterPrefix')+'字段名称(es) '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="字段名称(fr) " prop="tb013">
-                  <el-input v-model="form.tb013"
-                    :placeholder="$t('btn.enterPrefix')+'字段名称(fr) '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="字段名称(de) " prop="tb014">
-                  <el-input v-model="form.tb014"
-                    :placeholder="$t('btn.enterPrefix')+'字段名称(de) '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="字段名称(en) " prop="tb015">
-                  <el-input v-model="form.tb015"
-                    :placeholder="$t('btn.enterPrefix')+'字段名称(en) '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="预留A " prop="rEF01">
-                  <el-input v-model="form.rEF01" :placeholder="$t('btn.enterPrefix')+'预留A '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="预留B " prop="rEF02">
-                  <el-input v-model="form.rEF02" :placeholder="$t('btn.enterPrefix')+'预留B '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="预留C " prop="rEF03">
-                  <el-input v-model="form.rEF03" :placeholder="$t('btn.enterPrefix')+'预留C '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="预留1 " prop="rEF04">
-                  <el-input-number v-model.number="form.rEF04" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'预留1 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="预留2 " prop="rEF05">
-                  <el-input-number v-model.number="form.rEF05" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'预留2 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="预留3" prop="rEF06">
-                  <el-input-number v-model.number="form.rEF06" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'预留3'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义A " prop="uDF01">
-                  <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义B " prop="uDF02">
-                  <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义C " prop="uDF03">
-                  <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义D " prop="uDF04">
-                  <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义E " prop="uDF05">
-                  <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义F " prop="uDF06">
-                  <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义1 " prop="uDF51">
-                  <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'自定义1 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义2 " prop="uDF52">
-                  <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'自定义2 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义3 " prop="uDF53">
-                  <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'自定义3 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义4 " prop="uDF54">
-                  <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'自定义4 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义5 " prop="uDF55">
-                  <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'自定义5 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义6 " prop="uDF56">
-                  <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'自定义6 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="软删除" prop="isDeleted">
-                  <el-radio-group v-model="form.isDeleted">
-                    <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue"
-                      :value="parseInt(item.dictValue)">
-                      {{item.dictLabel}}
-                    </el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
+              <el-col :lg="24">
                 <el-form-item label="备注说明" prop="remark">
-                  <el-input v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="创建人员" prop="createBy">
-                  <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建人员'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="创建时间" prop="createTime">
-                  <el-date-picker v-model="form.createTime" type="datetime" :teleported="false"
-                    :placeholder="$t('btn.dateselect')"></el-date-picker>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="更新人员" prop="updateBy">
-                  <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新人员'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="更新时间" prop="updateTime">
-                  <el-date-picker v-model="form.updateTime" type="datetime" :teleported="false"
-                    :placeholder="$t('btn.dateselect')"></el-date-picker>
+                  <el-input type="textarea" v-model="form.remark"
+                    :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" show-word-limit maxlength="500" />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -526,42 +289,25 @@
   const queryParams = reactive({
     pageNum: 1,
     pageSize: 56,
-    sort: '',
+    sort: 'Tb002',
     sortType: 'asc',
     //是否查询（1是）
-    tb001: undefined,
-    //是否查询（1是）
     tb002: undefined,
+    //是否查询（1是）
+    tb003: undefined,
   })
   //字段显示控制
   const columns = ref([
-    { visible: true, prop: 'tbId', label: 'ID' },
-    { visible: true, prop: 'tb001', label: '表名 ' },
-    { visible: true, prop: 'tb002', label: '表描述' },
-    { visible: true, prop: 'tb003', label: '序号 ' },
-    { visible: true, prop: 'tb004', label: '简称' },
-    { visible: true, prop: 'tb005', label: '缩写' },
-    { visible: true, prop: 'tb006', label: '表名称' },
-    { visible: true, prop: 'tb007', label: '字段名称(tw) ' },
-    { visible: false, prop: 'tb008', label: '字段名称(ja) ' },
-    { visible: false, prop: 'tb009', label: '字段名称(ko) ' },
-    { visible: false, prop: 'tb010', label: '字段名称(ar) ' },
-    { visible: false, prop: 'tb011', label: '字段名称(ru) ' },
-    { visible: false, prop: 'tb012', label: '字段名称(es) ' },
-    { visible: false, prop: 'tb013', label: '字段名称(fr) ' },
-    { visible: false, prop: 'tb014', label: '字段名称(de) ' },
-    { visible: false, prop: 'tb015', label: '字段名称(en) ' },
-    { visible: false, prop: 'rEF01', label: '预留A ' },
-    { visible: false, prop: 'rEF02', label: '预留B ' },
-    { visible: false, prop: 'rEF03', label: '预留C ' },
-    { visible: false, prop: 'rEF04', label: '预留1 ' },
-    { visible: false, prop: 'rEF05', label: '预留2 ' },
-    { visible: false, prop: 'rEF06', label: '预留3' },
+    { visible: true, prop: 'id', label: 'ID' },
+    { visible: true, prop: 'tb002', label: '表名' },
+    { visible: true, prop: 'tb003', label: '表描述' },
+    { visible: true, prop: 'tb004', label: '序号' },
+    { visible: true, prop: 'tb005', label: '简称' },
+    { visible: true, prop: 'tb006', label: '缩写' },
+    { visible: true, prop: 'tb007', label: '前缀' },
+    { visible: true, prop: 'tb008', label: '表名' },
+    { visible: false, prop: 'tb009', label: '翻译' },
     { visible: false, prop: 'remark', label: '备注说明' },
-    { visible: false, prop: 'createBy', label: '创建人员' },
-    { visible: false, prop: 'createTime', label: '创建时间' },
-    { visible: false, prop: 'updateBy', label: '更新人员' },
-    { visible: false, prop: 'updateTime', label: '更新时间' },
   ])
   // 记录数
   const total = ref(0)
@@ -609,7 +355,7 @@
   }
   // 多选框选中数据
   function handleSelectionChange(selection) {
-    ids.value = selection.map((item) => item.tbId);
+    ids.value = selection.map((item) => item.id);
     single.value = selection.length != 1
     multiple.value = !selection.length;
   }
@@ -644,12 +390,22 @@
     single: true,
     multiple: true,
     form: {},
+    //正则表达式
     rules: {
-      tbId: [{ required: true, message: "ID" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
-      tb001: [{ required: true, message: "表名 " + proxy.$t('btn.isEmpty'), trigger: "blur" }],
-      tb003: [{ required: true, message: "序号 " + proxy.$t('btn.isEmpty'), trigger: "blur" }],
-      tb006: [{ required: true, message: "表名称" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      id: [{ required: true, message: "ID" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      tb002: [{ required: true, message: "表名" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      rEF04: [{ required: true, message: "预留1" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      rEF05: [{ required: true, message: "预留2" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      rEF06: [{ required: true, message: "预留3" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      uDF51: [{ required: true, message: "自定义1" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
+      uDF52: [{ required: true, message: "自定义2" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
+      uDF53: [{ required: true, message: "自定义3" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
+      uDF54: [{ required: true, message: "自定义4" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      uDF55: [{ required: true, message: "自定义5" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      uDF56: [{ required: true, message: "自定义6" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      isDeleted: [{ required: true, message: "软删除" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
     },
+    //字典名称
     options: {
       // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sys_is_deleted: [],
@@ -667,8 +423,6 @@
   // 重置表单
   function reset() {
     form.value = {
-      tbId: 0,
-      tb001: null,
       tb002: null,
       tb003: null,
       tb004: null,
@@ -677,36 +431,7 @@
       tb007: null,
       tb008: null,
       tb009: null,
-      tb010: null,
-      tb011: null,
-      tb012: null,
-      tb013: null,
-      tb014: null,
-      tb015: null,
-      rEF01: null,
-      rEF02: null,
-      rEF03: null,
-      rEF04: 0,
-      rEF05: 0,
-      rEF06: 0,
-      uDF01: null,
-      uDF02: null,
-      uDF03: null,
-      uDF04: null,
-      uDF05: null,
-      uDF06: null,
-      uDF51: 0,
-      uDF52: 0,
-      uDF53: 0,
-      uDF54: 0,
-      uDF55: 0,
-      uDF56: 0,
-      isDeleted: 0,
       remark: null,
-      createBy: null,
-      createTime: null,
-      updateBy: null,
-      updateTime: null,
     };
     proxy.resetForm("formRef")
   }
@@ -718,16 +443,11 @@
     open.value = true
     title.value = proxy.$t('btn.add') + " " + '表名称'
     opertype.value = 1
-    form.value.rEF04 = 0
-    form.value.rEF05 = 0
-    form.value.rEF06 = 0
-    form.value.createTime = new Date()
-    form.value.updateTime = new Date()
   }
   // 修改按钮操作
   function handleUpdate(row) {
     reset()
-    const id = row.tbId || ids.value
+    const id = row.id || ids.value
     getSysTable(id).then((res) => {
       const { code, data } = res
       if (code == 200) {
@@ -747,7 +467,7 @@
     proxy.$refs["formRef"].validate((valid) => {
       if (valid) {
 
-        if (form.value.tbId != undefined && opertype.value === 2) {
+        if (form.value.id != undefined && opertype.value === 2) {
           updateSysTable(form.value).then((res) => {
             proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
             open.value = false
@@ -766,7 +486,7 @@
 
   // 删除按钮操作
   function handleDelete(row) {
-    const Ids = row.tbId || ids.value
+    const Ids = row.id || ids.value
 
     proxy
       .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
@@ -806,7 +526,7 @@
         type: "warning",
       })
       .then(async () => {
-        await proxy.downFile('/Kernel/SysTable/export', { ...queryParams })
+        await proxy.downFile('/Admin/SysTable/export', { ...queryParams })
       })
   }
 

@@ -1,1040 +1,1342 @@
+
 namespace Ams.Model.Logistics.Dto
 {
     /// <summary>
     /// 物料评估
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:50:11
+    /// @Date: 2024/9/11 11:30:25
     /// </summary>
-    public class MmMbewQueryDto : PagerInfo
+    public class MmMbewQueryDto : PagerInfo 
     {
-        public string Matnr { get; set; }
-        public string Bwkey { get; set; }
-        public string Bklas { get; set; }
-        public int? Lfgja { get; set; }
-        public int? Lfmon { get; set; }
+        /// <summary>
+        /// 物料号 
+        /// </summary>        
+        public string Md003 { get; set; }
+        /// <summary>
+        /// 评估范围 
+        /// </summary>        
+        public string Md004 { get; set; }
+        /// <summary>
+        /// 评估类型 
+        /// </summary>        
+        public string Md005 { get; set; }
     }
 
     /// <summary>
     /// 物料评估
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:50:11
+    /// @Date: 2024/9/11 11:30:25
     /// </summary>
     public class MmMbewDto
     {
-        [Required(ErrorMessage = "ID主键不能为空")]
-        [ExcelColumn(Name = "ID主键")]
-        [ExcelColumnName("ID主键")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long SfId { get; set; }
 
-        [ExcelColumn(Name = "集团")]
+        public long Id { get; set; }
+
+        [Required(ErrorMessage = "集团不能为空")]
+        //[ExcelColumn(Name = "集团")]
         [ExcelColumnName("集团")]
-        public string Mandt { get; set; }
+
+        public string Md002 { get; set; }
 
         [Required(ErrorMessage = "物料号不能为空")]
-        [ExcelColumn(Name = "物料号")]
+        //[ExcelColumn(Name = "物料号")]
         [ExcelColumnName("物料号")]
-        public string Matnr { get; set; }
+
+        public string Md003 { get; set; }
 
         [Required(ErrorMessage = "评估范围不能为空")]
-        [ExcelColumn(Name = "评估范围")]
+        //[ExcelColumn(Name = "评估范围")]
         [ExcelColumnName("评估范围")]
-        public string Bwkey { get; set; }
 
-        [ExcelColumn(Name = "评估类型")]
+        public string Md004 { get; set; }
+
+        [Required(ErrorMessage = "评估类型不能为空")]
+        //[ExcelColumn(Name = "评估类型")]
         [ExcelColumnName("评估类型")]
-        public string Bwtar { get; set; }
 
-        [ExcelColumn(Name = "一种评估类型的所有物料数据的删除标志")]
-        [ExcelColumnName("一种评估类型的所有物料数据的删除标志")]
-        public string Lvorm { get; set; }
+        public string Md005 { get; set; }
 
-        [ExcelColumn(Name = "总计已估计库存")]
-        [ExcelColumnName("总计已估计库存")]
-        public decimal Lbkum { get; set; }
+        //[ExcelColumn(Name = "删除标志")]
+        [ExcelColumnName("删除标志")]
 
-        [ExcelColumn(Name = "估价的总库存价值")]
-        [ExcelColumnName("估价的总库存价值")]
-        public decimal Salk3 { get; set; }
+        public string Md006 { get; set; }
 
-        [ExcelColumn(Name = "价格控制指示符")]
-        [ExcelColumnName("价格控制指示符")]
-        public string Vprsv { get; set; }
+        [Required(ErrorMessage = "总库存不能为空")]
+        //[ExcelColumn(Name = "总库存")]
+        [ExcelColumnName("总库存")]
 
-        [ExcelColumn(Name = "移动平均价格/周期单价")]
-        [ExcelColumnName("移动平均价格/周期单价")]
-        public decimal Verpr { get; set; }
+        public decimal Md007 { get; set; }
 
-        [ExcelColumn(Name = "标准价格")]
+        [Required(ErrorMessage = "估价值不能为空")]
+        //[ExcelColumn(Name = "估价值")]
+        [ExcelColumnName("估价值")]
+
+        public decimal Md008 { get; set; }
+
+        //[ExcelColumn(Name = "价格控制")]
+        [ExcelColumnName("价格控制")]
+
+        public string Md009 { get; set; }
+
+        [Required(ErrorMessage = "移动价格不能为空")]
+        //[ExcelColumn(Name = "移动价格")]
+        [ExcelColumnName("移动价格")]
+
+        public decimal Md010 { get; set; }
+
+        [Required(ErrorMessage = "标准价格不能为空")]
+        //[ExcelColumn(Name = "标准价格")]
         [ExcelColumnName("标准价格")]
-        public decimal Stprs { get; set; }
 
-        [ExcelColumn(Name = "价格单位")]
+        public decimal Md011 { get; set; }
+
+        [Required(ErrorMessage = "价格单位不能为空")]
+        //[ExcelColumn(Name = "价格单位")]
         [ExcelColumnName("价格单位")]
-        public decimal Peinh { get; set; }
 
-        [Required(ErrorMessage = "评估类不能为空")]
-        [ExcelColumn(Name = "评估类")]
+        public decimal Md012 { get; set; }
+
+        //[ExcelColumn(Name = "评估类")]
         [ExcelColumnName("评估类")]
-        public string Bklas { get; set; }
 
-        [ExcelColumn(Name = "基于平均移动价的值（仅价格控制 S）")]
-        [ExcelColumnName("基于平均移动价的值（仅价格控制 S）")]
-        public decimal Salkv { get; set; }
+        public string Md013 { get; set; }
 
-        [ExcelColumn(Name = "前期的总评估库存")]
-        [ExcelColumnName("前期的总评估库存")]
-        public decimal Vmkum { get; set; }
+        [Required(ErrorMessage = "价值/MA价格不能为空")]
+        //[ExcelColumn(Name = "价值/MA价格")]
+        [ExcelColumnName("价值/MA价格")]
 
-        [ExcelColumn(Name = "上期估过价的总库存价值")]
-        [ExcelColumnName("上期估过价的总库存价值")]
-        public decimal Vmsal { get; set; }
+        public decimal Md014 { get; set; }
 
-        [ExcelColumn(Name = "前一期间价格控制标识")]
-        [ExcelColumnName("前一期间价格控制标识")]
-        public string Vmvpr { get; set; }
+        [Required(ErrorMessage = "前期总库存不能为空")]
+        //[ExcelColumn(Name = "前期总库存")]
+        [ExcelColumnName("前期总库存")]
 
-        [ExcelColumn(Name = "前一期间的移动平均价格/期间单位价格")]
-        [ExcelColumnName("前一期间的移动平均价格/期间单位价格")]
-        public decimal Vmver { get; set; }
+        public decimal Md015 { get; set; }
 
-        [ExcelColumn(Name = "前期的标准价格")]
-        [ExcelColumnName("前期的标准价格")]
-        public decimal Vmstp { get; set; }
+        [Required(ErrorMessage = "前期总价值不能为空")]
+        //[ExcelColumn(Name = "前期总价值")]
+        [ExcelColumnName("前期总价值")]
 
-        [ExcelColumn(Name = "前期的价格单位")]
-        [ExcelColumnName("前期的价格单位")]
-        public decimal Vmpei { get; set; }
+        public decimal Md016 { get; set; }
 
-        [ExcelColumn(Name = "上期的评价分类")]
-        [ExcelColumnName("上期的评价分类")]
-        public string Vmbkl { get; set; }
+        //[ExcelColumn(Name = "前期价格控制")]
+        [ExcelColumnName("前期价格控制")]
 
-        [ExcelColumn(Name = "基于平均移动价的值(上期)")]
-        [ExcelColumnName("基于平均移动价的值(上期)")]
-        public decimal Vmsav { get; set; }
+        public string Md017 { get; set; }
 
-        [ExcelColumn(Name = "前年的总评估库存")]
-        [ExcelColumnName("前年的总评估库存")]
-        public decimal Vjkum { get; set; }
+        [Required(ErrorMessage = "前期移动平均价不能为空")]
+        //[ExcelColumn(Name = "前期移动平均价")]
+        [ExcelColumnName("前期移动平均价")]
 
-        [ExcelColumn(Name = "上年估价的总库存价值")]
-        [ExcelColumnName("上年估价的总库存价值")]
-        public decimal Vjsal { get; set; }
+        public decimal Md018 { get; set; }
 
-        [ExcelColumn(Name = "前一年的价格控制标识")]
-        [ExcelColumnName("前一年的价格控制标识")]
-        public string Vjvpr { get; set; }
+        [Required(ErrorMessage = "前期标准价格不能为空")]
+        //[ExcelColumn(Name = "前期标准价格")]
+        [ExcelColumnName("前期标准价格")]
 
-        [ExcelColumn(Name = "前一年移动平均价格/期间单价价格")]
-        [ExcelColumnName("前一年移动平均价格/期间单价价格")]
-        public decimal Vjver { get; set; }
+        public decimal Md019 { get; set; }
 
-        [ExcelColumn(Name = "上年的标准价格")]
-        [ExcelColumnName("上年的标准价格")]
-        public decimal Vjstp { get; set; }
+        [Required(ErrorMessage = "上期价格单位不能为空")]
+        //[ExcelColumn(Name = "上期价格单位")]
+        [ExcelColumnName("上期价格单位")]
 
-        [ExcelColumn(Name = "去年的价格单位")]
-        [ExcelColumnName("去年的价格单位")]
-        public decimal Vjpei { get; set; }
+        public decimal Md020 { get; set; }
 
-        [ExcelColumn(Name = "上年的评价分类")]
-        [ExcelColumnName("上年的评价分类")]
-        public string Vjbkl { get; set; }
+        //[ExcelColumn(Name = "上期评价分类")]
+        [ExcelColumnName("上期评价分类")]
 
-        [ExcelColumn(Name = "基于平均移动价的值(上年)")]
-        [ExcelColumnName("基于平均移动价的值(上年)")]
-        public decimal Vjsav { get; set; }
+        public string Md021 { get; set; }
 
-        [ExcelColumn(Name = "当前期间的会计年度")]
-        [ExcelColumnName("当前期间的会计年度")]
-        public int? Lfgja { get; set; }
+        [Required(ErrorMessage = "上期价值不能为空")]
+        //[ExcelColumn(Name = "上期价值")]
+        [ExcelColumnName("上期价值")]
 
-        [ExcelColumn(Name = "当前期间 (记帐期间)")]
-        [ExcelColumnName("当前期间 (记帐期间)")]
-        public int? Lfmon { get; set; }
+        public decimal Md022 { get; set; }
 
-        [ExcelColumn(Name = "评估类别")]
+        [Required(ErrorMessage = "前年总库存不能为空")]
+        //[ExcelColumn(Name = "前年总库存")]
+        [ExcelColumnName("前年总库存")]
+
+        public decimal Md023 { get; set; }
+
+        [Required(ErrorMessage = "上年总价值不能为空")]
+        //[ExcelColumn(Name = "上年总价值")]
+        [ExcelColumnName("上年总价值")]
+
+        public decimal Md024 { get; set; }
+
+        //[ExcelColumn(Name = "前年价格控制")]
+        [ExcelColumnName("前年价格控制")]
+
+        public string Md025 { get; set; }
+
+        [Required(ErrorMessage = "去年移动平均价不能为空")]
+        //[ExcelColumn(Name = "去年移动平均价")]
+        [ExcelColumnName("去年移动平均价")]
+
+        public decimal Md026 { get; set; }
+
+        [Required(ErrorMessage = "去年标准价格不能为空")]
+        //[ExcelColumn(Name = "去年标准价格")]
+        [ExcelColumnName("去年标准价格")]
+
+        public decimal Md027 { get; set; }
+
+        [Required(ErrorMessage = "上年价格单位不能为空")]
+        //[ExcelColumn(Name = "上年价格单位")]
+        [ExcelColumnName("上年价格单位")]
+
+        public decimal Md028 { get; set; }
+
+        //[ExcelColumn(Name = "上年评估类")]
+        [ExcelColumnName("上年评估类")]
+
+        public string Md029 { get; set; }
+
+        [Required(ErrorMessage = "上年价值不能为空")]
+        //[ExcelColumn(Name = "上年价值")]
+        [ExcelColumnName("上年价值")]
+
+        public decimal Md030 { get; set; }
+
+        [Required(ErrorMessage = "当前会计年度不能为空")]
+        //[ExcelColumn(Name = "当前会计年度")]
+        [ExcelColumnName("当前会计年度")]
+
+        public int Md031 { get; set; }
+
+        [Required(ErrorMessage = "当前期间不能为空")]
+        //[ExcelColumn(Name = "当前期间")]
+        [ExcelColumnName("当前期间")]
+
+        public int Md032 { get; set; }
+
+        //[ExcelColumn(Name = "评估类别")]
         [ExcelColumnName("评估类别")]
-        public string Bwtty { get; set; }
 
-        [ExcelColumn(Name = "上期价格")]
+        public string Md033 { get; set; }
+
+        [Required(ErrorMessage = "上期价格不能为空")]
+        //[ExcelColumn(Name = "上期价格")]
         [ExcelColumnName("上期价格")]
-        public decimal Stprv { get; set; }
 
-        [ExcelColumn(Name = "最新价格更改的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("最新价格更改的日期")]
-        public DateTime? Laepr { get; set; }
+        public decimal Md034 { get; set; }
 
-        [ExcelColumn(Name = "未来价格")]
+        //[ExcelColumn(Name = "最新价格更改", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("最新价格更改")]
+
+        public DateTime? Md035 { get; set; }
+
+        [Required(ErrorMessage = "未来价格不能为空")]
+        //[ExcelColumn(Name = "未来价格")]
         [ExcelColumnName("未来价格")]
-        public decimal Zkprs { get; set; }
 
-        [ExcelColumn(Name = "价格开始有效的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("价格开始有效的日期")]
-        public DateTime? Zkdat { get; set; }
+        public decimal Md036 { get; set; }
 
-        [ExcelColumn(Name = "简短格式的 UTC 时戳 (YYYYMMDDhhmmss)")]
-        [ExcelColumnName("简短格式的 UTC 时戳 (YYYYMMDDhhmmss)")]
-        public decimal Timestamp { get; set; }
+        //[ExcelColumn(Name = "有效起始日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("有效起始日期")]
 
-        [ExcelColumn(Name = "基于税法的估价价格 - 级别1")]
-        [ExcelColumnName("基于税法的估价价格 - 级别1")]
-        public decimal Bwprs { get; set; }
+        public DateTime? Md037 { get; set; }
 
-        [ExcelColumn(Name = "基于商法的估价价格 - 级别 1")]
-        [ExcelColumnName("基于商法的估价价格 - 级别 1")]
-        public decimal Bwprh { get; set; }
+        [Required(ErrorMessage = "时戳不能为空")]
+        //[ExcelColumn(Name = "时戳")]
+        [ExcelColumnName("时戳")]
 
-        [ExcelColumn(Name = "基于税法的估价价格(BTCI) - 级别3")]
-        [ExcelColumnName("基于税法的估价价格(BTCI) - 级别3")]
-        public decimal Vjbws { get; set; }
+        public decimal Md038 { get; set; }
 
-        [ExcelColumn(Name = "基于商业法律的估价价格 - 级别3")]
-        [ExcelColumnName("基于商业法律的估价价格 - 级别3")]
-        public decimal Vjbwh { get; set; }
+        [Required(ErrorMessage = "税价1不能为空")]
+        //[ExcelColumn(Name = "税价1")]
+        [ExcelColumnName("税价1")]
 
-        [ExcelColumn(Name = "前年估价的总库存价值")]
-        [ExcelColumnName("前年估价的总库存价值")]
-        public decimal Vvjsl { get; set; }
+        public decimal Md039 { get; set; }
 
-        [ExcelColumn(Name = "前年的总评估库存")]
-        [ExcelColumnName("前年的总评估库存")]
-        public decimal Vvjlb { get; set; }
+        [Required(ErrorMessage = "商业价格1不能为空")]
+        //[ExcelColumn(Name = "商业价格1")]
+        [ExcelColumnName("商业价格1")]
 
-        [ExcelColumn(Name = "前期的总评估库存")]
-        [ExcelColumnName("前期的总评估库存")]
-        public decimal Vvmlb { get; set; }
+        public decimal Md040 { get; set; }
 
-        [ExcelColumn(Name = "前期估价的总库存价值")]
-        [ExcelColumnName("前期估价的总库存价值")]
-        public decimal Vvsal { get; set; }
+        [Required(ErrorMessage = "税价3不能为空")]
+        //[ExcelColumn(Name = "税价3")]
+        [ExcelColumnName("税价3")]
 
-        [ExcelColumn(Name = "未来计划价格")]
+        public decimal Md041 { get; set; }
+
+        [Required(ErrorMessage = "商业价格3不能为空")]
+        //[ExcelColumn(Name = "商业价格3")]
+        [ExcelColumnName("商业价格3")]
+
+        public decimal Md042 { get; set; }
+
+        [Required(ErrorMessage = "计价不能为空")]
+        //[ExcelColumn(Name = "计价")]
+        [ExcelColumnName("计价")]
+
+        public decimal Md043 { get; set; }
+
+        [Required(ErrorMessage = "前年总库存不能为空")]
+        //[ExcelColumn(Name = "前年总库存")]
+        [ExcelColumnName("前年总库存")]
+
+        public decimal Md044 { get; set; }
+
+        [Required(ErrorMessage = "前期总价值不能为空")]
+        //[ExcelColumn(Name = "前期总价值")]
+        [ExcelColumnName("前期总价值")]
+
+        public decimal Md045 { get; set; }
+
+        [Required(ErrorMessage = "计价在不能为空")]
+        //[ExcelColumn(Name = "计价在")]
+        [ExcelColumnName("计价在")]
+
+        public decimal Md046 { get; set; }
+
+        [Required(ErrorMessage = "未来计划价格不能为空")]
+        //[ExcelColumn(Name = "未来计划价格")]
         [ExcelColumnName("未来计划价格")]
-        public decimal Zplpr { get; set; }
 
-        [ExcelColumn(Name = "未来计划价格1")]
+        public decimal Md047 { get; set; }
+
+        [Required(ErrorMessage = "未来计划价格1不能为空")]
+        //[ExcelColumn(Name = "未来计划价格1")]
         [ExcelColumnName("未来计划价格1")]
-        public decimal Zplp1 { get; set; }
 
-        [ExcelColumn(Name = "未来计划价格 2")]
+        public decimal Md048 { get; set; }
+
+        [Required(ErrorMessage = "未来计划价格 2不能为空")]
+        //[ExcelColumn(Name = "未来计划价格 2")]
         [ExcelColumnName("未来计划价格 2")]
-        public decimal Zplp2 { get; set; }
 
-        [ExcelColumn(Name = "未来计划价格 3")]
+        public decimal Md049 { get; set; }
+
+        [Required(ErrorMessage = "未来计划价格 3不能为空")]
+        //[ExcelColumn(Name = "未来计划价格 3")]
         [ExcelColumnName("未来计划价格 3")]
-        public decimal Zplp3 { get; set; }
 
-        [ExcelColumn(Name = "计划价格 1 开始有效的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("计划价格 1 开始有效的日期")]
-        public DateTime? Zpld1 { get; set; }
+        public decimal Md050 { get; set; }
 
-        [ExcelColumn(Name = "计划价格 2 开始有效的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("计划价格 2 开始有效的日期")]
-        public DateTime? Zpld2 { get; set; }
+        //[ExcelColumn(Name = "计划价格日期1", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("计划价格日期1")]
 
-        [ExcelColumn(Name = "计划价格 3 开始有效的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("计划价格 3 开始有效的日期")]
-        public DateTime? Zpld3 { get; set; }
+        public DateTime? Md051 { get; set; }
 
-        [ExcelColumn(Name = "未来标准成本估计的期间(未激活)", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("未来标准成本估计的期间(未激活)")]
-        public DateTime? Pperz { get; set; }
+        //[ExcelColumn(Name = "计划价格日期2", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("计划价格日期2")]
 
-        [ExcelColumn(Name = "当前标准成本估计的期间(未激活)", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("当前标准成本估计的期间(未激活)")]
-        public DateTime? Pperl { get; set; }
+        public DateTime? Md052 { get; set; }
 
-        [ExcelColumn(Name = "以前标准成本估计的期间(未激活)", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("以前标准成本估计的期间(未激活)")]
-        public DateTime? Pperv { get; set; }
+        //[ExcelColumn(Name = "计划价格日期3", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("计划价格日期3")]
 
-        [ExcelColumn(Name = "标识: 未来期间的标准成本估算")]
-        [ExcelColumnName("标识: 未来期间的标准成本估算")]
-        public string Kalkz { get; set; }
+        public DateTime? Md053 { get; set; }
 
-        [ExcelColumn(Name = "当前期间的标准成本估算")]
-        [ExcelColumnName("当前期间的标准成本估算")]
-        public string Kalkl { get; set; }
+        //[ExcelColumn(Name = "未来成本估算", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("未来成本估算")]
 
-        [ExcelColumn(Name = "标识: 上一期间的标准成本估计")]
-        [ExcelColumnName("标识: 上一期间的标准成本估计")]
-        public string Kalkv { get; set; }
+        public DateTime? Md054 { get; set; }
 
-        [ExcelColumn(Name = "一般费用代码(未激活)")]
-        [ExcelColumnName("一般费用代码(未激活)")]
-        public string Kalsc { get; set; }
+        //[ExcelColumn(Name = "期间成本估算", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("期间成本估算")]
 
-        [ExcelColumn(Name = "LIFO/FIFO 相关")]
+        public DateTime? Md055 { get; set; }
+
+        //[ExcelColumn(Name = "上期成本估算", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("上期成本估算")]
+
+        public DateTime? Md056 { get; set; }
+
+        //[ExcelColumn(Name = "未来成本估算")]
+        [ExcelColumnName("未来成本估算")]
+
+        public string Md057 { get; set; }
+
+        //[ExcelColumn(Name = "当前成本估算")]
+        [ExcelColumnName("当前成本估算")]
+
+        public string Md058 { get; set; }
+
+        //[ExcelColumn(Name = "上期成本估算")]
+        [ExcelColumnName("上期成本估算")]
+
+        public string Md059 { get; set; }
+
+        //[ExcelColumn(Name = "一般费用代码")]
+        [ExcelColumnName("一般费用代码")]
+
+        public string Md060 { get; set; }
+
+        //[ExcelColumn(Name = "LIFO/FIFO 相关")]
         [ExcelColumnName("LIFO/FIFO 相关")]
-        public string Xlifo { get; set; }
 
-        [ExcelColumn(Name = "用于LIFO评估的储备号")]
-        [ExcelColumnName("用于LIFO评估的储备号")]
-        public string Mypol { get; set; }
+        public string Md061 { get; set; }
 
-        [ExcelColumn(Name = "基于商业法律的估价价格：级别 2")]
-        [ExcelColumnName("基于商业法律的估价价格：级别 2")]
-        public decimal Bwph1 { get; set; }
+        //[ExcelColumn(Name = "LIFO评估储备号")]
+        [ExcelColumnName("LIFO评估储备号")]
 
-        [ExcelColumn(Name = "基于税法的估价价格： 级别2")]
-        [ExcelColumnName("基于税法的估价价格： 级别2")]
-        public decimal Bwps1 { get; set; }
+        public string Md062 { get; set; }
 
-        [ExcelColumn(Name = "最低价值: 贬值标志")]
-        [ExcelColumnName("最低价值: 贬值标志")]
-        public int? Abwkz { get; set; }
+        [Required(ErrorMessage = "商业价格2不能为空")]
+        //[ExcelColumn(Name = "商业价格2")]
+        [ExcelColumnName("商业价格2")]
 
-        [ExcelColumn(Name = "维护状态")]
+        public decimal Md063 { get; set; }
+
+        [Required(ErrorMessage = "税价2不能为空")]
+        //[ExcelColumn(Name = "税价2")]
+        [ExcelColumnName("税价2")]
+
+        public decimal Md064 { get; set; }
+
+        [Required(ErrorMessage = "贬值标志不能为空")]
+        //[ExcelColumn(Name = "贬值标志")]
+        [ExcelColumnName("贬值标志")]
+
+        public int Md065 { get; set; }
+
+        //[ExcelColumn(Name = "维护状态")]
         [ExcelColumnName("维护状态")]
-        public string Pstat { get; set; }
 
-        [ExcelColumn(Name = "成本估算号 - 产品成本核算")]
-        [ExcelColumnName("成本估算号 - 产品成本核算")]
-        public int? Kaln1 { get; set; }
+        public string Md066 { get; set; }
 
-        [ExcelColumn(Name = "没有数量结构的成本估算的成本估算编号")]
-        [ExcelColumnName("没有数量结构的成本估算的成本估算编号")]
-        public int? Kalnr { get; set; }
+        [Required(ErrorMessage = "产品成本核算不能为空")]
+        //[ExcelColumn(Name = "产品成本核算")]
+        [ExcelColumnName("产品成本核算")]
 
-        [ExcelColumn(Name = "未来的标准成本估算的估价变式")]
-        [ExcelColumnName("未来的标准成本估算的估价变式")]
-        public string Bwva1 { get; set; }
+        public int Md067 { get; set; }
 
-        [ExcelColumn(Name = "当前的标准成本估算的估价变式")]
-        [ExcelColumnName("当前的标准成本估算的估价变式")]
-        public string Bwva2 { get; set; }
+        [Required(ErrorMessage = "成本估算编号不能为空")]
+        //[ExcelColumn(Name = "成本估算编号")]
+        [ExcelColumnName("成本估算编号")]
 
-        [ExcelColumn(Name = "过去的标准成本估算的估价变式")]
-        [ExcelColumnName("过去的标准成本估算的估价变式")]
-        public string Bwva3 { get; set; }
+        public int Md068 { get; set; }
 
-        [ExcelColumn(Name = "未来的标准成本估算的成本核算方案")]
-        [ExcelColumnName("未来的标准成本估算的成本核算方案")]
-        public int? Vers1 { get; set; }
+        //[ExcelColumn(Name = "评估变式1")]
+        [ExcelColumnName("评估变式1")]
 
-        [ExcelColumn(Name = "当前的标准成本估算的成本核算方案")]
-        [ExcelColumnName("当前的标准成本估算的成本核算方案")]
-        public int? Vers2 { get; set; }
+        public string Md069 { get; set; }
 
-        [ExcelColumn(Name = "先前的标准成本估算的成本核算方案")]
-        [ExcelColumnName("先前的标准成本估算的成本核算方案")]
-        public int? Vers3 { get; set; }
+        //[ExcelColumn(Name = "评估变式2")]
+        [ExcelColumnName("评估变式2")]
 
-        [ExcelColumn(Name = "作为成本要素子组的原始组")]
-        [ExcelColumnName("作为成本要素子组的原始组")]
-        public string Hrkft { get; set; }
+        public string Md070 { get; set; }
 
-        [ExcelColumn(Name = "成本核算间接费用组")]
-        [ExcelColumnName("成本核算间接费用组")]
-        public string Kosgr { get; set; }
+        //[ExcelColumn(Name = "评估变式3")]
+        [ExcelColumnName("评估变式3")]
 
-        [ExcelColumn(Name = "未来成本估算期间")]
-        [ExcelColumnName("未来成本估算期间")]
-        public int? Pprdz { get; set; }
+        public string Md071 { get; set; }
 
-        [ExcelColumn(Name = "当前的标准成本估算期间")]
-        [ExcelColumnName("当前的标准成本估算期间")]
-        public int? Pprdl { get; set; }
+        [Required(ErrorMessage = "成本核算版本1不能为空")]
+        //[ExcelColumn(Name = "成本核算版本1")]
+        [ExcelColumnName("成本核算版本1")]
 
-        [ExcelColumn(Name = "先前的标准成本估算期间")]
-        [ExcelColumnName("先前的标准成本估算期间")]
-        public int? Pprdv { get; set; }
+        public int Md072 { get; set; }
 
-        [ExcelColumn(Name = "未来标准成本估算的会计年度")]
-        [ExcelColumnName("未来标准成本估算的会计年度")]
-        public int? Pdatz { get; set; }
+        [Required(ErrorMessage = "成本核算版本2不能为空")]
+        //[ExcelColumn(Name = "成本核算版本2")]
+        [ExcelColumnName("成本核算版本2")]
 
-        [ExcelColumn(Name = "当前标准成本估算的会计年度")]
-        [ExcelColumnName("当前标准成本估算的会计年度")]
-        public int? Pdatl { get; set; }
+        public int Md073 { get; set; }
 
-        [ExcelColumn(Name = "上一标准成本估算的会计年度")]
-        [ExcelColumnName("上一标准成本估算的会计年度")]
-        public int? Pdatv { get; set; }
+        [Required(ErrorMessage = "成本核算版本3不能为空")]
+        //[ExcelColumn(Name = "成本核算版本3")]
+        [ExcelColumnName("成本核算版本3")]
 
-        [ExcelColumn(Name = "物料根据数量结构进行成本核算")]
-        [ExcelColumnName("物料根据数量结构进行成本核算")]
-        public string Ekalr { get; set; }
+        public int Md074 { get; set; }
 
-        [ExcelColumn(Name = "上期标准价格")]
+        //[ExcelColumn(Name = "原始组")]
+        [ExcelColumnName("原始组")]
+
+        public string Md075 { get; set; }
+
+        //[ExcelColumn(Name = "间接费分组")]
+        [ExcelColumnName("间接费分组")]
+
+        public string Md076 { get; set; }
+
+        [Required(ErrorMessage = "计价期间不能为空")]
+        //[ExcelColumn(Name = "计价期间")]
+        [ExcelColumnName("计价期间")]
+
+        public int Md077 { get; set; }
+
+        [Required(ErrorMessage = "当前期间不能为空")]
+        //[ExcelColumn(Name = "当前期间")]
+        [ExcelColumnName("当前期间")]
+
+        public int Md078 { get; set; }
+
+        [Required(ErrorMessage = "前一期间不能为空")]
+        //[ExcelColumn(Name = "前一期间")]
+        [ExcelColumnName("前一期间")]
+
+        public int Md079 { get; set; }
+
+        [Required(ErrorMessage = "未来会计年度不能为空")]
+        //[ExcelColumn(Name = "未来会计年度")]
+        [ExcelColumnName("未来会计年度")]
+
+        public int Md080 { get; set; }
+
+        [Required(ErrorMessage = "当前会计年度不能为空")]
+        //[ExcelColumn(Name = "当前会计年度")]
+        [ExcelColumnName("当前会计年度")]
+
+        public int Md081 { get; set; }
+
+        [Required(ErrorMessage = "上一会计年度不能为空")]
+        //[ExcelColumn(Name = "上一会计年度")]
+        [ExcelColumnName("上一会计年度")]
+
+        public int Md082 { get; set; }
+
+        //[ExcelColumn(Name = "QS成本核算")]
+        [ExcelColumnName("QS成本核算")]
+
+        public string Md083 { get; set; }
+
+        [Required(ErrorMessage = "上期标准价格不能为空")]
+        //[ExcelColumn(Name = "上期标准价格")]
         [ExcelColumnName("上期标准价格")]
-        public decimal Vplpr { get; set; }
 
-        [ExcelColumn(Name = "物料帐簿在物料层被激活")]
-        [ExcelColumnName("物料帐簿在物料层被激活")]
-        public string Mlmaa { get; set; }
+        public decimal Md084 { get; set; }
 
-        [ExcelColumn(Name = "物料价格确定: 控制")]
-        [ExcelColumnName("物料价格确定: 控制")]
-        public string Mlast { get; set; }
+        //[ExcelColumn(Name = "ML作业")]
+        [ExcelColumnName("ML作业")]
 
-        [ExcelColumn(Name = "当前的计划价格")]
-        [ExcelColumnName("当前的计划价格")]
-        public decimal Lplpr { get; set; }
+        public string Md085 { get; set; }
 
-        [ExcelColumn(Name = "以销售价格计的总估价库存价值")]
-        [ExcelColumnName("以销售价格计的总估价库存价值")]
-        public decimal Vksal { get; set; }
+        //[ExcelColumn(Name = "价格确定")]
+        [ExcelColumnName("价格确定")]
 
-        [ExcelColumn(Name = "物料相关的源")]
-        [ExcelColumnName("物料相关的源")]
-        public string Hkmat { get; set; }
+        public string Md086 { get; set; }
 
-        [ExcelColumn(Name = "实际盘点冻结标识")]
-        [ExcelColumnName("实际盘点冻结标识")]
-        public string Sperw { get; set; }
+        [Required(ErrorMessage = "当前计划价格不能为空")]
+        //[ExcelColumn(Name = "当前计划价格")]
+        [ExcelColumnName("当前计划价格")]
 
-        [ExcelColumn(Name = "单一价值物料的盘点库存标识")]
-        [ExcelColumnName("单一价值物料的盘点库存标识")]
-        public string Kziwl { get; set; }
+        public decimal Md087 { get; set; }
 
-        [ExcelColumn(Name = "非限制使用的库存中最新实际盘点的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("非限制使用的库存中最新实际盘点的日期")]
-        public DateTime? Wlinl { get; set; }
+        [Required(ErrorMessage = "总SP值不能为空")]
+        //[ExcelColumn(Name = "总SP值")]
+        [ExcelColumnName("总SP值")]
 
-        [ExcelColumn(Name = "周期盘点的盘点标识")]
-        [ExcelColumnName("周期盘点的盘点标识")]
-        public string Abciw { get; set; }
+        public decimal Md088 { get; set; }
 
-        [ExcelColumn(Name = "评价毛利")]
-        [ExcelColumnName("评价毛利")]
-        public decimal Bwspa { get; set; }
-
-        [ExcelColumn(Name = "当前计划价格的固定金额")]
-        [ExcelColumnName("当前计划价格的固定金额")]
-        public decimal Lplpx { get; set; }
-
-        [ExcelColumn(Name = "上年计划价格的固定比例")]
-        [ExcelColumnName("上年计划价格的固定比例")]
-        public decimal Vplpx { get; set; }
-
-        [ExcelColumn(Name = "未来计划价格的固定比例")]
-        [ExcelColumnName("未来计划价格的固定比例")]
-        public decimal Fplpx { get; set; }
-
-        [ExcelColumn(Name = "当前计划价格, 销售订单/项目存货的值决策")]
-        [ExcelColumnName("当前计划价格, 销售订单/项目存货的值决策")]
-        public string Lbwst { get; set; }
-
-        [ExcelColumn(Name = "上年计划价格，限制使用库存的评估策略")]
-        [ExcelColumnName("上年计划价格，限制使用库存的评估策略")]
-        public string Vbwst { get; set; }
-
-        [ExcelColumn(Name = "未来计划价格，限制使用库存的评估决策")]
-        [ExcelColumnName("未来计划价格，限制使用库存的评估决策")]
-        public string Fbwst { get; set; }
-
-        [ExcelColumn(Name = "关于销售订单库存的评估类别")]
-        [ExcelColumnName("关于销售订单库存的评估类别")]
-        public string Eklas { get; set; }
-
-        [ExcelColumn(Name = "项目库存的评估分类")]
-        [ExcelColumnName("项目库存的评估分类")]
-        public string Qklas { get; set; }
-
-        [ExcelColumn(Name = "物料用途")]
-        [ExcelColumnName("物料用途")]
-        public string Mtuse { get; set; }
-
-        [ExcelColumn(Name = "物料来源")]
+        //[ExcelColumn(Name = "物料来源")]
         [ExcelColumnName("物料来源")]
-        public string Mtorg { get; set; }
 
-        [ExcelColumn(Name = "自制产品")]
+        public string Md089 { get; set; }
+
+        //[ExcelColumn(Name = "库存冻结")]
+        [ExcelColumnName("库存冻结")]
+
+        public string Md090 { get; set; }
+
+        //[ExcelColumn(Name = "库存盘点VO物料")]
+        [ExcelColumnName("库存盘点VO物料")]
+
+        public string Md091 { get; set; }
+
+        //[ExcelColumn(Name = "最新实际盘点日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("最新实际盘点日期")]
+
+        public DateTime? Md092 { get; set; }
+
+        //[ExcelColumn(Name = "周期盘点的盘点标识")]
+        [ExcelColumnName("周期盘点的盘点标识")]
+
+        public string Md093 { get; set; }
+
+        [Required(ErrorMessage = "评价毛利不能为空")]
+        //[ExcelColumn(Name = "评价毛利")]
+        [ExcelColumnName("评价毛利")]
+
+        public decimal Md094 { get; set; }
+
+        [Required(ErrorMessage = "当前计划价格的固定金额不能为空")]
+        //[ExcelColumn(Name = "当前计划价格的固定金额")]
+        [ExcelColumnName("当前计划价格的固定金额")]
+
+        public decimal Md095 { get; set; }
+
+        [Required(ErrorMessage = "上年计划价格的固定比例不能为空")]
+        //[ExcelColumn(Name = "上年计划价格的固定比例")]
+        [ExcelColumnName("上年计划价格的固定比例")]
+
+        public decimal Md096 { get; set; }
+
+        [Required(ErrorMessage = "未来计划价格的固定比例不能为空")]
+        //[ExcelColumn(Name = "未来计划价格的固定比例")]
+        [ExcelColumnName("未来计划价格的固定比例")]
+
+        public decimal Md097 { get; set; }
+
+        //[ExcelColumn(Name = "当前的值决策")]
+        [ExcelColumnName("当前的值决策")]
+
+        public string Md098 { get; set; }
+
+        //[ExcelColumn(Name = "上年评估策略")]
+        [ExcelColumnName("上年评估策略")]
+
+        public string Md099 { get; set; }
+
+        //[ExcelColumn(Name = "未来评估决策")]
+        [ExcelColumnName("未来评估决策")]
+
+        public string Md100 { get; set; }
+
+        //[ExcelColumn(Name = "销售订单库存")]
+        [ExcelColumnName("销售订单库存")]
+
+        public string Md101 { get; set; }
+
+        //[ExcelColumn(Name = "项目库存评估类")]
+        [ExcelColumnName("项目库存评估类")]
+
+        public string Md102 { get; set; }
+
+        //[ExcelColumn(Name = "物料用途")]
+        [ExcelColumnName("物料用途")]
+
+        public string Md103 { get; set; }
+
+        //[ExcelColumn(Name = "物料来源")]
+        [ExcelColumnName("物料来源")]
+
+        public string Md104 { get; set; }
+
+        //[ExcelColumn(Name = "自制产品")]
         [ExcelColumnName("自制产品")]
-        public string Ownpr { get; set; }
 
-        [ExcelColumn(Name = "基于批次特定计量单位的评估")]
-        [ExcelColumnName("基于批次特定计量单位的评估")]
-        public string Xbewm { get; set; }
+        public string Md105 { get; set; }
 
-        [ExcelColumn(Name = "基于税/商法估价价格的价格单位")]
-        [ExcelColumnName("基于税/商法估价价格的价格单位")]
-        public decimal Bwpei { get; set; }
+        //[ExcelColumn(Name = "评估单位")]
+        [ExcelColumnName("评估单位")]
 
-        [ExcelColumn(Name = "MBEW 最后期间之前，期间的 MBEWH 已经存在。")]
-        [ExcelColumnName("MBEW 最后期间之前，期间的 MBEWH 已经存在。")]
-        public string Mbrue { get; set; }
+        public string Md106 { get; set; }
 
-        [ExcelColumn(Name = "供应商特殊库存的估价类")]
-        [ExcelColumnName("供应商特殊库存的估价类")]
-        public string Oklas { get; set; }
+        [Required(ErrorMessage = "价格单位不能为空")]
+        //[ExcelColumn(Name = "价格单位")]
+        [ExcelColumnName("价格单位")]
 
-        [ExcelColumn(Name = "物料评估类型段的预付库存标记")]
-        [ExcelColumnName("物料评估类型段的预付库存标记")]
-        public string Oippinv { get; set; }
+        public decimal Md107 { get; set; }
 
-        [ExcelIgnore]
-        public string UDF01 { get; set; }
+        //[ExcelColumn(Name = "最后期间之前")]
+        [ExcelColumnName("最后期间之前")]
 
-        [ExcelIgnore]
-        public string UDF02 { get; set; }
+        public string Md108 { get; set; }
 
-        [ExcelIgnore]
-        public string UDF03 { get; set; }
+        //[ExcelColumn(Name = "VC供应商")]
+        [ExcelColumnName("VC供应商")]
+
+        public string Md109 { get; set; }
+
+        //[ExcelColumn(Name = "预付库存")]
+        [ExcelColumnName("预付库存")]
+
+        public string Md110 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
+        public string Ref03 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF51 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
+        public decimal Ref04 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF52 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
+        public decimal Ref05 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF53 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
+        public decimal Ref06 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
+        public string Udf01 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
+        public string Udf02 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
 
-        [Required(ErrorMessage = "软删除不能为空")]
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        public string Udf03 { get; set; }
+
+        [ExcelIgnore]
+
+        public string Udf04 { get; set; }
+
+        [ExcelIgnore]
+
+        public string Udf05 { get; set; }
+
+        [ExcelIgnore]
+
+        public string Udf06 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf51 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? IsDeleted { get; set; }
+
+        [ExcelIgnore]
+
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+
+        public DateTime? UpdateTime { get; set; }
+
+
 
         [ExcelColumn(Name = "评估范围")]
-        public string BwkeyLabel { get; set; }
-
-        [ExcelColumn(Name = "评估类")]
-        public string BklasLabel { get; set; }
-
-        [ExcelColumn(Name = "软删除")]
-        public string IsDeletedLabel { get; set; }
+        public string Md004Label { get; set; }
+        [ExcelColumn(Name = "评估类型")]
+        public string Md005Label { get; set; }
     }
 
     /// <summary>
     /// 物料评估
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:50:11
+    /// @Date: 2024/9/11 11:30:25
     /// </summary>
     public class MmMbewImportTpl
     {
-        [Required(ErrorMessage = "ID主键不能为空")]
-        [ExcelColumn(Name = "ID主键")]
-        [ExcelColumnName("ID主键")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long SfId { get; set; }
+        public long Id { get; set; }
 
-        [ExcelColumn(Name = "集团")]
+        [Required(ErrorMessage = "集团不能为空")]
+        //[ExcelColumn(Name = "集团")]
         [ExcelColumnName("集团")]
-        public string Mandt { get; set; }
+        public string Md002 { get; set; }
 
         [Required(ErrorMessage = "物料号不能为空")]
-        [ExcelColumn(Name = "物料号")]
+        //[ExcelColumn(Name = "物料号")]
         [ExcelColumnName("物料号")]
-        public string Matnr { get; set; }
+        public string Md003 { get; set; }
 
         [Required(ErrorMessage = "评估范围不能为空")]
-        [ExcelColumn(Name = "评估范围")]
+        //[ExcelColumn(Name = "评估范围")]
         [ExcelColumnName("评估范围")]
-        public string Bwkey { get; set; }
+        public string Md004 { get; set; }
 
-        [ExcelColumn(Name = "评估类型")]
+        [Required(ErrorMessage = "评估类型不能为空")]
+        //[ExcelColumn(Name = "评估类型")]
         [ExcelColumnName("评估类型")]
-        public string Bwtar { get; set; }
+        public string Md005 { get; set; }
 
-        [ExcelColumn(Name = "一种评估类型的所有物料数据的删除标志")]
-        [ExcelColumnName("一种评估类型的所有物料数据的删除标志")]
-        public string Lvorm { get; set; }
+        //[ExcelColumn(Name = "删除标志")]
+        [ExcelColumnName("删除标志")]
+        public string Md006 { get; set; }
 
-        [ExcelColumn(Name = "总计已估计库存")]
-        [ExcelColumnName("总计已估计库存")]
-        public decimal Lbkum { get; set; }
+        [Required(ErrorMessage = "总库存不能为空")]
+        //[ExcelColumn(Name = "总库存")]
+        [ExcelColumnName("总库存")]
+        public decimal Md007 { get; set; }
 
-        [ExcelColumn(Name = "估价的总库存价值")]
-        [ExcelColumnName("估价的总库存价值")]
-        public decimal Salk3 { get; set; }
+        [Required(ErrorMessage = "估价值不能为空")]
+        //[ExcelColumn(Name = "估价值")]
+        [ExcelColumnName("估价值")]
+        public decimal Md008 { get; set; }
 
-        [ExcelColumn(Name = "价格控制指示符")]
-        [ExcelColumnName("价格控制指示符")]
-        public string Vprsv { get; set; }
+        //[ExcelColumn(Name = "价格控制")]
+        [ExcelColumnName("价格控制")]
+        public string Md009 { get; set; }
 
-        [ExcelColumn(Name = "移动平均价格/周期单价")]
-        [ExcelColumnName("移动平均价格/周期单价")]
-        public decimal Verpr { get; set; }
+        [Required(ErrorMessage = "移动价格不能为空")]
+        //[ExcelColumn(Name = "移动价格")]
+        [ExcelColumnName("移动价格")]
+        public decimal Md010 { get; set; }
 
-        [ExcelColumn(Name = "标准价格")]
+        [Required(ErrorMessage = "标准价格不能为空")]
+        //[ExcelColumn(Name = "标准价格")]
         [ExcelColumnName("标准价格")]
-        public decimal Stprs { get; set; }
+        public decimal Md011 { get; set; }
 
-        [ExcelColumn(Name = "价格单位")]
+        [Required(ErrorMessage = "价格单位不能为空")]
+        //[ExcelColumn(Name = "价格单位")]
         [ExcelColumnName("价格单位")]
-        public decimal Peinh { get; set; }
+        public decimal Md012 { get; set; }
 
-        [Required(ErrorMessage = "评估类不能为空")]
-        [ExcelColumn(Name = "评估类")]
+        //[ExcelColumn(Name = "评估类")]
         [ExcelColumnName("评估类")]
-        public string Bklas { get; set; }
+        public string Md013 { get; set; }
 
-        [ExcelColumn(Name = "基于平均移动价的值（仅价格控制 S）")]
-        [ExcelColumnName("基于平均移动价的值（仅价格控制 S）")]
-        public decimal Salkv { get; set; }
+        [Required(ErrorMessage = "价值/MA价格不能为空")]
+        //[ExcelColumn(Name = "价值/MA价格")]
+        [ExcelColumnName("价值/MA价格")]
+        public decimal Md014 { get; set; }
 
-        [ExcelColumn(Name = "前期的总评估库存")]
-        [ExcelColumnName("前期的总评估库存")]
-        public decimal Vmkum { get; set; }
+        [Required(ErrorMessage = "前期总库存不能为空")]
+        //[ExcelColumn(Name = "前期总库存")]
+        [ExcelColumnName("前期总库存")]
+        public decimal Md015 { get; set; }
 
-        [ExcelColumn(Name = "上期估过价的总库存价值")]
-        [ExcelColumnName("上期估过价的总库存价值")]
-        public decimal Vmsal { get; set; }
+        [Required(ErrorMessage = "前期总价值不能为空")]
+        //[ExcelColumn(Name = "前期总价值")]
+        [ExcelColumnName("前期总价值")]
+        public decimal Md016 { get; set; }
 
-        [ExcelColumn(Name = "前一期间价格控制标识")]
-        [ExcelColumnName("前一期间价格控制标识")]
-        public string Vmvpr { get; set; }
+        //[ExcelColumn(Name = "前期价格控制")]
+        [ExcelColumnName("前期价格控制")]
+        public string Md017 { get; set; }
 
-        [ExcelColumn(Name = "前一期间的移动平均价格/期间单位价格")]
-        [ExcelColumnName("前一期间的移动平均价格/期间单位价格")]
-        public decimal Vmver { get; set; }
+        [Required(ErrorMessage = "前期移动平均价不能为空")]
+        //[ExcelColumn(Name = "前期移动平均价")]
+        [ExcelColumnName("前期移动平均价")]
+        public decimal Md018 { get; set; }
 
-        [ExcelColumn(Name = "前期的标准价格")]
-        [ExcelColumnName("前期的标准价格")]
-        public decimal Vmstp { get; set; }
+        [Required(ErrorMessage = "前期标准价格不能为空")]
+        //[ExcelColumn(Name = "前期标准价格")]
+        [ExcelColumnName("前期标准价格")]
+        public decimal Md019 { get; set; }
 
-        [ExcelColumn(Name = "前期的价格单位")]
-        [ExcelColumnName("前期的价格单位")]
-        public decimal Vmpei { get; set; }
+        [Required(ErrorMessage = "上期价格单位不能为空")]
+        //[ExcelColumn(Name = "上期价格单位")]
+        [ExcelColumnName("上期价格单位")]
+        public decimal Md020 { get; set; }
 
-        [ExcelColumn(Name = "上期的评价分类")]
-        [ExcelColumnName("上期的评价分类")]
-        public string Vmbkl { get; set; }
+        //[ExcelColumn(Name = "上期评价分类")]
+        [ExcelColumnName("上期评价分类")]
+        public string Md021 { get; set; }
 
-        [ExcelColumn(Name = "基于平均移动价的值(上期)")]
-        [ExcelColumnName("基于平均移动价的值(上期)")]
-        public decimal Vmsav { get; set; }
+        [Required(ErrorMessage = "上期价值不能为空")]
+        //[ExcelColumn(Name = "上期价值")]
+        [ExcelColumnName("上期价值")]
+        public decimal Md022 { get; set; }
 
-        [ExcelColumn(Name = "前年的总评估库存")]
-        [ExcelColumnName("前年的总评估库存")]
-        public decimal Vjkum { get; set; }
+        [Required(ErrorMessage = "前年总库存不能为空")]
+        //[ExcelColumn(Name = "前年总库存")]
+        [ExcelColumnName("前年总库存")]
+        public decimal Md023 { get; set; }
 
-        [ExcelColumn(Name = "上年估价的总库存价值")]
-        [ExcelColumnName("上年估价的总库存价值")]
-        public decimal Vjsal { get; set; }
+        [Required(ErrorMessage = "上年总价值不能为空")]
+        //[ExcelColumn(Name = "上年总价值")]
+        [ExcelColumnName("上年总价值")]
+        public decimal Md024 { get; set; }
 
-        [ExcelColumn(Name = "前一年的价格控制标识")]
-        [ExcelColumnName("前一年的价格控制标识")]
-        public string Vjvpr { get; set; }
+        //[ExcelColumn(Name = "前年价格控制")]
+        [ExcelColumnName("前年价格控制")]
+        public string Md025 { get; set; }
 
-        [ExcelColumn(Name = "前一年移动平均价格/期间单价价格")]
-        [ExcelColumnName("前一年移动平均价格/期间单价价格")]
-        public decimal Vjver { get; set; }
+        [Required(ErrorMessage = "去年移动平均价不能为空")]
+        //[ExcelColumn(Name = "去年移动平均价")]
+        [ExcelColumnName("去年移动平均价")]
+        public decimal Md026 { get; set; }
 
-        [ExcelColumn(Name = "上年的标准价格")]
-        [ExcelColumnName("上年的标准价格")]
-        public decimal Vjstp { get; set; }
+        [Required(ErrorMessage = "去年标准价格不能为空")]
+        //[ExcelColumn(Name = "去年标准价格")]
+        [ExcelColumnName("去年标准价格")]
+        public decimal Md027 { get; set; }
 
-        [ExcelColumn(Name = "去年的价格单位")]
-        [ExcelColumnName("去年的价格单位")]
-        public decimal Vjpei { get; set; }
+        [Required(ErrorMessage = "上年价格单位不能为空")]
+        //[ExcelColumn(Name = "上年价格单位")]
+        [ExcelColumnName("上年价格单位")]
+        public decimal Md028 { get; set; }
 
-        [ExcelColumn(Name = "上年的评价分类")]
-        [ExcelColumnName("上年的评价分类")]
-        public string Vjbkl { get; set; }
+        //[ExcelColumn(Name = "上年评估类")]
+        [ExcelColumnName("上年评估类")]
+        public string Md029 { get; set; }
 
-        [ExcelColumn(Name = "基于平均移动价的值(上年)")]
-        [ExcelColumnName("基于平均移动价的值(上年)")]
-        public decimal Vjsav { get; set; }
+        [Required(ErrorMessage = "上年价值不能为空")]
+        //[ExcelColumn(Name = "上年价值")]
+        [ExcelColumnName("上年价值")]
+        public decimal Md030 { get; set; }
 
-        [ExcelColumn(Name = "当前期间的会计年度")]
-        [ExcelColumnName("当前期间的会计年度")]
-        public int? Lfgja { get; set; }
+        [Required(ErrorMessage = "当前会计年度不能为空")]
+        //[ExcelColumn(Name = "当前会计年度")]
+        [ExcelColumnName("当前会计年度")]
+        public int Md031 { get; set; }
 
-        [ExcelColumn(Name = "当前期间 (记帐期间)")]
-        [ExcelColumnName("当前期间 (记帐期间)")]
-        public int? Lfmon { get; set; }
+        [Required(ErrorMessage = "当前期间不能为空")]
+        //[ExcelColumn(Name = "当前期间")]
+        [ExcelColumnName("当前期间")]
+        public int Md032 { get; set; }
 
-        [ExcelColumn(Name = "评估类别")]
+        //[ExcelColumn(Name = "评估类别")]
         [ExcelColumnName("评估类别")]
-        public string Bwtty { get; set; }
+        public string Md033 { get; set; }
 
-        [ExcelColumn(Name = "上期价格")]
+        [Required(ErrorMessage = "上期价格不能为空")]
+        //[ExcelColumn(Name = "上期价格")]
         [ExcelColumnName("上期价格")]
-        public decimal Stprv { get; set; }
+        public decimal Md034 { get; set; }
 
-        [ExcelColumn(Name = "最新价格更改的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("最新价格更改的日期")]
-        public DateTime? Laepr { get; set; }
+        //[ExcelColumn(Name = "最新价格更改", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("最新价格更改")]
+        public DateTime? Md035 { get; set; }
 
-        [ExcelColumn(Name = "未来价格")]
+        [Required(ErrorMessage = "未来价格不能为空")]
+        //[ExcelColumn(Name = "未来价格")]
         [ExcelColumnName("未来价格")]
-        public decimal Zkprs { get; set; }
+        public decimal Md036 { get; set; }
 
-        [ExcelColumn(Name = "价格开始有效的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("价格开始有效的日期")]
-        public DateTime? Zkdat { get; set; }
+        //[ExcelColumn(Name = "有效起始日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("有效起始日期")]
+        public DateTime? Md037 { get; set; }
 
-        [ExcelColumn(Name = "简短格式的 UTC 时戳 (YYYYMMDDhhmmss)")]
-        [ExcelColumnName("简短格式的 UTC 时戳 (YYYYMMDDhhmmss)")]
-        public decimal Timestamp { get; set; }
+        [Required(ErrorMessage = "时戳不能为空")]
+        //[ExcelColumn(Name = "时戳")]
+        [ExcelColumnName("时戳")]
+        public decimal Md038 { get; set; }
 
-        [ExcelColumn(Name = "基于税法的估价价格 - 级别1")]
-        [ExcelColumnName("基于税法的估价价格 - 级别1")]
-        public decimal Bwprs { get; set; }
+        [Required(ErrorMessage = "税价1不能为空")]
+        //[ExcelColumn(Name = "税价1")]
+        [ExcelColumnName("税价1")]
+        public decimal Md039 { get; set; }
 
-        [ExcelColumn(Name = "基于商法的估价价格 - 级别 1")]
-        [ExcelColumnName("基于商法的估价价格 - 级别 1")]
-        public decimal Bwprh { get; set; }
+        [Required(ErrorMessage = "商业价格1不能为空")]
+        //[ExcelColumn(Name = "商业价格1")]
+        [ExcelColumnName("商业价格1")]
+        public decimal Md040 { get; set; }
 
-        [ExcelColumn(Name = "基于税法的估价价格(BTCI) - 级别3")]
-        [ExcelColumnName("基于税法的估价价格(BTCI) - 级别3")]
-        public decimal Vjbws { get; set; }
+        [Required(ErrorMessage = "税价3不能为空")]
+        //[ExcelColumn(Name = "税价3")]
+        [ExcelColumnName("税价3")]
+        public decimal Md041 { get; set; }
 
-        [ExcelColumn(Name = "基于商业法律的估价价格 - 级别3")]
-        [ExcelColumnName("基于商业法律的估价价格 - 级别3")]
-        public decimal Vjbwh { get; set; }
+        [Required(ErrorMessage = "商业价格3不能为空")]
+        //[ExcelColumn(Name = "商业价格3")]
+        [ExcelColumnName("商业价格3")]
+        public decimal Md042 { get; set; }
 
-        [ExcelColumn(Name = "前年估价的总库存价值")]
-        [ExcelColumnName("前年估价的总库存价值")]
-        public decimal Vvjsl { get; set; }
+        [Required(ErrorMessage = "计价不能为空")]
+        //[ExcelColumn(Name = "计价")]
+        [ExcelColumnName("计价")]
+        public decimal Md043 { get; set; }
 
-        [ExcelColumn(Name = "前年的总评估库存")]
-        [ExcelColumnName("前年的总评估库存")]
-        public decimal Vvjlb { get; set; }
+        [Required(ErrorMessage = "前年总库存不能为空")]
+        //[ExcelColumn(Name = "前年总库存")]
+        [ExcelColumnName("前年总库存")]
+        public decimal Md044 { get; set; }
 
-        [ExcelColumn(Name = "前期的总评估库存")]
-        [ExcelColumnName("前期的总评估库存")]
-        public decimal Vvmlb { get; set; }
+        [Required(ErrorMessage = "前期总价值不能为空")]
+        //[ExcelColumn(Name = "前期总价值")]
+        [ExcelColumnName("前期总价值")]
+        public decimal Md045 { get; set; }
 
-        [ExcelColumn(Name = "前期估价的总库存价值")]
-        [ExcelColumnName("前期估价的总库存价值")]
-        public decimal Vvsal { get; set; }
+        [Required(ErrorMessage = "计价在不能为空")]
+        //[ExcelColumn(Name = "计价在")]
+        [ExcelColumnName("计价在")]
+        public decimal Md046 { get; set; }
 
-        [ExcelColumn(Name = "未来计划价格")]
+        [Required(ErrorMessage = "未来计划价格不能为空")]
+        //[ExcelColumn(Name = "未来计划价格")]
         [ExcelColumnName("未来计划价格")]
-        public decimal Zplpr { get; set; }
+        public decimal Md047 { get; set; }
 
-        [ExcelColumn(Name = "未来计划价格1")]
+        [Required(ErrorMessage = "未来计划价格1不能为空")]
+        //[ExcelColumn(Name = "未来计划价格1")]
         [ExcelColumnName("未来计划价格1")]
-        public decimal Zplp1 { get; set; }
+        public decimal Md048 { get; set; }
 
-        [ExcelColumn(Name = "未来计划价格 2")]
+        [Required(ErrorMessage = "未来计划价格 2不能为空")]
+        //[ExcelColumn(Name = "未来计划价格 2")]
         [ExcelColumnName("未来计划价格 2")]
-        public decimal Zplp2 { get; set; }
+        public decimal Md049 { get; set; }
 
-        [ExcelColumn(Name = "未来计划价格 3")]
+        [Required(ErrorMessage = "未来计划价格 3不能为空")]
+        //[ExcelColumn(Name = "未来计划价格 3")]
         [ExcelColumnName("未来计划价格 3")]
-        public decimal Zplp3 { get; set; }
+        public decimal Md050 { get; set; }
 
-        [ExcelColumn(Name = "计划价格 1 开始有效的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("计划价格 1 开始有效的日期")]
-        public DateTime? Zpld1 { get; set; }
+        //[ExcelColumn(Name = "计划价格日期1", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("计划价格日期1")]
+        public DateTime? Md051 { get; set; }
 
-        [ExcelColumn(Name = "计划价格 2 开始有效的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("计划价格 2 开始有效的日期")]
-        public DateTime? Zpld2 { get; set; }
+        //[ExcelColumn(Name = "计划价格日期2", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("计划价格日期2")]
+        public DateTime? Md052 { get; set; }
 
-        [ExcelColumn(Name = "计划价格 3 开始有效的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("计划价格 3 开始有效的日期")]
-        public DateTime? Zpld3 { get; set; }
+        //[ExcelColumn(Name = "计划价格日期3", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("计划价格日期3")]
+        public DateTime? Md053 { get; set; }
 
-        [ExcelColumn(Name = "未来标准成本估计的期间(未激活)", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("未来标准成本估计的期间(未激活)")]
-        public DateTime? Pperz { get; set; }
+        //[ExcelColumn(Name = "未来成本估算", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("未来成本估算")]
+        public DateTime? Md054 { get; set; }
 
-        [ExcelColumn(Name = "当前标准成本估计的期间(未激活)", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("当前标准成本估计的期间(未激活)")]
-        public DateTime? Pperl { get; set; }
+        //[ExcelColumn(Name = "期间成本估算", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("期间成本估算")]
+        public DateTime? Md055 { get; set; }
 
-        [ExcelColumn(Name = "以前标准成本估计的期间(未激活)", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("以前标准成本估计的期间(未激活)")]
-        public DateTime? Pperv { get; set; }
+        //[ExcelColumn(Name = "上期成本估算", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("上期成本估算")]
+        public DateTime? Md056 { get; set; }
 
-        [ExcelColumn(Name = "标识: 未来期间的标准成本估算")]
-        [ExcelColumnName("标识: 未来期间的标准成本估算")]
-        public string Kalkz { get; set; }
+        //[ExcelColumn(Name = "未来成本估算")]
+        [ExcelColumnName("未来成本估算")]
+        public string Md057 { get; set; }
 
-        [ExcelColumn(Name = "当前期间的标准成本估算")]
-        [ExcelColumnName("当前期间的标准成本估算")]
-        public string Kalkl { get; set; }
+        //[ExcelColumn(Name = "当前成本估算")]
+        [ExcelColumnName("当前成本估算")]
+        public string Md058 { get; set; }
 
-        [ExcelColumn(Name = "标识: 上一期间的标准成本估计")]
-        [ExcelColumnName("标识: 上一期间的标准成本估计")]
-        public string Kalkv { get; set; }
+        //[ExcelColumn(Name = "上期成本估算")]
+        [ExcelColumnName("上期成本估算")]
+        public string Md059 { get; set; }
 
-        [ExcelColumn(Name = "一般费用代码(未激活)")]
-        [ExcelColumnName("一般费用代码(未激活)")]
-        public string Kalsc { get; set; }
+        //[ExcelColumn(Name = "一般费用代码")]
+        [ExcelColumnName("一般费用代码")]
+        public string Md060 { get; set; }
 
-        [ExcelColumn(Name = "LIFO/FIFO 相关")]
+        //[ExcelColumn(Name = "LIFO/FIFO 相关")]
         [ExcelColumnName("LIFO/FIFO 相关")]
-        public string Xlifo { get; set; }
+        public string Md061 { get; set; }
 
-        [ExcelColumn(Name = "用于LIFO评估的储备号")]
-        [ExcelColumnName("用于LIFO评估的储备号")]
-        public string Mypol { get; set; }
+        //[ExcelColumn(Name = "LIFO评估储备号")]
+        [ExcelColumnName("LIFO评估储备号")]
+        public string Md062 { get; set; }
 
-        [ExcelColumn(Name = "基于商业法律的估价价格：级别 2")]
-        [ExcelColumnName("基于商业法律的估价价格：级别 2")]
-        public decimal Bwph1 { get; set; }
+        [Required(ErrorMessage = "商业价格2不能为空")]
+        //[ExcelColumn(Name = "商业价格2")]
+        [ExcelColumnName("商业价格2")]
+        public decimal Md063 { get; set; }
 
-        [ExcelColumn(Name = "基于税法的估价价格： 级别2")]
-        [ExcelColumnName("基于税法的估价价格： 级别2")]
-        public decimal Bwps1 { get; set; }
+        [Required(ErrorMessage = "税价2不能为空")]
+        //[ExcelColumn(Name = "税价2")]
+        [ExcelColumnName("税价2")]
+        public decimal Md064 { get; set; }
 
-        [ExcelColumn(Name = "最低价值: 贬值标志")]
-        [ExcelColumnName("最低价值: 贬值标志")]
-        public int? Abwkz { get; set; }
+        [Required(ErrorMessage = "贬值标志不能为空")]
+        //[ExcelColumn(Name = "贬值标志")]
+        [ExcelColumnName("贬值标志")]
+        public int Md065 { get; set; }
 
-        [ExcelColumn(Name = "维护状态")]
+        //[ExcelColumn(Name = "维护状态")]
         [ExcelColumnName("维护状态")]
-        public string Pstat { get; set; }
+        public string Md066 { get; set; }
 
-        [ExcelColumn(Name = "成本估算号 - 产品成本核算")]
-        [ExcelColumnName("成本估算号 - 产品成本核算")]
-        public int? Kaln1 { get; set; }
+        [Required(ErrorMessage = "产品成本核算不能为空")]
+        //[ExcelColumn(Name = "产品成本核算")]
+        [ExcelColumnName("产品成本核算")]
+        public int Md067 { get; set; }
 
-        [ExcelColumn(Name = "没有数量结构的成本估算的成本估算编号")]
-        [ExcelColumnName("没有数量结构的成本估算的成本估算编号")]
-        public int? Kalnr { get; set; }
+        [Required(ErrorMessage = "成本估算编号不能为空")]
+        //[ExcelColumn(Name = "成本估算编号")]
+        [ExcelColumnName("成本估算编号")]
+        public int Md068 { get; set; }
 
-        [ExcelColumn(Name = "未来的标准成本估算的估价变式")]
-        [ExcelColumnName("未来的标准成本估算的估价变式")]
-        public string Bwva1 { get; set; }
+        //[ExcelColumn(Name = "评估变式1")]
+        [ExcelColumnName("评估变式1")]
+        public string Md069 { get; set; }
 
-        [ExcelColumn(Name = "当前的标准成本估算的估价变式")]
-        [ExcelColumnName("当前的标准成本估算的估价变式")]
-        public string Bwva2 { get; set; }
+        //[ExcelColumn(Name = "评估变式2")]
+        [ExcelColumnName("评估变式2")]
+        public string Md070 { get; set; }
 
-        [ExcelColumn(Name = "过去的标准成本估算的估价变式")]
-        [ExcelColumnName("过去的标准成本估算的估价变式")]
-        public string Bwva3 { get; set; }
+        //[ExcelColumn(Name = "评估变式3")]
+        [ExcelColumnName("评估变式3")]
+        public string Md071 { get; set; }
 
-        [ExcelColumn(Name = "未来的标准成本估算的成本核算方案")]
-        [ExcelColumnName("未来的标准成本估算的成本核算方案")]
-        public int? Vers1 { get; set; }
+        [Required(ErrorMessage = "成本核算版本1不能为空")]
+        //[ExcelColumn(Name = "成本核算版本1")]
+        [ExcelColumnName("成本核算版本1")]
+        public int Md072 { get; set; }
 
-        [ExcelColumn(Name = "当前的标准成本估算的成本核算方案")]
-        [ExcelColumnName("当前的标准成本估算的成本核算方案")]
-        public int? Vers2 { get; set; }
+        [Required(ErrorMessage = "成本核算版本2不能为空")]
+        //[ExcelColumn(Name = "成本核算版本2")]
+        [ExcelColumnName("成本核算版本2")]
+        public int Md073 { get; set; }
 
-        [ExcelColumn(Name = "先前的标准成本估算的成本核算方案")]
-        [ExcelColumnName("先前的标准成本估算的成本核算方案")]
-        public int? Vers3 { get; set; }
+        [Required(ErrorMessage = "成本核算版本3不能为空")]
+        //[ExcelColumn(Name = "成本核算版本3")]
+        [ExcelColumnName("成本核算版本3")]
+        public int Md074 { get; set; }
 
-        [ExcelColumn(Name = "作为成本要素子组的原始组")]
-        [ExcelColumnName("作为成本要素子组的原始组")]
-        public string Hrkft { get; set; }
+        //[ExcelColumn(Name = "原始组")]
+        [ExcelColumnName("原始组")]
+        public string Md075 { get; set; }
 
-        [ExcelColumn(Name = "成本核算间接费用组")]
-        [ExcelColumnName("成本核算间接费用组")]
-        public string Kosgr { get; set; }
+        //[ExcelColumn(Name = "间接费分组")]
+        [ExcelColumnName("间接费分组")]
+        public string Md076 { get; set; }
 
-        [ExcelColumn(Name = "未来成本估算期间")]
-        [ExcelColumnName("未来成本估算期间")]
-        public int? Pprdz { get; set; }
+        [Required(ErrorMessage = "计价期间不能为空")]
+        //[ExcelColumn(Name = "计价期间")]
+        [ExcelColumnName("计价期间")]
+        public int Md077 { get; set; }
 
-        [ExcelColumn(Name = "当前的标准成本估算期间")]
-        [ExcelColumnName("当前的标准成本估算期间")]
-        public int? Pprdl { get; set; }
+        [Required(ErrorMessage = "当前期间不能为空")]
+        //[ExcelColumn(Name = "当前期间")]
+        [ExcelColumnName("当前期间")]
+        public int Md078 { get; set; }
 
-        [ExcelColumn(Name = "先前的标准成本估算期间")]
-        [ExcelColumnName("先前的标准成本估算期间")]
-        public int? Pprdv { get; set; }
+        [Required(ErrorMessage = "前一期间不能为空")]
+        //[ExcelColumn(Name = "前一期间")]
+        [ExcelColumnName("前一期间")]
+        public int Md079 { get; set; }
 
-        [ExcelColumn(Name = "未来标准成本估算的会计年度")]
-        [ExcelColumnName("未来标准成本估算的会计年度")]
-        public int? Pdatz { get; set; }
+        [Required(ErrorMessage = "未来会计年度不能为空")]
+        //[ExcelColumn(Name = "未来会计年度")]
+        [ExcelColumnName("未来会计年度")]
+        public int Md080 { get; set; }
 
-        [ExcelColumn(Name = "当前标准成本估算的会计年度")]
-        [ExcelColumnName("当前标准成本估算的会计年度")]
-        public int? Pdatl { get; set; }
+        [Required(ErrorMessage = "当前会计年度不能为空")]
+        //[ExcelColumn(Name = "当前会计年度")]
+        [ExcelColumnName("当前会计年度")]
+        public int Md081 { get; set; }
 
-        [ExcelColumn(Name = "上一标准成本估算的会计年度")]
-        [ExcelColumnName("上一标准成本估算的会计年度")]
-        public int? Pdatv { get; set; }
+        [Required(ErrorMessage = "上一会计年度不能为空")]
+        //[ExcelColumn(Name = "上一会计年度")]
+        [ExcelColumnName("上一会计年度")]
+        public int Md082 { get; set; }
 
-        [ExcelColumn(Name = "物料根据数量结构进行成本核算")]
-        [ExcelColumnName("物料根据数量结构进行成本核算")]
-        public string Ekalr { get; set; }
+        //[ExcelColumn(Name = "QS成本核算")]
+        [ExcelColumnName("QS成本核算")]
+        public string Md083 { get; set; }
 
-        [ExcelColumn(Name = "上期标准价格")]
+        [Required(ErrorMessage = "上期标准价格不能为空")]
+        //[ExcelColumn(Name = "上期标准价格")]
         [ExcelColumnName("上期标准价格")]
-        public decimal Vplpr { get; set; }
+        public decimal Md084 { get; set; }
 
-        [ExcelColumn(Name = "物料帐簿在物料层被激活")]
-        [ExcelColumnName("物料帐簿在物料层被激活")]
-        public string Mlmaa { get; set; }
+        //[ExcelColumn(Name = "ML作业")]
+        [ExcelColumnName("ML作业")]
+        public string Md085 { get; set; }
 
-        [ExcelColumn(Name = "物料价格确定: 控制")]
-        [ExcelColumnName("物料价格确定: 控制")]
-        public string Mlast { get; set; }
+        //[ExcelColumn(Name = "价格确定")]
+        [ExcelColumnName("价格确定")]
+        public string Md086 { get; set; }
 
-        [ExcelColumn(Name = "当前的计划价格")]
-        [ExcelColumnName("当前的计划价格")]
-        public decimal Lplpr { get; set; }
+        [Required(ErrorMessage = "当前计划价格不能为空")]
+        //[ExcelColumn(Name = "当前计划价格")]
+        [ExcelColumnName("当前计划价格")]
+        public decimal Md087 { get; set; }
 
-        [ExcelColumn(Name = "以销售价格计的总估价库存价值")]
-        [ExcelColumnName("以销售价格计的总估价库存价值")]
-        public decimal Vksal { get; set; }
+        [Required(ErrorMessage = "总SP值不能为空")]
+        //[ExcelColumn(Name = "总SP值")]
+        [ExcelColumnName("总SP值")]
+        public decimal Md088 { get; set; }
 
-        [ExcelColumn(Name = "物料相关的源")]
-        [ExcelColumnName("物料相关的源")]
-        public string Hkmat { get; set; }
-
-        [ExcelColumn(Name = "实际盘点冻结标识")]
-        [ExcelColumnName("实际盘点冻结标识")]
-        public string Sperw { get; set; }
-
-        [ExcelColumn(Name = "单一价值物料的盘点库存标识")]
-        [ExcelColumnName("单一价值物料的盘点库存标识")]
-        public string Kziwl { get; set; }
-
-        [ExcelColumn(Name = "非限制使用的库存中最新实际盘点的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("非限制使用的库存中最新实际盘点的日期")]
-        public DateTime? Wlinl { get; set; }
-
-        [ExcelColumn(Name = "周期盘点的盘点标识")]
-        [ExcelColumnName("周期盘点的盘点标识")]
-        public string Abciw { get; set; }
-
-        [ExcelColumn(Name = "评价毛利")]
-        [ExcelColumnName("评价毛利")]
-        public decimal Bwspa { get; set; }
-
-        [ExcelColumn(Name = "当前计划价格的固定金额")]
-        [ExcelColumnName("当前计划价格的固定金额")]
-        public decimal Lplpx { get; set; }
-
-        [ExcelColumn(Name = "上年计划价格的固定比例")]
-        [ExcelColumnName("上年计划价格的固定比例")]
-        public decimal Vplpx { get; set; }
-
-        [ExcelColumn(Name = "未来计划价格的固定比例")]
-        [ExcelColumnName("未来计划价格的固定比例")]
-        public decimal Fplpx { get; set; }
-
-        [ExcelColumn(Name = "当前计划价格, 销售订单/项目存货的值决策")]
-        [ExcelColumnName("当前计划价格, 销售订单/项目存货的值决策")]
-        public string Lbwst { get; set; }
-
-        [ExcelColumn(Name = "上年计划价格，限制使用库存的评估策略")]
-        [ExcelColumnName("上年计划价格，限制使用库存的评估策略")]
-        public string Vbwst { get; set; }
-
-        [ExcelColumn(Name = "未来计划价格，限制使用库存的评估决策")]
-        [ExcelColumnName("未来计划价格，限制使用库存的评估决策")]
-        public string Fbwst { get; set; }
-
-        [ExcelColumn(Name = "关于销售订单库存的评估类别")]
-        [ExcelColumnName("关于销售订单库存的评估类别")]
-        public string Eklas { get; set; }
-
-        [ExcelColumn(Name = "项目库存的评估分类")]
-        [ExcelColumnName("项目库存的评估分类")]
-        public string Qklas { get; set; }
-
-        [ExcelColumn(Name = "物料用途")]
-        [ExcelColumnName("物料用途")]
-        public string Mtuse { get; set; }
-
-        [ExcelColumn(Name = "物料来源")]
+        //[ExcelColumn(Name = "物料来源")]
         [ExcelColumnName("物料来源")]
-        public string Mtorg { get; set; }
+        public string Md089 { get; set; }
 
-        [ExcelColumn(Name = "自制产品")]
+        //[ExcelColumn(Name = "库存冻结")]
+        [ExcelColumnName("库存冻结")]
+        public string Md090 { get; set; }
+
+        //[ExcelColumn(Name = "库存盘点VO物料")]
+        [ExcelColumnName("库存盘点VO物料")]
+        public string Md091 { get; set; }
+
+        //[ExcelColumn(Name = "最新实际盘点日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("最新实际盘点日期")]
+        public DateTime? Md092 { get; set; }
+
+        //[ExcelColumn(Name = "周期盘点的盘点标识")]
+        [ExcelColumnName("周期盘点的盘点标识")]
+        public string Md093 { get; set; }
+
+        [Required(ErrorMessage = "评价毛利不能为空")]
+        //[ExcelColumn(Name = "评价毛利")]
+        [ExcelColumnName("评价毛利")]
+        public decimal Md094 { get; set; }
+
+        [Required(ErrorMessage = "当前计划价格的固定金额不能为空")]
+        //[ExcelColumn(Name = "当前计划价格的固定金额")]
+        [ExcelColumnName("当前计划价格的固定金额")]
+        public decimal Md095 { get; set; }
+
+        [Required(ErrorMessage = "上年计划价格的固定比例不能为空")]
+        //[ExcelColumn(Name = "上年计划价格的固定比例")]
+        [ExcelColumnName("上年计划价格的固定比例")]
+        public decimal Md096 { get; set; }
+
+        [Required(ErrorMessage = "未来计划价格的固定比例不能为空")]
+        //[ExcelColumn(Name = "未来计划价格的固定比例")]
+        [ExcelColumnName("未来计划价格的固定比例")]
+        public decimal Md097 { get; set; }
+
+        //[ExcelColumn(Name = "当前的值决策")]
+        [ExcelColumnName("当前的值决策")]
+        public string Md098 { get; set; }
+
+        //[ExcelColumn(Name = "上年评估策略")]
+        [ExcelColumnName("上年评估策略")]
+        public string Md099 { get; set; }
+
+        //[ExcelColumn(Name = "未来评估决策")]
+        [ExcelColumnName("未来评估决策")]
+        public string Md100 { get; set; }
+
+        //[ExcelColumn(Name = "销售订单库存")]
+        [ExcelColumnName("销售订单库存")]
+        public string Md101 { get; set; }
+
+        //[ExcelColumn(Name = "项目库存评估类")]
+        [ExcelColumnName("项目库存评估类")]
+        public string Md102 { get; set; }
+
+        //[ExcelColumn(Name = "物料用途")]
+        [ExcelColumnName("物料用途")]
+        public string Md103 { get; set; }
+
+        //[ExcelColumn(Name = "物料来源")]
+        [ExcelColumnName("物料来源")]
+        public string Md104 { get; set; }
+
+        //[ExcelColumn(Name = "自制产品")]
         [ExcelColumnName("自制产品")]
-        public string Ownpr { get; set; }
+        public string Md105 { get; set; }
 
-        [ExcelColumn(Name = "基于批次特定计量单位的评估")]
-        [ExcelColumnName("基于批次特定计量单位的评估")]
-        public string Xbewm { get; set; }
+        //[ExcelColumn(Name = "评估单位")]
+        [ExcelColumnName("评估单位")]
+        public string Md106 { get; set; }
 
-        [ExcelColumn(Name = "基于税/商法估价价格的价格单位")]
-        [ExcelColumnName("基于税/商法估价价格的价格单位")]
-        public decimal Bwpei { get; set; }
+        [Required(ErrorMessage = "价格单位不能为空")]
+        //[ExcelColumn(Name = "价格单位")]
+        [ExcelColumnName("价格单位")]
+        public decimal Md107 { get; set; }
 
-        [ExcelColumn(Name = "MBEW 最后期间之前，期间的 MBEWH 已经存在。")]
-        [ExcelColumnName("MBEW 最后期间之前，期间的 MBEWH 已经存在。")]
-        public string Mbrue { get; set; }
+        //[ExcelColumn(Name = "最后期间之前")]
+        [ExcelColumnName("最后期间之前")]
+        public string Md108 { get; set; }
 
-        [ExcelColumn(Name = "供应商特殊库存的估价类")]
-        [ExcelColumnName("供应商特殊库存的估价类")]
-        public string Oklas { get; set; }
+        //[ExcelColumn(Name = "VC供应商")]
+        [ExcelColumnName("VC供应商")]
+        public string Md109 { get; set; }
 
-        [ExcelColumn(Name = "物料评估类型段的预付库存标记")]
-        [ExcelColumnName("物料评估类型段的预付库存标记")]
-        public string Oippinv { get; set; }
-
-        [ExcelIgnore]
-        public string UDF01 { get; set; }
+        //[ExcelColumn(Name = "预付库存")]
+        [ExcelColumnName("预付库存")]
+        public string Md110 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
+        public decimal Ref05 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
         [ExcelIgnore]
-        public decimal UDF51 { get; set; }
+        public decimal Ref06 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
         [ExcelIgnore]
-        public decimal UDF52 { get; set; }
+        public string Udf01 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
         [ExcelIgnore]
-        public decimal UDF53 { get; set; }
+        public string Udf02 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
+        public string Udf03 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
+        public string Udf04 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
+        public string Udf05 { get; set; }
 
-        [Required(ErrorMessage = "软删除不能为空")]
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        [ExcelIgnore]
+        public string Udf06 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf51 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
+        public int? IsDeleted { get; set; }
+
+        [ExcelIgnore]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+
 
         [ExcelIgnore]
         [ExcelColumn(Name = "评估范围")]
-        public string BwkeyLabel { get; set; }
-
+        public string Md004Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "评估类")]
-        public string BklasLabel { get; set; }
-
-        [ExcelIgnore]
-        [ExcelColumn(Name = "软删除")]
-        public string IsDeletedLabel { get; set; }
+        [ExcelColumn(Name = "评估类型")]
+        public string Md005Label { get; set; }
     }
+
 }

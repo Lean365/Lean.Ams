@@ -1,320 +1,401 @@
+
 namespace Ams.Model.Logistics.Dto
 {
     /// <summary>
     /// 序列号扫描
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 9:55:51
+    /// @Date: 2024/9/11 16:36:33
     /// </summary>
-    public class QmSerialQueryDto : PagerInfo
+    public class QmSerialQueryDto : PagerInfo 
     {
-        public string QminScan { get; set; }
-        public DateTime? BeginQminDate { get; set; }
-        public DateTime? EndQminDate { get; set; }
-        public DateTime? BeginQminTime { get; set; }
-        public DateTime? EndQminTime { get; set; }
-        public string QmoutBill { get; set; }
-        public string QmoutTransport { get; set; }
-        public DateTime? BeginQmoutDate { get; set; }
-        public DateTime? EndQmoutDate { get; set; }
     }
 
     /// <summary>
     /// 序列号扫描
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 9:55:51
+    /// @Date: 2024/9/11 16:36:33
     /// </summary>
     public class QmSerialDto
     {
-        [Required(ErrorMessage = "SfId不能为空")]
-        [ExcelColumn(Name = "SfId")]
-        [ExcelColumnName("SfId")]
-        [JsonConverter(typeof(ValueToStringConverter))]
-        public long QmserSfId { get; set; }
+        [Required(ErrorMessage = "ID不能为空")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
 
-        [Required(ErrorMessage = "入库序列号不能为空")]
-        [ExcelColumn(Name = "入库序列号")]
+        public long Id { get; set; }
+
+        //[ExcelColumn(Name = "入库序列号")]
         [ExcelColumnName("入库序列号")]
-        public string QminScan { get; set; }
 
-        [ExcelColumn(Name = "入库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public string Mk002 { get; set; }
+
+        //[ExcelColumn(Name = "入库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("入库日期")]
-        public DateTime? QminDate { get; set; }
 
-        [ExcelColumn(Name = "入库数量")]
+        public DateTime? Mk003 { get; set; }
+
+        [Required(ErrorMessage = "入库数量不能为空")]
+        //[ExcelColumn(Name = "入库数量")]
         [ExcelColumnName("入库数量")]
-        public int? QminQty { get; set; }
 
-        [ExcelColumn(Name = "PCHostName")]
-        [ExcelColumnName("PCHostName")]
-        public string QminHostname { get; set; }
+        public int Mk004 { get; set; }
 
-        [ExcelColumn(Name = "PCHostIp")]
-        [ExcelColumnName("PCHostIp")]
-        public string QminHostip { get; set; }
+        //[ExcelColumn(Name = "HinName")]
+        [ExcelColumnName("HinName")]
 
-        [ExcelColumn(Name = "PCHostMac")]
-        [ExcelColumnName("PCHostMac")]
-        public string QminHostmac { get; set; }
+        public string Mk005 { get; set; }
 
-        [ExcelColumn(Name = "入库扫描")]
+        //[ExcelColumn(Name = "HinIp")]
+        [ExcelColumnName("HinIp")]
+
+        public string Mk006 { get; set; }
+
+        //[ExcelColumn(Name = "HinMac")]
+        [ExcelColumnName("HinMac")]
+
+        public string Mk007 { get; set; }
+
+        //[ExcelColumn(Name = "入库扫描")]
         [ExcelColumnName("入库扫描")]
-        public string QminUser { get; set; }
 
-        [ExcelColumn(Name = "入库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public string Mk008 { get; set; }
+
+        //[ExcelColumn(Name = "入库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("入库日期")]
-        public DateTime? QminTime { get; set; }
 
-        [ExcelColumn(Name = "出货发票")]
+        public DateTime? Mk009 { get; set; }
+
+        //[ExcelColumn(Name = "出货发票")]
         [ExcelColumnName("出货发票")]
-        public string QmoutBill { get; set; }
 
-        [ExcelColumn(Name = "运输方式")]
+        public string Mk010 { get; set; }
+
+        //[ExcelColumn(Name = "运输方式")]
         [ExcelColumnName("运输方式")]
-        public string QmoutTransport { get; set; }
 
-        [ExcelColumn(Name = "出库序列号")]
+        public string Mk011 { get; set; }
+
+        //[ExcelColumn(Name = "出库序列号")]
         [ExcelColumnName("出库序列号")]
-        public string QmoutScan { get; set; }
 
-        [ExcelColumn(Name = "出库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public string Mk012 { get; set; }
+
+        //[ExcelColumn(Name = "出库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("出库日期")]
-        public DateTime? QmoutDate { get; set; }
 
-        [ExcelColumn(Name = "出库数量")]
+        public DateTime? Mk013 { get; set; }
+
+        [Required(ErrorMessage = "出库数量不能为空")]
+        //[ExcelColumn(Name = "出库数量")]
         [ExcelColumnName("出库数量")]
-        public int? QmoutQty { get; set; }
 
-        [ExcelColumn(Name = "区域仕向")]
+        public int Mk014 { get; set; }
+
+        //[ExcelColumn(Name = "区域仕向")]
         [ExcelColumnName("区域仕向")]
-        public string QmoutRegion { get; set; }
 
-        [ExcelColumn(Name = "PCHostName")]
-        [ExcelColumnName("PCHostName")]
-        public string QmoutHostname { get; set; }
+        public string Mk015 { get; set; }
 
-        [ExcelColumn(Name = "PCHostIp")]
-        [ExcelColumnName("PCHostIp")]
-        public string QmoutHostip { get; set; }
+        //[ExcelColumn(Name = "HouName")]
+        [ExcelColumnName("HouName")]
 
-        [ExcelColumn(Name = "PCHostMac")]
-        [ExcelColumnName("PCHostMac")]
-        public string QmoutHostmac { get; set; }
+        public string Mk016 { get; set; }
 
-        [ExcelColumn(Name = "出库扫描")]
+        //[ExcelColumn(Name = "HouIp")]
+        [ExcelColumnName("HouIp")]
+
+        public string Mk017 { get; set; }
+
+        //[ExcelColumn(Name = "HouMac")]
+        [ExcelColumnName("HouMac")]
+
+        public string Mk018 { get; set; }
+
+        //[ExcelColumn(Name = "出库扫描")]
         [ExcelColumnName("出库扫描")]
-        public string QmoutUser { get; set; }
 
-        [ExcelColumn(Name = "出库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public string Mk019 { get; set; }
+
+        //[ExcelColumn(Name = "出库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("出库日期")]
-        public DateTime? QmoutTime { get; set; }
+
+        public DateTime? Mk020 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
+        public decimal Ref06 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF51 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
+        public string Udf01 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF52 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
+        public string Udf02 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF53 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
+        public string Udf03 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
+        public string Udf04 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
+        public string Udf05 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
 
-        [Required(ErrorMessage = "软删除不能为空")]
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        public string Udf06 { get; set; }
 
-        [ExcelColumn(Name = "运输方式")]
-        public string QmoutTransportLabel { get; set; }
+        [ExcelIgnore]
 
-        [ExcelColumn(Name = "区域仕向")]
-        public string QmoutRegionLabel { get; set; }
+        public int? Udf51 { get; set; }
 
-        [ExcelColumn(Name = "软删除")]
-        public string IsDeletedLabel { get; set; }
+        [ExcelIgnore]
+
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? IsDeleted { get; set; }
+
+        [ExcelIgnore]
+
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+
+        public DateTime? UpdateTime { get; set; }
+
+        //[ExcelColumn(Name = "工厂")]
+        [ExcelColumnName("工厂")]
+
+        public string QsWerks { get; set; }
+
+
+
     }
 
     /// <summary>
     /// 序列号扫描
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 9:55:51
+    /// @Date: 2024/9/11 16:36:33
     /// </summary>
     public class QmSerialImportTpl
     {
-        [Required(ErrorMessage = "SfId不能为空")]
-        [ExcelColumn(Name = "SfId")]
-        [ExcelColumnName("SfId")]
-        [JsonConverter(typeof(ValueToStringConverter))]
-        public long QmserSfId { get; set; }
+        [Required(ErrorMessage = "ID不能为空")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
+        public long Id { get; set; }
 
-        [Required(ErrorMessage = "入库序列号不能为空")]
-        [ExcelColumn(Name = "入库序列号")]
+        //[ExcelColumn(Name = "入库序列号")]
         [ExcelColumnName("入库序列号")]
-        public string QminScan { get; set; }
+        public string Mk002 { get; set; }
 
-        [ExcelColumn(Name = "入库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "入库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("入库日期")]
-        public DateTime? QminDate { get; set; }
+        public DateTime? Mk003 { get; set; }
 
-        [ExcelColumn(Name = "入库数量")]
+        [Required(ErrorMessage = "入库数量不能为空")]
+        //[ExcelColumn(Name = "入库数量")]
         [ExcelColumnName("入库数量")]
-        public int? QminQty { get; set; }
+        public int Mk004 { get; set; }
 
-        [ExcelColumn(Name = "PCHostName")]
-        [ExcelColumnName("PCHostName")]
-        public string QminHostname { get; set; }
+        //[ExcelColumn(Name = "HinName")]
+        [ExcelColumnName("HinName")]
+        public string Mk005 { get; set; }
 
-        [ExcelColumn(Name = "PCHostIp")]
-        [ExcelColumnName("PCHostIp")]
-        public string QminHostip { get; set; }
+        //[ExcelColumn(Name = "HinIp")]
+        [ExcelColumnName("HinIp")]
+        public string Mk006 { get; set; }
 
-        [ExcelColumn(Name = "PCHostMac")]
-        [ExcelColumnName("PCHostMac")]
-        public string QminHostmac { get; set; }
+        //[ExcelColumn(Name = "HinMac")]
+        [ExcelColumnName("HinMac")]
+        public string Mk007 { get; set; }
 
-        [ExcelColumn(Name = "入库扫描")]
+        //[ExcelColumn(Name = "入库扫描")]
         [ExcelColumnName("入库扫描")]
-        public string QminUser { get; set; }
+        public string Mk008 { get; set; }
 
-        [ExcelColumn(Name = "入库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "入库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("入库日期")]
-        public DateTime? QminTime { get; set; }
+        public DateTime? Mk009 { get; set; }
 
-        [ExcelColumn(Name = "出货发票")]
+        //[ExcelColumn(Name = "出货发票")]
         [ExcelColumnName("出货发票")]
-        public string QmoutBill { get; set; }
+        public string Mk010 { get; set; }
 
-        [ExcelColumn(Name = "运输方式")]
+        //[ExcelColumn(Name = "运输方式")]
         [ExcelColumnName("运输方式")]
-        public string QmoutTransport { get; set; }
+        public string Mk011 { get; set; }
 
-        [ExcelColumn(Name = "出库序列号")]
+        //[ExcelColumn(Name = "出库序列号")]
         [ExcelColumnName("出库序列号")]
-        public string QmoutScan { get; set; }
+        public string Mk012 { get; set; }
 
-        [ExcelColumn(Name = "出库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "出库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("出库日期")]
-        public DateTime? QmoutDate { get; set; }
+        public DateTime? Mk013 { get; set; }
 
-        [ExcelColumn(Name = "出库数量")]
+        [Required(ErrorMessage = "出库数量不能为空")]
+        //[ExcelColumn(Name = "出库数量")]
         [ExcelColumnName("出库数量")]
-        public int? QmoutQty { get; set; }
+        public int Mk014 { get; set; }
 
-        [ExcelColumn(Name = "区域仕向")]
+        //[ExcelColumn(Name = "区域仕向")]
         [ExcelColumnName("区域仕向")]
-        public string QmoutRegion { get; set; }
+        public string Mk015 { get; set; }
 
-        [ExcelColumn(Name = "PCHostName")]
-        [ExcelColumnName("PCHostName")]
-        public string QmoutHostname { get; set; }
+        //[ExcelColumn(Name = "HouName")]
+        [ExcelColumnName("HouName")]
+        public string Mk016 { get; set; }
 
-        [ExcelColumn(Name = "PCHostIp")]
-        [ExcelColumnName("PCHostIp")]
-        public string QmoutHostip { get; set; }
+        //[ExcelColumn(Name = "HouIp")]
+        [ExcelColumnName("HouIp")]
+        public string Mk017 { get; set; }
 
-        [ExcelColumn(Name = "PCHostMac")]
-        [ExcelColumnName("PCHostMac")]
-        public string QmoutHostmac { get; set; }
+        //[ExcelColumn(Name = "HouMac")]
+        [ExcelColumnName("HouMac")]
+        public string Mk018 { get; set; }
 
-        [ExcelColumn(Name = "出库扫描")]
+        //[ExcelColumn(Name = "出库扫描")]
         [ExcelColumnName("出库扫描")]
-        public string QmoutUser { get; set; }
+        public string Mk019 { get; set; }
 
-        [ExcelColumn(Name = "出库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "出库日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("出库日期")]
-        public DateTime? QmoutTime { get; set; }
+        public DateTime? Mk020 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
-
-        [Required(ErrorMessage = "自定义1不能为空")]
-        [ExcelIgnore]
-        public decimal UDF51 { get; set; }
-
-        [Required(ErrorMessage = "自定义2不能为空")]
-        [ExcelIgnore]
-        public decimal UDF52 { get; set; }
-
-        [Required(ErrorMessage = "自定义3不能为空")]
-        [ExcelIgnore]
-        public decimal UDF53 { get; set; }
-
-        [Required(ErrorMessage = "自定义4不能为空")]
-        [ExcelIgnore]
-        public decimal UDF54 { get; set; }
-
-        [Required(ErrorMessage = "自定义5不能为空")]
-        [ExcelIgnore]
-        public decimal UDF55 { get; set; }
-
-        [Required(ErrorMessage = "自定义6不能为空")]
-        [ExcelIgnore]
-        public decimal UDF56 { get; set; }
-
-        [Required(ErrorMessage = "软删除不能为空")]
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        public decimal Ref06 { get; set; }
 
         [ExcelIgnore]
-        [ExcelColumn(Name = "运输方式")]
-        public string QmoutTransportLabel { get; set; }
+        public string Udf01 { get; set; }
 
         [ExcelIgnore]
-        [ExcelColumn(Name = "区域仕向")]
-        public string QmoutRegionLabel { get; set; }
+        public string Udf02 { get; set; }
 
         [ExcelIgnore]
-        [ExcelColumn(Name = "软删除")]
-        public string IsDeletedLabel { get; set; }
+        public string Udf03 { get; set; }
+
+        [ExcelIgnore]
+        public string Udf04 { get; set; }
+
+        [ExcelIgnore]
+        public string Udf05 { get; set; }
+
+        [ExcelIgnore]
+        public string Udf06 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf51 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
+        public int? IsDeleted { get; set; }
+
+        [ExcelIgnore]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+        //[ExcelColumn(Name = "工厂")]
+        [ExcelColumnName("工厂")]
+        public string QsWerks { get; set; }
+
+
+
     }
+
 }

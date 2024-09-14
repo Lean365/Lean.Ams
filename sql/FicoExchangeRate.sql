@@ -1,8 +1,8 @@
 use Ams_Tes;
 
--- 汇率表菜单
+-- 币种汇率菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('汇率表', 1138, 999, 'FicoExchangeRate', 'accounting/FicoExchangeRate', 0, 0, 'C', '0', '0', 'fico:exchangerate:list', 'icon1', 'Lean365', GETDATE(), 'menu.fico.exchangerate');
+VALUES ('币种汇率', 1138, 999, 'FicoExchangeRate', 'accounting/FicoExchangeRate', 0, 0, 'C', '0', '0', 'fico:exchangerate:list', 'icon1', 'Lean365', GETDATE(), 'menu.fico.exchangerate');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -28,17 +28,35 @@ SELECT * FROM sys_menu WHERE parentId = @menuId;
 SELECT * FROM sys_menu WHERE menuId = @menuId;
 
 
--- 汇率表多语言
+-- 币种汇率多语言
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138001,'zh-cn', 'menu.fico.exchangerate', '汇率表', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138001,'zh-cn', 'menu.fico.exchangerate', '币种汇率', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138002,'zh-tw', 'menu.fico.exchangerate', 'TW_汇率表', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138002,'zh-tw', 'menu.fico.exchangerate', 'TW_币种汇率', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138003,'en', 'menu.fico.exchangerate', 'EN_汇率表', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138003,'en', 'menu.fico.exchangerate', 'EN_币种汇率', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138004,'ja', 'menu.fico.exchangerate', 'JA_汇率表', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138004,'ja', 'menu.fico.exchangerate', 'JA_币种汇率', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138003,'fr', 'menu.fico.exchangerate', 'FR_币种汇率', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138003,'ko', 'menu.fico.exchangerate', 'KO_币种汇率', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138003,'ar', 'menu.fico.exchangerate', 'AR_币种汇率', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138003,'ru', 'menu.fico.exchangerate', 'RU_币种汇率', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138003,'de', 'menu.fico.exchangerate', 'DE_币种汇率', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1138003,'es', 'menu.fico.exchangerate', 'ES_币种汇率', 'Lean365', GETDATE());

@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 销售价格
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 10:59:46
+    /// @Date: 2024/9/11 15:46:00
     /// </summary>
     [Verify]
     [Route("Logistics/SdSellingPrice")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询销售价格详情
         /// </summary>
-        /// <param name="SspSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{SspSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "sd:sellingprice:query")]
-        public IActionResult GetSdSellingPrice(long SspSfId)
+        public IActionResult GetSdSellingPrice(long Id)
         {
-            var response = _SdSellingPriceService.GetInfo(SspSfId);
+            var response = _SdSellingPriceService.GetInfo(Id);
             
             var info = response.Adapt<SdSellingPriceDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "sd:sellingprice:add")]
-        [Log(Title = "销售价格", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "销售价格", BusinessType = BusinessType.ADD)]
         public IActionResult AddSdSellingPrice([FromBody] SdSellingPriceDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_SdSellingPriceService.CheckInputUnique(parm.SspSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_SdSellingPriceService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增销售价格 '{parm.SspSfId}'失败(Add failed)，输入的销售价格已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增销售价格 '{parm.Id}'失败(Add failed)，输入的销售价格已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<SdSellingPrice>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "sd:sellingprice:edit")]
-        [Log(Title = "销售价格", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "销售价格", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateSdSellingPrice([FromBody] SdSellingPriceDto parm)
         {
             var modal = parm.Adapt<SdSellingPrice>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出销售价格
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "销售价格", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "销售价格导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "sd:sellingprice:export")]
         public IActionResult Export([FromQuery] SdSellingPriceQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入销售价格
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "销售价格导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "sd:sellingprice:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<SdSellingPriceDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 销售价格导入模板下载
+        /// 销售价格
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "销售价格模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<SdSellingPriceImportTpl>() { }, "SdSellingPrice_tpl");
             return ExportExcel(result.Item2, result.Item1);

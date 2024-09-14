@@ -56,7 +56,7 @@
         public int Sort { get; set; }
 
         /// <summary>
-        /// 字典类别
+        /// 字典类型
         /// </summary>
         public string DictType { get; set; }
 

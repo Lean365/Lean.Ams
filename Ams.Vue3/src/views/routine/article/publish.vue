@@ -6,12 +6,14 @@
         <el-col :lg="24">
           <el-form-item :label="$t('particle.title')" prop="title">
             <el-input v-model="form.title"
-              :placeholder="$t('btn.enterPrefix')+$t('particle.title')+$t('btn.enterSuffix')" />
+              :placeholder="$t('btn.enterPrefix')+$t('particle.title')+$t('btn.enterSuffix')" show-word-limit
+              maxlength="100" />
           </el-form-item>
         </el-col>
         <el-col :lg="24">
           <el-form-item prop="content" :label="$t('particle.content')">
-            <MdEditor v-model="form.content" :theme="settingsStore.codeMode" :onUploadImg="onUploadImg" />
+            <MdEditor v-model="form.content" :theme="settingsStore.codeMode" :onUploadImg="onUploadImg" show-word-limit
+              maxlength="4000" />
           </el-form-item>
         </el-col>
         <el-col :lg="24">

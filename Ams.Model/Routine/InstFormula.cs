@@ -4,7 +4,7 @@ namespace Ams.Model.Routine
     /// 计算公式
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/17 10:24:50
+    /// @Date: 2024/9/5 10:17:40
     /// </summary>
     [SugarTable("inst_formula", "计算公式")]
     public class InstFormula : SysBase
@@ -14,21 +14,24 @@ namespace Ams.Model.Routine
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long IfSfId { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 类别
         /// </summary>
-        public string IfType { get; set; }
+        [SugarColumn(ColumnName = "Mb002", ColumnDescription = "类别", Length = 1, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mb002 { get; set; }
 
         /// <summary>
-        /// 语言
+        /// 翻译键值
         /// </summary>
-        public string IfLangKey { get; set; }
+        [SugarColumn(ColumnName = "Mb003", ColumnDescription = "翻译键值", Length = 100)]
+        public string Mb003 { get; set; }
 
         /// <summary>
-        /// 公式
+        /// 公式标识
         /// </summary>
-        public string IfFormula { get; set; }
+        [SugarColumn(ColumnName = "Mb004", ColumnDescription = "公式标识", Length = -1)]
+        public string Mb004 { get; set; }
     }
 }

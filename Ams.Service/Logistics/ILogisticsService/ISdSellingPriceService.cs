@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 销售价格
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 10:59:46
+    /// @Date: 2024/9/11 15:46:00
     /// </summary>
     public interface ISdSellingPriceService : IBaseService<SdSellingPrice>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取销售价格信息
         /// </summary>
-        /// <param name="SspSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        SdSellingPrice GetInfo(long SspSfId);
+        SdSellingPrice GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

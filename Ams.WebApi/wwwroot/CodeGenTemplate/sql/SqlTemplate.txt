@@ -77,16 +77,16 @@ INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create
 VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'fr', 'menu.${ReplaceDto.LocalePrefix}', 'FR_${genTable.functionName}', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'fr', 'menu.${ReplaceDto.LocalePrefix}', 'KO_${genTable.functionName}', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'ko', 'menu.${ReplaceDto.LocalePrefix}', 'KO_${genTable.functionName}', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'fr', 'menu.${ReplaceDto.LocalePrefix}', 'AR_${genTable.functionName}', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'ar', 'menu.${ReplaceDto.LocalePrefix}', 'AR_${genTable.functionName}', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'fr', 'menu.${ReplaceDto.LocalePrefix}', 'RU_${genTable.functionName}', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'ru', 'menu.${ReplaceDto.LocalePrefix}', 'RU_${genTable.functionName}', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'fr', 'menu.${ReplaceDto.LocalePrefix}', 'DE_${genTable.functionName}', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'de', 'menu.${ReplaceDto.LocalePrefix}', 'DE_${genTable.functionName}', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'fr', 'menu.${ReplaceDto.LocalePrefix}', 'ES_${genTable.functionName}', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+${parentId}003,'es', 'menu.${ReplaceDto.LocalePrefix}', 'ES_${genTable.functionName}', 'Lean365', GETDATE());

@@ -42,3 +42,21 @@ VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'en', 'menu.
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
 VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143004,'ja', 'menu.sd.sellinginvoice', 'JA_销售凭证', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'fr', 'menu.sd.sellinginvoice', 'FR_销售凭证', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'ko', 'menu.sd.sellinginvoice', 'KO_销售凭证', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'ar', 'menu.sd.sellinginvoice', 'AR_销售凭证', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'ru', 'menu.sd.sellinginvoice', 'RU_销售凭证', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'de', 'menu.sd.sellinginvoice', 'DE_销售凭证', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'es', 'menu.sd.sellinginvoice', 'ES_销售凭证', 'Lean365', GETDATE());

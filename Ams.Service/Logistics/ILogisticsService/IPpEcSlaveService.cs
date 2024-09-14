@@ -4,26 +4,26 @@ using Ams.Model.Logistics;
 namespace Ams.Service.Logistics.ILogisticsService
 {
     /// <summary>
-    /// 从设变
+    /// 设变明细
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:30:08
+    /// @Date: 2024/9/13 8:13:42
     /// </summary>
     public interface IPpEcSlaveService : IBaseService<PpEcSlave>
     {
         /// <summary>
-        /// 获取从设变列表
+        /// 获取设变明细列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         PagedInfo<PpEcSlaveDto> GetList(PpEcSlaveQueryDto parm);
 
         /// <summary>
-        /// 获取从设变信息
+        /// 获取设变明细信息
         /// </summary>
-        /// <param name="EcsSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        PpEcSlave GetInfo(long EcsSfId);
+        PpEcSlave GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -33,7 +33,7 @@ namespace Ams.Service.Logistics.ILogisticsService
         public string CheckInputUnique(string enterString);
         /// <summary>
         /// 新增
-        /// 从设变
+        /// 设变明细
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 更新
-        /// 从设变
+        /// 设变明细
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 批量导入
-        /// 从设变
+        /// 设变明细
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 导出
-        /// 从设变
+        /// 设变明细
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>

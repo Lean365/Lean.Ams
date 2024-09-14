@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
-using UAParser;
+using Ams.Infrastructure.Extensions;
 using Ams.Infrastructure.IPTools;
+using Microsoft.AspNetCore.Http;
+using UAParser;
 
-namespace Ams.Infrastructure.Extensions
+namespace Ams.Infrastructure.WebExtensions
 {
     /// <summary>
     /// HttpContext扩展类
@@ -123,6 +124,7 @@ namespace Ams.Infrastructure.Extensions
         {
             return context.User?.Identities;
         }
+
         //public static int GetRole(this HttpContext context)
         //{
         //    var roleid = context.User.FindFirstValue(ClaimTypes.Role) ?? "0";
@@ -240,5 +242,4 @@ namespace Ams.Infrastructure.Extensions
             return param;
         }
     }
-
 }

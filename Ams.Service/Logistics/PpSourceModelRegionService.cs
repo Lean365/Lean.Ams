@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
@@ -8,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 源机种仕向
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:18:52
+    /// @Date: 2024/9/11 13:38:17
     /// </summary>
     [AppService(ServiceType = typeof(IPpSourceModelRegionService), ServiceLifetime = LifeTime.Transient)]
     public class PpSourceModelRegionService : BaseService<PpSourceModelRegion>, IPpSourceModelRegionService
@@ -23,11 +26,13 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Ze002 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<PpSourceModelRegion, PpSourceModelRegionDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. SfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,16 +53,17 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public PpSourceModelRegion GetInfo(long SfId)
+        public PpSourceModelRegion GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.SfId == SfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加源机种仕向
         /// </summary>
@@ -68,6 +74,7 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改源机种仕向
         /// </summary>
@@ -86,9 +93,9 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.SfId.IsEmpty(), "ID不能为空")
-                .SplitError(x => x.Item.Destz001.IsEmpty(), "物料不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Ze002.IsEmpty(), "物料不能为空")
+                .SplitError(x => x.Item.Ze003.IsEmpty(), "机种不能为空")
+                .SplitError(x => x.Item.Ze004.IsEmpty(), "仕向不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -122,7 +129,6 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpSourceModelRegionDto()
                 {
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
 
@@ -138,9 +144,12 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpSourceModelRegion>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Destz001), it => it.Destz001.Contains(parm.Destz001));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Destz002), it => it.Destz002.Contains(parm.Destz002));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Destz003), it => it.Destz003.Contains(parm.Destz003));
+            //查询字段: <物料> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ze002), it => it.Ze002.Contains(parm.Ze002));
+            //查询字段: <机种> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ze003), it => it.Ze003.Contains(parm.Ze003));
+            //查询字段: <仕向> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ze004), it => it.Ze004.Contains(parm.Ze004));
             return predicate;
         }
     }

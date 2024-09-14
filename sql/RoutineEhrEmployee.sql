@@ -42,3 +42,21 @@ VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'en', 'menu.
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
 VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912004,'ja', 'menu.routine.ehremployee', 'JA_人事', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehremployee', 'FR_人事', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ko', 'menu.routine.ehremployee', 'KO_人事', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ar', 'menu.routine.ehremployee', 'AR_人事', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ru', 'menu.routine.ehremployee', 'RU_人事', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'de', 'menu.routine.ehremployee', 'DE_人事', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'es', 'menu.routine.ehremployee', 'ES_人事', 'Lean365', GETDATE());

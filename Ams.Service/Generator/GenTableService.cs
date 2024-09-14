@@ -1,10 +1,7 @@
-﻿using Ams.Infrastructure;
-using Ams.Service.Generator.IGeneratorService;
-
-namespace Ams.Service.Generator
+﻿namespace Ams.Service.Generator
 {
     /// <summary>
-    /// 代码生成表
+    /// 生成数据表
     /// </summary>
     [AppService(ServiceType = typeof(IGenTableService), ServiceLifetime = LifeTime.Transient)]
     public class GenTableService : BaseService<GenTable>, IGenTableService
@@ -78,7 +75,7 @@ namespace Ams.Service.Generator
         }
 
         /// <summary>
-        /// 获取所有代码生成表
+        /// 获取所有生成数据表
         /// </summary>
         /// <returns></returns>
         public List<GenTable> GetGenTableAll()
@@ -87,7 +84,7 @@ namespace Ams.Service.Generator
         }
 
         /// <summary>
-        /// 查询代码生成表信息
+        /// 查询生成数据表信息
         /// </summary>
         /// <param name="genTable"></param>
         /// <param name="pagerInfo"></param>
@@ -101,7 +98,7 @@ namespace Ams.Service.Generator
         }
 
         /// <summary>
-        /// 插入代码生成表
+        /// 插入生成数据表
         /// </summary>
         /// <param name="table"></param>
         /// <returns></returns>
@@ -165,17 +162,14 @@ namespace Ams.Service.Generator
                     column.HtmlType = prevColumn.HtmlType;
                     column.Update_time = DateTime.Now;
                     column.Update_by = genTable.Update_by;
+                    column.ColumnComment = prevColumn.ColumnComment;
+                    column.Remark = prevColumn.Remark;
 
                     if (column.IsList)
                     {
                         column.DictType = prevColumn.DictType;
                         column.QueryType = prevColumn.QueryType;
                     }
-                    //不同步列说明
-                    //if (column.ColumnComment.IsEmpty())
-                    //{
-                    //    column.ColumnComment = prevColumn.ColumnComment;
-                    //}
                     updateColumns.Add(column);
                 }
             }
@@ -201,7 +195,7 @@ namespace Ams.Service.Generator
     }
 
     /// <summary>
-    /// 代码生成表列
+    /// 生成数据表列
     /// </summary>
     [AppService(ServiceType = typeof(IGenTableColumnService), ServiceLifetime = LifeTime.Transient)]
     public class GenTableColumnService : BaseService<GenTableColumn>, IGenTableColumnService

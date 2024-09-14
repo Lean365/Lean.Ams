@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Ams.CodeGenerator.Model;
 using Ams.Infrastructure;
+using Ams.Infrastructure.CustomExceptions;
 using Ams.Infrastructure.Extensions;
 using Ams.Infrastructure.Helper;
 using Ams.Infrastructure.Model;
@@ -33,6 +34,10 @@ namespace Ams.CodeGenerator
             if (!genOptions.VuePath.IsEmpty())
             {
                 dto.VueParentPath = genOptions.VuePath;
+            }
+            if (genOptions.UniappPath.IsNotEmpty())
+            {
+                dto.AppVuePath = genOptions.UniappPath;
             }
             dto.GenOptions = GenerateOption(dto.GenTable);
             if (dto.GenTable.SubTable != null)
@@ -88,6 +93,8 @@ namespace Ams.CodeGenerator
 
             replaceDto.UploadFile = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_IMAGE_UPLOAD) || f.HtmlType.Equals(GenConstants.HTML_FILE_UPLOAD)) ? 1 : 0;
             replaceDto.SelectMulti = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_SELECT_MULTI)) ? 1 : 0;
+            replaceDto.SelectRemote = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_SELECT_REMOTE)) ? 1 : 0;
+            replaceDto.SelectVirtual = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_SELECT_VIRTUAL)) ? 1 : 0;
             replaceDto.ShowEditor = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_EDITOR)) ? 1 : 0;
             replaceDto.FistLowerPk = replaceDto.PKName.FirstLowerCase();
             InitJntTemplate(dto, replaceDto);
@@ -115,8 +122,8 @@ namespace Ams.CodeGenerator
             GenerateSql(dto);
             if (genOptions.ShowApp)
             {
-                GenerateAppVueViews(replaceDto, dto);
-                GenerateAppVueFormViews(replaceDto, dto);
+                GenerateAppVueViews(replaceDto, dto, genOptions.UniappVersion);
+                GenerateAppVueFormViews(replaceDto, dto, genOptions.UniappVersion);
                 GenerateAppJs(dto);
             }
             dto.ReplaceDto = replaceDto;
@@ -323,9 +330,11 @@ namespace Ams.CodeGenerator
         /// 列表页面
         /// </summary>
         /// <param name="generateDto"></param>
-        private static void GenerateAppVueViews(ReplaceDto replaceDto, GeneratorDto generateDto)
+        /// <param name="replaceDto"></param>
+        /// <param name="uniappVersion"></param>
+        private static void GenerateAppVueViews(ReplaceDto replaceDto, GeneratorDto generateDto, int uniappVersion)
         {
-            var fileName = Path.Combine("app", "vue2.txt");
+            var fileName = Path.Combine("app", $"vue{uniappVersion}.txt");
             var tpl = JnHelper.ReadTemplate(CodeTemplateDir, fileName);
 
             tpl.Set("options", generateDto.GenTable?.Options);
@@ -335,9 +344,9 @@ namespace Ams.CodeGenerator
             generateDto.GenCodes.Add(new GenCode(20, "uniapp页面", fullPath, result));
         }
 
-        private static void GenerateAppVueFormViews(ReplaceDto replaceDto, GeneratorDto generateDto)
+        private static void GenerateAppVueFormViews(ReplaceDto replaceDto, GeneratorDto generateDto, int uniappVersion)
         {
-            var fileName = Path.Combine("app", "form.txt");
+            var fileName = Path.Combine("app", uniappVersion == 3 ? "form3.txt" : "form.txt");
             var tpl = JnHelper.ReadTemplate(CodeTemplateDir, fileName);
 
             tpl.Set("options", generateDto.GenTable?.Options);
@@ -417,6 +426,16 @@ namespace Ams.CodeGenerator
         /// <returns></returns>
         public static CSharpDataType GetCSharpDatatype(string sDatatype, CsharpTypeArr csharpType)
         {
+            //定义GUID类型
+            string GuidStr;
+            if (sDatatype.ToLower().Contains("uniqueidentifier"))
+            {
+                GuidStr = "00000000-0000-0000-0000-000000000000";
+                if (csharpType.uniqueidentifier.CompareTo(Guid.Parse(GuidStr)) == 0)
+                {
+                    return CSharpDataType.Guid;
+                }
+            }
             sDatatype = sDatatype.ToLower();
             if (csharpType.Int.Contains(sDatatype))
             {
@@ -564,6 +583,15 @@ namespace Ams.CodeGenerator
         /// <returns></returns>
         private static GenTableColumn InitColumnField(GenTable genTable, DbColumnInfo column, List<OracleSeq> seqs, OptionsSetting optionsSetting)
         {
+            var set1 = new string[] { "IsDeleted","isDeleted","Is_deleted",
+            "createTime", "create_time", "createBy", "create_by",
+            "updateTime", "update_time", "updateBy", "update_by" ,
+            "Create_time", "Update_time", "Create_by", "Update_by",
+             "Ref01", "Ref02", "Ref03", "Ref04", "Ref05", "Ref06",
+            "Udf01", "Udf02", "Udf03", "Udf04", "Udf05", "Udf06", "Udf51", "Udf52", "Udf53", "Udf54", "Udf55", "Udf56",
+                     "REF01", "REF02", "REF03", "REF04", "REF05", "REF06",
+            "UDF01", "UDF02", "UDF03", "UDF04", "UDF05", "UDF06", "UDF51", "UDF52", "UDF53", "UDF54", "UDF55", "UDF56"
+        }; ;
             var dataType = column.DataType;
             if (optionsSetting.CodeGenDbConfig.DbType == 3)
             {
@@ -572,11 +600,6 @@ namespace Ams.CodeGenerator
                 var isIdentity = seqs.Any(f => seqName.Equals(f.SEQUENCE_NAME, StringComparison.CurrentCultureIgnoreCase));
                 column.IsIdentity = isIdentity;
             }
-            //if (string.IsNullOrEmpty(column.ColumnDescription))
-            //{
-            //    return ToResponse(ApiResult.Error($"请为字段 '{column.DbColumnName}'，添加描述文本"));
-            //    //return genTableColumn;
-            //}
             GenTableColumn genTableColumn = new()
             {
                 ColumnName = column.DbColumnName.FirstLowerCase(),
@@ -585,13 +608,13 @@ namespace Ams.CodeGenerator
 
                 CsharpLength = column.Length,
                 CsharpDecimalDigits = column.DecimalDigits,
-
                 IsPk = column.IsPrimarykey,
                 ColumnType = dataType,
                 TableId = genTable.TableId,
                 TableName = genTable.TableName,
                 CsharpType = GetCSharpDatatype(dataType, optionsSetting.CodeGen.CsharpTypeArr).ToString(),
                 CsharpField = column.DbColumnName.ConvertToPascal("_"),
+
                 IsRequired = !column.IsNullable,
                 IsIncrement = column.IsIdentity,
                 Create_by = genTable.Create_by,
@@ -600,7 +623,6 @@ namespace Ams.CodeGenerator
                 IsEdit = true,
                 IsQuery = !column.IsNullable && GetCSharpDatatype(dataType, optionsSetting.CodeGen.CsharpTypeArr).ToString() == "string" ? true : false,
                 IsExport = true,
-
                 HtmlType = GetCSharpDatatype(dataType, optionsSetting.CodeGen.CsharpTypeArr).ToString() == "int" || GetCSharpDatatype(dataType, optionsSetting.CodeGen.CsharpTypeArr).ToString() == "decimal" ? GenConstants.HTML_INPUT_NUMBER : GenConstants.HTML_INPUT,
             };
 
@@ -619,7 +641,7 @@ namespace Ams.CodeGenerator
                 GenConstants.radioFiled.Any(f => column.DbColumnName.StartsWith(f, StringComparison.OrdinalIgnoreCase)))
             {
                 genTableColumn.HtmlType = GenConstants.HTML_RADIO;
-                genTableColumn.DictType = "sys_is_deleted";
+                //genTableColumn.DictType = "sys_Is_deleted";
             }
             //选择项
             else if (GenConstants.selectFiled.Any(f => column.DbColumnName == f) ||
@@ -632,11 +654,12 @@ namespace Ams.CodeGenerator
             {
                 genTableColumn.HtmlType = GenConstants.HTML_TEXTAREA;
             }
-
             //编辑字段
             if (column.IsIdentity || column.IsPrimarykey || GenConstants.COLUMNNAME_NOT_EDIT.Any(f => column.DbColumnName.Contains(f)))
             {
                 genTableColumn.IsEdit = false;
+                //更新必填标记:不编辑的字段全部为非必填
+                genTableColumn.IsRequired = false;
             }
             //列表字段
             if (!GenConstants.COLUMNNAME_NOT_LIST.Any(f => column.DbColumnName.Contains(f) && !column.IsPrimarykey))
@@ -653,23 +676,12 @@ namespace Ams.CodeGenerator
             {
                 genTableColumn.IsQuery = false;
             }
-            //填写字段
-            //if (GenConstants.COLUMNNAME_NOT_REQUIRED.Any(f => column.DbColumnName.ToLower().Contains(f.ToLower())))
-            //{
-            //    genTableColumn.IsRequired = false;
-            //}
             //导出字段
             if (GenConstants.COLUMNNAME_NOT_EXPORT.Any(f => column.DbColumnName.ToLower().Contains(f.ToLower())))
             {
                 genTableColumn.IsExport = false;
             }
-
             return genTableColumn;
-        }
-
-        private static GenTableColumn ToResponse(ApiResult apiResult)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion 初始化信息
@@ -689,7 +701,7 @@ namespace Ams.CodeGenerator
 
             #region 查询所有字典
 
-            var dictHtml = new string[] { GenConstants.HTML_CHECKBOX, GenConstants.HTML_RADIO, GenConstants.HTML_SELECT, GenConstants.HTML_SELECT_MULTI };
+            var dictHtml = new string[] { GenConstants.HTML_CHECKBOX, GenConstants.HTML_RADIO, GenConstants.HTML_SELECT, GenConstants.HTML_SELECT_MULTI, GenConstants.HTML_SELECT_REMOTE, GenConstants.HTML_SELECT_VIRTUAL };
             var dicts = new List<GenTableColumn>();
             dicts.AddRange(dto.GenTable.Columns.FindAll(f => dictHtml.Contains(f.HtmlType)));
             if (dto.GenTable.SubTable != null && dto.GenTable.SubTableName.IsNotEmpty())
@@ -722,7 +734,6 @@ namespace Ams.CodeGenerator
                 options.Data.Set("genSubTable", dto.GenTable?.SubTable);
                 options.Data.Set("showCustomInput", showCustomInput);
                 options.Data.Set("tool", new CodeGeneratorTool());
-                options.Data.Set("codeTool", new CodeGeneratorTemplate());
                 options.Data.Set("dicts", dicts.DistinctBy(x => x.DictType));
                 options.Data.Set("sub", dto.GenTable.SubTable != null && dto.GenTable.SubTableName.IsNotEmpty());
                 options.EnableCache = true;
@@ -744,7 +755,40 @@ namespace Ams.CodeGenerator
 
         public static bool CheckTree(GenTable genTable, string csharpField)
         {
-            return (genTable.TplCategory.Equals("tree", StringComparison.OrdinalIgnoreCase) && genTable?.Options?.TreeParentCode != null && csharpField.Equals(genTable?.Options?.TreeParentCode));
+            return genTable.TplCategory.Equals("tree", StringComparison.OrdinalIgnoreCase) && genTable?.Options?.TreeParentCode != null && csharpField.Equals(genTable?.Options?.TreeParentCode);
+        }
+
+        public static string QueryExp(string propertyName, string queryType)
+        {
+            if (queryType.Equals("EQ"))
+            {
+                return $"it => it.{propertyName} == parm.{propertyName})";
+            }
+            if (queryType.Equals("GTE"))
+            {
+                return $"it => it.{propertyName} >= parm.{propertyName})";
+            }
+            if (queryType.Equals("GT"))
+            {
+                return $"it => it.{propertyName} > parm.{propertyName})";
+            }
+            if (queryType.Equals("LT"))
+            {
+                return $"it => it.{propertyName} < parm.{propertyName})";
+            }
+            if (queryType.Equals("LTE"))
+            {
+                return $"it => it.{propertyName} <= parm.{propertyName})";
+            }
+            if (queryType.Equals("NE"))
+            {
+                return $"it => it.{propertyName} != parm.{propertyName})";
+            }
+            if (queryType.Equals("LIKE"))
+            {
+                return $"it => it.{propertyName}.Contains(parm.{propertyName}))";
+            }
+            return $"it => it.{propertyName} == parm.{propertyName})";
         }
 
         #endregion 模板用

@@ -7,7 +7,7 @@ namespace Ams.Service.Routine.IRoutineService
     /// 计算公式
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/17 10:24:50
+    /// @Date: 2024/9/5 10:17:40
     /// </summary>
     public interface IInstFormulaService : IBaseService<InstFormula>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Routine.IRoutineService
         /// <summary>
         /// 获取计算公式信息
         /// </summary>
-        /// <param name="IfSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        InstFormula GetInfo(long IfSfId);
+        InstFormula GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

@@ -1,4 +1,4 @@
-﻿namespace Lna.Service.Resources
+﻿namespace Ams.Service.Resources
 {
     public class SharedResource
     {

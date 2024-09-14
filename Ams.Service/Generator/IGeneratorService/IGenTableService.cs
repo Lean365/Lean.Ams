@@ -1,4 +1,6 @@
-﻿namespace Ams.Service.Generator.IGeneratorService
+﻿using Ams.Service;
+
+namespace Ams.Service.Generator.IGeneratorService
 {
     public interface IGenTableService : IBaseService<GenTable>
     {

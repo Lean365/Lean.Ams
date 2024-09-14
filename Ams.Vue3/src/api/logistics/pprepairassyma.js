@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 组立不良ma分页查询
+ * 不良分页查询
  * @param {查询条件} data
  */
 export function listPpRepairAssyMa(query) {
@@ -14,7 +14,7 @@ export function listPpRepairAssyMa(query) {
 }
 
 /**
- * 新增组立不良ma
+ * 新增不良
  * @param data
  */
 export function addPpRepairAssyMa(data) {
@@ -25,7 +25,7 @@ export function addPpRepairAssyMa(data) {
   })
 }
 /**
- * 修改组立不良ma
+ * 修改不良
  * @param data
  */
 export function updatePpRepairAssyMa(data) {
@@ -36,7 +36,7 @@ export function updatePpRepairAssyMa(data) {
   })
 }
 /**
- * 获取组立不良ma详情
+ * 获取不良详情
  * @param {Id}
  */
 export function getPpRepairAssyMa(id) {
@@ -47,7 +47,7 @@ export function getPpRepairAssyMa(id) {
 }
 
 /**
- * 删除组立不良ma
+ * 删除不良
  * @param {主键} pid
  */
 export function delPpRepairAssyMa(pid) {
@@ -56,7 +56,7 @@ export function delPpRepairAssyMa(pid) {
     method: 'delete'
   })
 }
-// 导出组立不良ma
+// 导出不良
 export async function exportPpRepairAssyMa(query) {
   await downFile('Logistics/PpRepairAssyMa/export', { ...query })
 }

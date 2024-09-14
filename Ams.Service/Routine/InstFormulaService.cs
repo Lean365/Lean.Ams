@@ -1,5 +1,6 @@
-using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
+using Ams.Repository;
 
 namespace Ams.Service.Routine
 {
@@ -7,7 +8,7 @@ namespace Ams.Service.Routine
     /// 计算公式
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/17 10:24:50
+    /// @Date: 2024/9/5 10:17:40
     /// </summary>
     [AppService(ServiceType = typeof(IInstFormulaService), ServiceLifetime = LifeTime.Transient)]
     public class InstFormulaService : BaseService<InstFormula>, IInstFormulaService
@@ -22,6 +23,7 @@ namespace Ams.Service.Routine
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Mb002 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<InstFormula, InstFormulaDto>(parm);
 
@@ -36,7 +38,7 @@ namespace Ams.Service.Routine
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.IfType.ToString() == enterString);
+            int count = Count(it => it.Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -47,12 +49,12 @@ namespace Ams.Service.Routine
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="IfSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public InstFormula GetInfo(long IfSfId)
+        public InstFormula GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.IfSfId == IfSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
@@ -87,11 +89,10 @@ namespace Ams.Service.Routine
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.IfSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.IfType.IsEmpty(), "类别不能为空")
-                .SplitError(x => x.Item.IfLangKey.IsEmpty(), "语言不能为空")
-                .SplitError(x => x.Item.IfFormula.IsEmpty(), "公式不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Id.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.Mb002.IsEmpty(), "类别不能为空")
+                .SplitError(x => x.Item.Mb003.IsEmpty(), "翻译键值不能为空")
+                .SplitError(x => x.Item.Mb004.IsEmpty(), "公式标识不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -125,8 +126,10 @@ namespace Ams.Service.Routine
                 .Where(predicate.ToExpression())
                 .Select((it) => new InstFormulaDto()
                 {
-                    IfTypeLabel = it.IfType.GetConfigValue<SysDictData>("sys_calc_type"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <类别>
+                    Mb002Label = it.Mb002.GetConfigValue<SysDictData>("sys_calc_type"),
+                    //查询字典: <软删除>
+                    //IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_Is_deleted"),
                 }, true)
                 .ToPage(parm);
 
@@ -142,7 +145,8 @@ namespace Ams.Service.Routine
         {
             var predicate = Expressionable.Create<InstFormula>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IfType), it => it.IfType == parm.IfType);
+            //查询字段: <类别>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb002), it => it.Mb002 == parm.Mb002);
             return predicate;
         }
     }

@@ -14,6 +14,9 @@ namespace ${options.DtosNamespace}.${options.SubNamespace}.Dto
     {
 $foreach(item in genTable.Columns)
 $if(item.IsQuery)
+        /// <summary>
+        /// ${item.ColumnComment} ${item.Remark}
+        /// </summary>        
 $if(item.htmlType.StartsWith("date"))
         public DateTime? Begin$item.CsharpField { get; set; }
         public DateTime? End$item.CsharpField { get; set; }
@@ -46,7 +49,7 @@ $if(item.IsRequired)
 $end
 $if(replaceDto.ShowBtnExport)
 $if(item.IsExport)
-        [ExcelColumn(Name = "$labelName"$if(item.CsharpType == "DateTime"), Format = "yyyy-MM-dd HH:mm:ss", Width = 20$end)]
+        //[ExcelColumn(Name = "$labelName"$if(item.CsharpType == "DateTime"), Format = "yyyy-MM-dd HH:mm:ss", Width = 20$end)]
         [ExcelColumnName("$labelName")]
 $else
         [ExcelIgnore]
@@ -55,6 +58,7 @@ $end
 $if(item.CsharpType == "long" && replaceDto.useSnowflakeId == true && item.IsPk)
         [JsonConverter(typeof(ValueToStringConverter))]
 $end
+
         public $item.CsharpType$item.RequiredStr $item.CsharpField { get; set; }
 
 $end
@@ -73,9 +77,12 @@ $end
         public List<${genTable.SubTable.ClassName}Dto> ${genTable.SubTable.ClassName}Nav { get; set; }
 $end
 $foreach(column in dicts)
-$if(column.IsExport)
+$if(column.DictType != null && column.DictType!="sys_Is_deleted")
         [ExcelColumn(Name = "$if(column.ColumnComment == "")${column.CsharpField}${else}${column.ColumnComment}${end}")]
         public string ${column.CsharpField}Label { get; set; }
+$else
+        //[ExcelColumn(Name = "$if(column.ColumnComment == "")${column.CsharpField}${else}${column.ColumnComment}${end}")]
+        //public string ${column.CsharpField}Label { get; set; }
 $end
 $end
     }
@@ -101,7 +108,7 @@ $if(item.IsRequired)
 $end
 $if(replaceDto.ShowBtnExport)
 $if(item.IsExport)
-        [ExcelColumn(Name = "$labelName"$if(item.CsharpType == "DateTime"), Format = "yyyy-MM-dd HH:mm:ss", Width = 20$end)]
+        //[ExcelColumn(Name = "$labelName"$if(item.CsharpType == "DateTime"), Format = "yyyy-MM-dd HH:mm:ss", Width = 20$end)]
         [ExcelColumnName("$labelName")]
 $else
         [ExcelIgnore]

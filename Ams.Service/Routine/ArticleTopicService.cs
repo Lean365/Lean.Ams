@@ -1,10 +1,10 @@
-using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
-using Ams.Model.Routine.Dto;
+using Ams.Service;
 using Ams.Service.Routine.IRoutineService;
 using Mapster;
+using Ams.Infrastructure;
+using Ams.Repository;
 
-namespace Ams.Service.Content
+namespace Ams.Service.Routine
 {
     /// <summary>
     /// 文章话题Service业务层处理

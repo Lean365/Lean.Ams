@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 物料信息
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 14:13:37
+    /// @Date: 2024/9/11 11:22:47
     /// </summary>
     [Verify]
     [Route("Logistics/MmMarb")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询物料信息详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{SfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "mm:marb:query")]
-        public IActionResult GetMmMarb(long SfId)
+        public IActionResult GetMmMarb(long Id)
         {
-            var response = _MmMarbService.GetInfo(SfId);
+            var response = _MmMarbService.GetInfo(Id);
             
             var info = response.Adapt<MmMarbDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "mm:marb:add")]
-        [Log(Title = "物料信息", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "物料信息", BusinessType = BusinessType.ADD)]
         public IActionResult AddMmMarb([FromBody] MmMarbDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_MmMarbService.CheckInputUnique(parm.SfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_MmMarbService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增物料信息 '{parm.SfId}'失败(Add failed)，输入的物料信息已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增物料信息 '{parm.Id}'失败(Add failed)，输入的物料信息已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<MmMarb>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "mm:marb:edit")]
-        [Log(Title = "物料信息", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "物料信息", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateMmMarb([FromBody] MmMarbDto parm)
         {
             var modal = parm.Adapt<MmMarb>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出物料信息
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "物料信息", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "物料信息导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "mm:marb:export")]
         public IActionResult Export([FromQuery] MmMarbQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入物料信息
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "物料信息导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "mm:marb:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<MmMarbDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 物料信息导入模板下载
+        /// 物料信息
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "物料信息模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<MmMarbImportTpl>() { }, "MmMarb_tpl");
             return ExportExcel(result.Item2, result.Item1);

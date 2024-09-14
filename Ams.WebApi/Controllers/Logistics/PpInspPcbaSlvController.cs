@@ -8,10 +8,10 @@ using MiniExcelLibs;
 namespace Ams.WebApi.Controllers.Logistics
 {
     /// <summary>
-    /// 检查日报slv
+    /// 检查明细
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 12:01:22
+    /// @Date: 2024/9/12 16:38:55
     /// </summary>
     [Verify]
     [Route("Logistics/PpInspPcbaSlv")]
@@ -19,7 +19,7 @@ namespace Ams.WebApi.Controllers.Logistics
     public class PpInspPcbaSlvController : BaseController
     {
         /// <summary>
-        /// 检查日报slv接口
+        /// 检查明细接口
         /// </summary>
         private readonly IPpInspPcbaSlvService _PpInspPcbaSlvService;
 
@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 查询检查日报slv列表
+        /// 查询检查明细列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -43,34 +43,34 @@ namespace Ams.WebApi.Controllers.Logistics
 
 
         /// <summary>
-        /// 查询检查日报slv详情
+        /// 查询检查明细详情
         /// </summary>
-        /// <param name="PdiSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{PdiSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "pp:inscbaslv:query")]
-        public IActionResult GetPpInspPcbaSlv(long PdiSfId)
+        public IActionResult GetPpInspPcbaSlv(long Id)
         {
-            var response = _PpInspPcbaSlvService.GetInfo(PdiSfId);
+            var response = _PpInspPcbaSlvService.GetInfo(Id);
             
             var info = response.Adapt<PpInspPcbaSlvDto>();
             return SUCCESS(info);
         }
 
         /// <summary>
-        /// 添加检查日报slv
+        /// 添加检查明细
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "pp:inscbaslv:add")]
-        [Log(Title = "检查日报slv", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "检查明细", BusinessType = BusinessType.ADD)]
         public IActionResult AddPpInspPcbaSlv([FromBody] PpInspPcbaSlvDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpInspPcbaSlvService.CheckInputUnique(parm.PdiSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpInspPcbaSlvService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增检查日报slv '{parm.PdiSfId}'失败(Add failed)，输入的检查日报slv已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增检查明细 '{parm.Id}'失败(Add failed)，输入的检查明细已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpInspPcbaSlv>().ToCreate(HttpContext);
 
@@ -80,12 +80,12 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 更新检查日报slv
+        /// 更新检查明细
         /// </summary>
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "pp:inscbaslv:edit")]
-        [Log(Title = "检查日报slv", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "检查明细", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdatePpInspPcbaSlv([FromBody] PpInspPcbaSlvDto parm)
         {
             var modal = parm.Adapt<PpInspPcbaSlv>().ToUpdate(HttpContext);
@@ -95,24 +95,24 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 删除检查日报slv
+        /// 删除检查明细
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "pp:inscbaslv:delete")]
-        [Log(Title = "检查日报slv", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "检查明细", BusinessType = BusinessType.DELETE)]
         public IActionResult DeletePpInspPcbaSlv([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
-            return ToResponse(_PpInspPcbaSlvService.Delete(idArr, "删除检查日报slv"));
+            return ToResponse(_PpInspPcbaSlvService.Delete(idArr, "删除检查明细"));
         }
 
         /// <summary>
-        /// 导出检查日报slv
+        /// 导出检查明细
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "检查日报slv", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "检查明细导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "pp:inscbaslv:export")]
         public IActionResult Export([FromQuery] PpInspPcbaSlvQueryDto parm)
@@ -124,19 +124,19 @@ namespace Ams.WebApi.Controllers.Logistics
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "检查日报slv", "检查日报slv");
+            var result = ExportExcelMini(list, "检查明细", "检查明细");
             return ExportExcel(result.Item2, result.Item1);
         }
 
         /// <summary>
-        /// 导入
+        /// 导入检查明细
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
-        [Log(Title = "检查日报slv导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
+      [HttpPost("importData")]
+        [Log(Title = "检查明细导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "pp:inscbaslv:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<PpInspPcbaSlvDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 检查日报slv导入模板下载
+        /// 检查明细
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
-        [Log(Title = "检查日报slv模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "检查明细模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<PpInspPcbaSlvImportTpl>() { }, "PpInspPcbaSlv_tpl");
             return ExportExcel(result.Item2, result.Item1);

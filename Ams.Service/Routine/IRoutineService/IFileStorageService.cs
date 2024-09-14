@@ -4,6 +4,19 @@ namespace Ams.Service.Routine.IRoutineService
 {
     public interface IFileStorageService : IBaseService<FileStorage>
     {
+        /// <summary>
+        /// 校验
+        /// 输入项目唯一性
+        /// </summary>
+        /// <param name="enterString"></param>
+        /// <returns></returns>
+        public string CheckInputUnique(string enterString);
+
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         Task<long> InsertFile(FileStorage file);
 
         /// <summary>
@@ -17,6 +30,12 @@ namespace Ams.Service.Routine.IRoutineService
         /// <returns>文件对象</returns>
         Task<FileStorage> SaveFileToLocal(string rootPath, string fileName, string fileDir, string userName, IFormFile formFile);
 
+        /// <summary>
+        /// 上传文件到阿里云
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="formFile"></param>
+        /// <returns></returns>
         Task<FileStorage> SaveFileToAliyun(FileStorage file, IFormFile formFile);
 
         /// <summary>

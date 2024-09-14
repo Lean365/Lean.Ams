@@ -55,7 +55,7 @@
         /// <summary>
         /// 状态
         /// </summary>
-        public int IsStatus { get; set; } = -1;
+        public int Status { get; set; } = -1;
 
         /// <summary>
         /// 操作模块

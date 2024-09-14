@@ -1,4 +1,4 @@
-use Lean365;
+use Ams_Tes;
 
 -- 出货检验菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
@@ -42,3 +42,21 @@ VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1142003,'en', 'menu.
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
 VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1142004,'ja', 'menu.qm.outgoing', 'JA_出货检验', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1142003,'fr', 'menu.qm.outgoing', 'FR_出货检验', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1142003,'ko', 'menu.qm.outgoing', 'KO_出货检验', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1142003,'ar', 'menu.qm.outgoing', 'AR_出货检验', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1142003,'ru', 'menu.qm.outgoing', 'RU_出货检验', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1142003,'de', 'menu.qm.outgoing', 'DE_出货检验', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1142003,'es', 'menu.qm.outgoing', 'ES_出货检验', 'Lean365', GETDATE());

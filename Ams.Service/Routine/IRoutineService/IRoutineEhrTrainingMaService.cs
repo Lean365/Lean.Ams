@@ -7,7 +7,7 @@ namespace Ams.Service.Routine.IRoutineService
     /// 培训
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 17:23:27
+    /// @Date: 2024/9/12 15:13:49
     /// </summary>
     public interface IRoutineEhrTrainingMaService : IBaseService<RoutineEhrTrainingMa>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Routine.IRoutineService
         /// <summary>
         /// 获取培训信息
         /// </summary>
-        /// <param name="EpSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        RoutineEhrTrainingMa GetInfo(long EpSfId);
+        RoutineEhrTrainingMa GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

@@ -1,2007 +1,2363 @@
+
 namespace Ams.Model.Logistics.Dto
 {
     /// <summary>
     /// 常规物料
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:37:36
+    /// @Date: 2024/9/11 10:59:57
     /// </summary>
-    public class MmMaraQueryDto : PagerInfo
+    public class MmMaraQueryDto : PagerInfo 
     {
-        public string Matnr { get; set; }
-        public string Lvorm { get; set; }
-        public string Mtart { get; set; }
-        public string Mbrsh { get; set; }
-        public string Matkl { get; set; }
-        public string Meins { get; set; }
-        public string Gewei { get; set; }
-        public string Voleh { get; set; }
-        public string Mstae { get; set; }
+        /// <summary>
+        /// 物料号 
+        /// </summary>        
+        public string Ma003 { get; set; }
+        /// <summary>
+        /// 物料类型 
+        /// </summary>        
+        public string Ma007 { get; set; }
+        /// <summary>
+        /// 行业领域 
+        /// </summary>        
+        public string Ma008 { get; set; }
+        /// <summary>
+        /// 基本单位 
+        /// </summary>        
+        public string Ma011 { get; set; }
     }
 
     /// <summary>
     /// 常规物料
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:37:36
+    /// @Date: 2024/9/11 10:59:57
     /// </summary>
     public class MmMaraDto
     {
-        [Required(ErrorMessage = "ID主键不能为空")]
-        [ExcelColumn(Name = "ID主键")]
-        [ExcelColumnName("ID主键")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long SfId { get; set; }
 
-        [ExcelColumn(Name = "集团")]
+        public long Id { get; set; }
+
+        //[ExcelColumn(Name = "集团")]
         [ExcelColumnName("集团")]
-        public string Mandt { get; set; }
+
+        public string Ma002 { get; set; }
 
         [Required(ErrorMessage = "物料号不能为空")]
-        [ExcelColumn(Name = "物料号")]
+        //[ExcelColumn(Name = "物料号")]
         [ExcelColumnName("物料号")]
-        public string Matnr { get; set; }
 
-        [ExcelColumn(Name = "创建日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("创建日期")]
-        public DateTime? Ersda { get; set; }
+        public string Ma003 { get; set; }
 
-        [ExcelColumn(Name = "创建对象的人员名称")]
-        [ExcelColumnName("创建对象的人员名称")]
-        public string Ernam { get; set; }
+        //[ExcelColumn(Name = "完整状态")]
+        [ExcelColumnName("完整状态")]
 
-        [ExcelColumn(Name = "上次更改的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("上次更改的日期")]
-        public DateTime? Laeda { get; set; }
+        public string Ma004 { get; set; }
 
-        [ExcelColumn(Name = "对象更改人员的名称")]
-        [ExcelColumnName("对象更改人员的名称")]
-        public string Aenam { get; set; }
-
-        [ExcelColumn(Name = "维护全部物料状态")]
-        [ExcelColumnName("维护全部物料状态")]
-        public string Vpsta { get; set; }
-
-        [ExcelColumn(Name = "维护状态")]
+        //[ExcelColumn(Name = "维护状态")]
         [ExcelColumnName("维护状态")]
-        public string Pstat { get; set; }
 
-        [Required(ErrorMessage = "在客户级标记要删除的物料不能为空")]
-        [ExcelColumn(Name = "在客户级标记要删除的物料")]
-        [ExcelColumnName("在客户级标记要删除的物料")]
-        public string Lvorm { get; set; }
+        public string Ma005 { get; set; }
+
+        //[ExcelColumn(Name = "集团删除")]
+        [ExcelColumnName("集团删除")]
+
+        public string Ma006 { get; set; }
 
         [Required(ErrorMessage = "物料类型不能为空")]
-        [ExcelColumn(Name = "物料类型")]
+        //[ExcelColumn(Name = "物料类型")]
         [ExcelColumnName("物料类型")]
-        public string Mtart { get; set; }
+
+        public string Ma007 { get; set; }
 
         [Required(ErrorMessage = "行业领域不能为空")]
-        [ExcelColumn(Name = "行业领域")]
+        //[ExcelColumn(Name = "行业领域")]
         [ExcelColumnName("行业领域")]
-        public string Mbrsh { get; set; }
 
-        [Required(ErrorMessage = "物料组不能为空")]
-        [ExcelColumn(Name = "物料组")]
+        public string Ma008 { get; set; }
+
+        //[ExcelColumn(Name = "物料组")]
         [ExcelColumnName("物料组")]
-        public string Matkl { get; set; }
 
-        [ExcelColumn(Name = "旧物料号")]
+        public string Ma009 { get; set; }
+
+        //[ExcelColumn(Name = "旧物料号")]
         [ExcelColumnName("旧物料号")]
-        public string Bismt { get; set; }
 
-        [Required(ErrorMessage = "基本计量单位不能为空")]
-        [ExcelColumn(Name = "基本计量单位")]
-        [ExcelColumnName("基本计量单位")]
-        public string Meins { get; set; }
+        public string Ma010 { get; set; }
 
-        [ExcelColumn(Name = "采购订单的计量单位")]
-        [ExcelColumnName("采购订单的计量单位")]
-        public string Bstme { get; set; }
+        [Required(ErrorMessage = "基本单位不能为空")]
+        //[ExcelColumn(Name = "基本单位")]
+        [ExcelColumnName("基本单位")]
 
-        [ExcelColumn(Name = "文档号码(无文档管理系统)")]
-        [ExcelColumnName("文档号码(无文档管理系统)")]
-        public string Zeinr { get; set; }
+        public string Ma011 { get; set; }
 
-        [ExcelColumn(Name = "凭证类型(无凭证管理系统)")]
-        [ExcelColumnName("凭证类型(无凭证管理系统)")]
-        public string Zeiar { get; set; }
+        //[ExcelColumn(Name = "订单单位")]
+        [ExcelColumnName("订单单位")]
 
-        [ExcelColumn(Name = "文档版本（无文档管理系统）")]
-        [ExcelColumnName("文档版本（无文档管理系统）")]
-        public string Zeivr { get; set; }
+        public string Ma012 { get; set; }
 
-        [ExcelColumn(Name = "文件的页面大小（不包括文件管理系统）")]
-        [ExcelColumnName("文件的页面大小（不包括文件管理系统）")]
-        public string Zeifo { get; set; }
+        //[ExcelColumn(Name = "凭证")]
+        [ExcelColumnName("凭证")]
 
-        [ExcelColumn(Name = "文档变更号(无文档管理系统)")]
-        [ExcelColumnName("文档变更号(无文档管理系统)")]
-        public string Aeszn { get; set; }
+        public string Ma013 { get; set; }
 
-        [ExcelColumn(Name = "凭证的页号(不带凭证管理系统)")]
-        [ExcelColumnName("凭证的页号(不带凭证管理系统)")]
-        public string Blatt { get; set; }
+        //[ExcelColumn(Name = "凭证类型")]
+        [ExcelColumnName("凭证类型")]
 
-        [ExcelColumn(Name = "页数(没有凭证管理系统)")]
-        [ExcelColumnName("页数(没有凭证管理系统)")]
-        public int? Blanz { get; set; }
+        public string Ma014 { get; set; }
 
-        [ExcelColumn(Name = "生产/检验备忘录")]
-        [ExcelColumnName("生产/检验备忘录")]
-        public string Ferth { get; set; }
+        //[ExcelColumn(Name = "凭证版本")]
+        [ExcelColumnName("凭证版本")]
 
-        [ExcelColumn(Name = "生产备忘录的页格式")]
-        [ExcelColumnName("生产备忘录的页格式")]
-        public string Formt { get; set; }
+        public string Ma015 { get; set; }
 
-        [ExcelColumn(Name = "大小/量纲")]
+        //[ExcelColumn(Name = "页面大小")]
+        [ExcelColumnName("页面大小")]
+
+        public string Ma016 { get; set; }
+
+        //[ExcelColumn(Name = "文档变更号")]
+        [ExcelColumnName("文档变更号")]
+
+        public string Ma017 { get; set; }
+
+        //[ExcelColumn(Name = "页号")]
+        [ExcelColumnName("页号")]
+
+        public string Ma018 { get; set; }
+
+        [Required(ErrorMessage = "页数不能为空")]
+        //[ExcelColumn(Name = "页数")]
+        [ExcelColumnName("页数")]
+
+        public int Ma019 { get; set; }
+
+        //[ExcelColumn(Name = "备忘录")]
+        [ExcelColumnName("备忘录")]
+
+        public string Ma020 { get; set; }
+
+        //[ExcelColumn(Name = "页格式")]
+        [ExcelColumnName("页格式")]
+
+        public string Ma021 { get; set; }
+
+        //[ExcelColumn(Name = "大小/量纲")]
         [ExcelColumnName("大小/量纲")]
-        public string Groes { get; set; }
 
-        [ExcelColumn(Name = "基本物料")]
+        public string Ma022 { get; set; }
+
+        //[ExcelColumn(Name = "基本物料")]
         [ExcelColumnName("基本物料")]
-        public string Wrkst { get; set; }
 
-        [ExcelColumn(Name = "行业标准描述（例如 ANSI 或 ISO）")]
-        [ExcelColumnName("行业标准描述（例如 ANSI 或 ISO）")]
-        public string Normt { get; set; }
+        public string Ma023 { get; set; }
 
-        [ExcelColumn(Name = "实验室/设计室")]
+        //[ExcelColumn(Name = "行业标准")]
+        [ExcelColumnName("行业标准")]
+
+        public string Ma024 { get; set; }
+
+        //[ExcelColumn(Name = "实验室/设计室")]
         [ExcelColumnName("实验室/设计室")]
-        public string Labor { get; set; }
 
-        [ExcelColumn(Name = "采购价值代码")]
-        [ExcelColumnName("采购价值代码")]
-        public string Ekwsl { get; set; }
+        public string Ma025 { get; set; }
 
-        [ExcelColumn(Name = "毛重")]
+        //[ExcelColumn(Name = "采购值代码")]
+        [ExcelColumnName("采购值代码")]
+
+        public string Ma026 { get; set; }
+
+        [Required(ErrorMessage = "毛重不能为空")]
+        //[ExcelColumn(Name = "毛重")]
         [ExcelColumnName("毛重")]
-        public decimal Brgew { get; set; }
 
-        [ExcelColumn(Name = "净重")]
+        public decimal Ma027 { get; set; }
+
+        [Required(ErrorMessage = "净重不能为空")]
+        //[ExcelColumn(Name = "净重")]
         [ExcelColumnName("净重")]
-        public decimal Ntgew { get; set; }
 
-        [Required(ErrorMessage = "重量单位不能为空")]
-        [ExcelColumn(Name = "重量单位")]
+        public decimal Ma028 { get; set; }
+
+        //[ExcelColumn(Name = "重量单位")]
         [ExcelColumnName("重量单位")]
-        public string Gewei { get; set; }
 
-        [ExcelColumn(Name = "业务量")]
+        public string Ma029 { get; set; }
+
+        [Required(ErrorMessage = "业务量不能为空")]
+        //[ExcelColumn(Name = "业务量")]
         [ExcelColumnName("业务量")]
-        public decimal Volum { get; set; }
 
-        [Required(ErrorMessage = "体积单位不能为空")]
-        [ExcelColumn(Name = "体积单位")]
+        public decimal Ma030 { get; set; }
+
+        //[ExcelColumn(Name = "体积单位")]
         [ExcelColumnName("体积单位")]
-        public string Voleh { get; set; }
 
-        [ExcelColumn(Name = "容器需求")]
+        public string Ma031 { get; set; }
+
+        //[ExcelColumn(Name = "容器需求")]
         [ExcelColumnName("容器需求")]
-        public string Behvo { get; set; }
 
-        [ExcelColumn(Name = "存储条件")]
+        public string Ma032 { get; set; }
+
+        //[ExcelColumn(Name = "存储条件")]
         [ExcelColumnName("存储条件")]
-        public string Raube { get; set; }
 
-        [ExcelColumn(Name = "温度条件标识")]
-        [ExcelColumnName("温度条件标识")]
-        public string Tempb { get; set; }
+        public string Ma033 { get; set; }
 
-        [ExcelColumn(Name = "低层代码")]
+        //[ExcelColumn(Name = "温度")]
+        [ExcelColumnName("温度")]
+
+        public string Ma034 { get; set; }
+
+        //[ExcelColumn(Name = "低层代码")]
         [ExcelColumnName("低层代码")]
-        public string Disst { get; set; }
 
-        [ExcelColumn(Name = "运输组")]
+        public string Ma035 { get; set; }
+
+        //[ExcelColumn(Name = "运输组")]
         [ExcelColumnName("运输组")]
-        public string Tragr { get; set; }
 
-        [ExcelColumn(Name = "危险物料号")]
+        public string Ma036 { get; set; }
+
+        //[ExcelColumn(Name = "危险物料号")]
         [ExcelColumnName("危险物料号")]
-        public string Stoff { get; set; }
 
-        [ExcelColumn(Name = "产品组")]
+        public string Ma037 { get; set; }
+
+        //[ExcelColumn(Name = "产品组")]
         [ExcelColumnName("产品组")]
-        public string Spart { get; set; }
 
-        [ExcelColumn(Name = "竞争者")]
+        public string Ma038 { get; set; }
+
+        //[ExcelColumn(Name = "竞争者")]
         [ExcelColumnName("竞争者")]
-        public string Kunnr { get; set; }
 
-        [ExcelColumn(Name = "欧洲物品号 (EAN) - 已过时的 !!!!!")]
-        [ExcelColumnName("欧洲物品号 (EAN) - 已过时的 !!!!!")]
-        public string Eannr { get; set; }
+        public string Ma039 { get; set; }
 
-        [ExcelColumn(Name = "数量: 待打印的 GR/GI 单数量")]
-        [ExcelColumnName("数量: 待打印的 GR/GI 单数量")]
-        public decimal Wesch { get; set; }
+        //[ExcelColumn(Name = "EAN号")]
+        [ExcelColumnName("EAN号")]
 
-        [ExcelColumn(Name = "采购规则")]
+        public string Ma040 { get; set; }
+
+        [Required(ErrorMessage = "GR单数量不能为空")]
+        //[ExcelColumn(Name = "GR单数量")]
+        [ExcelColumnName("GR单数量")]
+
+        public decimal Ma041 { get; set; }
+
+        //[ExcelColumn(Name = "采购规则")]
         [ExcelColumnName("采购规则")]
-        public string Bwvor { get; set; }
 
-        [ExcelColumn(Name = "货源")]
+        public string Ma042 { get; set; }
+
+        //[ExcelColumn(Name = "货源")]
         [ExcelColumnName("货源")]
-        public string Bwscl { get; set; }
 
-        [ExcelColumn(Name = "季节类别")]
-        [ExcelColumnName("季节类别")]
-        public string Saiso { get; set; }
+        public string Ma043 { get; set; }
 
-        [ExcelColumn(Name = "标签类型")]
+        //[ExcelColumn(Name = "季节")]
+        [ExcelColumnName("季节")]
+
+        public string Ma044 { get; set; }
+
+        //[ExcelColumn(Name = "标签类型")]
         [ExcelColumnName("标签类型")]
-        public string Etiar { get; set; }
 
-        [ExcelColumn(Name = "标签格式")]
+        public string Ma045 { get; set; }
+
+        //[ExcelColumn(Name = "标签格式")]
         [ExcelColumnName("标签格式")]
-        public string Etifo { get; set; }
 
-        [ExcelColumn(Name = "取消激活的")]
-        [ExcelColumnName("取消激活的")]
-        public string Entar { get; set; }
+        public string Ma046 { get; set; }
 
-        [ExcelColumn(Name = "国际文件号(EAN/UPC)")]
-        [ExcelColumnName("国际文件号(EAN/UPC)")]
-        public string Ean11 { get; set; }
+        //[ExcelColumn(Name = "取消激活")]
+        [ExcelColumnName("取消激活")]
 
-        [ExcelColumn(Name = "国际商品编码的类别 (EAN)")]
-        [ExcelColumnName("国际商品编码的类别 (EAN)")]
-        public string Numtp { get; set; }
+        public string Ma047 { get; set; }
 
-        [ExcelColumn(Name = "长度")]
+        //[ExcelColumn(Name = "EAN")]
+        [ExcelColumnName("EAN")]
+
+        public string Ma048 { get; set; }
+
+        //[ExcelColumn(Name = "EAN类别")]
+        [ExcelColumnName("EAN类别")]
+
+        public string Ma049 { get; set; }
+
+        [Required(ErrorMessage = "长度不能为空")]
+        //[ExcelColumn(Name = "长度")]
         [ExcelColumnName("长度")]
-        public decimal Laeng { get; set; }
 
-        [ExcelColumn(Name = "宽度")]
+        public decimal Ma050 { get; set; }
+
+        [Required(ErrorMessage = "宽度不能为空")]
+        //[ExcelColumn(Name = "宽度")]
         [ExcelColumnName("宽度")]
-        public decimal Breit { get; set; }
 
-        [ExcelColumn(Name = "高度")]
+        public decimal Ma051 { get; set; }
+
+        [Required(ErrorMessage = "高度不能为空")]
+        //[ExcelColumn(Name = "高度")]
         [ExcelColumnName("高度")]
-        public decimal Hoehe { get; set; }
 
-        [ExcelColumn(Name = "长度/宽度/高度的尺寸单位")]
-        [ExcelColumnName("长度/宽度/高度的尺寸单位")]
-        public string Meabm { get; set; }
+        public decimal Ma052 { get; set; }
 
-        [ExcelColumn(Name = "产品层次")]
+        //[ExcelColumn(Name = "尺寸单位")]
+        [ExcelColumnName("尺寸单位")]
+
+        public string Ma053 { get; set; }
+
+        //[ExcelColumn(Name = "产品层次")]
         [ExcelColumnName("产品层次")]
-        public string Prdha { get; set; }
 
-        [ExcelColumn(Name = "库存转移净改变成本核算")]
-        [ExcelColumnName("库存转移净改变成本核算")]
-        public string Aeklk { get; set; }
+        public string Ma054 { get; set; }
 
-        [ExcelColumn(Name = "CAD 标识")]
-        [ExcelColumnName("CAD 标识")]
-        public string Cadkz { get; set; }
+        //[ExcelColumn(Name = "净改变成本核算")]
+        [ExcelColumnName("净改变成本核算")]
 
-        [ExcelColumn(Name = "激活采购中的 QM")]
-        [ExcelColumnName("激活采购中的 QM")]
-        public string Qmpur { get; set; }
+        public string Ma055 { get; set; }
 
-        [ExcelColumn(Name = "允许的包装重量")]
+        //[ExcelColumn(Name = "CAD标识")]
+        [ExcelColumnName("CAD标识")]
+
+        public string Ma056 { get; set; }
+
+        //[ExcelColumn(Name = "QM采购")]
+        [ExcelColumnName("QM采购")]
+
+        public string Ma057 { get; set; }
+
+        [Required(ErrorMessage = "允许的包装重量不能为空")]
+        //[ExcelColumn(Name = "允许的包装重量")]
         [ExcelColumnName("允许的包装重量")]
-        public decimal Ergew { get; set; }
 
-        [ExcelColumn(Name = "加权的单位(允许打包加权)")]
-        [ExcelColumnName("加权的单位(允许打包加权)")]
-        public string Ergei { get; set; }
+        public decimal Ma058 { get; set; }
 
-        [ExcelColumn(Name = "允许的包装体积")]
-        [ExcelColumnName("允许的包装体积")]
-        public decimal Ervol { get; set; }
+        //[ExcelColumn(Name = "重量单位")]
+        [ExcelColumnName("重量单位")]
 
-        [ExcelColumn(Name = "体积单位(允许打包体积)")]
-        [ExcelColumnName("体积单位(允许打包体积)")]
-        public string Ervoe { get; set; }
+        public string Ma059 { get; set; }
 
-        [ExcelColumn(Name = "处理单位的超重量容差")]
-        [ExcelColumnName("处理单位的超重量容差")]
-        public decimal Gewto { get; set; }
+        [Required(ErrorMessage = "允许体积不能为空")]
+        //[ExcelColumn(Name = "允许体积")]
+        [ExcelColumnName("允许体积")]
 
-        [ExcelColumn(Name = "处理单位的超量冗差")]
-        [ExcelColumnName("处理单位的超量冗差")]
-        public decimal Volto { get; set; }
+        public decimal Ma060 { get; set; }
 
-        [ExcelColumn(Name = "可变采购订单单位活动")]
-        [ExcelColumnName("可变采购订单单位活动")]
-        public string Vabme { get; set; }
+        //[ExcelColumn(Name = "体积单位")]
+        [ExcelColumnName("体积单位")]
 
-        [ExcelColumn(Name = "标识: 修改水平已分配到物料")]
-        [ExcelColumnName("标识: 修改水平已分配到物料")]
-        public string Kzrev { get; set; }
+        public string Ma061 { get; set; }
 
-        [ExcelColumn(Name = "可配置的物料")]
-        [ExcelColumnName("可配置的物料")]
-        public string Kzkfg { get; set; }
+        [Required(ErrorMessage = "超重量容差不能为空")]
+        //[ExcelColumn(Name = "超重量容差")]
+        [ExcelColumnName("超重量容差")]
 
-        [ExcelColumn(Name = "批次管理需求的标识")]
-        [ExcelColumnName("批次管理需求的标识")]
-        public string Xchpf { get; set; }
+        public decimal Ma062 { get; set; }
 
-        [ExcelColumn(Name = "包装物料类型")]
+        [Required(ErrorMessage = "超体积容差不能为空")]
+        //[ExcelColumn(Name = "超体积容差")]
+        [ExcelColumnName("超体积容差")]
+
+        public decimal Ma063 { get; set; }
+
+        //[ExcelColumn(Name = "可变订单单位")]
+        [ExcelColumnName("可变订单单位")]
+
+        public string Ma064 { get; set; }
+
+        //[ExcelColumn(Name = "修订等级")]
+        [ExcelColumnName("修订等级")]
+
+        public string Ma065 { get; set; }
+
+        //[ExcelColumn(Name = "可配置")]
+        [ExcelColumnName("可配置")]
+
+        public string Ma066 { get; set; }
+
+        //[ExcelColumn(Name = "批次管理需求")]
+        [ExcelColumnName("批次管理需求")]
+
+        public string Ma067 { get; set; }
+
+        //[ExcelColumn(Name = "包装物料类型")]
         [ExcelColumnName("包装物料类型")]
-        public string Vhart { get; set; }
 
-        [ExcelColumn(Name = "最大层次 (按体积)")]
-        [ExcelColumnName("最大层次 (按体积)")]
-        public decimal Fuelg { get; set; }
+        public string Ma068 { get; set; }
 
-        [ExcelColumn(Name = "堆栈因子")]
+        [Required(ErrorMessage = "最大层次不能为空")]
+        //[ExcelColumn(Name = "最大层次")]
+        [ExcelColumnName("最大层次")]
+
+        public decimal Ma069 { get; set; }
+
+        [Required(ErrorMessage = "堆栈因子不能为空")]
+        //[ExcelColumn(Name = "堆栈因子")]
         [ExcelColumnName("堆栈因子")]
-        public int? Stfak { get; set; }
 
-        [ExcelColumn(Name = "物料组: 包装物料")]
-        [ExcelColumnName("物料组: 包装物料")]
-        public string Magrv { get; set; }
+        public int Ma070 { get; set; }
 
-        [ExcelColumn(Name = "权限组")]
+        //[ExcelColumn(Name = "物料组包装物料")]
+        [ExcelColumnName("物料组包装物料")]
+
+        public string Ma071 { get; set; }
+
+        //[ExcelColumn(Name = "权限组")]
         [ExcelColumnName("权限组")]
-        public string Begru { get; set; }
 
-        [ExcelColumn(Name = "开始生效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("开始生效日期")]
-        public DateTime? Datab { get; set; }
+        public string Ma072 { get; set; }
 
-        [ExcelColumn(Name = "删除日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("删除日期")]
-        public DateTime? Liqdt { get; set; }
+        //[ExcelColumn(Name = "有效起始日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("有效起始日")]
 
-        [ExcelColumn(Name = "季度年")]
+        public DateTime? Ma073 { get; set; }
+
+        //[ExcelColumn(Name = "有效结束日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("有效结束日")]
+
+        public DateTime? Ma074 { get; set; }
+
+        //[ExcelColumn(Name = "季度年")]
         [ExcelColumnName("季度年")]
-        public string Saisj { get; set; }
 
-        [ExcelColumn(Name = "价格标记类别")]
-        [ExcelColumnName("价格标记类别")]
-        public string Plgtp { get; set; }
+        public string Ma075 { get; set; }
 
-        [ExcelColumn(Name = "空白物料清单")]
-        [ExcelColumnName("空白物料清单")]
-        public string Mlgut { get; set; }
+        //[ExcelColumn(Name = "价格标记")]
+        [ExcelColumnName("价格标记")]
 
-        [ExcelColumn(Name = "外部物料组")]
+        public string Ma076 { get; set; }
+
+        //[ExcelColumn(Name = "空白BOM")]
+        [ExcelColumnName("空白BOM")]
+
+        public string Ma077 { get; set; }
+
+        //[ExcelColumn(Name = "外部物料组")]
         [ExcelColumnName("外部物料组")]
-        public string Extwg { get; set; }
 
-        [ExcelColumn(Name = "一般可配置物料")]
+        public string Ma078 { get; set; }
+
+        //[ExcelColumn(Name = "一般可配置物料")]
         [ExcelColumnName("一般可配置物料")]
-        public string Satnr { get; set; }
 
-        [ExcelColumn(Name = "物料类别")]
+        public string Ma079 { get; set; }
+
+        //[ExcelColumn(Name = "物料类别")]
         [ExcelColumnName("物料类别")]
-        public string Attyp { get; set; }
 
-        [ExcelColumn(Name = "指示符 : 物料是联产品")]
-        [ExcelColumnName("指示符 : 物料是联产品")]
-        public string Kzkup { get; set; }
+        public string Ma080 { get; set; }
 
-        [ExcelColumn(Name = "标记：物料有一后续物料")]
-        [ExcelColumnName("标记：物料有一后续物料")]
-        public string Kznfm { get; set; }
+        //[ExcelColumn(Name = "联产品")]
+        [ExcelColumnName("联产品")]
 
-        [ExcelColumn(Name = "定价参考物料")]
+        public string Ma081 { get; set; }
+
+        //[ExcelColumn(Name = "后续物料")]
+        [ExcelColumnName("后续物料")]
+
+        public string Ma082 { get; set; }
+
+        //[ExcelColumn(Name = "定价参考物料")]
         [ExcelColumnName("定价参考物料")]
-        public string Pmata { get; set; }
 
-        [Required(ErrorMessage = "跨工厂物料状态不能为空")]
-        [ExcelColumn(Name = "跨工厂物料状态")]
-        [ExcelColumnName("跨工厂物料状态")]
-        public string Mstae { get; set; }
+        public string Ma083 { get; set; }
 
-        [ExcelColumn(Name = "跨分销链物料状态")]
-        [ExcelColumnName("跨分销链物料状态")]
-        public string Mstav { get; set; }
+        //[ExcelColumn(Name = "跨工厂状态")]
+        [ExcelColumnName("跨工厂状态")]
 
-        [ExcelColumn(Name = "从跨工厂物料状态有效起的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("从跨工厂物料状态有效起的日期")]
-        public DateTime? Mstde { get; set; }
+        public string Ma084 { get; set; }
 
-        [ExcelColumn(Name = "从跨分销链物料状态有效起的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("从跨分销链物料状态有效起的日期")]
-        public DateTime? Mstdv { get; set; }
+        //[ExcelColumn(Name = "跨分销链状态")]
+        [ExcelColumnName("跨分销链状态")]
 
-        [ExcelColumn(Name = "物料从税收分类")]
-        [ExcelColumnName("物料从税收分类")]
-        public string Taklv { get; set; }
+        public string Ma085 { get; set; }
 
-        [ExcelColumn(Name = "类别参数文件")]
+        //[ExcelColumn(Name = "跨工厂有效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("跨工厂有效日期")]
+
+        public DateTime? Ma086 { get; set; }
+
+        //[ExcelColumn(Name = "跨分销有效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("跨分销有效日期")]
+
+        public DateTime? Ma087 { get; set; }
+
+        //[ExcelColumn(Name = "税收分类")]
+        [ExcelColumnName("税收分类")]
+
+        public string Ma088 { get; set; }
+
+        //[ExcelColumn(Name = "类别参数文件")]
         [ExcelColumnName("类别参数文件")]
-        public string Rbnrm { get; set; }
 
-        [ExcelColumn(Name = "最短剩余货架寿命")]
-        [ExcelColumnName("最短剩余货架寿命")]
-        public decimal Mhdrz { get; set; }
+        public string Ma089 { get; set; }
 
-        [ExcelColumn(Name = "总货架寿命")]
+        [Required(ErrorMessage = "剩余货架寿命不能为空")]
+        //[ExcelColumn(Name = "剩余货架寿命")]
+        [ExcelColumnName("剩余货架寿命")]
+
+        public decimal Ma090 { get; set; }
+
+        [Required(ErrorMessage = "总货架寿命不能为空")]
+        //[ExcelColumn(Name = "总货架寿命")]
         [ExcelColumnName("总货架寿命")]
-        public decimal Mhdhb { get; set; }
 
-        [ExcelColumn(Name = "仓储百分比")]
+        public decimal Ma091 { get; set; }
+
+        [Required(ErrorMessage = "仓储百分比不能为空")]
+        //[ExcelColumn(Name = "仓储百分比")]
         [ExcelColumnName("仓储百分比")]
-        public decimal Mhdlp { get; set; }
 
-        [ExcelColumn(Name = "内容单位")]
+        public decimal Ma092 { get; set; }
+
+        //[ExcelColumn(Name = "内容单位")]
         [ExcelColumnName("内容单位")]
-        public string Inhme { get; set; }
 
-        [ExcelColumn(Name = "净内容")]
+        public string Ma093 { get; set; }
+
+        [Required(ErrorMessage = "净内容不能为空")]
+        //[ExcelColumn(Name = "净内容")]
         [ExcelColumnName("净内容")]
-        public decimal Inhal { get; set; }
 
-        [ExcelColumn(Name = "比较价格单位")]
+        public decimal Ma094 { get; set; }
+
+        [Required(ErrorMessage = "比较价格单位不能为空")]
+        //[ExcelColumn(Name = "比较价格单位")]
         [ExcelColumnName("比较价格单位")]
-        public decimal Vpreh { get; set; }
 
-        [ExcelColumn(Name = "IS-R 标签：物料组（在 4.0 中不活动）")]
-        [ExcelColumnName("IS-R 标签：物料组（在 4.0 中不活动）")]
-        public string Etiag { get; set; }
+        public decimal Ma095 { get; set; }
 
-        [ExcelColumn(Name = "毛内容")]
+        //[ExcelColumn(Name = "物料组标签")]
+        [ExcelColumnName("物料组标签")]
+
+        public string Ma096 { get; set; }
+
+        [Required(ErrorMessage = "毛内容不能为空")]
+        //[ExcelColumn(Name = "毛内容")]
         [ExcelColumnName("毛内容")]
-        public decimal Inhbr { get; set; }
 
-        [ExcelColumn(Name = "数量转换方法")]
-        [ExcelColumnName("数量转换方法")]
-        public string Cmeth { get; set; }
+        public decimal Ma097 { get; set; }
 
-        [ExcelColumn(Name = "内部对象号")]
+        //[ExcelColumn(Name = "转换方法")]
+        [ExcelColumnName("转换方法")]
+
+        public string Ma098 { get; set; }
+
+        [Required(ErrorMessage = "内部对象号不能为空")]
+        //[ExcelColumn(Name = "内部对象号")]
         [ExcelColumnName("内部对象号")]
-        public int? Cuobf { get; set; }
 
-        [ExcelColumn(Name = "环境相关")]
+        public int Ma099 { get; set; }
+
+        //[ExcelColumn(Name = "环境相关")]
         [ExcelColumnName("环境相关")]
-        public string Kzumw { get; set; }
 
-        [ExcelColumn(Name = "产品分配确定程序")]
-        [ExcelColumnName("产品分配确定程序")]
-        public string Kosch { get; set; }
+        public string Ma100 { get; set; }
 
-        [ExcelColumn(Name = "变式的定价参数文件")]
-        [ExcelColumnName("变式的定价参数文件")]
-        public string Sprof { get; set; }
+        //[ExcelColumn(Name = "产品分配")]
+        [ExcelColumnName("产品分配")]
 
-        [ExcelColumn(Name = "针对物料的折扣类型")]
-        [ExcelColumnName("针对物料的折扣类型")]
-        public string Nrfhg { get; set; }
+        public string Ma101 { get; set; }
 
-        [ExcelColumn(Name = "制造商零件编号")]
+        //[ExcelColumn(Name = "定价参数文件")]
+        [ExcelColumnName("定价参数文件")]
+
+        public string Ma102 { get; set; }
+
+        //[ExcelColumn(Name = "折扣类型")]
+        [ExcelColumnName("折扣类型")]
+
+        public string Ma103 { get; set; }
+
+        //[ExcelColumn(Name = "制造商零件编号")]
         [ExcelColumnName("制造商零件编号")]
-        public string Mfrpn { get; set; }
 
-        [ExcelColumn(Name = "制造商编号")]
-        [ExcelColumnName("制造商编号")]
-        public string Mfrnr { get; set; }
+        public string Ma104 { get; set; }
 
-        [ExcelColumn(Name = "公司自己 (内部) 的盘点管理物料编号")]
-        [ExcelColumnName("公司自己 (内部) 的盘点管理物料编号")]
-        public string Bmatn { get; set; }
+        //[ExcelColumn(Name = "制造商")]
+        [ExcelColumnName("制造商")]
 
-        [ExcelColumn(Name = "制造商部件参数文件")]
+        public string Ma105 { get; set; }
+
+        //[ExcelColumn(Name = "内部物料编号")]
+        [ExcelColumnName("内部物料编号")]
+
+        public string Ma106 { get; set; }
+
+        //[ExcelColumn(Name = "制造商部件参数文件")]
         [ExcelColumnName("制造商部件参数文件")]
-        public string Mprof { get; set; }
 
-        [ExcelColumn(Name = "计量单位使用")]
-        [ExcelColumnName("计量单位使用")]
-        public string Kzwsm { get; set; }
+        public string Ma107 { get; set; }
 
-        [ExcelColumn(Name = "在季节内展开")]
-        [ExcelColumnName("在季节内展开")]
-        public string Saity { get; set; }
+        //[ExcelColumn(Name = "测量单位用法")]
+        [ExcelColumnName("测量单位用法")]
 
-        [ExcelColumn(Name = "危险货物标识参数文件")]
+        public string Ma108 { get; set; }
+
+        //[ExcelColumn(Name = "展开")]
+        [ExcelColumnName("展开")]
+
+        public string Ma109 { get; set; }
+
+        //[ExcelColumn(Name = "危险货物标识参数文件")]
         [ExcelColumnName("危险货物标识参数文件")]
-        public string Profl { get; set; }
 
-        [ExcelColumn(Name = "标识符:高粘性的")]
-        [ExcelColumnName("标识符:高粘性的")]
-        public string Ihivi { get; set; }
+        public string Ma110 { get; set; }
 
-        [ExcelColumn(Name = "标识符:固体/液体")]
-        [ExcelColumnName("标识符:固体/液体")]
-        public string Iloos { get; set; }
+        //[ExcelColumn(Name = "高粘性的")]
+        [ExcelColumnName("高粘性的")]
 
-        [ExcelColumn(Name = "序列号的清晰的级别")]
-        [ExcelColumnName("序列号的清晰的级别")]
-        public string Serlv { get; set; }
+        public string Ma111 { get; set; }
 
-        [ExcelColumn(Name = "包装物料是密闭包装的")]
-        [ExcelColumnName("包装物料是密闭包装的")]
-        public string Kzgvh { get; set; }
+        //[ExcelColumn(Name = "固体/液体")]
+        [ExcelColumnName("固体/液体")]
 
-        [ExcelColumn(Name = "指示符：需要批准的批量记录")]
-        [ExcelColumnName("指示符：需要批准的批量记录")]
-        public string Xgchp { get; set; }
+        public string Ma112 { get; set; }
 
-        [ExcelColumn(Name = "指定有效参数值/覆盖更改编号")]
-        [ExcelColumnName("指定有效参数值/覆盖更改编号")]
-        public string Kzeff { get; set; }
+        //[ExcelColumn(Name = "序列号层次")]
+        [ExcelColumnName("序列号层次")]
 
-        [ExcelColumn(Name = "物料完成的水平")]
-        [ExcelColumnName("物料完成的水平")]
-        public int? Compl { get; set; }
+        public string Ma113 { get; set; }
 
-        [ExcelColumn(Name = "货架寿命到期日的期间标识")]
-        [ExcelColumnName("货架寿命到期日的期间标识")]
-        public string Iprkz { get; set; }
+        //[ExcelColumn(Name = "密闭")]
+        [ExcelColumnName("密闭")]
 
-        [ExcelColumn(Name = "货架寿命到期日期计算舍入规则")]
-        [ExcelColumnName("货架寿命到期日期计算舍入规则")]
-        public string Rdmhd { get; set; }
+        public string Ma114 { get; set; }
 
-        [ExcelColumn(Name = "标识：印刷在包装上的产品成份")]
-        [ExcelColumnName("标识：印刷在包装上的产品成份")]
-        public string Przus { get; set; }
+        //[ExcelColumn(Name = "需要批量记录")]
+        [ExcelColumnName("需要批量记录")]
 
-        [ExcelColumn(Name = "普通项目类别组")]
+        public string Ma115 { get; set; }
+
+        //[ExcelColumn(Name = "参数有效值")]
+        [ExcelColumnName("参数有效值")]
+
+        public string Ma116 { get; set; }
+
+        [Required(ErrorMessage = "完成水平不能为空")]
+        //[ExcelColumn(Name = "完成水平")]
+        [ExcelColumnName("完成水平")]
+
+        public int Ma117 { get; set; }
+
+        //[ExcelColumn(Name = "期间标识")]
+        [ExcelColumnName("期间标识")]
+
+        public string Ma118 { get; set; }
+
+        //[ExcelColumn(Name = "舍入规则")]
+        [ExcelColumnName("舍入规则")]
+
+        public string Ma119 { get; set; }
+
+        //[ExcelColumn(Name = "产品成份")]
+        [ExcelColumnName("产品成份")]
+
+        public string Ma120 { get; set; }
+
+        //[ExcelColumn(Name = "普通项目类别组")]
         [ExcelColumnName("普通项目类别组")]
-        public string Mtposmara { get; set; }
 
-        [ExcelColumn(Name = "含后勤变量的一般物料")]
-        [ExcelColumnName("含后勤变量的一般物料")]
-        public string Bflme { get; set; }
+        public string Ma121 { get; set; }
 
-        [ExcelColumn(Name = "物料被锁定")]
+        //[ExcelColumn(Name = "后勤变量")]
+        [ExcelColumnName("后勤变量")]
+
+        public string Ma122 { get; set; }
+
+        //[ExcelColumn(Name = "物料被锁定")]
         [ExcelColumnName("物料被锁定")]
-        public string Matfi { get; set; }
 
-        [ExcelColumn(Name = "与配置管理相关")]
-        [ExcelColumnName("与配置管理相关")]
-        public string Cmrel { get; set; }
+        public string Ma123 { get; set; }
 
-        [ExcelColumn(Name = "分类清单类型")]
+        //[ExcelColumn(Name = "配置相关")]
+        [ExcelColumnName("配置相关")]
+
+        public string Ma124 { get; set; }
+
+        //[ExcelColumn(Name = "分类清单类型")]
         [ExcelColumnName("分类清单类型")]
-        public string Bbtyp { get; set; }
 
-        [ExcelColumn(Name = "过期日期")]
+        public string Ma125 { get; set; }
+
+        //[ExcelColumn(Name = "过期日期")]
         [ExcelColumnName("过期日期")]
-        public string Sledbbd { get; set; }
 
-        [ExcelColumn(Name = "全球贸易项目编号变式")]
-        [ExcelColumnName("全球贸易项目编号变式")]
-        public string Gtinvariant { get; set; }
+        public string Ma126 { get; set; }
 
-        [ExcelColumn(Name = "在预包装物料中的一般物料的物料编号")]
-        [ExcelColumnName("在预包装物料中的一般物料的物料编号")]
-        public string Gennr { get; set; }
+        //[ExcelColumn(Name = "EAN变式")]
+        [ExcelColumnName("EAN变式")]
 
-        [ExcelColumn(Name = "以相同方式包装的物料的参考物料")]
-        [ExcelColumnName("以相同方式包装的物料的参考物料")]
-        public string Rmatp { get; set; }
+        public string Ma127 { get; set; }
 
-        [ExcelColumn(Name = "标识：全局数据同步相关")]
-        [ExcelColumnName("标识：全局数据同步相关")]
-        public string Gdsrelevant { get; set; }
+        //[ExcelColumn(Name = "一般物料")]
+        [ExcelColumnName("一般物料")]
 
-        [ExcelColumn(Name = "原始接受")]
+        public string Ma128 { get; set; }
+
+        //[ExcelColumn(Name = "包装参考物料")]
+        [ExcelColumnName("包装参考物料")]
+
+        public string Ma129 { get; set; }
+
+        //[ExcelColumn(Name = "GDS相关")]
+        [ExcelColumnName("GDS相关")]
+
+        public string Ma130 { get; set; }
+
+        //[ExcelColumn(Name = "原始接受")]
         [ExcelColumnName("原始接受")]
-        public string Weora { get; set; }
 
-        [ExcelColumn(Name = "标准处理单位类型")]
+        public string Ma131 { get; set; }
+
+        //[ExcelColumn(Name = "标准处理单位类型")]
         [ExcelColumnName("标准处理单位类型")]
-        public string Hutypdflt { get; set; }
 
-        [ExcelColumn(Name = "可偷窃的")]
+        public string Ma132 { get; set; }
+
+        //[ExcelColumn(Name = "可偷窃的")]
         [ExcelColumnName("可偷窃的")]
-        public string Pilferable { get; set; }
 
-        [ExcelColumn(Name = "仓库存储条件")]
+        public string Ma133 { get; set; }
+
+        //[ExcelColumn(Name = "仓库存储条件")]
         [ExcelColumnName("仓库存储条件")]
-        public string Whstc { get; set; }
 
-        [ExcelColumn(Name = "仓库物料组")]
+        public string Ma134 { get; set; }
+
+        //[ExcelColumn(Name = "仓库物料组")]
         [ExcelColumnName("仓库物料组")]
-        public string Whmatgr { get; set; }
 
-        [ExcelColumn(Name = "处理标识")]
+        public string Ma135 { get; set; }
+
+        //[ExcelColumn(Name = "处理标识")]
         [ExcelColumnName("处理标识")]
-        public string Hndlcode { get; set; }
 
-        [ExcelColumn(Name = "与危险物料相关")]
-        [ExcelColumnName("与危险物料相关")]
-        public string Hazmat { get; set; }
+        public string Ma136 { get; set; }
 
-        [ExcelColumn(Name = "处理单位类型")]
+        //[ExcelColumn(Name = "危险物料")]
+        [ExcelColumnName("危险物料")]
+
+        public string Ma137 { get; set; }
+
+        //[ExcelColumn(Name = "处理单位类型")]
         [ExcelColumnName("处理单位类型")]
-        public string Hutyp { get; set; }
 
-        [ExcelColumn(Name = "可变皮重")]
+        public string Ma138 { get; set; }
+
+        //[ExcelColumn(Name = "可变皮重")]
         [ExcelColumnName("可变皮重")]
-        public string Tarevar { get; set; }
 
-        [ExcelColumn(Name = "包装物料的最大允许容量")]
-        [ExcelColumnName("包装物料的最大允许容量")]
-        public decimal Maxc { get; set; }
+        public string Ma139 { get; set; }
 
-        [ExcelColumn(Name = "处理单位的最大容量容差")]
-        [ExcelColumnName("处理单位的最大容量容差")]
-        public decimal Maxctol { get; set; }
+        [Required(ErrorMessage = "最大容量不能为空")]
+        //[ExcelColumn(Name = "最大容量")]
+        [ExcelColumnName("最大容量")]
 
-        [ExcelColumn(Name = "包装物料的最大包长度")]
-        [ExcelColumnName("包装物料的最大包长度")]
-        public decimal Maxl { get; set; }
+        public decimal Ma140 { get; set; }
 
-        [ExcelColumn(Name = "包装物料的最大包宽度")]
-        [ExcelColumnName("包装物料的最大包宽度")]
-        public decimal Maxb { get; set; }
+        [Required(ErrorMessage = "最大容量容差不能为空")]
+        //[ExcelColumn(Name = "最大容量容差")]
+        [ExcelColumnName("最大容量容差")]
 
-        [ExcelColumn(Name = "包装物料的最大包高度")]
-        [ExcelColumnName("包装物料的最大包高度")]
-        public decimal Maxh { get; set; }
+        public decimal Ma141 { get; set; }
 
-        [ExcelColumn(Name = "最大包装长/宽/高的计量单位")]
-        [ExcelColumnName("最大包装长/宽/高的计量单位")]
-        public string Maxdimuom { get; set; }
+        [Required(ErrorMessage = "最大长度不能为空")]
+        //[ExcelColumn(Name = "最大长度")]
+        [ExcelColumnName("最大长度")]
 
-        [ExcelColumn(Name = "物料原产地国家")]
-        [ExcelColumnName("物料原产地国家")]
-        public string Herkl { get; set; }
+        public decimal Ma142 { get; set; }
 
-        [ExcelColumn(Name = "物料运输组")]
+        [Required(ErrorMessage = "最大宽度不能为空")]
+        //[ExcelColumn(Name = "最大宽度")]
+        [ExcelColumnName("最大宽度")]
+
+        public decimal Ma143 { get; set; }
+
+        [Required(ErrorMessage = "最大高度不能为空")]
+        //[ExcelColumn(Name = "最大高度")]
+        [ExcelColumnName("最大高度")]
+
+        public decimal Ma144 { get; set; }
+
+        //[ExcelColumn(Name = "计量单位")]
+        [ExcelColumnName("计量单位")]
+
+        public string Ma145 { get; set; }
+
+        //[ExcelColumn(Name = "原产地国")]
+        [ExcelColumnName("原产地国")]
+
+        public string Ma146 { get; set; }
+
+        //[ExcelColumn(Name = "物料运输组")]
         [ExcelColumnName("物料运输组")]
-        public string Mfrgr { get; set; }
 
-        [ExcelColumn(Name = "隔离期间")]
+        public string Ma147 { get; set; }
+
+        [Required(ErrorMessage = "隔离期间不能为空")]
+        //[ExcelColumn(Name = "隔离期间")]
         [ExcelColumnName("隔离期间")]
-        public decimal Qqtime { get; set; }
 
-        [ExcelColumn(Name = "隔离期间的时间单位")]
-        [ExcelColumnName("隔离期间的时间单位")]
-        public string Qqtimeuom { get; set; }
+        public decimal Ma148 { get; set; }
 
-        [ExcelColumn(Name = "质量检查组")]
+        //[ExcelColumn(Name = "时间单位")]
+        [ExcelColumnName("时间单位")]
+
+        public string Ma149 { get; set; }
+
+        //[ExcelColumn(Name = "质量检查组")]
         [ExcelColumnName("质量检查组")]
-        public string Qgrp { get; set; }
 
-        [ExcelColumn(Name = "序列号参数文件")]
+        public string Ma150 { get; set; }
+
+        //[ExcelColumn(Name = "序列号参数文件")]
         [ExcelColumnName("序列号参数文件")]
-        public string Serial { get; set; }
 
-        [ExcelColumn(Name = "表格名")]
+        public string Ma151 { get; set; }
+
+        //[ExcelColumn(Name = "表格名")]
         [ExcelColumnName("表格名")]
-        public string Pssmartform { get; set; }
 
-        [ExcelColumn(Name = "EWM CW: 后勤计量单位")]
-        [ExcelColumnName("EWM CW: 后勤计量单位")]
-        public string Logunit { get; set; }
+        public string Ma152 { get; set; }
 
-        [ExcelColumn(Name = "EWM CW: 物料是称重物料")]
-        [ExcelColumnName("EWM CW: 物料是称重物料")]
-        public string Cwqrel { get; set; }
+        //[ExcelColumn(Name = "后勤计量单位")]
+        [ExcelColumnName("后勤计量单位")]
 
-        [ExcelColumn(Name = "EWM CW: 输入 CW 数量的称重参数文件")]
-        [ExcelColumnName("EWM CW: 输入 CW 数量的称重参数文件")]
-        public string Cwqproc { get; set; }
+        public string Ma153 { get; set; }
 
-        [ExcelColumn(Name = "EWM-CW: EWM 的称重容差组")]
-        [ExcelColumnName("EWM-CW: EWM 的称重容差组")]
-        public string Cwqtolgr { get; set; }
+        //[ExcelColumn(Name = "称重物料相关")]
+        [ExcelColumnName("称重物料相关")]
 
-        [ExcelColumn(Name = "调整参数文件")]
+        public string Ma154 { get; set; }
+
+        //[ExcelColumn(Name = "CW参数文件")]
+        [ExcelColumnName("CW参数文件")]
+
+        public string Ma155 { get; set; }
+
+        //[ExcelColumn(Name = "CW容差组")]
+        [ExcelColumnName("CW容差组")]
+
+        public string Ma156 { get; set; }
+
+        //[ExcelColumn(Name = "调整参数文件")]
         [ExcelColumnName("调整参数文件")]
-        public string Adprof { get; set; }
 
-        [ExcelColumn(Name = "知识产权标识（CRM 产品）")]
-        [ExcelColumnName("知识产权标识（CRM 产品）")]
-        public string Ipmipproduct { get; set; }
+        public string Ma157 { get; set; }
 
-        [ExcelColumn(Name = "允许的变式价格（针对物料主数据）")]
-        [ExcelColumnName("允许的变式价格（针对物料主数据）")]
-        public string Allowpmatigno { get; set; }
+        //[ExcelColumn(Name = "知识产权")]
+        [ExcelColumnName("知识产权")]
 
-        [ExcelColumn(Name = "中间")]
+        public string Ma158 { get; set; }
+
+        //[ExcelColumn(Name = "允许的变式价格")]
+        [ExcelColumnName("允许的变式价格")]
+
+        public string Ma159 { get; set; }
+
+        //[ExcelColumn(Name = "中间")]
         [ExcelColumnName("中间")]
-        public string Medium { get; set; }
 
-        [ExcelColumn(Name = "实物商品")]
+        public string Ma160 { get; set; }
+
+        //[ExcelColumn(Name = "实物商品")]
         [ExcelColumnName("实物商品")]
-        public string Commodity { get; set; }
 
-        [ExcelColumn(Name = "标识：包含动物源的非纺织部分")]
-        [ExcelColumnName("标识：包含动物源的非纺织部分")]
-        public string Animalorigin { get; set; }
+        public string Ma161 { get; set; }
 
-        [ExcelColumn(Name = "标识：新纺织组分功能")]
-        [ExcelColumnName("标识：新纺织组分功能")]
-        public string Textilecompind { get; set; }
+        //[ExcelColumn(Name = "动物源")]
+        [ExcelColumnName("动物源")]
 
-        [ExcelColumn(Name = "分段结构")]
+        public string Ma162 { get; set; }
+
+        //[ExcelColumn(Name = "纺织组分功能")]
+        [ExcelColumnName("纺织组分功能")]
+
+        public string Ma163 { get; set; }
+
+        //[ExcelColumn(Name = "分段结构")]
         [ExcelColumnName("分段结构")]
-        public string Sgtcsgr { get; set; }
 
-        [ExcelColumn(Name = "分段策略")]
+        public string Ma164 { get; set; }
+
+        //[ExcelColumn(Name = "分段策略")]
         [ExcelColumnName("分段策略")]
-        public string Sgtcovsa { get; set; }
 
-        [ExcelColumn(Name = "分段物料主数据状态")]
-        [ExcelColumnName("分段物料主数据状态")]
-        public string Sgtstat { get; set; }
+        public string Ma165 { get; set; }
 
-        [ExcelColumn(Name = "分段策略范围")]
-        [ExcelColumnName("分段策略范围")]
-        public string Sgtscope { get; set; }
+        //[ExcelColumn(Name = "分段状态")]
+        [ExcelColumnName("分段状态")]
 
-        [ExcelColumn(Name = "分段相关")]
+        public string Ma166 { get; set; }
+
+        //[ExcelColumn(Name = "分段范围")]
+        [ExcelColumnName("分段范围")]
+
+        public string Ma167 { get; set; }
+
+        //[ExcelColumn(Name = "分段相关")]
         [ExcelColumnName("分段相关")]
-        public string Sgtrel { get; set; }
 
-        [ExcelColumn(Name = "ANP Code")]
+        public string Ma168 { get; set; }
+
+        [Required(ErrorMessage = "ANP Code不能为空")]
+        //[ExcelColumn(Name = "ANP Code")]
         [ExcelColumnName("ANP Code")]
-        public int? Anp { get; set; }
 
-        [ExcelColumn(Name = "Fashion 信息字段：1")]
-        [ExcelColumnName("Fashion 信息字段：1")]
-        public string Fshmgat1 { get; set; }
+        public int Ma169 { get; set; }
 
-        [ExcelColumn(Name = "Fashion 信息字段：2")]
-        [ExcelColumnName("Fashion 信息字段：2")]
-        public string Fshmgat2 { get; set; }
+        //[ExcelColumn(Name = "Fashion属性1")]
+        [ExcelColumnName("Fashion属性1")]
 
-        [ExcelColumn(Name = "Fashion 信息字段：3")]
-        [ExcelColumnName("Fashion 信息字段：3")]
-        public string Fshmgat3 { get; set; }
+        public string Ma170 { get; set; }
 
-        [ExcelColumn(Name = "标识：季节使用")]
-        [ExcelColumnName("标识：季节使用")]
-        public string Fshsealv { get; set; }
+        //[ExcelColumn(Name = "Fashion属性2")]
+        [ExcelColumnName("Fashion属性2")]
 
-        [ExcelColumn(Name = "标识：在库存管理中激活季节")]
-        [ExcelColumnName("标识：在库存管理中激活季节")]
-        public string Fshseaim { get; set; }
+        public string Ma171 { get; set; }
 
-        [ExcelColumn(Name = "特征值转换的物料转换标识")]
-        [ExcelColumnName("特征值转换的物料转换标识")]
-        public string Fshscmid { get; set; }
+        //[ExcelColumn(Name = "Fashion属性3")]
+        [ExcelColumnName("Fashion属性3")]
 
-        [ExcelColumn(Name = "装载单位")]
+        public string Ma172 { get; set; }
+
+        //[ExcelColumn(Name = "季节使用")]
+        [ExcelColumnName("季节使用")]
+
+        public string Ma173 { get; set; }
+
+        //[ExcelColumn(Name = "库存管理中激活季节")]
+        [ExcelColumnName("库存管理中激活季节")]
+
+        public string Ma174 { get; set; }
+
+        //[ExcelColumn(Name = "物料转换标识")]
+        [ExcelColumnName("物料转换标识")]
+
+        public string Ma175 { get; set; }
+
+        [Required(ErrorMessage = "装载单位不能为空")]
+        //[ExcelColumn(Name = "装载单位")]
         [ExcelColumnName("装载单位")]
-        public int? Bev1luleinh { get; set; }
 
-        [ExcelColumn(Name = "装载单位组：IS 饮料")]
-        [ExcelColumnName("装载单位组：IS 饮料")]
-        public string Bev1luldegrp { get; set; }
+        public int Ma176 { get; set; }
 
-        [ExcelColumn(Name = "物料关系的结构类别")]
-        [ExcelColumnName("物料关系的结构类别")]
-        public string Bev1nestruccat { get; set; }
+        //[ExcelColumn(Name = "装载单位组")]
+        [ExcelColumnName("装载单位组")]
 
-        [ExcelColumn(Name = "容差类型标识")]
-        [ExcelColumnName("容差类型标识")]
-        public string Dsdsltoltyp { get; set; }
+        public string Ma177 { get; set; }
 
-        [ExcelColumn(Name = "计算组")]
+        //[ExcelColumn(Name = "结构类别")]
+        [ExcelColumnName("结构类别")]
+
+        public string Ma178 { get; set; }
+
+        //[ExcelColumn(Name = "容差类型")]
+        [ExcelColumnName("容差类型")]
+
+        public string Ma179 { get; set; }
+
+        //[ExcelColumn(Name = "计算组")]
         [ExcelColumnName("计算组")]
-        public string Dsdsvcntgrp { get; set; }
 
-        [ExcelColumn(Name = "DSD 分组")]
+        public string Ma180 { get; set; }
+
+        //[ExcelColumn(Name = "DSD 分组")]
         [ExcelColumnName("DSD 分组")]
-        public string Dsdvcgroup { get; set; }
 
-        [ExcelColumn(Name = "可以倾斜物料 (车辆空间优化)")]
-        [ExcelColumnName("可以倾斜物料 (车辆空间优化)")]
-        public string Vsortiltind { get; set; }
+        public string Ma181 { get; set; }
 
-        [ExcelColumn(Name = "不允许堆栈 (VSO)")]
-        [ExcelColumnName("不允许堆栈 (VSO)")]
-        public string Vsorstackind { get; set; }
+        //[ExcelColumn(Name = "允许倾斜")]
+        [ExcelColumnName("允许倾斜")]
 
-        [ExcelColumn(Name = "底层 (车辆空间最优化)")]
-        [ExcelColumnName("底层 (车辆空间最优化)")]
-        public string Vsorbotind { get; set; }
+        public string Ma182 { get; set; }
 
-        [ExcelColumn(Name = "顶层 (VSO)")]
-        [ExcelColumnName("顶层 (VSO)")]
-        public string Vsortopind { get; set; }
+        //[ExcelColumn(Name = "无堆栈")]
+        [ExcelColumnName("无堆栈")]
 
-        [ExcelColumn(Name = "堆栈因子 (车辆空间优化)")]
-        [ExcelColumnName("堆栈因子 (车辆空间优化)")]
-        public int? Vsorstackno { get; set; }
+        public string Ma183 { get; set; }
 
-        [ExcelColumn(Name = "无包装物料的装载 (VSO)")]
-        [ExcelColumnName("无包装物料的装载 (VSO)")]
-        public string Vsorpalind { get; set; }
+        //[ExcelColumn(Name = "底层")]
+        [ExcelColumnName("底层")]
 
-        [ExcelColumn(Name = "包装物料的允许悬挂深度 (VSO)")]
-        [ExcelColumnName("包装物料的允许悬挂深度 (VSO)")]
-        public decimal Vsorpalovrd { get; set; }
+        public string Ma184 { get; set; }
 
-        [ExcelColumn(Name = "装运物料的允许悬挂宽度 (VSO)")]
-        [ExcelColumnName("装运物料的允许悬挂宽度 (VSO)")]
-        public decimal Vsorpalovrw { get; set; }
+        //[ExcelColumn(Name = "顶层")]
+        [ExcelColumnName("顶层")]
 
-        [ExcelColumn(Name = "包装物料的最大叠放高度 (VSO)")]
-        [ExcelColumnName("包装物料的最大叠放高度 (VSO)")]
-        public decimal Vsorpalbht { get; set; }
+        public string Ma185 { get; set; }
 
-        [ExcelColumn(Name = "包装物料的最小叠放高度 (VSO)")]
-        [ExcelColumnName("包装物料的最小叠放高度 (VSO)")]
-        public decimal Vsorpalminh { get; set; }
+        [Required(ErrorMessage = "堆栈因子不能为空")]
+        //[ExcelColumn(Name = "堆栈因子")]
+        [ExcelColumnName("堆栈因子")]
 
-        [ExcelColumn(Name = "超出最大叠放高度的容差 (VSO)")]
-        [ExcelColumnName("超出最大叠放高度的容差 (VSO)")]
-        public decimal Vsortolbht { get; set; }
+        public int Ma186 { get; set; }
 
-        [ExcelColumn(Name = "每个已结清 PKM 的物料编号(VSO)")]
-        [ExcelColumnName("每个已结清 PKM 的物料编号(VSO)")]
-        public int? Vsornopgvh { get; set; }
+        //[ExcelColumn(Name = "无包装物料装载")]
+        [ExcelColumnName("无包装物料装载")]
 
-        [ExcelColumn(Name = "计量单位车辆空间优化")]
-        [ExcelColumnName("计量单位车辆空间优化")]
-        public string Vsorquanunit { get; set; }
+        public string Ma187 { get; set; }
 
-        [ExcelColumn(Name = "请求的已清包装物料 (VSO)")]
-        [ExcelColumnName("请求的已清包装物料 (VSO)")]
-        public string Vsorkzgvhind { get; set; }
+        [Required(ErrorMessage = "悬挂深度不能为空")]
+        //[ExcelColumn(Name = "悬挂深度")]
+        [ExcelColumnName("悬挂深度")]
 
-        [ExcelColumn(Name = "Packaging Code")]
+        public decimal Ma188 { get; set; }
+
+        [Required(ErrorMessage = "悬挂宽度不能为空")]
+        //[ExcelColumn(Name = "悬挂宽度")]
+        [ExcelColumnName("悬挂宽度")]
+
+        public decimal Ma189 { get; set; }
+
+        [Required(ErrorMessage = "最大叠放高度不能为空")]
+        //[ExcelColumn(Name = "最大叠放高度")]
+        [ExcelColumnName("最大叠放高度")]
+
+        public decimal Ma190 { get; set; }
+
+        [Required(ErrorMessage = "最小叠放高度不能为空")]
+        //[ExcelColumn(Name = "最小叠放高度")]
+        [ExcelColumnName("最小叠放高度")]
+
+        public decimal Ma191 { get; set; }
+
+        [Required(ErrorMessage = "叠放高度容差不能为空")]
+        //[ExcelColumn(Name = "叠放高度容差")]
+        [ExcelColumnName("叠放高度容差")]
+
+        public decimal Ma192 { get; set; }
+
+        [Required(ErrorMessage = "物料编号PKM不能为空")]
+        //[ExcelColumn(Name = "物料编号PKM")]
+        [ExcelColumnName("物料编号PKM")]
+
+        public int Ma193 { get; set; }
+
+        //[ExcelColumn(Name = "VSO")]
+        [ExcelColumnName("VSO")]
+
+        public string Ma194 { get; set; }
+
+        //[ExcelColumn(Name = "请求已清PKM")]
+        [ExcelColumnName("请求已清PKM")]
+
+        public string Ma195 { get; set; }
+
+        //[ExcelColumn(Name = "Packaging Code")]
         [ExcelColumnName("Packaging Code")]
-        public string Packcode { get; set; }
 
-        [ExcelColumn(Name = "危险品的包装状态")]
+        public string Ma196 { get; set; }
+
+        //[ExcelColumn(Name = "危险品的包装状态")]
         [ExcelColumnName("危险品的包装状态")]
-        public string Dgpackstatus { get; set; }
 
-        [ExcelColumn(Name = "物料条件管理")]
+        public string Ma197 { get; set; }
+
+        //[ExcelColumn(Name = "物料条件管理")]
         [ExcelColumnName("物料条件管理")]
-        public string Mcond { get; set; }
 
-        [ExcelColumn(Name = "返回代码")]
+        public string Ma198 { get; set; }
+
+        //[ExcelColumn(Name = "返回代码")]
         [ExcelColumnName("返回代码")]
-        public string Retdelc { get; set; }
 
-        [ExcelColumn(Name = "后勤等级退货")]
+        public string Ma199 { get; set; }
+
+        //[ExcelColumn(Name = "后勤等级退货")]
         [ExcelColumnName("后勤等级退货")]
-        public string Loglevreto { get; set; }
 
-        [ExcelColumn(Name = "NATO 项目标识编号")]
-        [ExcelColumnName("NATO 项目标识编号")]
-        public string Nsnid { get; set; }
+        public string Ma200 { get; set; }
 
-        [ExcelColumn(Name = "完全互换组")]
+        //[ExcelColumn(Name = "NATO项目")]
+        [ExcelColumnName("NATO项目")]
+
+        public string Ma201 { get; set; }
+
+        //[ExcelColumn(Name = "完全互换组")]
         [ExcelColumnName("完全互换组")]
-        public string Imatn { get; set; }
 
-        [ExcelColumn(Name = "替换链编号")]
-        [ExcelColumnName("替换链编号")]
-        public string Picnum { get; set; }
+        public string Ma202 { get; set; }
 
-        [ExcelColumn(Name = "创建状态 - 季节性采购")]
-        [ExcelColumnName("创建状态 - 季节性采购")]
-        public string Bstat { get; set; }
+        //[ExcelColumn(Name = "链编号")]
+        [ExcelColumnName("链编号")]
 
-        [ExcelColumn(Name = "颜色特性的内部特性编号")]
-        [ExcelColumnName("颜色特性的内部特性编号")]
-        public int? Coloratinn { get; set; }
+        public string Ma203 { get; set; }
 
-        [ExcelColumn(Name = "主尺寸的特性的内部特性编号")]
-        [ExcelColumnName("主尺寸的特性的内部特性编号")]
-        public int? Size1atinn { get; set; }
+        //[ExcelColumn(Name = "创建状态")]
+        [ExcelColumnName("创建状态")]
 
-        [ExcelColumn(Name = "次尺寸的特性的内部特性编号")]
-        [ExcelColumnName("次尺寸的特性的内部特性编号")]
-        public int? Size2atinn { get; set; }
+        public string Ma204 { get; set; }
 
-        [ExcelColumn(Name = "变式颜色的特性值")]
-        [ExcelColumnName("变式颜色的特性值")]
-        public string Color { get; set; }
+        [Required(ErrorMessage = "内部特性1不能为空")]
+        //[ExcelColumn(Name = "内部特性1")]
+        [ExcelColumnName("内部特性1")]
 
-        [ExcelColumn(Name = "变式主尺寸的特性值")]
-        [ExcelColumnName("变式主尺寸的特性值")]
-        public string Size1 { get; set; }
+        public int Ma205 { get; set; }
 
-        [ExcelColumn(Name = "变式的次尺寸的特性值")]
-        [ExcelColumnName("变式的次尺寸的特性值")]
-        public string Size2 { get; set; }
+        [Required(ErrorMessage = "内部特性2不能为空")]
+        //[ExcelColumn(Name = "内部特性2")]
+        [ExcelColumnName("内部特性2")]
 
-        [ExcelColumn(Name = "评估目的的特性值")]
-        [ExcelColumnName("评估目的的特性值")]
-        public string Freechar { get; set; }
+        public int Ma206 { get; set; }
 
-        [ExcelColumn(Name = "护理代码（例如洗涤代码, 烫平衣服代码, 等等)")]
-        [ExcelColumnName("护理代码（例如洗涤代码, 烫平衣服代码, 等等)")]
-        public string Carecode { get; set; }
+        [Required(ErrorMessage = "内部特性3不能为空")]
+        //[ExcelColumn(Name = "内部特性3")]
+        [ExcelColumnName("内部特性3")]
 
-        [ExcelColumn(Name = "商标")]
+        public int Ma207 { get; set; }
+
+        //[ExcelColumn(Name = "颜色")]
+        [ExcelColumnName("颜色")]
+
+        public string Ma208 { get; set; }
+
+        //[ExcelColumn(Name = "主尺寸")]
+        [ExcelColumnName("主尺寸")]
+
+        public string Ma209 { get; set; }
+
+        //[ExcelColumn(Name = "次尺寸")]
+        [ExcelColumnName("次尺寸")]
+
+        public string Ma210 { get; set; }
+
+        //[ExcelColumn(Name = "特性值")]
+        [ExcelColumnName("特性值")]
+
+        public string Ma211 { get; set; }
+
+        //[ExcelColumn(Name = "护理代码")]
+        [ExcelColumnName("护理代码")]
+
+        public string Ma212 { get; set; }
+
+        //[ExcelColumn(Name = "商标")]
         [ExcelColumnName("商标")]
-        public string Brandid { get; set; }
 
-        [ExcelColumn(Name = "纺织品的光纤代码（组件1）")]
-        [ExcelColumnName("纺织品的光纤代码（组件1）")]
-        public string Fibercode1 { get; set; }
+        public string Ma213 { get; set; }
 
-        [ExcelColumn(Name = "光纤的百分比共享（组件1）")]
-        [ExcelColumnName("光纤的百分比共享（组件1）")]
-        public int? Fiberpart1 { get; set; }
+        //[ExcelColumn(Name = "组件1")]
+        [ExcelColumnName("组件1")]
 
-        [ExcelColumn(Name = "纺织品的光纤代码（组件2）")]
-        [ExcelColumnName("纺织品的光纤代码（组件2）")]
-        public string Fibercode2 { get; set; }
+        public string Ma214 { get; set; }
 
-        [ExcelColumn(Name = "光纤的百分比共享（组件2）")]
-        [ExcelColumnName("光纤的百分比共享（组件2）")]
-        public int? Fiberpart2 { get; set; }
+        [Required(ErrorMessage = "百分比共享1不能为空")]
+        //[ExcelColumn(Name = "百分比共享1")]
+        [ExcelColumnName("百分比共享1")]
 
-        [ExcelColumn(Name = "纺织品的光纤代码（组件3）")]
-        [ExcelColumnName("纺织品的光纤代码（组件3）")]
-        public string Fibercode3 { get; set; }
+        public int Ma215 { get; set; }
 
-        [ExcelColumn(Name = "光纤的百分比共享（组件3）")]
-        [ExcelColumnName("光纤的百分比共享（组件3）")]
-        public int? Fiberpart3 { get; set; }
+        //[ExcelColumn(Name = "组件2")]
+        [ExcelColumnName("组件2")]
 
-        [ExcelColumn(Name = "纺织品的光纤代码（组件4）")]
-        [ExcelColumnName("纺织品的光纤代码（组件4）")]
-        public string Fibercode4 { get; set; }
+        public string Ma216 { get; set; }
 
-        [ExcelColumn(Name = "光纤的百分比共享（组件4）")]
-        [ExcelColumnName("光纤的百分比共享（组件4）")]
-        public int? Fiberpart4 { get; set; }
+        [Required(ErrorMessage = "百分比共2不能为空")]
+        //[ExcelColumn(Name = "百分比共2")]
+        [ExcelColumnName("百分比共2")]
 
-        [ExcelColumn(Name = "纺织品的光纤代码（组件5）")]
-        [ExcelColumnName("纺织品的光纤代码（组件5）")]
-        public string Fibercode5 { get; set; }
+        public int Ma217 { get; set; }
 
-        [ExcelColumn(Name = "光纤的百分比共享（组件5）")]
-        [ExcelColumnName("光纤的百分比共享（组件5）")]
-        public int? Fiberpart5 { get; set; }
+        //[ExcelColumn(Name = "组件3")]
+        [ExcelColumnName("组件3")]
 
-        [ExcelColumn(Name = "时装等级")]
+        public string Ma218 { get; set; }
+
+        [Required(ErrorMessage = "百分比共享3不能为空")]
+        //[ExcelColumn(Name = "百分比共享3")]
+        [ExcelColumnName("百分比共享3")]
+
+        public int Ma219 { get; set; }
+
+        //[ExcelColumn(Name = "组件4")]
+        [ExcelColumnName("组件4")]
+
+        public string Ma220 { get; set; }
+
+        [Required(ErrorMessage = "百分比共享4不能为空")]
+        //[ExcelColumn(Name = "百分比共享4")]
+        [ExcelColumnName("百分比共享4")]
+
+        public int Ma221 { get; set; }
+
+        //[ExcelColumn(Name = "组件5")]
+        [ExcelColumnName("组件5")]
+
+        public string Ma222 { get; set; }
+
+        [Required(ErrorMessage = "百分比共享5不能为空")]
+        //[ExcelColumn(Name = "百分比共享5")]
+        [ExcelColumnName("百分比共享5")]
+
+        public int Ma223 { get; set; }
+
+        //[ExcelColumn(Name = "时装等级")]
         [ExcelColumnName("时装等级")]
-        public string Fashgrd { get; set; }
+
+        public string Ma224 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
+
+        public decimal Ref06 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF51 { get; set; }
+
+        public string Udf01 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF52 { get; set; }
+
+        public string Udf02 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF53 { get; set; }
+
+        public string Udf03 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
+
+        public string Udf04 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
+
+        public string Udf05 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
 
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
+        public string Udf06 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf51 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
+
         public int? IsDeleted { get; set; }
 
-        [ExcelColumn(Name = "在客户级标记要删除的物料")]
-        public string LvormLabel { get; set; }
+        [ExcelIgnore]
 
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+
+        public DateTime? UpdateTime { get; set; }
+
+
+
+        [ExcelColumn(Name = "集团删除")]
+        public string Ma006Label { get; set; }
         [ExcelColumn(Name = "物料类型")]
-        public string MtartLabel { get; set; }
-
+        public string Ma007Label { get; set; }
         [ExcelColumn(Name = "行业领域")]
-        public string MbrshLabel { get; set; }
-
+        public string Ma008Label { get; set; }
         [ExcelColumn(Name = "物料组")]
-        public string MatklLabel { get; set; }
-
-        [ExcelColumn(Name = "基本计量单位")]
-        public string MeinsLabel { get; set; }
-
-        [ExcelColumn(Name = "跨工厂物料状态")]
-        public string MstaeLabel { get; set; }
+        public string Ma009Label { get; set; }
+        [ExcelColumn(Name = "基本单位")]
+        public string Ma011Label { get; set; }
     }
 
     /// <summary>
     /// 常规物料
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:37:36
+    /// @Date: 2024/9/11 10:59:57
     /// </summary>
     public class MmMaraImportTpl
     {
-        [Required(ErrorMessage = "ID主键不能为空")]
-        [ExcelColumn(Name = "ID主键")]
-        [ExcelColumnName("ID主键")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long SfId { get; set; }
+        public long Id { get; set; }
 
-        [ExcelColumn(Name = "集团")]
+        //[ExcelColumn(Name = "集团")]
         [ExcelColumnName("集团")]
-        public string Mandt { get; set; }
+        public string Ma002 { get; set; }
 
         [Required(ErrorMessage = "物料号不能为空")]
-        [ExcelColumn(Name = "物料号")]
+        //[ExcelColumn(Name = "物料号")]
         [ExcelColumnName("物料号")]
-        public string Matnr { get; set; }
+        public string Ma003 { get; set; }
 
-        [ExcelColumn(Name = "创建日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("创建日期")]
-        public DateTime? Ersda { get; set; }
+        //[ExcelColumn(Name = "完整状态")]
+        [ExcelColumnName("完整状态")]
+        public string Ma004 { get; set; }
 
-        [ExcelColumn(Name = "创建对象的人员名称")]
-        [ExcelColumnName("创建对象的人员名称")]
-        public string Ernam { get; set; }
-
-        [ExcelColumn(Name = "上次更改的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("上次更改的日期")]
-        public DateTime? Laeda { get; set; }
-
-        [ExcelColumn(Name = "对象更改人员的名称")]
-        [ExcelColumnName("对象更改人员的名称")]
-        public string Aenam { get; set; }
-
-        [ExcelColumn(Name = "维护全部物料状态")]
-        [ExcelColumnName("维护全部物料状态")]
-        public string Vpsta { get; set; }
-
-        [ExcelColumn(Name = "维护状态")]
+        //[ExcelColumn(Name = "维护状态")]
         [ExcelColumnName("维护状态")]
-        public string Pstat { get; set; }
+        public string Ma005 { get; set; }
 
-        [Required(ErrorMessage = "在客户级标记要删除的物料不能为空")]
-        [ExcelColumn(Name = "在客户级标记要删除的物料")]
-        [ExcelColumnName("在客户级标记要删除的物料")]
-        public string Lvorm { get; set; }
+        //[ExcelColumn(Name = "集团删除")]
+        [ExcelColumnName("集团删除")]
+        public string Ma006 { get; set; }
 
         [Required(ErrorMessage = "物料类型不能为空")]
-        [ExcelColumn(Name = "物料类型")]
+        //[ExcelColumn(Name = "物料类型")]
         [ExcelColumnName("物料类型")]
-        public string Mtart { get; set; }
+        public string Ma007 { get; set; }
 
         [Required(ErrorMessage = "行业领域不能为空")]
-        [ExcelColumn(Name = "行业领域")]
+        //[ExcelColumn(Name = "行业领域")]
         [ExcelColumnName("行业领域")]
-        public string Mbrsh { get; set; }
+        public string Ma008 { get; set; }
 
-        [Required(ErrorMessage = "物料组不能为空")]
-        [ExcelColumn(Name = "物料组")]
+        //[ExcelColumn(Name = "物料组")]
         [ExcelColumnName("物料组")]
-        public string Matkl { get; set; }
+        public string Ma009 { get; set; }
 
-        [ExcelColumn(Name = "旧物料号")]
+        //[ExcelColumn(Name = "旧物料号")]
         [ExcelColumnName("旧物料号")]
-        public string Bismt { get; set; }
+        public string Ma010 { get; set; }
 
-        [Required(ErrorMessage = "基本计量单位不能为空")]
-        [ExcelColumn(Name = "基本计量单位")]
-        [ExcelColumnName("基本计量单位")]
-        public string Meins { get; set; }
+        [Required(ErrorMessage = "基本单位不能为空")]
+        //[ExcelColumn(Name = "基本单位")]
+        [ExcelColumnName("基本单位")]
+        public string Ma011 { get; set; }
 
-        [ExcelColumn(Name = "采购订单的计量单位")]
-        [ExcelColumnName("采购订单的计量单位")]
-        public string Bstme { get; set; }
+        //[ExcelColumn(Name = "订单单位")]
+        [ExcelColumnName("订单单位")]
+        public string Ma012 { get; set; }
 
-        [ExcelColumn(Name = "文档号码(无文档管理系统)")]
-        [ExcelColumnName("文档号码(无文档管理系统)")]
-        public string Zeinr { get; set; }
+        //[ExcelColumn(Name = "凭证")]
+        [ExcelColumnName("凭证")]
+        public string Ma013 { get; set; }
 
-        [ExcelColumn(Name = "凭证类型(无凭证管理系统)")]
-        [ExcelColumnName("凭证类型(无凭证管理系统)")]
-        public string Zeiar { get; set; }
+        //[ExcelColumn(Name = "凭证类型")]
+        [ExcelColumnName("凭证类型")]
+        public string Ma014 { get; set; }
 
-        [ExcelColumn(Name = "文档版本（无文档管理系统）")]
-        [ExcelColumnName("文档版本（无文档管理系统）")]
-        public string Zeivr { get; set; }
+        //[ExcelColumn(Name = "凭证版本")]
+        [ExcelColumnName("凭证版本")]
+        public string Ma015 { get; set; }
 
-        [ExcelColumn(Name = "文件的页面大小（不包括文件管理系统）")]
-        [ExcelColumnName("文件的页面大小（不包括文件管理系统）")]
-        public string Zeifo { get; set; }
+        //[ExcelColumn(Name = "页面大小")]
+        [ExcelColumnName("页面大小")]
+        public string Ma016 { get; set; }
 
-        [ExcelColumn(Name = "文档变更号(无文档管理系统)")]
-        [ExcelColumnName("文档变更号(无文档管理系统)")]
-        public string Aeszn { get; set; }
+        //[ExcelColumn(Name = "文档变更号")]
+        [ExcelColumnName("文档变更号")]
+        public string Ma017 { get; set; }
 
-        [ExcelColumn(Name = "凭证的页号(不带凭证管理系统)")]
-        [ExcelColumnName("凭证的页号(不带凭证管理系统)")]
-        public string Blatt { get; set; }
+        //[ExcelColumn(Name = "页号")]
+        [ExcelColumnName("页号")]
+        public string Ma018 { get; set; }
 
-        [ExcelColumn(Name = "页数(没有凭证管理系统)")]
-        [ExcelColumnName("页数(没有凭证管理系统)")]
-        public int? Blanz { get; set; }
+        [Required(ErrorMessage = "页数不能为空")]
+        //[ExcelColumn(Name = "页数")]
+        [ExcelColumnName("页数")]
+        public int Ma019 { get; set; }
 
-        [ExcelColumn(Name = "生产/检验备忘录")]
-        [ExcelColumnName("生产/检验备忘录")]
-        public string Ferth { get; set; }
+        //[ExcelColumn(Name = "备忘录")]
+        [ExcelColumnName("备忘录")]
+        public string Ma020 { get; set; }
 
-        [ExcelColumn(Name = "生产备忘录的页格式")]
-        [ExcelColumnName("生产备忘录的页格式")]
-        public string Formt { get; set; }
+        //[ExcelColumn(Name = "页格式")]
+        [ExcelColumnName("页格式")]
+        public string Ma021 { get; set; }
 
-        [ExcelColumn(Name = "大小/量纲")]
+        //[ExcelColumn(Name = "大小/量纲")]
         [ExcelColumnName("大小/量纲")]
-        public string Groes { get; set; }
+        public string Ma022 { get; set; }
 
-        [ExcelColumn(Name = "基本物料")]
+        //[ExcelColumn(Name = "基本物料")]
         [ExcelColumnName("基本物料")]
-        public string Wrkst { get; set; }
+        public string Ma023 { get; set; }
 
-        [ExcelColumn(Name = "行业标准描述（例如 ANSI 或 ISO）")]
-        [ExcelColumnName("行业标准描述（例如 ANSI 或 ISO）")]
-        public string Normt { get; set; }
+        //[ExcelColumn(Name = "行业标准")]
+        [ExcelColumnName("行业标准")]
+        public string Ma024 { get; set; }
 
-        [ExcelColumn(Name = "实验室/设计室")]
+        //[ExcelColumn(Name = "实验室/设计室")]
         [ExcelColumnName("实验室/设计室")]
-        public string Labor { get; set; }
+        public string Ma025 { get; set; }
 
-        [ExcelColumn(Name = "采购价值代码")]
-        [ExcelColumnName("采购价值代码")]
-        public string Ekwsl { get; set; }
+        //[ExcelColumn(Name = "采购值代码")]
+        [ExcelColumnName("采购值代码")]
+        public string Ma026 { get; set; }
 
-        [ExcelColumn(Name = "毛重")]
+        [Required(ErrorMessage = "毛重不能为空")]
+        //[ExcelColumn(Name = "毛重")]
         [ExcelColumnName("毛重")]
-        public decimal Brgew { get; set; }
+        public decimal Ma027 { get; set; }
 
-        [ExcelColumn(Name = "净重")]
+        [Required(ErrorMessage = "净重不能为空")]
+        //[ExcelColumn(Name = "净重")]
         [ExcelColumnName("净重")]
-        public decimal Ntgew { get; set; }
+        public decimal Ma028 { get; set; }
 
-        [Required(ErrorMessage = "重量单位不能为空")]
-        [ExcelColumn(Name = "重量单位")]
+        //[ExcelColumn(Name = "重量单位")]
         [ExcelColumnName("重量单位")]
-        public string Gewei { get; set; }
+        public string Ma029 { get; set; }
 
-        [ExcelColumn(Name = "业务量")]
+        [Required(ErrorMessage = "业务量不能为空")]
+        //[ExcelColumn(Name = "业务量")]
         [ExcelColumnName("业务量")]
-        public decimal Volum { get; set; }
+        public decimal Ma030 { get; set; }
 
-        [Required(ErrorMessage = "体积单位不能为空")]
-        [ExcelColumn(Name = "体积单位")]
+        //[ExcelColumn(Name = "体积单位")]
         [ExcelColumnName("体积单位")]
-        public string Voleh { get; set; }
+        public string Ma031 { get; set; }
 
-        [ExcelColumn(Name = "容器需求")]
+        //[ExcelColumn(Name = "容器需求")]
         [ExcelColumnName("容器需求")]
-        public string Behvo { get; set; }
+        public string Ma032 { get; set; }
 
-        [ExcelColumn(Name = "存储条件")]
+        //[ExcelColumn(Name = "存储条件")]
         [ExcelColumnName("存储条件")]
-        public string Raube { get; set; }
+        public string Ma033 { get; set; }
 
-        [ExcelColumn(Name = "温度条件标识")]
-        [ExcelColumnName("温度条件标识")]
-        public string Tempb { get; set; }
+        //[ExcelColumn(Name = "温度")]
+        [ExcelColumnName("温度")]
+        public string Ma034 { get; set; }
 
-        [ExcelColumn(Name = "低层代码")]
+        //[ExcelColumn(Name = "低层代码")]
         [ExcelColumnName("低层代码")]
-        public string Disst { get; set; }
+        public string Ma035 { get; set; }
 
-        [ExcelColumn(Name = "运输组")]
+        //[ExcelColumn(Name = "运输组")]
         [ExcelColumnName("运输组")]
-        public string Tragr { get; set; }
+        public string Ma036 { get; set; }
 
-        [ExcelColumn(Name = "危险物料号")]
+        //[ExcelColumn(Name = "危险物料号")]
         [ExcelColumnName("危险物料号")]
-        public string Stoff { get; set; }
+        public string Ma037 { get; set; }
 
-        [ExcelColumn(Name = "产品组")]
+        //[ExcelColumn(Name = "产品组")]
         [ExcelColumnName("产品组")]
-        public string Spart { get; set; }
+        public string Ma038 { get; set; }
 
-        [ExcelColumn(Name = "竞争者")]
+        //[ExcelColumn(Name = "竞争者")]
         [ExcelColumnName("竞争者")]
-        public string Kunnr { get; set; }
+        public string Ma039 { get; set; }
 
-        [ExcelColumn(Name = "欧洲物品号 (EAN) - 已过时的 !!!!!")]
-        [ExcelColumnName("欧洲物品号 (EAN) - 已过时的 !!!!!")]
-        public string Eannr { get; set; }
+        //[ExcelColumn(Name = "EAN号")]
+        [ExcelColumnName("EAN号")]
+        public string Ma040 { get; set; }
 
-        [ExcelColumn(Name = "数量: 待打印的 GR/GI 单数量")]
-        [ExcelColumnName("数量: 待打印的 GR/GI 单数量")]
-        public decimal Wesch { get; set; }
+        [Required(ErrorMessage = "GR单数量不能为空")]
+        //[ExcelColumn(Name = "GR单数量")]
+        [ExcelColumnName("GR单数量")]
+        public decimal Ma041 { get; set; }
 
-        [ExcelColumn(Name = "采购规则")]
+        //[ExcelColumn(Name = "采购规则")]
         [ExcelColumnName("采购规则")]
-        public string Bwvor { get; set; }
+        public string Ma042 { get; set; }
 
-        [ExcelColumn(Name = "货源")]
+        //[ExcelColumn(Name = "货源")]
         [ExcelColumnName("货源")]
-        public string Bwscl { get; set; }
+        public string Ma043 { get; set; }
 
-        [ExcelColumn(Name = "季节类别")]
-        [ExcelColumnName("季节类别")]
-        public string Saiso { get; set; }
+        //[ExcelColumn(Name = "季节")]
+        [ExcelColumnName("季节")]
+        public string Ma044 { get; set; }
 
-        [ExcelColumn(Name = "标签类型")]
+        //[ExcelColumn(Name = "标签类型")]
         [ExcelColumnName("标签类型")]
-        public string Etiar { get; set; }
+        public string Ma045 { get; set; }
 
-        [ExcelColumn(Name = "标签格式")]
+        //[ExcelColumn(Name = "标签格式")]
         [ExcelColumnName("标签格式")]
-        public string Etifo { get; set; }
+        public string Ma046 { get; set; }
 
-        [ExcelColumn(Name = "取消激活的")]
-        [ExcelColumnName("取消激活的")]
-        public string Entar { get; set; }
+        //[ExcelColumn(Name = "取消激活")]
+        [ExcelColumnName("取消激活")]
+        public string Ma047 { get; set; }
 
-        [ExcelColumn(Name = "国际文件号(EAN/UPC)")]
-        [ExcelColumnName("国际文件号(EAN/UPC)")]
-        public string Ean11 { get; set; }
+        //[ExcelColumn(Name = "EAN")]
+        [ExcelColumnName("EAN")]
+        public string Ma048 { get; set; }
 
-        [ExcelColumn(Name = "国际商品编码的类别 (EAN)")]
-        [ExcelColumnName("国际商品编码的类别 (EAN)")]
-        public string Numtp { get; set; }
+        //[ExcelColumn(Name = "EAN类别")]
+        [ExcelColumnName("EAN类别")]
+        public string Ma049 { get; set; }
 
-        [ExcelColumn(Name = "长度")]
+        [Required(ErrorMessage = "长度不能为空")]
+        //[ExcelColumn(Name = "长度")]
         [ExcelColumnName("长度")]
-        public decimal Laeng { get; set; }
+        public decimal Ma050 { get; set; }
 
-        [ExcelColumn(Name = "宽度")]
+        [Required(ErrorMessage = "宽度不能为空")]
+        //[ExcelColumn(Name = "宽度")]
         [ExcelColumnName("宽度")]
-        public decimal Breit { get; set; }
+        public decimal Ma051 { get; set; }
 
-        [ExcelColumn(Name = "高度")]
+        [Required(ErrorMessage = "高度不能为空")]
+        //[ExcelColumn(Name = "高度")]
         [ExcelColumnName("高度")]
-        public decimal Hoehe { get; set; }
+        public decimal Ma052 { get; set; }
 
-        [ExcelColumn(Name = "长度/宽度/高度的尺寸单位")]
-        [ExcelColumnName("长度/宽度/高度的尺寸单位")]
-        public string Meabm { get; set; }
+        //[ExcelColumn(Name = "尺寸单位")]
+        [ExcelColumnName("尺寸单位")]
+        public string Ma053 { get; set; }
 
-        [ExcelColumn(Name = "产品层次")]
+        //[ExcelColumn(Name = "产品层次")]
         [ExcelColumnName("产品层次")]
-        public string Prdha { get; set; }
+        public string Ma054 { get; set; }
 
-        [ExcelColumn(Name = "库存转移净改变成本核算")]
-        [ExcelColumnName("库存转移净改变成本核算")]
-        public string Aeklk { get; set; }
+        //[ExcelColumn(Name = "净改变成本核算")]
+        [ExcelColumnName("净改变成本核算")]
+        public string Ma055 { get; set; }
 
-        [ExcelColumn(Name = "CAD 标识")]
-        [ExcelColumnName("CAD 标识")]
-        public string Cadkz { get; set; }
+        //[ExcelColumn(Name = "CAD标识")]
+        [ExcelColumnName("CAD标识")]
+        public string Ma056 { get; set; }
 
-        [ExcelColumn(Name = "激活采购中的 QM")]
-        [ExcelColumnName("激活采购中的 QM")]
-        public string Qmpur { get; set; }
+        //[ExcelColumn(Name = "QM采购")]
+        [ExcelColumnName("QM采购")]
+        public string Ma057 { get; set; }
 
-        [ExcelColumn(Name = "允许的包装重量")]
+        [Required(ErrorMessage = "允许的包装重量不能为空")]
+        //[ExcelColumn(Name = "允许的包装重量")]
         [ExcelColumnName("允许的包装重量")]
-        public decimal Ergew { get; set; }
+        public decimal Ma058 { get; set; }
 
-        [ExcelColumn(Name = "加权的单位(允许打包加权)")]
-        [ExcelColumnName("加权的单位(允许打包加权)")]
-        public string Ergei { get; set; }
+        //[ExcelColumn(Name = "重量单位")]
+        [ExcelColumnName("重量单位")]
+        public string Ma059 { get; set; }
 
-        [ExcelColumn(Name = "允许的包装体积")]
-        [ExcelColumnName("允许的包装体积")]
-        public decimal Ervol { get; set; }
+        [Required(ErrorMessage = "允许体积不能为空")]
+        //[ExcelColumn(Name = "允许体积")]
+        [ExcelColumnName("允许体积")]
+        public decimal Ma060 { get; set; }
 
-        [ExcelColumn(Name = "体积单位(允许打包体积)")]
-        [ExcelColumnName("体积单位(允许打包体积)")]
-        public string Ervoe { get; set; }
+        //[ExcelColumn(Name = "体积单位")]
+        [ExcelColumnName("体积单位")]
+        public string Ma061 { get; set; }
 
-        [ExcelColumn(Name = "处理单位的超重量容差")]
-        [ExcelColumnName("处理单位的超重量容差")]
-        public decimal Gewto { get; set; }
+        [Required(ErrorMessage = "超重量容差不能为空")]
+        //[ExcelColumn(Name = "超重量容差")]
+        [ExcelColumnName("超重量容差")]
+        public decimal Ma062 { get; set; }
 
-        [ExcelColumn(Name = "处理单位的超量冗差")]
-        [ExcelColumnName("处理单位的超量冗差")]
-        public decimal Volto { get; set; }
+        [Required(ErrorMessage = "超体积容差不能为空")]
+        //[ExcelColumn(Name = "超体积容差")]
+        [ExcelColumnName("超体积容差")]
+        public decimal Ma063 { get; set; }
 
-        [ExcelColumn(Name = "可变采购订单单位活动")]
-        [ExcelColumnName("可变采购订单单位活动")]
-        public string Vabme { get; set; }
+        //[ExcelColumn(Name = "可变订单单位")]
+        [ExcelColumnName("可变订单单位")]
+        public string Ma064 { get; set; }
 
-        [ExcelColumn(Name = "标识: 修改水平已分配到物料")]
-        [ExcelColumnName("标识: 修改水平已分配到物料")]
-        public string Kzrev { get; set; }
+        //[ExcelColumn(Name = "修订等级")]
+        [ExcelColumnName("修订等级")]
+        public string Ma065 { get; set; }
 
-        [ExcelColumn(Name = "可配置的物料")]
-        [ExcelColumnName("可配置的物料")]
-        public string Kzkfg { get; set; }
+        //[ExcelColumn(Name = "可配置")]
+        [ExcelColumnName("可配置")]
+        public string Ma066 { get; set; }
 
-        [ExcelColumn(Name = "批次管理需求的标识")]
-        [ExcelColumnName("批次管理需求的标识")]
-        public string Xchpf { get; set; }
+        //[ExcelColumn(Name = "批次管理需求")]
+        [ExcelColumnName("批次管理需求")]
+        public string Ma067 { get; set; }
 
-        [ExcelColumn(Name = "包装物料类型")]
+        //[ExcelColumn(Name = "包装物料类型")]
         [ExcelColumnName("包装物料类型")]
-        public string Vhart { get; set; }
+        public string Ma068 { get; set; }
 
-        [ExcelColumn(Name = "最大层次 (按体积)")]
-        [ExcelColumnName("最大层次 (按体积)")]
-        public decimal Fuelg { get; set; }
+        [Required(ErrorMessage = "最大层次不能为空")]
+        //[ExcelColumn(Name = "最大层次")]
+        [ExcelColumnName("最大层次")]
+        public decimal Ma069 { get; set; }
 
-        [ExcelColumn(Name = "堆栈因子")]
+        [Required(ErrorMessage = "堆栈因子不能为空")]
+        //[ExcelColumn(Name = "堆栈因子")]
         [ExcelColumnName("堆栈因子")]
-        public int? Stfak { get; set; }
+        public int Ma070 { get; set; }
 
-        [ExcelColumn(Name = "物料组: 包装物料")]
-        [ExcelColumnName("物料组: 包装物料")]
-        public string Magrv { get; set; }
+        //[ExcelColumn(Name = "物料组包装物料")]
+        [ExcelColumnName("物料组包装物料")]
+        public string Ma071 { get; set; }
 
-        [ExcelColumn(Name = "权限组")]
+        //[ExcelColumn(Name = "权限组")]
         [ExcelColumnName("权限组")]
-        public string Begru { get; set; }
+        public string Ma072 { get; set; }
 
-        [ExcelColumn(Name = "开始生效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("开始生效日期")]
-        public DateTime? Datab { get; set; }
+        //[ExcelColumn(Name = "有效起始日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("有效起始日")]
+        public DateTime? Ma073 { get; set; }
 
-        [ExcelColumn(Name = "删除日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("删除日期")]
-        public DateTime? Liqdt { get; set; }
+        //[ExcelColumn(Name = "有效结束日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("有效结束日")]
+        public DateTime? Ma074 { get; set; }
 
-        [ExcelColumn(Name = "季度年")]
+        //[ExcelColumn(Name = "季度年")]
         [ExcelColumnName("季度年")]
-        public string Saisj { get; set; }
+        public string Ma075 { get; set; }
 
-        [ExcelColumn(Name = "价格标记类别")]
-        [ExcelColumnName("价格标记类别")]
-        public string Plgtp { get; set; }
+        //[ExcelColumn(Name = "价格标记")]
+        [ExcelColumnName("价格标记")]
+        public string Ma076 { get; set; }
 
-        [ExcelColumn(Name = "空白物料清单")]
-        [ExcelColumnName("空白物料清单")]
-        public string Mlgut { get; set; }
+        //[ExcelColumn(Name = "空白BOM")]
+        [ExcelColumnName("空白BOM")]
+        public string Ma077 { get; set; }
 
-        [ExcelColumn(Name = "外部物料组")]
+        //[ExcelColumn(Name = "外部物料组")]
         [ExcelColumnName("外部物料组")]
-        public string Extwg { get; set; }
+        public string Ma078 { get; set; }
 
-        [ExcelColumn(Name = "一般可配置物料")]
+        //[ExcelColumn(Name = "一般可配置物料")]
         [ExcelColumnName("一般可配置物料")]
-        public string Satnr { get; set; }
+        public string Ma079 { get; set; }
 
-        [ExcelColumn(Name = "物料类别")]
+        //[ExcelColumn(Name = "物料类别")]
         [ExcelColumnName("物料类别")]
-        public string Attyp { get; set; }
+        public string Ma080 { get; set; }
 
-        [ExcelColumn(Name = "指示符 : 物料是联产品")]
-        [ExcelColumnName("指示符 : 物料是联产品")]
-        public string Kzkup { get; set; }
+        //[ExcelColumn(Name = "联产品")]
+        [ExcelColumnName("联产品")]
+        public string Ma081 { get; set; }
 
-        [ExcelColumn(Name = "标记：物料有一后续物料")]
-        [ExcelColumnName("标记：物料有一后续物料")]
-        public string Kznfm { get; set; }
+        //[ExcelColumn(Name = "后续物料")]
+        [ExcelColumnName("后续物料")]
+        public string Ma082 { get; set; }
 
-        [ExcelColumn(Name = "定价参考物料")]
+        //[ExcelColumn(Name = "定价参考物料")]
         [ExcelColumnName("定价参考物料")]
-        public string Pmata { get; set; }
+        public string Ma083 { get; set; }
 
-        [Required(ErrorMessage = "跨工厂物料状态不能为空")]
-        [ExcelColumn(Name = "跨工厂物料状态")]
-        [ExcelColumnName("跨工厂物料状态")]
-        public string Mstae { get; set; }
+        //[ExcelColumn(Name = "跨工厂状态")]
+        [ExcelColumnName("跨工厂状态")]
+        public string Ma084 { get; set; }
 
-        [ExcelColumn(Name = "跨分销链物料状态")]
-        [ExcelColumnName("跨分销链物料状态")]
-        public string Mstav { get; set; }
+        //[ExcelColumn(Name = "跨分销链状态")]
+        [ExcelColumnName("跨分销链状态")]
+        public string Ma085 { get; set; }
 
-        [ExcelColumn(Name = "从跨工厂物料状态有效起的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("从跨工厂物料状态有效起的日期")]
-        public DateTime? Mstde { get; set; }
+        //[ExcelColumn(Name = "跨工厂有效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("跨工厂有效日期")]
+        public DateTime? Ma086 { get; set; }
 
-        [ExcelColumn(Name = "从跨分销链物料状态有效起的日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("从跨分销链物料状态有效起的日期")]
-        public DateTime? Mstdv { get; set; }
+        //[ExcelColumn(Name = "跨分销有效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("跨分销有效日期")]
+        public DateTime? Ma087 { get; set; }
 
-        [ExcelColumn(Name = "物料从税收分类")]
-        [ExcelColumnName("物料从税收分类")]
-        public string Taklv { get; set; }
+        //[ExcelColumn(Name = "税收分类")]
+        [ExcelColumnName("税收分类")]
+        public string Ma088 { get; set; }
 
-        [ExcelColumn(Name = "类别参数文件")]
+        //[ExcelColumn(Name = "类别参数文件")]
         [ExcelColumnName("类别参数文件")]
-        public string Rbnrm { get; set; }
+        public string Ma089 { get; set; }
 
-        [ExcelColumn(Name = "最短剩余货架寿命")]
-        [ExcelColumnName("最短剩余货架寿命")]
-        public decimal Mhdrz { get; set; }
+        [Required(ErrorMessage = "剩余货架寿命不能为空")]
+        //[ExcelColumn(Name = "剩余货架寿命")]
+        [ExcelColumnName("剩余货架寿命")]
+        public decimal Ma090 { get; set; }
 
-        [ExcelColumn(Name = "总货架寿命")]
+        [Required(ErrorMessage = "总货架寿命不能为空")]
+        //[ExcelColumn(Name = "总货架寿命")]
         [ExcelColumnName("总货架寿命")]
-        public decimal Mhdhb { get; set; }
+        public decimal Ma091 { get; set; }
 
-        [ExcelColumn(Name = "仓储百分比")]
+        [Required(ErrorMessage = "仓储百分比不能为空")]
+        //[ExcelColumn(Name = "仓储百分比")]
         [ExcelColumnName("仓储百分比")]
-        public decimal Mhdlp { get; set; }
+        public decimal Ma092 { get; set; }
 
-        [ExcelColumn(Name = "内容单位")]
+        //[ExcelColumn(Name = "内容单位")]
         [ExcelColumnName("内容单位")]
-        public string Inhme { get; set; }
+        public string Ma093 { get; set; }
 
-        [ExcelColumn(Name = "净内容")]
+        [Required(ErrorMessage = "净内容不能为空")]
+        //[ExcelColumn(Name = "净内容")]
         [ExcelColumnName("净内容")]
-        public decimal Inhal { get; set; }
+        public decimal Ma094 { get; set; }
 
-        [ExcelColumn(Name = "比较价格单位")]
+        [Required(ErrorMessage = "比较价格单位不能为空")]
+        //[ExcelColumn(Name = "比较价格单位")]
         [ExcelColumnName("比较价格单位")]
-        public decimal Vpreh { get; set; }
+        public decimal Ma095 { get; set; }
 
-        [ExcelColumn(Name = "IS-R 标签：物料组（在 4.0 中不活动）")]
-        [ExcelColumnName("IS-R 标签：物料组（在 4.0 中不活动）")]
-        public string Etiag { get; set; }
+        //[ExcelColumn(Name = "物料组标签")]
+        [ExcelColumnName("物料组标签")]
+        public string Ma096 { get; set; }
 
-        [ExcelColumn(Name = "毛内容")]
+        [Required(ErrorMessage = "毛内容不能为空")]
+        //[ExcelColumn(Name = "毛内容")]
         [ExcelColumnName("毛内容")]
-        public decimal Inhbr { get; set; }
+        public decimal Ma097 { get; set; }
 
-        [ExcelColumn(Name = "数量转换方法")]
-        [ExcelColumnName("数量转换方法")]
-        public string Cmeth { get; set; }
+        //[ExcelColumn(Name = "转换方法")]
+        [ExcelColumnName("转换方法")]
+        public string Ma098 { get; set; }
 
-        [ExcelColumn(Name = "内部对象号")]
+        [Required(ErrorMessage = "内部对象号不能为空")]
+        //[ExcelColumn(Name = "内部对象号")]
         [ExcelColumnName("内部对象号")]
-        public int? Cuobf { get; set; }
+        public int Ma099 { get; set; }
 
-        [ExcelColumn(Name = "环境相关")]
+        //[ExcelColumn(Name = "环境相关")]
         [ExcelColumnName("环境相关")]
-        public string Kzumw { get; set; }
+        public string Ma100 { get; set; }
 
-        [ExcelColumn(Name = "产品分配确定程序")]
-        [ExcelColumnName("产品分配确定程序")]
-        public string Kosch { get; set; }
+        //[ExcelColumn(Name = "产品分配")]
+        [ExcelColumnName("产品分配")]
+        public string Ma101 { get; set; }
 
-        [ExcelColumn(Name = "变式的定价参数文件")]
-        [ExcelColumnName("变式的定价参数文件")]
-        public string Sprof { get; set; }
+        //[ExcelColumn(Name = "定价参数文件")]
+        [ExcelColumnName("定价参数文件")]
+        public string Ma102 { get; set; }
 
-        [ExcelColumn(Name = "针对物料的折扣类型")]
-        [ExcelColumnName("针对物料的折扣类型")]
-        public string Nrfhg { get; set; }
+        //[ExcelColumn(Name = "折扣类型")]
+        [ExcelColumnName("折扣类型")]
+        public string Ma103 { get; set; }
 
-        [ExcelColumn(Name = "制造商零件编号")]
+        //[ExcelColumn(Name = "制造商零件编号")]
         [ExcelColumnName("制造商零件编号")]
-        public string Mfrpn { get; set; }
+        public string Ma104 { get; set; }
 
-        [ExcelColumn(Name = "制造商编号")]
-        [ExcelColumnName("制造商编号")]
-        public string Mfrnr { get; set; }
+        //[ExcelColumn(Name = "制造商")]
+        [ExcelColumnName("制造商")]
+        public string Ma105 { get; set; }
 
-        [ExcelColumn(Name = "公司自己 (内部) 的盘点管理物料编号")]
-        [ExcelColumnName("公司自己 (内部) 的盘点管理物料编号")]
-        public string Bmatn { get; set; }
+        //[ExcelColumn(Name = "内部物料编号")]
+        [ExcelColumnName("内部物料编号")]
+        public string Ma106 { get; set; }
 
-        [ExcelColumn(Name = "制造商部件参数文件")]
+        //[ExcelColumn(Name = "制造商部件参数文件")]
         [ExcelColumnName("制造商部件参数文件")]
-        public string Mprof { get; set; }
+        public string Ma107 { get; set; }
 
-        [ExcelColumn(Name = "计量单位使用")]
-        [ExcelColumnName("计量单位使用")]
-        public string Kzwsm { get; set; }
+        //[ExcelColumn(Name = "测量单位用法")]
+        [ExcelColumnName("测量单位用法")]
+        public string Ma108 { get; set; }
 
-        [ExcelColumn(Name = "在季节内展开")]
-        [ExcelColumnName("在季节内展开")]
-        public string Saity { get; set; }
+        //[ExcelColumn(Name = "展开")]
+        [ExcelColumnName("展开")]
+        public string Ma109 { get; set; }
 
-        [ExcelColumn(Name = "危险货物标识参数文件")]
+        //[ExcelColumn(Name = "危险货物标识参数文件")]
         [ExcelColumnName("危险货物标识参数文件")]
-        public string Profl { get; set; }
+        public string Ma110 { get; set; }
 
-        [ExcelColumn(Name = "标识符:高粘性的")]
-        [ExcelColumnName("标识符:高粘性的")]
-        public string Ihivi { get; set; }
+        //[ExcelColumn(Name = "高粘性的")]
+        [ExcelColumnName("高粘性的")]
+        public string Ma111 { get; set; }
 
-        [ExcelColumn(Name = "标识符:固体/液体")]
-        [ExcelColumnName("标识符:固体/液体")]
-        public string Iloos { get; set; }
+        //[ExcelColumn(Name = "固体/液体")]
+        [ExcelColumnName("固体/液体")]
+        public string Ma112 { get; set; }
 
-        [ExcelColumn(Name = "序列号的清晰的级别")]
-        [ExcelColumnName("序列号的清晰的级别")]
-        public string Serlv { get; set; }
+        //[ExcelColumn(Name = "序列号层次")]
+        [ExcelColumnName("序列号层次")]
+        public string Ma113 { get; set; }
 
-        [ExcelColumn(Name = "包装物料是密闭包装的")]
-        [ExcelColumnName("包装物料是密闭包装的")]
-        public string Kzgvh { get; set; }
+        //[ExcelColumn(Name = "密闭")]
+        [ExcelColumnName("密闭")]
+        public string Ma114 { get; set; }
 
-        [ExcelColumn(Name = "指示符：需要批准的批量记录")]
-        [ExcelColumnName("指示符：需要批准的批量记录")]
-        public string Xgchp { get; set; }
+        //[ExcelColumn(Name = "需要批量记录")]
+        [ExcelColumnName("需要批量记录")]
+        public string Ma115 { get; set; }
 
-        [ExcelColumn(Name = "指定有效参数值/覆盖更改编号")]
-        [ExcelColumnName("指定有效参数值/覆盖更改编号")]
-        public string Kzeff { get; set; }
+        //[ExcelColumn(Name = "参数有效值")]
+        [ExcelColumnName("参数有效值")]
+        public string Ma116 { get; set; }
 
-        [ExcelColumn(Name = "物料完成的水平")]
-        [ExcelColumnName("物料完成的水平")]
-        public int? Compl { get; set; }
+        [Required(ErrorMessage = "完成水平不能为空")]
+        //[ExcelColumn(Name = "完成水平")]
+        [ExcelColumnName("完成水平")]
+        public int Ma117 { get; set; }
 
-        [ExcelColumn(Name = "货架寿命到期日的期间标识")]
-        [ExcelColumnName("货架寿命到期日的期间标识")]
-        public string Iprkz { get; set; }
+        //[ExcelColumn(Name = "期间标识")]
+        [ExcelColumnName("期间标识")]
+        public string Ma118 { get; set; }
 
-        [ExcelColumn(Name = "货架寿命到期日期计算舍入规则")]
-        [ExcelColumnName("货架寿命到期日期计算舍入规则")]
-        public string Rdmhd { get; set; }
+        //[ExcelColumn(Name = "舍入规则")]
+        [ExcelColumnName("舍入规则")]
+        public string Ma119 { get; set; }
 
-        [ExcelColumn(Name = "标识：印刷在包装上的产品成份")]
-        [ExcelColumnName("标识：印刷在包装上的产品成份")]
-        public string Przus { get; set; }
+        //[ExcelColumn(Name = "产品成份")]
+        [ExcelColumnName("产品成份")]
+        public string Ma120 { get; set; }
 
-        [ExcelColumn(Name = "普通项目类别组")]
+        //[ExcelColumn(Name = "普通项目类别组")]
         [ExcelColumnName("普通项目类别组")]
-        public string Mtposmara { get; set; }
+        public string Ma121 { get; set; }
 
-        [ExcelColumn(Name = "含后勤变量的一般物料")]
-        [ExcelColumnName("含后勤变量的一般物料")]
-        public string Bflme { get; set; }
+        //[ExcelColumn(Name = "后勤变量")]
+        [ExcelColumnName("后勤变量")]
+        public string Ma122 { get; set; }
 
-        [ExcelColumn(Name = "物料被锁定")]
+        //[ExcelColumn(Name = "物料被锁定")]
         [ExcelColumnName("物料被锁定")]
-        public string Matfi { get; set; }
+        public string Ma123 { get; set; }
 
-        [ExcelColumn(Name = "与配置管理相关")]
-        [ExcelColumnName("与配置管理相关")]
-        public string Cmrel { get; set; }
+        //[ExcelColumn(Name = "配置相关")]
+        [ExcelColumnName("配置相关")]
+        public string Ma124 { get; set; }
 
-        [ExcelColumn(Name = "分类清单类型")]
+        //[ExcelColumn(Name = "分类清单类型")]
         [ExcelColumnName("分类清单类型")]
-        public string Bbtyp { get; set; }
+        public string Ma125 { get; set; }
 
-        [ExcelColumn(Name = "过期日期")]
+        //[ExcelColumn(Name = "过期日期")]
         [ExcelColumnName("过期日期")]
-        public string Sledbbd { get; set; }
+        public string Ma126 { get; set; }
 
-        [ExcelColumn(Name = "全球贸易项目编号变式")]
-        [ExcelColumnName("全球贸易项目编号变式")]
-        public string Gtinvariant { get; set; }
+        //[ExcelColumn(Name = "EAN变式")]
+        [ExcelColumnName("EAN变式")]
+        public string Ma127 { get; set; }
 
-        [ExcelColumn(Name = "在预包装物料中的一般物料的物料编号")]
-        [ExcelColumnName("在预包装物料中的一般物料的物料编号")]
-        public string Gennr { get; set; }
+        //[ExcelColumn(Name = "一般物料")]
+        [ExcelColumnName("一般物料")]
+        public string Ma128 { get; set; }
 
-        [ExcelColumn(Name = "以相同方式包装的物料的参考物料")]
-        [ExcelColumnName("以相同方式包装的物料的参考物料")]
-        public string Rmatp { get; set; }
+        //[ExcelColumn(Name = "包装参考物料")]
+        [ExcelColumnName("包装参考物料")]
+        public string Ma129 { get; set; }
 
-        [ExcelColumn(Name = "标识：全局数据同步相关")]
-        [ExcelColumnName("标识：全局数据同步相关")]
-        public string Gdsrelevant { get; set; }
+        //[ExcelColumn(Name = "GDS相关")]
+        [ExcelColumnName("GDS相关")]
+        public string Ma130 { get; set; }
 
-        [ExcelColumn(Name = "原始接受")]
+        //[ExcelColumn(Name = "原始接受")]
         [ExcelColumnName("原始接受")]
-        public string Weora { get; set; }
+        public string Ma131 { get; set; }
 
-        [ExcelColumn(Name = "标准处理单位类型")]
+        //[ExcelColumn(Name = "标准处理单位类型")]
         [ExcelColumnName("标准处理单位类型")]
-        public string Hutypdflt { get; set; }
+        public string Ma132 { get; set; }
 
-        [ExcelColumn(Name = "可偷窃的")]
+        //[ExcelColumn(Name = "可偷窃的")]
         [ExcelColumnName("可偷窃的")]
-        public string Pilferable { get; set; }
+        public string Ma133 { get; set; }
 
-        [ExcelColumn(Name = "仓库存储条件")]
+        //[ExcelColumn(Name = "仓库存储条件")]
         [ExcelColumnName("仓库存储条件")]
-        public string Whstc { get; set; }
+        public string Ma134 { get; set; }
 
-        [ExcelColumn(Name = "仓库物料组")]
+        //[ExcelColumn(Name = "仓库物料组")]
         [ExcelColumnName("仓库物料组")]
-        public string Whmatgr { get; set; }
+        public string Ma135 { get; set; }
 
-        [ExcelColumn(Name = "处理标识")]
+        //[ExcelColumn(Name = "处理标识")]
         [ExcelColumnName("处理标识")]
-        public string Hndlcode { get; set; }
+        public string Ma136 { get; set; }
 
-        [ExcelColumn(Name = "与危险物料相关")]
-        [ExcelColumnName("与危险物料相关")]
-        public string Hazmat { get; set; }
+        //[ExcelColumn(Name = "危险物料")]
+        [ExcelColumnName("危险物料")]
+        public string Ma137 { get; set; }
 
-        [ExcelColumn(Name = "处理单位类型")]
+        //[ExcelColumn(Name = "处理单位类型")]
         [ExcelColumnName("处理单位类型")]
-        public string Hutyp { get; set; }
+        public string Ma138 { get; set; }
 
-        [ExcelColumn(Name = "可变皮重")]
+        //[ExcelColumn(Name = "可变皮重")]
         [ExcelColumnName("可变皮重")]
-        public string Tarevar { get; set; }
+        public string Ma139 { get; set; }
 
-        [ExcelColumn(Name = "包装物料的最大允许容量")]
-        [ExcelColumnName("包装物料的最大允许容量")]
-        public decimal Maxc { get; set; }
+        [Required(ErrorMessage = "最大容量不能为空")]
+        //[ExcelColumn(Name = "最大容量")]
+        [ExcelColumnName("最大容量")]
+        public decimal Ma140 { get; set; }
 
-        [ExcelColumn(Name = "处理单位的最大容量容差")]
-        [ExcelColumnName("处理单位的最大容量容差")]
-        public decimal Maxctol { get; set; }
+        [Required(ErrorMessage = "最大容量容差不能为空")]
+        //[ExcelColumn(Name = "最大容量容差")]
+        [ExcelColumnName("最大容量容差")]
+        public decimal Ma141 { get; set; }
 
-        [ExcelColumn(Name = "包装物料的最大包长度")]
-        [ExcelColumnName("包装物料的最大包长度")]
-        public decimal Maxl { get; set; }
+        [Required(ErrorMessage = "最大长度不能为空")]
+        //[ExcelColumn(Name = "最大长度")]
+        [ExcelColumnName("最大长度")]
+        public decimal Ma142 { get; set; }
 
-        [ExcelColumn(Name = "包装物料的最大包宽度")]
-        [ExcelColumnName("包装物料的最大包宽度")]
-        public decimal Maxb { get; set; }
+        [Required(ErrorMessage = "最大宽度不能为空")]
+        //[ExcelColumn(Name = "最大宽度")]
+        [ExcelColumnName("最大宽度")]
+        public decimal Ma143 { get; set; }
 
-        [ExcelColumn(Name = "包装物料的最大包高度")]
-        [ExcelColumnName("包装物料的最大包高度")]
-        public decimal Maxh { get; set; }
+        [Required(ErrorMessage = "最大高度不能为空")]
+        //[ExcelColumn(Name = "最大高度")]
+        [ExcelColumnName("最大高度")]
+        public decimal Ma144 { get; set; }
 
-        [ExcelColumn(Name = "最大包装长/宽/高的计量单位")]
-        [ExcelColumnName("最大包装长/宽/高的计量单位")]
-        public string Maxdimuom { get; set; }
+        //[ExcelColumn(Name = "计量单位")]
+        [ExcelColumnName("计量单位")]
+        public string Ma145 { get; set; }
 
-        [ExcelColumn(Name = "物料原产地国家")]
-        [ExcelColumnName("物料原产地国家")]
-        public string Herkl { get; set; }
+        //[ExcelColumn(Name = "原产地国")]
+        [ExcelColumnName("原产地国")]
+        public string Ma146 { get; set; }
 
-        [ExcelColumn(Name = "物料运输组")]
+        //[ExcelColumn(Name = "物料运输组")]
         [ExcelColumnName("物料运输组")]
-        public string Mfrgr { get; set; }
+        public string Ma147 { get; set; }
 
-        [ExcelColumn(Name = "隔离期间")]
+        [Required(ErrorMessage = "隔离期间不能为空")]
+        //[ExcelColumn(Name = "隔离期间")]
         [ExcelColumnName("隔离期间")]
-        public decimal Qqtime { get; set; }
+        public decimal Ma148 { get; set; }
 
-        [ExcelColumn(Name = "隔离期间的时间单位")]
-        [ExcelColumnName("隔离期间的时间单位")]
-        public string Qqtimeuom { get; set; }
+        //[ExcelColumn(Name = "时间单位")]
+        [ExcelColumnName("时间单位")]
+        public string Ma149 { get; set; }
 
-        [ExcelColumn(Name = "质量检查组")]
+        //[ExcelColumn(Name = "质量检查组")]
         [ExcelColumnName("质量检查组")]
-        public string Qgrp { get; set; }
+        public string Ma150 { get; set; }
 
-        [ExcelColumn(Name = "序列号参数文件")]
+        //[ExcelColumn(Name = "序列号参数文件")]
         [ExcelColumnName("序列号参数文件")]
-        public string Serial { get; set; }
+        public string Ma151 { get; set; }
 
-        [ExcelColumn(Name = "表格名")]
+        //[ExcelColumn(Name = "表格名")]
         [ExcelColumnName("表格名")]
-        public string Pssmartform { get; set; }
+        public string Ma152 { get; set; }
 
-        [ExcelColumn(Name = "EWM CW: 后勤计量单位")]
-        [ExcelColumnName("EWM CW: 后勤计量单位")]
-        public string Logunit { get; set; }
+        //[ExcelColumn(Name = "后勤计量单位")]
+        [ExcelColumnName("后勤计量单位")]
+        public string Ma153 { get; set; }
 
-        [ExcelColumn(Name = "EWM CW: 物料是称重物料")]
-        [ExcelColumnName("EWM CW: 物料是称重物料")]
-        public string Cwqrel { get; set; }
+        //[ExcelColumn(Name = "称重物料相关")]
+        [ExcelColumnName("称重物料相关")]
+        public string Ma154 { get; set; }
 
-        [ExcelColumn(Name = "EWM CW: 输入 CW 数量的称重参数文件")]
-        [ExcelColumnName("EWM CW: 输入 CW 数量的称重参数文件")]
-        public string Cwqproc { get; set; }
+        //[ExcelColumn(Name = "CW参数文件")]
+        [ExcelColumnName("CW参数文件")]
+        public string Ma155 { get; set; }
 
-        [ExcelColumn(Name = "EWM-CW: EWM 的称重容差组")]
-        [ExcelColumnName("EWM-CW: EWM 的称重容差组")]
-        public string Cwqtolgr { get; set; }
+        //[ExcelColumn(Name = "CW容差组")]
+        [ExcelColumnName("CW容差组")]
+        public string Ma156 { get; set; }
 
-        [ExcelColumn(Name = "调整参数文件")]
+        //[ExcelColumn(Name = "调整参数文件")]
         [ExcelColumnName("调整参数文件")]
-        public string Adprof { get; set; }
+        public string Ma157 { get; set; }
 
-        [ExcelColumn(Name = "知识产权标识（CRM 产品）")]
-        [ExcelColumnName("知识产权标识（CRM 产品）")]
-        public string Ipmipproduct { get; set; }
+        //[ExcelColumn(Name = "知识产权")]
+        [ExcelColumnName("知识产权")]
+        public string Ma158 { get; set; }
 
-        [ExcelColumn(Name = "允许的变式价格（针对物料主数据）")]
-        [ExcelColumnName("允许的变式价格（针对物料主数据）")]
-        public string Allowpmatigno { get; set; }
+        //[ExcelColumn(Name = "允许的变式价格")]
+        [ExcelColumnName("允许的变式价格")]
+        public string Ma159 { get; set; }
 
-        [ExcelColumn(Name = "中间")]
+        //[ExcelColumn(Name = "中间")]
         [ExcelColumnName("中间")]
-        public string Medium { get; set; }
+        public string Ma160 { get; set; }
 
-        [ExcelColumn(Name = "实物商品")]
+        //[ExcelColumn(Name = "实物商品")]
         [ExcelColumnName("实物商品")]
-        public string Commodity { get; set; }
+        public string Ma161 { get; set; }
 
-        [ExcelColumn(Name = "标识：包含动物源的非纺织部分")]
-        [ExcelColumnName("标识：包含动物源的非纺织部分")]
-        public string Animalorigin { get; set; }
+        //[ExcelColumn(Name = "动物源")]
+        [ExcelColumnName("动物源")]
+        public string Ma162 { get; set; }
 
-        [ExcelColumn(Name = "标识：新纺织组分功能")]
-        [ExcelColumnName("标识：新纺织组分功能")]
-        public string Textilecompind { get; set; }
+        //[ExcelColumn(Name = "纺织组分功能")]
+        [ExcelColumnName("纺织组分功能")]
+        public string Ma163 { get; set; }
 
-        [ExcelColumn(Name = "分段结构")]
+        //[ExcelColumn(Name = "分段结构")]
         [ExcelColumnName("分段结构")]
-        public string Sgtcsgr { get; set; }
+        public string Ma164 { get; set; }
 
-        [ExcelColumn(Name = "分段策略")]
+        //[ExcelColumn(Name = "分段策略")]
         [ExcelColumnName("分段策略")]
-        public string Sgtcovsa { get; set; }
+        public string Ma165 { get; set; }
 
-        [ExcelColumn(Name = "分段物料主数据状态")]
-        [ExcelColumnName("分段物料主数据状态")]
-        public string Sgtstat { get; set; }
+        //[ExcelColumn(Name = "分段状态")]
+        [ExcelColumnName("分段状态")]
+        public string Ma166 { get; set; }
 
-        [ExcelColumn(Name = "分段策略范围")]
-        [ExcelColumnName("分段策略范围")]
-        public string Sgtscope { get; set; }
+        //[ExcelColumn(Name = "分段范围")]
+        [ExcelColumnName("分段范围")]
+        public string Ma167 { get; set; }
 
-        [ExcelColumn(Name = "分段相关")]
+        //[ExcelColumn(Name = "分段相关")]
         [ExcelColumnName("分段相关")]
-        public string Sgtrel { get; set; }
+        public string Ma168 { get; set; }
 
-        [ExcelColumn(Name = "ANP Code")]
+        [Required(ErrorMessage = "ANP Code不能为空")]
+        //[ExcelColumn(Name = "ANP Code")]
         [ExcelColumnName("ANP Code")]
-        public int? Anp { get; set; }
+        public int Ma169 { get; set; }
 
-        [ExcelColumn(Name = "Fashion 信息字段：1")]
-        [ExcelColumnName("Fashion 信息字段：1")]
-        public string Fshmgat1 { get; set; }
+        //[ExcelColumn(Name = "Fashion属性1")]
+        [ExcelColumnName("Fashion属性1")]
+        public string Ma170 { get; set; }
 
-        [ExcelColumn(Name = "Fashion 信息字段：2")]
-        [ExcelColumnName("Fashion 信息字段：2")]
-        public string Fshmgat2 { get; set; }
+        //[ExcelColumn(Name = "Fashion属性2")]
+        [ExcelColumnName("Fashion属性2")]
+        public string Ma171 { get; set; }
 
-        [ExcelColumn(Name = "Fashion 信息字段：3")]
-        [ExcelColumnName("Fashion 信息字段：3")]
-        public string Fshmgat3 { get; set; }
+        //[ExcelColumn(Name = "Fashion属性3")]
+        [ExcelColumnName("Fashion属性3")]
+        public string Ma172 { get; set; }
 
-        [ExcelColumn(Name = "标识：季节使用")]
-        [ExcelColumnName("标识：季节使用")]
-        public string Fshsealv { get; set; }
+        //[ExcelColumn(Name = "季节使用")]
+        [ExcelColumnName("季节使用")]
+        public string Ma173 { get; set; }
 
-        [ExcelColumn(Name = "标识：在库存管理中激活季节")]
-        [ExcelColumnName("标识：在库存管理中激活季节")]
-        public string Fshseaim { get; set; }
+        //[ExcelColumn(Name = "库存管理中激活季节")]
+        [ExcelColumnName("库存管理中激活季节")]
+        public string Ma174 { get; set; }
 
-        [ExcelColumn(Name = "特征值转换的物料转换标识")]
-        [ExcelColumnName("特征值转换的物料转换标识")]
-        public string Fshscmid { get; set; }
+        //[ExcelColumn(Name = "物料转换标识")]
+        [ExcelColumnName("物料转换标识")]
+        public string Ma175 { get; set; }
 
-        [ExcelColumn(Name = "装载单位")]
+        [Required(ErrorMessage = "装载单位不能为空")]
+        //[ExcelColumn(Name = "装载单位")]
         [ExcelColumnName("装载单位")]
-        public int? Bev1luleinh { get; set; }
+        public int Ma176 { get; set; }
 
-        [ExcelColumn(Name = "装载单位组：IS 饮料")]
-        [ExcelColumnName("装载单位组：IS 饮料")]
-        public string Bev1luldegrp { get; set; }
+        //[ExcelColumn(Name = "装载单位组")]
+        [ExcelColumnName("装载单位组")]
+        public string Ma177 { get; set; }
 
-        [ExcelColumn(Name = "物料关系的结构类别")]
-        [ExcelColumnName("物料关系的结构类别")]
-        public string Bev1nestruccat { get; set; }
+        //[ExcelColumn(Name = "结构类别")]
+        [ExcelColumnName("结构类别")]
+        public string Ma178 { get; set; }
 
-        [ExcelColumn(Name = "容差类型标识")]
-        [ExcelColumnName("容差类型标识")]
-        public string Dsdsltoltyp { get; set; }
+        //[ExcelColumn(Name = "容差类型")]
+        [ExcelColumnName("容差类型")]
+        public string Ma179 { get; set; }
 
-        [ExcelColumn(Name = "计算组")]
+        //[ExcelColumn(Name = "计算组")]
         [ExcelColumnName("计算组")]
-        public string Dsdsvcntgrp { get; set; }
+        public string Ma180 { get; set; }
 
-        [ExcelColumn(Name = "DSD 分组")]
+        //[ExcelColumn(Name = "DSD 分组")]
         [ExcelColumnName("DSD 分组")]
-        public string Dsdvcgroup { get; set; }
+        public string Ma181 { get; set; }
 
-        [ExcelColumn(Name = "可以倾斜物料 (车辆空间优化)")]
-        [ExcelColumnName("可以倾斜物料 (车辆空间优化)")]
-        public string Vsortiltind { get; set; }
+        //[ExcelColumn(Name = "允许倾斜")]
+        [ExcelColumnName("允许倾斜")]
+        public string Ma182 { get; set; }
 
-        [ExcelColumn(Name = "不允许堆栈 (VSO)")]
-        [ExcelColumnName("不允许堆栈 (VSO)")]
-        public string Vsorstackind { get; set; }
+        //[ExcelColumn(Name = "无堆栈")]
+        [ExcelColumnName("无堆栈")]
+        public string Ma183 { get; set; }
 
-        [ExcelColumn(Name = "底层 (车辆空间最优化)")]
-        [ExcelColumnName("底层 (车辆空间最优化)")]
-        public string Vsorbotind { get; set; }
+        //[ExcelColumn(Name = "底层")]
+        [ExcelColumnName("底层")]
+        public string Ma184 { get; set; }
 
-        [ExcelColumn(Name = "顶层 (VSO)")]
-        [ExcelColumnName("顶层 (VSO)")]
-        public string Vsortopind { get; set; }
+        //[ExcelColumn(Name = "顶层")]
+        [ExcelColumnName("顶层")]
+        public string Ma185 { get; set; }
 
-        [ExcelColumn(Name = "堆栈因子 (车辆空间优化)")]
-        [ExcelColumnName("堆栈因子 (车辆空间优化)")]
-        public int? Vsorstackno { get; set; }
+        [Required(ErrorMessage = "堆栈因子不能为空")]
+        //[ExcelColumn(Name = "堆栈因子")]
+        [ExcelColumnName("堆栈因子")]
+        public int Ma186 { get; set; }
 
-        [ExcelColumn(Name = "无包装物料的装载 (VSO)")]
-        [ExcelColumnName("无包装物料的装载 (VSO)")]
-        public string Vsorpalind { get; set; }
+        //[ExcelColumn(Name = "无包装物料装载")]
+        [ExcelColumnName("无包装物料装载")]
+        public string Ma187 { get; set; }
 
-        [ExcelColumn(Name = "包装物料的允许悬挂深度 (VSO)")]
-        [ExcelColumnName("包装物料的允许悬挂深度 (VSO)")]
-        public decimal Vsorpalovrd { get; set; }
+        [Required(ErrorMessage = "悬挂深度不能为空")]
+        //[ExcelColumn(Name = "悬挂深度")]
+        [ExcelColumnName("悬挂深度")]
+        public decimal Ma188 { get; set; }
 
-        [ExcelColumn(Name = "装运物料的允许悬挂宽度 (VSO)")]
-        [ExcelColumnName("装运物料的允许悬挂宽度 (VSO)")]
-        public decimal Vsorpalovrw { get; set; }
+        [Required(ErrorMessage = "悬挂宽度不能为空")]
+        //[ExcelColumn(Name = "悬挂宽度")]
+        [ExcelColumnName("悬挂宽度")]
+        public decimal Ma189 { get; set; }
 
-        [ExcelColumn(Name = "包装物料的最大叠放高度 (VSO)")]
-        [ExcelColumnName("包装物料的最大叠放高度 (VSO)")]
-        public decimal Vsorpalbht { get; set; }
+        [Required(ErrorMessage = "最大叠放高度不能为空")]
+        //[ExcelColumn(Name = "最大叠放高度")]
+        [ExcelColumnName("最大叠放高度")]
+        public decimal Ma190 { get; set; }
 
-        [ExcelColumn(Name = "包装物料的最小叠放高度 (VSO)")]
-        [ExcelColumnName("包装物料的最小叠放高度 (VSO)")]
-        public decimal Vsorpalminh { get; set; }
+        [Required(ErrorMessage = "最小叠放高度不能为空")]
+        //[ExcelColumn(Name = "最小叠放高度")]
+        [ExcelColumnName("最小叠放高度")]
+        public decimal Ma191 { get; set; }
 
-        [ExcelColumn(Name = "超出最大叠放高度的容差 (VSO)")]
-        [ExcelColumnName("超出最大叠放高度的容差 (VSO)")]
-        public decimal Vsortolbht { get; set; }
+        [Required(ErrorMessage = "叠放高度容差不能为空")]
+        //[ExcelColumn(Name = "叠放高度容差")]
+        [ExcelColumnName("叠放高度容差")]
+        public decimal Ma192 { get; set; }
 
-        [ExcelColumn(Name = "每个已结清 PKM 的物料编号(VSO)")]
-        [ExcelColumnName("每个已结清 PKM 的物料编号(VSO)")]
-        public int? Vsornopgvh { get; set; }
+        [Required(ErrorMessage = "物料编号PKM不能为空")]
+        //[ExcelColumn(Name = "物料编号PKM")]
+        [ExcelColumnName("物料编号PKM")]
+        public int Ma193 { get; set; }
 
-        [ExcelColumn(Name = "计量单位车辆空间优化")]
-        [ExcelColumnName("计量单位车辆空间优化")]
-        public string Vsorquanunit { get; set; }
+        //[ExcelColumn(Name = "VSO")]
+        [ExcelColumnName("VSO")]
+        public string Ma194 { get; set; }
 
-        [ExcelColumn(Name = "请求的已清包装物料 (VSO)")]
-        [ExcelColumnName("请求的已清包装物料 (VSO)")]
-        public string Vsorkzgvhind { get; set; }
+        //[ExcelColumn(Name = "请求已清PKM")]
+        [ExcelColumnName("请求已清PKM")]
+        public string Ma195 { get; set; }
 
-        [ExcelColumn(Name = "Packaging Code")]
+        //[ExcelColumn(Name = "Packaging Code")]
         [ExcelColumnName("Packaging Code")]
-        public string Packcode { get; set; }
+        public string Ma196 { get; set; }
 
-        [ExcelColumn(Name = "危险品的包装状态")]
+        //[ExcelColumn(Name = "危险品的包装状态")]
         [ExcelColumnName("危险品的包装状态")]
-        public string Dgpackstatus { get; set; }
+        public string Ma197 { get; set; }
 
-        [ExcelColumn(Name = "物料条件管理")]
+        //[ExcelColumn(Name = "物料条件管理")]
         [ExcelColumnName("物料条件管理")]
-        public string Mcond { get; set; }
+        public string Ma198 { get; set; }
 
-        [ExcelColumn(Name = "返回代码")]
+        //[ExcelColumn(Name = "返回代码")]
         [ExcelColumnName("返回代码")]
-        public string Retdelc { get; set; }
+        public string Ma199 { get; set; }
 
-        [ExcelColumn(Name = "后勤等级退货")]
+        //[ExcelColumn(Name = "后勤等级退货")]
         [ExcelColumnName("后勤等级退货")]
-        public string Loglevreto { get; set; }
+        public string Ma200 { get; set; }
 
-        [ExcelColumn(Name = "NATO 项目标识编号")]
-        [ExcelColumnName("NATO 项目标识编号")]
-        public string Nsnid { get; set; }
+        //[ExcelColumn(Name = "NATO项目")]
+        [ExcelColumnName("NATO项目")]
+        public string Ma201 { get; set; }
 
-        [ExcelColumn(Name = "完全互换组")]
+        //[ExcelColumn(Name = "完全互换组")]
         [ExcelColumnName("完全互换组")]
-        public string Imatn { get; set; }
+        public string Ma202 { get; set; }
 
-        [ExcelColumn(Name = "替换链编号")]
-        [ExcelColumnName("替换链编号")]
-        public string Picnum { get; set; }
+        //[ExcelColumn(Name = "链编号")]
+        [ExcelColumnName("链编号")]
+        public string Ma203 { get; set; }
 
-        [ExcelColumn(Name = "创建状态 - 季节性采购")]
-        [ExcelColumnName("创建状态 - 季节性采购")]
-        public string Bstat { get; set; }
+        //[ExcelColumn(Name = "创建状态")]
+        [ExcelColumnName("创建状态")]
+        public string Ma204 { get; set; }
 
-        [ExcelColumn(Name = "颜色特性的内部特性编号")]
-        [ExcelColumnName("颜色特性的内部特性编号")]
-        public int? Coloratinn { get; set; }
+        [Required(ErrorMessage = "内部特性1不能为空")]
+        //[ExcelColumn(Name = "内部特性1")]
+        [ExcelColumnName("内部特性1")]
+        public int Ma205 { get; set; }
 
-        [ExcelColumn(Name = "主尺寸的特性的内部特性编号")]
-        [ExcelColumnName("主尺寸的特性的内部特性编号")]
-        public int? Size1atinn { get; set; }
+        [Required(ErrorMessage = "内部特性2不能为空")]
+        //[ExcelColumn(Name = "内部特性2")]
+        [ExcelColumnName("内部特性2")]
+        public int Ma206 { get; set; }
 
-        [ExcelColumn(Name = "次尺寸的特性的内部特性编号")]
-        [ExcelColumnName("次尺寸的特性的内部特性编号")]
-        public int? Size2atinn { get; set; }
+        [Required(ErrorMessage = "内部特性3不能为空")]
+        //[ExcelColumn(Name = "内部特性3")]
+        [ExcelColumnName("内部特性3")]
+        public int Ma207 { get; set; }
 
-        [ExcelColumn(Name = "变式颜色的特性值")]
-        [ExcelColumnName("变式颜色的特性值")]
-        public string Color { get; set; }
+        //[ExcelColumn(Name = "颜色")]
+        [ExcelColumnName("颜色")]
+        public string Ma208 { get; set; }
 
-        [ExcelColumn(Name = "变式主尺寸的特性值")]
-        [ExcelColumnName("变式主尺寸的特性值")]
-        public string Size1 { get; set; }
+        //[ExcelColumn(Name = "主尺寸")]
+        [ExcelColumnName("主尺寸")]
+        public string Ma209 { get; set; }
 
-        [ExcelColumn(Name = "变式的次尺寸的特性值")]
-        [ExcelColumnName("变式的次尺寸的特性值")]
-        public string Size2 { get; set; }
+        //[ExcelColumn(Name = "次尺寸")]
+        [ExcelColumnName("次尺寸")]
+        public string Ma210 { get; set; }
 
-        [ExcelColumn(Name = "评估目的的特性值")]
-        [ExcelColumnName("评估目的的特性值")]
-        public string Freechar { get; set; }
+        //[ExcelColumn(Name = "特性值")]
+        [ExcelColumnName("特性值")]
+        public string Ma211 { get; set; }
 
-        [ExcelColumn(Name = "护理代码（例如洗涤代码, 烫平衣服代码, 等等)")]
-        [ExcelColumnName("护理代码（例如洗涤代码, 烫平衣服代码, 等等)")]
-        public string Carecode { get; set; }
+        //[ExcelColumn(Name = "护理代码")]
+        [ExcelColumnName("护理代码")]
+        public string Ma212 { get; set; }
 
-        [ExcelColumn(Name = "商标")]
+        //[ExcelColumn(Name = "商标")]
         [ExcelColumnName("商标")]
-        public string Brandid { get; set; }
+        public string Ma213 { get; set; }
 
-        [ExcelColumn(Name = "纺织品的光纤代码（组件1）")]
-        [ExcelColumnName("纺织品的光纤代码（组件1）")]
-        public string Fibercode1 { get; set; }
+        //[ExcelColumn(Name = "组件1")]
+        [ExcelColumnName("组件1")]
+        public string Ma214 { get; set; }
 
-        [ExcelColumn(Name = "光纤的百分比共享（组件1）")]
-        [ExcelColumnName("光纤的百分比共享（组件1）")]
-        public int? Fiberpart1 { get; set; }
+        [Required(ErrorMessage = "百分比共享1不能为空")]
+        //[ExcelColumn(Name = "百分比共享1")]
+        [ExcelColumnName("百分比共享1")]
+        public int Ma215 { get; set; }
 
-        [ExcelColumn(Name = "纺织品的光纤代码（组件2）")]
-        [ExcelColumnName("纺织品的光纤代码（组件2）")]
-        public string Fibercode2 { get; set; }
+        //[ExcelColumn(Name = "组件2")]
+        [ExcelColumnName("组件2")]
+        public string Ma216 { get; set; }
 
-        [ExcelColumn(Name = "光纤的百分比共享（组件2）")]
-        [ExcelColumnName("光纤的百分比共享（组件2）")]
-        public int? Fiberpart2 { get; set; }
+        [Required(ErrorMessage = "百分比共2不能为空")]
+        //[ExcelColumn(Name = "百分比共2")]
+        [ExcelColumnName("百分比共2")]
+        public int Ma217 { get; set; }
 
-        [ExcelColumn(Name = "纺织品的光纤代码（组件3）")]
-        [ExcelColumnName("纺织品的光纤代码（组件3）")]
-        public string Fibercode3 { get; set; }
+        //[ExcelColumn(Name = "组件3")]
+        [ExcelColumnName("组件3")]
+        public string Ma218 { get; set; }
 
-        [ExcelColumn(Name = "光纤的百分比共享（组件3）")]
-        [ExcelColumnName("光纤的百分比共享（组件3）")]
-        public int? Fiberpart3 { get; set; }
+        [Required(ErrorMessage = "百分比共享3不能为空")]
+        //[ExcelColumn(Name = "百分比共享3")]
+        [ExcelColumnName("百分比共享3")]
+        public int Ma219 { get; set; }
 
-        [ExcelColumn(Name = "纺织品的光纤代码（组件4）")]
-        [ExcelColumnName("纺织品的光纤代码（组件4）")]
-        public string Fibercode4 { get; set; }
+        //[ExcelColumn(Name = "组件4")]
+        [ExcelColumnName("组件4")]
+        public string Ma220 { get; set; }
 
-        [ExcelColumn(Name = "光纤的百分比共享（组件4）")]
-        [ExcelColumnName("光纤的百分比共享（组件4）")]
-        public int? Fiberpart4 { get; set; }
+        [Required(ErrorMessage = "百分比共享4不能为空")]
+        //[ExcelColumn(Name = "百分比共享4")]
+        [ExcelColumnName("百分比共享4")]
+        public int Ma221 { get; set; }
 
-        [ExcelColumn(Name = "纺织品的光纤代码（组件5）")]
-        [ExcelColumnName("纺织品的光纤代码（组件5）")]
-        public string Fibercode5 { get; set; }
+        //[ExcelColumn(Name = "组件5")]
+        [ExcelColumnName("组件5")]
+        public string Ma222 { get; set; }
 
-        [ExcelColumn(Name = "光纤的百分比共享（组件5）")]
-        [ExcelColumnName("光纤的百分比共享（组件5）")]
-        public int? Fiberpart5 { get; set; }
+        [Required(ErrorMessage = "百分比共享5不能为空")]
+        //[ExcelColumn(Name = "百分比共享5")]
+        [ExcelColumnName("百分比共享5")]
+        public int Ma223 { get; set; }
 
-        [ExcelColumn(Name = "时装等级")]
+        //[ExcelColumn(Name = "时装等级")]
         [ExcelColumnName("时装等级")]
-        public string Fashgrd { get; set; }
+        public string Ma224 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
+        public decimal Ref06 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF51 { get; set; }
+        public string Udf01 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF52 { get; set; }
+        public string Udf02 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF53 { get; set; }
+        public string Udf03 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
+        public string Udf04 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
+        public string Udf05 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
+        public string Udf06 { get; set; }
 
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
+        [ExcelIgnore]
+        public int? Udf51 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
         public int? IsDeleted { get; set; }
 
         [ExcelIgnore]
-        [ExcelColumn(Name = "在客户级标记要删除的物料")]
-        public string LvormLabel { get; set; }
+        public string Remark { get; set; }
 
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+
+
+        [ExcelIgnore]
+        [ExcelColumn(Name = "集团删除")]
+        public string Ma006Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "物料类型")]
-        public string MtartLabel { get; set; }
-
+        public string Ma007Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "行业领域")]
-        public string MbrshLabel { get; set; }
-
+        public string Ma008Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "物料组")]
-        public string MatklLabel { get; set; }
-
+        public string Ma009Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "基本计量单位")]
-        public string MeinsLabel { get; set; }
-
-        [ExcelIgnore]
-        [ExcelColumn(Name = "跨工厂物料状态")]
-        public string MstaeLabel { get; set; }
+        [ExcelColumn(Name = "基本单位")]
+        public string Ma011Label { get; set; }
     }
+
 }

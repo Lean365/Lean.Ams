@@ -1,11 +1,11 @@
-﻿using Ams.Infrastructure.Helper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System.Linq;
 using System.Reflection;
+using Ams.Infrastructure.Helper;
 
 namespace Ams.Common.DynamicApiSimple.Extens
 {

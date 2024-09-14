@@ -1,4 +1,4 @@
-﻿using Ams.Model.Kernel;
+﻿using Ams.Model.Admin;
 
 namespace Ams.Model.Vo
 {

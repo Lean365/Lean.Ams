@@ -1,5 +1,5 @@
-using Ams.Model.Accounting;
 using Ams.Model.Accounting.Dto;
+using Ams.Model.Accounting;
 
 namespace Ams.Service.Accounting.IAccountingService
 {
@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 公司科目
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/6 11:09:24
+    /// @Date: 2024/9/5 16:35:01
     /// </summary>
     public interface IFicoAccountingCorpService : IBaseService<FicoAccountingCorp>
     {
@@ -21,19 +21,16 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取公司科目信息
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        FicoAccountingCorp GetInfo(long SfId);
-
+        FicoAccountingCorp GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
         /// </summary>
-        /// <param name="Bukrs"></param>
-        /// <param name="Saknr"></param>
+        /// <param name="enterString"></param>
         /// <returns></returns>
-        public string CheckInputUnique(string Bukrs, string Saknr);
-
+        public string CheckInputUnique(string enterString);
         /// <summary>
         /// 新增
         /// 公司科目
@@ -49,6 +46,7 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <param name="parm"></param>
         /// <returns></returns>
         int UpdateFicoAccountingCorp(FicoAccountingCorp parm);
+
 
         /// <summary>
         /// 批量导入

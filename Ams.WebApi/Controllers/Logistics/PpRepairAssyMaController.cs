@@ -8,10 +8,10 @@ using MiniExcelLibs;
 namespace Ams.WebApi.Controllers.Logistics
 {
     /// <summary>
-    /// 组立不良ma
+    /// 不良
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 12:00:50
+    /// @Date: 2024/9/12 16:33:52
     /// </summary>
     [Verify]
     [Route("Logistics/PpRepairAssyMa")]
@@ -19,7 +19,7 @@ namespace Ams.WebApi.Controllers.Logistics
     public class PpRepairAssyMaController : BaseController
     {
         /// <summary>
-        /// 组立不良ma接口
+        /// 不良接口
         /// </summary>
         private readonly IPpRepairAssyMaService _PpRepairAssyMaService;
 
@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 查询组立不良ma列表
+        /// 查询不良列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -43,34 +43,34 @@ namespace Ams.WebApi.Controllers.Logistics
 
 
         /// <summary>
-        /// 查询组立不良ma详情
+        /// 查询不良详情
         /// </summary>
-        /// <param name="PpdSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{PpdSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "pp:repairassyma:query")]
-        public IActionResult GetPpRepairAssyMa(long PpdSfId)
+        public IActionResult GetPpRepairAssyMa(long Id)
         {
-            var response = _PpRepairAssyMaService.GetInfo(PpdSfId);
+            var response = _PpRepairAssyMaService.GetInfo(Id);
             
             var info = response.Adapt<PpRepairAssyMaDto>();
             return SUCCESS(info);
         }
 
         /// <summary>
-        /// 添加组立不良ma
+        /// 添加不良
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "pp:repairassyma:add")]
-        [Log(Title = "组立不良ma", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "不良", BusinessType = BusinessType.ADD)]
         public IActionResult AddPpRepairAssyMa([FromBody] PpRepairAssyMaDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpRepairAssyMaService.CheckInputUnique(parm.PpdSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpRepairAssyMaService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增组立不良ma '{parm.PpdSfId}'失败(Add failed)，输入的组立不良ma已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增不良 '{parm.Id}'失败(Add failed)，输入的不良已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpRepairAssyMa>().ToCreate(HttpContext);
 
@@ -80,12 +80,12 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 更新组立不良ma
+        /// 更新不良
         /// </summary>
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "pp:repairassyma:edit")]
-        [Log(Title = "组立不良ma", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "不良", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdatePpRepairAssyMa([FromBody] PpRepairAssyMaDto parm)
         {
             var modal = parm.Adapt<PpRepairAssyMa>().ToUpdate(HttpContext);
@@ -95,24 +95,24 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 删除组立不良ma
+        /// 删除不良
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "pp:repairassyma:delete")]
-        [Log(Title = "组立不良ma", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "不良", BusinessType = BusinessType.DELETE)]
         public IActionResult DeletePpRepairAssyMa([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
-            return ToResponse(_PpRepairAssyMaService.Delete(idArr, "删除组立不良ma"));
+            return ToResponse(_PpRepairAssyMaService.Delete(idArr, "删除不良"));
         }
 
         /// <summary>
-        /// 导出组立不良ma
+        /// 导出不良
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "组立不良ma", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "不良导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "pp:repairassyma:export")]
         public IActionResult Export([FromQuery] PpRepairAssyMaQueryDto parm)
@@ -124,19 +124,19 @@ namespace Ams.WebApi.Controllers.Logistics
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "组立不良ma", "组立不良ma");
+            var result = ExportExcelMini(list, "不良", "不良");
             return ExportExcel(result.Item2, result.Item1);
         }
 
         /// <summary>
-        /// 导入
+        /// 导入不良
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
-        [Log(Title = "组立不良ma导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
+      [HttpPost("importData")]
+        [Log(Title = "不良导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "pp:repairassyma:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<PpRepairAssyMaDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 组立不良ma导入模板下载
+        /// 不良
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
-        [Log(Title = "组立不良ma模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "不良模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<PpRepairAssyMaImportTpl>() { }, "PpRepairAssyMa_tpl");
             return ExportExcel(result.Item2, result.Item1);

@@ -1,9 +1,8 @@
 import request from '@/utils/request'
-import QS from 'qs'
 import { downFile } from '@/utils/request'
 
 /**
- * 制二OPH从表分页查询
+ * PCBA明细分页查询
  * @param {查询条件} data
  */
 export function listPpOutputPcbaSlave(query) {
@@ -11,14 +10,11 @@ export function listPpOutputPcbaSlave(query) {
     url: 'Logistics/PpOutputPcbaSlave/list',
     method: 'get',
     params: query,
-    paramsSerializer: function (params) {
-      return QS.stringify(params, { indices: false })
-    }
   })
 }
 
 /**
- * 新增制二OPH从表
+ * 新增PCBA明细
  * @param data
  */
 export function addPpOutputPcbaSlave(data) {
@@ -29,7 +25,7 @@ export function addPpOutputPcbaSlave(data) {
   })
 }
 /**
- * 修改制二OPH从表
+ * 修改PCBA明细
  * @param data
  */
 export function updatePpOutputPcbaSlave(data) {
@@ -40,7 +36,7 @@ export function updatePpOutputPcbaSlave(data) {
   })
 }
 /**
- * 获取制二OPH从表详情
+ * 获取PCBA明细详情
  * @param {Id}
  */
 export function getPpOutputPcbaSlave(id) {
@@ -51,7 +47,7 @@ export function getPpOutputPcbaSlave(id) {
 }
 
 /**
- * 删除制二OPH从表
+ * 删除PCBA明细
  * @param {主键} pid
  */
 export function delPpOutputPcbaSlave(pid) {
@@ -60,7 +56,7 @@ export function delPpOutputPcbaSlave(pid) {
     method: 'delete'
   })
 }
-// 导出制二OPH从表
+// 导出PCBA明细
 export async function exportPpOutputPcbaSlave(query) {
   await downFile('Logistics/PpOutputPcbaSlave/export', { ...query })
 }

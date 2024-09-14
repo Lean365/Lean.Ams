@@ -42,3 +42,21 @@ VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1139003,'en', 'menu.
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
 VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1139004,'ja', 'menu.pp.line', 'JA_生产班组', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1139003,'fr', 'menu.pp.line', 'FR_生产班组', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1139003,'ko', 'menu.pp.line', 'KO_生产班组', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1139003,'ar', 'menu.pp.line', 'AR_生产班组', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1139003,'ru', 'menu.pp.line', 'RU_生产班组', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1139003,'de', 'menu.pp.line', 'DE_生产班组', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1139003,'es', 'menu.pp.line', 'ES_生产班组', 'Lean365', GETDATE());

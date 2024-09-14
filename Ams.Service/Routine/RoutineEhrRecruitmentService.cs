@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Routine.Dto;
 using Ams.Model.Routine;
+using Ams.Repository;
 using Ams.Service.Routine.IRoutineService;
 
 namespace Ams.Service.Routine
@@ -8,7 +11,7 @@ namespace Ams.Service.Routine
     /// 招聘
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:31:16
+    /// @Date: 2024/9/12 15:16:55
     /// </summary>
     [AppService(ServiceType = typeof(IRoutineEhrRecruitmentService), ServiceLifetime = LifeTime.Transient)]
     public class RoutineEhrRecruitmentService : BaseService<RoutineEhrRecruitment>, IRoutineEhrRecruitmentService
@@ -23,11 +26,13 @@ namespace Ams.Service.Routine
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Mn002 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<RoutineEhrRecruitment, RoutineEhrRecruitmentDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Routine
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. EeSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,16 +53,17 @@ namespace Ams.Service.Routine
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="EeSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public RoutineEhrRecruitment GetInfo(long EeSfId)
+        public RoutineEhrRecruitment GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.EeSfId == EeSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加招聘
         /// </summary>
@@ -68,6 +74,7 @@ namespace Ams.Service.Routine
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改招聘
         /// </summary>
@@ -86,21 +93,16 @@ namespace Ams.Service.Routine
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.EeSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.EeName.IsEmpty(), "姓名不能为空")
-                .SplitError(x => x.Item.EeBirthday.IsEmpty(), "工资日期不能为空")
-                .SplitError(x => x.Item.EeDepartmentId.IsEmpty(), "部门不能为空")
-                .SplitError(x => x.Item.EeTitlesId.IsEmpty(), "职称不能为空")
-                .SplitError(x => x.Item.EePostId.IsEmpty(), "岗位不能为空")
-                .SplitError(x => x.Item.EePostLevel.IsEmpty(), "等级不能为空")
-                .SplitError(x => x.Item.EeDutyName.IsEmpty(), "职务不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Mn002.IsEmpty(), "招聘日期不能为空")
+                .SplitError(x => x.Item.Mn003.IsEmpty(), "姓名不能为空")
+                .SplitError(x => x.Item.Mn004.IsEmpty(), "部门不能为空")
+                .SplitError(x => x.Item.Mn005.IsEmpty(), "职称不能为空")
+                .SplitError(x => x.Item.Mn006.IsEmpty(), "岗位不能为空")
+                .SplitError(x => x.Item.Mn007.IsEmpty(), "等级不能为空")
+                .SplitError(x => x.Item.Mn008.IsEmpty(), "职务不能为空")
+                .SplitError(x => x.Item.Mn013.IsEmpty(), "试用工资不能为空")
+                .SplitError(x => x.Item.Mn015.IsEmpty(), "转正工资不能为空")
+                .SplitError(x => x.Item.Is_deleted.IsEmpty(), "软删除不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -134,7 +136,10 @@ namespace Ams.Service.Routine
                 .Where(predicate.ToExpression())
                 .Select((it) => new RoutineEhrRecruitmentDto()
                 {
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <部门> 
+                    Mn004Label = it.Mn004.GetConfigValue<SysDictData>("sql_dept_list"),
+                    //查询字典: <聘用形式> 
+                    Mn009Label = it.Mn009.GetConfigValue<SysDictData>("sys_employ_term"),
                 }, true)
                 .ToPage(parm);
 
@@ -150,8 +155,22 @@ namespace Ams.Service.Routine
         {
             var predicate = Expressionable.Create<RoutineEhrRecruitment>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeWorkID), it => it.EeWorkID.Contains(parm.EeWorkID));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeName), it => it.EeName.Contains(parm.EeName));
+            //查询字段: <招聘日期> 
+            //predicate = predicate.AndIF(parm.BeginMn002 == null, it => it.Mn002 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMn002 != null, it => it.Mn002 >= parm.BeginMn002);
+            //predicate = predicate.AndIF(parm.EndMn002 != null, it => it.Mn002 <= parm.EndMn002);
+            //当日期条件为空时，默认查询大于今天的所有数据
+            //predicate = predicate.AndIF(parm.BeginMn002 == null, it => it.Mn002 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //当日期条件为空时，默认查询大于今年的所有数据
+            predicate = predicate.AndIF(parm.BeginMn002 == null, it => it.Mn002 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMn002 != null, it => it.Mn002 >= parm.BeginMn002);
+            predicate = predicate.AndIF(parm.EndMn002 != null, it => it.Mn002 <= parm.EndMn002);
+            //查询字段: <姓名> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mn003), it => it.Mn003.Contains(parm.Mn003));
+            //查询字段: <部门> 
+            predicate = predicate.AndIF(parm.Mn004 != -1, it => it.Mn004 == parm.Mn004);
+            //查询字段: <聘用形式> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mn009), it => it.Mn009 == parm.Mn009);
             return predicate;
         }
     }

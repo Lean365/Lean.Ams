@@ -6,8 +6,8 @@ namespace Ams.Model.Routine.Dto
     public class ArticleTopicQueryDto : PagerInfo
     {
         public string TopicName { get; set; }
-        public DateTime? BeginTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime? BeginAddTime { get; set; }
+        public DateTime? EndAddTime { get; set; }
         public int? TopicType { get; set; }
     }
 
@@ -37,9 +37,15 @@ namespace Ams.Model.Routine.Dto
         [ExcelColumnName("浏览次数")]
         public int? ViewNum { get; set; }
 
+        [ExcelColumn(Name = "创建时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("创建时间")]
+        public DateTime? AddTime { get; set; }
+
         [ExcelColumn(Name = "话题分类")]
         [ExcelColumnName("话题分类")]
         public int? TopicType { get; set; }
+
+
 
         [ExcelColumn(Name = "话题分类")]
         public string TopicTypeLabel { get; set; }

@@ -1,22 +1,15 @@
-using Ams.Model.Monitor.Dto;
-using Ams.Service.Monitor.IMonitorService;
-using Microsoft.AspNetCore.Mvc;
-
 namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
     /// 在线时长
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
     /// </summary>
     [Verify]
-    [ApiExplorerSettings(GroupName = "monitor")]
+    [ApiExplorerSettings(GroupName = "system")]
     [Route("monitor/duration")]
     public class DurationLogController : BaseController
     {
         /// <summary>
-        /// 用户在线时长接口
+        /// 在线时长接口
         /// </summary>
         private readonly IDurationLogService _UserOnlineLogService;
 
@@ -26,7 +19,7 @@ namespace Ams.WebApi.Controllers.Monitor
         }
 
         /// <summary>
-        /// 查询用户在线时长列表
+        /// 查询在线时长列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -38,12 +31,12 @@ namespace Ams.WebApi.Controllers.Monitor
         }
 
         /// <summary>
-        /// 删除用户在线时长
+        /// 删除在线时长
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "monitor:duration:delete")]
-        [Log(Title = "用户在线时长", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "在线时长", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteUserOnlineLog([FromRoute] string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
@@ -52,10 +45,10 @@ namespace Ams.WebApi.Controllers.Monitor
         }
 
         /// <summary>
-        /// 导出用户在线时长
+        /// 导出在线时长
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "用户在线时长", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "在线时长", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "monitor:duration:export")]
         public IActionResult Export([FromQuery] DurationLogQueryDto parm)
@@ -67,7 +60,7 @@ namespace Ams.WebApi.Controllers.Monitor
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "用户在线时长", "用户在线时长");
+            var result = ExportExcelMini(list, "在线时长", "在线时长");
             return ExportExcel(result.Item2, result.Item1);
         }
     }

@@ -1,5 +1,8 @@
-﻿using ${options.DtosNamespace}.${options.SubNamespace}.Dto;
+﻿//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
+using ${options.DtosNamespace}.${options.SubNamespace}.Dto;
 using ${options.ModelsNamespace}.${options.SubNamespace};
+using ${options.RepositoriesNamespace};
 using ${options.IServicsNamespace}.${options.SubNamespace}.I${options.SubNamespace}Service;
 $if(genTable.TplCategory == "tree")
 using System.Collections.Generic;
@@ -37,6 +40,7 @@ $end
 
             return response;
         }
+
 $if(replaceDto.ShowBtnAdd)
         /// <summary>
         /// 校验
@@ -68,9 +72,9 @@ $if(genTable.TplCategory == "tree")
 $foreach(column in genTable.Columns)
 $if(column.IsQuery)
 $if(column.CsharpType == "string")
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.${column.CsharpField}), ${codeTool.QueryExp(column.CsharpField, column.QueryType)};
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.${column.CsharpField}), ${tool.QueryExp(column.CsharpField, column.QueryType)};
 $elseif(column.CsharpType == "int" || column.CsharpType == "long")
-            predicate = predicate.AndIF(parm.${column.CsharpField} != null, ${codeTool.QueryExp(column.CsharpField, column.QueryType)};
+            predicate = predicate.AndIF(parm.${column.CsharpField} != -1, ${tool.QueryExp(column.CsharpField, column.QueryType)};
 $end
 $end
 $end
@@ -99,7 +103,7 @@ $end
 
             return response;
         }
-$if(replaceDto.ShowBtnAdd)
+
         /// <summary>
         /// 添加${genTable.FunctionName}
         /// </summary>
@@ -118,7 +122,7 @@ $else
 $end
 $end
         }
-$end
+
 $if(replaceDto.ShowBtnEdit)
         /// <summary>
         /// 修改${genTable.FunctionName}
@@ -201,8 +205,12 @@ $if(replaceDto.ShowBtnExport)
                 .Select((it) => new ${replaceDto.ModelTypeName}Dto()
                 {
 $foreach(column in dicts)
-$if(column.DictType != ""&&column.IsEdit)
+$if(column.DictType != "" && column.DictType!="sys_Is_deleted")
+                    //查询字典: <${column.ColumnComment}> 
                     ${column.CsharpField}Label = it.${column.CsharpField}.GetConfigValue<SysDictData>("${column.DictType}"),
+$else
+                    //查询字典: <${column.ColumnComment}> 
+                    //${column.CsharpField}Label = it.${column.CsharpField}.GetConfigValue<SysDictData>("${column.DictType}"),
 $end
 $end
                 }, true)
@@ -223,15 +231,19 @@ $end
 
 $foreach(column in genTable.Columns)
 $if(column.IsQuery)
+            //查询字段: <${column.ColumnComment}> 
 $if(column.HtmlType == "selectMulti")
-            predicate = predicate.AndIF(parm.${column.CsharpField} != null, it => parm.${column.CsharpField}.Contains(it.${column.CsharpField}));
+            predicate = predicate.AndIF(parm.${column.CsharpField} != null, it => it.${column.CsharpField}.Contains(parm.${column.CsharpField}.ToString()));
 $elseif(column.CsharpType == "string")
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.${column.CsharpField}), ${codeTool.QueryExp(column.CsharpField, column.QueryType)};
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.${column.CsharpField}), ${tool.QueryExp(column.CsharpField, column.QueryType)};
 $elseif(column.CsharpType == "DateTime")
 $if(column.HtmlType == "month")
             DateTime monthEnd = Convert.ToDateTime(parm.${column.CsharpField}).AddMonths(1);
             predicate = predicate.AndIF(parm.${column.CsharpField} != null, it => it.${column.CsharpField} >= parm.${column.CsharpField} && it.${column.CsharpField} < monthEnd);
 $else
+            //predicate = predicate.AndIF(parm.Begin${column.CsharpField} == null, it => it.${column.CsharpField} >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.Begin${column.CsharpField} != null, it => it.${column.CsharpField} >= parm.Begin${column.CsharpField});
+            //predicate = predicate.AndIF(parm.End${column.CsharpField} != null, it => it.${column.CsharpField} <= parm.End${column.CsharpField});
             //当日期条件为空时，默认查询大于今天的所有数据
             //predicate = predicate.AndIF(parm.Begin${column.CsharpField} == null, it => it.${column.CsharpField} >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
@@ -240,7 +252,7 @@ $else
             predicate = predicate.AndIF(parm.End${column.CsharpField} != null, it => it.${column.CsharpField} <= parm.End${column.CsharpField});
 $end
 $elseif(column.CsharpType == "int" || column.CsharpType == "long")
-            predicate = predicate.AndIF(parm.${column.CsharpField} != null, ${codeTool.QueryExp(column.CsharpField, column.QueryType)};
+            predicate = predicate.AndIF(parm.${column.CsharpField} != -1, ${tool.QueryExp(column.CsharpField, column.QueryType)};
 $end
 $end
 $end

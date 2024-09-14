@@ -74,20 +74,23 @@
         <el-col :lg="24">
           <el-form-item :label="$t('pdict.langKey')" prop="langKey">
             <el-input v-model="form.langKey"
-              :placeholder="$t('btn.enterPrefix')+$t('pdict.langKey')+$t('btn.enterSuffix')" />
+              :placeholder="$t('btn.enterPrefix')+$t('pdict.langKey')+$t('btn.enterSuffix')" :disabled="true"
+              show-word-limit maxlength="80" />
           </el-form-item>
         </el-col>
         <el-col :lg="24">
           <el-form-item :label="$t('pdict.dictLabel')" prop="dictLabel">
             <el-input v-model="form.dictLabel"
-              :placeholder="$t('btn.enterPrefix')+$t('pdict.dictLabel')+$t('btn.enterSuffix')" />
+              :placeholder="$t('btn.enterPrefix')+$t('pdict.dictLabel')+$t('btn.enterSuffix')" @input="handleInput"
+              show-word-limit maxlength="80" />
           </el-form-item>
         </el-col>
 
         <el-col :lg="24">
           <el-form-item :label="$t('pdict.dictValue')" prop="dictValue">
             <el-input v-model="form.dictValue"
-              :placeholder="$t('btn.enterPrefix')+$t('pdict.dictValue')+$t('btn.enterSuffix')" />
+              :placeholder="$t('btn.enterPrefix')+$t('pdict.dictValue')+$t('btn.enterSuffix')" @input="handleInput"
+              show-word-limit maxlength="80" />
           </el-form-item>
         </el-col>
         <el-col :lg="24">
@@ -124,21 +127,26 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :lg="12">
-          <el-form-item label="标签扩展" prop="extLabel">
-            <el-input v-model="form.extend1" placeholder="请输入扩展内容"></el-input>
+        <el-col :lg="24">
+          <el-form-item :label="$t('pdict.extLabel')" prop="extLabel">
+            <el-input v-model="form.extLabel"
+              :placeholder="$t('btn.enterPrefix')+$t('pdict.extLabel')+$t('btn.enterSuffix')" show-word-limit
+              maxlength="80"></el-input>
           </el-form-item>
         </el-col>
 
-        <el-col :lg="12">
-          <el-form-item label="键值扩展" prop="extValue">
-            <el-input v-model="form.extend2" placeholder="请输入扩展内容"></el-input>
+        <el-col :lg="24">
+          <el-form-item :label="$t('pdict.extValue')" prop="extValue">
+            <el-input v-model="form.extValue"
+              :placeholder="$t('btn.enterPrefix')+$t('pdict.extValue')+$t('btn.enterSuffix')" show-word-limit
+              maxlength="80"></el-input>
           </el-form-item>
         </el-col>
         <el-col :lg="24">
           <el-form-item :label="$t('common.tipRemarks')" prop="remark">
             <el-input v-model="form.remark" type="textarea"
-              :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')"></el-input>
+              :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')" show-word-limit
+              maxlength="400"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -356,6 +364,12 @@
   //   this.single = selection.length != 1
   //   this.multiple = !selection.length
   // }
+
+  function handleInput() {
+    form.value.langKey = 'dict.' + form.value.dictType + ':' + form.value.dictValue
+    form.value.remark = '列表(' + form.value.dictType + '):' + form.value.dictLabel
+
+  }
   /** 修改按钮操作 */
   function handleUpdate(row) {
     reset()

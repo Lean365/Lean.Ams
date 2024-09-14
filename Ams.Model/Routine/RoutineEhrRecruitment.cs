@@ -4,7 +4,7 @@ namespace Ams.Model.Routine
     /// 招聘
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:31:16
+    /// @Date: 2024/9/12 15:16:55
     /// </summary>
     [SugarTable("routine_ehr_recruitment", "招聘")]
     public class RoutineEhrRecruitment : SysBase
@@ -14,108 +14,103 @@ namespace Ams.Model.Routine
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long EeSfId { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
-        /// 工号
+        /// 招聘日期
         /// </summary>
-        [SugarColumn(ColumnName = "EeWorkID", ColumnDescription = "工号 ", Length = 8)]
-        public string EeWorkID { get; set; }
+        public DateTime? Mn002 { get; set; }
 
         /// <summary>
         /// 姓名
         /// </summary>
-        [SugarColumn(ColumnName = "EeName", ColumnDescription = "姓名 ", Length = 40)]
-        public string EeName { get; set; }
-
-        /// <summary>
-        /// 工资日期
-        /// </summary>
-        public DateTime? EeBirthday { get; set; }
+        [SugarColumn(ColumnName = "Mn003", ColumnDescription = "姓名", Length = 40, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mn003 { get; set; }
 
         /// <summary>
         /// 部门
         /// </summary>
-        [SugarColumn(ColumnName = "EeDepartmentId", ColumnDescription = "部门 ", DefaultValue = "0")]
-        public int EeDepartmentId { get; set; }
+        [SugarColumn(ColumnName = "Mn004", ColumnDescription = "部门", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mn004 { get; set; }
 
         /// <summary>
         /// 职称
         /// </summary>
-        [SugarColumn(ColumnName = "EeTitlesId", ColumnDescription = "职称 ", DefaultValue = "0")]
-        public int EeTitlesId { get; set; }
+        [SugarColumn(ColumnName = "Mn005", ColumnDescription = "职称", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mn005 { get; set; }
 
         /// <summary>
         /// 岗位
         /// </summary>
-        [SugarColumn(ColumnName = "EePostId", ColumnDescription = "岗位 ", DefaultValue = "0")]
-        public int EePostId { get; set; }
+        [SugarColumn(ColumnName = "Mn006", ColumnDescription = "岗位", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mn006 { get; set; }
 
         /// <summary>
         /// 等级
         /// </summary>
-        [SugarColumn(ColumnName = "EePostLevel", ColumnDescription = "等级 ", DefaultValue = "0")]
-        public int EePostLevel { get; set; }
+        [SugarColumn(ColumnName = "Mn007", ColumnDescription = "等级", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mn007 { get; set; }
 
         /// <summary>
         /// 职务
         /// </summary>
-        [SugarColumn(ColumnName = "EeDutyName", ColumnDescription = "职务 ", DefaultValue = "0")]
-        public int EeDutyName { get; set; }
+        [SugarColumn(ColumnName = "Mn008", ColumnDescription = "职务", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mn008 { get; set; }
 
         /// <summary>
         /// 聘用形式
         /// </summary>
-        [SugarColumn(ColumnName = "EeEngageForm", ColumnDescription = "聘用形式 ", Length = 8)]
-        public string EeEngageForm { get; set; }
+        [SugarColumn(ColumnName = "Mn009", ColumnDescription = "聘用形式", Length = 8)]
+        public string Mn009 { get; set; }
 
         /// <summary>
         /// 入职日期
         /// </summary>
-        public DateTime? EeBeginDate { get; set; }
+        public DateTime? Mn010 { get; set; }
 
         /// <summary>
         /// 在职状态
         /// </summary>
-        [SugarColumn(ColumnName = "EeWorkState", ColumnDescription = "在职状态 ", Length = 3)]
-        public string EeWorkState { get; set; }
+        [SugarColumn(ColumnName = "Mn011", ColumnDescription = "在职状态", Length = 3)]
+        public string Mn011 { get; set; }
 
         /// <summary>
         /// 试用期
         /// </summary>
-        [SugarColumn(ColumnName = "EeProbation", ColumnDescription = "试用期 ", Length = 3)]
-        public string EeProbation { get; set; }
+        [SugarColumn(ColumnName = "Mn012", ColumnDescription = "试用期", Length = 3)]
+        public string Mn012 { get; set; }
+
+        /// <summary>
+        /// 试用工资
+        /// </summary>
+        [SugarColumn(ColumnName = "Mn013", ColumnDescription = "试用工资", DefaultValue = "0", Length = 18, DecimalDigits = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Mn013 { get; set; }
 
         /// <summary>
         /// 合同期限
         /// </summary>
-        [SugarColumn(ColumnName = "EeContractTerm", ColumnDescription = "合同期限 ", Length = 3)]
-        public string EeContractTerm { get; set; }
+        [SugarColumn(ColumnName = "Mn014", ColumnDescription = "合同期限", Length = 3)]
+        public string Mn014 { get; set; }
+
+        /// <summary>
+        /// 转正工资
+        /// </summary>
+        [SugarColumn(ColumnName = "Mn015", ColumnDescription = "转正工资", DefaultValue = "0", Length = 18, DecimalDigits = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Mn015 { get; set; }
 
         /// <summary>
         /// 转正日期
         /// </summary>
-        public DateTime? EeConversionTime { get; set; }
-
-        /// <summary>
-        /// 离职日期
-        /// </summary>
-        public DateTime? EeLeaveDate { get; set; }
-
-        /// <summary>
-        /// 合同起始日
-        /// </summary>
-        public DateTime? EeBeginContract { get; set; }
+        public DateTime? Mn016 { get; set; }
 
         /// <summary>
         /// 合同终止日
         /// </summary>
-        public DateTime? EeBndContract { get; set; }
+        public DateTime? Mn017 { get; set; }
 
         /// <summary>
-        /// 工龄
+        /// 合同起始日
         /// </summary>
-        [SugarColumn(ColumnName = "EeWorkAge", ColumnDescription = "工龄 ", DefaultValue = "0")]
-        public int? EeWorkAge { get; set; }
+        public DateTime? Mn018 { get; set; }
     }
 }

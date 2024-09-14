@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Ams.Infrastructure.Model;
+﻿using Ams.Infrastructure.Model;
+using System.Threading.Tasks;
 using Ams.Model.Routine;
 
 namespace Ams.Tasks

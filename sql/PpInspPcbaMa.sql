@@ -1,8 +1,8 @@
-use Lean365;
+use Ams_Tes;
 
--- 检查日报ma菜单
+-- 检查菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('检查日报ma', 1285, 999, 'PpInspPcbaMa', 'logistics/PpInspPcbaMa', 0, 0, 'C', '0', '0', 'pp:inscbama:list', 'icon1', 'Lean365', GETDATE(), 'menu.pp.inscbama');
+VALUES ('检查', 1285, 999, 'PpInspPcbaMa', 'logistics/PpInspPcbaMa', 0, 0, 'C', '0', '0', 'pp:inscbama:list', 'icon1', 'Lean365', GETDATE(), 'menu.pp.inscbama');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -28,17 +28,35 @@ SELECT * FROM sys_menu WHERE parentId = @menuId;
 SELECT * FROM sys_menu WHERE menuId = @menuId;
 
 
--- 检查日报ma多语言
+-- 检查多语言
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285001,'zh-cn', 'menu.pp.inscbama', '检查日报ma', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285001,'zh-cn', 'menu.pp.inscbama', '检查', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285002,'zh-tw', 'menu.pp.inscbama', 'TW_检查日报ma', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285002,'zh-tw', 'menu.pp.inscbama', 'TW_检查', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285003,'en', 'menu.pp.inscbama', 'EN_检查日报ma', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285003,'en', 'menu.pp.inscbama', 'EN_检查', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285004,'ja', 'menu.pp.inscbama', 'JA_检查日报ma', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285004,'ja', 'menu.pp.inscbama', 'JA_检查', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285003,'fr', 'menu.pp.inscbama', 'FR_检查', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285003,'ko', 'menu.pp.inscbama', 'KO_检查', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285003,'ar', 'menu.pp.inscbama', 'AR_检查', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285003,'ru', 'menu.pp.inscbama', 'RU_检查', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285003,'de', 'menu.pp.inscbama', 'DE_检查', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285003,'es', 'menu.pp.inscbama', 'ES_检查', 'Lean365', GETDATE());

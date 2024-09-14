@@ -1,9 +1,9 @@
-using Ams.Model.Monitor.Dto;
+using Ams.Service;
 
 namespace Ams.Service.Monitor.IMonitorService
 {
     /// <summary>
-    /// 短信验证码记录service接口
+    /// 短信验证service接口
     /// </summary>
     public interface ISmsLogService : IBaseService<SmsLog>
     {
@@ -11,6 +11,6 @@ namespace Ams.Service.Monitor.IMonitorService
 
         SmsLog GetInfo(long Id);
 
-        SmsLog AddSmscodeLog(SmsLog parm);
+        SmsLog AddSmsLog(SmsLog parm);
     }
 }

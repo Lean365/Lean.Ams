@@ -4,7 +4,7 @@ namespace Ams.Model.Logistics
     /// 序列号扫描
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 9:55:51
+    /// @Date: 2024/9/11 16:36:33
     /// </summary>
     [SugarTable("qm_serial", "序列号扫描")]
     public class QmSerial : SysBase
@@ -12,118 +12,116 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// ID
         /// </summary>
-        [JsonConverter(typeof(ValueToStringConverter))]
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long QmserSfId { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 入库序列号
         /// </summary>
-        [SugarColumn(ColumnName = "QminScan", ColumnDescription = "入库序列号 ", Length = 50)]
-        public string QminScan { get; set; }
+        [SugarColumn(ColumnName = "Mk002", ColumnDescription = "入库序列号", Length = 50)]
+        public string Mk002 { get; set; }
 
         /// <summary>
         /// 入库日期
         /// </summary>
-        public DateTime? QminDate { get; set; }
+        public DateTime? Mk003 { get; set; }
 
         /// <summary>
         /// 入库数量
         /// </summary>
-        [SugarColumn(ColumnName = "QminQty", ColumnDescription = "入库数量 ", DefaultValue = "0")]
-        public int? QminQty { get; set; }
+        [SugarColumn(ColumnName = "Mk004", ColumnDescription = "入库数量", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mk004 { get; set; }
 
         /// <summary>
-        /// PCHostName
+        /// HinName
         /// </summary>
-        [SugarColumn(ColumnName = "QminHostname", ColumnDescription = "PCHostName ", Length = 20)]
-        public string QminHostname { get; set; }
+        [SugarColumn(ColumnName = "Mk005", ColumnDescription = "HinName", Length = 20)]
+        public string Mk005 { get; set; }
 
         /// <summary>
-        /// PCHostIp
+        /// HinIp
         /// </summary>
-        [SugarColumn(ColumnName = "QminHostip", ColumnDescription = "PCHostIp ", Length = 20)]
-        public string QminHostip { get; set; }
+        [SugarColumn(ColumnName = "Mk006", ColumnDescription = "HinIp", Length = 20)]
+        public string Mk006 { get; set; }
 
         /// <summary>
-        /// PCHostMac
+        /// HinMac
         /// </summary>
-        [SugarColumn(ColumnName = "QminHostmac", ColumnDescription = "PCHostMac ", Length = 20)]
-        public string QminHostmac { get; set; }
+        [SugarColumn(ColumnName = "Mk007", ColumnDescription = "HinMac", Length = 20)]
+        public string Mk007 { get; set; }
 
         /// <summary>
         /// 入库扫描
         /// </summary>
-        [SugarColumn(ColumnName = "QminUser", ColumnDescription = "入库扫描 ", Length = 20)]
-        public string QminUser { get; set; }
+        [SugarColumn(ColumnName = "Mk008", ColumnDescription = "入库扫描", Length = 20)]
+        public string Mk008 { get; set; }
 
         /// <summary>
         /// 入库日期
         /// </summary>
-        public DateTime? QminTime { get; set; }
+        public DateTime? Mk009 { get; set; }
 
         /// <summary>
         /// 出货发票
         /// </summary>
-        [SugarColumn(ColumnName = "QmoutBill", ColumnDescription = "出货发票 ", Length = 50)]
-        public string QmoutBill { get; set; }
+        [SugarColumn(ColumnName = "Mk010", ColumnDescription = "出货发票", Length = 50)]
+        public string Mk010 { get; set; }
 
         /// <summary>
         /// 运输方式
         /// </summary>
-        [SugarColumn(ColumnName = "QmoutTransport", ColumnDescription = "运输方式 ", Length = 50)]
-        public string QmoutTransport { get; set; }
+        [SugarColumn(ColumnName = "Mk011", ColumnDescription = "运输方式", Length = 50)]
+        public string Mk011 { get; set; }
 
         /// <summary>
         /// 出库序列号
         /// </summary>
-        [SugarColumn(ColumnName = "QmoutScan", ColumnDescription = "出库序列号 ", Length = 50)]
-        public string QmoutScan { get; set; }
+        [SugarColumn(ColumnName = "Mk012", ColumnDescription = "出库序列号", Length = 50)]
+        public string Mk012 { get; set; }
 
         /// <summary>
         /// 出库日期
         /// </summary>
-        public DateTime? QmoutDate { get; set; }
+        public DateTime? Mk013 { get; set; }
 
         /// <summary>
         /// 出库数量
         /// </summary>
-        [SugarColumn(ColumnName = "QmoutQty", ColumnDescription = "出库数量 ", DefaultValue = "0")]
-        public int? QmoutQty { get; set; }
+        [SugarColumn(ColumnName = "Mk014", ColumnDescription = "出库数量", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mk014 { get; set; }
 
         /// <summary>
         /// 区域仕向
         /// </summary>
-        [SugarColumn(ColumnName = "QmoutRegion", ColumnDescription = "区域仕向 ", Length = 20)]
-        public string QmoutRegion { get; set; }
+        [SugarColumn(ColumnName = "Mk015", ColumnDescription = "区域仕向", Length = 20)]
+        public string Mk015 { get; set; }
 
         /// <summary>
-        /// PCHostName
+        /// HouName
         /// </summary>
-        [SugarColumn(ColumnName = "QmoutHostname", ColumnDescription = "PCHostName ", Length = 20)]
-        public string QmoutHostname { get; set; }
+        [SugarColumn(ColumnName = "Mk016", ColumnDescription = "HouName", Length = 20)]
+        public string Mk016 { get; set; }
 
         /// <summary>
-        /// PCHostIp
+        /// HouIp
         /// </summary>
-        [SugarColumn(ColumnName = "QmoutHostip", ColumnDescription = "PCHostIp ", Length = 20)]
-        public string QmoutHostip { get; set; }
+        [SugarColumn(ColumnName = "Mk017", ColumnDescription = "HouIp", Length = 20)]
+        public string Mk017 { get; set; }
 
         /// <summary>
-        /// PCHostMac
+        /// HouMac
         /// </summary>
-        [SugarColumn(ColumnName = "QmoutHostmac", ColumnDescription = "PCHostMac ", Length = 20)]
-        public string QmoutHostmac { get; set; }
+        [SugarColumn(ColumnName = "Mk018", ColumnDescription = "HouMac", Length = 20)]
+        public string Mk018 { get; set; }
 
         /// <summary>
         /// 出库扫描
         /// </summary>
-        [SugarColumn(ColumnName = "QmoutUser", ColumnDescription = "出库扫描 ", Length = 20)]
-        public string QmoutUser { get; set; }
+        [SugarColumn(ColumnName = "Mk019", ColumnDescription = "出库扫描", Length = 20)]
+        public string Mk019 { get; set; }
 
         /// <summary>
         /// 出库日期
         /// </summary>
-        public DateTime? QmoutTime { get; set; }
+        public DateTime? Mk020 { get; set; }
     }
 }

@@ -1,14 +1,7 @@
-﻿using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Ams.WebApi.Controllers
+﻿namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
-    /// 文章内容
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
+    /// 内容管理
     /// </summary>
     [Verify]
     [Route("routine/article")]
@@ -20,11 +13,11 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         private readonly IArticleService _ArticleService;
 
-        private readonly IArticleCategoryService _ArticleCategoryService;
+        private readonly IArticleCatalogService _ArticleCategoryService;
 
         public ArticleController(
             IArticleService ArticleService,
-            IArticleCategoryService articleCategoryService)
+            IArticleCatalogService articleCategoryService)
         {
             _ArticleService = ArticleService;
             _ArticleCategoryService = articleCategoryService;
@@ -109,7 +102,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("add")]
-        [ActionPermissionFilter(Permission = "routine:article:add")]
+        [ActionPermissionFilter(Permission = "routine:article:puhlish")]
         public IActionResult Create([FromBody] ArticleDto parm)
         {
             var addModel = parm.Adapt<Article>().ToCreate(context: HttpContext);
@@ -117,7 +110,7 @@ namespace Ams.WebApi.Controllers
             addModel.UserId = HttpContext.GetUId();
             addModel.UserIP = HttpContext.GetClientUserIp();
             addModel.Location = HttpContextExtension.GetIpInfo(addModel.UserIP);
-            addModel.AuditStatus = Model.Enums.AuditStatusEnum.Passed;
+            addModel.AuditStatus = AuditStatusEnum.Passed;
 
             return SUCCESS(_ArticleService.InsertReturnIdentity(addModel));
         }
@@ -127,7 +120,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("edit")]
-        [ActionPermissionFilter(Permission = "routine:article:edit")]
+        [ActionPermissionFilter(Permission = "routine:article:update")]
         public IActionResult Update([FromBody] ArticleDto parm)
         {
             parm.AuthorName = HttpContext.GetName();

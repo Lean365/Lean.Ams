@@ -42,3 +42,21 @@ VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'en', 'menu.
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
 VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136004,'ja', 'menu.fico.profitcenter', 'JA_利润中心', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'fr', 'menu.fico.profitcenter', 'FR_利润中心', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'ko', 'menu.fico.profitcenter', 'KO_利润中心', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'ar', 'menu.fico.profitcenter', 'AR_利润中心', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'ru', 'menu.fico.profitcenter', 'RU_利润中心', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'de', 'menu.fico.profitcenter', 'DE_利润中心', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'es', 'menu.fico.profitcenter', 'ES_利润中心', 'Lean365', GETDATE());

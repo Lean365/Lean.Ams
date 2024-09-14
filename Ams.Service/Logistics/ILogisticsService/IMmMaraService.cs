@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 常规物料
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:37:36
+    /// @Date: 2024/9/11 10:59:57
     /// </summary>
     public interface IMmMaraService : IBaseService<MmMara>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取常规物料信息
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        MmMara GetInfo(long SfId);
+        MmMara GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

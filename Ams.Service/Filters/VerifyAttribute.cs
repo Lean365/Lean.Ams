@@ -1,12 +1,12 @@
-﻿using Ams.Common;
-using Ams.Infrastructure;
-using Ams.Infrastructure.Model;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Ams.Common;
+using Ams.Infrastructure;
+using Ams.Infrastructure.Model;
 
-//本命名空间暂时先不改，改动比较大2023年9月2日
 namespace Ams.Service.Filters
 {
     /// <summary>
@@ -56,10 +56,10 @@ namespace Ams.Service.Filters
                     //移动端不加下面这个获取不到自定义Header
                     if (osType != null)
                     {
-                        context.HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "X-Refresh-Token");
+                        context.HttpContext.Response.Headers.Append("Access-Control-Expose-Headers", "X-Refresh-Token");
                     }
                     logger.Info($"刷新token,userName={loginUser.UserName},token={newToken}");
-                    context.HttpContext.Response.Headers.Add("X-Refresh-Token", newToken);
+                    context.HttpContext.Response.Headers.Append("X-Refresh-Token", newToken);
                 }
             }
             if (loginUser == null || !isAuthed)

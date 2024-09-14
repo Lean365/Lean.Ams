@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 序列号扫描
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 9:55:51
+    /// @Date: 2024/9/11 16:36:33
     /// </summary>
     [Verify]
     [Route("Logistics/QmSerial")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询序列号扫描详情
         /// </summary>
-        /// <param name="QmserSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{QmserSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "qm:serial:query")]
-        public IActionResult GetQmSerial(long QmserSfId)
+        public IActionResult GetQmSerial(int Id)
         {
-            var response = _QmSerialService.GetInfo(QmserSfId);
+            var response = _QmSerialService.GetInfo(Id);
             
             var info = response.Adapt<QmSerialDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "qm:serial:add")]
-        [Log(Title = "序列号扫描", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "序列号扫描", BusinessType = BusinessType.ADD)]
         public IActionResult AddQmSerial([FromBody] QmSerialDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmSerialService.CheckInputUnique(parm.QmserSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmSerialService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增序列号扫描 '{parm.QmserSfId}'失败(Add failed)，输入的序列号扫描已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增序列号扫描 '{parm.Id}'失败(Add failed)，输入的序列号扫描已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmSerial>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "qm:serial:edit")]
-        [Log(Title = "序列号扫描", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "序列号扫描", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateQmSerial([FromBody] QmSerialDto parm)
         {
             var modal = parm.Adapt<QmSerial>().ToUpdate(HttpContext);
@@ -103,7 +103,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [Log(Title = "序列号扫描", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteQmSerial([FromRoute]string ids)
         {
-            var idArr = Tools.SplitAndConvert<long>(ids);
+            var idArr = Tools.SplitAndConvert<int>(ids);
 
             return ToResponse(_QmSerialService.Delete(idArr, "删除序列号扫描"));
         }
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出序列号扫描
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "序列号扫描", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "序列号扫描导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "qm:serial:export")]
         public IActionResult Export([FromQuery] QmSerialQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入序列号扫描
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "序列号扫描导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "qm:serial:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<QmSerialDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 序列号扫描导入模板下载
+        /// 序列号扫描
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "序列号扫描模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<QmSerialImportTpl>() { }, "QmSerial_tpl");
             return ExportExcel(result.Item2, result.Item1);

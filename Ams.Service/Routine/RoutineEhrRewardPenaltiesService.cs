@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Routine.Dto;
 using Ams.Model.Routine;
+using Ams.Repository;
 using Ams.Service.Routine.IRoutineService;
 
 namespace Ams.Service.Routine
@@ -8,7 +11,7 @@ namespace Ams.Service.Routine
     /// 奖惩
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:30:08
+    /// @Date: 2024/9/12 15:16:00
     /// </summary>
     [AppService(ServiceType = typeof(IRoutineEhrRewardPenaltiesService), ServiceLifetime = LifeTime.Transient)]
     public class RoutineEhrRewardPenaltiesService : BaseService<RoutineEhrRewardPenalties>, IRoutineEhrRewardPenaltiesService
@@ -23,11 +26,13 @@ namespace Ams.Service.Routine
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Mo002 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<RoutineEhrRewardPenalties, RoutineEhrRewardPenaltiesDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Routine
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. EeSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,16 +53,17 @@ namespace Ams.Service.Routine
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="EeSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public RoutineEhrRewardPenalties GetInfo(long EeSfId)
+        public RoutineEhrRewardPenalties GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.EeSfId == EeSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加奖惩
         /// </summary>
@@ -68,6 +74,7 @@ namespace Ams.Service.Routine
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改奖惩
         /// </summary>
@@ -86,22 +93,10 @@ namespace Ams.Service.Routine
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.EeSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.EeWorkID.IsEmpty(), "工号不能为空")
-                .SplitError(x => x.Item.EeName.IsEmpty(), "姓名不能为空")
-                .SplitError(x => x.Item.EeBirthday.IsEmpty(), "工资日期不能为空")
-                .SplitError(x => x.Item.EeDepartmentId.IsEmpty(), "部门不能为空")
-                .SplitError(x => x.Item.EeTitlesId.IsEmpty(), "职称不能为空")
-                .SplitError(x => x.Item.EePostId.IsEmpty(), "岗位不能为空")
-                .SplitError(x => x.Item.EePostLevel.IsEmpty(), "等级不能为空")
-                .SplitError(x => x.Item.EeDutyName.IsEmpty(), "职务不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Mo002.IsEmpty(), "工号不能为空")
+                .SplitError(x => x.Item.Mo004.IsEmpty(), "奖惩类别不能为空")
+                .SplitError(x => x.Item.Mo005.IsEmpty(), "金额不能为空")
+                .SplitError(x => x.Item.Is_deleted.IsEmpty(), "软删除不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -135,7 +130,8 @@ namespace Ams.Service.Routine
                 .Where(predicate.ToExpression())
                 .Select((it) => new RoutineEhrRewardPenaltiesDto()
                 {
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <奖惩类别> 
+                    Mo004Label = it.Mo004.GetConfigValue<SysDictData>("sys_reward_penalties"),
                 }, true)
                 .ToPage(parm);
 
@@ -151,8 +147,12 @@ namespace Ams.Service.Routine
         {
             var predicate = Expressionable.Create<RoutineEhrRewardPenalties>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeWorkID), it => it.EeWorkID.Contains(parm.EeWorkID));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeName), it => it.EeName.Contains(parm.EeName));
+            //查询字段: <工号> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mo002), it => it.Mo002 == parm.Mo002);
+            //查询字段: <姓名> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mo003), it => it.Mo003.Contains(parm.Mo003));
+            //查询字段: <奖惩类别> 
+            predicate = predicate.AndIF(parm.Mo004 != -1, it => it.Mo004 == parm.Mo004);
             return predicate;
         }
     }

@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 月度资产
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 11:59:43
+    /// @Date: 2024/9/10 16:54:31
     /// </summary>
     [Verify]
     [Route("Accounting/FicoMonthlyAssets")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询月度资产详情
         /// </summary>
-        /// <param name="FaSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{FaSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "fico:monthlyassets:query")]
-        public IActionResult GetFicoMonthlyAssets(long FaSfId)
+        public IActionResult GetFicoMonthlyAssets(long Id)
         {
-            var response = _FicoMonthlyAssetsService.GetInfo(FaSfId);
+            var response = _FicoMonthlyAssetsService.GetInfo(Id);
             
             var info = response.Adapt<FicoMonthlyAssetsDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "fico:monthlyassets:add")]
-        [Log(Title = "月度资产", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "月度资产", BusinessType = BusinessType.ADD)]
         public IActionResult AddFicoMonthlyAssets([FromBody] FicoMonthlyAssetsDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoMonthlyAssetsService.CheckInputUnique(parm.FaSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoMonthlyAssetsService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增月度资产 '{parm.FaSfId}'失败(Add failed)，输入的月度资产已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增月度资产 '{parm.Id}'失败(Add failed)，输入的月度资产已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoMonthlyAssets>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "fico:monthlyassets:edit")]
-        [Log(Title = "月度资产", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "月度资产", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateFicoMonthlyAssets([FromBody] FicoMonthlyAssetsDto parm)
         {
             var modal = parm.Adapt<FicoMonthlyAssets>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// 导出月度资产
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "月度资产", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "月度资产导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "fico:monthlyassets:export")]
         public IActionResult Export([FromQuery] FicoMonthlyAssetsQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 导入
+        /// 导入月度资产
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "月度资产导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "fico:monthlyassets:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<FicoMonthlyAssetsDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 月度资产导入模板下载
+        /// 月度资产
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "月度资产模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<FicoMonthlyAssetsImportTpl>() { }, "FicoMonthlyAssets_tpl");
             return ExportExcel(result.Item2, result.Item1);

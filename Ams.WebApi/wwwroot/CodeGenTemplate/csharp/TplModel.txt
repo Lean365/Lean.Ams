@@ -11,7 +11,7 @@ namespace ${options.ModelsNamespace}.${options.SubNamespace}
     /// @Date: ${ReplaceDto.CreateTime}
     /// </summary>
     [SugarTable("${genTable.TableName}","${genTable.FunctionName}")]
-    public class ${replaceDto.ModelTypeName}
+    public class ${replaceDto.ModelTypeName} : SysBase
     {
 ${foreach(item in genTable.Columns)}
         /// <summary>
@@ -34,9 +34,9 @@ $elseif(item.AutoFillType == 3 && item.CsharpType == "DateTime")
 $elseif(item.AutoFillType == 1)
         [SugarColumn(IsOnlyIgnoreUpdate = true)]
 $elseif(item.CsharpType == "int" || item.CsharpType == "decimal")
-        [SugarColumn(ColumnName="$item.CsharpField", ColumnDescription = "${item.ColumnComment}${item.Remark}",DefaultValue = "0"$if(item.CsharpType == "decimal"),Length = $item.CsharpLength, DecimalDigits = $item.CsharpDecimalDigits$end)]
+        [SugarColumn(ColumnName="$item.CsharpField", ColumnDescription = "${item.ColumnComment}${item.Remark}",DefaultValue = "0"$if(item.CsharpType == "decimal"),Length = $item.CsharpLength, DecimalDigits = $item.CsharpDecimalDigits$end, ExtendedAttribute = ProteryConstant.NOTNULL)]
 $elseif(item.CsharpType == "string")
-        [SugarColumn(ColumnName="$item.CsharpField", ColumnDescription = "${item.ColumnComment}${item.Remark}",Length = $item.CsharpLength)]
+        [SugarColumn(ColumnName="$item.CsharpField", ColumnDescription = "${item.ColumnComment}${item.Remark}",Length = $item.CsharpLength$if(item.ColumnType=="nvarchar"),ColumnDataType = "NVARCHAR"$end$if(item.IsRequired), ExtendedAttribute = ProteryConstant.NOTNULL$end)]
 $end
         public $item.CsharpType$item.RequiredStr $item.CsharpField { get; set; }
 

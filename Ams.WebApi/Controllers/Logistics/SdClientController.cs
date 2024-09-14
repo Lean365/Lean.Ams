@@ -8,10 +8,10 @@ using MiniExcelLibs;
 namespace Ams.WebApi.Controllers.Logistics
 {
     /// <summary>
-    /// 客户信息
+    /// 客户
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 14:26:41
+    /// @Date: 2024/9/11 15:53:14
     /// </summary>
     [Verify]
     [Route("Logistics/SdClient")]
@@ -19,7 +19,7 @@ namespace Ams.WebApi.Controllers.Logistics
     public class SdClientController : BaseController
     {
         /// <summary>
-        /// 客户信息接口
+        /// 客户接口
         /// </summary>
         private readonly ISdClientService _SdClientService;
 
@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 查询客户信息列表
+        /// 查询客户列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -43,34 +43,34 @@ namespace Ams.WebApi.Controllers.Logistics
 
 
         /// <summary>
-        /// 查询客户信息详情
+        /// 查询客户详情
         /// </summary>
-        /// <param name="ScSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{ScSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "sd:client:query")]
-        public IActionResult GetSdClient(long ScSfId)
+        public IActionResult GetSdClient(int Id)
         {
-            var response = _SdClientService.GetInfo(ScSfId);
+            var response = _SdClientService.GetInfo(Id);
             
             var info = response.Adapt<SdClientDto>();
             return SUCCESS(info);
         }
 
         /// <summary>
-        /// 添加客户信息
+        /// 添加客户
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "sd:client:add")]
-        [Log(Title = "客户信息", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "客户", BusinessType = BusinessType.ADD)]
         public IActionResult AddSdClient([FromBody] SdClientDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_SdClientService.CheckInputUnique(parm.ScSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_SdClientService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增客户信息 '{parm.ScSfId}'失败(Add failed)，输入的客户信息已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增客户 '{parm.Id}'失败(Add failed)，输入的客户已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<SdClient>().ToCreate(HttpContext);
 
@@ -80,12 +80,12 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 更新客户信息
+        /// 更新客户
         /// </summary>
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "sd:client:edit")]
-        [Log(Title = "客户信息", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "客户", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateSdClient([FromBody] SdClientDto parm)
         {
             var modal = parm.Adapt<SdClient>().ToUpdate(HttpContext);
@@ -95,24 +95,24 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 删除客户信息
+        /// 删除客户
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "sd:client:delete")]
-        [Log(Title = "客户信息", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "客户", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSdClient([FromRoute]string ids)
         {
-            var idArr = Tools.SplitAndConvert<long>(ids);
+            var idArr = Tools.SplitAndConvert<int>(ids);
 
-            return ToResponse(_SdClientService.Delete(idArr, "删除客户信息"));
+            return ToResponse(_SdClientService.Delete(idArr, "删除客户"));
         }
 
         /// <summary>
-        /// 导出客户信息
+        /// 导出客户
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "客户信息", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "客户导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "sd:client:export")]
         public IActionResult Export([FromQuery] SdClientQueryDto parm)
@@ -124,19 +124,19 @@ namespace Ams.WebApi.Controllers.Logistics
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "客户信息", "客户信息");
+            var result = ExportExcelMini(list, "客户", "客户");
             return ExportExcel(result.Item2, result.Item1);
         }
 
         /// <summary>
-        /// 导入
+        /// 导入客户
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
-        [Log(Title = "客户信息导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
+      [HttpPost("importData")]
+        [Log(Title = "客户导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "sd:client:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<SdClientDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 客户信息导入模板下载
+        /// 客户
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
-        [Log(Title = "客户信息模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "客户模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<SdClientImportTpl>() { }, "SdClient_tpl");
             return ExportExcel(result.Item2, result.Item1);

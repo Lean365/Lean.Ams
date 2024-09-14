@@ -1,12 +1,12 @@
 namespace Ams.Model.Logistics
 {
     /// <summary>
-    /// 检查日报slv
+    /// 检查明细
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 12:01:22
+    /// @Date: 2024/9/12 16:38:55
     /// </summary>
-    [SugarTable("pp_insp_pcba_slv", "检查日报slv")]
+    [SugarTable("pp_insp_pcba_slv", "检查明细")]
     public class PpInspPcbaSlv : SysBase
     {
         /// <summary>
@@ -14,136 +14,137 @@ namespace Ams.Model.Logistics
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long PdiSfId { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 父ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PdiParentSfId { get; set; }
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
+        public long? ParentId { get; set; }
 
         /// <summary>
         /// 批次
         /// </summary>
-        [SugarColumn(ColumnName = "Pdilot", ColumnDescription = "批次 ", Length = 20)]
-        public string Pdilot { get; set; }
+        [SugarColumn(ColumnName = "Mv003", ColumnDescription = "批次", Length = 20)]
+        public string Mv003 { get; set; }
 
         /// <summary>
         /// Lot数
         /// </summary>
-        [SugarColumn(ColumnName = "Pdilotqty", ColumnDescription = "Lot数 ", DefaultValue = "0")]
-        public int? Pdilotqty { get; set; }
+        [SugarColumn(ColumnName = "Mv004", ColumnDescription = "Lot数", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mv004 { get; set; }
 
         /// <summary>
         /// 板别
         /// </summary>
-        [SugarColumn(ColumnName = "Pdipcbtype", ColumnDescription = "板别 ", Length = 30)]
-        public string Pdipcbtype { get; set; }
+        [SugarColumn(ColumnName = "Mv005", ColumnDescription = "板别", Length = 30)]
+        public string Mv005 { get; set; }
 
         /// <summary>
         /// 目视线别
         /// </summary>
-        [SugarColumn(ColumnName = "Pdivisualtype", ColumnDescription = "目视线别 ", Length = 30)]
-        public string Pdivisualtype { get; set; }
+        [SugarColumn(ColumnName = "Mv006", ColumnDescription = "目视线别", Length = 30)]
+        public string Mv006 { get; set; }
 
         /// <summary>
         /// AOI线别
         /// </summary>
-        [SugarColumn(ColumnName = "Pdivctype", ColumnDescription = "AOI线别 ", Length = 30)]
-        public string Pdivctype { get; set; }
+        [SugarColumn(ColumnName = "Mv007", ColumnDescription = "AOI线别", Length = 30)]
+        public string Mv007 { get; set; }
 
         /// <summary>
         /// B面实装
         /// </summary>
-        public DateTime? Pdisideadate { get; set; }
+        public DateTime? Mv008 { get; set; }
 
         /// <summary>
         /// T面实装
         /// </summary>
-        public DateTime? Pdisidebdate { get; set; }
+        public DateTime? Mv009 { get; set; }
 
         /// <summary>
         /// 生产班别
         /// </summary>
-        [SugarColumn(ColumnName = "Pdidshiftname", ColumnDescription = "生产班别 ", Length = 20)]
-        public string Pdidshiftname { get; set; }
+        [SugarColumn(ColumnName = "Mv010", ColumnDescription = "生产班别", Length = 20)]
+        public string Mv010 { get; set; }
 
         /// <summary>
         /// 检查员
         /// </summary>
-        [SugarColumn(ColumnName = "Pdicensor", ColumnDescription = "检查员 ", Length = 20)]
-        public string Pdicensor { get; set; }
+        [SugarColumn(ColumnName = "Mv011", ColumnDescription = "检查员", Length = 20)]
+        public string Mv011 { get; set; }
 
         /// <summary>
         /// 当日完成数
         /// </summary>
-        [SugarColumn(ColumnName = "Pdirealqty", ColumnDescription = "当日完成数 ", DefaultValue = "0")]
-        public int Pdirealqty { get; set; }
+        [SugarColumn(ColumnName = "Mv012", ColumnDescription = "当日完成数", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mv012 { get; set; }
 
         /// <summary>
         /// 累计完成数
         /// </summary>
-        [SugarColumn(ColumnName = "Pdirealtotal", ColumnDescription = "累计完成数 ", DefaultValue = "0")]
-        public int Pdirealtotal { get; set; }
+        [SugarColumn(ColumnName = "Mv013", ColumnDescription = "累计完成数", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mv013 { get; set; }
 
         /// <summary>
         /// 检查台数
         /// </summary>
-        [SugarColumn(ColumnName = "Pdiispqty", ColumnDescription = "检查台数 ", DefaultValue = "0")]
-        public int Pdiispqty { get; set; }
+        [SugarColumn(ColumnName = "Mv014", ColumnDescription = "检查台数", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mv014 { get; set; }
 
         /// <summary>
         /// 检查状态
         /// </summary>
-        [SugarColumn(ColumnName = "Pdipcbchecktype", ColumnDescription = "检查状态 ", Length = 30)]
-        public string Pdipcbchecktype { get; set; }
+        [SugarColumn(ColumnName = "Mv015", ColumnDescription = "检查状态", Length = 30)]
+        public string Mv015 { get; set; }
 
         /// <summary>
         /// 生产线别
         /// </summary>
-        [SugarColumn(ColumnName = "Pdilinename", ColumnDescription = "生产线别 ", Length = 20)]
-        public string Pdilinename { get; set; }
+        [SugarColumn(ColumnName = "Mv016", ColumnDescription = "生产线别", Length = 20)]
+        public string Mv016 { get; set; }
 
         /// <summary>
         /// 检查工数
         /// </summary>
-        [SugarColumn(ColumnName = "Pdiinsqtime", ColumnDescription = "检查工数 ", DefaultValue = "0")]
-        public int Pdiinsqtime { get; set; }
+        [SugarColumn(ColumnName = "Mv017", ColumnDescription = "检查工数", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mv017 { get; set; }
 
         /// <summary>
         /// AOI工数
         /// </summary>
-        [SugarColumn(ColumnName = "Pdiaoitime", ColumnDescription = "AOI工数 ", DefaultValue = "0")]
-        public int Pdiaoitime { get; set; }
+        [SugarColumn(ColumnName = "Mv018", ColumnDescription = "AOI工数", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mv018 { get; set; }
 
         /// <summary>
         /// 不良数量
         /// </summary>
-        [SugarColumn(ColumnName = "Pdibadqty", ColumnDescription = "不良数量 ", DefaultValue = "0")]
-        public int Pdibadqty { get; set; }
+        [SugarColumn(ColumnName = "Mv019", ColumnDescription = "不良数量", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mv019 { get; set; }
 
         /// <summary>
         /// 手贴部品
         /// </summary>
-        [SugarColumn(ColumnName = "Pdihandle", ColumnDescription = "手贴部品 ", Length = 30)]
-        public string Pdihandle { get; set; }
+        [SugarColumn(ColumnName = "Mv020", ColumnDescription = "手贴部品", Length = 30)]
+        public string Mv020 { get; set; }
 
         /// <summary>
         /// 序列号
         /// </summary>
-        [SugarColumn(ColumnName = "Pdibadserial", ColumnDescription = "序列号 ", Length = 200)]
-        public string Pdibadserial { get; set; }
+        [SugarColumn(ColumnName = "Mv021", ColumnDescription = "序列号", Length = 200)]
+        public string Mv021 { get; set; }
 
         /// <summary>
         /// 内容
         /// </summary>
-        [SugarColumn(ColumnName = "Pdibadcontent", ColumnDescription = "内容 ", Length = 30)]
-        public string Pdibadcontent { get; set; }
+        [SugarColumn(ColumnName = "Mv022", ColumnDescription = "内容", Length = 30)]
+        public string Mv022 { get; set; }
 
         /// <summary>
         /// 个所区分
         /// </summary>
-        [SugarColumn(ColumnName = "PdibadPosition", ColumnDescription = "个所区分 ", Length = 200)]
-        public string PdibadPosition { get; set; }
+        [SugarColumn(ColumnName = "Mv023", ColumnDescription = "个所区分", Length = 200)]
+        public string Mv023 { get; set; }
     }
 }

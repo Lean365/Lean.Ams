@@ -1,11 +1,17 @@
 ﻿namespace Ams.Model.Monitor
 {
-    [SugarTable("monitor_oper_log", "操作日志")]
+    /// <summary>
+    /// 操作日志
+    /// 数据实体对象
+    /// @author lean365(Davis.Ching)
+    /// @date 2024-01-01
+    /// </summary>
+    [SugarTable("monitor_oper", "操作日志")]
     [Tenant("0")]
     public class OperLog : SysBase
     {
         /// <summary>
-        /// 操作ID
+        /// 操作id
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long OperId { get; set; }
@@ -13,6 +19,7 @@
         /// <summary>
         /// 操作模块
         /// </summary>
+        [SugarColumn(Length = 80)]
         public string Title { get; set; }
 
         /// <summary>
@@ -31,11 +38,13 @@
         /// <summary>
         /// 请求方法
         /// </summary>
+        [SugarColumn(Length = 200)]
         public string Method { get; set; }
 
         /// <summary>
         /// 请求方式
         /// </summary>
+        [SugarColumn(Length = 20)]
         public string RequestMethod { get; set; }
 
         /// <summary>
@@ -48,21 +57,25 @@
         /// <summary>
         /// 操作人员
         /// </summary>
+        [SugarColumn(Length = 20)]
         public string OperName { get; set; }
 
         /// <summary>
         /// 请求url
         /// </summary>
+        [SugarColumn(Length = 200)]
         public string OperUrl { get; set; }
 
         /// <summary>
         /// 操作地址
         /// </summary>
+        [SugarColumn(Length = 20)]
         public string OperIp { get; set; }
 
         /// <summary>
         /// 操作地点
         /// </summary>
+        [SugarColumn(Length = 200)]
         public string OperLocation { get; set; }
 
         /// <summary>
@@ -100,8 +113,9 @@
         public long Elapsed { get; set; }
 
         /// <summary>
-        /// 部门名称
+        /// 部门
         /// </summary>
+        [SugarColumn(Length = 200)]
         public string DeptName { get; set; }
     }
 }

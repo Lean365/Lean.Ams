@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Ams.Infrastructure.WebExtensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Ams.Infrastructure
+namespace Ams.Infrastructure.WebExtensions
 {
     /// <summary>
     /// 跨域扩展

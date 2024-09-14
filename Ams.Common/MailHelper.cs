@@ -1,12 +1,12 @@
-﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Model;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Ams.Infrastructure.Model;
+using Ams.Infrastructure;
 
 namespace Ams.Common
 {

@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
@@ -8,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 源订单序列号
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:20:55
+    /// @Date: 2024/9/11 13:43:48
     /// </summary>
     [AppService(ServiceType = typeof(IPpSourceOrderSerialService), ServiceLifetime = LifeTime.Transient)]
     public class PpSourceOrderSerialService : BaseService<PpSourceOrderSerial>, IPpSourceOrderSerialService
@@ -23,11 +26,13 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Zg003 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<PpSourceOrderSerial, PpSourceOrderSerialDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. SfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,16 +53,17 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public PpSourceOrderSerial GetInfo(string SfId)
+        public PpSourceOrderSerial GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.SfId == SfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加源订单序列号
         /// </summary>
@@ -68,6 +74,7 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改源订单序列号
         /// </summary>
@@ -86,9 +93,10 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.SfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.Serialc002.IsEmpty(), "生产订单不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Zg002.IsEmpty(), "工厂不能为空")
+                .SplitError(x => x.Item.Zg003.IsEmpty(), "生产订单不能为空")
+                .SplitError(x => x.Item.Zg004.IsEmpty(), "品号不能为空")
+                .SplitError(x => x.Item.Zg005.IsEmpty(), "序列号不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -122,8 +130,8 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpSourceOrderSerialDto()
                 {
-                    Serialc001Label = it.Serialc001.GetConfigValue<SysDictData>("sys_plant_list"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <工厂> 
+                    Zg002Label = it.Zg002.GetConfigValue<SysDictData>("sql_plant_list"),
                 }, true)
                 .ToPage(parm);
 
@@ -139,8 +147,10 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpSourceOrderSerial>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Serialc002), it => it.Serialc002.Contains(parm.Serialc002));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Serialc003), it => it.Serialc003.Contains(parm.Serialc003));
+            //查询字段: <工厂> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zg002), it => it.Zg002 == parm.Zg002);
+            //查询字段: <品号> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zg004), it => it.Zg004.Contains(parm.Zg004));
             return predicate;
         }
     }

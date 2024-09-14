@@ -2,8 +2,6 @@
 using Ams.Infrastructure;
 using Ams.Infrastructure.IPTools;
 using Ams.Infrastructure.Model;
-using Ams.Service.Monitor.IMonitorService;
-using Ams.Service.Routine.IRoutineService;
 using Mapster;
 using Microsoft.AspNetCore.SignalR;
 using UAParser;
@@ -21,21 +19,21 @@ namespace Ams.Service.Signalr
         public static List<OnlineUsers> users = new();
 
         //private readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private readonly INoticeStorageService SysNoticeService;
+        private readonly INoticeStorageService NoticeStorageService;
 
         private readonly ISysUserService UserService;
         private readonly IDurationLogService UserOnlineLogService;
 
         public MessageHub(INoticeStorageService noticeService, ISysUserService userService, IDurationLogService userOnlineLogService)
         {
-            SysNoticeService = noticeService;
+            NoticeStorageService = noticeService;
             UserService = userService;
             UserOnlineLogService = userOnlineLogService;
         }
 
         private ApiResult SendNotice()
         {
-            var result = SysNoticeService.GetSysNotices();
+            var result = NoticeStorageService.GetNoticeStorages();
 
             return new ApiResult(200, "success", result);
         }

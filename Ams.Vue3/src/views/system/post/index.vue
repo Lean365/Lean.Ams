@@ -102,11 +102,13 @@
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-form-item :label="$t('ppost.postName')" prop="postName">
           <el-input v-model="form.postName"
-            :placeholder="$t('btn.enterPrefix')+$t('ppost.postName')+$t('btn.enterSuffix')" />
+            :placeholder="$t('btn.enterPrefix')+$t('ppost.postName')+$t('btn.enterSuffix')" show-word-limit
+            maxlength="3" />
         </el-form-item>
         <el-form-item :label="$t('ppost.postCode')" prop="postCode">
           <el-input v-model="form.postCode"
-            :placeholder="$t('btn.enterPrefix')+$t('ppost.postCode')+$t('btn.enterSuffix')" />
+            :placeholder="$t('btn.enterPrefix')+$t('ppost.postCode')+$t('btn.enterSuffix')" show-word-limit
+            maxlength="10" />
         </el-form-item>
         <el-form-item :label="$t('ppost.postLevel')" prop="postLevel">
           <el-radio-group v-model="form.postLevel">
@@ -125,7 +127,8 @@
         </el-form-item>
         <el-form-item :label="$t('common.tipRemarks')" prop="remark">
           <el-input v-model="form.remark" type="textarea"
-            :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')" />
+            :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')" show-word-limit
+            maxlength="400" />
         </el-form-item>
       </el-form>
       <template #footer>

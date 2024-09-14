@@ -1,8 +1,9 @@
 <!--
  * @Descripttion: 社保/routine_ehr_social_security
- * @Version: 1.0.0.0
+ * @Version: 0.24.621.24558
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/30 9:30:43
+ * @Date: 2024/9/12 15:14:24
+ * @column：33
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,12 +12,12 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="工号" prop="eeWorkID">
-        <el-input v-model="queryParams.eeWorkID" :placeholder="$t('btn.enterSearchPrefix')+'工号'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="工号" prop="mp003">
+        <el-input v-model="queryParams.mp003" :placeholder="$t('btn.enterSearchPrefix')+'工号'+$t('btn.enterSearchSuffix')" />
       </el-form-item>
       <el-form-item label="生效日">
         <el-date-picker
-          v-model="dateRangeEssEffectiveDate" 
+          v-model="dateRangeMp004" 
           type="datetimerange"
           :start-placeholder="$t('btn.dateStart')"
           :end-placeholder="$t('btn.dateEnd')"
@@ -87,20 +88,17 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="eeSFID" label="ID" align="center" v-if="columns.showColumn('eeSFID')"/>
-      <el-table-column prop="eeParentSfid" label="父ID" align="center" v-if="columns.showColumn('eeParentSfid')"/>
-      <el-table-column prop="eeWorkID" label="工号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('eeWorkID')"/>
-      <el-table-column prop="essEffectiveDate" label="生效日" :show-overflow-tooltip="true"  v-if="columns.showColumn('essEffectiveDate')"/>
-      <el-table-column prop="eeOldAgeInsur" label="养老" align="center" v-if="columns.showColumn('eeOldAgeInsur')"/>
-      <el-table-column prop="eeMedicalInsur" label="医疗" align="center" v-if="columns.showColumn('eeMedicalInsur')"/>
-      <el-table-column prop="eeInjuryInsur" label="工伤" align="center" v-if="columns.showColumn('eeInjuryInsur')"/>
-      <el-table-column prop="eeUnemploymentInsur" label="失业" align="center" v-if="columns.showColumn('eeUnemploymentInsur')"/>
-      <el-table-column prop="eeMaternityInsur" label="生育" align="center" v-if="columns.showColumn('eeMaternityInsur')"/>
-      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
-      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
-      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
-      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
+      <el-table-column prop="parentId" label="父ID" align="center" v-if="columns.showColumn('parentId')"/>
+      <el-table-column prop="mp003" label="工号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mp003')"/>
+      <el-table-column prop="mp004" label="生效日" :show-overflow-tooltip="true"  v-if="columns.showColumn('mp004')"/>
+      <el-table-column prop="mp005" label="养老" align="center" v-if="columns.showColumn('mp005')"/>
+      <el-table-column prop="mp006" label="医疗" align="center" v-if="columns.showColumn('mp006')"/>
+      <el-table-column prop="mp007" label="工伤" align="center" v-if="columns.showColumn('mp007')"/>
+      <el-table-column prop="mp008" label="失业" align="center" v-if="columns.showColumn('mp008')"/>
+      <el-table-column prop="mp009" label="生育" align="center" v-if="columns.showColumn('mp009')"/>
+      <el-table-column prop="isDeleted" label="软删除" align="center" v-if="columns.showColumn('isDeleted')"/>
+      <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button-group>
@@ -120,168 +118,62 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="ID" prop="eeSFID">
-              <el-input v-model.number="form.eeSFID" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="父ID" prop="eeParentSfid">
-              <el-input v-model.number="form.eeParentSfid" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')" />
+            <el-form-item label="父ID" prop="parentId">
+              <el-input   v-model.number="form.parentId" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')"  show-word-limit   maxlength="19"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="工号" prop="eeWorkID">
-              <el-input v-model="form.eeWorkID" :placeholder="$t('btn.enterPrefix')+'工号'+$t('btn.enterSuffix')" />
+            <el-form-item label="工号" prop="mp003">
+              <el-input   v-model="form.mp003" :placeholder="$t('btn.enterPrefix')+'工号'+$t('btn.enterSuffix')"  show-word-limit   maxlength="8"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生效日" prop="essEffectiveDate">
-              <el-date-picker v-model="form.essEffectiveDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="生效日" prop="mp004">
+              <el-date-picker v-model="form.mp004" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="养老" prop="eeOldAgeInsur">
-              <el-input-number v-model.number="form.eeOldAgeInsur" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'养老'+$t('btn.enterSuffix')" />
+            <el-form-item label="养老" prop="mp005">
+              <el-input-number v-model.number="form.mp005" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'养老'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="医疗" prop="eeMedicalInsur">
-              <el-input-number v-model.number="form.eeMedicalInsur" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'医疗'+$t('btn.enterSuffix')" />
+            <el-form-item label="医疗" prop="mp006">
+              <el-input-number v-model.number="form.mp006" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'医疗'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="工伤" prop="eeInjuryInsur">
-              <el-input-number v-model.number="form.eeInjuryInsur" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'工伤'+$t('btn.enterSuffix')" />
+            <el-form-item label="工伤" prop="mp007">
+              <el-input-number v-model.number="form.mp007" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'工伤'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="失业" prop="eeUnemploymentInsur">
-              <el-input-number v-model.number="form.eeUnemploymentInsur" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'失业'+$t('btn.enterSuffix')" />
+            <el-form-item label="失业" prop="mp008">
+              <el-input-number v-model.number="form.mp008" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'失业'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生育" prop="eeMaternityInsur">
-              <el-input-number v-model.number="form.eeMaternityInsur" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'生育'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义A" prop="uDF01">
-              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义B" prop="uDF02">
-              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义C" prop="uDF03">
-              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义D" prop="uDF04">
-              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义E" prop="uDF05">
-              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义F" prop="uDF06">
-              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义1" prop="uDF51">
-              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义2" prop="uDF52">
-              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义3" prop="uDF53">
-              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义4" prop="uDF54">
-              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义5" prop="uDF55">
-              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义6" prop="uDF56">
-              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
+            <el-form-item label="生育" prop="mp009">
+              <el-input-number v-model.number="form.mp009" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'生育'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
             <el-form-item label="软删除" prop="isDeleted">
-              <el-radio-group v-model="form.isDeleted">
-                <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue" :value="parseInt(item.dictValue)">
-                  {{item.dictLabel}}
-                </el-radio>
-              </el-radio-group>
+              <el-input-number v-model.number="form.isDeleted" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'软删除'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="备注" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建者" prop="createBy">
-              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建时间" prop="createTime">
-              <el-date-picker v-model="form.createTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新者" prop="updateBy">
-              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新时间" prop="updateTime">
-              <el-date-picker v-model="form.updateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="备注说明" prop="remark">
+              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -393,29 +285,26 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: '',
+  sort: 'Mp003',
   sortType: 'asc',
-//是否查询（1是）
-  eeWorkID: undefined,
-//是否查询（1是）
-  essEffectiveDate: undefined,
+  //是否查询（1是）
+  mp003: undefined,
+  //是否查询（1是）
+  mp004: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'eeSFID', label: 'ID' },
-  { visible: true, prop: 'eeParentSfid', label: '父ID' },
-  { visible: true, prop: 'eeWorkID', label: '工号' },
-  { visible: true, prop: 'essEffectiveDate', label: '生效日' },
-  { visible: true, prop: 'eeOldAgeInsur', label: '养老' },
-  { visible: true, prop: 'eeMedicalInsur', label: '医疗' },
-  { visible: true, prop: 'eeInjuryInsur', label: '工伤' },
-  { visible: true, prop: 'eeUnemploymentInsur', label: '失业' },
-  { visible: false, prop: 'eeMaternityInsur', label: '生育' },
-  { visible: false, prop: 'remark', label: '备注' },
-  { visible: false, prop: 'createBy', label: '创建者' },
-  { visible: false, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新者' },
-  { visible: false, prop: 'updateTime', label: '更新时间' },
+  { visible: true, prop: 'id', label: 'ID' },
+  { visible: true, prop: 'parentId', label: '父ID' },
+  { visible: true, prop: 'mp003', label: '工号' },
+  { visible: true, prop: 'mp004', label: '生效日' },
+  { visible: true, prop: 'mp005', label: '养老' },
+  { visible: true, prop: 'mp006', label: '医疗' },
+  { visible: true, prop: 'mp007', label: '工伤' },
+  { visible: true, prop: 'mp008', label: '失业' },
+  { visible: false, prop: 'mp009', label: '生育' },
+  { visible: false, prop: 'isDeleted', label: '软删除' },
+  { visible: false, prop: 'remark', label: '备注说明' },
 ])
 // 记录数
 const total = ref(0)
@@ -426,22 +315,15 @@ const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
 // 生效日时间范围
-const dateRangeEssEffectiveDate = ref([])
+const dateRangeMp004 = ref([])
 
 //字典参数
 var dictParams = [
-  { dictType: "sys_is_deleted" },
 ]
 
-//字典加载
-proxy.getDicts(dictParams).then((response) => {
-  response.data.forEach((element) => {
-    state.options[element.dictType] = element.list
-  })
-})
 //API获取从社保/routine_ehr_social_security表记录数据
 function getList(){
-  proxy.addDateRange(queryParams, dateRangeEssEffectiveDate.value, 'EssEffectiveDate');
+  proxy.addDateRange(queryParams, dateRangeMp004.value, 'Mp004');
   loading.value = true
   listRoutineEhrSocialSecurity(queryParams).then(res => {
     const { code, data } = res
@@ -462,13 +344,13 @@ function handleQuery() {
 // 重置查询操作
 function resetQuery(){
   // 生效日时间范围
-  dateRangeEssEffectiveDate.value = []
+  dateRangeMp004.value = []
   proxy.resetForm("queryRef")
   handleQuery()
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.eeSFID);
+  ids.value = selection.map((item) => item.id);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -503,22 +385,13 @@ const state = reactive({
   single: true,
   multiple: true,
   form: {},
+//正则表达式
   rules: {
-    eeSFID: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    eeParentSfid: [{ required: true, message: "父ID"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    eeWorkID: [{ required: true, message: "工号"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    essEffectiveDate: [{ required: true, message: "生效日"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF54: [{ required: true, message: "自定义4"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF55: [{ required: true, message: "自定义5"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF56: [{ required: true, message: "自定义6"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    parentId: [{ required: true, message: "父ID"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
     isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
   },
+//字典名称
   options: {
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_deleted: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -533,33 +406,16 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    eeSFID: 0,
-    eeParentSfid: 0,
-    eeWorkID: null,
-    essEffectiveDate: null,
-    eeOldAgeInsur: 0,
-    eeMedicalInsur: 0,
-    eeInjuryInsur: 0,
-    eeUnemploymentInsur: 0,
-    eeMaternityInsur: 0,
-    uDF01: null,
-    uDF02: null,
-    uDF03: null,
-    uDF04: null,
-    uDF05: null,
-    uDF06: null,
-    uDF51: 0,
-    uDF52: 0,
-    uDF53: 0,
-    uDF54: 0,
-    uDF55: 0,
-    uDF56: 0,
+    parentId: 0,
+    mp003: null,
+    mp004: null,
+    mp005: 0,
+    mp006: 0,
+    mp007: 0,
+    mp008: 0,
+    mp009: 0,
     isDeleted: 0,
     remark: null,
-    createBy: null,
-    createTime: null,
-    updateBy: null,
-    updateTime: null,
   };
   proxy.resetForm("formRef")
 }
@@ -571,19 +427,18 @@ function handleAdd() {
   open.value = true
   title.value = proxy.$t('btn.add')+" "+'社保'
   opertype.value = 1
-  form.value.essEffectiveDate= new Date()
-  form.value.eeOldAgeInsur= 0
-  form.value.eeMedicalInsur= 0
-  form.value.eeInjuryInsur= 0
-  form.value.eeUnemploymentInsur= 0
-  form.value.eeMaternityInsur= 0
-  form.value.createTime= new Date()
-  form.value.updateTime= new Date()
+  form.value.mp004= new Date()
+  form.value.mp005= 0
+  form.value.mp006= 0
+  form.value.mp007= 0
+  form.value.mp008= 0
+  form.value.mp009= 0
+  form.value.isDeleted= 0
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.eeSFID || ids.value
+  const id = row.id || ids.value
   getRoutineEhrSocialSecurity(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -603,7 +458,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.eeSFID != undefined && opertype.value === 2) {
+      if (form.value.id != undefined && opertype.value === 2) {
         updateRoutineEhrSocialSecurity(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -622,7 +477,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.eeSFID || ids.value
+  const Ids = row.id || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {

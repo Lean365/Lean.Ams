@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 返工改修
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 15:11:26
+    /// @Date: 2024/9/11 16:47:36
     /// </summary>
     [Verify]
     [Route("Logistics/QmCostRework")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询返工改修详情
         /// </summary>
-        /// <param name="QcrdSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{QcrdSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "qm:costrework:query")]
-        public IActionResult GetQmCostRework(long QcrdSfId)
+        public IActionResult GetQmCostRework(int Id)
         {
-            var response = _QmCostReworkService.GetInfo(QcrdSfId);
+            var response = _QmCostReworkService.GetInfo(Id);
             
             var info = response.Adapt<QmCostReworkDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "qm:costrework:add")]
-        [Log(Title = "返工改修", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "返工改修", BusinessType = BusinessType.ADD)]
         public IActionResult AddQmCostRework([FromBody] QmCostReworkDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmCostReworkService.CheckInputUnique(parm.QcrdSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmCostReworkService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增返工改修 '{parm.QcrdSfId}'失败(Add failed)，输入的返工改修已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增返工改修 '{parm.Id}'失败(Add failed)，输入的返工改修已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmCostRework>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "qm:costrework:edit")]
-        [Log(Title = "返工改修", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "返工改修", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateQmCostRework([FromBody] QmCostReworkDto parm)
         {
             var modal = parm.Adapt<QmCostRework>().ToUpdate(HttpContext);
@@ -103,7 +103,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [Log(Title = "返工改修", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteQmCostRework([FromRoute]string ids)
         {
-            var idArr = Tools.SplitAndConvert<long>(ids);
+            var idArr = Tools.SplitAndConvert<int>(ids);
 
             return ToResponse(_QmCostReworkService.Delete(idArr, "删除返工改修"));
         }
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出返工改修
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "返工改修", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "返工改修导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "qm:costrework:export")]
         public IActionResult Export([FromQuery] QmCostReworkQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入返工改修
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "返工改修导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "qm:costrework:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<QmCostReworkDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 返工改修导入模板下载
+        /// 返工改修
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "返工改修模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<QmCostReworkImportTpl>() { }, "QmCostRework_tpl");
             return ExportExcel(result.Item2, result.Item1);

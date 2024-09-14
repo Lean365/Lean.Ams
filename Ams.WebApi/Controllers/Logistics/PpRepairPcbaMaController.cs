@@ -8,10 +8,10 @@ using MiniExcelLibs;
 namespace Ams.WebApi.Controllers.Logistics
 {
     /// <summary>
-    /// 修理日报ma
+    /// 修理
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 12:04:48
+    /// @Date: 2024/9/12 16:10:27
     /// </summary>
     [Verify]
     [Route("Logistics/PpRepairPcbaMa")]
@@ -19,7 +19,7 @@ namespace Ams.WebApi.Controllers.Logistics
     public class PpRepairPcbaMaController : BaseController
     {
         /// <summary>
-        /// 修理日报ma接口
+        /// 修理接口
         /// </summary>
         private readonly IPpRepairPcbaMaService _PpRepairPcbaMaService;
 
@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 查询修理日报ma列表
+        /// 查询修理列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -43,34 +43,34 @@ namespace Ams.WebApi.Controllers.Logistics
 
 
         /// <summary>
-        /// 查询修理日报ma详情
+        /// 查询修理详情
         /// </summary>
-        /// <param name="PdrSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{PdrSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "pp:repairpcbama:query")]
-        public IActionResult GetPpRepairPcbaMa(long PdrSfId)
+        public IActionResult GetPpRepairPcbaMa(long Id)
         {
-            var response = _PpRepairPcbaMaService.GetInfo(PdrSfId);
+            var response = _PpRepairPcbaMaService.GetInfo(Id);
             
             var info = response.Adapt<PpRepairPcbaMaDto>();
             return SUCCESS(info);
         }
 
         /// <summary>
-        /// 添加修理日报ma
+        /// 添加修理
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "pp:repairpcbama:add")]
-        [Log(Title = "修理日报ma", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "修理", BusinessType = BusinessType.ADD)]
         public IActionResult AddPpRepairPcbaMa([FromBody] PpRepairPcbaMaDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpRepairPcbaMaService.CheckInputUnique(parm.PdrSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpRepairPcbaMaService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增修理日报ma '{parm.PdrSfId}'失败(Add failed)，输入的修理日报ma已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增修理 '{parm.Id}'失败(Add failed)，输入的修理已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpRepairPcbaMa>().ToCreate(HttpContext);
 
@@ -80,12 +80,12 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 更新修理日报ma
+        /// 更新修理
         /// </summary>
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "pp:repairpcbama:edit")]
-        [Log(Title = "修理日报ma", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "修理", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdatePpRepairPcbaMa([FromBody] PpRepairPcbaMaDto parm)
         {
             var modal = parm.Adapt<PpRepairPcbaMa>().ToUpdate(HttpContext);
@@ -95,24 +95,24 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 删除修理日报ma
+        /// 删除修理
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "pp:repairpcbama:delete")]
-        [Log(Title = "修理日报ma", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "修理", BusinessType = BusinessType.DELETE)]
         public IActionResult DeletePpRepairPcbaMa([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
-            return ToResponse(_PpRepairPcbaMaService.Delete(idArr, "删除修理日报ma"));
+            return ToResponse(_PpRepairPcbaMaService.Delete(idArr, "删除修理"));
         }
 
         /// <summary>
-        /// 导出修理日报ma
+        /// 导出修理
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "修理日报ma", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "修理导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "pp:repairpcbama:export")]
         public IActionResult Export([FromQuery] PpRepairPcbaMaQueryDto parm)
@@ -124,19 +124,19 @@ namespace Ams.WebApi.Controllers.Logistics
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "修理日报ma", "修理日报ma");
+            var result = ExportExcelMini(list, "修理", "修理");
             return ExportExcel(result.Item2, result.Item1);
         }
 
         /// <summary>
-        /// 导入
+        /// 导入修理
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
-        [Log(Title = "修理日报ma导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
+      [HttpPost("importData")]
+        [Log(Title = "修理导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "pp:repairpcbama:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<PpRepairPcbaMaDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 修理日报ma导入模板下载
+        /// 修理
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
-        [Log(Title = "修理日报ma模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "修理模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<PpRepairPcbaMaImportTpl>() { }, "PpRepairPcbaMa_tpl");
             return ExportExcel(result.Item2, result.Item1);

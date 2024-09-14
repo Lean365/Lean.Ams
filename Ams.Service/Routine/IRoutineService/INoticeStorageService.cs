@@ -1,16 +1,14 @@
-using Ams.Model.Routine.Dto;
-
 namespace Ams.Service.Routine.IRoutineService
 {
     /// <summary>
-    /// 通知公告表service接口
-    ///
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
+    /// 通知公告
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024/8/29 13:30:50
     /// </summary>
     public interface INoticeStorageService : IBaseService<NoticeStorage>
     {
-        List<NoticeStorage> GetSysNotices();
+        List<NoticeStorage> GetNoticeStorages();
 
         PagedInfo<NoticeStorage> GetPageList(NoticeStorageQueryDto parm);
 

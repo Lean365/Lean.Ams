@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 检查日报slv分页查询
+ * 检查明细分页查询
  * @param {查询条件} data
  */
 export function listPpInspPcbaSlv(query) {
@@ -14,7 +14,7 @@ export function listPpInspPcbaSlv(query) {
 }
 
 /**
- * 新增检查日报slv
+ * 新增检查明细
  * @param data
  */
 export function addPpInspPcbaSlv(data) {
@@ -25,7 +25,7 @@ export function addPpInspPcbaSlv(data) {
   })
 }
 /**
- * 修改检查日报slv
+ * 修改检查明细
  * @param data
  */
 export function updatePpInspPcbaSlv(data) {
@@ -36,7 +36,7 @@ export function updatePpInspPcbaSlv(data) {
   })
 }
 /**
- * 获取检查日报slv详情
+ * 获取检查明细详情
  * @param {Id}
  */
 export function getPpInspPcbaSlv(id) {
@@ -47,7 +47,7 @@ export function getPpInspPcbaSlv(id) {
 }
 
 /**
- * 删除检查日报slv
+ * 删除检查明细
  * @param {主键} pid
  */
 export function delPpInspPcbaSlv(pid) {
@@ -56,7 +56,7 @@ export function delPpInspPcbaSlv(pid) {
     method: 'delete'
   })
 }
-// 导出检查日报slv
+// 导出检查明细
 export async function exportPpInspPcbaSlv(query) {
   await downFile('Logistics/PpInspPcbaSlv/export', { ...query })
 }

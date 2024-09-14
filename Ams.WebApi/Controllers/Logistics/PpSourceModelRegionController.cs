@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 源机种仕向
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:18:52
+    /// @Date: 2024/9/11 13:38:17
     /// </summary>
     [Verify]
     [Route("Logistics/PpSourceModelRegion")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询源机种仕向详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{SfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "pp:sourcemodelregion:query")]
-        public IActionResult GetPpSourceModelRegion(long SfId)
+        public IActionResult GetPpSourceModelRegion(long Id)
         {
-            var response = _PpSourceModelRegionService.GetInfo(SfId);
+            var response = _PpSourceModelRegionService.GetInfo(Id);
             
             var info = response.Adapt<PpSourceModelRegionDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "pp:sourcemodelregion:add")]
-        [Log(Title = "源机种仕向", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "源机种仕向", BusinessType = BusinessType.ADD)]
         public IActionResult AddPpSourceModelRegion([FromBody] PpSourceModelRegionDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceModelRegionService.CheckInputUnique(parm.SfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceModelRegionService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增源机种仕向 '{parm.SfId}'失败(Add failed)，输入的源机种仕向已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增源机种仕向 '{parm.Id}'失败(Add failed)，输入的源机种仕向已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpSourceModelRegion>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "pp:sourcemodelregion:edit")]
-        [Log(Title = "源机种仕向", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "源机种仕向", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdatePpSourceModelRegion([FromBody] PpSourceModelRegionDto parm)
         {
             var modal = parm.Adapt<PpSourceModelRegion>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出源机种仕向
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "源机种仕向", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "源机种仕向导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "pp:sourcemodelregion:export")]
         public IActionResult Export([FromQuery] PpSourceModelRegionQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入源机种仕向
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "源机种仕向导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "pp:sourcemodelregion:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<PpSourceModelRegionDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 源机种仕向导入模板下载
+        /// 源机种仕向
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "源机种仕向模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<PpSourceModelRegionImportTpl>() { }, "PpSourceModelRegion_tpl");
             return ExportExcel(result.Item2, result.Item1);

@@ -7,7 +7,7 @@ import { downFile } from '@/utils/request'
 */
 export function listBanner(query) {
   return request({
-    url: 'advertising/banner/list',
+    url: 'advert/banner/list',
     method: 'get',
     params: query,
   })
@@ -19,7 +19,7 @@ export function listBanner(query) {
 */
 export function addBanner(data) {
   return request({
-    url: 'advertising/banner',
+    url: 'advert/banner',
     method: 'post',
     data: data,
   })
@@ -30,7 +30,7 @@ export function addBanner(data) {
 */
 export function updateBanner(data) {
   return request({
-    url: 'advertising/banner',
+    url: 'advert/banner',
     method: 'PUT',
     data: data,
   })
@@ -41,7 +41,7 @@ export function updateBanner(data) {
 */
 export function getBanner(id) {
   return request({
-    url: 'advertising/banner/' + id,
+    url: 'advert/banner/' + id,
     method: 'get'
   })
 }
@@ -52,17 +52,17 @@ export function getBanner(id) {
 */
 export function delBanner(pid) {
   return request({
-    url: 'advertising/banner/delete/' + pid,
+    url: 'advert/banner/delete/' + pid,
     method: 'delete'
   })
 }
 // 导出广告管理
 export async function exportBanner(query) {
-  await downFile('advertising/banner/export', { ...query })
+  await downFile('advert/banner/export', { ...query })
 }
 export function changeSort(data) {
   return request({
-    url: 'advertising/banner/ChangeSort',
+    url: 'advert/banner/ChangeSort',
     method: 'get',
     params: data
   })

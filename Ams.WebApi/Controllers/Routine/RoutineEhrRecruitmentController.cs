@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Routine
     /// 招聘
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:31:16
+    /// @Date: 2024/9/12 15:16:55
     /// </summary>
     [Verify]
     [Route("Routine/RoutineEhrRecruitment")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Routine
         /// <summary>
         /// 查询招聘详情
         /// </summary>
-        /// <param name="EeSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{EeSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "routine:ehrrecruitment:query")]
-        public IActionResult GetRoutineEhrRecruitment(long EeSfId)
+        public IActionResult GetRoutineEhrRecruitment(long Id)
         {
-            var response = _RoutineEhrRecruitmentService.GetInfo(EeSfId);
+            var response = _RoutineEhrRecruitmentService.GetInfo(Id);
             
             var info = response.Adapt<RoutineEhrRecruitmentDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "routine:ehrrecruitment:add")]
-        [Log(Title = "招聘", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "招聘", BusinessType = BusinessType.ADD)]
         public IActionResult AddRoutineEhrRecruitment([FromBody] RoutineEhrRecruitmentDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_RoutineEhrRecruitmentService.CheckInputUnique(parm.EeSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_RoutineEhrRecruitmentService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增招聘 '{parm.EeSfId}'失败(Add failed)，输入的招聘已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增招聘 '{parm.Id}'失败(Add failed)，输入的招聘已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<RoutineEhrRecruitment>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "routine:ehrrecruitment:edit")]
-        [Log(Title = "招聘", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "招聘", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateRoutineEhrRecruitment([FromBody] RoutineEhrRecruitmentDto parm)
         {
             var modal = parm.Adapt<RoutineEhrRecruitment>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// 导出招聘
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "招聘", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "招聘导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "routine:ehrrecruitment:export")]
         public IActionResult Export([FromQuery] RoutineEhrRecruitmentQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 导入
+        /// 导入招聘
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "招聘导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "routine:ehrrecruitment:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<RoutineEhrRecruitmentDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 招聘导入模板下载
+        /// 招聘
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "招聘模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<RoutineEhrRecruitmentImportTpl>() { }, "RoutineEhrRecruitment_tpl");
             return ExportExcel(result.Item2, result.Item1);

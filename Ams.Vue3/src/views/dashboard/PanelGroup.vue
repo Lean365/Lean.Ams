@@ -111,9 +111,9 @@
   }
     from '@/api/statistics/ficoinventorystati.js'
   import {
-    getMonthlyProductionCost,
+    getMonthlyProdCost,
   }
-    from '@/api/statistics/ficocoststati.js'
+    from '@/api/statistics/ficocomparisonstati.js'
   import { useTransition } from '@vueuse/core'
   const emit = defineEmits()
   const { proxy } = getCurrentInstance()
@@ -123,7 +123,7 @@
     getTotalMonthlySalesQty()
     getTotalMonthlySalesAmount()
     getTotalMonthlyInventoryAmount()
-    getTotalMonthlyProductionCost()
+    getTotalMonthlyProdCost()
   })
   //ec点数统计
   const ecCount = ref(0)
@@ -248,9 +248,9 @@
   const monthlyProductionCostValue = useTransition(monthlyProductionCost, {
     duration: 1500,
   })
-  function getTotalMonthlyProductionCost() {
+  function getTotalMonthlyProdCost() {
     return new Promise((resolve, reject) => {
-      getMonthlyProductionCost()
+      getMonthlyProdCost()
         .then((res) => {
           //
           const { code, data } = res

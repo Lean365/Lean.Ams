@@ -1,3 +1,5 @@
+using Ams.Model;
+
 namespace Ams.Model.Monitor.Dto
 {
     /// <summary>
@@ -8,8 +10,8 @@ namespace Ams.Model.Monitor.Dto
         public string TableName { get; set; }
         public string DiffType { get; set; }
         public string UserName { get; set; }
-        public DateTime? BeginTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime? BeginAddTime { get; set; }
+        public DateTime? EndAddTime { get; set; }
     }
 
     /// <summary>
@@ -42,6 +44,9 @@ namespace Ams.Model.Monitor.Dto
 
         [ExcelColumn(Name = "操作用户名")]
         public string UserName { get; set; }
+
+        [ExcelColumn(Name = "记录时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public DateTime? AddTime { get; set; }
 
         [ExcelColumn(Name = "数据库配置id")]
         public string ConfigId { get; set; }

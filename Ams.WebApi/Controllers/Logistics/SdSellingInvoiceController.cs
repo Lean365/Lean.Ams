@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 销售凭证
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 13:36:22
+    /// @Date: 2024/9/11 15:47:09
     /// </summary>
     [Verify]
     [Route("Logistics/SdSellingInvoice")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询销售凭证详情
         /// </summary>
-        /// <param name="SsiSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{SsiSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "sd:sellinginvoice:query")]
-        public IActionResult GetSdSellingInvoice(long SsiSfId)
+        public IActionResult GetSdSellingInvoice(long Id)
         {
-            var response = _SdSellingInvoiceService.GetInfo(SsiSfId);
+            var response = _SdSellingInvoiceService.GetInfo(Id);
             
             var info = response.Adapt<SdSellingInvoiceDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "sd:sellinginvoice:add")]
-        [Log(Title = "销售凭证", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "销售凭证", BusinessType = BusinessType.ADD)]
         public IActionResult AddSdSellingInvoice([FromBody] SdSellingInvoiceDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_SdSellingInvoiceService.CheckInputUnique(parm.SsiSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_SdSellingInvoiceService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增销售凭证 '{parm.SsiSfId}'失败(Add failed)，输入的销售凭证已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增销售凭证 '{parm.Id}'失败(Add failed)，输入的销售凭证已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<SdSellingInvoice>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "sd:sellinginvoice:edit")]
-        [Log(Title = "销售凭证", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "销售凭证", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateSdSellingInvoice([FromBody] SdSellingInvoiceDto parm)
         {
             var modal = parm.Adapt<SdSellingInvoice>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出销售凭证
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "销售凭证", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "销售凭证导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "sd:sellinginvoice:export")]
         public IActionResult Export([FromQuery] SdSellingInvoiceQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入销售凭证
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "销售凭证导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "sd:sellinginvoice:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<SdSellingInvoiceDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 销售凭证导入模板下载
+        /// 销售凭证
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "销售凭证模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<SdSellingInvoiceImportTpl>() { }, "SdSellingInvoice_tpl");
             return ExportExcel(result.Item2, result.Item1);

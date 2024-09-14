@@ -1,16 +1,15 @@
-using Ams.Model.Monitor.Dto;
-using Ams.Service.Monitor.IMonitorService;
+using Ams.Repository;
 
-namespace Ams.Service.Kernel
+namespace Ams.Service.Monitor
 {
     /// <summary>
-    /// 用户在线时长Service业务层处理
+    /// 在线时长Service业务层处理
     /// </summary>
     [AppService(ServiceType = typeof(IDurationLogService), ServiceLifetime = LifeTime.Transient)]
     public class DurationLogService : BaseService<DurationLog>, IDurationLogService
     {
         /// <summary>
-        /// 查询用户在线时长列表
+        /// 查询在线时长列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -32,7 +31,7 @@ namespace Ams.Service.Kernel
         }
 
         /// <summary>
-        /// 添加用户在线时长
+        /// 添加在线时长
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -46,7 +45,7 @@ namespace Ams.Service.Kernel
         }
 
         /// <summary>
-        /// 导出用户在线时长
+        /// 导出在线时长
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -75,8 +74,8 @@ namespace Ams.Service.Kernel
 
             predicate = predicate.AndIF(parm.UserId != null, it => it.UserId == parm.UserId);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.UserIP), it => it.UserIP == parm.UserIP);
-            predicate = predicate.AndIF(parm.BeginTime == null, it => it.Create_time >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.Create_time >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginAddTime != null, it => it.Create_time >= parm.BeginAddTime);
             return predicate;
         }
     }

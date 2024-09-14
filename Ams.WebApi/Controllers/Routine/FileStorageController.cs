@@ -1,15 +1,9 @@
-using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
-using Microsoft.AspNetCore.Mvc;
-using SqlSugar;
+using Ams.Infrastructure.Helper;
 
 namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
-    /// 文件存储
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
+    /// 文件存储Controller
     /// </summary>
     [Verify]
     [Route("routine/file/stroage")]
@@ -19,11 +13,11 @@ namespace Ams.WebApi.Controllers.Routine
         /// <summary>
         /// 文件存储接口
         /// </summary>
-        private readonly IFileStorageService _SysFileService;
+        private readonly IFileStorageService _FileStorageService;
 
-        public FileStorageController(IFileStorageService SysFileService)
+        public FileStorageController(IFileStorageService FileStorageService)
         {
-            _SysFileService = SysFileService;
+            _FileStorageService = FileStorageService;
         }
 
         /// <summary>
@@ -33,7 +27,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpGet("list")]
         [ActionPermissionFilter(Permission = "routine:file:list")]
-        public IActionResult QuerySysFile([FromQuery] FileStorageQueryDto parm)
+        public IActionResult QueryFileStorage([FromQuery] FileStorageQueryDto parm)
         {
             var predicate = Expressionable.Create<FileStorage>();
 
@@ -42,7 +36,7 @@ namespace Ams.WebApi.Controllers.Routine
             predicate = predicate.AndIF(parm.StoreType != null, m => m.StoreType == parm.StoreType);
             predicate = predicate.AndIF(parm.FileId != null, m => m.Id == parm.FileId);
 
-            var response = _SysFileService.GetPages(predicate.ToExpression(), parm, x => x.Id, OrderByType.Desc);
+            var response = _FileStorageService.GetPages(predicate.ToExpression(), parm, x => x.Id, OrderByType.Desc);
             return SUCCESS(response);
         }
 
@@ -53,9 +47,9 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "routine:file:query")]
-        public IActionResult GetSysFile(long Id)
+        public IActionResult GetFileStorage(long Id)
         {
-            var response = _SysFileService.GetFirst(x => x.Id == Id);
+            var response = _FileStorageService.GetFirst(x => x.Id == Id);
 
             return SUCCESS(response);
         }
@@ -67,7 +61,7 @@ namespace Ams.WebApi.Controllers.Routine
         [HttpDelete("{ids}")]
         [ActionPermissionFilter(Permission = "routine:file:delete")]
         [Log(Title = "文件存储", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteSysFile(string ids)
+        public IActionResult DeleteFileStorage(string ids)
         {
             long[] idsArr = Tools.SpitLongArrary(ids);
             if (idsArr.Length <= 0) { return ToResponse(ApiResult.Error($"删除失败Id 不能为空")); }
@@ -75,9 +69,9 @@ namespace Ams.WebApi.Controllers.Routine
             //TODO 删除本地资源
             foreach (var id in idsArr)
             {
-                FileUtil.DeleteFile(_SysFileService.GetById(id).FileUrl.Substring(0, _SysFileService.GetById(id).FileUrl.LastIndexOf("/") + 1), _SysFileService.GetById(id).FileName);
+                FileUtil.DeleteFile(_FileStorageService.GetById(id).FileUrl.Substring(0, _FileStorageService.GetById(id).FileUrl.LastIndexOf("/") + 1), _FileStorageService.GetById(id).FileName);
             }
-            var response = _SysFileService.Delete(idsArr);
+            var response = _FileStorageService.Delete(idsArr);
             return ToResponse(response);
         }
 
@@ -90,7 +84,7 @@ namespace Ams.WebApi.Controllers.Routine
         [ActionPermissionFilter(Permission = "routine:file:export")]
         public IActionResult Export()
         {
-            var list = _SysFileService.GetAll();
+            var list = _FileStorageService.GetAll();
 
             string sFileName = ExportExcel(list, "FileStorage", "文件存储");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });

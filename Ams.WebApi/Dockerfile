@@ -15,6 +15,7 @@ COPY ["Ams.Common/Ams.Common.csproj", "Ams.Common/"]
 COPY ["Ams.Service/Ams.Service.csproj", "Ams.Service/"]
 COPY ["Ams.Repository/Ams.Repository.csproj", "Ams.Repository/"]
 COPY ["Ams.Model/Ams.Model.csproj", "Ams.Model/"]
+COPY ["Ams.Service/Ams.Service.csproj", "Ams.Service/"]
 COPY ["Ams.Tasks/Ams.Tasks.csproj", "Ams.Tasks/"]
 RUN dotnet restore "./Ams.WebApi/Ams.WebApi.csproj"
 COPY . .

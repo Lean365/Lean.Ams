@@ -1,305 +1,255 @@
 namespace Ams.Model.Logistics
 {
     /// <summary>
-    /// 客户信息
+    /// 客户
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 14:26:41
+    /// @Date: 2024/9/11 15:53:14
     /// </summary>
-    [SugarTable("sd_client", "客户信息")]
+    [SugarTable("sd_client", "客户")]
     public class SdClient : SysBase
     {
         /// <summary>
         /// ID
         /// </summary>
-        [JsonConverter(typeof(ValueToStringConverter))]
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long ScSfId { get; set; }
+        public long Id { get; set; }
+
+        /// <summary>
+        /// 集团
+        /// </summary>
+        [SugarColumn(ColumnName = "Ma002", ColumnDescription = "集团", Length = 6, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Ma002 { get; set; }
 
         /// <summary>
         /// 销售组织
         /// </summary>
-        [SugarColumn(ColumnName = "ScOrg", ColumnDescription = "销售组织 ", Length = 4)]
-        public string ScOrg { get; set; }
+        [SugarColumn(ColumnName = "Ma003", ColumnDescription = "销售组织", Length = 4, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Ma003 { get; set; }
 
         /// <summary>
         /// 行业类别
         /// </summary>
-        [SugarColumn(ColumnName = "ScIndustryType", ColumnDescription = "行业类别 ", Length = 1)]
-        public string ScIndustryType { get; set; }
+        [SugarColumn(ColumnName = "Ma004", ColumnDescription = "行业类别", Length = 1, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Ma004 { get; set; }
 
         /// <summary>
         /// 企业性质
         /// </summary>
-        [SugarColumn(ColumnName = "ScEnterpriseNature", ColumnDescription = "企业性质 ", Length = 1)]
-        public string ScEnterpriseNature { get; set; }
+        [SugarColumn(ColumnName = "Ma005", ColumnDescription = "企业性质", Length = 1, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Ma005 { get; set; }
 
         /// <summary>
         /// 客户代码
         /// </summary>
-        [SugarColumn(ColumnName = "ScCode", ColumnDescription = "客户代码 ", Length = 10)]
-        public string ScCode { get; set; }
+        [SugarColumn(ColumnName = "Ma006", ColumnDescription = "客户代码", Length = 10, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Ma006 { get; set; }
 
         /// <summary>
         /// 客户简称
         /// </summary>
-        [SugarColumn(ColumnName = "ScAbbr", ColumnDescription = "客户简称 ", Length = 20)]
-        public string ScAbbr { get; set; }
+        [SugarColumn(ColumnName = "Ma007", ColumnDescription = "客户简称", Length = 40, ColumnDataType = "NVARCHAR")]
+        public string Ma007 { get; set; }
 
         /// <summary>
         /// 客户名称
         /// </summary>
-        [SugarColumn(ColumnName = "ScName", ColumnDescription = "客户名称 ", Length = 100)]
-        public string ScName { get; set; }
+        [SugarColumn(ColumnName = "Ma008", ColumnDescription = "客户名称", Length = 200, ColumnDataType = "NVARCHAR")]
+        public string Ma008 { get; set; }
 
         /// <summary>
         /// 企业法人
         /// </summary>
-        [SugarColumn(ColumnName = "ScEbe", ColumnDescription = "企业法人 ", Length = 50)]
-        public string ScEbe { get; set; }
-
-        /// <summary>
-        /// 营业执照
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBusinessNo", ColumnDescription = "营业执照 ", Length = 100)]
-        public string ScBusinessNo { get; set; }
+        [SugarColumn(ColumnName = "Ma009", ColumnDescription = "企业法人", Length = 50)]
+        public string Ma009 { get; set; }
 
         /// <summary>
         /// 税号
         /// </summary>
-        [SugarColumn(ColumnName = "ScTaxNo", ColumnDescription = "税号 ", Length = 100)]
-        public string ScTaxNo { get; set; }
+        [SugarColumn(ColumnName = "Ma010", ColumnDescription = "税号", Length = 100)]
+        public string Ma010 { get; set; }
+
+        /// <summary>
+        /// 营业执照
+        /// </summary>
+        [SugarColumn(ColumnName = "Ma011", ColumnDescription = "营业执照", Length = 100)]
+        public string Ma011 { get; set; }
 
         /// <summary>
         /// 税别
         /// </summary>
-        [SugarColumn(ColumnName = "ScTaxType", ColumnDescription = "税别 ", Length = 2)]
-        public string ScTaxType { get; set; }
+        [SugarColumn(ColumnName = "Ma012", ColumnDescription = "税别", Length = 2)]
+        public string Ma012 { get; set; }
 
         /// <summary>
         /// 主营业务
         /// </summary>
-        [SugarColumn(ColumnName = "ScMainBusiness", ColumnDescription = "主营业务 ", Length = 200)]
-        public string ScMainBusiness { get; set; }
+        [SugarColumn(ColumnName = "Ma013", ColumnDescription = "主营业务", Length = 200)]
+        public string Ma013 { get; set; }
 
         /// <summary>
         /// 交易币种
         /// </summary>
-        [SugarColumn(ColumnName = "ScCcy", ColumnDescription = "交易币种 ", Length = 3)]
-        public string ScCcy { get; set; }
+        [SugarColumn(ColumnName = "Ma014", ColumnDescription = "交易币种", Length = 3)]
+        public string Ma014 { get; set; }
 
         /// <summary>
         /// 付款条件
         /// </summary>
-        [SugarColumn(ColumnName = "ScPayTerms", ColumnDescription = "付款条件 ", Length = 4)]
-        public string ScPayTerms { get; set; }
+        [SugarColumn(ColumnName = "Ma015", ColumnDescription = "付款条件", Length = 4)]
+        public string Ma015 { get; set; }
 
         /// <summary>
         /// 付款方式
         /// </summary>
-        [SugarColumn(ColumnName = "ScPayMethod", ColumnDescription = "付款方式 ", Length = 1)]
-        public string ScPayMethod { get; set; }
+        [SugarColumn(ColumnName = "Ma016", ColumnDescription = "付款方式", Length = 1)]
+        public string Ma016 { get; set; }
 
         /// <summary>
         /// 统驭科目
         /// </summary>
-        [SugarColumn(ColumnName = "ScRecAccount", ColumnDescription = "统驭科目 ", Length = 6)]
-        public string ScRecAccount { get; set; }
+        [SugarColumn(ColumnName = "Ma017", ColumnDescription = "统驭科目", Length = 6)]
+        public string Ma017 { get; set; }
 
         /// <summary>
         /// 贸易条件
         /// </summary>
-        [SugarColumn(ColumnName = "ScTradeTerms", ColumnDescription = "贸易条件 ", Length = 3)]
-        public string ScTradeTerms { get; set; }
+        [SugarColumn(ColumnName = "Ma018", ColumnDescription = "贸易条件", Length = 3)]
+        public string Ma018 { get; set; }
 
         /// <summary>
         /// 装运条件
         /// </summary>
-        [SugarColumn(ColumnName = "ScShippingTerms", ColumnDescription = "装运条件 ", Length = 3)]
-        public string ScShippingTerms { get; set; }
+        [SugarColumn(ColumnName = "Ma019", ColumnDescription = "装运条件", Length = 3)]
+        public string Ma019 { get; set; }
 
         /// <summary>
         /// 客户等级
         /// </summary>
-        [SugarColumn(ColumnName = "ScCustomerGrade", ColumnDescription = "客户等级 ", Length = 4)]
-        public string ScCustomerGrade { get; set; }
+        [SugarColumn(ColumnName = "Ma020", ColumnDescription = "客户等级", Length = 4)]
+        public string Ma020 { get; set; }
 
         /// <summary>
         /// 客户信用
         /// </summary>
-        [SugarColumn(ColumnName = "ScCustomerCredit", ColumnDescription = "客户信用 ", Length = 4)]
-        public string ScCustomerCredit { get; set; }
+        [SugarColumn(ColumnName = "Ma021", ColumnDescription = "客户信用", Length = 4)]
+        public string Ma021 { get; set; }
 
         /// <summary>
         /// 首次交易
         /// </summary>
-        public DateTime? ScFirstTransDate { get; set; }
+        public DateTime? Ma022 { get; set; }
 
         /// <summary>
         /// 最近交易
         /// </summary>
-        public DateTime? ScLastTransDate { get; set; }
+        public DateTime? Ma023 { get; set; }
 
         /// <summary>
-        /// 银行代码
+        /// 供应商
         /// </summary>
-        [SugarColumn(ColumnName = "ScBankCode", ColumnDescription = "银行代码 ", Length = 8)]
-        public string ScBankCode { get; set; }
-
-        /// <summary>
-        /// 银行名称
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBankName", ColumnDescription = "银行名称 ", Length = 255)]
-        public string ScBankName { get; set; }
-
-        /// <summary>
-        /// 分行名称
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBranchName", ColumnDescription = "分行名称 ", Length = 255)]
-        public string ScBranchName { get; set; }
-
-        /// <summary>
-        /// 银行所在国
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBankCountry", ColumnDescription = "银行所在国 ", Length = 2)]
-        public string ScBankCountry { get; set; }
-
-        /// <summary>
-        /// 银行所在州省
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBankState", ColumnDescription = "银行所在州省 ", Length = 40)]
-        public string ScBankState { get; set; }
-
-        /// <summary>
-        /// 银行所在市
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBankCity", ColumnDescription = "银行所在市 ", Length = 40)]
-        public string ScBankCity { get; set; }
-
-        /// <summary>
-        /// 银行所在县
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBankCounty", ColumnDescription = "银行所在县 ", Length = 40)]
-        public string ScBankCounty { get; set; }
-
-        /// <summary>
-        /// 银行地址
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBankAddr", ColumnDescription = "银行地址 ", Length = 400)]
-        public string ScBankAddr { get; set; }
-
-        /// <summary>
-        /// 银行地址1
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBankAddr1", ColumnDescription = "银行地址1 ", Length = 400)]
-        public string ScBankAddr1 { get; set; }
-
-        /// <summary>
-        /// 银行地址2
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBankAddr2", ColumnDescription = "银行地址2 ", Length = 400)]
-        public string ScBankAddr2 { get; set; }
-
-        /// <summary>
-        /// 银行账号
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBankAccount", ColumnDescription = "银行账号 ", Length = 20)]
-        public string ScBankAccount { get; set; }
-
-        /// <summary>
-        /// SWIFT代码
-        /// </summary>
-        [SugarColumn(ColumnName = "ScBankSwiftNo", ColumnDescription = "SWIFT代码 ", Length = 50)]
-        public string ScBankSwiftNo { get; set; }
+        [SugarColumn(ColumnName = "Ma024", ColumnDescription = "供应商", Length = 40)]
+        public string Ma024 { get; set; }
 
         /// <summary>
         /// 国家地区
         /// </summary>
-        [SugarColumn(ColumnName = "ScRegionCode", ColumnDescription = "国家地区 ", Length = 2)]
-        public string ScRegionCode { get; set; }
+        [SugarColumn(ColumnName = "Ma025", ColumnDescription = "国家地区", Length = 2)]
+        public string Ma025 { get; set; }
 
         /// <summary>
         /// 州省
         /// </summary>
-        [SugarColumn(ColumnName = "ScState", ColumnDescription = "州省 ", Length = 40)]
-        public string ScState { get; set; }
+        [SugarColumn(ColumnName = "Ma026", ColumnDescription = "州省", Length = 40)]
+        public string Ma026 { get; set; }
 
         /// <summary>
         /// 市
         /// </summary>
-        [SugarColumn(ColumnName = "ScCity", ColumnDescription = "市 ", Length = 40)]
-        public string ScCity { get; set; }
+        [SugarColumn(ColumnName = "Ma027", ColumnDescription = "市", Length = 40)]
+        public string Ma027 { get; set; }
 
         /// <summary>
         /// 县
         /// </summary>
-        [SugarColumn(ColumnName = "ScCounty", ColumnDescription = "县 ", Length = 40)]
-        public string ScCounty { get; set; }
+        [SugarColumn(ColumnName = "Ma028", ColumnDescription = "县", Length = 40)]
+        public string Ma028 { get; set; }
 
         /// <summary>
         /// 地址
         /// </summary>
-        [SugarColumn(ColumnName = "ScAddr", ColumnDescription = "地址 ", Length = 400)]
-        public string ScAddr { get; set; }
+        [SugarColumn(ColumnName = "Ma029", ColumnDescription = "地址", Length = 200, ColumnDataType = "NVARCHAR")]
+        public string Ma029 { get; set; }
 
         /// <summary>
         /// 地址1
         /// </summary>
-        [SugarColumn(ColumnName = "ScAddr1", ColumnDescription = "地址1 ", Length = 400)]
-        public string ScAddr1 { get; set; }
+        [SugarColumn(ColumnName = "Ma030", ColumnDescription = "地址1", Length = 200, ColumnDataType = "NVARCHAR")]
+        public string Ma030 { get; set; }
 
         /// <summary>
         /// 地址2
         /// </summary>
-        [SugarColumn(ColumnName = "ScAddr2", ColumnDescription = "地址2 ", Length = 400)]
-        public string ScAddr2 { get; set; }
+        [SugarColumn(ColumnName = "Ma031", ColumnDescription = "地址2", Length = 200, ColumnDataType = "NVARCHAR")]
+        public string Ma031 { get; set; }
+
+        /// <summary>
+        /// 邮政编码
+        /// </summary>
+        [SugarColumn(ColumnName = "Ma032", ColumnDescription = "邮政编码", Length = 20)]
+        public string Ma032 { get; set; }
+
+        /// <summary>
+        /// 地址号码
+        /// </summary>
+        [SugarColumn(ColumnName = "Ma033", ColumnDescription = "地址号码", Length = 20)]
+        public string Ma033 { get; set; }
 
         /// <summary>
         /// 联系人
         /// </summary>
-        [SugarColumn(ColumnName = "ScContacts", ColumnDescription = "联系人 ", Length = 200)]
-        public string ScContacts { get; set; }
+        [SugarColumn(ColumnName = "Ma034", ColumnDescription = "联系人", Length = 200)]
+        public string Ma034 { get; set; }
 
         /// <summary>
         /// 电邮
         /// </summary>
-        [SugarColumn(ColumnName = "ScEmail", ColumnDescription = "电邮 ", Length = 50)]
-        public string ScEmail { get; set; }
+        [SugarColumn(ColumnName = "Ma035", ColumnDescription = "电邮", Length = 50)]
+        public string Ma035 { get; set; }
 
         /// <summary>
         /// 电话
         /// </summary>
-        [SugarColumn(ColumnName = "ScTelNo", ColumnDescription = "电话 ", Length = 160)]
-        public string ScTelNo { get; set; }
+        [SugarColumn(ColumnName = "Ma036", ColumnDescription = "电话", Length = 160)]
+        public string Ma036 { get; set; }
 
         /// <summary>
         /// 传真
         /// </summary>
-        [SugarColumn(ColumnName = "ScFaxNp", ColumnDescription = "传真 ", Length = 160)]
-        public string ScFaxNp { get; set; }
+        [SugarColumn(ColumnName = "Ma037", ColumnDescription = "传真", Length = 160)]
+        public string Ma037 { get; set; }
 
         /// <summary>
         /// 手机
         /// </summary>
-        [SugarColumn(ColumnName = "ScPhoneNo", ColumnDescription = "手机 ", Length = 160)]
-        public string ScPhoneNo { get; set; }
+        [SugarColumn(ColumnName = "Ma038", ColumnDescription = "手机", Length = 160)]
+        public string Ma038 { get; set; }
 
         /// <summary>
         /// 冻结标记
         /// </summary>
-        [SugarColumn(ColumnName = "IsFroze", ColumnDescription = "冻结标记 ", DefaultValue = "0")]
-        public int IsFroze { get; set; }
+        [SugarColumn(ColumnName = "Ma039", ColumnDescription = "冻结标记", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma039 { get; set; }
 
         /// <summary>
         /// 营业执照附件
         /// </summary>
-        [SugarColumn(ColumnName = "ScLicenseAnnex", ColumnDescription = "营业执照附件 ", Length = 255)]
-        public string ScLicenseAnnex { get; set; }
+        [SugarColumn(ColumnName = "Ma040", ColumnDescription = "营业执照附件", Length = 255)]
+        public string Ma040 { get; set; }
 
         /// <summary>
         /// 其它附件
         /// </summary>
-        [SugarColumn(ColumnName = "ScOtherAnnex", ColumnDescription = "其它附件 ", Length = 255)]
-        public string ScOtherAnnex { get; set; }
+        [SugarColumn(ColumnName = "Ma041", ColumnDescription = "其它附件", Length = 255)]
+        public string Ma041 { get; set; }
     }
 }

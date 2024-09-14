@@ -154,19 +154,22 @@
           <el-col :lg="24">
             <el-form-item :label="$t('puser.userName')" prop="userName">
               <el-input :disabled="form.userId != undefined" v-model="form.userName"
-                :placeholder="$t('btn.enterPrefix')+$t('puser.userName')+$t('btn.enterSuffix')" />
+                :placeholder="$t('btn.enterPrefix')+$t('puser.userName')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="8" />
             </el-form-item>
           </el-col>
           <el-col :lg="24" v-if="form.userId == undefined">
             <el-form-item :label="$t('puser.loginPwd')" prop="password">
               <el-input v-model="form.password" show-password
-                :placeholder="$t('btn.enterPrefix')+$t('puser.loginPwd')+$t('btn.enterSuffix')" type="password" />
+                :placeholder="$t('btn.enterPrefix')+$t('puser.loginPwd')+$t('btn.enterSuffix')" type="password"
+                show-word-limit maxlength="8" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
             <el-form-item :label="$t('puser.userNick')" prop="nickName">
               <el-input v-model="form.nickName"
-                :placeholder="$t('btn.enterPrefix')+$t('puser.userNick')+$t('btn.enterSuffix')" />
+                :placeholder="$t('btn.enterPrefix')+$t('puser.userNick')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="20" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
@@ -180,13 +183,15 @@
           <el-col :lg="24">
             <el-form-item :label="$t('puser.userMobile')" prop="phonenumber">
               <el-input v-model="form.phonenumber"
-                :placeholder="$t('btn.enterPrefix')+$t('puser.userMobile')+$t('btn.enterSuffix')" maxlength="11" />
+                :placeholder="$t('btn.enterPrefix')+$t('puser.userMobile')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="11" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
             <el-form-item :label="$t('puser.email')" prop="email">
               <el-input v-model="form.email"
-                :placeholder="$t('btn.enterPrefix')+$t('puser.email')+$t('btn.enterSuffix')" maxlength="50" />
+                :placeholder="$t('btn.enterPrefix')+$t('puser.email')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="40" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
@@ -232,7 +237,8 @@
           <el-col :lg="24">
             <el-form-item :label="$t('common.tipRemarks')">
               <el-input v-model="form.remark" type="textarea"
-                :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')"></el-input>
+                :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="500"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -335,7 +341,7 @@
     form: {},
     queryParams: {
       pageNum: 1,
-      pageSize: 7,
+      pageSize: 8,
       userName: undefined,
       phonenumber: undefined,
       isStatus: -1,

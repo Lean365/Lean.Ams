@@ -1,4 +1,6 @@
-﻿namespace Ams.Service
+﻿using Ams.Repository;
+
+namespace Ams.Service
 {
     /// <summary>
     /// 基础服务定义

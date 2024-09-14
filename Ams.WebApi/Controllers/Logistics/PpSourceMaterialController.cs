@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 源物料
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:18:11
+    /// @Date: 2024/9/11 13:36:27
     /// </summary>
     [Verify]
     [Route("Logistics/PpSourceMaterial")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询源物料详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{SfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "pp:sourcematerial:query")]
-        public IActionResult GetPpSourceMaterial(long SfId)
+        public IActionResult GetPpSourceMaterial(long Id)
         {
-            var response = _PpSourceMaterialService.GetInfo(SfId);
+            var response = _PpSourceMaterialService.GetInfo(Id);
             
             var info = response.Adapt<PpSourceMaterialDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "pp:sourcematerial:add")]
-        [Log(Title = "源物料", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "源物料", BusinessType = BusinessType.ADD)]
         public IActionResult AddPpSourceMaterial([FromBody] PpSourceMaterialDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceMaterialService.CheckInputUnique(parm.SfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceMaterialService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增源物料 '{parm.SfId}'失败(Add failed)，输入的源物料已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增源物料 '{parm.Id}'失败(Add failed)，输入的源物料已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpSourceMaterial>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "pp:sourcematerial:edit")]
-        [Log(Title = "源物料", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "源物料", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdatePpSourceMaterial([FromBody] PpSourceMaterialDto parm)
         {
             var modal = parm.Adapt<PpSourceMaterial>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出源物料
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "源物料", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "源物料导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "pp:sourcematerial:export")]
         public IActionResult Export([FromQuery] PpSourceMaterialQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入源物料
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "源物料导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "pp:sourcematerial:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<PpSourceMaterialDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 源物料导入模板下载
+        /// 源物料
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "源物料模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<PpSourceMaterialImportTpl>() { }, "PpSourceMaterial_tpl");
             return ExportExcel(result.Item2, result.Item1);

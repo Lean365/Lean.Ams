@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Repository;
 using Ams.Service.Accounting.IAccountingService;
 
 namespace Ams.Service.Accounting
@@ -8,7 +11,7 @@ namespace Ams.Service.Accounting
     /// 部门消耗
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 12:03:53
+    /// @Date: 2024/9/10 16:51:22
     /// </summary>
     [AppService(ServiceType = typeof(IFicoCostingDeptConsumingService), ServiceLifetime = LifeTime.Transient)]
     public class FicoCostingDeptConsumingService : BaseService<FicoCostingDeptConsuming>, IFicoCostingDeptConsumingService
@@ -23,12 +26,13 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("DcLfmon desc")
+                //.OrderBy("Ml003 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoCostingDeptConsuming, FicoCostingDeptConsumingDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -37,7 +41,7 @@ namespace Ams.Service.Accounting
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. DcSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,16 +53,17 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="DcSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public FicoCostingDeptConsuming GetInfo(long DcSfId)
+        public FicoCostingDeptConsuming GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.DcSfId == DcSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加部门消耗
         /// </summary>
@@ -69,6 +74,7 @@ namespace Ams.Service.Accounting
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改部门消耗
         /// </summary>
@@ -87,7 +93,21 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.DcSfId.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.Id.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.Ml002.IsEmpty(), "期间不能为空")
+                .SplitError(x => x.Item.Ml003.IsEmpty(), "年月不能为空")
+                .SplitError(x => x.Item.Ml004.IsEmpty(), "公司代码不能为空")
+                .SplitError(x => x.Item.Ml012.IsEmpty(), "工厂不能为空")
+                .SplitError(x => x.Item.Ml013.IsEmpty(), "物料不能为空")
+                .SplitError(x => x.Item.Ref04.IsEmpty(), "预留1不能为空")
+                .SplitError(x => x.Item.Ref05.IsEmpty(), "预留2不能为空")
+                .SplitError(x => x.Item.Ref06.IsEmpty(), "预留3不能为空")
+                .SplitError(x => x.Item.Udf51.IsEmpty(), "自定义1不能为空")
+                .SplitError(x => x.Item.Udf52.IsEmpty(), "自定义2不能为空")
+                .SplitError(x => x.Item.Udf53.IsEmpty(), "自定义3不能为空")
+                .SplitError(x => x.Item.Udf54.IsEmpty(), "自定义4不能为空")
+                .SplitError(x => x.Item.Udf55.IsEmpty(), "自定义5不能为空")
+                .SplitError(x => x.Item.Udf56.IsEmpty(), "自定义6不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -121,9 +141,14 @@ namespace Ams.Service.Accounting
                 .Where(predicate.ToExpression())
                 .Select((it) => new FicoCostingDeptConsumingDto()
                 {
-                    DcLfgjaLabel = it.DcLfgja.GetConfigValue<SysDictData>("sql_fy_list"),
-                    DcLfmonLabel = it.DcLfmon.GetConfigValue<SysDictData>("sql_ym_list"),
-                    DcBukrsLabel = it.DcBukrs.GetConfigValue<SysDictData>("sys_crop_list"),
+                    //查询字典: <期间> 
+                    Ml002Label = it.Ml002.GetConfigValue<SysDictData>("sql_attr_list"),
+                    //查询字典: <年月> 
+                    Ml003Label = it.Ml003.GetConfigValue<SysDictData>("sql_ymdt_list"),
+                    //查询字典: <公司代码> 
+                    Ml004Label = it.Ml004.GetConfigValue<SysDictData>("sql_corp_list"),
+                    //查询字典: <工厂> 
+                    Ml012Label = it.Ml012.GetConfigValue<SysDictData>("sql_plant_list"),
                 }, true)
                 .ToPage(parm);
 
@@ -139,10 +164,14 @@ namespace Ams.Service.Accounting
         {
             var predicate = Expressionable.Create<FicoCostingDeptConsuming>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DcLfgja), it => it.DcLfgja == parm.DcLfgja);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DcLfmon), it => it.DcLfmon == parm.DcLfmon);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DcBukrs), it => it.DcBukrs == parm.DcBukrs);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DcMatnr), it => it.DcMatnr.Contains(parm.DcMatnr));
+            //查询字段: <期间> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ml002), it => it.Ml002 == parm.Ml002);
+            //查询字段: <年月> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ml003), it => it.Ml003 == parm.Ml003);
+            //查询字段: <公司代码> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ml004), it => it.Ml004 == parm.Ml004);
+            //查询字段: <物料> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ml013), it => it.Ml013.Contains(parm.Ml013));
             return predicate;
         }
     }

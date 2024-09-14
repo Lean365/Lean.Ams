@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ams.Infrastructure.Constant
+﻿namespace Ams.Infrastructure.Constant
 {
     public class HttpStatus
     {
@@ -10,6 +6,7 @@ namespace Ams.Infrastructure.Constant
         /// 操作成功
         /// </summary>
         public static readonly int SUCCESS = 200;
+
         /// <summary>
         /// 对象创建成功
         /// </summary>

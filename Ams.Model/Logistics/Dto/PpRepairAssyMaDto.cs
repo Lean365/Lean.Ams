@@ -1,239 +1,338 @@
+using Ams.Model.Logistics;
+
 namespace Ams.Model.Logistics.Dto
 {
     /// <summary>
-    /// 组立不良ma
+    /// 不良
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 12:00:50
+    /// @Date: 2024/9/12 16:33:52
     /// </summary>
-    public class PpRepairAssyMaQueryDto : PagerInfo
+    public class PpRepairAssyMaQueryDto : PagerInfo 
     {
-        public string PpdOrderNo { get; set; }
-        public string PpdLot { get; set; }
-        public string PpdModel { get; set; }
-        public DateTime? BeginPpdDate { get; set; }
-        public DateTime? EndPpdDate { get; set; }
-        public string PpdLineName { get; set; }
+        /// <summary>
+        /// 生产订单 
+        /// </summary>        
+        public string Mea002 { get; set; }
+        /// <summary>
+        /// 生产批次 
+        /// </summary>        
+        public string Mea004 { get; set; }
+        /// <summary>
+        /// 生产机种 
+        /// </summary>        
+        public string Mea005 { get; set; }
+        /// <summary>
+        /// 生产日期 
+        /// </summary>        
+        public DateTime? BeginMea006 { get; set; }
+        public DateTime? EndMea006 { get; set; }
+        /// <summary>
+        /// 生产班组 
+        /// </summary>        
+        public string Mea007 { get; set; }
     }
 
     /// <summary>
-    /// 组立不良ma
+    /// 不良
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 12:00:50
+    /// @Date: 2024/9/12 16:33:52
     /// </summary>
     public class PpRepairAssyMaDto
     {
-        [Required(ErrorMessage = "SfId不能为空")]
-        [ExcelColumn(Name = "SfId")]
-        [ExcelColumnName("SfId")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PpdSfId { get; set; }
 
-        [ExcelColumn(Name = "生产订单")]
+        public long Id { get; set; }
+
+        [Required(ErrorMessage = "生产订单不能为空")]
+        //[ExcelColumn(Name = "生产订单")]
         [ExcelColumnName("生产订单")]
-        public string PpdOrderNo { get; set; }
+
+        public string Mea002 { get; set; }
 
         [Required(ErrorMessage = "订单数量不能为空")]
-        [ExcelColumn(Name = "订单数量")]
+        //[ExcelColumn(Name = "订单数量")]
         [ExcelColumnName("订单数量")]
-        public int PpdOrderQty { get; set; }
 
-        [ExcelColumn(Name = "生产批次")]
+        public int Mea003 { get; set; }
+
+        //[ExcelColumn(Name = "生产批次")]
         [ExcelColumnName("生产批次")]
-        public string PpdLot { get; set; }
 
-        [ExcelColumn(Name = "生产机种")]
+        public string Mea004 { get; set; }
+
+        //[ExcelColumn(Name = "生产机种")]
         [ExcelColumnName("生产机种")]
-        public string PpdModel { get; set; }
 
-        [ExcelColumn(Name = "生产日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public string Mea005 { get; set; }
+
+        //[ExcelColumn(Name = "生产日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("生产日期")]
-        public DateTime? PpdDate { get; set; }
 
-        [ExcelColumn(Name = "生产班组")]
+        public DateTime? Mea006 { get; set; }
+
+        //[ExcelColumn(Name = "生产班组")]
         [ExcelColumnName("生产班组")]
-        public string PpdLineName { get; set; }
+
+        public string Mea007 { get; set; }
 
         [Required(ErrorMessage = "生产实绩不能为空")]
-        [ExcelColumn(Name = "生产实绩")]
+        //[ExcelColumn(Name = "生产实绩")]
         [ExcelColumnName("生产实绩")]
-        public int PpdRealQty { get; set; }
+
+        public int Mea008 { get; set; }
 
         [Required(ErrorMessage = "无不良数不能为空")]
-        [ExcelColumn(Name = "无不良数")]
+        //[ExcelColumn(Name = "无不良数")]
         [ExcelColumnName("无不良数")]
-        public int PpdNobadQty { get; set; }
+
+        public int Mea009 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+
+        public string Remark { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
-        [ExcelIgnore]
-        public decimal UDF51 { get; set; }
-
-        [Required(ErrorMessage = "自定义2不能为空")]
-        [ExcelIgnore]
-        public decimal UDF52 { get; set; }
-
-        [Required(ErrorMessage = "自定义3不能为空")]
-        [ExcelIgnore]
-        public decimal UDF53 { get; set; }
-
-        [Required(ErrorMessage = "自定义4不能为空")]
-        [ExcelIgnore]
-        public decimal UDF54 { get; set; }
-
-        [Required(ErrorMessage = "自定义5不能为空")]
-        [ExcelIgnore]
-        public decimal UDF55 { get; set; }
-
-        [Required(ErrorMessage = "自定义6不能为空")]
-        [ExcelIgnore]
-        public decimal UDF56 { get; set; }
-
-        [Required(ErrorMessage = "软删除不能为空")]
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public List<PpRepairAssySlvDto> PpDefectAssyRepairSlvNav { get; set; }
 
+        public decimal Ref06 { get; set; }
+
+        [ExcelIgnore]
+
+        public string Udf01 { get; set; }
+
+        [ExcelIgnore]
+
+        public string Udf02 { get; set; }
+
+        [ExcelIgnore]
+
+        public string Udf03 { get; set; }
+
+        [ExcelIgnore]
+
+        public string Udf04 { get; set; }
+
+        [ExcelIgnore]
+
+        public string Udf05 { get; set; }
+
+        [ExcelIgnore]
+
+        public string Udf06 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf51 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? IsDeleted { get; set; }
+
+        [ExcelIgnore]
+
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+
+        public DateTime? UpdateTime { get; set; }
+
+
+
+        [ExcelIgnore]
+        public List<PpRepairAssySlvDto> PpRepairAssySlvNav { get; set; }
+        [ExcelColumn(Name = "生产订单")]
+        public string Mea002Label { get; set; }
         [ExcelColumn(Name = "生产班组")]
-        public string PpdLineNameLabel { get; set; }
-
-        [ExcelColumn(Name = "软删除")]
-        public string IsDeletedLabel { get; set; }
-
-        [ExcelColumn(Name = "不良类别")]
-        public string PpdBadTypeLabel { get; set; }
+        public string Mea007Label { get; set; }
+        [ExcelColumn(Name = "不良区分")]
+        public string Mfa003Label { get; set; }
     }
 
     /// <summary>
-    /// 组立不良ma
+    /// 不良
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 12:00:50
+    /// @Date: 2024/9/12 16:33:52
     /// </summary>
     public class PpRepairAssyMaImportTpl
     {
-        [Required(ErrorMessage = "SfId不能为空")]
-        [ExcelColumn(Name = "SfId")]
-        [ExcelColumnName("SfId")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PpdSfId { get; set; }
+        public long Id { get; set; }
 
-        [ExcelColumn(Name = "生产订单")]
+        [Required(ErrorMessage = "生产订单不能为空")]
+        //[ExcelColumn(Name = "生产订单")]
         [ExcelColumnName("生产订单")]
-        public string PpdOrderNo { get; set; }
+        public string Mea002 { get; set; }
 
         [Required(ErrorMessage = "订单数量不能为空")]
-        [ExcelColumn(Name = "订单数量")]
+        //[ExcelColumn(Name = "订单数量")]
         [ExcelColumnName("订单数量")]
-        public int PpdOrderQty { get; set; }
+        public int Mea003 { get; set; }
 
-        [ExcelColumn(Name = "生产批次")]
+        //[ExcelColumn(Name = "生产批次")]
         [ExcelColumnName("生产批次")]
-        public string PpdLot { get; set; }
+        public string Mea004 { get; set; }
 
-        [ExcelColumn(Name = "生产机种")]
+        //[ExcelColumn(Name = "生产机种")]
         [ExcelColumnName("生产机种")]
-        public string PpdModel { get; set; }
+        public string Mea005 { get; set; }
 
-        [ExcelColumn(Name = "生产日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "生产日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("生产日期")]
-        public DateTime? PpdDate { get; set; }
+        public DateTime? Mea006 { get; set; }
 
-        [ExcelColumn(Name = "生产班组")]
+        //[ExcelColumn(Name = "生产班组")]
         [ExcelColumnName("生产班组")]
-        public string PpdLineName { get; set; }
+        public string Mea007 { get; set; }
 
         [Required(ErrorMessage = "生产实绩不能为空")]
-        [ExcelColumn(Name = "生产实绩")]
+        //[ExcelColumn(Name = "生产实绩")]
         [ExcelColumnName("生产实绩")]
-        public int PpdRealQty { get; set; }
+        public int Mea008 { get; set; }
 
         [Required(ErrorMessage = "无不良数不能为空")]
-        [ExcelColumn(Name = "无不良数")]
+        //[ExcelColumn(Name = "无不良数")]
         [ExcelColumnName("无不良数")]
-        public int PpdNobadQty { get; set; }
+        public int Mea009 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+        public string Remark { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
-
-        [Required(ErrorMessage = "自定义1不能为空")]
-        [ExcelIgnore]
-        public decimal UDF51 { get; set; }
-
-        [Required(ErrorMessage = "自定义2不能为空")]
-        [ExcelIgnore]
-        public decimal UDF52 { get; set; }
-
-        [Required(ErrorMessage = "自定义3不能为空")]
-        [ExcelIgnore]
-        public decimal UDF53 { get; set; }
-
-        [Required(ErrorMessage = "自定义4不能为空")]
-        [ExcelIgnore]
-        public decimal UDF54 { get; set; }
-
-        [Required(ErrorMessage = "自定义5不能为空")]
-        [ExcelIgnore]
-        public decimal UDF55 { get; set; }
-
-        [Required(ErrorMessage = "自定义6不能为空")]
-        [ExcelIgnore]
-        public decimal UDF56 { get; set; }
-
-        [Required(ErrorMessage = "软删除不能为空")]
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public List<PpRepairAssySlvDto> PpDefectAssyRepairSlvNav { get; set; }
+        public decimal Ref06 { get; set; }
 
+        [ExcelIgnore]
+        public string Udf01 { get; set; }
+
+        [ExcelIgnore]
+        public string Udf02 { get; set; }
+
+        [ExcelIgnore]
+        public string Udf03 { get; set; }
+
+        [ExcelIgnore]
+        public string Udf04 { get; set; }
+
+        [ExcelIgnore]
+        public string Udf05 { get; set; }
+
+        [ExcelIgnore]
+        public string Udf06 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf51 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
+        public int? IsDeleted { get; set; }
+
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+
+
+        [ExcelIgnore]
+        public List<PpRepairAssySlvDto> PpRepairAssySlvNav { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "生产订单")]
+        public string Mea002Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "生产班组")]
-        public string PpdLineNameLabel { get; set; }
-
+        public string Mea007Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "软删除")]
-        public string IsDeletedLabel { get; set; }
-
-        [ExcelIgnore]
-        [ExcelColumn(Name = "不良类别")]
-        public string PpdBadTypeLabel { get; set; }
+        [ExcelColumn(Name = "不良区分")]
+        public string Mfa003Label { get; set; }
     }
+
 }

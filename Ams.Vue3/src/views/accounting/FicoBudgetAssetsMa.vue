@@ -2,7 +2,7 @@
  * @Descripttion: 资产预算/fico_budget_assets_ma
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/8/9 13:25:02
+ * @Date: 2024/8/29 13:30:44
  * @column：28
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
@@ -12,24 +12,24 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="财年" prop="fbaFy">
-        <el-select filterable clearable   v-model="queryParams.fbaFy" :placeholder="$t('btn.selectSearchPrefix')+'财年'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_fy_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="期间" prop="fbaLfgja">
+        <el-select filterable clearable   v-model="queryParams.fbaLfgja" :placeholder="$t('btn.selectSearchPrefix')+'期间'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_attr_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="公司" prop="fbaCorp">
-        <el-select filterable clearable   v-model="queryParams.fbaCorp" :placeholder="$t('btn.selectSearchPrefix')+'公司'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_crop_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="公司" prop="fbaBukrs">
+        <el-select filterable clearable   v-model="queryParams.fbaBukrs" :placeholder="$t('btn.selectSearchPrefix')+'公司'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_corp_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="部门" prop="fbaDept">
-        <el-select filterable clearable   v-model="queryParams.fbaDept" :placeholder="$t('btn.selectSearchPrefix')+'部门'+$t('btn.selectSearchSuffix')">
+      <el-form-item label="部门" prop="fbaAbtnr">
+        <el-select filterable clearable   v-model="queryParams.fbaAbtnr" :placeholder="$t('btn.selectSearchPrefix')+'部门'+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   options.sql_dept_name " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
@@ -104,19 +104,19 @@
         </template>
       </el-table-column>
       <el-table-column prop="fbaSfId" label="ID" align="center" v-if="columns.showColumn('fbaSfId')"/>
-      <el-table-column prop="fbaFy" label="财年" align="center" v-if="columns.showColumn('fbaFy')">
+      <el-table-column prop="fbaLfgja" label="期间" align="center" v-if="columns.showColumn('fbaLfgja')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_fy_list " :value="scope.row.fbaFy"  />
+          <dict-tag :options=" options.sql_attr_list " :value="scope.row.fbaLfgja"  />
         </template>
       </el-table-column>
-      <el-table-column prop="fbaCorp" label="公司" align="center" v-if="columns.showColumn('fbaCorp')">
+      <el-table-column prop="fbaBukrs" label="公司" align="center" v-if="columns.showColumn('fbaBukrs')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_crop_list " :value="scope.row.fbaCorp"  />
+          <dict-tag :options=" options.sql_corp_list " :value="scope.row.fbaBukrs"  />
         </template>
       </el-table-column>
-      <el-table-column prop="fbaDept" label="部门" align="center" v-if="columns.showColumn('fbaDept')">
+      <el-table-column prop="fbaAbtnr" label="部门" align="center" v-if="columns.showColumn('fbaAbtnr')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_dept_name " :value="scope.row.fbaDept"  />
+          <dict-tag :options=" options.sql_dept_name " :value="scope.row.fbaAbtnr"  />
         </template>
       </el-table-column>
       <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
@@ -137,42 +137,22 @@
         <el-table-column :label="$t('layout.indexNo')" type="index" width="80" />
         <el-table-column prop="fbasSfId" label="ID"/>
         <el-table-column prop="fbasParentSfId" label="父ID"/>
-        <el-table-column prop="fbasYm" label="年月">
-          <template #default="scope">
-            <dict-tag :options=" options.sql_ym_list " :value="scope.row.fbasYm"  />
-          </template>
-        </el-table-column>
-        <el-table-column prop="fbasTitle" label="科目">
-          <template #default="scope">
-            <dict-tag :options=" options.sql_budget_title " :value="scope.row.fbasTitle"  />
-          </template>
-        </el-table-column>
-        <el-table-column prop="fbasClass" label="类别">
-          <template #default="scope">
-            <dict-tag :options=" options.sys_exp_type " :value="scope.row.fbasClass"  />
-          </template>
-        </el-table-column>
-        <el-table-column prop="fbasName" label="名称"/>
-        <el-table-column prop="fbasDesc" label="说明"/>
-        <el-table-column prop="fbasServiceLife" label="年限"/>
-        <el-table-column prop="fbasBudgetAmount" label="预算"/>
-        <el-table-column prop="fbasActualAmount" label="实际"/>
-        <el-table-column prop="fbasDifferenceAmount" label="差异"/>
-        <el-table-column prop="fbasDepreciation" label="折旧"/>
-        <el-table-column prop="fbasFlag" label="启用">
-          <template #default="scope">
-            <dict-tag :options=" options.sys_is_status " :value="scope.row.fbasFlag"  />
-          </template>
-        </el-table-column>
-        <el-table-column prop="fbasAudit" label="审核标志">
-          <template #default="scope">
-            <dict-tag :options=" options.sys_is_status " :value="scope.row.fbasAudit"  />
-          </template>
-        </el-table-column>
-        <el-table-column prop="fbasAuditName" label="审核人员"/>
-        <el-table-column prop="fbasAuditDate" label="审核日期"/>
-        <el-table-column prop="fbasUndoName" label="撤消人员"/>
-        <el-table-column prop="fbasUndoDate" label="撤消日期"/>
+        <el-table-column prop="fbasLfmon" label="年月"/>
+        <el-table-column prop="fbasFipls" label="科目"/>
+        <el-table-column prop="fbasChgty" label="类别"/>
+        <el-table-column prop="fbasStext" label="名称"/>
+        <el-table-column prop="fbasFtext" label="说明"/>
+        <el-table-column prop="fbasMaxdj" label="年限"/>
+        <el-table-column prop="fbasAnval" label="预算"/>
+        <el-table-column prop="fbasDmist" label="实际"/>
+        <el-table-column prop="fbasBfaac" label="差异"/>
+        <el-table-column prop="fbasBafaw" label="折旧"/>
+        <el-table-column prop="fbasAktiv" label="启用"/>
+        <el-table-column prop="fbasFrgzu" label="审核标志"/>
+        <el-table-column prop="fbasAutna" label="审核人员"/>
+        <el-table-column prop="fbasFrgdt" label="审核日期"/>
+        <el-table-column prop="fbasAbskz" label="撤消人员"/>
+        <el-table-column prop="fbasAbgda" label="撤消日期"/>
         <el-table-column prop="remark" label="备注说明"/>
       </el-table>
     </el-drawer>
@@ -184,10 +164,10 @@
         <el-row :gutter="20">
 
           <el-col :lg="12">
-            <el-form-item label="财年" prop="fbaFy">
-              <el-select filterable clearable   v-model="form.fbaFy"  :placeholder="$t('btn.selectPrefix')+'财年'+$t('btn.selectSuffix')">
+            <el-form-item label="期间" prop="fbaLfgja">
+              <el-select filterable clearable   v-model="form.fbaLfgja"  :placeholder="$t('btn.selectPrefix')+'期间'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_fy_list" 
+                  v-for="item in  options.sql_attr_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -197,10 +177,10 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="公司" prop="fbaCorp">
-              <el-select filterable clearable   v-model="form.fbaCorp"  :placeholder="$t('btn.selectPrefix')+'公司'+$t('btn.selectSuffix')">
+            <el-form-item label="公司" prop="fbaBukrs">
+              <el-select filterable clearable   v-model="form.fbaBukrs"  :placeholder="$t('btn.selectPrefix')+'公司'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sys_crop_list" 
+                  v-for="item in  options.sql_corp_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -210,8 +190,8 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="部门" prop="fbaDept">
-              <el-select filterable clearable   v-model="form.fbaDept"  :placeholder="$t('btn.selectPrefix')+'部门'+$t('btn.selectSuffix')">
+            <el-form-item label="部门" prop="fbaAbtnr">
+              <el-select filterable clearable   v-model="form.fbaAbtnr"  :placeholder="$t('btn.selectPrefix')+'部门'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_dept_name" 
                   :key="item.dictValue" 
@@ -316,114 +296,84 @@
         <el-table :data="ficoBudgetAssetsSlvList" :row-class-name="rowFicoBudgetAssetsSlvIndex" @selection-change="handleFicoBudgetAssetsSlvSelectionChange" ref="FicoBudgetAssetsSlvRef">
           <el-table-column type="selection" width="40" align="center" />
           <el-table-column :label="$t('layout.indexNo')" align="center" prop="index" width="50"/>
-          <el-table-column label="年月" prop="fbasYm">
+          <el-table-column label="年月" align="center" prop="fbasLfmon">
             <template #default="scope">
-              <el-select filterable clearable  v-model="scope.row.fbasYm" :placeholder="$t('btn.enterPrefix')+'年月'+$t('btn.enterSuffix')">
-                <el-option
-                  v-for="item in options.sql_ym_list" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
+              <el-input v-model="scope.row.fbasLfmon" :placeholder="$t('btn.enterPrefix')+'年月'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="科目" prop="fbasTitle">
+          <el-table-column label="科目" align="center" prop="fbasFipls">
             <template #default="scope">
-              <el-select filterable clearable  v-model="scope.row.fbasTitle" :placeholder="$t('btn.enterPrefix')+'科目'+$t('btn.enterSuffix')">
-                <el-option
-                  v-for="item in options.sql_budget_title" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
+              <el-input v-model="scope.row.fbasFipls" :placeholder="$t('btn.enterPrefix')+'科目'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="类别" prop="fbasClass">
+          <el-table-column label="类别" align="center" prop="fbasChgty">
             <template #default="scope">
-              <el-select filterable clearable  v-model="scope.row.fbasClass" :placeholder="$t('btn.enterPrefix')+'类别'+$t('btn.enterSuffix')">
-                <el-option
-                  v-for="item in options.sys_exp_type" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
+              <el-input v-model="scope.row.fbasChgty" :placeholder="$t('btn.enterPrefix')+'类别'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="名称" align="center" prop="fbasName">
+          <el-table-column label="名称" align="center" prop="fbasStext">
             <template #default="scope">
-              <el-input v-model="scope.row.fbasName" :placeholder="$t('btn.enterPrefix')+'名称'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.fbasStext" :placeholder="$t('btn.enterPrefix')+'名称'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="说明" align="center" prop="fbasDesc">
+          <el-table-column label="说明" align="center" prop="fbasFtext">
             <template #default="scope">
-              <el-input v-model="scope.row.fbasDesc" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.fbasFtext" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="年限" align="center" prop="fbasServiceLife" width="140">
+          <el-table-column label="年限" align="center" prop="fbasMaxdj" width="140">
             <template #default="scope">
-              <el-input-number v-model="scope.row.fbasServiceLife" controls-position="right" :placeholder="$t('btn.enterPrefix')+'年限'+$t('btn.enterSuffix')" />
+              <el-input-number v-model="scope.row.fbasMaxdj" controls-position="right" :placeholder="$t('btn.enterPrefix')+'年限'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="预算" align="center" prop="fbasBudgetAmount" width="140">
+          <el-table-column label="预算" align="center" prop="fbasAnval" width="140">
             <template #default="scope">
-              <el-input-number v-model="scope.row.fbasBudgetAmount" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预算'+$t('btn.enterSuffix')" />
+              <el-input-number v-model="scope.row.fbasAnval" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预算'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="实际" align="center" prop="fbasActualAmount" width="140">
+          <el-table-column label="实际" align="center" prop="fbasDmist" width="140">
             <template #default="scope">
-              <el-input-number v-model="scope.row.fbasActualAmount" controls-position="right" :placeholder="$t('btn.enterPrefix')+'实际'+$t('btn.enterSuffix')" />
+              <el-input-number v-model="scope.row.fbasDmist" controls-position="right" :placeholder="$t('btn.enterPrefix')+'实际'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="差异" align="center" prop="fbasDifferenceAmount" width="140">
+          <el-table-column label="差异" align="center" prop="fbasBfaac" width="140">
             <template #default="scope">
-              <el-input-number v-model="scope.row.fbasDifferenceAmount" controls-position="right" :placeholder="$t('btn.enterPrefix')+'差异'+$t('btn.enterSuffix')" />
+              <el-input-number v-model="scope.row.fbasBfaac" controls-position="right" :placeholder="$t('btn.enterPrefix')+'差异'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="折旧" align="center" prop="fbasDepreciation" width="140">
+          <el-table-column label="折旧" align="center" prop="fbasBafaw" width="140">
             <template #default="scope">
-              <el-input-number v-model="scope.row.fbasDepreciation" controls-position="right" :placeholder="$t('btn.enterPrefix')+'折旧'+$t('btn.enterSuffix')" />
+              <el-input-number v-model="scope.row.fbasBafaw" controls-position="right" :placeholder="$t('btn.enterPrefix')+'折旧'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="启用" prop="fbasFlag">
+          <el-table-column label="启用" align="center" prop="fbasAktiv" width="140">
             <template #default="scope">
-              <el-select filterable clearable  v-model="scope.row.fbasFlag" :placeholder="$t('btn.enterPrefix')+'启用'+$t('btn.enterSuffix')">
-                <el-option
-                  v-for="item in options.sys_is_status" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="parseInt(item.dictValue)"></el-option>
-              </el-select>
+              <el-input-number v-model="scope.row.fbasAktiv" controls-position="right" :placeholder="$t('btn.enterPrefix')+'启用'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="审核标志" prop="fbasAudit">
+          <el-table-column label="审核标志" align="center" prop="fbasFrgzu" width="140">
             <template #default="scope">
-              <el-select filterable clearable  v-model="scope.row.fbasAudit" :placeholder="$t('btn.enterPrefix')+'审核标志'+$t('btn.enterSuffix')">
-                <el-option
-                  v-for="item in options.sys_is_status" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="parseInt(item.dictValue)"></el-option>
-              </el-select>
+              <el-input-number v-model="scope.row.fbasFrgzu" controls-position="right" :placeholder="$t('btn.enterPrefix')+'审核标志'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="审核人员" align="center" prop="fbasAuditName">
+          <el-table-column label="审核人员" align="center" prop="fbasAutna">
             <template #default="scope">
-              <el-input v-model="scope.row.fbasAuditName" :placeholder="$t('btn.enterPrefix')+'审核人员'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.fbasAutna" :placeholder="$t('btn.enterPrefix')+'审核人员'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="审核日期" align="center" prop="fbasAuditDate">
+          <el-table-column label="审核日期" align="center" prop="fbasFrgdt">
             <template #default="scope">
-              <el-date-picker clearable v-model="scope.row.fbasAuditDate" type="date" :placeholder="$t('btn.dateselect')"></el-date-picker>
+              <el-date-picker clearable v-model="scope.row.fbasFrgdt" type="date" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </template>
           </el-table-column>
-          <el-table-column label="撤消人员" align="center" prop="fbasUndoName">
+          <el-table-column label="撤消人员" align="center" prop="fbasAbskz">
             <template #default="scope">
-              <el-input v-model="scope.row.fbasUndoName" :placeholder="$t('btn.enterPrefix')+'撤消人员'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.fbasAbskz" :placeholder="$t('btn.enterPrefix')+'撤消人员'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="撤消日期" align="center" prop="fbasUndoDate">
+          <el-table-column label="撤消日期" align="center" prop="fbasAbgda">
             <template #default="scope">
-              <el-date-picker clearable v-model="scope.row.fbasUndoDate" type="date" :placeholder="$t('btn.dateselect')"></el-date-picker>
+              <el-date-picker clearable v-model="scope.row.fbasAbgda" type="date" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </template>
           </el-table-column>
           <el-table-column label="备注说明" align="center" prop="remark">
@@ -469,21 +419,21 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: 'FbaFy',
+  sort: 'FbaLfgja',
   sortType: 'desc',
 //是否查询（1是）
-  fbaFy: undefined,
+  fbaLfgja: undefined,
 //是否查询（1是）
-  fbaCorp: undefined,
+  fbaBukrs: undefined,
 //是否查询（1是）
-  fbaDept: undefined,
+  fbaAbtnr: undefined,
 })
 //字段显示控制
 const columns = ref([
   { visible: true, prop: 'fbaSfId', label: 'ID' },
-  { visible: true, prop: 'fbaFy', label: '财年' },
-  { visible: true, prop: 'fbaCorp', label: '公司' },
-  { visible: true, prop: 'fbaDept', label: '部门' },
+  { visible: true, prop: 'fbaLfgja', label: '期间' },
+  { visible: true, prop: 'fbaBukrs', label: '公司' },
+  { visible: true, prop: 'fbaAbtnr', label: '部门' },
   { visible: false, prop: 'remark', label: '备注说明' },
 ])
 // 记录数
@@ -497,14 +447,10 @@ const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23,
 
 //字典参数
 var dictParams = [
-  { dictType: "sql_fy_list" },
-  { dictType: "sys_crop_list" },
+  { dictType: "sql_attr_list" },
+  { dictType: "sql_corp_list" },
   { dictType: "sql_dept_name" },
   { dictType: "sys_is_deleted" },
-  { dictType: "sql_ym_list" },
-  { dictType: "sql_budget_title" },
-  { dictType: "sys_exp_type" },
-  { dictType: "sys_is_status" },
 ]
 
 //字典加载
@@ -578,22 +524,14 @@ const state = reactive({
     fbaSfId: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
   },
   options: {
-    // 财年 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_fy_list: [],
+    // 期间 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_attr_list: [],
     // 公司 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_crop_list: [],
+sql_corp_list: [],
     // 部门 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_dept_name: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_is_deleted: [],
-    // 年月 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_ym_list: [],
-    // 科目 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_budget_title: [],
-    // 类别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_exp_type: [],
-    // 启用 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_status: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -609,9 +547,9 @@ function cancel(){
 function reset() {
   form.value = {
     fbaSfId: 0,
-    fbaFy: null,
-    fbaCorp: null,
-    fbaDept: null,
+    fbaLfgja: null,
+    fbaBukrs: null,
+    fbaAbtnr: null,
     rEF01: null,
     rEF02: null,
     rEF03: null,
@@ -648,9 +586,9 @@ function handleAdd() {
   open.value = true
   title.value = proxy.$t('btn.add')+" "+'资产预算'
   opertype.value = 1
-  form.value.fbaFy= []
-  form.value.fbaCorp= []
-  form.value.fbaDept= []
+  form.value.fbaLfgja= []
+  form.value.fbaBukrs= []
+  form.value.fbaAbtnr= []
 }
 // 修改按钮操作
 function handleUpdate(row) {
@@ -755,22 +693,22 @@ function rowFicoBudgetAssetsSlvIndex({ row, rowIndex }) {
 function handleAddFicoBudgetAssetsSlv() {
   let obj = {};
   //下面的代码自己设置默认值
-  //obj.fbasYm = null;
-  //obj.fbasTitle = null;
-  //obj.fbasClass = null;
-  //obj.fbasName = null;
-  //obj.fbasDesc = null;
-  //obj.fbasServiceLife = null;
-  //obj.fbasBudgetAmount = null;
-  //obj.fbasActualAmount = null;
-  //obj.fbasDifferenceAmount = null;
-  //obj.fbasDepreciation = null;
-  //obj.fbasFlag = null;
-  //obj.fbasAudit = null;
-  //obj.fbasAuditName = null;
-  //obj.fbasAuditDate = null;
-  //obj.fbasUndoName = null;
-  //obj.fbasUndoDate = null;
+  //obj.fbasLfmon = null;
+  //obj.fbasFipls = null;
+  //obj.fbasChgty = null;
+  //obj.fbasStext = null;
+  //obj.fbasFtext = null;
+  //obj.fbasMaxdj = null;
+  //obj.fbasAnval = null;
+  //obj.fbasDmist = null;
+  //obj.fbasBfaac = null;
+  //obj.fbasBafaw = null;
+  //obj.fbasAktiv = null;
+  //obj.fbasFrgzu = null;
+  //obj.fbasAutna = null;
+  //obj.fbasFrgdt = null;
+  //obj.fbasAbskz = null;
+  //obj.fbasAbgda = null;
   //obj.remark = null;
   ficoBudgetAssetsSlvList.value.push(obj);
 }

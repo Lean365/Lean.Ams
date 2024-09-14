@@ -4,26 +4,26 @@ using Ams.Model.Accounting;
 namespace Ams.Service.Accounting.IAccountingService
 {
     /// <summary>
-    /// 汇率表
+    /// 币种汇率
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/5 16:43:18
+    /// @Date: 2024/9/10 16:52:45
     /// </summary>
     public interface IFicoExchangeRateService : IBaseService<FicoExchangeRate>
     {
         /// <summary>
-        /// 获取汇率表列表
+        /// 获取币种汇率列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         PagedInfo<FicoExchangeRateDto> GetList(FicoExchangeRateQueryDto parm);
 
         /// <summary>
-        /// 获取汇率表信息
+        /// 获取币种汇率信息
         /// </summary>
-        /// <param name="FerSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        FicoExchangeRate GetInfo(long FerSfId);
+        FicoExchangeRate GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -33,7 +33,7 @@ namespace Ams.Service.Accounting.IAccountingService
         public string CheckInputUnique(string enterString);
         /// <summary>
         /// 新增
-        /// 汇率表
+        /// 币种汇率
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace Ams.Service.Accounting.IAccountingService
 
         /// <summary>
         /// 更新
-        /// 汇率表
+        /// 币种汇率
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace Ams.Service.Accounting.IAccountingService
 
         /// <summary>
         /// 批量导入
-        /// 汇率表
+        /// 币种汇率
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace Ams.Service.Accounting.IAccountingService
 
         /// <summary>
         /// 导出
-        /// 汇率表
+        /// 币种汇率
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>

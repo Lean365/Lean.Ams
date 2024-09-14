@@ -1,17 +1,10 @@
-﻿using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
-using Ams.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Ams.Tasks;
 using Quartz;
-using SqlSugar;
 
 namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
     /// 计划任务
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("routine/tasksqz")]
@@ -260,7 +253,7 @@ namespace Ams.WebApi.Controllers.Routine
         {
             var list = _tasksQzService.GetAll();
 
-            string sFileName = ExportExcel(list, "Tasksqz", "定时任务");
+            string sFileName = ExportExcel(list, "monitorjob", "定时任务");
             return SUCCESS(new { path = "/export/" + sFileName, fileName = sFileName });
         }
     }

@@ -1,10 +1,10 @@
-﻿using Ams.Infrastructure.Helper;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
+﻿using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ams.Infrastructure.Helper;
 
 namespace Ams.Common.DynamicApiSimple;
 
@@ -104,7 +104,7 @@ class ApiConvention : IApplicationModelConvention
     {
         foreach (var selector in action.Selectors)
         {
-            var template = new Microsoft.AspNetCore.Mvc.RouteAttribute(GetRouteTemplate(action,selector));
+            var template = new Microsoft.AspNetCore.Mvc.RouteAttribute(GetRouteTemplate(action, selector));
             selector.AttributeRouteModel = new AttributeRouteModel(template);
             if (selector.ActionConstraints.OfType<HttpMethodActionConstraint>().FirstOrDefault()?.HttpMethods?.FirstOrDefault() == null)
                 selector.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { GetHttpMethod(action) }));
@@ -112,7 +112,7 @@ class ApiConvention : IApplicationModelConvention
         }
     }
 
-    private string GetRouteTemplate(ActionModel action,SelectorModel selectorModel=null)
+    private string GetRouteTemplate(ActionModel action, SelectorModel selectorModel = null)
     {
         var routeTemplate = new StringBuilder();
         var names = action.Controller.ControllerType.Namespace.Split('.');
@@ -154,7 +154,7 @@ class ApiConvention : IApplicationModelConvention
                 routeTemplate.Append($"/{RemoveHttpMethodPrefix(actionName)}");
             }
         }
-        
+
 
         return routeTemplate.ToString();
     }

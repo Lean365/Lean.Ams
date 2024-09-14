@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 顾客信息分页查询
+ * 顾客分页查询
  * @param {查询条件} data
  */
 export function listSdCustomer(query) {
@@ -14,7 +14,7 @@ export function listSdCustomer(query) {
 }
 
 /**
- * 新增顾客信息
+ * 新增顾客
  * @param data
  */
 export function addSdCustomer(data) {
@@ -25,7 +25,7 @@ export function addSdCustomer(data) {
   })
 }
 /**
- * 修改顾客信息
+ * 修改顾客
  * @param data
  */
 export function updateSdCustomer(data) {
@@ -36,7 +36,7 @@ export function updateSdCustomer(data) {
   })
 }
 /**
- * 获取顾客信息详情
+ * 获取顾客详情
  * @param {Id}
  */
 export function getSdCustomer(id) {
@@ -47,7 +47,7 @@ export function getSdCustomer(id) {
 }
 
 /**
- * 删除顾客信息
+ * 删除顾客
  * @param {主键} pid
  */
 export function delSdCustomer(pid) {
@@ -56,7 +56,7 @@ export function delSdCustomer(pid) {
     method: 'delete'
   })
 }
-// 导出顾客信息
+// 导出顾客
 export async function exportSdCustomer(query) {
   await downFile('Logistics/SdCustomer/export', { ...query })
 }

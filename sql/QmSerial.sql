@@ -1,8 +1,8 @@
-use Lean365;
+use Ams_Tes;
 
 -- 序列号扫描菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('序列号扫描', 1142, 999, 'QmSerial', 'logistics/QmSerial', 0, 0, 'C', '0', '0', 'qm:serial:list', 'icon1', 'Lean365', GETDATE(), 'menu.qm.serial');
+VALUES ('序列号扫描', 1150, 999, 'QmSerial', 'logistics/QmSerial', 0, 0, 'C', '0', '0', 'qm:serial:list', 'icon1', 'Lean365', GETDATE(), 'menu.qm.serial');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -32,13 +32,31 @@ SELECT * FROM sys_menu WHERE menuId = @menuId;
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1142001,'zh-cn', 'menu.qm.serial', '序列号扫描', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1150001,'zh-cn', 'menu.qm.serial', '序列号扫描', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1142002,'zh-tw', 'menu.qm.serial', 'TW_序列号扫描', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1150002,'zh-tw', 'menu.qm.serial', 'TW_序列号扫描', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1142003,'en', 'menu.qm.serial', 'EN_序列号扫描', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1150003,'en', 'menu.qm.serial', 'EN_序列号扫描', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1142004,'ja', 'menu.qm.serial', 'JA_序列号扫描', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1150004,'ja', 'menu.qm.serial', 'JA_序列号扫描', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1150003,'fr', 'menu.qm.serial', 'FR_序列号扫描', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1150003,'ko', 'menu.qm.serial', 'KO_序列号扫描', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1150003,'ar', 'menu.qm.serial', 'AR_序列号扫描', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1150003,'ru', 'menu.qm.serial', 'RU_序列号扫描', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1150003,'de', 'menu.qm.serial', 'DE_序列号扫描', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1150003,'es', 'menu.qm.serial', 'ES_序列号扫描', 'Lean365', GETDATE());

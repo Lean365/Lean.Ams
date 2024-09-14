@@ -5,663 +5,770 @@ namespace Ams.Model.Routine.Dto
     /// 人事
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 8:47:39
+    /// @Date: 2024/9/12 15:25:31
     /// </summary>
     public class RoutineEhrEmployeeQueryDto : PagerInfo 
     {
-        public string EeName { get; set; }
-        public string EeEnglishName { get; set; }
-        public int? EeGenderId { get; set; }
-        public DateTime? BeginEeBirthday { get; set; }
-        public DateTime? EndEeBirthday { get; set; }
-        public string EeIdentityCard { get; set; }
-        public int? EeWedlockId { get; set; }
-        public int? EeNationId { get; set; }
-        public int? EePoliticId { get; set; }
-        public string EeCountry { get; set; }
-        public string EeProvince { get; set; }
-        public string EeCity { get; set; }
-        public string EeCounty { get; set; }
-        public int? EeHouseholdTypeId { get; set; }
-        public int? EeDepartmentId { get; set; }
-        public int? EeTitlesId { get; set; }
-        public int? EePostId { get; set; }
-        public int? EePostLevel { get; set; }
-        public int? EeRecruited { get; set; }
-        public int? EeEngageFormId { get; set; }
-        public int? EeEducationalBackgroundId { get; set; }
-        public int? EeSpecialtyId { get; set; }
-        public string EeEmployeeId { get; set; }
-        public DateTime? BeginEeJoinedDate { get; set; }
-        public DateTime? EndEeJoinedDate { get; set; }
-        public int? EeEmployedStatus { get; set; }
-        public DateTime? BeginEeLeaveDate { get; set; }
-        public DateTime? EndEeLeaveDate { get; set; }
-        public DateTime? BeginEeContractEndDate { get; set; }
-        public DateTime? EndEeContractEndDate { get; set; }
-        public DateTime? BeginEeRetirementDate { get; set; }
-        public DateTime? EndEeRetirementDate { get; set; }
-        public int? EeClockInId { get; set; }
-        public int? EeShiftsTypeId { get; set; }
+        /// <summary>
+        /// 姓名 
+        /// </summary>        
+        public string Mh002 { get; set; }
+        /// <summary>
+        /// 性别 
+        /// </summary>        
+        public int? Mh006 { get; set; }
+        /// <summary>
+        /// 出生日期 
+        /// </summary>        
+        public DateTime? BeginMh007 { get; set; }
+        public DateTime? EndMh007 { get; set; }
+        /// <summary>
+        /// 婚姻状态 
+        /// </summary>        
+        public int? Mh009 { get; set; }
+        /// <summary>
+        /// 民族 
+        /// </summary>        
+        public int? Mh010 { get; set; }
+        /// <summary>
+        /// 籍贯 
+        /// </summary>        
+        public string Mh011 { get; set; }
+        /// <summary>
+        /// 政治面貌 
+        /// </summary>        
+        public int? Mh012 { get; set; }
+        /// <summary>
+        /// 国家/地区 
+        /// </summary>        
+        public string Mh015 { get; set; }
+        /// <summary>
+        /// 部门 
+        /// </summary>        
+        public int? Mh023 { get; set; }
+        /// <summary>
+        /// 职称 
+        /// </summary>        
+        public int? Mh024 { get; set; }
+        /// <summary>
+        /// 学历 
+        /// </summary>        
+        public int? Mh030 { get; set; }
+        /// <summary>
+        /// 工号 
+        /// </summary>        
+        public string Mh033 { get; set; }
+        /// <summary>
+        /// 入职日期 
+        /// </summary>        
+        public DateTime? BeginMh034 { get; set; }
+        public DateTime? EndMh034 { get; set; }
+        /// <summary>
+        /// 在职状态 
+        /// </summary>        
+        public int? Mh035 { get; set; }
+        /// <summary>
+        /// 离职日期 
+        /// </summary>        
+        public DateTime? BeginMh039 { get; set; }
+        public DateTime? EndMh039 { get; set; }
+        /// <summary>
+        /// 打卡否 
+        /// </summary>        
+        public int? Mh044 { get; set; }
+        /// <summary>
+        /// 班别 
+        /// </summary>        
+        public int? Mh045 { get; set; }
     }
 
     /// <summary>
     /// 人事
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 8:47:39
+    /// @Date: 2024/9/12 15:25:31
     /// </summary>
     public class RoutineEhrEmployeeDto
     {
-        [Required(ErrorMessage = "ID不能为空")]
-        [ExcelColumn(Name = "ID")]
+        //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long EeSfId { get; set; }
+
+        public long Id { get; set; }
 
         [Required(ErrorMessage = "姓名不能为空")]
-        [ExcelColumn(Name = "姓名")]
+        //[ExcelColumn(Name = "姓名")]
         [ExcelColumnName("姓名")]
-        public string EeName { get; set; }
 
-        [ExcelColumn(Name = "曾用名")]
+        public string Mh002 { get; set; }
+
+        //[ExcelColumn(Name = "曾用名")]
         [ExcelColumnName("曾用名")]
-        public string EeNameUsed { get; set; }
 
-        [ExcelColumn(Name = "昵称")]
+        public string Mh003 { get; set; }
+
+        //[ExcelColumn(Name = "昵称")]
         [ExcelColumnName("昵称")]
-        public string EeNickName { get; set; }
 
-        [ExcelColumn(Name = "英文名")]
+        public string Mh004 { get; set; }
+
+        //[ExcelColumn(Name = "英文名")]
         [ExcelColumnName("英文名")]
-        public string EeEnglishName { get; set; }
+
+        public string Mh005 { get; set; }
 
         [Required(ErrorMessage = "性别不能为空")]
-        [ExcelColumn(Name = "性别")]
+        //[ExcelColumn(Name = "性别")]
         [ExcelColumnName("性别")]
-        public int EeGenderId { get; set; }
 
-        [Required(ErrorMessage = "出生日期不能为空")]
-        [ExcelColumn(Name = "出生日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public int Mh006 { get; set; }
+
+        //[ExcelColumn(Name = "出生日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("出生日期")]
-        public DateTime? EeBirthday { get; set; }
 
-        [Required(ErrorMessage = "身份证号不能为空")]
-        [ExcelColumn(Name = "身份证号")]
+        public DateTime? Mh007 { get; set; }
+
+        //[ExcelColumn(Name = "身份证号")]
         [ExcelColumnName("身份证号")]
-        public string EeIdentityCard { get; set; }
+
+        public string Mh008 { get; set; }
 
         [Required(ErrorMessage = "婚姻状态不能为空")]
-        [ExcelColumn(Name = "婚姻状态")]
+        //[ExcelColumn(Name = "婚姻状态")]
         [ExcelColumnName("婚姻状态")]
-        public int EeWedlockId { get; set; }
+
+        public int Mh009 { get; set; }
 
         [Required(ErrorMessage = "民族不能为空")]
-        [ExcelColumn(Name = "民族")]
+        //[ExcelColumn(Name = "民族")]
         [ExcelColumnName("民族")]
-        public int EeNationId { get; set; }
 
-        [Required(ErrorMessage = "籍贯不能为空")]
-        [ExcelColumn(Name = "籍贯")]
+        public int Mh010 { get; set; }
+
+        //[ExcelColumn(Name = "籍贯")]
         [ExcelColumnName("籍贯")]
-        public string EeNativePlace { get; set; }
+
+        public string Mh011 { get; set; }
 
         [Required(ErrorMessage = "政治面貌不能为空")]
-        [ExcelColumn(Name = "政治面貌")]
+        //[ExcelColumn(Name = "政治面貌")]
         [ExcelColumnName("政治面貌")]
-        public int EePoliticId { get; set; }
 
-        [ExcelColumn(Name = "邮件")]
+        public int Mh012 { get; set; }
+
+        //[ExcelColumn(Name = "邮件")]
         [ExcelColumnName("邮件")]
-        public string EeEmail { get; set; }
 
-        [ExcelColumn(Name = "电话")]
+        public string Mh013 { get; set; }
+
+        //[ExcelColumn(Name = "电话")]
         [ExcelColumnName("电话")]
-        public string EePhone { get; set; }
 
-        [Required(ErrorMessage = "国家/地区不能为空")]
-        [ExcelColumn(Name = "国家/地区")]
+        public string Mh014 { get; set; }
+
+        //[ExcelColumn(Name = "国家/地区")]
         [ExcelColumnName("国家/地区")]
-        public string EeCountry { get; set; }
 
-        [Required(ErrorMessage = "省区不能为空")]
-        [ExcelColumn(Name = "省区")]
+        public string Mh015 { get; set; }
+
+        //[ExcelColumn(Name = "省区")]
         [ExcelColumnName("省区")]
-        public string EeProvince { get; set; }
 
-        [Required(ErrorMessage = "市区不能为空")]
-        [ExcelColumn(Name = "市区")]
+        public string Mh016 { get; set; }
+
+        //[ExcelColumn(Name = "市区")]
         [ExcelColumnName("市区")]
-        public string EeCity { get; set; }
 
-        [Required(ErrorMessage = "县区不能为空")]
-        [ExcelColumn(Name = "县区")]
+        public string Mh017 { get; set; }
+
+        //[ExcelColumn(Name = "县区")]
         [ExcelColumnName("县区")]
-        public string EeCounty { get; set; }
 
-        [ExcelColumn(Name = "家庭住址")]
+        public string Mh018 { get; set; }
+
+        //[ExcelColumn(Name = "家庭住址")]
         [ExcelColumnName("家庭住址")]
-        public string EeHomeAddress { get; set; }
 
-        [ExcelColumn(Name = "邮编")]
+        public string Mh019 { get; set; }
+
+        //[ExcelColumn(Name = "邮编")]
         [ExcelColumnName("邮编")]
-        public string EePostCode { get; set; }
+
+        public string Mh020 { get; set; }
 
         [Required(ErrorMessage = "户口性质不能为空")]
-        [ExcelColumn(Name = "户口性质")]
+        //[ExcelColumn(Name = "户口性质")]
         [ExcelColumnName("户口性质")]
-        public int EeHouseholdTypeId { get; set; }
 
-        [ExcelColumn(Name = "暂住地址")]
+        public int Mh021 { get; set; }
+
+        //[ExcelColumn(Name = "暂住地址")]
         [ExcelColumnName("暂住地址")]
-        public string EeStayAddress { get; set; }
+
+        public string Mh022 { get; set; }
 
         [Required(ErrorMessage = "部门不能为空")]
-        [ExcelColumn(Name = "部门")]
+        //[ExcelColumn(Name = "部门")]
         [ExcelColumnName("部门")]
-        public int EeDepartmentId { get; set; }
 
-        [ExcelColumn(Name = "职称")]
+        public int Mh023 { get; set; }
+
+        [Required(ErrorMessage = "职称不能为空")]
+        //[ExcelColumn(Name = "职称")]
         [ExcelColumnName("职称")]
-        public int? EeTitlesId { get; set; }
 
-        [ExcelColumn(Name = "职位")]
+        public int Mh024 { get; set; }
+
+        [Required(ErrorMessage = "职位不能为空")]
+        //[ExcelColumn(Name = "职位")]
         [ExcelColumnName("职位")]
-        public int? EePostId { get; set; }
 
-        [ExcelColumn(Name = "职级")]
+        public int Mh025 { get; set; }
+
+        [Required(ErrorMessage = "职级不能为空")]
+        //[ExcelColumn(Name = "职级")]
         [ExcelColumnName("职级")]
-        public int? EePostLevel { get; set; }
 
-        [ExcelColumn(Name = "职务")]
+        public int Mh026 { get; set; }
+
+        [Required(ErrorMessage = "职务不能为空")]
+        //[ExcelColumn(Name = "职务")]
         [ExcelColumnName("职务")]
-        public int? EeDutyId { get; set; }
 
-        [ExcelColumn(Name = "招聘来源")]
+        public int Mh027 { get; set; }
+
+        [Required(ErrorMessage = "招聘来源不能为空")]
+        //[ExcelColumn(Name = "招聘来源")]
         [ExcelColumnName("招聘来源")]
-        public int? EeRecruited { get; set; }
 
-        [ExcelColumn(Name = "聘用形式")]
+        public int Mh028 { get; set; }
+
+        [Required(ErrorMessage = "聘用形式不能为空")]
+        //[ExcelColumn(Name = "聘用形式")]
         [ExcelColumnName("聘用形式")]
-        public int? EeEngageFormId { get; set; }
 
-        [ExcelColumn(Name = "学历")]
+        public int Mh029 { get; set; }
+
+        [Required(ErrorMessage = "学历不能为空")]
+        //[ExcelColumn(Name = "学历")]
         [ExcelColumnName("学历")]
-        public int? EeEducationalBackgroundId { get; set; }
 
-        [ExcelColumn(Name = "专业")]
+        public int Mh030 { get; set; }
+
+        [Required(ErrorMessage = "专业不能为空")]
+        //[ExcelColumn(Name = "专业")]
         [ExcelColumnName("专业")]
-        public int? EeSpecialtyId { get; set; }
 
-        [ExcelColumn(Name = "院校")]
+        public int Mh031 { get; set; }
+
+        //[ExcelColumn(Name = "院校")]
         [ExcelColumnName("院校")]
-        public string EeCollegeName { get; set; }
+
+        public string Mh032 { get; set; }
 
         [Required(ErrorMessage = "工号不能为空")]
-        [ExcelColumn(Name = "工号")]
+        //[ExcelColumn(Name = "工号")]
         [ExcelColumnName("工号")]
-        public string EeEmployeeId { get; set; }
 
-        [Required(ErrorMessage = "入职日期不能为空")]
-        [ExcelColumn(Name = "入职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public string Mh033 { get; set; }
+
+        //[ExcelColumn(Name = "入职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("入职日期")]
-        public DateTime? EeJoinedDate { get; set; }
 
-        [ExcelColumn(Name = "在职状态")]
+        public DateTime? Mh034 { get; set; }
+
+        [Required(ErrorMessage = "在职状态不能为空")]
+        //[ExcelColumn(Name = "在职状态")]
         [ExcelColumnName("在职状态")]
-        public int? EeEmployedStatus { get; set; }
 
-        [ExcelColumn(Name = "试用期")]
+        public int Mh035 { get; set; }
+
+        [Required(ErrorMessage = "试用期不能为空")]
+        //[ExcelColumn(Name = "试用期")]
         [ExcelColumnName("试用期")]
-        public int? EeProbationPeriod { get; set; }
 
-        [ExcelColumn(Name = "合同期限")]
+        public int Mh036 { get; set; }
+
+        [Required(ErrorMessage = "合同期限不能为空")]
+        //[ExcelColumn(Name = "合同期限")]
         [ExcelColumnName("合同期限")]
-        public int? EeContractPeriod { get; set; }
 
-        [ExcelColumn(Name = "转正日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public int Mh037 { get; set; }
+
+        //[ExcelColumn(Name = "转正日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("转正日期")]
-        public DateTime? EePositiveDate { get; set; }
 
-        [ExcelColumn(Name = "离职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public DateTime? Mh038 { get; set; }
+
+        //[ExcelColumn(Name = "离职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("离职日期")]
-        public DateTime? EeLeaveDate { get; set; }
 
-        [ExcelColumn(Name = "合同起始日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public DateTime? Mh039 { get; set; }
+
+        //[ExcelColumn(Name = "合同起始日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("合同起始日")]
-        public DateTime? EeContractBeginDate { get; set; }
 
-        [ExcelColumn(Name = "合同终止日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public DateTime? Mh040 { get; set; }
+
+        //[ExcelColumn(Name = "合同终止日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("合同终止日")]
-        public DateTime? EeContractEndDate { get; set; }
 
-        [ExcelColumn(Name = "工龄")]
+        public DateTime? Mh041 { get; set; }
+
+        [Required(ErrorMessage = "工龄不能为空")]
+        //[ExcelColumn(Name = "工龄")]
         [ExcelColumnName("工龄")]
-        public int? EeSeniority { get; set; }
 
-        [ExcelColumn(Name = "退休日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public int Mh042 { get; set; }
+
+        //[ExcelColumn(Name = "退休日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("退休日期")]
-        public DateTime? EeRetirementDate { get; set; }
+
+        public DateTime? Mh043 { get; set; }
 
         [Required(ErrorMessage = "打卡否不能为空")]
-        [ExcelColumn(Name = "打卡否")]
+        //[ExcelColumn(Name = "打卡否")]
         [ExcelColumnName("打卡否")]
-        public int EeClockInId { get; set; }
+
+        public int Mh044 { get; set; }
 
         [Required(ErrorMessage = "班别不能为空")]
-        [ExcelColumn(Name = "班别")]
+        //[ExcelColumn(Name = "班别")]
         [ExcelColumnName("班别")]
-        public int EeShiftsTypeId { get; set; }
 
-        [ExcelColumn(Name = "头像")]
+        public int Mh045 { get; set; }
+
+        //[ExcelColumn(Name = "头像")]
         [ExcelColumnName("头像")]
-        public string EeAvatarFileUrl { get; set; }
 
-        [ExcelColumn(Name = "学历附件")]
+        public string Mh046 { get; set; }
+
+        //[ExcelColumn(Name = "学历附件")]
         [ExcelColumnName("学历附件")]
-        public string EeQualificationFileUrl { get; set; }
 
-        [ExcelColumn(Name = "职称附件")]
+        public string Mh047 { get; set; }
+
+        //[ExcelColumn(Name = "职称附件")]
         [ExcelColumnName("职称附件")]
-        public string EeTitleFileUrl { get; set; }
 
-        [ExcelColumn(Name = "预留A")]
-        [ExcelColumnName("预留A")]
-        public string REF01 { get; set; }
-
-        [ExcelColumn(Name = "预留B")]
-        [ExcelColumnName("预留B")]
-        public string REF02 { get; set; }
-
-        [ExcelColumn(Name = "预留C")]
-        [ExcelColumnName("预留C")]
-        public string REF03 { get; set; }
-
-        [ExcelColumn(Name = "预留1")]
-        [ExcelColumnName("预留1")]
-        public decimal REF04 { get; set; }
-
-        [ExcelColumn(Name = "预留2")]
-        [ExcelColumnName("预留2")]
-        public decimal REF05 { get; set; }
-
-        [ExcelColumn(Name = "预留3")]
-        [ExcelColumnName("预留3")]
-        public decimal REF06 { get; set; }
+        public string Mh048 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
+
+        public decimal Ref06 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF51 { get; set; }
+
+        public string Udf01 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF52 { get; set; }
+
+        public string Udf02 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF53 { get; set; }
+
+        public string Udf03 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
+
+        public string Udf04 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
+
+        public string Udf05 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
+
+        public string Udf06 { get; set; }
 
         [ExcelIgnore]
+
+        public int? Udf51 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
+
         public int? IsDeleted { get; set; }
 
         [ExcelIgnore]
+
         public string Remark { get; set; }
 
         [ExcelIgnore]
+
         public string CreateBy { get; set; }
 
         [ExcelIgnore]
+
         public DateTime? CreateTime { get; set; }
 
         [ExcelIgnore]
+
         public string UpdateBy { get; set; }
 
         [ExcelIgnore]
+
         public DateTime? UpdateTime { get; set; }
 
 
 
         [ExcelColumn(Name = "性别")]
-        public string EeGenderIdLabel { get; set; }
+        public string Mh006Label { get; set; }
         [ExcelColumn(Name = "婚姻状态")]
-        public string EeWedlockIdLabel { get; set; }
+        public string Mh009Label { get; set; }
         [ExcelColumn(Name = "民族")]
-        public string EeNationIdLabel { get; set; }
+        public string Mh010Label { get; set; }
+        [ExcelColumn(Name = "籍贯")]
+        public string Mh011Label { get; set; }
         [ExcelColumn(Name = "政治面貌")]
-        public string EePoliticIdLabel { get; set; }
+        public string Mh012Label { get; set; }
         [ExcelColumn(Name = "国家/地区")]
-        public string EeCountryLabel { get; set; }
+        public string Mh015Label { get; set; }
         [ExcelColumn(Name = "省区")]
-        public string EeProvinceLabel { get; set; }
+        public string Mh016Label { get; set; }
+        [ExcelColumn(Name = "市区")]
+        public string Mh017Label { get; set; }
         [ExcelColumn(Name = "户口性质")]
-        public string EeHouseholdTypeIdLabel { get; set; }
+        public string Mh021Label { get; set; }
         [ExcelColumn(Name = "部门")]
-        public string EeDepartmentIdLabel { get; set; }
+        public string Mh023Label { get; set; }
         [ExcelColumn(Name = "职称")]
-        public string EeTitlesIdLabel { get; set; }
+        public string Mh024Label { get; set; }
         [ExcelColumn(Name = "职位")]
-        public string EePostIdLabel { get; set; }
+        public string Mh025Label { get; set; }
         [ExcelColumn(Name = "职级")]
-        public string EePostLevelLabel { get; set; }
+        public string Mh026Label { get; set; }
         [ExcelColumn(Name = "招聘来源")]
-        public string EeRecruitedLabel { get; set; }
+        public string Mh028Label { get; set; }
         [ExcelColumn(Name = "聘用形式")]
-        public string EeEngageFormIdLabel { get; set; }
+        public string Mh029Label { get; set; }
         [ExcelColumn(Name = "学历")]
-        public string EeEducationalBackgroundIdLabel { get; set; }
+        public string Mh030Label { get; set; }
         [ExcelColumn(Name = "专业")]
-        public string EeSpecialtyIdLabel { get; set; }
+        public string Mh031Label { get; set; }
         [ExcelColumn(Name = "在职状态")]
-        public string EeEmployedStatusLabel { get; set; }
+        public string Mh035Label { get; set; }
         [ExcelColumn(Name = "打卡否")]
-        public string EeClockInIdLabel { get; set; }
+        public string Mh044Label { get; set; }
         [ExcelColumn(Name = "班别")]
-        public string EeShiftsTypeIdLabel { get; set; }
+        public string Mh045Label { get; set; }
     }
 
     /// <summary>
     /// 人事
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 8:47:39
+    /// @Date: 2024/9/12 15:25:31
     /// </summary>
     public class RoutineEhrEmployeeImportTpl
     {
-        [Required(ErrorMessage = "ID不能为空")]
-        [ExcelColumn(Name = "ID")]
+        //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long EeSfId { get; set; }
+        public long Id { get; set; }
 
         [Required(ErrorMessage = "姓名不能为空")]
-        [ExcelColumn(Name = "姓名")]
+        //[ExcelColumn(Name = "姓名")]
         [ExcelColumnName("姓名")]
-        public string EeName { get; set; }
+        public string Mh002 { get; set; }
 
-        [ExcelColumn(Name = "曾用名")]
+        //[ExcelColumn(Name = "曾用名")]
         [ExcelColumnName("曾用名")]
-        public string EeNameUsed { get; set; }
+        public string Mh003 { get; set; }
 
-        [ExcelColumn(Name = "昵称")]
+        //[ExcelColumn(Name = "昵称")]
         [ExcelColumnName("昵称")]
-        public string EeNickName { get; set; }
+        public string Mh004 { get; set; }
 
-        [ExcelColumn(Name = "英文名")]
+        //[ExcelColumn(Name = "英文名")]
         [ExcelColumnName("英文名")]
-        public string EeEnglishName { get; set; }
+        public string Mh005 { get; set; }
 
         [Required(ErrorMessage = "性别不能为空")]
-        [ExcelColumn(Name = "性别")]
+        //[ExcelColumn(Name = "性别")]
         [ExcelColumnName("性别")]
-        public int EeGenderId { get; set; }
+        public int Mh006 { get; set; }
 
-        [Required(ErrorMessage = "出生日期不能为空")]
-        [ExcelColumn(Name = "出生日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "出生日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("出生日期")]
-        public DateTime? EeBirthday { get; set; }
+        public DateTime? Mh007 { get; set; }
 
-        [Required(ErrorMessage = "身份证号不能为空")]
-        [ExcelColumn(Name = "身份证号")]
+        //[ExcelColumn(Name = "身份证号")]
         [ExcelColumnName("身份证号")]
-        public string EeIdentityCard { get; set; }
+        public string Mh008 { get; set; }
 
         [Required(ErrorMessage = "婚姻状态不能为空")]
-        [ExcelColumn(Name = "婚姻状态")]
+        //[ExcelColumn(Name = "婚姻状态")]
         [ExcelColumnName("婚姻状态")]
-        public int EeWedlockId { get; set; }
+        public int Mh009 { get; set; }
 
         [Required(ErrorMessage = "民族不能为空")]
-        [ExcelColumn(Name = "民族")]
+        //[ExcelColumn(Name = "民族")]
         [ExcelColumnName("民族")]
-        public int EeNationId { get; set; }
+        public int Mh010 { get; set; }
 
-        [Required(ErrorMessage = "籍贯不能为空")]
-        [ExcelColumn(Name = "籍贯")]
+        //[ExcelColumn(Name = "籍贯")]
         [ExcelColumnName("籍贯")]
-        public string EeNativePlace { get; set; }
+        public string Mh011 { get; set; }
 
         [Required(ErrorMessage = "政治面貌不能为空")]
-        [ExcelColumn(Name = "政治面貌")]
+        //[ExcelColumn(Name = "政治面貌")]
         [ExcelColumnName("政治面貌")]
-        public int EePoliticId { get; set; }
+        public int Mh012 { get; set; }
 
-        [ExcelColumn(Name = "邮件")]
+        //[ExcelColumn(Name = "邮件")]
         [ExcelColumnName("邮件")]
-        public string EeEmail { get; set; }
+        public string Mh013 { get; set; }
 
-        [ExcelColumn(Name = "电话")]
+        //[ExcelColumn(Name = "电话")]
         [ExcelColumnName("电话")]
-        public string EePhone { get; set; }
+        public string Mh014 { get; set; }
 
-        [Required(ErrorMessage = "国家/地区不能为空")]
-        [ExcelColumn(Name = "国家/地区")]
+        //[ExcelColumn(Name = "国家/地区")]
         [ExcelColumnName("国家/地区")]
-        public string EeCountry { get; set; }
+        public string Mh015 { get; set; }
 
-        [Required(ErrorMessage = "省区不能为空")]
-        [ExcelColumn(Name = "省区")]
+        //[ExcelColumn(Name = "省区")]
         [ExcelColumnName("省区")]
-        public string EeProvince { get; set; }
+        public string Mh016 { get; set; }
 
-        [Required(ErrorMessage = "市区不能为空")]
-        [ExcelColumn(Name = "市区")]
+        //[ExcelColumn(Name = "市区")]
         [ExcelColumnName("市区")]
-        public string EeCity { get; set; }
+        public string Mh017 { get; set; }
 
-        [Required(ErrorMessage = "县区不能为空")]
-        [ExcelColumn(Name = "县区")]
+        //[ExcelColumn(Name = "县区")]
         [ExcelColumnName("县区")]
-        public string EeCounty { get; set; }
+        public string Mh018 { get; set; }
 
-        [ExcelColumn(Name = "家庭住址")]
+        //[ExcelColumn(Name = "家庭住址")]
         [ExcelColumnName("家庭住址")]
-        public string EeHomeAddress { get; set; }
+        public string Mh019 { get; set; }
 
-        [ExcelColumn(Name = "邮编")]
+        //[ExcelColumn(Name = "邮编")]
         [ExcelColumnName("邮编")]
-        public string EePostCode { get; set; }
+        public string Mh020 { get; set; }
 
         [Required(ErrorMessage = "户口性质不能为空")]
-        [ExcelColumn(Name = "户口性质")]
+        //[ExcelColumn(Name = "户口性质")]
         [ExcelColumnName("户口性质")]
-        public int EeHouseholdTypeId { get; set; }
+        public int Mh021 { get; set; }
 
-        [ExcelColumn(Name = "暂住地址")]
+        //[ExcelColumn(Name = "暂住地址")]
         [ExcelColumnName("暂住地址")]
-        public string EeStayAddress { get; set; }
+        public string Mh022 { get; set; }
 
         [Required(ErrorMessage = "部门不能为空")]
-        [ExcelColumn(Name = "部门")]
+        //[ExcelColumn(Name = "部门")]
         [ExcelColumnName("部门")]
-        public int EeDepartmentId { get; set; }
+        public int Mh023 { get; set; }
 
-        [ExcelColumn(Name = "职称")]
+        [Required(ErrorMessage = "职称不能为空")]
+        //[ExcelColumn(Name = "职称")]
         [ExcelColumnName("职称")]
-        public int? EeTitlesId { get; set; }
+        public int Mh024 { get; set; }
 
-        [ExcelColumn(Name = "职位")]
+        [Required(ErrorMessage = "职位不能为空")]
+        //[ExcelColumn(Name = "职位")]
         [ExcelColumnName("职位")]
-        public int? EePostId { get; set; }
+        public int Mh025 { get; set; }
 
-        [ExcelColumn(Name = "职级")]
+        [Required(ErrorMessage = "职级不能为空")]
+        //[ExcelColumn(Name = "职级")]
         [ExcelColumnName("职级")]
-        public int? EePostLevel { get; set; }
+        public int Mh026 { get; set; }
 
-        [ExcelColumn(Name = "职务")]
+        [Required(ErrorMessage = "职务不能为空")]
+        //[ExcelColumn(Name = "职务")]
         [ExcelColumnName("职务")]
-        public int? EeDutyId { get; set; }
+        public int Mh027 { get; set; }
 
-        [ExcelColumn(Name = "招聘来源")]
+        [Required(ErrorMessage = "招聘来源不能为空")]
+        //[ExcelColumn(Name = "招聘来源")]
         [ExcelColumnName("招聘来源")]
-        public int? EeRecruited { get; set; }
+        public int Mh028 { get; set; }
 
-        [ExcelColumn(Name = "聘用形式")]
+        [Required(ErrorMessage = "聘用形式不能为空")]
+        //[ExcelColumn(Name = "聘用形式")]
         [ExcelColumnName("聘用形式")]
-        public int? EeEngageFormId { get; set; }
+        public int Mh029 { get; set; }
 
-        [ExcelColumn(Name = "学历")]
+        [Required(ErrorMessage = "学历不能为空")]
+        //[ExcelColumn(Name = "学历")]
         [ExcelColumnName("学历")]
-        public int? EeEducationalBackgroundId { get; set; }
+        public int Mh030 { get; set; }
 
-        [ExcelColumn(Name = "专业")]
+        [Required(ErrorMessage = "专业不能为空")]
+        //[ExcelColumn(Name = "专业")]
         [ExcelColumnName("专业")]
-        public int? EeSpecialtyId { get; set; }
+        public int Mh031 { get; set; }
 
-        [ExcelColumn(Name = "院校")]
+        //[ExcelColumn(Name = "院校")]
         [ExcelColumnName("院校")]
-        public string EeCollegeName { get; set; }
+        public string Mh032 { get; set; }
 
         [Required(ErrorMessage = "工号不能为空")]
-        [ExcelColumn(Name = "工号")]
+        //[ExcelColumn(Name = "工号")]
         [ExcelColumnName("工号")]
-        public string EeEmployeeId { get; set; }
+        public string Mh033 { get; set; }
 
-        [Required(ErrorMessage = "入职日期不能为空")]
-        [ExcelColumn(Name = "入职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "入职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("入职日期")]
-        public DateTime? EeJoinedDate { get; set; }
+        public DateTime? Mh034 { get; set; }
 
-        [ExcelColumn(Name = "在职状态")]
+        [Required(ErrorMessage = "在职状态不能为空")]
+        //[ExcelColumn(Name = "在职状态")]
         [ExcelColumnName("在职状态")]
-        public int? EeEmployedStatus { get; set; }
+        public int Mh035 { get; set; }
 
-        [ExcelColumn(Name = "试用期")]
+        [Required(ErrorMessage = "试用期不能为空")]
+        //[ExcelColumn(Name = "试用期")]
         [ExcelColumnName("试用期")]
-        public int? EeProbationPeriod { get; set; }
+        public int Mh036 { get; set; }
 
-        [ExcelColumn(Name = "合同期限")]
+        [Required(ErrorMessage = "合同期限不能为空")]
+        //[ExcelColumn(Name = "合同期限")]
         [ExcelColumnName("合同期限")]
-        public int? EeContractPeriod { get; set; }
+        public int Mh037 { get; set; }
 
-        [ExcelColumn(Name = "转正日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "转正日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("转正日期")]
-        public DateTime? EePositiveDate { get; set; }
+        public DateTime? Mh038 { get; set; }
 
-        [ExcelColumn(Name = "离职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "离职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("离职日期")]
-        public DateTime? EeLeaveDate { get; set; }
+        public DateTime? Mh039 { get; set; }
 
-        [ExcelColumn(Name = "合同起始日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "合同起始日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("合同起始日")]
-        public DateTime? EeContractBeginDate { get; set; }
+        public DateTime? Mh040 { get; set; }
 
-        [ExcelColumn(Name = "合同终止日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "合同终止日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("合同终止日")]
-        public DateTime? EeContractEndDate { get; set; }
+        public DateTime? Mh041 { get; set; }
 
-        [ExcelColumn(Name = "工龄")]
+        [Required(ErrorMessage = "工龄不能为空")]
+        //[ExcelColumn(Name = "工龄")]
         [ExcelColumnName("工龄")]
-        public int? EeSeniority { get; set; }
+        public int Mh042 { get; set; }
 
-        [ExcelColumn(Name = "退休日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "退休日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("退休日期")]
-        public DateTime? EeRetirementDate { get; set; }
+        public DateTime? Mh043 { get; set; }
 
         [Required(ErrorMessage = "打卡否不能为空")]
-        [ExcelColumn(Name = "打卡否")]
+        //[ExcelColumn(Name = "打卡否")]
         [ExcelColumnName("打卡否")]
-        public int EeClockInId { get; set; }
+        public int Mh044 { get; set; }
 
         [Required(ErrorMessage = "班别不能为空")]
-        [ExcelColumn(Name = "班别")]
+        //[ExcelColumn(Name = "班别")]
         [ExcelColumnName("班别")]
-        public int EeShiftsTypeId { get; set; }
+        public int Mh045 { get; set; }
 
-        [ExcelColumn(Name = "头像")]
+        //[ExcelColumn(Name = "头像")]
         [ExcelColumnName("头像")]
-        public string EeAvatarFileUrl { get; set; }
+        public string Mh046 { get; set; }
 
-        [ExcelColumn(Name = "学历附件")]
+        //[ExcelColumn(Name = "学历附件")]
         [ExcelColumnName("学历附件")]
-        public string EeQualificationFileUrl { get; set; }
+        public string Mh047 { get; set; }
 
-        [ExcelColumn(Name = "职称附件")]
+        //[ExcelColumn(Name = "职称附件")]
         [ExcelColumnName("职称附件")]
-        public string EeTitleFileUrl { get; set; }
-
-        [ExcelColumn(Name = "预留A")]
-        [ExcelColumnName("预留A")]
-        public string REF01 { get; set; }
-
-        [ExcelColumn(Name = "预留B")]
-        [ExcelColumnName("预留B")]
-        public string REF02 { get; set; }
-
-        [ExcelColumn(Name = "预留C")]
-        [ExcelColumnName("预留C")]
-        public string REF03 { get; set; }
-
-        [ExcelColumn(Name = "预留1")]
-        [ExcelColumnName("预留1")]
-        public decimal REF04 { get; set; }
-
-        [ExcelColumn(Name = "预留2")]
-        [ExcelColumnName("预留2")]
-        public decimal REF05 { get; set; }
-
-        [ExcelColumn(Name = "预留3")]
-        [ExcelColumnName("预留3")]
-        public decimal REF06 { get; set; }
+        public string Mh048 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
+        public decimal Ref06 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF51 { get; set; }
+        public string Udf01 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF52 { get; set; }
+        public string Udf02 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF53 { get; set; }
+        public string Udf03 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
+        public string Udf04 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
+        public string Udf05 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
+        public string Udf06 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf51 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf56 { get; set; }
 
         [ExcelIgnore]
         public int? IsDeleted { get; set; }
@@ -685,58 +792,64 @@ namespace Ams.Model.Routine.Dto
 
         [ExcelIgnore]
         [ExcelColumn(Name = "性别")]
-        public string EeGenderIdLabel { get; set; }
+        public string Mh006Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "婚姻状态")]
-        public string EeWedlockIdLabel { get; set; }
+        public string Mh009Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "民族")]
-        public string EeNationIdLabel { get; set; }
+        public string Mh010Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "籍贯")]
+        public string Mh011Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "政治面貌")]
-        public string EePoliticIdLabel { get; set; }
+        public string Mh012Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "国家/地区")]
-        public string EeCountryLabel { get; set; }
+        public string Mh015Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "省区")]
-        public string EeProvinceLabel { get; set; }
+        public string Mh016Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "市区")]
+        public string Mh017Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "户口性质")]
-        public string EeHouseholdTypeIdLabel { get; set; }
+        public string Mh021Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "部门")]
-        public string EeDepartmentIdLabel { get; set; }
+        public string Mh023Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "职称")]
-        public string EeTitlesIdLabel { get; set; }
+        public string Mh024Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "职位")]
-        public string EePostIdLabel { get; set; }
+        public string Mh025Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "职级")]
-        public string EePostLevelLabel { get; set; }
+        public string Mh026Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "招聘来源")]
-        public string EeRecruitedLabel { get; set; }
+        public string Mh028Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "聘用形式")]
-        public string EeEngageFormIdLabel { get; set; }
+        public string Mh029Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "学历")]
-        public string EeEducationalBackgroundIdLabel { get; set; }
+        public string Mh030Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "专业")]
-        public string EeSpecialtyIdLabel { get; set; }
+        public string Mh031Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "在职状态")]
-        public string EeEmployedStatusLabel { get; set; }
+        public string Mh035Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "打卡否")]
-        public string EeClockInIdLabel { get; set; }
+        public string Mh044Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "班别")]
-        public string EeShiftsTypeIdLabel { get; set; }
+        public string Mh045Label { get; set; }
     }
 
 }

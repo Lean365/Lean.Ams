@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 工厂物料
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:45:06
+    /// @Date: 2024/9/11 11:30:16
     /// </summary>
     [Verify]
     [Route("Logistics/MmMarc")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询工厂物料详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{SfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "mm:marc:query")]
-        public IActionResult GetMmMarc(long SfId)
+        public IActionResult GetMmMarc(long Id)
         {
-            var response = _MmMarcService.GetInfo(SfId);
+            var response = _MmMarcService.GetInfo(Id);
             
             var info = response.Adapt<MmMarcDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "mm:marc:add")]
-        [Log(Title = "工厂物料", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "工厂物料", BusinessType = BusinessType.ADD)]
         public IActionResult AddMmMarc([FromBody] MmMarcDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_MmMarcService.CheckInputUnique(parm.SfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_MmMarcService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增工厂物料 '{parm.SfId}'失败(Add failed)，输入的工厂物料已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增工厂物料 '{parm.Id}'失败(Add failed)，输入的工厂物料已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<MmMarc>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "mm:marc:edit")]
-        [Log(Title = "工厂物料", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "工厂物料", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateMmMarc([FromBody] MmMarcDto parm)
         {
             var modal = parm.Adapt<MmMarc>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出工厂物料
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "工厂物料", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "工厂物料导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "mm:marc:export")]
         public IActionResult Export([FromQuery] MmMarcQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入工厂物料
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "工厂物料导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "mm:marc:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<MmMarcDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 工厂物料导入模板下载
+        /// 工厂物料
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "工厂物料模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<MmMarcImportTpl>() { }, "MmMarc_tpl");
             return ExportExcel(result.Item2, result.Item1);

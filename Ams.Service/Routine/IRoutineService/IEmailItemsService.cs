@@ -1,10 +1,10 @@
+using Ams.Service;
 using Ams.Infrastructure.Model;
-using Ams.Model.Routine.Dto;
 
 namespace Ams.Service.Routine.IRoutineService
 {
     /// <summary>
-    /// 邮件发送记录service接口
+    /// 邮件记录service接口
     /// </summary>
     public interface IEmailItemsService : IBaseService<EmailItems>
     {

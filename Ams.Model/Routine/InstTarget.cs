@@ -1,10 +1,12 @@
+using Ams.Model.Admin;
+
 namespace Ams.Model.Routine
 {
     /// <summary>
     /// 机构目标
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 10:30:14
+    /// @Date: 2024/9/5 10:12:49
     /// </summary>
     [SugarTable("inst_target", "机构目标")]
     public class InstTarget : SysBase
@@ -14,30 +16,30 @@ namespace Ams.Model.Routine
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long IkSfId { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
-        /// 公司简称
+        /// 期间
         /// </summary>
-        [SugarColumn(ColumnName = "IkAbbrName", ColumnDescription = "公司简称 ", Length = 255)]
-        public string IkAbbrName { get; set; }
+        [SugarColumn(ColumnName = "Md002", ColumnDescription = "期间", Length = 6)]
+        public string Md002 { get; set; }
 
         /// <summary>
-        /// 财年
+        /// 公司
         /// </summary>
-        [SugarColumn(ColumnName = "IkAnnual", ColumnDescription = "财年 ", Length = 255)]
-        public string IkAnnual { get; set; }
+        [SugarColumn(ColumnName = "Md003", ColumnDescription = "公司", Length = 4)]
+        public string Md003 { get; set; }
 
         /// <summary>
-        /// 语言
+        /// 翻译键值
         /// </summary>
-        [SugarColumn(ColumnName = "IkLangKey", ColumnDescription = "语言 ", Length = 255)]
-        public string IkLangKey { get; set; }
+        [SugarColumn(ColumnName = "Md004", ColumnDescription = "翻译键值", Length = 100)]
+        public string Md004 { get; set; }
 
         /// <summary>
-        /// 目标
+        /// 目标标识
         /// </summary>
-        [SugarColumn(ColumnName = "IkTarget", ColumnDescription = "目标 ", Length = 255)]
-        public string IkTarget { get; set; }
+        [SugarColumn(ColumnName = "Md005", ColumnDescription = "目标标识", Length = -1)]
+        public string Md005 { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace Ams.Service.Routine.IRoutineService
     /// 薪资
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:32:33
+    /// @Date: 2024/9/12 15:20:02
     /// </summary>
     public interface IRoutineEhrPayrollService : IBaseService<RoutineEhrPayroll>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Routine.IRoutineService
         /// <summary>
         /// 获取薪资信息
         /// </summary>
-        /// <param name="EeSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        RoutineEhrPayroll GetInfo(long EeSfId);
+        RoutineEhrPayroll GetInfo(int Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

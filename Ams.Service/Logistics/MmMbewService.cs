@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
@@ -8,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 物料评估
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:50:11
+    /// @Date: 2024/9/11 11:30:25
     /// </summary>
     [AppService(ServiceType = typeof(IMmMbewService), ServiceLifetime = LifeTime.Transient)]
     public class MmMbewService : BaseService<MmMbew>, IMmMbewService
@@ -23,11 +26,13 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Md003 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<MmMbew, MmMbewDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. SfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,16 +53,17 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public MmMbew GetInfo(long SfId)
+        public MmMbew GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.SfId == SfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加物料评估
         /// </summary>
@@ -68,6 +74,7 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改物料评估
         /// </summary>
@@ -86,17 +93,67 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.SfId.IsEmpty(), "ID主键不能为空")
-                .SplitError(x => x.Item.Matnr.IsEmpty(), "物料号不能为空")
-                .SplitError(x => x.Item.Bwkey.IsEmpty(), "评估范围不能为空")
-                .SplitError(x => x.Item.Bklas.IsEmpty(), "评估类不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Md002.IsEmpty(), "集团不能为空")
+                .SplitError(x => x.Item.Md003.IsEmpty(), "物料号不能为空")
+                .SplitError(x => x.Item.Md004.IsEmpty(), "评估范围不能为空")
+                .SplitError(x => x.Item.Md005.IsEmpty(), "评估类型不能为空")
+                .SplitError(x => x.Item.Md007.IsEmpty(), "总库存不能为空")
+                .SplitError(x => x.Item.Md008.IsEmpty(), "估价值不能为空")
+                .SplitError(x => x.Item.Md010.IsEmpty(), "移动价格不能为空")
+                .SplitError(x => x.Item.Md011.IsEmpty(), "标准价格不能为空")
+                .SplitError(x => x.Item.Md012.IsEmpty(), "价格单位不能为空")
+                .SplitError(x => x.Item.Md014.IsEmpty(), "价值/MA价格不能为空")
+                .SplitError(x => x.Item.Md015.IsEmpty(), "前期总库存不能为空")
+                .SplitError(x => x.Item.Md016.IsEmpty(), "前期总价值不能为空")
+                .SplitError(x => x.Item.Md018.IsEmpty(), "前期移动平均价不能为空")
+                .SplitError(x => x.Item.Md019.IsEmpty(), "前期标准价格不能为空")
+                .SplitError(x => x.Item.Md020.IsEmpty(), "上期价格单位不能为空")
+                .SplitError(x => x.Item.Md022.IsEmpty(), "上期价值不能为空")
+                .SplitError(x => x.Item.Md023.IsEmpty(), "前年总库存不能为空")
+                .SplitError(x => x.Item.Md024.IsEmpty(), "上年总价值不能为空")
+                .SplitError(x => x.Item.Md026.IsEmpty(), "去年移动平均价不能为空")
+                .SplitError(x => x.Item.Md027.IsEmpty(), "去年标准价格不能为空")
+                .SplitError(x => x.Item.Md028.IsEmpty(), "上年价格单位不能为空")
+                .SplitError(x => x.Item.Md030.IsEmpty(), "上年价值不能为空")
+                .SplitError(x => x.Item.Md031.IsEmpty(), "当前会计年度不能为空")
+                .SplitError(x => x.Item.Md032.IsEmpty(), "当前期间不能为空")
+                .SplitError(x => x.Item.Md034.IsEmpty(), "上期价格不能为空")
+                .SplitError(x => x.Item.Md036.IsEmpty(), "未来价格不能为空")
+                .SplitError(x => x.Item.Md038.IsEmpty(), "时戳不能为空")
+                .SplitError(x => x.Item.Md039.IsEmpty(), "税价1不能为空")
+                .SplitError(x => x.Item.Md040.IsEmpty(), "商业价格1不能为空")
+                .SplitError(x => x.Item.Md041.IsEmpty(), "税价3不能为空")
+                .SplitError(x => x.Item.Md042.IsEmpty(), "商业价格3不能为空")
+                .SplitError(x => x.Item.Md043.IsEmpty(), "计价不能为空")
+                .SplitError(x => x.Item.Md044.IsEmpty(), "前年总库存不能为空")
+                .SplitError(x => x.Item.Md045.IsEmpty(), "前期总价值不能为空")
+                .SplitError(x => x.Item.Md046.IsEmpty(), "计价在不能为空")
+                .SplitError(x => x.Item.Md047.IsEmpty(), "未来计划价格不能为空")
+                .SplitError(x => x.Item.Md048.IsEmpty(), "未来计划价格1不能为空")
+                .SplitError(x => x.Item.Md049.IsEmpty(), "未来计划价格 2不能为空")
+                .SplitError(x => x.Item.Md050.IsEmpty(), "未来计划价格 3不能为空")
+                .SplitError(x => x.Item.Md063.IsEmpty(), "商业价格2不能为空")
+                .SplitError(x => x.Item.Md064.IsEmpty(), "税价2不能为空")
+                .SplitError(x => x.Item.Md065.IsEmpty(), "贬值标志不能为空")
+                .SplitError(x => x.Item.Md067.IsEmpty(), "产品成本核算不能为空")
+                .SplitError(x => x.Item.Md068.IsEmpty(), "成本估算编号不能为空")
+                .SplitError(x => x.Item.Md072.IsEmpty(), "成本核算版本1不能为空")
+                .SplitError(x => x.Item.Md073.IsEmpty(), "成本核算版本2不能为空")
+                .SplitError(x => x.Item.Md074.IsEmpty(), "成本核算版本3不能为空")
+                .SplitError(x => x.Item.Md077.IsEmpty(), "计价期间不能为空")
+                .SplitError(x => x.Item.Md078.IsEmpty(), "当前期间不能为空")
+                .SplitError(x => x.Item.Md079.IsEmpty(), "前一期间不能为空")
+                .SplitError(x => x.Item.Md080.IsEmpty(), "未来会计年度不能为空")
+                .SplitError(x => x.Item.Md081.IsEmpty(), "当前会计年度不能为空")
+                .SplitError(x => x.Item.Md082.IsEmpty(), "上一会计年度不能为空")
+                .SplitError(x => x.Item.Md084.IsEmpty(), "上期标准价格不能为空")
+                .SplitError(x => x.Item.Md087.IsEmpty(), "当前计划价格不能为空")
+                .SplitError(x => x.Item.Md088.IsEmpty(), "总SP值不能为空")
+                .SplitError(x => x.Item.Md094.IsEmpty(), "评价毛利不能为空")
+                .SplitError(x => x.Item.Md095.IsEmpty(), "当前计划价格的固定金额不能为空")
+                .SplitError(x => x.Item.Md096.IsEmpty(), "上年计划价格的固定比例不能为空")
+                .SplitError(x => x.Item.Md097.IsEmpty(), "未来计划价格的固定比例不能为空")
+                .SplitError(x => x.Item.Md107.IsEmpty(), "价格单位不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -130,9 +187,10 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new MmMbewDto()
                 {
-                    BwkeyLabel = it.Bwkey.GetConfigValue<SysDictData>("sys_plant_list"),
-                    BklasLabel = it.Bklas.GetConfigValue<SysDictData>("sys_val_type"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <评估范围> 
+                    Md004Label = it.Md004.GetConfigValue<SysDictData>("sql_plant_list"),
+                    //查询字典: <评估类型> 
+                    Md005Label = it.Md005.GetConfigValue<SysDictData>("sys_val_type"),
                 }, true)
                 .ToPage(parm);
 
@@ -148,11 +206,12 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<MmMbew>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Matnr), it => it.Matnr.Contains(parm.Matnr));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Bwkey), it => it.Bwkey == parm.Bwkey);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Bklas), it => it.Bklas == parm.Bklas);
-            predicate = predicate.AndIF(parm.Lfgja != null, it => it.Lfgja == parm.Lfgja);
-            predicate = predicate.AndIF(parm.Lfmon != null, it => it.Lfmon == parm.Lfmon);
+            //查询字段: <物料号> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md003), it => it.Md003.Contains(parm.Md003));
+            //查询字段: <评估范围> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md004), it => it.Md004 == parm.Md004);
+            //查询字段: <评估类型> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md005), it => it.Md005 == parm.Md005);
             return predicate;
         }
     }

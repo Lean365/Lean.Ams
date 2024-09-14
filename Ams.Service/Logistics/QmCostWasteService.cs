@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
@@ -8,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 废弃部品
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 15:11:57
+    /// @Date: 2024/9/11 16:46:48
     /// </summary>
     [AppService(ServiceType = typeof(IQmCostWasteService), ServiceLifetime = LifeTime.Transient)]
     public class QmCostWasteService : BaseService<QmCostWaste>, IQmCostWasteService
@@ -23,11 +26,13 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Me003 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<QmCostWaste, QmCostWasteDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. QcwdSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,16 +53,17 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="QcwdSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public QmCostWaste GetInfo(long QcwdSfId)
+        public QmCostWaste GetInfo(int Id)
         {
             var response = Queryable()
-                .Where(x => x.QcwdSfId == QcwdSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加废弃部品
         /// </summary>
@@ -68,6 +74,7 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改废弃部品
         /// </summary>
@@ -86,24 +93,20 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.QcwdSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.Qcwd003.IsEmpty(), "间接人员赁率不能为空")
-                .SplitError(x => x.Item.Qcwd007.IsEmpty(), "废弃费用不能为空")
-                .SplitError(x => x.Item.Qcwd008.IsEmpty(), "废弃数量不能为空")
-                .SplitError(x => x.Item.Qcwd009.IsEmpty(), "部品单价不能为空")
-                .SplitError(x => x.Item.Qcwd010.IsEmpty(), "废弃处理费用不能为空")
-                .SplitError(x => x.Item.Qcwd011.IsEmpty(), "运费不能为空")
-                .SplitError(x => x.Item.Qcwd012.IsEmpty(), "其他费用不能为空")
-                .SplitError(x => x.Item.Qcwd013.IsEmpty(), "处理作业时间(分)不能为空")
-                .SplitError(x => x.Item.Qcwd014.IsEmpty(), "关税不能为空")
-                .SplitError(x => x.Item.Qcwd015.IsEmpty(), "处理发生其他费用不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Id.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.Me002.IsEmpty(), "工厂不能为空")
+                .SplitError(x => x.Item.Me003.IsEmpty(), "日期不能为空")
+                .SplitError(x => x.Item.Me005.IsEmpty(), "间接人员赁率不能为空")
+                .SplitError(x => x.Item.Me006.IsEmpty(), "物料不能为空")
+                .SplitError(x => x.Item.Me009.IsEmpty(), "废弃费用不能为空")
+                .SplitError(x => x.Item.Me010.IsEmpty(), "废弃数量不能为空")
+                .SplitError(x => x.Item.Me011.IsEmpty(), "部品单价不能为空")
+                .SplitError(x => x.Item.Me012.IsEmpty(), "废弃处理费用不能为空")
+                .SplitError(x => x.Item.Me013.IsEmpty(), "运费不能为空")
+                .SplitError(x => x.Item.Me014.IsEmpty(), "其他费用不能为空")
+                .SplitError(x => x.Item.Me015.IsEmpty(), "处理作业时间(分)不能为空")
+                .SplitError(x => x.Item.Me016.IsEmpty(), "关税不能为空")
+                .SplitError(x => x.Item.Me017.IsEmpty(), "处理发生其他费用不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -137,9 +140,12 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new QmCostWasteDto()
                 {
-                    Qcwd002Label = it.Qcwd002.GetConfigValue<SysDictData>("sql_oph_model"),
-                    QcwdrecLabel = it.Qcwdrec.GetConfigValue<SysDictData>("sql_inspector_list"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <工厂> 
+                    Me002Label = it.Me002.GetConfigValue<SysDictData>("sql_plant_list"),
+                    //查询字典: <机种> 
+                    Me004Label = it.Me004.GetConfigValue<SysDictData>("sql_sap_model"),
+                    //查询字典: <物料> 
+                    Me006Label = it.Me006.GetConfigValue<SysDictData>("sql_mats_list"),
                 }, true)
                 .ToPage(parm);
 
@@ -155,16 +161,22 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<QmCostWaste>();
 
+            //查询字段: <工厂> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Me002), it => it.Me002 == parm.Me002);
+            //查询字段: <日期> 
+            //predicate = predicate.AndIF(parm.BeginMe003 == null, it => it.Me003 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMe003 != null, it => it.Me003 >= parm.BeginMe003);
+            //predicate = predicate.AndIF(parm.EndMe003 != null, it => it.Me003 <= parm.EndMe003);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginQcwd001 == null, it => it.Qcwd001 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMe003 == null, it => it.Me003 >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginQcwd001 == null, it => it.Qcwd001 >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginQcwd001 != null, it => it.Qcwd001 >= parm.BeginQcwd001);
-            predicate = predicate.AndIF(parm.EndQcwd001 != null, it => it.Qcwd001 <= parm.EndQcwd001);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Qcwd002), it => it.Qcwd002 == parm.Qcwd002);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Qcwd004), it => it.Qcwd004 == parm.Qcwd004);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Qcwd016), it => it.Qcwd016 == parm.Qcwd016);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Qcwdrec), it => it.Qcwdrec == parm.Qcwdrec);
+            predicate = predicate.AndIF(parm.BeginMe003 == null, it => it.Me003 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMe003 != null, it => it.Me003 >= parm.BeginMe003);
+            predicate = predicate.AndIF(parm.EndMe003 != null, it => it.Me003 <= parm.EndMe003);
+            //查询字段: <机种> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Me004), it => it.Me004 == parm.Me004);
+            //查询字段: <物料> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Me006), it => it.Me006 == parm.Me006);
             return predicate;
         }
     }

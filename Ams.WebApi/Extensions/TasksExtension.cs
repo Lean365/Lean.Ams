@@ -1,4 +1,6 @@
-﻿using Ams.Tasks;
+﻿using Ams.Model.Admin;
+using Ams.Model.Routine;
+using Ams.Tasks;
 using Quartz.Spi;
 using SqlSugar;
 using SqlSugar.IOC;

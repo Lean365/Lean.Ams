@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// PO残清单
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:59:13
+    /// @Date: 2024/9/11 11:38:51
     /// </summary>
     public interface IMmPoResidueService : IBaseService<MmPoResidue>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取PO残清单信息
         /// </summary>
-        /// <param name="PrSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        MmPoResidue GetInfo(long PrSfId);
+        MmPoResidue GetInfo(int Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

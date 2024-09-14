@@ -4,26 +4,26 @@ using Ams.Model.Logistics;
 namespace Ams.Service.Logistics.ILogisticsService
 {
     /// <summary>
-    /// 厂商信息
+    /// 销售商
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:23:27
+    /// @Date: 2024/9/11 11:38:56
     /// </summary>
     public interface IMmVendorService : IBaseService<MmVendor>
     {
         /// <summary>
-        /// 获取厂商信息列表
+        /// 获取销售商列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         PagedInfo<MmVendorDto> GetList(MmVendorQueryDto parm);
 
         /// <summary>
-        /// 获取厂商信息信息
+        /// 获取销售商信息
         /// </summary>
-        /// <param name="VeSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        MmVendor GetInfo(long VeSfId);
+        MmVendor GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -33,7 +33,7 @@ namespace Ams.Service.Logistics.ILogisticsService
         public string CheckInputUnique(string enterString);
         /// <summary>
         /// 新增
-        /// 厂商信息
+        /// 销售商
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 更新
-        /// 厂商信息
+        /// 销售商
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 批量导入
-        /// 厂商信息
+        /// 销售商
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 导出
-        /// 厂商信息
+        /// 销售商
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>

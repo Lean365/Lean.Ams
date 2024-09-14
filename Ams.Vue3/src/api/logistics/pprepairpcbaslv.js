@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 修理日报slv分页查询
+ * 修理明细分页查询
  * @param {查询条件} data
  */
 export function listPpRepairPcbaSlv(query) {
@@ -14,7 +14,7 @@ export function listPpRepairPcbaSlv(query) {
 }
 
 /**
- * 新增修理日报slv
+ * 新增修理明细
  * @param data
  */
 export function addPpRepairPcbaSlv(data) {
@@ -25,7 +25,7 @@ export function addPpRepairPcbaSlv(data) {
   })
 }
 /**
- * 修改修理日报slv
+ * 修改修理明细
  * @param data
  */
 export function updatePpRepairPcbaSlv(data) {
@@ -36,7 +36,7 @@ export function updatePpRepairPcbaSlv(data) {
   })
 }
 /**
- * 获取修理日报slv详情
+ * 获取修理明细详情
  * @param {Id}
  */
 export function getPpRepairPcbaSlv(id) {
@@ -47,7 +47,7 @@ export function getPpRepairPcbaSlv(id) {
 }
 
 /**
- * 删除修理日报slv
+ * 删除修理明细
  * @param {主键} pid
  */
 export function delPpRepairPcbaSlv(pid) {
@@ -56,7 +56,7 @@ export function delPpRepairPcbaSlv(pid) {
     method: 'delete'
   })
 }
-// 导出修理日报slv
+// 导出修理明细
 export async function exportPpRepairPcbaSlv(query) {
   await downFile('Logistics/PpRepairPcbaSlv/export', { ...query })
 }

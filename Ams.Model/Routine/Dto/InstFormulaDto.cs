@@ -1,53 +1,153 @@
+
 namespace Ams.Model.Routine.Dto
 {
     /// <summary>
     /// 计算公式
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/17 10:24:50
+    /// @Date: 2024/9/5 10:17:40
     /// </summary>
-    public class InstFormulaQueryDto : PagerInfo
+    public class InstFormulaQueryDto : PagerInfo 
     {
-        public string IfType { get; set; }
+        /// <summary>
+        /// 类别 
+        /// </summary>        
+        public string Mb002 { get; set; }
     }
 
     /// <summary>
     /// 计算公式
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/17 10:24:50
+    /// @Date: 2024/9/5 10:17:40
     /// </summary>
     public class InstFormulaDto
     {
-        [Required(ErrorMessage = "SfId不能为空")]
-        [ExcelColumn(Name = "SfId")]
-        [ExcelColumnName("SfId")]
+        [Required(ErrorMessage = "ID不能为空")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long IfSfId { get; set; }
+
+        public long Id { get; set; }
 
         [Required(ErrorMessage = "类别不能为空")]
-        [ExcelColumn(Name = "类别")]
+        //[ExcelColumn(Name = "类别")]
         [ExcelColumnName("类别")]
-        public string IfType { get; set; }
 
-        [Required(ErrorMessage = "语言不能为空")]
-        [ExcelColumn(Name = "语言")]
-        [ExcelColumnName("语言")]
-        public string IfLangKey { get; set; }
+        public string Mb002 { get; set; }
 
-        [Required(ErrorMessage = "公式不能为空")]
-        [ExcelColumn(Name = "公式")]
-        [ExcelColumnName("公式")]
-        public string IfFormula { get; set; }
+        [Required(ErrorMessage = "翻译键值不能为空")]
+        //[ExcelColumn(Name = "翻译键值")]
+        [ExcelColumnName("翻译键值")]
 
-        [Required(ErrorMessage = "软删除不能为空")]
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        public string Mb003 { get; set; }
+
+        [Required(ErrorMessage = "公式标识不能为空")]
+        //[ExcelColumn(Name = "公式标识")]
+        [ExcelColumnName("公式标识")]
+
+        public string Mb004 { get; set; }
+
+        [ExcelIgnore]
+
+        public string REF01 { get; set; }
+
+        [ExcelIgnore]
+
+        public string REF02 { get; set; }
+
+        [ExcelIgnore]
+
+        public string REF03 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal REF04 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal REF05 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal REF06 { get; set; }
+
+        [ExcelIgnore]
+
+        public string UDF01 { get; set; }
+
+        [ExcelIgnore]
+
+        public string UDF02 { get; set; }
+
+        [ExcelIgnore]
+
+        public string UDF03 { get; set; }
+
+        [ExcelIgnore]
+
+        public string UDF04 { get; set; }
+
+        [ExcelIgnore]
+
+        public string UDF05 { get; set; }
+
+        [ExcelIgnore]
+
+        public string UDF06 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? UDF51 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? UDF52 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? UDF53 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal UDF54 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal UDF55 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal UDF56 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? IsDeleted { get; set; }
+
+        [ExcelIgnore]
+
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+
+        public DateTime? UpdateTime { get; set; }
+
+
 
         [ExcelColumn(Name = "类别")]
-        public string IfTypeLabel { get; set; }
-
+        public string Mb002Label { get; set; }
         [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
@@ -56,42 +156,108 @@ namespace Ams.Model.Routine.Dto
     /// 计算公式
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/17 10:24:50
+    /// @Date: 2024/9/5 10:17:40
     /// </summary>
     public class InstFormulaImportTpl
     {
-        [Required(ErrorMessage = "SfId不能为空")]
-        [ExcelColumn(Name = "SfId")]
-        [ExcelColumnName("SfId")]
+        [Required(ErrorMessage = "ID不能为空")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long IfSfId { get; set; }
+        public long Id { get; set; }
 
         [Required(ErrorMessage = "类别不能为空")]
-        [ExcelColumn(Name = "类别")]
+        //[ExcelColumn(Name = "类别")]
         [ExcelColumnName("类别")]
-        public string IfType { get; set; }
+        public string Mb002 { get; set; }
 
-        [Required(ErrorMessage = "语言不能为空")]
-        [ExcelColumn(Name = "语言")]
-        [ExcelColumnName("语言")]
-        public string IfLangKey { get; set; }
+        [Required(ErrorMessage = "翻译键值不能为空")]
+        //[ExcelColumn(Name = "翻译键值")]
+        [ExcelColumnName("翻译键值")]
+        public string Mb003 { get; set; }
 
-        [Required(ErrorMessage = "公式不能为空")]
-        [ExcelColumn(Name = "公式")]
-        [ExcelColumnName("公式")]
-        public string IfFormula { get; set; }
+        [Required(ErrorMessage = "公式标识不能为空")]
+        //[ExcelColumn(Name = "公式标识")]
+        [ExcelColumnName("公式标识")]
+        public string Mb004 { get; set; }
 
-        [Required(ErrorMessage = "软删除不能为空")]
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        [ExcelIgnore]
+        public string REF01 { get; set; }
+
+        [ExcelIgnore]
+        public string REF02 { get; set; }
+
+        [ExcelIgnore]
+        public string REF03 { get; set; }
+
+        [ExcelIgnore]
+        public decimal REF04 { get; set; }
+
+        [ExcelIgnore]
+        public decimal REF05 { get; set; }
+
+        [ExcelIgnore]
+        public decimal REF06 { get; set; }
+
+        [ExcelIgnore]
+        public string UDF01 { get; set; }
+
+        [ExcelIgnore]
+        public string UDF02 { get; set; }
+
+        [ExcelIgnore]
+        public string UDF03 { get; set; }
+
+        [ExcelIgnore]
+        public string UDF04 { get; set; }
+
+        [ExcelIgnore]
+        public string UDF05 { get; set; }
+
+        [ExcelIgnore]
+        public string UDF06 { get; set; }
+
+        [ExcelIgnore]
+        public int? UDF51 { get; set; }
+
+        [ExcelIgnore]
+        public int? UDF52 { get; set; }
+
+        [ExcelIgnore]
+        public int? UDF53 { get; set; }
+
+        [ExcelIgnore]
+        public decimal UDF54 { get; set; }
+
+        [ExcelIgnore]
+        public decimal UDF55 { get; set; }
+
+        [ExcelIgnore]
+        public decimal UDF56 { get; set; }
+
+        [ExcelIgnore]
+        public int? IsDeleted { get; set; }
+
+        [ExcelIgnore]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+
 
         [ExcelIgnore]
         [ExcelColumn(Name = "类别")]
-        public string IfTypeLabel { get; set; }
-
-        [ExcelIgnore]
-        [ExcelColumn(Name = "软删除")]
-        public string IsDeletedLabel { get; set; }
+        public string Mb002Label { get; set; }
     }
+
 }

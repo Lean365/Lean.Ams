@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 部门消耗
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 12:03:53
+    /// @Date: 2024/9/10 16:51:22
     /// </summary>
     [Verify]
     [Route("Accounting/FicoCostingDeptConsuming")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询部门消耗详情
         /// </summary>
-        /// <param name="DcSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{DcSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "fico:costingdeptconsuming:query")]
-        public IActionResult GetFicoCostingDeptConsuming(long DcSfId)
+        public IActionResult GetFicoCostingDeptConsuming(long Id)
         {
-            var response = _FicoCostingDeptConsumingService.GetInfo(DcSfId);
+            var response = _FicoCostingDeptConsumingService.GetInfo(Id);
             
             var info = response.Adapt<FicoCostingDeptConsumingDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "fico:costingdeptconsuming:add")]
-        [Log(Title = "部门消耗", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "部门消耗", BusinessType = BusinessType.ADD)]
         public IActionResult AddFicoCostingDeptConsuming([FromBody] FicoCostingDeptConsumingDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoCostingDeptConsumingService.CheckInputUnique(parm.DcSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoCostingDeptConsumingService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增部门消耗 '{parm.DcSfId}'失败(Add failed)，输入的部门消耗已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增部门消耗 '{parm.Id}'失败(Add failed)，输入的部门消耗已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoCostingDeptConsuming>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "fico:costingdeptconsuming:edit")]
-        [Log(Title = "部门消耗", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "部门消耗", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateFicoCostingDeptConsuming([FromBody] FicoCostingDeptConsumingDto parm)
         {
             var modal = parm.Adapt<FicoCostingDeptConsuming>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// 导出部门消耗
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "部门消耗", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "部门消耗导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "fico:costingdeptconsuming:export")]
         public IActionResult Export([FromQuery] FicoCostingDeptConsumingQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 导入
+        /// 导入部门消耗
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "部门消耗导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "fico:costingdeptconsuming:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<FicoCostingDeptConsumingDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 部门消耗导入模板下载
+        /// 部门消耗
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "部门消耗模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<FicoCostingDeptConsumingImportTpl>() { }, "FicoCostingDeptConsuming_tpl");
             return ExportExcel(result.Item2, result.Item1);

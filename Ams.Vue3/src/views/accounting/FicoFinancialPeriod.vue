@@ -1,32 +1,29 @@
 <!--
- * @Descripttion: 财务期间/fico_financial_period
- * @Version: 1.0.0.0
+ * @Descripttion: 财政年度/fico_financial_period
+ * @Version: 0.24.614.28099
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/8/6 13:51:07
+ * @Date: 2024/9/5 15:42:58
  * @column：30
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
   <div>
     <!-- 查询区域 -->
-    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent
-      label-width="auto">
+    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-          <el-form-item label="财年 " prop="fpFinancialYear">
-            <el-input v-model="queryParams.fpFinancialYear"
-              :placeholder="$t('btn.enterSearchPrefix')+'财年 '+$t('btn.enterSearchSuffix')" />
-          </el-form-item>
-          <el-form-item label="年月 " prop="fpYearMonth">
-            <el-input v-model="queryParams.fpYearMonth"
-              :placeholder="$t('btn.enterSearchPrefix')+'年月 '+$t('btn.enterSearchSuffix')" />
-          </el-form-item>
+      <el-form-item label="期间" prop="mn002">
+        <el-input v-model="queryParams.mn002" :placeholder="$t('btn.enterSearchPrefix')+'期间'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="年月" prop="mn003">
+        <el-input v-model="queryParams.mn003" :placeholder="$t('btn.enterSearchPrefix')+'年月'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
-          <el-form-item>
-            <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
-            <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
-          </el-form-item>
+      <el-form-item>
+        <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+        <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
+      </el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -38,14 +35,12 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button class="btn-edit" :disabled="single" v-hasPermi="['fico:financialperiod:edit']" plain icon="edit"
-          @click="handleUpdate">
+        <el-button class="btn-edit" :disabled="single" v-hasPermi="['fico:financialperiod:edit']" plain icon="edit" @click="handleUpdate">
           {{ $t('btn.edit') }}
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button class="btn-deletebatch" :disabled="multiple" v-hasPermi="['fico:financialperiod:delete']" plain
-          icon="delete" @click="handleDelete">
+        <el-button class="btn-deletebatch" :disabled="multiple" v-hasPermi="['fico:financialperiod:delete']" plain icon="delete" @click="handleDelete">
           {{ $t('btn.delete') }}
         </el-button>
       </el-col>
@@ -57,16 +52,17 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="upload">
-                <importData templateUrl="Accounting/FicoFinancialPeriod/importTemplate"
-                  importUrl="/Accounting/FicoFinancialPeriod/importData" @success="handleFileSuccess"></importData>
+                <importData
+                  templateUrl="Accounting/FicoFinancialPeriod/importTemplate"
+                  importUrl="/Accounting/FicoFinancialPeriod/importData"
+                  @success="handleFileSuccess"></importData>
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
       </el-col>
       <el-col :span="1.5">
-        <el-button class="btn-export" plain icon="download" @click="handleExport"
-          v-hasPermi="['fico:financialperiod:export']">
+        <el-button class="btn-export" plain icon="download" @click="handleExport" v-hasPermi="['fico:financialperiod:export']">
           {{ $t('btn.export') }}
         </el-button>
       </el-col>
@@ -74,288 +70,144 @@
     </el-row>
 
     <!-- 数据区域 -->
-    <el-table border height="600px" :data="dataList" v-loading="loading" ref="table"
-      header-cell-class-name="el-table-header-cell" highlight-current-row @sort-change="sortChange"
-      @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="50" align="center" />
-      <el-table-column prop="fpSfId" label="ID" align="center" v-if="columns.showColumn('fpSfId')" />
-      <el-table-column prop="fpFinancialYear" label="财年 " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('fpFinancialYear')" />
-      <el-table-column prop="fpYearMonth" label="年月 " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('fpYearMonth')" />
-      <el-table-column prop="fpYear" label="年 " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('fpYear')" />
-      <el-table-column prop="fpMonth" label="月 " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('fpMonth')" />
-      <el-table-column prop="fpQuarter" label="季度 " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('fpQuarter')" />
-      <el-table-column prop="rEF01" label="预留A " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('rEF01')" />
-      <el-table-column prop="rEF02" label="预留B " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('rEF02')" />
-      <el-table-column prop="rEF03" label="预留C " align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('rEF03')" />
-      <el-table-column prop="rEF04" label="预留1 " align="center" v-if="columns.showColumn('rEF04')" />
-      <el-table-column prop="rEF05" label="预留2 " align="center" v-if="columns.showColumn('rEF05')" />
-      <el-table-column prop="rEF06" label="预留3" align="center" v-if="columns.showColumn('rEF06')" />
-      <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('remark')" />
-      <el-table-column prop="createBy" label="创建人员" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('createBy')" />
-      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('createTime')" />
-      <el-table-column prop="updateBy" label="更新人员" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('updateBy')" />
-      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('updateTime')" />
+    <el-table border height="600px"
+      :data="dataList"
+      v-loading="loading"
+      ref="table"
+      header-cell-class-name="el-table-header-cell"
+      highlight-current-row
+      @sort-change="sortChange"
+      @selection-change="handleSelectionChange"
+      >
+      <el-table-column type="selection" width="50" align="center"/>
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
+      <el-table-column prop="mn002" label="期间" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mn002')"/>
+      <el-table-column prop="mn003" label="年月" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mn003')"/>
+      <el-table-column prop="mn004" label="年" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mn004')"/>
+      <el-table-column prop="mn005" label="月" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mn005')"/>
+      <el-table-column prop="mn006" label="季度" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mn006')"/>
+      <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button-group>
-            <el-button class="btn-edit" plain size="small" icon="edit" :title="$t('btn.edit')"
-              v-hasPermi="['fico:financialperiod:edit']" @click="handleUpdate(scope.row)"></el-button>
-            <el-button class="btn-delete" plain size="small" icon="delete" :title="$t('btn.delete')"
-              v-hasPermi="['fico:financialperiod:delete']" @click="handleDelete(scope.row)"></el-button>
+          <el-button class="btn-edit" plain size="small" icon="edit" :title="$t('btn.edit')" v-hasPermi="['fico:financialperiod:edit']" @click="handleUpdate(scope.row)"></el-button>
+          <el-button class="btn-delete" plain size="small" icon="delete" :title="$t('btn.delete')" v-hasPermi="['fico:financialperiod:delete']" @click="handleDelete(scope.row)"></el-button>
           </el-button-group>
         </template>
       </el-table-column>
     </el-table>
-    <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
 
-    <!-- 添加或修改财务期间对话框 -->
-    <el-dialog :title="title" :lock-scroll="false" v-model="open">
+    <!-- 添加或修改财政年度对话框 -->
+    <el-dialog :title="title" :lock-scroll="false" v-model="open" >
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane :label="$t('ptabs.basicInfo')" name="first">
-            <el-row :gutter="20">
+        <el-row :gutter="20">
 
-              <!-- <el-col :lg="12">
-                <el-form-item label="ID" prop="fpSfId">
-                  <el-input v-model.number="form.fpSfId" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')"
-                    :disabled="opertype != 1" />
-                </el-form-item>
-              </el-col> -->
+          <el-col :lg="12">
+            <el-form-item label="期间" prop="mn002">
+              <el-input v-model="form.mn002" :placeholder="$t('btn.enterPrefix')+'期间'+$t('btn.enterSuffix')"  show-word-limit maxlength="6"/>
+            </el-form-item>
+          </el-col>
 
-              <el-col :lg="12">
-                <el-form-item label="财年 " prop="fpFinancialYear">
-                  <el-input v-model="form.fpFinancialYear"
-                    :placeholder="$t('btn.enterPrefix')+'财年 '+$t('btn.enterSuffix')" show-word-limit maxlength="6" />
-                </el-form-item>
-              </el-col>
+          <el-col :lg="12">
+            <el-form-item label="年月" prop="mn003">
+              <el-input v-model="form.mn003" :placeholder="$t('btn.enterPrefix')+'年月'+$t('btn.enterSuffix')"  show-word-limit maxlength="6"/>
+            </el-form-item>
+          </el-col>
 
-              <el-col :lg="12">
-                <el-form-item label="年月 " prop="fpYearMonth">
-                  <el-input v-model="form.fpYearMonth" :placeholder="$t('btn.enterPrefix')+'年月 '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="6" />
-                </el-form-item>
-              </el-col>
+          <el-col :lg="12">
+            <el-form-item label="年" prop="mn004">
+              <el-input v-model="form.mn004" :placeholder="$t('btn.enterPrefix')+'年'+$t('btn.enterSuffix')"  show-word-limit maxlength="4"/>
+            </el-form-item>
+          </el-col>
 
-              <el-col :lg="12">
-                <el-form-item label="年 " prop="fpYear">
-                  <el-input v-model="form.fpYear" :placeholder="$t('btn.enterPrefix')+'年 '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="4" />
-                </el-form-item>
-              </el-col>
+          <el-col :lg="12">
+            <el-form-item label="月" prop="mn005">
+              <el-input v-model="form.mn005" :placeholder="$t('btn.enterPrefix')+'月'+$t('btn.enterSuffix')"  show-word-limit maxlength="2"/>
+            </el-form-item>
+          </el-col>
 
-              <el-col :lg="12">
-                <el-form-item label="月 " prop="fpMonth">
-                  <el-input v-model="form.fpMonth" :placeholder="$t('btn.enterPrefix')+'月 '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="2" />
-                </el-form-item>
-              </el-col>
+          <el-col :lg="12">
+            <el-form-item label="季度" prop="mn006">
+              <el-input v-model="form.mn006" :placeholder="$t('btn.enterPrefix')+'季度'+$t('btn.enterSuffix')"  show-word-limit maxlength="2"/>
+            </el-form-item>
+          </el-col>
 
-              <el-col :lg="12">
-                <el-form-item label="季度 " prop="fpQuarter">
-                  <el-input v-model="form.fpQuarter" :placeholder="$t('btn.enterPrefix')+'季度 '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="2" />
-                </el-form-item>
-              </el-col>
+          <el-col :lg="24">
+            <el-form-item label="备注说明" prop="remark">
+              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
+            </el-form-item>
+          </el-col>
+        </el-row>
+</el-tab-pane>
 
-              <el-col :lg="24">
-                <el-form-item label="备注说明" prop="remark">
-                  <el-input type="textarea" v-model="form.remark"
-                    :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" show-word-limit maxlength="500" />
-                </el-form-item>
-              </el-col>
 
-            </el-row>
+          <el-tab-pane :label="$t('ptabs.onboarding')" name="second">
+        	<el-row :gutter="20">
+        	</el-row>
           </el-tab-pane>
-
-
-
+          <el-tab-pane :label="$t('ptabs.qualifications')" name="third">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.attachment')" name="fourth">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
           <el-tab-pane :label="$t('ptabs.content')" name="fifth">
-            <el-row :gutter="20">
-              <el-col :lg="12">
-                <el-form-item label="预留A " prop="rEF01">
-                  <el-input v-model="form.rEF01" :placeholder="$t('btn.enterPrefix')+'预留A '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="1" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="预留B " prop="rEF02">
-                  <el-input v-model="form.rEF02" :placeholder="$t('btn.enterPrefix')+'预留B '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="8" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="24">
-                <el-form-item label="预留C " prop="rEF03">
-                  <el-input v-model="form.rEF03" :placeholder="$t('btn.enterPrefix')+'预留C '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="30" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="预留1 " prop="rEF04">
-                  <el-input-number v-model.number="form.rEF04" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'预留1 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="预留2 " prop="rEF05">
-                  <el-input-number v-model.number="form.rEF05" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'预留2 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="预留3" prop="rEF06">
-                  <el-input-number v-model.number="form.rEF06" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'预留3'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-            </el-row>
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.trade')" name="sixth">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.bank')" name="seventh">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.contact')" name="eighth">
+        	<el-row :gutter="20">
+        	</el-row>
           </el-tab-pane>
 
+          <el-tab-pane :label="$t('ptabs.purchase')" name="ninth">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.sales')" name="tenth">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.production')" name="11th">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.warehouse')" name="12th">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.accounting')" name="13th">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.incoming')" name="14th">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.outgoing')" name="15th">
+        	<el-row :gutter="20">
+        	</el-row>
+          </el-tab-pane>
           <el-tab-pane :label="$t('ptabs.customization')" name="16th">
-            <el-row :gutter="20">
-              <el-col :lg="12">
-                <el-form-item label="自定义A " prop="uDF01">
-                  <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="200" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义B " prop="uDF02">
-                  <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="200" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义C " prop="uDF03">
-                  <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="200" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义D " prop="uDF04">
-                  <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="500" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义E " prop="uDF05">
-                  <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="500" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义F " prop="uDF06">
-                  <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F '+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="500" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义1 " prop="uDF51">
-                  <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'自定义1 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义2 " prop="uDF52">
-                  <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'自定义2 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义3 " prop="uDF53">
-                  <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'自定义3 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义4 " prop="uDF54">
-                  <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'自定义4 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义5 " prop="uDF55">
-                  <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'自定义5 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="自定义6 " prop="uDF56">
-                  <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'自定义6 '+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-            </el-row>
+        	<el-row :gutter="20">
+        	</el-row>
           </el-tab-pane>
           <el-tab-pane :label="$t('ptabs.oper')" name="17th">
-            <el-row :gutter="20">
-              <el-col :lg="24">
-                <el-form-item label="软删除" prop="isDeleted">
-                  <el-radio-group v-model="form.isDeleted">
-                    <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue"
-                      :value="parseInt(item.dictValue)">
-                      {{item.dictLabel}}
-                    </el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12">
-                <el-form-item label="创建人员" prop="createBy">
-                  <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建人员'+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="40" :disabled="opertype != 3" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="创建时间" prop="createTime">
-                  <el-date-picker v-model="form.createTime" type="datetime" :teleported="false"
-                    :placeholder="$t('btn.dateselect')" :disabled="opertype != 3"></el-date-picker>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="更新人员" prop="updateBy">
-                  <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新人员'+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="40" :disabled="opertype != 3" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="更新时间" prop="updateTime">
-                  <el-date-picker v-model="form.updateTime" type="datetime" :teleported="false"
-                    :placeholder="$t('btn.dateselect')" :disabled="opertype != 3"></el-date-picker>
-                </el-form-item>
-              </el-col>
-            </el-row>
+        	<el-row :gutter="20">
+        	</el-row>
           </el-tab-pane>
         </el-tabs>
 
@@ -371,297 +223,264 @@
 
 <script setup name="ficofinancialperiod">
   import '@/assets/styles/btn-custom.scss'
-  //后台操作函数
-  import {
-    listFicoFinancialPeriod,
-    addFicoFinancialPeriod, delFicoFinancialPeriod,
-    updateFicoFinancialPeriod, getFicoFinancialPeriod,
-  }
-    from '@/api/accounting/ficofinancialperiod.js'
-  import importData from '@/components/ImportData'
-  //防抖处理函数 import { debounce } from 'lodash';
-  import { debounce } from 'lodash';
-  //获取当前组件实例
-  const { proxy } = getCurrentInstance()
-  //标签页
-  const activeName = ref('first')
-  const handleClick = (tab, event) => {
+//后台操作函数
+import { listFicoFinancialPeriod,
+ addFicoFinancialPeriod, delFicoFinancialPeriod, 
+ updateFicoFinancialPeriod,getFicoFinancialPeriod, 
+ } 
+from '@/api/accounting/ficofinancialperiod.js'
+import importData from '@/components/ImportData'
+//防抖处理函数 import { debounce } from 'lodash';
+import { debounce } from 'lodash';
+//获取当前组件实例
+const { proxy } = getCurrentInstance()
+//标签页
+const activeName = ref('first')
+const handleClick = (tab, event) => {
     console.log(tab, event)
   }
-  //选中refId数组数组
-  const ids = ref([])
-  //是否加载动画
-  const loading = ref(false)
-  //显示搜索条件
-  const showSearch = ref(true)
-  //使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
-  const queryParams = reactive({
-    pageNum: 1,
-    pageSize: 56,
-    sort: 'FpYearMonth',
-    sortType: 'asc',
-    //是否查询（1是）
-    fpFinancialYear: undefined,
-    //是否查询（1是）
-    fpYearMonth: undefined,
+//选中refId数组数组
+const ids = ref([])
+//是否加载动画
+const loading = ref(false)
+//显示搜索条件
+const showSearch = ref(true)
+//使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
+const queryParams = reactive({
+  pageNum: 1,
+  pageSize: 56,
+  sort: 'Mn002',
+  sortType: 'desc',
+  //是否查询（1是）
+  mn002: undefined,
+  //是否查询（1是）
+  mn003: undefined,
+})
+//字段显示控制
+const columns = ref([
+  { visible: true, prop: 'id', label: 'ID' },
+  { visible: true, prop: 'mn002', label: '期间' },
+  { visible: true, prop: 'mn003', label: '年月' },
+  { visible: true, prop: 'mn004', label: '年' },
+  { visible: true, prop: 'mn005', label: '月' },
+  { visible: true, prop: 'mn006', label: '季度' },
+  { visible: false, prop: 'remark', label: '备注说明' },
+])
+// 记录数
+const total = ref(0)
+//定义数据变量
+const dataList = ref([])
+//查询参数
+const queryRef = ref()
+//定义起始时间
+const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
+
+//字典参数
+var dictParams = [
+  { dictType: "sys_is_deleted" },
+]
+
+//字典加载
+proxy.getDicts(dictParams).then((response) => {
+  response.data.forEach((element) => {
+    state.options[element.dictType] = element.list
   })
-  //字段显示控制
-  const columns = ref([
-    { visible: false, prop: 'fpSfId', label: 'ID' },
-    { visible: true, prop: 'fpFinancialYear', label: '财年 ' },
-    { visible: true, prop: 'fpYearMonth', label: '年月 ' },
-    { visible: true, prop: 'fpYear', label: '年 ' },
-    { visible: true, prop: 'fpMonth', label: '月 ' },
-    { visible: true, prop: 'fpQuarter', label: '季度 ' },
-    { visible: false, prop: 'rEF01', label: '预留A ' },
-    { visible: false, prop: 'rEF02', label: '预留B ' },
-    { visible: false, prop: 'rEF03', label: '预留C ' },
-    { visible: false, prop: 'rEF04', label: '预留1 ' },
-    { visible: false, prop: 'rEF05', label: '预留2 ' },
-    { visible: false, prop: 'rEF06', label: '预留3' },
-    { visible: false, prop: 'remark', label: '备注说明' },
-    { visible: false, prop: 'createBy', label: '创建人员' },
-    { visible: false, prop: 'createTime', label: '创建时间' },
-    { visible: false, prop: 'updateBy', label: '更新人员' },
-    { visible: false, prop: 'updateTime', label: '更新时间' },
-  ])
-  // 记录数
-  const total = ref(0)
-  //定义数据变量
-  const dataList = ref([])
-  //查询参数
-  const queryRef = ref()
-  //定义起始时间
-  const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-
-  //字典参数
-  var dictParams = [
-    { dictType: "sys_is_deleted" },
-  ]
-
-  //字典加载
-  proxy.getDicts(dictParams).then((response) => {
-    response.data.forEach((element) => {
-      state.options[element.dictType] = element.list
-    })
-  })
-  //API获取从财务期间/fico_financial_period表记录数据
-  function getList() {
-    loading.value = true
-    listFicoFinancialPeriod(queryParams).then(res => {
-      const { code, data } = res
-      if (code == 200) {
-        dataList.value = data.result
-        total.value = data.totalNum
-        loading.value = false
-      }
-    })
-  }
-
-  // 查询
-  function handleQuery() {
-    queryParams.pageNum = 1
-    getList()
-  }
-
-  // 重置查询操作
-  function resetQuery() {
-    proxy.resetForm("queryRef")
-    handleQuery()
-  }
-  // 多选框选中数据
-  function handleSelectionChange(selection) {
-    ids.value = selection.map((item) => item.fpSfId);
-    single.value = selection.length != 1
-    multiple.value = !selection.length;
-  }
-  // 自定义排序
-  function sortChange(column) {
-    var sort = undefined
-    var sortType = undefined
-
-    if (column.prop != null && column.order != null) {
-      sort = column.prop
-      sortType = column.order
-
-    }
-    queryParams.sort = sort
-    queryParams.sortType = sortType
-    handleQuery()
-  }
-
-  /*************** form操作 ***************/
-  //定义响应式变量
-  const formRef = ref()
-  //弹出层标题
-  const title = ref('')
-
-  // 操作类型 1、add 2、edit 3、view
-  //定义响应式变量
-  const opertype = ref(0)
-  //定义对话框打开或关闭
-  const open = ref(false)
-  //reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
-  const state = reactive({
-    single: true,
-    multiple: true,
-    form: {},
-    rules: {
-      fpSfId: [{ required: true, message: "ID" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    },
-    options: {
-      // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-      sys_is_deleted: [],
+})
+//API获取从财政年度/fico_financial_period表记录数据
+function getList(){
+  loading.value = true
+  listFicoFinancialPeriod(queryParams).then(res => {
+    const { code, data } = res
+    if (code == 200) {
+      dataList.value = data.result
+      total.value = data.totalNum
+      loading.value = false
     }
   })
-  //将响应式对象转换成普通对象
-  const { form, rules, options, single, multiple } = toRefs(state)
+}
 
-  // 关闭dialog
-  function cancel() {
-    open.value = false
-    reset()
+// 查询
+function handleQuery() {
+  queryParams.pageNum = 1
+  getList()
+}
+
+// 重置查询操作
+function resetQuery(){
+  proxy.resetForm("queryRef")
+  handleQuery()
+}
+// 多选框选中数据
+function handleSelectionChange(selection) {
+  ids.value = selection.map((item) => item.id);
+  single.value = selection.length != 1
+  multiple.value = !selection.length;
+}
+// 自定义排序
+function sortChange(column) {
+  var sort = undefined
+  var sortType = undefined
+
+  if (column.prop != null && column.order != null) {
+    sort = column.prop
+    sortType = column.order
+
   }
+  queryParams.sort = sort
+  queryParams.sortType = sortType
+  handleQuery()
+}
 
-  // 重置表单
-  function reset() {
-    form.value = {
-      fpSfId: 0,
-      fpFinancialYear: null,
-      fpYearMonth: null,
-      fpYear: null,
-      fpMonth: null,
-      fpQuarter: null,
-      rEF01: null,
-      rEF02: null,
-      rEF03: null,
-      rEF04: 0,
-      rEF05: 0,
-      rEF06: 0,
-      uDF01: null,
-      uDF02: null,
-      uDF03: null,
-      uDF04: null,
-      uDF05: null,
-      uDF06: null,
-      uDF51: 0,
-      uDF52: 0,
-      uDF53: 0,
-      uDF54: 0,
-      uDF55: 0,
-      uDF56: 0,
-      isDeleted: 0,
-      remark: null,
-      createBy: null,
-      createTime: null,
-      updateBy: null,
-      updateTime: null,
-    };
-    proxy.resetForm("formRef")
+/*************** form操作 ***************/
+//定义响应式变量
+const formRef = ref()
+//弹出层标题
+const title = ref('')
+
+// 操作类型 1、add 2、edit 3、view
+//定义响应式变量
+const opertype = ref(0)
+//定义对话框打开或关闭
+const open = ref(false)
+//reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
+const state = reactive({
+  single: true,
+  multiple: true,
+  form: {},
+//正则表达式
+  rules: {
+    id: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
+    mn002: [{ required: true, message: "期间"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    mn003: [{ required: true, message: "年月"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    mn004: [{ required: true, message: "年"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    mn005: [{ required: true, message: "月"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    mn006: [{ required: true, message: "季度"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+  },
+//字典名称
+  options: {
+    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sys_is_deleted: [],
   }
+})
+//将响应式对象转换成普通对象
+const { form, rules, options, single, multiple } = toRefs(state)
+
+// 关闭dialog
+function cancel(){
+  open.value = false
+  reset()
+}
+
+// 重置表单
+function reset() {
+  form.value = {
+    mn002: null,
+    mn003: null,
+    mn004: null,
+    mn005: null,
+    mn006: null,
+    remark: null,
+  };
+  proxy.resetForm("formRef")
+}
 
 
-  // 添加按钮操作
-  function handleAdd() {
-    reset();
-    open.value = true
-    title.value = proxy.$t('btn.add') + " " + '财务期间'
-    opertype.value = 1
-    form.value.rEF04 = 0
-    form.value.rEF05 = 0
-    form.value.rEF06 = 0
-    form.value.createTime = new Date()
-    form.value.updateTime = new Date()
-  }
-  // 修改按钮操作
-  function handleUpdate(row) {
-    reset()
-    const id = row.fpSfId || ids.value
-    getFicoFinancialPeriod(id).then((res) => {
-      const { code, data } = res
-      if (code == 200) {
-        open.value = true
-        title.value = proxy.$t('btn.edit') + " " + '财务期间'
-        opertype.value = 2
+// 添加按钮操作
+function handleAdd() {
+  reset();
+  open.value = true
+  title.value = proxy.$t('btn.add')+" "+'财政年度'
+  opertype.value = 1
+}
+// 修改按钮操作
+function handleUpdate(row) {
+  reset()
+  const id = row.id || ids.value
+  getFicoFinancialPeriod(id).then((res) => {
+    const { code, data } = res
+    if (code == 200) {
+      open.value = true
+      title.value = proxy.$t('btn.edit')+" "+ '财政年度'
+      opertype.value = 2
 
-        form.value = {
-          ...data,
-        }
+      form.value = {
+        ...data,
       }
-    })
-  }
+    }
+  })
+}
 
-  // 添加&修改 表单提交
-  function submitForm() {
-    proxy.$refs["formRef"].validate((valid) => {
-      if (valid) {
+// 添加&修改 表单提交
+function submitForm() {
+  proxy.$refs["formRef"].validate((valid) => {
+    if (valid) {
 
-        if (form.value.fpSfId != undefined && opertype.value === 2) {
-          updateFicoFinancialPeriod(form.value).then((res) => {
-            proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
+      if (form.value.id != undefined && opertype.value === 2) {
+        updateFicoFinancialPeriod(form.value).then((res) => {
+         proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
+          open.value = false
+          getList()
+        })
+      } else {
+        addFicoFinancialPeriod(form.value).then((res) => {
+             proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
             open.value = false
             getList()
           })
-        } else {
-          addFicoFinancialPeriod(form.value).then((res) => {
-            proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
-            open.value = false
-            getList()
-          })
-        }
       }
+    }
+  })
+}
+
+// 删除按钮操作
+function handleDelete(row) {
+  const Ids = row.id || ids.value
+
+  proxy
+    .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {
+      confirmButtonText: proxy.$t('btn.submit'),
+      cancelButtonText: proxy.$t('btn.cancel'),
+      type: "warning",
     })
-  }
-
-  // 删除按钮操作
-  function handleDelete(row) {
-    const Ids = row.fpSfId || ids.value
-
-    proxy
-      .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
-        confirmButtonText: proxy.$t('btn.submit'),
-        cancelButtonText: proxy.$t('btn.cancel'),
-        type: "warning",
-      })
-      .then(function () {
-        return delFicoFinancialPeriod(Ids)
-      })
-      .then(() => {
-        getList()
-        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
-      })
-  }
-
-
-  // 导入数据成功处理
-  const handleFileSuccess = (response) => {
-    const { item1, item2 } = response.data
-    var error = ''
-    item2.forEach((item) => {
-      error += item.storageMessage + ','
+    .then(function () {
+      return delFicoFinancialPeriod(Ids)
     })
-    proxy.$alert(item1 + '<p>' + error + '</p>', proxy.$t('btn.importResults'), {
-      dangerouslyUseHTMLString: true
+    .then(() => {
+      getList()
+      proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
     })
-    getList()
-  }
-
-  // 导出按钮操作
-  function handleExport() {
-    proxy
-      .$confirm(proxy.$t('common.tipConfirmExport') + "<财务期间.xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
-        confirmButtonText: proxy.$t('btn.submit'),
-        cancelButtonText: proxy.$t('btn.cancel'),
-        type: "warning",
-      })
-      .then(async () => {
-        await proxy.downFile('/Accounting/FicoFinancialPeriod/export', { ...queryParams })
-      })
-  }
+}
 
 
-  // @Descripttion: (自定义函数/CustomFunctions)
-  // @Functions: (assignValue,calculateValue,statisticValue)
+// 导入数据成功处理
+const handleFileSuccess = (response) => {
+  const { item1, item2 } = response.data
+  var error = ''
+  item2.forEach((item) => {
+    error += item.storageMessage + ','
+  })
+  proxy.$alert(item1 + '<p>' + error + '</p>', proxy.$t('btn.importResults'), {
+    dangerouslyUseHTMLString: true
+  })
+  getList()
+}
+
+// 导出按钮操作
+function handleExport() {
+  proxy
+    .$confirm(proxy.$t('common.tipConfirmExport')+"<财政年度.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
+      confirmButtonText: proxy.$t('btn.submit'),
+      cancelButtonText: proxy.$t('btn.cancel'),
+      type: "warning",
+    })
+    .then(async () => {
+      await proxy.downFile('/Accounting/FicoFinancialPeriod/export', { ...queryParams })
+    })
+}
+
+
+// @Descripttion: (自定义函数/CustomFunctions)
+// @Functions: (assignValue,calculateValue,statisticValue)
 
 
   const getSummaries = (param) => {
@@ -722,5 +541,5 @@
     }
     return wholePartFormat + decimalPart
   }
-  handleQuery()
+handleQuery()
 </script>

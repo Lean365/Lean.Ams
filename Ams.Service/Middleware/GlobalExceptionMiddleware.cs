@@ -1,10 +1,7 @@
 ﻿using System.Text.Encodings.Web;
 using Ams.Common;
-using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
 using Ams.Infrastructure.IPTools;
 using Ams.Infrastructure.Model;
-using Ams.Service.Monitor.IMonitorService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using NLog;
@@ -19,14 +16,26 @@ namespace Ams.Service.Middleware
     public class GlobalExceptionMiddleware
     {
         private readonly RequestDelegate next;
-        private readonly IOperLogService SysOperLogService;
+        private readonly IOperLogService OperLogService;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public GlobalExceptionMiddleware(RequestDelegate next, IOperLogService sysOperLog)
+        private readonly textJson.JsonSerializerOptions options = new()
+        {
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            PropertyNamingPolicy = textJson.JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        };
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="next"></param>
+        /// <param name="OperLog"></param>
+        public GlobalExceptionMiddleware(RequestDelegate next, IOperLogService OperLog)
         {
             this.next = next;
-            this.SysOperLogService = sysOperLog;
+            OperLogService = OperLog;
         }
 
         public async Task Invoke(HttpContext context)
@@ -68,19 +77,19 @@ namespace Ams.Service.Middleware
                 logLevel = LogLevel.Error;
                 context.Response.StatusCode = 500;
             }
-            var options = new textJson.JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                PropertyNamingPolicy = textJson.JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
 
             ApiResult apiResult = new(code, msg);
+#if DEBUG
+            if (logLevel == LogLevel.Error)
+            {
+                apiResult.Add("error", "请在issue里面寻找答案或者官方文档查看常见问题：https://github.com/Lean365/Lean.Ams/issues");
+            }
+#endif
             string responseResult = textJson.JsonSerializer.Serialize(apiResult, options);
             string ip = HttpContextExtension.GetClientUserIp(context);
             var ip_info = IpTool.Search(ip);
 
-            OperLog sysOperLog = new()
+            OperLog OperLog = new()
             {
                 IsStatus = 1,
                 OperIp = ip,
@@ -99,10 +108,10 @@ namespace Ams.Service.Middleware
                 var logAttribute = endpoint.Metadata.GetMetadata<LogAttribute>();
                 if (logAttribute != null)
                 {
-                    sysOperLog.BusinessType = (int)logAttribute.BusinessType;
-                    sysOperLog.Title = logAttribute?.Title;
-                    sysOperLog.OperParam = logAttribute.IsSaveRequestData ? sysOperLog.OperParam : "";
-                    sysOperLog.JsonResult = logAttribute.IsSaveResponseData ? sysOperLog.JsonResult : "";
+                    OperLog.BusinessType = (int)logAttribute.BusinessType;
+                    OperLog.Title = logAttribute?.Title;
+                    OperLog.OperParam = logAttribute.IsSaveRequestData ? OperLog.OperParam : "";
+                    OperLog.JsonResult = logAttribute.IsSaveResponseData ? OperLog.JsonResult : "";
                 }
             }
             LogEventInfo ei = new(logLevel, "GlobalExceptionMiddleware", error)
@@ -112,20 +121,20 @@ namespace Ams.Service.Middleware
             };
             ei.Properties["status"] = 1;//走正常返回都是通过走GlobalExceptionFilter不通过
             ei.Properties["jsonResult"] = responseResult;
-            ei.Properties["requestParam"] = sysOperLog.OperParam;
-            ei.Properties["user"] = sysOperLog.OperName;
+            ei.Properties["requestParam"] = OperLog.OperParam;
+            ei.Properties["user"] = OperLog.OperName;
 
             Logger.Log(ei);
             context.Response.ContentType = "text/json;charset=utf-8";
             await context.Response.WriteAsync(responseResult, System.Text.Encoding.UTF8);
 
-            string errorMsg = $"> 操作人：{sysOperLog.OperName}" +
-                $"\n> 操作地区：{sysOperLog.OperIp}({sysOperLog.OperLocation})" +
-                $"\n> 操作模块：{sysOperLog.Title}" +
-                $"\n> 操作地址：{sysOperLog.OperUrl}" +
+            string errorMsg = $"> 操作人：{OperLog.OperName}" +
+                $"\n> 操作地区：{OperLog.OperIp}({OperLog.OperLocation})" +
+                $"\n> 操作模块：{OperLog.Title}" +
+                $"\n> 操作地址：{OperLog.OperUrl}" +
                 $"\n> 错误信息：{msg}\n\n> {error}";
 
-            SysOperLogService.InsertOperlog(sysOperLog);
+            OperLogService.InsertOperlog(OperLog);
             if (!notice) return;
             WxNoticeHelper.SendMsg("系统异常", errorMsg, msgType: WxNoticeHelper.MsgType.markdown);
         }

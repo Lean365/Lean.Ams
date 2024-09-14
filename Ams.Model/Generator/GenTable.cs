@@ -1,14 +1,17 @@
 ﻿namespace Ams.Model.Generator
 {
     /// <summary>
-    /// 代码生成表
+    /// 生成数据表
+    /// 数据实体对象
+    /// @author lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
-    [SugarTable("gen_table", "代码生成表")]
+    [SugarTable("gen_table", "生成数据表")]
     [Tenant("0")]
     public class GenTable : SysBase
     {
         /// <summary>
-        /// 表ID
+        /// 表id
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public long TableId { get; set; }
@@ -46,6 +49,7 @@
         /// <summary>
         /// csharp类名
         /// </summary>
+        [SugarColumn(Length = 80)]
         public string ClassName { get; set; }
 
         /// <summary>
@@ -75,11 +79,13 @@
         /// <summary>
         /// 生成功能名
         /// </summary>
+        [SugarColumn(Length = 80)]
         public string FunctionName { get; set; }
 
         /// <summary>
         /// 生成作者名
         /// </summary>
+        [SugarColumn(Length = 20)]
         public string FunctionAuthor { get; set; }
 
         /// <summary>

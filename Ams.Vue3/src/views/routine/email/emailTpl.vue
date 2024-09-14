@@ -53,11 +53,11 @@
 
     <!-- 添加或修改邮件模板对话框 -->
     <zr-dialog :title="title" :lock-scroll="false" v-model="open">
-      <el-form ref="formRef" :model="form" :rules="rules" label-width="100px">
+      <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-row :gutter="20">
           <el-col :lg="24">
             <el-form-item label="模板名称" prop="name">
-              <el-input v-model="form.name" placeholder="请输入模板名称" />
+              <el-input v-model="form.name" placeholder="请输入模板名称" show-word-limit maxlength="40" />
             </el-form-item>
           </el-col>
 

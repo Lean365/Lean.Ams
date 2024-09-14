@@ -1,6 +1,4 @@
-﻿using Ams.Model.Monitor.Dto;
-
-namespace Ams.Service.Monitor.IMonitorService
+﻿namespace Ams.Service.Monitor.IMonitorService
 {
     public interface IOperLogService
     {

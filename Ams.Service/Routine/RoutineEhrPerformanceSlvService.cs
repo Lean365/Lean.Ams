@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Routine.Dto;
 using Ams.Model.Routine;
+using Ams.Repository;
 using Ams.Service.Routine.IRoutineService;
 
 namespace Ams.Service.Routine
@@ -8,7 +11,7 @@ namespace Ams.Service.Routine
     /// 绩效
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 17:21:01
+    /// @Date: 2024/9/12 16:38:43
     /// </summary>
     [AppService(ServiceType = typeof(IRoutineEhrPerformanceSlvService), ServiceLifetime = LifeTime.Transient)]
     public class RoutineEhrPerformanceSlvService : BaseService<RoutineEhrPerformanceSlv>, IRoutineEhrPerformanceSlvService
@@ -23,12 +26,13 @@ namespace Ams.Service.Routine
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("EpFirstEvalDate desc")
+                //.OrderBy("Mm003 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<RoutineEhrPerformanceSlv, RoutineEhrPerformanceSlvDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -37,7 +41,7 @@ namespace Ams.Service.Routine
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. EpSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,16 +53,17 @@ namespace Ams.Service.Routine
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="EpSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public RoutineEhrPerformanceSlv GetInfo(long EpSfId)
+        public RoutineEhrPerformanceSlv GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.EpSfId == EpSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加绩效
         /// </summary>
@@ -69,6 +74,7 @@ namespace Ams.Service.Routine
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改绩效
         /// </summary>
@@ -87,7 +93,8 @@ namespace Ams.Service.Routine
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.EpSfId.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.Mm003.IsEmpty(), "考核项目不能为空")
+                .SplitError(x => x.Item.Is_deleted.IsEmpty(), "软删除不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -121,7 +128,8 @@ namespace Ams.Service.Routine
                 .Where(predicate.ToExpression())
                 .Select((it) => new RoutineEhrPerformanceSlvDto()
                 {
-                    EpEvalItemsLabel = it.EpEvalItems.GetConfigValue<SysDictData>("sys_eval_items"),
+                    //查询字典: <考核项目> 
+                    Mm003Label = it.Mm003.GetConfigValue<SysDictData>("sys_eval_items"),
                 }, true)
                 .ToPage(parm);
 
@@ -137,19 +145,8 @@ namespace Ams.Service.Routine
         {
             var predicate = Expressionable.Create<RoutineEhrPerformanceSlv>();
 
-            predicate = predicate.AndIF(parm.EpEvalItems != null, it => it.EpEvalItems == parm.EpEvalItems);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginEpFirstEvalDate == null, it => it.EpFirstEvalDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginEpFirstEvalDate == null, it => it.EpFirstEvalDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginEpFirstEvalDate != null, it => it.EpFirstEvalDate >= parm.BeginEpFirstEvalDate);
-            predicate = predicate.AndIF(parm.EndEpFirstEvalDate != null, it => it.EpFirstEvalDate <= parm.EndEpFirstEvalDate);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginEpSixthEvalDate == null, it => it.EpSixthEvalDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginEpSixthEvalDate == null, it => it.EpSixthEvalDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginEpSixthEvalDate != null, it => it.EpSixthEvalDate >= parm.BeginEpSixthEvalDate);
-            predicate = predicate.AndIF(parm.EndEpSixthEvalDate != null, it => it.EpSixthEvalDate <= parm.EndEpSixthEvalDate);
+            //查询字段: <考核项目> 
+            predicate = predicate.AndIF(parm.Mm003 != -1, it => it.Mm003 == parm.Mm003);
             return predicate;
         }
     }

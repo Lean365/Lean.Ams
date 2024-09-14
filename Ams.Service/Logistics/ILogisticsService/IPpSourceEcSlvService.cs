@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 从源设变
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:04:44
+    /// @Date: 2024/9/10 17:08:51
     /// </summary>
     public interface IPpSourceEcSlvService : IBaseService<PpSourceEcSlv>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取从源设变信息
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        PpSourceEcSlv GetInfo(long SfId);
+        PpSourceEcSlv GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

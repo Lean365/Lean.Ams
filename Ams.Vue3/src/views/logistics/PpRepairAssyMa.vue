@@ -1,8 +1,9 @@
 <!--
- * @Descripttion: 组立不良ma/pp_repair_assy_ma
- * @Version: 1.0.0.0
+ * @Descripttion: 不良/pp_repair_assy_ma
+ * @Version: 0.24.621.29645
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/22 12:00:50
+ * @Date: 2024/9/12 16:33:52
+ * @column：33
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,23 +12,23 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="生产订单" prop="ppdOrderNo">
-        <el-select filterable clearable   remote remote-show-suffix :remote-method="remoteMethod_sql_oph_moc" :loading="loading " v-model="queryParams.ppdOrderNo" :placeholder="$t('btn.selectSearchPrefix')+'生产订单'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   remotequery_sql_oph_moc " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="生产订单" prop="mea002">
+        <el-select filterable clearable   remote remote-show-suffix :remote-method="remoteMethod_sql_moc_assy" :loading="loading" v-model="queryParams.mea002" :placeholder="$t('btn.selectSearchPrefix')+'生产订单'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   remotequery_sql_moc_assy " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="生产批次" prop="ppdLot">
-        <el-input v-model="queryParams.ppdLot" :placeholder="$t('btn.enterSearchPrefix')+'生产批次'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="生产批次" prop="mea004">
+        <el-input v-model="queryParams.mea004" :placeholder="$t('btn.enterSearchPrefix')+'生产批次'+$t('btn.enterSearchSuffix')" />
       </el-form-item>
-      <el-form-item label="生产机种" prop="ppdModel">
-        <el-input v-model="queryParams.ppdModel" :placeholder="$t('btn.enterSearchPrefix')+'生产机种'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="生产机种" prop="mea005">
+        <el-input v-model="queryParams.mea005" :placeholder="$t('btn.enterSearchPrefix')+'生产机种'+$t('btn.enterSearchSuffix')" />
       </el-form-item>
       <el-form-item label="生产日期">
         <el-date-picker
-          v-model="dateRangePpdDate" 
+          v-model="dateRangeMea006" 
           type="datetimerange"
           :start-placeholder="$t('btn.dateStart')"
           :end-placeholder="$t('btn.dateEnd')"
@@ -36,9 +37,9 @@
           :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="生产班组" prop="ppdLineName">
-        <el-select filterable clearable   v-model="queryParams.ppdLineName" :placeholder="$t('btn.selectSearchPrefix')+'生产班组'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_line_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="生产班组" prop="mea007">
+        <el-select filterable clearable   v-model="queryParams.mea007" :placeholder="$t('btn.selectSearchPrefix')+'生产班组'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_assy_line " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -111,28 +112,24 @@
           <el-button class="btn-view" plain  icon="view" size="small" @click="rowClick(scope.row)" :title=" $t('btn.details') "></el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="ppdSfid" label="SFID" align="center" v-if="columns.showColumn('ppdSfid')"/>
-      <el-table-column prop="ppdOrderNo" label="生产订单" align="center" v-if="columns.showColumn('ppdOrderNo')">
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
+      <el-table-column prop="mea002" label="生产订单" align="center" v-if="columns.showColumn('mea002')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_oph_moc " :value="scope.row.ppdOrderNo"  />
+          <dict-tag :options=" options.sql_moc_assy " :value="scope.row.mea002"  />
         </template>
       </el-table-column>
-      <el-table-column prop="ppdOrderQty" label="订单数量" align="center" v-if="columns.showColumn('ppdOrderQty')"/>
-      <el-table-column prop="ppdLot" label="生产批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ppdLot')"/>
-      <el-table-column prop="ppdModel" label="生产机种" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ppdModel')"/>
-      <el-table-column prop="ppdDate" label="生产日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('ppdDate')"/>
-      <el-table-column prop="ppdLineName" label="生产班组" align="center" v-if="columns.showColumn('ppdLineName')">
+      <el-table-column prop="mea003" label="订单数量" align="center" v-if="columns.showColumn('mea003')"/>
+      <el-table-column prop="mea004" label="生产批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mea004')"/>
+      <el-table-column prop="mea005" label="生产机种" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mea005')"/>
+      <el-table-column prop="mea006" label="生产日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('mea006')"/>
+      <el-table-column prop="mea007" label="生产班组" align="center" v-if="columns.showColumn('mea007')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_line_list " :value="scope.row.ppdLineName"  />
+          <dict-tag :options=" options.sql_assy_line " :value="scope.row.mea007"  />
         </template>
       </el-table-column>
-      <el-table-column prop="ppdRealQty" label="生产实绩" align="center" v-if="columns.showColumn('ppdRealQty')"/>
-      <el-table-column prop="ppdNobadQty" label="无不良数" align="center" v-if="columns.showColumn('ppdNobadQty')"/>
-      <el-table-column prop="remark" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
-      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
-      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
-      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
+      <el-table-column prop="mea008" label="生产实绩" align="center" v-if="columns.showColumn('mea008')"/>
+      <el-table-column prop="mea009" label="无不良数" align="center" v-if="columns.showColumn('mea009')"/>
+      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button-group>
@@ -146,28 +143,24 @@
 
     <!-- 一对一/一对多列表显示详情 -->
     <el-drawer v-model="drawer" size="65%" direction="rtl">
-      <el-table :data="ppDefectAssyRepairSlvList" header-row-class-name="text-navy">
+      <el-table :data="ppRepairAssySlvList" header-row-class-name="text-navy">
         <el-table-column :label="$t('layout.indexNo')" type="index" width="80" />
-        <el-table-column prop="ppdSfid" label="SFID"/>
-        <el-table-column prop="ppdParentSfid" label="PpdParentSfid"/>
-        <el-table-column prop="ppdBadType" label="不良类别">
+        <el-table-column prop="id" label="ID"/>
+        <el-table-column prop="parentId" label="父ID"/>
+        <el-table-column prop="mfa003" label="不良区分">
           <template #default="scope">
-            <dict-tag :options=" options.sql_bad_dist " :value="scope.row.ppdBadType"  />
+            <dict-tag :options=" options.sql_bad_dist " :value="scope.row.mfa003"  />
           </template>
         </el-table-column>
-        <el-table-column prop="ppdBadQty" label="不良数量"/>
-        <el-table-column prop="ppdBadTotal" label="不良总数"/>
-        <el-table-column prop="ppdBadSymptom" label="不良状况"/>
-        <el-table-column prop="ppdBadPosition" label="不良个所"/>
-        <el-table-column prop="ppdBadReason" label="不良原因"/>
-        <el-table-column prop="remark" label="说明"/>
-        <el-table-column prop="createBy" label="创建者"/>
-        <el-table-column prop="createTime" label="创建时间"/>
-        <el-table-column prop="updateBy" label="更新者"/>
-        <el-table-column prop="updateTime" label="更新时间"/>
+        <el-table-column prop="mfa004" label="不良数量"/>
+        <el-table-column prop="mfa005" label="不良总数"/>
+        <el-table-column prop="mfa006" label="不良状况"/>
+        <el-table-column prop="mfa007" label="不良个所"/>
+        <el-table-column prop="mfa008" label="不良原因"/>
+        <el-table-column prop="remark" label="备注"/>
       </el-table>
     </el-drawer>
-    <!-- 添加或修改组立不良ma对话框 -->
+    <!-- 添加或修改不良对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" :fullscreen="fullScreen">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
@@ -175,17 +168,17 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="SFID" prop="ppdSfid">
-              <el-input v-model.number="form.ppdSfid" :placeholder="$t('btn.enterPrefix')+'SFID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
+            <el-form-item label="ID" prop="id">
+              <el-input v-model.number="form.id" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生产订单" prop="ppdOrderNo">
-              <el-select filterable clearable  remote remote-show-suffix :remote-method="remoteMethod_sql_oph_moc" 
-              :loading="loading " v-model="form.ppdOrderNo"  :placeholder="$t('btn.selectPrefix')+'生产订单'+$t('btn.selectSuffix')">
+            <el-form-item label="生产订单" prop="mea002">
+              <el-select filterable clearable  remote remote-show-suffix :remote-method="remoteMethod_sql_moc_assy" 
+              :loading="loading" v-model="form.mea002"  :placeholder="$t('btn.selectPrefix')+'生产订单'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  remotequery_sql_oph_moc" 
+                  v-for="item in  remotequery_sql_moc_assy" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -195,34 +188,34 @@
 
             
           <el-col :lg="12">
-            <el-form-item label="订单数量" prop="ppdOrderQty">
-              <el-input-number v-model.number="form.ppdOrderQty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'订单数量'+$t('btn.enterSuffix')" />
+            <el-form-item label="订单数量" prop="mea003">
+              <el-input-number v-model.number="form.mea003" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'订单数量'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生产批次" prop="ppdLot">
-              <el-input v-model="form.ppdLot" :placeholder="$t('btn.enterPrefix')+'生产批次'+$t('btn.enterSuffix')" />
+            <el-form-item label="生产批次" prop="mea004">
+              <el-input   v-model="form.mea004" :placeholder="$t('btn.enterPrefix')+'生产批次'+$t('btn.enterSuffix')"  show-word-limit   maxlength="20"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生产机种" prop="ppdModel">
-              <el-input v-model="form.ppdModel" :placeholder="$t('btn.enterPrefix')+'生产机种'+$t('btn.enterSuffix')" />
+            <el-form-item label="生产机种" prop="mea005">
+              <el-input   v-model="form.mea005" :placeholder="$t('btn.enterPrefix')+'生产机种'+$t('btn.enterSuffix')"  show-word-limit   maxlength="20"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生产日期" prop="ppdDate">
-              <el-date-picker v-model="form.ppdDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="生产日期" prop="mea006">
+              <el-date-picker v-model="form.mea006" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生产班组" prop="ppdLineName">
-              <el-select filterable clearable   v-model="form.ppdLineName"  :placeholder="$t('btn.selectPrefix')+'生产班组'+$t('btn.selectSuffix')">
+            <el-form-item label="生产班组" prop="mea007">
+              <el-select filterable clearable   v-model="form.mea007"  :placeholder="$t('btn.selectPrefix')+'生产班组'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_line_list" 
+                  v-for="item in  options.sql_assy_line" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -232,126 +225,20 @@
 
             
           <el-col :lg="12">
-            <el-form-item label="生产实绩" prop="ppdRealQty">
-              <el-input-number v-model.number="form.ppdRealQty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'生产实绩'+$t('btn.enterSuffix')" />
+            <el-form-item label="生产实绩" prop="mea008">
+              <el-input-number v-model.number="form.mea008" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'生产实绩'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="无不良数" prop="ppdNobadQty">
-              <el-input-number v-model.number="form.ppdNobadQty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'无不良数'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义A" prop="uDF01">
-              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义B" prop="uDF02">
-              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义C" prop="uDF03">
-              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义D" prop="uDF04">
-              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义E" prop="uDF05">
-              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义F" prop="uDF06">
-              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义1" prop="uDF51">
-              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义2" prop="uDF52">
-              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义3" prop="uDF53">
-              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义4" prop="uDF54">
-              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义5" prop="uDF55">
-              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义6" prop="uDF56">
-              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="软删除" prop="isDeleted">
-              <el-radio-group v-model="form.isDeleted">
-                <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue" :value="parseInt(item.dictValue)">
-                  {{item.dictLabel}}
-                </el-radio>
-              </el-radio-group>
+            <el-form-item label="无不良数" prop="mea009">
+              <el-input-number v-model.number="form.mea009" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'无不良数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="说明" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建者" prop="createBy">
-              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建时间" prop="createTime">
-              <el-date-picker v-model="form.createTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新者" prop="updateBy">
-              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新时间" prop="updateTime">
-              <el-date-picker v-model="form.updateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="备注" prop="remark">
+              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -427,25 +314,25 @@
 
 
     <!-- 子表信息 -->
-        <el-divider content-position="center">组立不良slv</el-divider>
+        <el-divider content-position="center">不良明细</el-divider>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
-            <el-button class="btn-add" icon="Plus" @click="handleAddPpDefectAssyRepairSlv">{{ $t('btn.add') }}</el-button>
+            <el-button class="btn-add" icon="Plus" @click="handleAddPpRepairAssySlv">{{ $t('btn.add') }}</el-button>
           </el-col>
           <el-col :span="1.5">
-            <el-button class="btn-delete" icon="Delete" @click="handleDeletePpDefectAssyRepairSlv">{{ $t('btn.delete') }}</el-button>
+            <el-button class="btn-delete" icon="Delete" @click="handleDeletePpRepairAssySlv">{{ $t('btn.delete') }}</el-button>
           </el-col>
           <el-col :span="1.5">
             <el-button class="btn-infos" icon="FullScreen" @click="fullScreen = !fullScreen">{{ fullScreen ?  $t('layout.headerExitfullscreen') 
               : $t('layout.headerFullscreen') }}</el-button>
           </el-col>
         </el-row>
-        <el-table :data="ppDefectAssyRepairSlvList" :row-class-name="rowPpDefectAssyRepairSlvIndex" @selection-change="handlePpDefectAssyRepairSlvSelectionChange" ref="PpDefectAssyRepairSlvRef">
+        <el-table :data="ppRepairAssySlvList" :row-class-name="rowPpRepairAssySlvIndex" @selection-change="handlePpRepairAssySlvSelectionChange" ref="PpRepairAssySlvRef">
           <el-table-column type="selection" width="40" align="center" />
           <el-table-column :label="$t('layout.indexNo')" align="center" prop="index" width="50"/>
-          <el-table-column label="不良类别" prop="ppdBadType">
+          <el-table-column label="不良区分" prop="mfa003">
             <template #default="scope">
-              <el-select filterable clearable  v-model="scope.row.ppdBadType" :placeholder="$t('btn.enterPrefix')+'不良类别'+$t('btn.enterSuffix')">
+              <el-select filterable clearable  v-model="scope.row.mfa003" :placeholder="$t('btn.enterPrefix')+'不良区分'+$t('btn.enterSuffix')">
                 <el-option
                   v-for="item in options.sql_bad_dist" 
                   :key="item.dictValue" 
@@ -454,54 +341,34 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="不良数量" align="center" prop="ppdBadQty" width="140">
+          <el-table-column label="不良数量" align="center" prop="mfa004" width="140">
             <template #default="scope">
-              <el-input-number v-model="scope.row.ppdBadQty" controls-position="right" :placeholder="$t('btn.enterPrefix')+'不良数量'+$t('btn.enterSuffix')" />
+              <el-input-number v-model="scope.row.mfa004" controls-position="right" :placeholder="$t('btn.enterPrefix')+'不良数量'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="不良总数" align="center" prop="ppdBadTotal" width="140">
+          <el-table-column label="不良总数" align="center" prop="mfa005" width="140">
             <template #default="scope">
-              <el-input-number v-model="scope.row.ppdBadTotal" controls-position="right" :placeholder="$t('btn.enterPrefix')+'不良总数'+$t('btn.enterSuffix')" />
+              <el-input-number v-model="scope.row.mfa005" controls-position="right" :placeholder="$t('btn.enterPrefix')+'不良总数'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="不良状况" align="center" prop="ppdBadSymptom">
+          <el-table-column label="不良状况" align="center" prop="mfa006">
             <template #default="scope">
-              <el-input v-model="scope.row.ppdBadSymptom" :placeholder="$t('btn.enterPrefix')+'不良状况'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.mfa006" :placeholder="$t('btn.enterPrefix')+'不良状况'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="不良个所" align="center" prop="ppdBadPosition">
+          <el-table-column label="不良个所" align="center" prop="mfa007">
             <template #default="scope">
-              <el-input v-model="scope.row.ppdBadPosition" :placeholder="$t('btn.enterPrefix')+'不良个所'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.mfa007" :placeholder="$t('btn.enterPrefix')+'不良个所'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="不良原因" align="center" prop="ppdBadReason">
+          <el-table-column label="不良原因" align="center" prop="mfa008">
             <template #default="scope">
-              <el-input v-model="scope.row.ppdBadReason" :placeholder="$t('btn.enterPrefix')+'不良原因'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.mfa008" :placeholder="$t('btn.enterPrefix')+'不良原因'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="说明" align="center" prop="remark">
+          <el-table-column label="备注" align="center" prop="remark">
             <template #default="scope">
-              <el-input v-model="scope.row.remark" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="创建者" align="center" prop="createBy">
-            <template #default="scope">
-              <el-input v-model="scope.row.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="创建时间" align="center" prop="createTime">
-            <template #default="scope">
-              <el-date-picker clearable v-model="scope.row.createTime" type="date" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </template>
-          </el-table-column>
-          <el-table-column label="更新者" align="center" prop="updateBy">
-            <template #default="scope">
-              <el-input v-model="scope.row.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
-            </template>
-          </el-table-column>
-          <el-table-column label="更新时间" align="center" prop="updateTime">
-            <template #default="scope">
-              <el-date-picker clearable v-model="scope.row.updateTime" type="date" :placeholder="$t('btn.dateselect')"></el-date-picker>
+              <el-input v-model="scope.row.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
         </el-table>
@@ -542,35 +409,31 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: '',
-  sortType: 'asc',
-//是否查询（1是）
-  ppdOrderNo: undefined,
-//是否查询（1是）
-  ppdLot: undefined,
-//是否查询（1是）
-  ppdModel: undefined,
-//是否查询（1是）
-  ppdDate: undefined,
-//是否查询（1是）
-  ppdLineName: undefined,
+  sort: 'Mea006',
+  sortType: 'desc',
+  //是否查询（1是）
+  mea002: undefined,
+  //是否查询（1是）
+  mea004: undefined,
+  //是否查询（1是）
+  mea005: undefined,
+  //是否查询（1是）
+  mea006: undefined,
+  //是否查询（1是）
+  mea007: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'ppdSfid', label: 'SFID' },
-  { visible: true, prop: 'ppdOrderNo', label: '生产订单' },
-  { visible: true, prop: 'ppdOrderQty', label: '订单数量' },
-  { visible: true, prop: 'ppdLot', label: '生产批次' },
-  { visible: true, prop: 'ppdModel', label: '生产机种' },
-  { visible: true, prop: 'ppdDate', label: '生产日期' },
-  { visible: true, prop: 'ppdLineName', label: '生产班组' },
-  { visible: true, prop: 'ppdRealQty', label: '生产实绩' },
-  { visible: false, prop: 'ppdNobadQty', label: '无不良数' },
-  { visible: false, prop: 'remark', label: '说明' },
-  { visible: false, prop: 'createBy', label: '创建者' },
-  { visible: false, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新者' },
-  { visible: false, prop: 'updateTime', label: '更新时间' },
+  { visible: true, prop: 'id', label: 'ID' },
+  { visible: true, prop: 'mea002', label: '生产订单' },
+  { visible: true, prop: 'mea003', label: '订单数量' },
+  { visible: true, prop: 'mea004', label: '生产批次' },
+  { visible: true, prop: 'mea005', label: '生产机种' },
+  { visible: true, prop: 'mea006', label: '生产日期' },
+  { visible: true, prop: 'mea007', label: '生产班组' },
+  { visible: true, prop: 'mea008', label: '生产实绩' },
+  { visible: false, prop: 'mea009', label: '无不良数' },
+  { visible: false, prop: 'remark', label: '备注' },
 ])
 // 记录数
 const total = ref(0)
@@ -581,68 +444,68 @@ const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
 //定义远程搜索变量
-const remotequeryList_sql_oph_moc=ref([])
+const remotequeryList_sql_moc_assy=ref([])
 //定义远程搜索变量
-const remotequery_sql_oph_moc=ref([])
+const remotequery_sql_moc_assy=ref([])
 //远程字典参数
-var remotedictParams_sql_oph_moc = [
-    { dictType: "sql_oph_moc" },
+var remotedictParams_sql_moc_assy = [
+    { dictType: "sql_moc_assy" },
 ]
 //远程搜索组件实例
 onMounted(() => {
-    proxy.getDicts(remotedictParams_sql_oph_moc).then((response) => {
+    proxy.getDicts(remotedictParams_sql_moc_assy).then((response) => {
       response.data.forEach((element) => {
-        remotequeryList_sql_oph_moc.value = element.list
+        remotequeryList_sql_moc_assy.value = element.list
       })
-      //console.log(remotequeryList_sql_oph_moc)
+      //console.log(remotequeryList_sql_moc_assy)
     })
   })
 //远程搜索
-const remoteMethod_sql_oph_moc = debounce((query) => {
+const remoteMethod_sql_moc_assy = debounce((query) => {
     if (query) {
       loading.value = true
       setTimeout(() => {
         loading.value = false
-        // remotequery_sql_oph_moc.value = remotequeryList_sql_oph_moc.value.filter((item) => {
+        // remotequery_sql_moc_assy.value = remotequeryList_sql_moc_assy.value.filter((item) => {
         //   return item.dictValue.toLowerCase().includes(query.toLowerCase())
         // })
-        filterMethod_sql_oph_moc(query)
+        filterMethod_sql_moc_assy(query)
       }, 2000)
     } else {
      //默认显示前15条记录
-      remotequery_sql_oph_moc.value.slice(0, 15)
+      remotequery_sql_moc_assy.value.slice(0, 15)
     }
   }, 300)
 // 筛选方法
-const filterMethod_sql_oph_moc = debounce((query) => {
-    let arr = remotequeryList_sql_oph_moc.value.filter((item) => {
+const filterMethod_sql_moc_assy = debounce((query) => {
+    let arr = remotequeryList_sql_moc_assy.value.filter((item) => {
       return item.dictValue.toLowerCase().includes(query) || item.dictLabel.toLowerCase().includes(query);
     })
     if (arr.length > 5) {
-      remotequery_sql_oph_moc.value = arr.slice(0, 5)
-      addFilterOptions_sql_oph_moc(query)
+      remotequery_sql_moc_assy.value = arr.slice(0, 5)
+      addFilterOptions_sql_moc_assy(query)
     } else {
-      remotequery_sql_oph_moc.value = arr
+      remotequery_sql_moc_assy.value = arr
     }
   }, 300)
 // 精准筛选方法
-const addFilterOptions_sql_oph_moc =debounce((dictValue) => {
-    let target = remotequeryList_sql_oph_moc.value.find((item) => {
+const addFilterOptions_sql_moc_assy =debounce((dictValue) => {
+    let target = remotequeryList_sql_moc_assy.value.find((item) => {
       return item.dictValue === dictValue
     })
     if (target) {
-      if (remotequery_sql_oph_moc.value.toLowerCase().every(item => item.dictValue !== target.dictValue)) {
-        remotequery_sql_oph_moc.value.toLowerCase().unshift(target)
+      if (remotequery_sql_moc_assy.value.toLowerCase().every(item => item.dictValue !== target.dictValue)) {
+        remotequery_sql_moc_assy.value.toLowerCase().unshift(target)
       }
     }
   }, 300)
 // 生产日期时间范围
-const dateRangePpdDate = ref([])
+const dateRangeMea006 = ref([])
 
 //字典参数
 var dictParams = [
-  { dictType: "sql_line_list" },
-  { dictType: "sys_is_deleted" },
+  { dictType: "sql_moc_assy" },
+  { dictType: "sql_assy_line" },
   { dictType: "sql_bad_dist" },
 ]
 
@@ -652,9 +515,9 @@ proxy.getDicts(dictParams).then((response) => {
     state.options[element.dictType] = element.list
   })
 })
-//API获取从组立不良ma/pp_repair_assy_ma表记录数据
+//API获取从不良/pp_repair_assy_ma表记录数据
 function getList(){
-  proxy.addDateRange(queryParams, dateRangePpdDate.value, 'PpdDate');
+  proxy.addDateRange(queryParams, dateRangeMea006.value, 'Mea006');
   loading.value = true
   listPpRepairAssyMa(queryParams).then(res => {
     const { code, data } = res
@@ -675,13 +538,13 @@ function handleQuery() {
 // 重置查询操作
 function resetQuery(){
   // 生产日期时间范围
-  dateRangePpdDate.value = []
+  dateRangeMea006.value = []
   proxy.resetForm("queryRef")
   handleQuery()
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.ppdSfid);
+  ids.value = selection.map((item) => item.id);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -716,25 +579,20 @@ const state = reactive({
   single: true,
   multiple: true,
   form: {},
+//正则表达式
   rules: {
-    ppdSfid: [{ required: true, message: "SFID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    ppdOrderQty: [{ required: true, message: "订单数量"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    ppdRealQty: [{ required: true, message: "生产实绩"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    ppdNobadQty: [{ required: true, message: "无不良数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    uDF51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF54: [{ required: true, message: "自定义4"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF55: [{ required: true, message: "自定义5"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF56: [{ required: true, message: "自定义6"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mea002: [{ required: true, message: "生产订单"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    mea003: [{ required: true, message: "订单数量"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mea008: [{ required: true, message: "生产实绩"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mea009: [{ required: true, message: "无不良数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
   },
+//字典名称
   options: {
+    // 生产订单 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_moc_assy: [],
     // 生产班组 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_line_list: [],
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_deleted: [],
-    // 不良类别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_assy_line: [],
+    // 不良区分 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_bad_dist: [],
   }
 })
@@ -750,35 +608,18 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    ppdSfid: 0,
-    ppdOrderNoChecked: [],
-    ppdOrderQty: 0,
-    ppdLot: null,
-    ppdModel: null,
-    ppdDate: null,
-    ppdLineName: null,
-    ppdRealQty: 0,
-    ppdNobadQty: 0,
-    uDF01: null,
-    uDF02: null,
-    uDF03: null,
-    uDF04: null,
-    uDF05: null,
-    uDF06: null,
-    uDF51: 0,
-    uDF52: 0,
-    uDF53: 0,
-    uDF54: 0,
-    uDF55: 0,
-    uDF56: 0,
-    isDeleted: 0,
+    id: 0,
+    mea002: [],
+    mea003: 0,
+    mea004: null,
+    mea005: null,
+    mea006: null,
+    mea007: [],
+    mea008: 0,
+    mea009: 0,
     remark: null,
-    createBy: null,
-    createTime: null,
-    updateBy: null,
-    updateTime: null,
   };
-  ppDefectAssyRepairSlvList.value = []
+  ppRepairAssySlvList.value = []
   proxy.resetForm("formRef")
 }
 
@@ -787,31 +628,30 @@ function reset() {
 function handleAdd() {
   reset();
   open.value = true
-  title.value = proxy.$t('btn.add')+" "+'组立不良ma'
+  title.value = proxy.$t('btn.add')+" "+'不良'
   opertype.value = 1
-  form.value.ppdOrderQty= 0
-  form.value.ppdDate= new Date()
-  form.value.ppdLineName= []
-  form.value.ppdRealQty= 0
-  form.value.ppdNobadQty= 0
-  form.value.createTime= new Date()
-  form.value.updateTime= new Date()
+  form.value.mea002= []
+  form.value.mea003= 0
+  form.value.mea006= new Date()
+  form.value.mea007= []
+  form.value.mea008= 0
+  form.value.mea009= 0
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.ppdSfid || ids.value
+  const id = row.id || ids.value
   getPpRepairAssyMa(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
       open.value = true
-      title.value = proxy.$t('btn.edit')+" "+ '组立不良ma'
+      title.value = proxy.$t('btn.edit')+" "+ '不良'
       opertype.value = 2
 
       form.value = {
         ...data,
       }
-      ppDefectAssyRepairSlvList.value = res.data.ppDefectAssyRepairSlvNav
+      ppRepairAssySlvList.value = res.data.ppRepairAssySlvNav
     }
   })
 }
@@ -821,8 +661,8 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      form.value.ppDefectAssyRepairSlvNav = ppDefectAssyRepairSlvList.value
-      if (form.value.ppdSfid != undefined && opertype.value === 2) {
+      form.value.ppRepairAssySlvNav = ppRepairAssySlvList.value
+      if (form.value.id != undefined && opertype.value === 2) {
         updatePpRepairAssyMa(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -841,7 +681,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.ppdSfid || ids.value
+  const Ids = row.id || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {
@@ -875,7 +715,7 @@ const handleFileSuccess = (response) => {
 // 导出按钮操作
 function handleExport() {
   proxy
-    .$confirm(proxy.$t('common.tipConfirmExport')+"<组立不良ma.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
+    .$confirm(proxy.$t('common.tipConfirmExport')+"<不良.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
       confirmButtonText: proxy.$t('btn.submit'),
       cancelButtonText: proxy.$t('btn.cancel'),
       type: "warning",
@@ -885,61 +725,57 @@ function handleExport() {
     })
 }
 
-/*********************组立不良slv子表信息*************************/
-const ppDefectAssyRepairSlvList = ref([])
-const checkedPpDefectAssyRepairSlv = ref([])
+/*********************不良明细子表信息*************************/
+const ppRepairAssySlvList = ref([])
+const checkedPpRepairAssySlv = ref([])
 const fullScreen = ref(false)
 const drawer = ref(false)
 
-/** 组立不良slv序号 */
-function rowPpDefectAssyRepairSlvIndex({ row, rowIndex }) {
+/** 不良明细序号 */
+function rowPpRepairAssySlvIndex({ row, rowIndex }) {
   row.index = rowIndex + 1;
 }
 
-/** 组立不良slv添加按钮操作 */
-function handleAddPpDefectAssyRepairSlv() {
+/** 不良明细添加按钮操作 */
+function handleAddPpRepairAssySlv() {
   let obj = {};
   //下面的代码自己设置默认值
-  //obj.ppdBadType = null;
-  //obj.ppdBadQty = null;
-  //obj.ppdBadTotal = null;
-  //obj.ppdBadSymptom = null;
-  //obj.ppdBadPosition = null;
-  //obj.ppdBadReason = null;
+  //obj.mfa003 = null;
+  //obj.mfa004 = null;
+  //obj.mfa005 = null;
+  //obj.mfa006 = null;
+  //obj.mfa007 = null;
+  //obj.mfa008 = null;
   //obj.remark = null;
-  //obj.createBy = null;
-  //obj.createTime = null;
-  //obj.updateBy = null;
-  //obj.updateTime = null;
-  ppDefectAssyRepairSlvList.value.push(obj);
+  ppRepairAssySlvList.value.push(obj);
 }
 
 /** 复选框选中数据 */
-function handlePpDefectAssyRepairSlvSelectionChange(selection) {
-  checkedPpDefectAssyRepairSlv.value = selection.map(item => item.index)
+function handlePpRepairAssySlvSelectionChange(selection) {
+  checkedPpRepairAssySlv.value = selection.map(item => item.index)
 }
 
-/** 组立不良slv删除按钮操作 */
-function handleDeletePpDefectAssyRepairSlv() {
-  if(checkedPpDefectAssyRepairSlv.value.length == 0){
-    proxy.$modal.msgError('请先选择要删除的组立不良slv数据')
+/** 不良明细删除按钮操作 */
+function handleDeletePpRepairAssySlv() {
+  if(checkedPpRepairAssySlv.value.length == 0){
+    proxy.$modal.msgError('请先选择要删除的不良明细数据')
   } else {
-    const PpDefectAssyRepairSlvs = ppDefectAssyRepairSlvList.value;
-    const checkedPpDefectAssyRepairSlvs = checkedPpDefectAssyRepairSlv.value;
-    ppDefectAssyRepairSlvList.value = PpDefectAssyRepairSlvs.filter(function(item) {
-      return checkedPpDefectAssyRepairSlvs.indexOf(item.index) == -1
+    const PpRepairAssySlvs = ppRepairAssySlvList.value;
+    const checkedPpRepairAssySlvs = checkedPpRepairAssySlv.value;
+    ppRepairAssySlvList.value = PpRepairAssySlvs.filter(function(item) {
+      return checkedPpRepairAssySlvs.indexOf(item.index) == -1
     });
   }
 }
 
-/** 组立不良slv详情 */
+/** 不良明细详情 */
 function rowClick(row) {
-  const id = row.ppdSfid || ids.value
+  const id = row.id || ids.value
   getPpRepairAssyMa(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
       drawer.value = true
-      ppDefectAssyRepairSlvList.value = data.ppDefectAssyRepairSlvNav
+      ppRepairAssySlvList.value = data.ppRepairAssySlvNav
     }
   })
 }

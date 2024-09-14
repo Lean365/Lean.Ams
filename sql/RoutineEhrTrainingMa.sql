@@ -47,16 +47,16 @@ INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create
 VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrtrainingma', 'FR_培训', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrtrainingma', 'KO_培训', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ko', 'menu.routine.ehrtrainingma', 'KO_培训', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrtrainingma', 'AR_培训', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ar', 'menu.routine.ehrtrainingma', 'AR_培训', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrtrainingma', 'RU_培训', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ru', 'menu.routine.ehrtrainingma', 'RU_培训', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrtrainingma', 'DE_培训', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'de', 'menu.routine.ehrtrainingma', 'DE_培训', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrtrainingma', 'ES_培训', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'es', 'menu.routine.ehrtrainingma', 'ES_培训', 'Lean365', GETDATE());

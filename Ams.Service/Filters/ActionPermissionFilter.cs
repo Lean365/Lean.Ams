@@ -1,8 +1,9 @@
-﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Model;
-using Ams.Service.Kernel;
+﻿using Ams.Service.Admin;
+using Ams.Service.Admin.IAdminService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Ams.Infrastructure;
+using Ams.Infrastructure.Model;
 
 namespace Ams.Service.Filters
 {

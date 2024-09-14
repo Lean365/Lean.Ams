@@ -2,7 +2,7 @@ use Ams_Tes;
 
 -- 奖惩菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('奖惩', 1210, 999, 'RoutineEhrRewardPenalties', 'routine/RoutineEhrRewardPenalties', 0, 0, 'C', '0', '0', 'routine:ehrrewardpenalties:list', 'icon1', 'Lean365', GETDATE(), 'menu.routine.ehrrewardpenalties');
+VALUES ('奖惩', 1914, 999, 'RoutineEhrRewardPenalties', 'routine/RoutineEhrRewardPenalties', 0, 0, 'C', '0', '0', 'routine:ehrrewardpenalties:list', 'icon1', 'Lean365', GETDATE(), 'menu.routine.ehrrewardpenalties');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -32,13 +32,31 @@ SELECT * FROM sys_menu WHERE menuId = @menuId;
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210001,'zh-cn', 'menu.routine.ehrrewardpenalties', '奖惩', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914001,'zh-cn', 'menu.routine.ehrrewardpenalties', '奖惩', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210002,'zh-tw', 'menu.routine.ehrrewardpenalties', 'TW_奖惩', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914002,'zh-tw', 'menu.routine.ehrrewardpenalties', 'TW_奖惩', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210003,'en', 'menu.routine.ehrrewardpenalties', 'EN_奖惩', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'en', 'menu.routine.ehrrewardpenalties', 'EN_奖惩', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210004,'ja', 'menu.routine.ehrrewardpenalties', 'JA_奖惩', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914004,'ja', 'menu.routine.ehrrewardpenalties', 'JA_奖惩', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'fr', 'menu.routine.ehrrewardpenalties', 'FR_奖惩', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'ko', 'menu.routine.ehrrewardpenalties', 'KO_奖惩', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'ar', 'menu.routine.ehrrewardpenalties', 'AR_奖惩', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'ru', 'menu.routine.ehrrewardpenalties', 'RU_奖惩', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'de', 'menu.routine.ehrrewardpenalties', 'DE_奖惩', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'es', 'menu.routine.ehrrewardpenalties', 'ES_奖惩', 'Lean365', GETDATE());

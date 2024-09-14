@@ -7,7 +7,7 @@ namespace Ams.Service.Routine.IRoutineService
     /// 社保
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:30:43
+    /// @Date: 2024/9/12 15:14:24
     /// </summary>
     public interface IRoutineEhrSocialSecurityService : IBaseService<RoutineEhrSocialSecurity>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Routine.IRoutineService
         /// <summary>
         /// 获取社保信息
         /// </summary>
-        /// <param name="EeSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        RoutineEhrSocialSecurity GetInfo(long EeSfId);
+        RoutineEhrSocialSecurity GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

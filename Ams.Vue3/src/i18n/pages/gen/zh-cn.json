@@ -59,6 +59,7 @@
     "formselect": "下拉框",
     "formselectRemote": "远程下拉框",
     "formselectMulti": "多选下拉框",
+    "formselectVirtual": "虚拟下拉框",
     "formradio": "单选框",
     "formcheckbox": "复选框",
     "formdatetime": "日期时间范围",

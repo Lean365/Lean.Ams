@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 序列号扫描
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 9:55:51
+    /// @Date: 2024/9/11 16:36:33
     /// </summary>
     public interface IQmSerialService : IBaseService<QmSerial>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取序列号扫描信息
         /// </summary>
-        /// <param name="QmserSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        QmSerial GetInfo(long QmserSfId);
+        QmSerial GetInfo(int Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

@@ -1,37 +1,30 @@
-﻿using Ams.Model.Monitor.Dto;
-using Ams.Service.Monitor.IMonitorService;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Ams.WebApi.Controllers.Monitor
+﻿namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
-    /// 操作日志
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
+    /// 操作日志记录
     /// </summary>
     [Verify]
     [Route("/monitor/oper")]
     [ApiExplorerSettings(GroupName = "monitor")]
-    public class OperlogController : BaseController
+    public class OperLogController : BaseController
     {
-        private IOperLogService sysOperLogService;
+        private IOperLogService OperLogService;
 
-        public OperlogController(IOperLogService sysOperLogService)
+        public OperLogController(IOperLogService OperLogService)
         {
-            this.sysOperLogService = sysOperLogService;
+            this.OperLogService = OperLogService;
         }
 
         /// <summary>
         /// 查询操作日志
         /// </summary>
-        /// <param name="sysOperLog"></param>
+        /// <param name="OperLog"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        public IActionResult OperList([FromQuery] OperLogQueryDto sysOperLog)
+        public IActionResult OperList([FromQuery] OperLogQueryDto OperLog)
         {
-            sysOperLog.OperName = !HttpContext.IsAdmin() ? HttpContext.GetName() : sysOperLog.OperName;
-            var list = sysOperLogService.SelectOperLogList(sysOperLog);
+            OperLog.OperName = !HttpContext.IsAdmin() ? HttpContext.GetName() : OperLog.OperName;
+            var list = OperLogService.SelectOperLogList(OperLog);
 
             return SUCCESS(list);
         }
@@ -51,7 +44,7 @@ namespace Ams.WebApi.Controllers.Monitor
                 return ToResponse(ApiResult.Error("操作失败"));
             }
             long[] operIdss = Tools.SpitLongArrary(operIds);
-            return SUCCESS(sysOperLogService.DeleteOperLogByIds(operIdss));
+            return SUCCESS(OperLogService.DeleteOperLogByIds(operIdss));
         }
 
         /// <summary>
@@ -67,7 +60,7 @@ namespace Ams.WebApi.Controllers.Monitor
             {
                 return ToResponse(ResultCode.CUSTOM_ERROR, "操作失败");
             }
-            sysOperLogService.CleanOperLog();
+            OperLogService.CleanOperLog();
 
             return SUCCESS(1);
         }
@@ -79,10 +72,10 @@ namespace Ams.WebApi.Controllers.Monitor
         [Log(Title = "操作日志", BusinessType = BusinessType.EXPORT)]
         [ActionPermissionFilter(Permission = "monitor:oper:export")]
         [HttpGet("export")]
-        public IActionResult Export([FromQuery] OperLogQueryDto sysOperLog)
+        public IActionResult Export([FromQuery] OperLogQueryDto OperLog)
         {
-            sysOperLog.PageSize = 100000;
-            var list = sysOperLogService.SelectOperLogList(sysOperLog);
+            OperLog.PageSize = 100000;
+            var list = OperLogService.SelectOperLogList(OperLog);
             var result = ExportExcelMini(list.Result, "操作日志", "操作日志");
             return ExportExcel(result.Item2, result.Item1);
         }

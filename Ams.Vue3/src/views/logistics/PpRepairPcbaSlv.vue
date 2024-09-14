@@ -1,8 +1,9 @@
 <!--
- * @Descripttion: 修理日报slv/pp_repair_pcba_slv
- * @Version: 1.0.0.0
+ * @Descripttion: 修理明细/pp_repair_pcba_slv
+ * @Version: 0.24.621.29885
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/22 12:03:40
+ * @Date: 2024/9/12 16:38:47
+ * @column：42
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,33 +12,6 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="Pdrlot" prop="pdrlot">
-        <el-input v-model="queryParams.pdrlot" :placeholder="$t('btn.enterSearchPrefix')+'Pdrlot'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="板别" prop="pdrpcbtype">
-        <el-select filterable clearable   v-model="queryParams.pdrpcbtype" :placeholder="$t('btn.selectSearchPrefix')+'板别'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_pcb_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="检出工程" prop="pdrpcbcheckout">
-        <el-select filterable clearable   v-model="queryParams.pdrpcbcheckout" :placeholder="$t('btn.selectSearchPrefix')+'检出工程'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_insp_eng " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="责任归属" prop="pdrbadresponsibility">
-        <el-select filterable clearable   v-model="queryParams.pdrbadresponsibility" :placeholder="$t('btn.selectSearchPrefix')+'责任归属'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_resp_bel " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
       <el-form-item>
@@ -100,49 +74,45 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="pdrSfid" label="ID" align="center" v-if="columns.showColumn('pdrSfid')"/>
-      <el-table-column prop="pdrParentSfid" label="父ID" align="center" v-if="columns.showColumn('pdrParentSfid')"/>
-      <el-table-column prop="pdrlot" label="Pdrlot" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pdrlot')"/>
-      <el-table-column prop="pdrpcbtype" label="板别" align="center" v-if="columns.showColumn('pdrpcbtype')">
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
+      <el-table-column prop="parentId" label="父ID" align="center" v-if="columns.showColumn('parentId')"/>
+      <el-table-column prop="mha003" label="批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mha003')"/>
+      <el-table-column prop="mha004" label="板别" align="center" v-if="columns.showColumn('mha004')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_pcb_type " :value="scope.row.pdrpcbtype"  />
+          <dict-tag :options=" options.sql_pcb_type " :value="scope.row.mha004"  />
         </template>
       </el-table-column>
-      <el-table-column prop="pdrlotqty" label="Lot数" align="center" v-if="columns.showColumn('pdrlotqty')"/>
-      <el-table-column prop="pdrrealqty" label="当日生产数" align="center" v-if="columns.showColumn('pdrrealqty')"/>
-      <el-table-column prop="pdrrealtotal" label="累计完成数" align="center" v-if="columns.showColumn('pdrrealtotal')"/>
-      <el-table-column prop="pdrlinename" label="生产组别" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pdrlinename')"/>
-      <el-table-column prop="pdrpcbcardno" label="卡号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pdrpcbcardno')"/>
-      <el-table-column prop="pdrbadnote" label="不良症状" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pdrbadnote')"/>
-      <el-table-column prop="pdrpcbcheckout" label="检出工程" align="center" v-if="columns.showColumn('pdrpcbcheckout')">
+      <el-table-column prop="mha005" label="Lot数" align="center" v-if="columns.showColumn('mha005')"/>
+      <el-table-column prop="mha006" label="当日生产数" align="center" v-if="columns.showColumn('mha006')"/>
+      <el-table-column prop="mha007" label="累计完成数" align="center" v-if="columns.showColumn('mha007')"/>
+      <el-table-column prop="mha008" label="生产组别" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mha008')"/>
+      <el-table-column prop="mha009" label="卡号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mha009')"/>
+      <el-table-column prop="mha010" label="不良症状" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mha010')"/>
+      <el-table-column prop="mha011" label="检出工程" align="center" v-if="columns.showColumn('mha011')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_insp_eng " :value="scope.row.pdrpcbcheckout"  />
+          <dict-tag :options=" options.sql_insp_eng " :value="scope.row.mha011"  />
         </template>
       </el-table-column>
-      <el-table-column prop="pdrbadreason" label="不良原因" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pdrbadreason')"/>
-      <el-table-column prop="pdrbadqty" label="不良数量" align="center" v-if="columns.showColumn('pdrbadqty')"/>
-      <el-table-column prop="pdrbadtotal" label="累计不良台数" align="center" v-if="columns.showColumn('pdrbadtotal')"/>
-      <el-table-column prop="pdrbadresponsibility" label="责任归属" align="center" v-if="columns.showColumn('pdrbadresponsibility')">
+      <el-table-column prop="mha012" label="不良原因" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mha012')"/>
+      <el-table-column prop="mha013" label="不良数量" align="center" v-if="columns.showColumn('mha013')"/>
+      <el-table-column prop="mha014" label="累计不良台数" align="center" v-if="columns.showColumn('mha014')"/>
+      <el-table-column prop="mha015" label="责任归属" align="center" v-if="columns.showColumn('mha015')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_resp_bel " :value="scope.row.pdrbadresponsibility"  />
+          <dict-tag :options=" options.sql_resp_bel " :value="scope.row.mha015"  />
         </template>
       </el-table-column>
-      <el-table-column prop="pdrbadprop" label="不良性质" align="center" v-if="columns.showColumn('pdrbadprop')">
+      <el-table-column prop="mha016" label="不良性质" align="center" v-if="columns.showColumn('mha016')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_bad_prop " :value="scope.row.pdrbadprop"  />
+          <dict-tag :options=" options.sql_bad_prop " :value="scope.row.mha016"  />
         </template>
       </el-table-column>
-      <el-table-column prop="pdrbadserial" label="序列号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pdrbadserial')"/>
-      <el-table-column prop="pdrbadrepairman" label="修理" align="center" v-if="columns.showColumn('pdrbadrepairman')">
+      <el-table-column prop="mha017" label="序列号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mha017')"/>
+      <el-table-column prop="mha018" label="修理" align="center" v-if="columns.showColumn('mha018')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_repair_list " :value="scope.row.pdrbadrepairman"  />
+          <dict-tag :options=" options.sql_repair_list " :value="scope.row.mha018"  />
         </template>
       </el-table-column>
-      <el-table-column prop="remark" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
-      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
-      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
-      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
+      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button-group>
@@ -154,7 +124,7 @@
     </el-table>
     <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
 
-    <!-- 添加或修改修理日报slv对话框 -->
+    <!-- 添加或修改修理明细对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" >
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
@@ -162,26 +132,20 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="ID" prop="pdrSfid">
-              <el-input v-model.number="form.pdrSfid" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="父ID" prop="pdrParentSfid">
-              <el-input v-model.number="form.pdrParentSfid" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')" />
+            <el-form-item label="父ID" prop="parentId">
+              <el-input v-model.number="form.parentId" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="Pdrlot" prop="pdrlot">
-              <el-input v-model="form.pdrlot" :placeholder="$t('btn.enterPrefix')+'Pdrlot'+$t('btn.enterSuffix')" />
+            <el-form-item label="批次" prop="mha003">
+              <el-input   v-model="form.mha003" :placeholder="$t('btn.enterPrefix')+'批次'+$t('btn.enterSuffix')"  show-word-limit   maxlength="20"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="板别" prop="pdrpcbtype">
-              <el-select filterable clearable   v-model="form.pdrpcbtype"  :placeholder="$t('btn.selectPrefix')+'板别'+$t('btn.selectSuffix')">
+            <el-form-item label="板别" prop="mha004">
+              <el-select filterable clearable   v-model="form.mha004"  :placeholder="$t('btn.selectPrefix')+'板别'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_pcb_type" 
                   :key="item.dictValue" 
@@ -193,44 +157,44 @@
 
             
           <el-col :lg="12">
-            <el-form-item label="Lot数" prop="pdrlotqty">
-              <el-input-number v-model.number="form.pdrlotqty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'Lot数'+$t('btn.enterSuffix')" />
+            <el-form-item label="Lot数" prop="mha005">
+              <el-input-number v-model.number="form.mha005" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'Lot数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="当日生产数" prop="pdrrealqty">
-              <el-input-number v-model.number="form.pdrrealqty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'当日生产数'+$t('btn.enterSuffix')" />
+            <el-form-item label="当日生产数" prop="mha006">
+              <el-input-number v-model.number="form.mha006" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'当日生产数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="累计完成数" prop="pdrrealtotal">
-              <el-input-number v-model.number="form.pdrrealtotal" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'累计完成数'+$t('btn.enterSuffix')" />
+            <el-form-item label="累计完成数" prop="mha007">
+              <el-input-number v-model.number="form.mha007" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'累计完成数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生产组别" prop="pdrlinename">
-              <el-input v-model="form.pdrlinename" :placeholder="$t('btn.enterPrefix')+'生产组别'+$t('btn.enterSuffix')" />
+            <el-form-item label="生产组别" prop="mha008">
+              <el-input   v-model="form.mha008" :placeholder="$t('btn.enterPrefix')+'生产组别'+$t('btn.enterSuffix')"  show-word-limit   maxlength="20"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="卡号" prop="pdrpcbcardno">
-              <el-input v-model="form.pdrpcbcardno" :placeholder="$t('btn.enterPrefix')+'卡号'+$t('btn.enterSuffix')" />
+            <el-form-item label="卡号" prop="mha009">
+              <el-input   v-model="form.mha009" :placeholder="$t('btn.enterPrefix')+'卡号'+$t('btn.enterSuffix')"  show-word-limit   maxlength="30"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="不良症状" prop="pdrbadnote">
-              <el-input v-model="form.pdrbadnote" :placeholder="$t('btn.enterPrefix')+'不良症状'+$t('btn.enterSuffix')" />
+            <el-form-item label="不良症状" prop="mha010">
+              <el-input   v-model="form.mha010" :placeholder="$t('btn.enterPrefix')+'不良症状'+$t('btn.enterSuffix')"  show-word-limit   maxlength="200"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="检出工程" prop="pdrpcbcheckout">
-              <el-select filterable clearable   v-model="form.pdrpcbcheckout"  :placeholder="$t('btn.selectPrefix')+'检出工程'+$t('btn.selectSuffix')">
+            <el-form-item label="检出工程" prop="mha011">
+              <el-select filterable clearable   v-model="form.mha011"  :placeholder="$t('btn.selectPrefix')+'检出工程'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_insp_eng" 
                   :key="item.dictValue" 
@@ -242,26 +206,26 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="不良原因" prop="pdrbadreason">
-              <el-input v-model="form.pdrbadreason" :placeholder="$t('btn.enterPrefix')+'不良原因'+$t('btn.enterSuffix')" />
+            <el-form-item label="不良原因" prop="mha012">
+              <el-input   v-model="form.mha012" :placeholder="$t('btn.enterPrefix')+'不良原因'+$t('btn.enterSuffix')"  show-word-limit   maxlength="200"/>
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="不良数量" prop="pdrbadqty">
-              <el-input-number v-model.number="form.pdrbadqty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'不良数量'+$t('btn.enterSuffix')" />
+            <el-form-item label="不良数量" prop="mha013">
+              <el-input-number v-model.number="form.mha013" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'不良数量'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="累计不良台数" prop="pdrbadtotal">
-              <el-input-number v-model.number="form.pdrbadtotal" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'累计不良台数'+$t('btn.enterSuffix')" />
+            <el-form-item label="累计不良台数" prop="mha014">
+              <el-input-number v-model.number="form.mha014" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'累计不良台数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="责任归属" prop="pdrbadresponsibility">
-              <el-select filterable clearable   v-model="form.pdrbadresponsibility"  :placeholder="$t('btn.selectPrefix')+'责任归属'+$t('btn.selectSuffix')">
+            <el-form-item label="责任归属" prop="mha015">
+              <el-select filterable clearable   v-model="form.mha015"  :placeholder="$t('btn.selectPrefix')+'责任归属'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_resp_bel" 
                   :key="item.dictValue" 
@@ -273,8 +237,8 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="不良性质" prop="pdrbadprop">
-              <el-select filterable clearable   v-model="form.pdrbadprop"  :placeholder="$t('btn.selectPrefix')+'不良性质'+$t('btn.selectSuffix')">
+            <el-form-item label="不良性质" prop="mha016">
+              <el-select filterable clearable   v-model="form.mha016"  :placeholder="$t('btn.selectPrefix')+'不良性质'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_bad_prop" 
                   :key="item.dictValue" 
@@ -286,14 +250,14 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="序列号" prop="pdrbadserial">
-              <el-input v-model="form.pdrbadserial" :placeholder="$t('btn.enterPrefix')+'序列号'+$t('btn.enterSuffix')" />
+            <el-form-item label="序列号" prop="mha017">
+              <el-input   v-model="form.mha017" :placeholder="$t('btn.enterPrefix')+'序列号'+$t('btn.enterSuffix')"  show-word-limit   maxlength="200"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="修理" prop="pdrbadrepairman">
-              <el-select filterable clearable   v-model="form.pdrbadrepairman"  :placeholder="$t('btn.selectPrefix')+'修理'+$t('btn.selectSuffix')">
+            <el-form-item label="修理" prop="mha018">
+              <el-select filterable clearable   v-model="form.mha018"  :placeholder="$t('btn.selectPrefix')+'修理'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_repair_list" 
                   :key="item.dictValue" 
@@ -304,115 +268,9 @@
           </el-col>
 
 
-          <el-col :lg="12">
-            <el-form-item label="自定义A" prop="uDF01">
-              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义B" prop="uDF02">
-              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义C" prop="uDF03">
-              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义D" prop="uDF04">
-              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义E" prop="uDF05">
-              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义F" prop="uDF06">
-              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义1" prop="uDF51">
-              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义2" prop="uDF52">
-              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义3" prop="uDF53">
-              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义4" prop="uDF54">
-              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义5" prop="uDF55">
-              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义6" prop="uDF56">
-              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="软删除" prop="isDeleted">
-              <el-radio-group v-model="form.isDeleted">
-                <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue" :value="parseInt(item.dictValue)">
-                  {{item.dictLabel}}
-                </el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-
           <el-col :lg="24">
-            <el-form-item label="说明" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建者" prop="createBy">
-              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建时间" prop="createTime">
-              <el-date-picker v-model="form.createTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新者" prop="updateBy">
-              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新时间" prop="updateTime">
-              <el-date-picker v-model="form.updateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="备注" prop="remark">
+              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -526,40 +384,28 @@ const queryParams = reactive({
   pageSize: 56,
   sort: '',
   sortType: 'asc',
-//是否查询（1是）
-  pdrlot: undefined,
-//是否查询（1是）
-  pdrpcbtype: undefined,
-//是否查询（1是）
-  pdrpcbcheckout: undefined,
-//是否查询（1是）
-  pdrbadresponsibility: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'pdrSfid', label: 'ID' },
-  { visible: true, prop: 'pdrParentSfid', label: '父ID' },
-  { visible: true, prop: 'pdrlot', label: 'Pdrlot' },
-  { visible: true, prop: 'pdrpcbtype', label: '板别' },
-  { visible: true, prop: 'pdrlotqty', label: 'Lot数' },
-  { visible: true, prop: 'pdrrealqty', label: '当日生产数' },
-  { visible: true, prop: 'pdrrealtotal', label: '累计完成数' },
-  { visible: true, prop: 'pdrlinename', label: '生产组别' },
-  { visible: false, prop: 'pdrpcbcardno', label: '卡号' },
-  { visible: false, prop: 'pdrbadnote', label: '不良症状' },
-  { visible: false, prop: 'pdrpcbcheckout', label: '检出工程' },
-  { visible: false, prop: 'pdrbadreason', label: '不良原因' },
-  { visible: false, prop: 'pdrbadqty', label: '不良数量' },
-  { visible: false, prop: 'pdrbadtotal', label: '累计不良台数' },
-  { visible: false, prop: 'pdrbadresponsibility', label: '责任归属' },
-  { visible: false, prop: 'pdrbadprop', label: '不良性质' },
-  { visible: false, prop: 'pdrbadserial', label: '序列号' },
-  { visible: false, prop: 'pdrbadrepairman', label: '修理' },
-  { visible: false, prop: 'remark', label: '说明' },
-  { visible: false, prop: 'createBy', label: '创建者' },
-  { visible: false, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新者' },
-  { visible: false, prop: 'updateTime', label: '更新时间' },
+  { visible: true, prop: 'id', label: 'ID' },
+  { visible: true, prop: 'parentId', label: '父ID' },
+  { visible: true, prop: 'mha003', label: '批次' },
+  { visible: true, prop: 'mha004', label: '板别' },
+  { visible: true, prop: 'mha005', label: 'Lot数' },
+  { visible: true, prop: 'mha006', label: '当日生产数' },
+  { visible: true, prop: 'mha007', label: '累计完成数' },
+  { visible: true, prop: 'mha008', label: '生产组别' },
+  { visible: false, prop: 'mha009', label: '卡号' },
+  { visible: false, prop: 'mha010', label: '不良症状' },
+  { visible: false, prop: 'mha011', label: '检出工程' },
+  { visible: false, prop: 'mha012', label: '不良原因' },
+  { visible: false, prop: 'mha013', label: '不良数量' },
+  { visible: false, prop: 'mha014', label: '累计不良台数' },
+  { visible: false, prop: 'mha015', label: '责任归属' },
+  { visible: false, prop: 'mha016', label: '不良性质' },
+  { visible: false, prop: 'mha017', label: '序列号' },
+  { visible: false, prop: 'mha018', label: '修理' },
+  { visible: false, prop: 'remark', label: '备注' },
 ])
 // 记录数
 const total = ref(0)
@@ -577,7 +423,6 @@ var dictParams = [
   { dictType: "sql_resp_bel" },
   { dictType: "sql_bad_prop" },
   { dictType: "sql_repair_list" },
-  { dictType: "sys_is_deleted" },
 ]
 
 //字典加载
@@ -586,7 +431,7 @@ proxy.getDicts(dictParams).then((response) => {
     state.options[element.dictType] = element.list
   })
 })
-//API获取从修理日报slv/pp_repair_pcba_slv表记录数据
+//API获取从修理明细/pp_repair_pcba_slv表记录数据
 function getList(){
   loading.value = true
   listPpRepairPcbaSlv(queryParams).then(res => {
@@ -612,7 +457,7 @@ function resetQuery(){
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.pdrSfid);
+  ids.value = selection.map((item) => item.id);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -647,21 +492,15 @@ const state = reactive({
   single: true,
   multiple: true,
   form: {},
+//正则表达式
   rules: {
-    pdrSfid: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    pdrParentSfid: [{ required: true, message: "父ID"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    pdrrealqty: [{ required: true, message: "当日生产数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    pdrrealtotal: [{ required: true, message: "累计完成数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    pdrbadqty: [{ required: true, message: "不良数量"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    pdrbadtotal: [{ required: true, message: "累计不良台数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    uDF51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF54: [{ required: true, message: "自定义4"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF55: [{ required: true, message: "自定义5"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF56: [{ required: true, message: "自定义6"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mha005: [{ required: true, message: "Lot数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mha006: [{ required: true, message: "当日生产数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mha007: [{ required: true, message: "累计完成数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mha013: [{ required: true, message: "不良数量"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mha014: [{ required: true, message: "累计不良台数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
   },
+//字典名称
   options: {
     // 板别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_pcb_type: [],
@@ -673,8 +512,6 @@ sql_resp_bel: [],
 sql_bad_prop: [],
     // 修理 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_repair_list: [],
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_deleted: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -689,42 +526,24 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    pdrSfid: 0,
-    pdrParentSfid: 0,
-    pdrlot: null,
-    pdrpcbtype: null,
-    pdrlotqty: 0,
-    pdrrealqty: 0,
-    pdrrealtotal: 0,
-    pdrlinename: null,
-    pdrpcbcardno: null,
-    pdrbadnote: null,
-    pdrpcbcheckout: null,
-    pdrbadreason: null,
-    pdrbadqty: 0,
-    pdrbadtotal: 0,
-    pdrbadresponsibility: null,
-    pdrbadprop: null,
-    pdrbadserial: null,
-    pdrbadrepairman: null,
-    uDF01: null,
-    uDF02: null,
-    uDF03: null,
-    uDF04: null,
-    uDF05: null,
-    uDF06: null,
-    uDF51: 0,
-    uDF52: 0,
-    uDF53: 0,
-    uDF54: 0,
-    uDF55: 0,
-    uDF56: 0,
-    isDeleted: 0,
+    parentId: 0,
+    mha003: null,
+    mha004: [],
+    mha005: 0,
+    mha006: 0,
+    mha007: 0,
+    mha008: null,
+    mha009: null,
+    mha010: null,
+    mha011: [],
+    mha012: null,
+    mha013: 0,
+    mha014: 0,
+    mha015: [],
+    mha016: [],
+    mha017: null,
+    mha018: [],
     remark: null,
-    createBy: null,
-    createTime: null,
-    updateBy: null,
-    updateTime: null,
   };
   proxy.resetForm("formRef")
 }
@@ -734,30 +553,28 @@ function reset() {
 function handleAdd() {
   reset();
   open.value = true
-  title.value = proxy.$t('btn.add')+" "+'修理日报slv'
+  title.value = proxy.$t('btn.add')+" "+'修理明细'
   opertype.value = 1
-  form.value.pdrpcbtype= []
-  form.value.pdrlotqty= 0
-  form.value.pdrrealqty= 0
-  form.value.pdrrealtotal= 0
-  form.value.pdrpcbcheckout= []
-  form.value.pdrbadqty= 0
-  form.value.pdrbadtotal= 0
-  form.value.pdrbadresponsibility= []
-  form.value.pdrbadprop= []
-  form.value.pdrbadrepairman= []
-  form.value.createTime= new Date()
-  form.value.updateTime= new Date()
+  form.value.mha004= []
+  form.value.mha005= 0
+  form.value.mha006= 0
+  form.value.mha007= 0
+  form.value.mha011= []
+  form.value.mha013= 0
+  form.value.mha014= 0
+  form.value.mha015= []
+  form.value.mha016= []
+  form.value.mha018= []
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.pdrSfid || ids.value
+  const id = row.id || ids.value
   getPpRepairPcbaSlv(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
       open.value = true
-      title.value = proxy.$t('btn.edit')+" "+ '修理日报slv'
+      title.value = proxy.$t('btn.edit')+" "+ '修理明细'
       opertype.value = 2
 
       form.value = {
@@ -772,7 +589,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.pdrSfid != undefined && opertype.value === 2) {
+      if (form.value.id != undefined && opertype.value === 2) {
         updatePpRepairPcbaSlv(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -791,7 +608,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.pdrSfid || ids.value
+  const Ids = row.id || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {
@@ -825,7 +642,7 @@ const handleFileSuccess = (response) => {
 // 导出按钮操作
 function handleExport() {
   proxy
-    .$confirm(proxy.$t('common.tipConfirmExport')+"<修理日报slv.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
+    .$confirm(proxy.$t('common.tipConfirmExport')+"<修理明细.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
       confirmButtonText: proxy.$t('btn.submit'),
       cancelButtonText: proxy.$t('btn.cancel'),
       type: "warning",

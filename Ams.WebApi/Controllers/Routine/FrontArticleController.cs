@@ -1,15 +1,7 @@
-﻿using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
-using Microsoft.AspNetCore.Mvc;
-using SqlSugar;
-
-namespace Ams.WebApi.Controllers
+﻿namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
-    /// 文章前端
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
+    /// 内容管理前端接口
     /// </summary>
     [Route("routine/article/front")]
     [ApiExplorerSettings(GroupName = "routine")]
@@ -21,7 +13,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         private readonly IArticleService _ArticleService;
 
-        private readonly IArticleCategoryService _ArticleCategoryService;
+        private readonly IArticleCatalogService _ArticleCategoryService;
         private readonly IArticlePraiseService _ArticlePraiseService;
         private readonly ISysUserService _SysUserService;
         private readonly IArticleTopicService _ArticleTopicService;
@@ -36,7 +28,7 @@ namespace Ams.WebApi.Controllers
         /// <param name="articleTopicService"></param>
         public FrontArticleController(
             IArticleService ArticleService,
-            IArticleCategoryService articleCategoryService,
+            IArticleCatalogService articleCategoryService,
             IArticlePraiseService articlePraiseService,
             ISysUserService sysUserService,
             IArticleTopicService articleTopicService)
@@ -75,13 +67,13 @@ namespace Ams.WebApi.Controllers
             predicate = predicate.And(m => m.IsStatus == 1);
             predicate = predicate.And(m => m.IsPublic == 1);
             predicate = predicate.And(m => m.ArticleType == 0);
-            predicate = predicate.And(m => m.AuditStatus == Model.Enums.AuditStatusEnum.Passed);
+            predicate = predicate.And(m => m.AuditStatus == AuditStatusEnum.Passed);
 
             var response = _ArticleService.Queryable()
                 .Where(predicate.ToExpression())
                 .Includes(x => x.ArticleCategoryNav) //填充子对象
                 .Take(10)
-                .OrderBy(f => f.UpdateTime, OrderByType.Desc).ToList();
+                .OrderBy(f => f.Update_time, OrderByType.Desc).ToList();
 
             return SUCCESS(response);
         }
@@ -93,7 +85,7 @@ namespace Ams.WebApi.Controllers
         /// <param name="authorId"></param>
         /// <returns></returns>
         [HttpPost("praise/{id}")]
-        [ActionPermissionFilter(Permission = "routine:articlepraise:add")]
+        [ActionPermissionFilter(Permission = "article:front:add")]
         public IActionResult Praise(int id = 0, long authorId = 0)
         {
             ArticlePraise addModel = new()
@@ -113,7 +105,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("top")]
-        [ActionPermissionFilter(Permission = "routine:articletop:add")]
+        [ActionPermissionFilter(Permission = "article:front:update")]
         public IActionResult Top([FromBody] Article parm)
         {
             var response = _ArticleService.TopArticle(parm);
@@ -126,7 +118,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("changePublic")]
-        [ActionPermissionFilter(Permission = "routine:articlepublic:edit")]
+        [ActionPermissionFilter(Permission = "article:front:update")]
         public IActionResult ChangePublic([FromBody] Article parm)
         {
             if (parm == null) { return ToResponse(ResultCode.CUSTOM_ERROR); }
@@ -145,7 +137,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("changeComment")]
-        [ActionPermissionFilter(Permission = "routine:articlecomment:edit")]
+        [ActionPermissionFilter(Permission = "article:front:update")]
         public IActionResult ChangeComment([FromBody] Article parm)
         {
             if (parm == null) { return ToResponse(ResultCode.CUSTOM_ERROR); }
@@ -164,7 +156,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete("del/{id}")]
-        [ActionPermissionFilter(Permission = "routine:article:delete")]
+        [ActionPermissionFilter(Permission = "article:front:delete")]
         public IActionResult Delete(long id = 0)
         {
             var userId = HttpContext.GetUId();

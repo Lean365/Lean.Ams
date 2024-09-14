@@ -1,9 +1,9 @@
-﻿using Ams.Infrastructure;
-using Ams.Infrastructure.Model;
-using SqlSugar;
+﻿using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Ams.Infrastructure.Model;
+using Ams.Infrastructure;
 
 namespace Ams.CodeGenerator
 {

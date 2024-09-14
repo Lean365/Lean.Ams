@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// PO残清单
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:59:13
+    /// @Date: 2024/9/11 11:38:51
     /// </summary>
     [Verify]
     [Route("Logistics/MmPoResidue")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询PO残清单详情
         /// </summary>
-        /// <param name="PrSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{PrSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "mm:poresidue:query")]
-        public IActionResult GetMmPoResidue(long PrSfId)
+        public IActionResult GetMmPoResidue(int Id)
         {
-            var response = _MmPoResidueService.GetInfo(PrSfId);
+            var response = _MmPoResidueService.GetInfo(Id);
             
             var info = response.Adapt<MmPoResidueDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "mm:poresidue:add")]
-        [Log(Title = "PO残清单", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "PO残清单", BusinessType = BusinessType.ADD)]
         public IActionResult AddMmPoResidue([FromBody] MmPoResidueDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_MmPoResidueService.CheckInputUnique(parm.PrSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_MmPoResidueService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增PO残清单 '{parm.PrSfId}'失败(Add failed)，输入的PO残清单已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增PO残清单 '{parm.Id}'失败(Add failed)，输入的PO残清单已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<MmPoResidue>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "mm:poresidue:edit")]
-        [Log(Title = "PO残清单", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "PO残清单", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateMmPoResidue([FromBody] MmPoResidueDto parm)
         {
             var modal = parm.Adapt<MmPoResidue>().ToUpdate(HttpContext);
@@ -103,7 +103,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [Log(Title = "PO残清单", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteMmPoResidue([FromRoute]string ids)
         {
-            var idArr = Tools.SplitAndConvert<long>(ids);
+            var idArr = Tools.SplitAndConvert<int>(ids);
 
             return ToResponse(_MmPoResidueService.Delete(idArr, "删除PO残清单"));
         }
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出PO残清单
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "PO残清单", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "PO残清单导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "mm:poresidue:export")]
         public IActionResult Export([FromQuery] MmPoResidueQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入PO残清单
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "PO残清单导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "mm:poresidue:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<MmPoResidueDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// PO残清单导入模板下载
+        /// PO残清单
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "PO残清单模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<MmPoResidueImportTpl>() { }, "MmPoResidue_tpl");
             return ExportExcel(result.Item2, result.Item1);

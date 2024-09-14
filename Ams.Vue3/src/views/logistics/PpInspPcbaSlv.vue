@@ -1,8 +1,9 @@
 <!--
- * @Descripttion: 检查日报slv/pp_insp_pcba_slv
- * @Version: 1.0.0.0
+ * @Descripttion: 检查明细/pp_insp_pcba_slv
+ * @Version: 0.24.621.29885
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/22 12:01:22
+ * @Date: 2024/9/12 16:38:55
+ * @column：47
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,63 +12,6 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="批次" prop="pdilot">
-        <el-input v-model="queryParams.pdilot" :placeholder="$t('btn.enterSearchPrefix')+'批次'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="板别" prop="pdipcbtype">
-        <el-select filterable clearable   v-model="queryParams.pdipcbtype" :placeholder="$t('btn.selectSearchPrefix')+'板别'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_pcb_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="目视线别" prop="pdivisualtype">
-        <el-select filterable clearable   v-model="queryParams.pdivisualtype" :placeholder="$t('btn.selectSearchPrefix')+'目视线别'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_visual_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="AOI线别" prop="pdivctype">
-        <el-select filterable clearable   v-model="queryParams.pdivctype" :placeholder="$t('btn.selectSearchPrefix')+'AOI线别'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_aoi_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="B面实装">
-        <el-date-picker
-          v-model="dateRangePdisideadate" 
-          type="datetimerange"
-          :start-placeholder="$t('btn.dateStart')"
-          :end-placeholder="$t('btn.dateEnd')"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          :default-time="defaultTime"
-          :shortcuts="dateOptions">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="T面实装">
-        <el-date-picker
-          v-model="dateRangePdisidebdate" 
-          type="datetimerange"
-          :start-placeholder="$t('btn.dateStart')"
-          :end-placeholder="$t('btn.dateEnd')"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          :default-time="defaultTime"
-          :shortcuts="dateOptions">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="个所区分" prop="pdibadPosition">
-        <el-select filterable clearable   v-model="queryParams.pdibadPosition" :placeholder="$t('btn.selectSearchPrefix')+'个所区分'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_pcb_place " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
       <el-form-item>
@@ -130,62 +74,58 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="pdiSfid" label="ID" align="center" v-if="columns.showColumn('pdiSfid')"/>
-      <el-table-column prop="pdiParentSfid" label="PdiParentSfid" align="center" v-if="columns.showColumn('pdiParentSfid')"/>
-      <el-table-column prop="pdilot" label="批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pdilot')"/>
-      <el-table-column prop="pdilotqty" label="Lot数" align="center" v-if="columns.showColumn('pdilotqty')"/>
-      <el-table-column prop="pdipcbtype" label="板别" align="center" v-if="columns.showColumn('pdipcbtype')">
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
+      <el-table-column prop="parentId" label="父ID" align="center" v-if="columns.showColumn('parentId')"/>
+      <el-table-column prop="mv003" label="批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mv003')"/>
+      <el-table-column prop="mv004" label="Lot数" align="center" v-if="columns.showColumn('mv004')"/>
+      <el-table-column prop="mv005" label="板别" align="center" v-if="columns.showColumn('mv005')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_pcb_type " :value="scope.row.pdipcbtype"  />
+          <dict-tag :options=" options.sql_pcb_type " :value="scope.row.mv005"  />
         </template>
       </el-table-column>
-      <el-table-column prop="pdivisualtype" label="目视线别" align="center" v-if="columns.showColumn('pdivisualtype')">
+      <el-table-column prop="mv006" label="目视线别" align="center" v-if="columns.showColumn('mv006')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_visual_type " :value="scope.row.pdivisualtype"  />
+          <dict-tag :options=" options.sys_visual_type " :value="scope.row.mv006"  />
         </template>
       </el-table-column>
-      <el-table-column prop="pdivctype" label="AOI线别" align="center" v-if="columns.showColumn('pdivctype')">
+      <el-table-column prop="mv007" label="AOI线别" align="center" v-if="columns.showColumn('mv007')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_aoi_type " :value="scope.row.pdivctype"  />
+          <dict-tag :options=" options.sys_aoi_type " :value="scope.row.mv007"  />
         </template>
       </el-table-column>
-      <el-table-column prop="pdisideadate" label="B面实装" :show-overflow-tooltip="true"  v-if="columns.showColumn('pdisideadate')"/>
-      <el-table-column prop="pdisidebdate" label="T面实装" :show-overflow-tooltip="true"  v-if="columns.showColumn('pdisidebdate')"/>
-      <el-table-column prop="pdidshiftname" label="生产班别" align="center" v-if="columns.showColumn('pdidshiftname')">
+      <el-table-column prop="mv008" label="B面实装" :show-overflow-tooltip="true"  v-if="columns.showColumn('mv008')"/>
+      <el-table-column prop="mv009" label="T面实装" :show-overflow-tooltip="true"  v-if="columns.showColumn('mv009')"/>
+      <el-table-column prop="mv010" label="生产班别" align="center" v-if="columns.showColumn('mv010')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_smt_class " :value="scope.row.pdidshiftname"  />
+          <dict-tag :options=" options.sys_shifts_list " :value="scope.row.mv010"  />
         </template>
       </el-table-column>
-      <el-table-column prop="pdicensor" label="检查员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pdicensor')"/>
-      <el-table-column prop="pdirealqty" label="当日完成数" align="center" v-if="columns.showColumn('pdirealqty')"/>
-      <el-table-column prop="pdirealtotal" label="累计完成数" align="center" v-if="columns.showColumn('pdirealtotal')"/>
-      <el-table-column prop="pdiispqty" label="检查台数" align="center" v-if="columns.showColumn('pdiispqty')"/>
-      <el-table-column prop="pdipcbchecktype" label="检查状态" align="center" v-if="columns.showColumn('pdipcbchecktype')">
+      <el-table-column prop="mv011" label="检查员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mv011')"/>
+      <el-table-column prop="mv012" label="当日完成数" align="center" v-if="columns.showColumn('mv012')"/>
+      <el-table-column prop="mv013" label="累计完成数" align="center" v-if="columns.showColumn('mv013')"/>
+      <el-table-column prop="mv014" label="检查台数" align="center" v-if="columns.showColumn('mv014')"/>
+      <el-table-column prop="mv015" label="检查状态" align="center" v-if="columns.showColumn('mv015')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_smt_status " :value="scope.row.pdipcbchecktype"  />
+          <dict-tag :options=" options.sql_smt_status " :value="scope.row.mv015"  />
         </template>
       </el-table-column>
-      <el-table-column prop="pdilinename" label="生产线别" align="center" v-if="columns.showColumn('pdilinename')">
+      <el-table-column prop="mv016" label="生产线别" align="center" v-if="columns.showColumn('mv016')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_smt_line " :value="scope.row.pdilinename"  />
+          <dict-tag :options=" options.sql_smt_line " :value="scope.row.mv016"  />
         </template>
       </el-table-column>
-      <el-table-column prop="pdiinsqtime" label="检查工数" align="center" v-if="columns.showColumn('pdiinsqtime')"/>
-      <el-table-column prop="pdiaoitime" label="AOI工数" align="center" v-if="columns.showColumn('pdiaoitime')"/>
-      <el-table-column prop="pdibadqty" label="不良数量" align="center" v-if="columns.showColumn('pdibadqty')"/>
-      <el-table-column prop="pdihandle" label="手贴部品" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pdihandle')"/>
-      <el-table-column prop="pdibadserial" label="序列号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pdibadserial')"/>
-      <el-table-column prop="pdibadcontent" label="内容" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('pdibadcontent')"/>
-      <el-table-column prop="pdibadPosition" label="个所区分" align="center" v-if="columns.showColumn('pdibadPosition')">
+      <el-table-column prop="mv017" label="检查工数" align="center" v-if="columns.showColumn('mv017')"/>
+      <el-table-column prop="mv018" label="AOI工数" align="center" v-if="columns.showColumn('mv018')"/>
+      <el-table-column prop="mv019" label="不良数量" align="center" v-if="columns.showColumn('mv019')"/>
+      <el-table-column prop="mv020" label="手贴部品" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mv020')"/>
+      <el-table-column prop="mv021" label="序列号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mv021')"/>
+      <el-table-column prop="mv022" label="内容" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mv022')"/>
+      <el-table-column prop="mv023" label="个所区分" align="center" v-if="columns.showColumn('mv023')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_pcb_place " :value="scope.row.pdibadPosition"  />
+          <dict-tag :options=" options.sql_pcb_place " :value="scope.row.mv023"  />
         </template>
       </el-table-column>
-      <el-table-column prop="remark" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
-      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
-      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
-      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
+      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button-group>
@@ -197,7 +137,7 @@
     </el-table>
     <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
 
-    <!-- 添加或修改检查日报slv对话框 -->
+    <!-- 添加或修改检查明细对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" >
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
@@ -205,32 +145,26 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="ID" prop="pdiSfid">
-              <el-input v-model.number="form.pdiSfid" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="PdiParentSfid" prop="pdiParentSfid">
-              <el-input v-model.number="form.pdiParentSfid" :placeholder="$t('btn.enterPrefix')+'PdiParentSfid'+$t('btn.enterSuffix')" />
+            <el-form-item label="父ID" prop="parentId">
+              <el-input v-model.number="form.parentId" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="批次" prop="pdilot">
-              <el-input v-model="form.pdilot" :placeholder="$t('btn.enterPrefix')+'批次'+$t('btn.enterSuffix')" />
+            <el-form-item label="批次" prop="mv003">
+              <el-input   v-model="form.mv003" :placeholder="$t('btn.enterPrefix')+'批次'+$t('btn.enterSuffix')"  show-word-limit   maxlength="20"/>
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="Lot数" prop="pdilotqty">
-              <el-input-number v-model.number="form.pdilotqty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'Lot数'+$t('btn.enterSuffix')" />
+            <el-form-item label="Lot数" prop="mv004">
+              <el-input-number v-model.number="form.mv004" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'Lot数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="板别" prop="pdipcbtype">
-              <el-select filterable clearable   v-model="form.pdipcbtype"  :placeholder="$t('btn.selectPrefix')+'板别'+$t('btn.selectSuffix')">
+            <el-form-item label="板别" prop="mv005">
+              <el-select filterable clearable   v-model="form.mv005"  :placeholder="$t('btn.selectPrefix')+'板别'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_pcb_type" 
                   :key="item.dictValue" 
@@ -242,8 +176,8 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="目视线别" prop="pdivisualtype">
-              <el-select filterable clearable   v-model="form.pdivisualtype"  :placeholder="$t('btn.selectPrefix')+'目视线别'+$t('btn.selectSuffix')">
+            <el-form-item label="目视线别" prop="mv006">
+              <el-select filterable clearable   v-model="form.mv006"  :placeholder="$t('btn.selectPrefix')+'目视线别'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sys_visual_type" 
                   :key="item.dictValue" 
@@ -255,8 +189,8 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="AOI线别" prop="pdivctype">
-              <el-select filterable clearable   v-model="form.pdivctype"  :placeholder="$t('btn.selectPrefix')+'AOI线别'+$t('btn.selectSuffix')">
+            <el-form-item label="AOI线别" prop="mv007">
+              <el-select filterable clearable   v-model="form.mv007"  :placeholder="$t('btn.selectPrefix')+'AOI线别'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sys_aoi_type" 
                   :key="item.dictValue" 
@@ -268,22 +202,22 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="B面实装" prop="pdisideadate">
-              <el-date-picker v-model="form.pdisideadate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="B面实装" prop="mv008">
+              <el-date-picker v-model="form.mv008" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="T面实装" prop="pdisidebdate">
-              <el-date-picker v-model="form.pdisidebdate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="T面实装" prop="mv009">
+              <el-date-picker v-model="form.mv009" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="生产班别" prop="pdidshiftname">
-              <el-select filterable clearable   v-model="form.pdidshiftname"  :placeholder="$t('btn.selectPrefix')+'生产班别'+$t('btn.selectSuffix')">
+            <el-form-item label="生产班别" prop="mv010">
+              <el-select filterable clearable   v-model="form.mv010"  :placeholder="$t('btn.selectPrefix')+'生产班别'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_smt_class" 
+                  v-for="item in  options.sys_shifts_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -293,32 +227,32 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="检查员" prop="pdicensor">
-              <el-input v-model="form.pdicensor" :placeholder="$t('btn.enterPrefix')+'检查员'+$t('btn.enterSuffix')" />
+            <el-form-item label="检查员" prop="mv011">
+              <el-input   v-model="form.mv011" :placeholder="$t('btn.enterPrefix')+'检查员'+$t('btn.enterSuffix')"  show-word-limit   maxlength="20"/>
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="当日完成数" prop="pdirealqty">
-              <el-input-number v-model.number="form.pdirealqty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'当日完成数'+$t('btn.enterSuffix')" />
+            <el-form-item label="当日完成数" prop="mv012">
+              <el-input-number v-model.number="form.mv012" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'当日完成数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="累计完成数" prop="pdirealtotal">
-              <el-input-number v-model.number="form.pdirealtotal" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'累计完成数'+$t('btn.enterSuffix')" />
+            <el-form-item label="累计完成数" prop="mv013">
+              <el-input-number v-model.number="form.mv013" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'累计完成数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="检查台数" prop="pdiispqty">
-              <el-input-number v-model.number="form.pdiispqty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'检查台数'+$t('btn.enterSuffix')" />
+            <el-form-item label="检查台数" prop="mv014">
+              <el-input-number v-model.number="form.mv014" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'检查台数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="检查状态" prop="pdipcbchecktype">
-              <el-select filterable clearable   v-model="form.pdipcbchecktype"  :placeholder="$t('btn.selectPrefix')+'检查状态'+$t('btn.selectSuffix')">
+            <el-form-item label="检查状态" prop="mv015">
+              <el-select filterable clearable   v-model="form.mv015"  :placeholder="$t('btn.selectPrefix')+'检查状态'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_smt_status" 
                   :key="item.dictValue" 
@@ -330,8 +264,8 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="生产线别" prop="pdilinename">
-              <el-select filterable clearable   v-model="form.pdilinename"  :placeholder="$t('btn.selectPrefix')+'生产线别'+$t('btn.selectSuffix')">
+            <el-form-item label="生产线别" prop="mv016">
+              <el-select filterable clearable   v-model="form.mv016"  :placeholder="$t('btn.selectPrefix')+'生产线别'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_smt_line" 
                   :key="item.dictValue" 
@@ -343,44 +277,44 @@
 
             
           <el-col :lg="12">
-            <el-form-item label="检查工数" prop="pdiinsqtime">
-              <el-input-number v-model.number="form.pdiinsqtime" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'检查工数'+$t('btn.enterSuffix')" />
+            <el-form-item label="检查工数" prop="mv017">
+              <el-input-number v-model.number="form.mv017" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'检查工数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="AOI工数" prop="pdiaoitime">
-              <el-input-number v-model.number="form.pdiaoitime" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'AOI工数'+$t('btn.enterSuffix')" />
+            <el-form-item label="AOI工数" prop="mv018">
+              <el-input-number v-model.number="form.mv018" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'AOI工数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="不良数量" prop="pdibadqty">
-              <el-input-number v-model.number="form.pdibadqty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'不良数量'+$t('btn.enterSuffix')" />
+            <el-form-item label="不良数量" prop="mv019">
+              <el-input-number v-model.number="form.mv019" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'不良数量'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="手贴部品" prop="pdihandle">
-              <el-input v-model="form.pdihandle" :placeholder="$t('btn.enterPrefix')+'手贴部品'+$t('btn.enterSuffix')" />
+            <el-form-item label="手贴部品" prop="mv020">
+              <el-input   v-model="form.mv020" :placeholder="$t('btn.enterPrefix')+'手贴部品'+$t('btn.enterSuffix')"  show-word-limit   maxlength="30"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="序列号" prop="pdibadserial">
-              <el-input v-model="form.pdibadserial" :placeholder="$t('btn.enterPrefix')+'序列号'+$t('btn.enterSuffix')" />
+            <el-form-item label="序列号" prop="mv021">
+              <el-input   v-model="form.mv021" :placeholder="$t('btn.enterPrefix')+'序列号'+$t('btn.enterSuffix')"  show-word-limit   maxlength="200"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="内容" prop="pdibadcontent">
-              <el-input v-model="form.pdibadcontent" :placeholder="$t('btn.enterPrefix')+'内容'+$t('btn.enterSuffix')" />
+            <el-form-item label="内容" prop="mv022">
+              <el-input   v-model="form.mv022" :placeholder="$t('btn.enterPrefix')+'内容'+$t('btn.enterSuffix')"  show-word-limit   maxlength="30"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="个所区分" prop="pdibadPosition">
-              <el-select filterable clearable   v-model="form.pdibadPosition"  :placeholder="$t('btn.selectPrefix')+'个所区分'+$t('btn.selectSuffix')">
+            <el-form-item label="个所区分" prop="mv023">
+              <el-select filterable clearable   v-model="form.mv023"  :placeholder="$t('btn.selectPrefix')+'个所区分'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_pcb_place" 
                   :key="item.dictValue" 
@@ -391,115 +325,9 @@
           </el-col>
 
 
-          <el-col :lg="12">
-            <el-form-item label="自定义A" prop="uDF01">
-              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义B" prop="uDF02">
-              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义C" prop="uDF03">
-              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义D" prop="uDF04">
-              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义E" prop="uDF05">
-              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义F" prop="uDF06">
-              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义1" prop="uDF51">
-              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义2" prop="uDF52">
-              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义3" prop="uDF53">
-              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义4" prop="uDF54">
-              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义5" prop="uDF55">
-              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义6" prop="uDF56">
-              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="软删除" prop="isDeleted">
-              <el-radio-group v-model="form.isDeleted">
-                <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue" :value="parseInt(item.dictValue)">
-                  {{item.dictLabel}}
-                </el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-
           <el-col :lg="24">
-            <el-form-item label="说明" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建者" prop="createBy">
-              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建时间" prop="createTime">
-              <el-date-picker v-model="form.createTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新者" prop="updateBy">
-              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新时间" prop="updateTime">
-              <el-date-picker v-model="form.updateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="备注" prop="remark">
+              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -613,51 +441,33 @@ const queryParams = reactive({
   pageSize: 56,
   sort: '',
   sortType: 'asc',
-//是否查询（1是）
-  pdilot: undefined,
-//是否查询（1是）
-  pdipcbtype: undefined,
-//是否查询（1是）
-  pdivisualtype: undefined,
-//是否查询（1是）
-  pdivctype: undefined,
-//是否查询（1是）
-  pdisideadate: undefined,
-//是否查询（1是）
-  pdisidebdate: undefined,
-//是否查询（1是）
-  pdibadPosition: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'pdiSfid', label: 'ID' },
-  { visible: true, prop: 'pdiParentSfid', label: 'PdiParentSfid' },
-  { visible: true, prop: 'pdilot', label: '批次' },
-  { visible: true, prop: 'pdilotqty', label: 'Lot数' },
-  { visible: true, prop: 'pdipcbtype', label: '板别' },
-  { visible: true, prop: 'pdivisualtype', label: '目视线别' },
-  { visible: true, prop: 'pdivctype', label: 'AOI线别' },
-  { visible: true, prop: 'pdisideadate', label: 'B面实装' },
-  { visible: false, prop: 'pdisidebdate', label: 'T面实装' },
-  { visible: false, prop: 'pdidshiftname', label: '生产班别' },
-  { visible: false, prop: 'pdicensor', label: '检查员' },
-  { visible: false, prop: 'pdirealqty', label: '当日完成数' },
-  { visible: false, prop: 'pdirealtotal', label: '累计完成数' },
-  { visible: false, prop: 'pdiispqty', label: '检查台数' },
-  { visible: false, prop: 'pdipcbchecktype', label: '检查状态' },
-  { visible: false, prop: 'pdilinename', label: '生产线别' },
-  { visible: false, prop: 'pdiinsqtime', label: '检查工数' },
-  { visible: false, prop: 'pdiaoitime', label: 'AOI工数' },
-  { visible: false, prop: 'pdibadqty', label: '不良数量' },
-  { visible: false, prop: 'pdihandle', label: '手贴部品' },
-  { visible: false, prop: 'pdibadserial', label: '序列号' },
-  { visible: false, prop: 'pdibadcontent', label: '内容' },
-  { visible: false, prop: 'pdibadPosition', label: '个所区分' },
-  { visible: false, prop: 'remark', label: '说明' },
-  { visible: false, prop: 'createBy', label: '创建者' },
-  { visible: false, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新者' },
-  { visible: false, prop: 'updateTime', label: '更新时间' },
+  { visible: true, prop: 'id', label: 'ID' },
+  { visible: true, prop: 'parentId', label: '父ID' },
+  { visible: true, prop: 'mv003', label: '批次' },
+  { visible: true, prop: 'mv004', label: 'Lot数' },
+  { visible: true, prop: 'mv005', label: '板别' },
+  { visible: true, prop: 'mv006', label: '目视线别' },
+  { visible: true, prop: 'mv007', label: 'AOI线别' },
+  { visible: true, prop: 'mv008', label: 'B面实装' },
+  { visible: false, prop: 'mv009', label: 'T面实装' },
+  { visible: false, prop: 'mv010', label: '生产班别' },
+  { visible: false, prop: 'mv011', label: '检查员' },
+  { visible: false, prop: 'mv012', label: '当日完成数' },
+  { visible: false, prop: 'mv013', label: '累计完成数' },
+  { visible: false, prop: 'mv014', label: '检查台数' },
+  { visible: false, prop: 'mv015', label: '检查状态' },
+  { visible: false, prop: 'mv016', label: '生产线别' },
+  { visible: false, prop: 'mv017', label: '检查工数' },
+  { visible: false, prop: 'mv018', label: 'AOI工数' },
+  { visible: false, prop: 'mv019', label: '不良数量' },
+  { visible: false, prop: 'mv020', label: '手贴部品' },
+  { visible: false, prop: 'mv021', label: '序列号' },
+  { visible: false, prop: 'mv022', label: '内容' },
+  { visible: false, prop: 'mv023', label: '个所区分' },
+  { visible: false, prop: 'remark', label: '备注' },
 ])
 // 记录数
 const total = ref(0)
@@ -667,21 +477,16 @@ const dataList = ref([])
 const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-// B面实装时间范围
-const dateRangePdisideadate = ref([])
-// T面实装时间范围
-const dateRangePdisidebdate = ref([])
 
 //字典参数
 var dictParams = [
   { dictType: "sql_pcb_type" },
   { dictType: "sys_visual_type" },
   { dictType: "sys_aoi_type" },
-  { dictType: "sql_smt_class" },
+  { dictType: "sys_shifts_list" },
   { dictType: "sql_smt_status" },
   { dictType: "sql_smt_line" },
   { dictType: "sql_pcb_place" },
-  { dictType: "sys_is_deleted" },
 ]
 
 //字典加载
@@ -690,10 +495,8 @@ proxy.getDicts(dictParams).then((response) => {
     state.options[element.dictType] = element.list
   })
 })
-//API获取从检查日报slv/pp_insp_pcba_slv表记录数据
+//API获取从检查明细/pp_insp_pcba_slv表记录数据
 function getList(){
-  proxy.addDateRange(queryParams, dateRangePdisideadate.value, 'Pdisideadate');
-  proxy.addDateRange(queryParams, dateRangePdisidebdate.value, 'Pdisidebdate');
   loading.value = true
   listPpInspPcbaSlv(queryParams).then(res => {
     const { code, data } = res
@@ -713,16 +516,12 @@ function handleQuery() {
 
 // 重置查询操作
 function resetQuery(){
-  // B面实装时间范围
-  dateRangePdisideadate.value = []
-  // T面实装时间范围
-  dateRangePdisidebdate.value = []
   proxy.resetForm("queryRef")
   handleQuery()
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.pdiSfid);
+  ids.value = selection.map((item) => item.id);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -757,23 +556,17 @@ const state = reactive({
   single: true,
   multiple: true,
   form: {},
+//正则表达式
   rules: {
-    pdiSfid: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    pdiParentSfid: [{ required: true, message: "PdiParentSfid"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    pdirealqty: [{ required: true, message: "当日完成数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    pdirealtotal: [{ required: true, message: "累计完成数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    pdiispqty: [{ required: true, message: "检查台数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    pdiinsqtime: [{ required: true, message: "检查工数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    pdiaoitime: [{ required: true, message: "AOI工数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    pdibadqty: [{ required: true, message: "不良数量"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    uDF51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF54: [{ required: true, message: "自定义4"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF55: [{ required: true, message: "自定义5"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF56: [{ required: true, message: "自定义6"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mv004: [{ required: true, message: "Lot数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mv012: [{ required: true, message: "当日完成数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mv013: [{ required: true, message: "累计完成数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mv014: [{ required: true, message: "检查台数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mv017: [{ required: true, message: "检查工数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mv018: [{ required: true, message: "AOI工数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mv019: [{ required: true, message: "不良数量"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
   },
+//字典名称
   options: {
     // 板别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_pcb_type: [],
@@ -782,15 +575,13 @@ sys_visual_type: [],
     // AOI线别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_aoi_type: [],
     // 生产班别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_smt_class: [],
+sys_shifts_list: [],
     // 检查状态 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_smt_status: [],
     // 生产线别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_smt_line: [],
     // 个所区分 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_pcb_place: [],
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_deleted: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -805,47 +596,29 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    pdiSfid: 0,
-    pdiParentSfid: 0,
-    pdilot: null,
-    pdilotqty: 0,
-    pdipcbtype: null,
-    pdivisualtype: null,
-    pdivctype: null,
-    pdisideadate: null,
-    pdisidebdate: null,
-    pdidshiftname: null,
-    pdicensor: null,
-    pdirealqty: 0,
-    pdirealtotal: 0,
-    pdiispqty: 0,
-    pdipcbchecktype: null,
-    pdilinename: null,
-    pdiinsqtime: 0,
-    pdiaoitime: 0,
-    pdibadqty: 0,
-    pdihandle: null,
-    pdibadserial: null,
-    pdibadcontent: null,
-    pdibadPosition: null,
-    uDF01: null,
-    uDF02: null,
-    uDF03: null,
-    uDF04: null,
-    uDF05: null,
-    uDF06: null,
-    uDF51: 0,
-    uDF52: 0,
-    uDF53: 0,
-    uDF54: 0,
-    uDF55: 0,
-    uDF56: 0,
-    isDeleted: 0,
+    parentId: 0,
+    mv003: null,
+    mv004: 0,
+    mv005: [],
+    mv006: [],
+    mv007: [],
+    mv008: null,
+    mv009: null,
+    mv010: [],
+    mv011: null,
+    mv012: 0,
+    mv013: 0,
+    mv014: 0,
+    mv015: [],
+    mv016: [],
+    mv017: 0,
+    mv018: 0,
+    mv019: 0,
+    mv020: null,
+    mv021: null,
+    mv022: null,
+    mv023: [],
     remark: null,
-    createBy: null,
-    createTime: null,
-    updateBy: null,
-    updateTime: null,
   };
   proxy.resetForm("formRef")
 }
@@ -855,36 +628,34 @@ function reset() {
 function handleAdd() {
   reset();
   open.value = true
-  title.value = proxy.$t('btn.add')+" "+'检查日报slv'
+  title.value = proxy.$t('btn.add')+" "+'检查明细'
   opertype.value = 1
-  form.value.pdilotqty= 0
-  form.value.pdipcbtype= []
-  form.value.pdivisualtype= []
-  form.value.pdivctype= []
-  form.value.pdisideadate= new Date()
-  form.value.pdisidebdate= new Date()
-  form.value.pdidshiftname= []
-  form.value.pdirealqty= 0
-  form.value.pdirealtotal= 0
-  form.value.pdiispqty= 0
-  form.value.pdipcbchecktype= []
-  form.value.pdilinename= []
-  form.value.pdiinsqtime= 0
-  form.value.pdiaoitime= 0
-  form.value.pdibadqty= 0
-  form.value.pdibadPosition= []
-  form.value.createTime= new Date()
-  form.value.updateTime= new Date()
+  form.value.mv004= 0
+  form.value.mv005= []
+  form.value.mv006= []
+  form.value.mv007= []
+  form.value.mv008= new Date()
+  form.value.mv009= new Date()
+  form.value.mv010= []
+  form.value.mv012= 0
+  form.value.mv013= 0
+  form.value.mv014= 0
+  form.value.mv015= []
+  form.value.mv016= []
+  form.value.mv017= 0
+  form.value.mv018= 0
+  form.value.mv019= 0
+  form.value.mv023= []
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.pdiSfid || ids.value
+  const id = row.id || ids.value
   getPpInspPcbaSlv(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
       open.value = true
-      title.value = proxy.$t('btn.edit')+" "+ '检查日报slv'
+      title.value = proxy.$t('btn.edit')+" "+ '检查明细'
       opertype.value = 2
 
       form.value = {
@@ -899,7 +670,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.pdiSfid != undefined && opertype.value === 2) {
+      if (form.value.id != undefined && opertype.value === 2) {
         updatePpInspPcbaSlv(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -918,7 +689,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.pdiSfid || ids.value
+  const Ids = row.id || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {
@@ -952,7 +723,7 @@ const handleFileSuccess = (response) => {
 // 导出按钮操作
 function handleExport() {
   proxy
-    .$confirm(proxy.$t('common.tipConfirmExport')+"<检查日报slv.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
+    .$confirm(proxy.$t('common.tipConfirmExport')+"<检查明细.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
       confirmButtonText: proxy.$t('btn.submit'),
       cancelButtonText: proxy.$t('btn.cancel'),
       type: "warning",

@@ -1,8 +1,7 @@
-﻿using Ams.Infrastructure;
-using SqlSugar.IOC;
-using Ams.Service.SqlSugar;
+﻿using SqlSugar.IOC;
+using Ams.Infrastructure;
 
-namespace Ams.Service
+namespace Ams.Service.SqlSugar
 {
     public class DataPermiSevice
     {
@@ -32,7 +31,6 @@ namespace Ams.Service
                 }
                 else if (DataPermiEnum.DEPT_CHILD.Equals(dataScope))//本部门及以下数据
                 {
-
                 }
                 else if (DataPermiEnum.SELF.Equals(dataScope))//仅本人数据
                 {

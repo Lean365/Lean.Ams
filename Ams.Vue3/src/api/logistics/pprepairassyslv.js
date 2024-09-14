@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 组立不良slv分页查询
+ * 不良明细分页查询
  * @param {查询条件} data
  */
 export function listPpRepairAssySlv(query) {
@@ -14,7 +14,7 @@ export function listPpRepairAssySlv(query) {
 }
 
 /**
- * 新增组立不良slv
+ * 新增不良明细
  * @param data
  */
 export function addPpRepairAssySlv(data) {
@@ -25,7 +25,7 @@ export function addPpRepairAssySlv(data) {
   })
 }
 /**
- * 修改组立不良slv
+ * 修改不良明细
  * @param data
  */
 export function updatePpRepairAssySlv(data) {
@@ -36,7 +36,7 @@ export function updatePpRepairAssySlv(data) {
   })
 }
 /**
- * 获取组立不良slv详情
+ * 获取不良明细详情
  * @param {Id}
  */
 export function getPpRepairAssySlv(id) {
@@ -47,7 +47,7 @@ export function getPpRepairAssySlv(id) {
 }
 
 /**
- * 删除组立不良slv
+ * 删除不良明细
  * @param {主键} pid
  */
 export function delPpRepairAssySlv(pid) {
@@ -56,7 +56,7 @@ export function delPpRepairAssySlv(pid) {
     method: 'delete'
   })
 }
-// 导出组立不良slv
+// 导出不良明细
 export async function exportPpRepairAssySlv(query) {
   await downFile('Logistics/PpRepairAssySlv/export', { ...query })
 }

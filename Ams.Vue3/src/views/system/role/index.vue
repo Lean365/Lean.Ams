@@ -148,7 +148,8 @@
           <el-col :lg="24">
             <el-form-item :label="$t('prole.roleName')" prop="roleName">
               <el-input v-model="form.roleName"
-                :placeholder="$t('btn.enterPrefix')+$t('prole.roleName')+$t('btn.enterSuffix')" />
+                :placeholder="$t('btn.enterPrefix')+$t('prole.roleName')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="10" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
@@ -164,7 +165,8 @@
                 </span>
               </template>
               <el-input v-model="form.roleKey"
-                :placeholder="$t('btn.enterPrefix')+$t('prole.troleKey')+$t('btn.enterSuffix')" />
+                :placeholder="$t('btn.enterPrefix')+$t('prole.troleKey')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="20" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
@@ -210,7 +212,8 @@
           <el-col :lg="24">
             <el-form-item :label="$t('common.tipRemarks')">
               <el-input v-model="form.remark" type="textarea"
-                :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')"></el-input>
+                :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="500"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

@@ -1,4 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Routine.Dto;
+using Ams.Model.Routine;
+using Ams.Repository;
 using Ams.Service.Routine.IRoutineService;
 
 namespace Ams.Service.Routine
@@ -7,7 +11,7 @@ namespace Ams.Service.Routine
     /// 人事
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 8:47:39
+    /// @Date: 2024/9/12 15:25:31
     /// </summary>
     [AppService(ServiceType = typeof(IRoutineEhrEmployeeService), ServiceLifetime = LifeTime.Transient)]
     public class RoutineEhrEmployeeService : BaseService<RoutineEhrEmployee>, IRoutineEhrEmployeeService
@@ -22,6 +26,7 @@ namespace Ams.Service.Routine
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Mh033 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<RoutineEhrEmployee, RoutineEhrEmployeeDto>(parm);
 
@@ -36,7 +41,7 @@ namespace Ams.Service.Routine
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.EeSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -44,15 +49,16 @@ namespace Ams.Service.Routine
             return UserConstants.UNIQUE;
         }
 
+
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="EeSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public RoutineEhrEmployee GetInfo(long EeSfId)
+        public RoutineEhrEmployee GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.EeSfId == EeSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
@@ -87,33 +93,36 @@ namespace Ams.Service.Routine
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.EeSfId.IsEmpty(), "ID不能为空")
-                .SplitError(x => x.Item.EeName.IsEmpty(), "姓名不能为空")
-                .SplitError(x => x.Item.EeGenderId.IsEmpty(), "性别不能为空")
-                .SplitError(x => x.Item.EeBirthday.IsEmpty(), "出生日期不能为空")
-                .SplitError(x => x.Item.EeIdentityCard.IsEmpty(), "身份证号不能为空")
-                .SplitError(x => x.Item.EeWedlockId.IsEmpty(), "婚姻状态不能为空")
-                .SplitError(x => x.Item.EeNationId.IsEmpty(), "民族不能为空")
-                .SplitError(x => x.Item.EeNativePlace.IsEmpty(), "籍贯不能为空")
-                .SplitError(x => x.Item.EePoliticId.IsEmpty(), "政治面貌不能为空")
-                .SplitError(x => x.Item.EeCountry.IsEmpty(), "国家/地区不能为空")
-                .SplitError(x => x.Item.EeProvince.IsEmpty(), "省区不能为空")
-                .SplitError(x => x.Item.EeCity.IsEmpty(), "市区不能为空")
-                .SplitError(x => x.Item.EeCounty.IsEmpty(), "县区不能为空")
-                .SplitError(x => x.Item.EeHouseholdTypeId.IsEmpty(), "户口性质不能为空")
-                .SplitError(x => x.Item.EeDepartmentId.IsEmpty(), "部门不能为空")
-                .SplitError(x => x.Item.EeEmployeeId.IsEmpty(), "工号不能为空")
-                .SplitError(x => x.Item.EeJoinedDate.IsEmpty(), "入职日期不能为空")
-                .SplitError(x => x.Item.EeClockInId.IsEmpty(), "打卡否不能为空")
-                .SplitError(x => x.Item.EeShiftsTypeId.IsEmpty(), "班别不能为空")
+                .SplitError(x => x.Item.Mh002.IsEmpty(), "姓名不能为空")
+                .SplitError(x => x.Item.Mh006.IsEmpty(), "性别不能为空")
+                .SplitError(x => x.Item.Mh009.IsEmpty(), "婚姻状态不能为空")
+                .SplitError(x => x.Item.Mh010.IsEmpty(), "民族不能为空")
+                .SplitError(x => x.Item.Mh012.IsEmpty(), "政治面貌不能为空")
+                .SplitError(x => x.Item.Mh021.IsEmpty(), "户口性质不能为空")
+                .SplitError(x => x.Item.Mh023.IsEmpty(), "部门不能为空")
+                .SplitError(x => x.Item.Mh024.IsEmpty(), "职称不能为空")
+                .SplitError(x => x.Item.Mh025.IsEmpty(), "职位不能为空")
+                .SplitError(x => x.Item.Mh026.IsEmpty(), "职级不能为空")
+                .SplitError(x => x.Item.Mh027.IsEmpty(), "职务不能为空")
+                .SplitError(x => x.Item.Mh028.IsEmpty(), "招聘来源不能为空")
+                .SplitError(x => x.Item.Mh029.IsEmpty(), "聘用形式不能为空")
+                .SplitError(x => x.Item.Mh030.IsEmpty(), "学历不能为空")
+                .SplitError(x => x.Item.Mh031.IsEmpty(), "专业不能为空")
+                .SplitError(x => x.Item.Mh033.IsEmpty(), "工号不能为空")
+                .SplitError(x => x.Item.Mh035.IsEmpty(), "在职状态不能为空")
+                .SplitError(x => x.Item.Mh036.IsEmpty(), "试用期不能为空")
+                .SplitError(x => x.Item.Mh037.IsEmpty(), "合同期限不能为空")
+                .SplitError(x => x.Item.Mh042.IsEmpty(), "工龄不能为空")
+                .SplitError(x => x.Item.Mh044.IsEmpty(), "打卡否不能为空")
+                .SplitError(x => x.Item.Mh045.IsEmpty(), "班别不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
 
-            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";
+            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";                    
             Console.WriteLine(msg);
 
-            //输出错误信息
+            //输出错误信息               
             foreach (var item in x.ErrorList)
             {
                 Console.WriteLine("错误" + item.StorageMessage);
@@ -139,25 +148,46 @@ namespace Ams.Service.Routine
                 .Where(predicate.ToExpression())
                 .Select((it) => new RoutineEhrEmployeeDto()
                 {
-                    EeGenderIdLabel = it.EeGenderId.GetConfigValue<SysDictData>("sys_gender_type"),
-                    EeWedlockIdLabel = it.EeWedlockId.GetConfigValue<SysDictData>("sys_wedlock_state"),
-                    EeNationIdLabel = it.EeNationId.GetConfigValue<SysDictData>("sys_nation_list"),
-                    EePoliticIdLabel = it.EePoliticId.GetConfigValue<SysDictData>("sys_politic_list"),
-                    EeCountryLabel = it.EeCountry.GetConfigValue<SysDictData>("sys_country_list"),
-                    EeProvinceLabel = it.EeProvince.GetConfigValue<SysDictData>("sql_region_province"),
-                    EeHouseholdTypeIdLabel = it.EeHouseholdTypeId.GetConfigValue<SysDictData>("sys_household_type"),
-                    EeDepartmentIdLabel = it.EeDepartmentId.GetConfigValue<SysDictData>("sql_dept_list"),
-                    EeTitlesIdLabel = it.EeTitlesId.GetConfigValue<SysDictData>("sys_titles_list"),
-                    EePostIdLabel = it.EePostId.GetConfigValue<SysDictData>("sql_posts_list"),
-                    EePostLevelLabel = it.EePostLevel.GetConfigValue<SysDictData>("sys_post_level"),
-                    EeRecruitedLabel = it.EeRecruited.GetConfigValue<SysDictData>("sys_recruited_list"),
-                    EeEngageFormIdLabel = it.EeEngageFormId.GetConfigValue<SysDictData>("sys_employ_term"),
-                    EeEducationalBackgroundIdLabel = it.EeEducationalBackgroundId.GetConfigValue<SysDictData>("sys_level_education"),
-                    EeSpecialtyIdLabel = it.EeSpecialtyId.GetConfigValue<SysDictData>("sys_specialty_list"),
-                    EeEmployedStatusLabel = it.EeEmployedStatus.GetConfigValue<SysDictData>("sys_serve_state"),
-                    EeClockInIdLabel = it.EeClockInId.GetConfigValue<SysDictData>("sys_is_status"),
-                    EeShiftsTypeIdLabel = it.EeShiftsTypeId.GetConfigValue<SysDictData>("sys_shifts_list"),
-                    //IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <性别> 
+                    Mh006Label = it.Mh006.GetConfigValue<SysDictData>("sys_gender_type"),
+                    //查询字典: <婚姻状态> 
+                    Mh009Label = it.Mh009.GetConfigValue<SysDictData>("sys_wedlock_state"),
+                    //查询字典: <民族> 
+                    Mh010Label = it.Mh010.GetConfigValue<SysDictData>("sys_nation_list"),
+                    //查询字典: <籍贯> 
+                    Mh011Label = it.Mh011.GetConfigValue<SysDictData>("sql_origin_list"),
+                    //查询字典: <政治面貌> 
+                    Mh012Label = it.Mh012.GetConfigValue<SysDictData>("sys_politic_list"),
+                    //查询字典: <国家/地区> 
+                    Mh015Label = it.Mh015.GetConfigValue<SysDictData>("sql_global_country"),
+                    //查询字典: <省区> 
+                    Mh016Label = it.Mh016.GetConfigValue<SysDictData>("sql_global_state"),
+                    //查询字典: <市区> 
+                    Mh017Label = it.Mh017.GetConfigValue<SysDictData>("sql_global_city"),
+                    //查询字典: <户口性质> 
+                    Mh021Label = it.Mh021.GetConfigValue<SysDictData>("sys_household_type"),
+                    //查询字典: <部门> 
+                    Mh023Label = it.Mh023.GetConfigValue<SysDictData>("sql_dept_list"),
+                    //查询字典: <职称> 
+                    Mh024Label = it.Mh024.GetConfigValue<SysDictData>("sys_titles_list"),
+                    //查询字典: <职位> 
+                    Mh025Label = it.Mh025.GetConfigValue<SysDictData>("sql_posts_list"),
+                    //查询字典: <职级> 
+                    Mh026Label = it.Mh026.GetConfigValue<SysDictData>("sys_post_level"),
+                    //查询字典: <招聘来源> 
+                    Mh028Label = it.Mh028.GetConfigValue<SysDictData>("sys_recruited_list"),
+                    //查询字典: <聘用形式> 
+                    Mh029Label = it.Mh029.GetConfigValue<SysDictData>("sys_employ_term"),
+                    //查询字典: <学历> 
+                    Mh030Label = it.Mh030.GetConfigValue<SysDictData>("sys_level_education"),
+                    //查询字典: <专业> 
+                    Mh031Label = it.Mh031.GetConfigValue<SysDictData>("sys_specialty_list"),
+                    //查询字典: <在职状态> 
+                    Mh035Label = it.Mh035.GetConfigValue<SysDictData>("sys_serve_state"),
+                    //查询字典: <打卡否> 
+                    Mh044Label = it.Mh044.GetConfigValue<SysDictData>("sys_is_status"),
+                    //查询字典: <班别> 
+                    Mh045Label = it.Mh045.GetConfigValue<SysDictData>("sys_shifts_list"),
                 }, true)
                 .ToPage(parm);
 
@@ -173,60 +203,64 @@ namespace Ams.Service.Routine
         {
             var predicate = Expressionable.Create<RoutineEhrEmployee>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeName), it => it.EeName.Contains(parm.EeName));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeEnglishName), it => it.EeEnglishName.Contains(parm.EeEnglishName));
-            predicate = predicate.AndIF(parm.EeGenderId != null, it => it.EeGenderId == parm.EeGenderId);
+            //查询字段: <姓名> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mh002), it => it.Mh002.Contains(parm.Mh002));
+            //查询字段: <性别> 
+            predicate = predicate.AndIF(parm.Mh006 != -1, it => it.Mh006 == parm.Mh006);
+            //查询字段: <出生日期> 
+            //predicate = predicate.AndIF(parm.BeginMh007 == null, it => it.Mh007 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMh007 != null, it => it.Mh007 >= parm.BeginMh007);
+            //predicate = predicate.AndIF(parm.EndMh007 != null, it => it.Mh007 <= parm.EndMh007);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginEeBirthday == null, it => it.EeBirthday >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMh007 == null, it => it.Mh007 >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginEeBirthday == null, it => it.EeBirthday >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginEeBirthday != null, it => it.EeBirthday >= parm.BeginEeBirthday);
-            predicate = predicate.AndIF(parm.EndEeBirthday != null, it => it.EeBirthday <= parm.EndEeBirthday);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeIdentityCard), it => it.EeIdentityCard.Contains(parm.EeIdentityCard));
-            predicate = predicate.AndIF(parm.EeWedlockId != null, it => it.EeWedlockId == parm.EeWedlockId);
-            predicate = predicate.AndIF(parm.EeNationId != null, it => it.EeNationId == parm.EeNationId);
-            predicate = predicate.AndIF(parm.EePoliticId != null, it => it.EePoliticId == parm.EePoliticId);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeCountry), it => it.EeCountry == parm.EeCountry);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeProvince), it => it.EeProvince == parm.EeProvince);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeCity), it => it.EeCity == parm.EeCity);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeCounty), it => it.EeCounty == parm.EeCounty);
-            predicate = predicate.AndIF(parm.EeHouseholdTypeId != null, it => it.EeHouseholdTypeId == parm.EeHouseholdTypeId);
-            predicate = predicate.AndIF(parm.EeDepartmentId != null, it => it.EeDepartmentId == parm.EeDepartmentId);
-            predicate = predicate.AndIF(parm.EeTitlesId != null, it => it.EeTitlesId == parm.EeTitlesId);
-            predicate = predicate.AndIF(parm.EePostId != null, it => it.EePostId == parm.EePostId);
-            predicate = predicate.AndIF(parm.EePostLevel != null, it => it.EePostLevel == parm.EePostLevel);
-            predicate = predicate.AndIF(parm.EeRecruited != null, it => it.EeRecruited == parm.EeRecruited);
-            predicate = predicate.AndIF(parm.EeEngageFormId != null, it => it.EeEngageFormId == parm.EeEngageFormId);
-            predicate = predicate.AndIF(parm.EeEducationalBackgroundId != null, it => it.EeEducationalBackgroundId == parm.EeEducationalBackgroundId);
-            predicate = predicate.AndIF(parm.EeSpecialtyId != null, it => it.EeSpecialtyId == parm.EeSpecialtyId);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EeEmployeeId), it => it.EeEmployeeId.Contains(parm.EeEmployeeId));
+            predicate = predicate.AndIF(parm.BeginMh007 == null, it => it.Mh007 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMh007 != null, it => it.Mh007 >= parm.BeginMh007);
+            predicate = predicate.AndIF(parm.EndMh007 != null, it => it.Mh007 <= parm.EndMh007);
+            //查询字段: <婚姻状态> 
+            predicate = predicate.AndIF(parm.Mh009 != -1, it => it.Mh009 == parm.Mh009);
+            //查询字段: <民族> 
+            predicate = predicate.AndIF(parm.Mh010 != -1, it => it.Mh010 == parm.Mh010);
+            //查询字段: <籍贯> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mh011), it => it.Mh011 == parm.Mh011);
+            //查询字段: <政治面貌> 
+            predicate = predicate.AndIF(parm.Mh012 != -1, it => it.Mh012 == parm.Mh012);
+            //查询字段: <国家/地区> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mh015), it => it.Mh015 == parm.Mh015);
+            //查询字段: <部门> 
+            predicate = predicate.AndIF(parm.Mh023 != -1, it => it.Mh023 == parm.Mh023);
+            //查询字段: <职称> 
+            predicate = predicate.AndIF(parm.Mh024 != -1, it => it.Mh024 == parm.Mh024);
+            //查询字段: <学历> 
+            predicate = predicate.AndIF(parm.Mh030 != -1, it => it.Mh030 == parm.Mh030);
+            //查询字段: <工号> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mh033), it => it.Mh033.Contains(parm.Mh033));
+            //查询字段: <入职日期> 
+            //predicate = predicate.AndIF(parm.BeginMh034 == null, it => it.Mh034 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMh034 != null, it => it.Mh034 >= parm.BeginMh034);
+            //predicate = predicate.AndIF(parm.EndMh034 != null, it => it.Mh034 <= parm.EndMh034);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginEeJoinedDate == null, it => it.EeJoinedDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMh034 == null, it => it.Mh034 >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginEeJoinedDate == null, it => it.EeJoinedDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginEeJoinedDate != null, it => it.EeJoinedDate >= parm.BeginEeJoinedDate);
-            predicate = predicate.AndIF(parm.EndEeJoinedDate != null, it => it.EeJoinedDate <= parm.EndEeJoinedDate);
-            predicate = predicate.AndIF(parm.EeEmployedStatus != null, it => it.EeEmployedStatus == parm.EeEmployedStatus);
+            predicate = predicate.AndIF(parm.BeginMh034 == null, it => it.Mh034 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMh034 != null, it => it.Mh034 >= parm.BeginMh034);
+            predicate = predicate.AndIF(parm.EndMh034 != null, it => it.Mh034 <= parm.EndMh034);
+            //查询字段: <在职状态> 
+            predicate = predicate.AndIF(parm.Mh035 != -1, it => it.Mh035 == parm.Mh035);
+            //查询字段: <离职日期> 
+            //predicate = predicate.AndIF(parm.BeginMh039 == null, it => it.Mh039 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMh039 != null, it => it.Mh039 >= parm.BeginMh039);
+            //predicate = predicate.AndIF(parm.EndMh039 != null, it => it.Mh039 <= parm.EndMh039);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginEeLeaveDate == null, it => it.EeLeaveDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMh039 == null, it => it.Mh039 >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginEeLeaveDate == null, it => it.EeLeaveDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginEeLeaveDate != null, it => it.EeLeaveDate >= parm.BeginEeLeaveDate);
-            predicate = predicate.AndIF(parm.EndEeLeaveDate != null, it => it.EeLeaveDate <= parm.EndEeLeaveDate);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginEeContractEndDate == null, it => it.EeContractEndDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginEeContractEndDate == null, it => it.EeContractEndDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginEeContractEndDate != null, it => it.EeContractEndDate >= parm.BeginEeContractEndDate);
-            predicate = predicate.AndIF(parm.EndEeContractEndDate != null, it => it.EeContractEndDate <= parm.EndEeContractEndDate);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginEeRetirementDate == null, it => it.EeRetirementDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginEeRetirementDate == null, it => it.EeRetirementDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginEeRetirementDate != null, it => it.EeRetirementDate >= parm.BeginEeRetirementDate);
-            predicate = predicate.AndIF(parm.EndEeRetirementDate != null, it => it.EeRetirementDate <= parm.EndEeRetirementDate);
-            predicate = predicate.AndIF(parm.EeClockInId != null, it => it.EeClockInId == parm.EeClockInId);
-            predicate = predicate.AndIF(parm.EeShiftsTypeId != null, it => it.EeShiftsTypeId == parm.EeShiftsTypeId);
+            predicate = predicate.AndIF(parm.BeginMh039 == null, it => it.Mh039 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMh039 != null, it => it.Mh039 >= parm.BeginMh039);
+            predicate = predicate.AndIF(parm.EndMh039 != null, it => it.Mh039 <= parm.EndMh039);
+            //查询字段: <打卡否> 
+            predicate = predicate.AndIF(parm.Mh044 != -1, it => it.Mh044 == parm.Mh044);
+            //查询字段: <班别> 
+            predicate = predicate.AndIF(parm.Mh045 != -1, it => it.Mh045 == parm.Mh045);
             return predicate;
         }
     }

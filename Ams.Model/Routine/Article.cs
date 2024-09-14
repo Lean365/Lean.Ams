@@ -1,14 +1,17 @@
 ﻿namespace Ams.Model.Routine
 {
     /// <summary>
-    /// 文章表
+    /// 内容管理
+    /// 数据实体对象
+    /// @author lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     [SugarTable("routine_article", "内容管理")]
     [Tenant("0")]
     public class Article : SysBase
     {
         /// <summary>
-        /// 文章ID
+        /// 文章id
         /// </summary>
         [SugarColumn(IsIdentity = true, IsPrimaryKey = true)]
         public long Cid { get; set; }
@@ -16,20 +19,8 @@
         /// <summary>
         /// 文章标题
         /// </summary>
-        [SugarColumn(ColumnDescription = "文章标题", Length = 254)]
+        [SugarColumn(ColumnDescription = "文章标题", Length = 180, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string Title { get; set; }
-
-        /// <summary>
-        /// 发布时间
-        /// </summary>
-        [SugarColumn(ColumnDescription = "发布时间")]
-        public DateTime? CreateTime { get; set; }
-
-        /// <summary>
-        /// 修改时间
-        /// </summary>
-        [SugarColumn(IsOnlyIgnoreInsert = true, ColumnDescription = "更新时间")]
-        public DateTime? UpdateTime { get; set; }
 
         /// <summary>
         /// 文章内容
@@ -52,8 +43,8 @@
         /// <summary>
         /// 文章状态 1、发布 2、草稿
         /// </summary>
-        [SugarColumn(ColumnDescription = "文章状态 1、发布 2、草稿", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public int IsStatus { get; set; }
+        [SugarColumn(DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int IsStatus { get; set; } = 1;
 
         /// <summary>
         /// 编辑器类型 markdown,html
@@ -64,7 +55,7 @@
         /// <summary>
         /// 文章标签eg：Net5,java
         /// </summary>
-        [SugarColumn(ColumnDescription = "文章标签", Length = 20)]
+        [SugarColumn(ColumnDescription = "文章标签", Length = 200)]
         public string Tags { get; set; }
 
         /// <summary>
@@ -79,7 +70,7 @@
         /// <summary>
         /// 封面地址
         /// </summary>
-        [SugarColumn(ColumnDescription = "封面地址", Length = 5000)]
+        [SugarColumn(ColumnDescription = "封面地址", Length = 400)]
         public string CoverUrl { get; set; }
 
         /// <summary>
@@ -102,14 +93,15 @@
         /// <summary>
         /// 摘要
         /// </summary>
+        [SugarColumn(ColumnDescription = "摘要", Length = 100)]
         public string AbstractText { get; set; }
 
         /// <summary>
         /// 分类
         /// </summary>
 
-        [Navigate(NavigateType.OneToOne, nameof(CategoryId), nameof(ArticleCategory.CategoryId))] //自定义关系映射
-        public ArticleCategory ArticleCategoryNav { get; set; }
+        [Navigate(NavigateType.OneToOne, nameof(CategoryId), nameof(ArticleCatalog.CategoryId))] //自定义关系映射
+        public ArticleCatalog ArticleCategoryNav { get; set; }
 
         /// <summary>
         /// 评论数
@@ -124,11 +116,13 @@
         /// <summary>
         /// 用户IP
         /// </summary>
+        [SugarColumn(ColumnDescription = "用户IP", Length = 20)]
         public string UserIP { get; set; }
 
         /// <summary>
         /// 地理位置
         /// </summary>
+        [SugarColumn(ColumnDescription = "地理位置", Length = 200)]
         public string Location { get; set; }
 
         /// <summary>

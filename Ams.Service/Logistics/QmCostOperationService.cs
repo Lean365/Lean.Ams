@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
@@ -8,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 品质业务
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 15:11:02
+    /// @Date: 2024/9/11 16:48:39
     /// </summary>
     [AppService(ServiceType = typeof(IQmCostOperationService), ServiceLifetime = LifeTime.Transient)]
     public class QmCostOperationService : BaseService<QmCostOperation>, IQmCostOperationService
@@ -23,11 +26,13 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Mc003 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<QmCostOperation, QmCostOperationDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. QcodSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,16 +53,17 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="QcodSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public QmCostOperation GetInfo(long QcodSfId)
+        public QmCostOperation GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.QcodSfId == QcodSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加品质业务
         /// </summary>
@@ -68,6 +74,7 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改品质业务
         /// </summary>
@@ -86,42 +93,35 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.QcodSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.Qcod001.IsEmpty(), "日期不能为空")
-                .SplitError(x => x.Item.Qcod002.IsEmpty(), "间接赁率不能为空")
-                .SplitError(x => x.Item.Qcod003.IsEmpty(), "IQC检查费用不能为空")
-                .SplitError(x => x.Item.Qcod004.IsEmpty(), "检查时间不能为空")
-                .SplitError(x => x.Item.Qcod005.IsEmpty(), "差旅费不能为空")
-                .SplitError(x => x.Item.Qcod006.IsEmpty(), "其他费用不能为空")
-                .SplitError(x => x.Item.Qcod008.IsEmpty(), "初期检定?定期检定业务费用不能为空")
-                .SplitError(x => x.Item.Qcod009.IsEmpty(), "作业时间不能为空")
-                .SplitError(x => x.Item.Qcod010.IsEmpty(), "其他费用不能为空")
-                .SplitError(x => x.Item.Qcod012.IsEmpty(), "测定器校正业务费用不能为空")
-                .SplitError(x => x.Item.Qcod013.IsEmpty(), "校正时间不能为空")
-                .SplitError(x => x.Item.Qcod014.IsEmpty(), "外部委托，搬运费不能为空")
-                .SplitError(x => x.Item.Qcod015.IsEmpty(), "其他费用不能为空")
-                .SplitError(x => x.Item.Qcod017.IsEmpty(), "其他通常费用不能为空")
-                .SplitError(x => x.Item.Qcod018.IsEmpty(), "通常作业时间不能为空")
-                .SplitError(x => x.Item.Qcod019.IsEmpty(), "通常其他费用不能为空")
-                .SplitError(x => x.Item.Qcod021.IsEmpty(), "出货检查费用不能为空")
-                .SplitError(x => x.Item.Qcod022.IsEmpty(), "检查时间不能为空")
-                .SplitError(x => x.Item.Qcod023.IsEmpty(), "其他费用不能为空")
-                .SplitError(x => x.Item.Qcod025.IsEmpty(), "信赖性评价?ORT业务费用不能为空")
-                .SplitError(x => x.Item.Qcod026.IsEmpty(), "评价时间不能为空")
-                .SplitError(x => x.Item.Qcod027.IsEmpty(), "其他费用不能为空")
-                .SplitError(x => x.Item.Qcod029.IsEmpty(), "顾客品质要求对应业务费用不能为空")
-                .SplitError(x => x.Item.Qcod030.IsEmpty(), "评价作业时间不能为空")
-                .SplitError(x => x.Item.Qcod031.IsEmpty(), "评价其他费用不能为空")
-                .SplitError(x => x.Item.Qcod033.IsEmpty(), "其他通常业务费用不能为空")
-                .SplitError(x => x.Item.Qcod034.IsEmpty(), "通常业务作业时间不能为空")
-                .SplitError(x => x.Item.Qcod035.IsEmpty(), "通常业务其他费用不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Mc002.IsEmpty(), "工厂不能为空")
+                .SplitError(x => x.Item.Mc003.IsEmpty(), "日期不能为空")
+                .SplitError(x => x.Item.Mc004.IsEmpty(), "间接赁率不能为空")
+                .SplitError(x => x.Item.Mc005.IsEmpty(), "IQC检查费用不能为空")
+                .SplitError(x => x.Item.Mc006.IsEmpty(), "检查时间不能为空")
+                .SplitError(x => x.Item.Mc007.IsEmpty(), "差旅费不能为空")
+                .SplitError(x => x.Item.Mc008.IsEmpty(), "其他费用不能为空")
+                .SplitError(x => x.Item.Mc010.IsEmpty(), "初期检定.定期检定业务费用不能为空")
+                .SplitError(x => x.Item.Mc011.IsEmpty(), "作业时间不能为空")
+                .SplitError(x => x.Item.Mc012.IsEmpty(), "其他费用不能为空")
+                .SplitError(x => x.Item.Mc014.IsEmpty(), "测定器校正业务费用不能为空")
+                .SplitError(x => x.Item.Mc015.IsEmpty(), "校正时间不能为空")
+                .SplitError(x => x.Item.Mc016.IsEmpty(), "外部委托，搬运费不能为空")
+                .SplitError(x => x.Item.Mc017.IsEmpty(), "其他费用不能为空")
+                .SplitError(x => x.Item.Mc019.IsEmpty(), "其他通常费用不能为空")
+                .SplitError(x => x.Item.Mc020.IsEmpty(), "通常作业时间不能为空")
+                .SplitError(x => x.Item.Mc021.IsEmpty(), "通常其他费用不能为空")
+                .SplitError(x => x.Item.Mc025.IsEmpty(), "出货检查费用不能为空")
+                .SplitError(x => x.Item.Mc026.IsEmpty(), "检查时间不能为空")
+                .SplitError(x => x.Item.Mc027.IsEmpty(), "其他费用不能为空")
+                .SplitError(x => x.Item.Mc029.IsEmpty(), "信赖性评价.ORT业务费用不能为空")
+                .SplitError(x => x.Item.Mc030.IsEmpty(), "评价时间不能为空")
+                .SplitError(x => x.Item.Mc031.IsEmpty(), "其他费用不能为空")
+                .SplitError(x => x.Item.Mc033.IsEmpty(), "顾客品质要求对应业务费用不能为空")
+                .SplitError(x => x.Item.Mc034.IsEmpty(), "评价作业时间不能为空")
+                .SplitError(x => x.Item.Mc035.IsEmpty(), "评价其他费用不能为空")
+                .SplitError(x => x.Item.Mc037.IsEmpty(), "其他通常业务费用不能为空")
+                .SplitError(x => x.Item.Mc038.IsEmpty(), "通常业务作业时间不能为空")
+                .SplitError(x => x.Item.Mc039.IsEmpty(), "通常业务其他费用不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -155,7 +155,8 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new QmCostOperationDto()
                 {
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <工厂> 
+                    Mc002Label = it.Mc002.GetConfigValue<SysDictData>("sql_plant_list"),
                 }, true)
                 .ToPage(parm);
 
@@ -171,12 +172,18 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<QmCostOperation>();
 
+            //查询字段: <工厂> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc002), it => it.Mc002 == parm.Mc002);
+            //查询字段: <日期> 
+            //predicate = predicate.AndIF(parm.BeginMc003 == null, it => it.Mc003 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMc003 != null, it => it.Mc003 >= parm.BeginMc003);
+            //predicate = predicate.AndIF(parm.EndMc003 != null, it => it.Mc003 <= parm.EndMc003);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginQcod001 == null, it => it.Qcod001 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMc003 == null, it => it.Mc003 >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginQcod001 == null, it => it.Qcod001 >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginQcod001 != null, it => it.Qcod001 >= parm.BeginQcod001);
-            predicate = predicate.AndIF(parm.EndQcod001 != null, it => it.Qcod001 <= parm.EndQcod001);
+            predicate = predicate.AndIF(parm.BeginMc003 == null, it => it.Mc003 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMc003 != null, it => it.Mc003 >= parm.BeginMc003);
+            predicate = predicate.AndIF(parm.EndMc003 != null, it => it.Mc003 <= parm.EndMc003);
             return predicate;
         }
     }

@@ -1,15 +1,9 @@
-﻿using Ams.Model;
-using Ams.Service.Signalr;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 
 namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
     /// 在线用户
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("monitor/online")]

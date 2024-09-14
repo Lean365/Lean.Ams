@@ -52,13 +52,15 @@
         <el-row :gutter="20">
           <el-col :lg="24">
             <el-form-item label="话题名" prop="topicName">
-              <el-input v-model="form.topicName" placeholder="请输入话题名" :disabled="opertype == 2" />
+              <el-input v-model="form.topicName" placeholder="请输入话题名" :disabled="opertype == 2" show-word-limit
+                maxlength="40" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
             <el-form-item label="话题描述" prop="topicDescription">
-              <el-input type="textarea" v-model="form.topicDescription" placeholder="请输入话题描述" />
+              <el-input type="textarea" v-model="form.topicDescription" placeholder="请输入话题描述" show-word-limit
+                maxlength="200" />
             </el-form-item>
           </el-col>
         </el-row>

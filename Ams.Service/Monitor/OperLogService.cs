@@ -1,6 +1,4 @@
-﻿using Ams.Infrastructure.Attribute;
-using Ams.Model.Monitor.Dto;
-using Ams.Service.Monitor.IMonitorService;
+﻿using Ams.Repository;
 
 namespace Ams.Service.Monitor
 {
@@ -20,7 +18,7 @@ namespace Ams.Service.Monitor
             {
                 operLog.OperParam = operLog.OperParam[..1000];
             }
-            //sysOperLogRepository.AddSysOperLog(operLog);
+            //OperLogRepository.AddOperLog(operLog);
             Insert(operLog);
         }
 
@@ -37,7 +35,7 @@ namespace Ams.Service.Monitor
             exp.AndIF(sysOper.Title.IfNotEmpty(), it => it.Title.Contains(sysOper.Title));
             exp.AndIF(sysOper.OperName.IfNotEmpty(), it => it.OperName.Contains(sysOper.OperName));
             exp.AndIF(sysOper.BusinessType != null, it => it.BusinessType == sysOper.BusinessType);
-            exp.AndIF(sysOper.IsStatus != null, it => it.IsStatus == sysOper.IsStatus);
+            exp.AndIF(sysOper.IsStatus != -1, it => it.IsStatus == sysOper.IsStatus);
             exp.AndIF(sysOper.OperParam != null, it => it.OperParam.Contains(sysOper.OperParam));
             exp.AndIF(sysOper.BusinessTypes != null, it => sysOper.BusinessTypes.Contains(it.BusinessType));
 

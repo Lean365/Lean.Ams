@@ -1,14 +1,8 @@
-using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
-using Microsoft.AspNetCore.Mvc;
-
+//创建时间：2023-11-12
 namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
     /// 邮件模板
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("routine/email/tpl")]

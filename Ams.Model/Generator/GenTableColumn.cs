@@ -3,9 +3,9 @@
 namespace Ams.Model.Generator
 {
     /// <summary>
-    /// 代码生成表字段
+    /// 生成表字段
     /// </summary>
-    [SugarTable("gen_table_column", "代码生成表字段")]
+    [SugarTable("gen_table_column", "生成表字段")]
     [Tenant("0")]
     public class GenTableColumn : SysBase
     {
@@ -18,6 +18,7 @@ namespace Ams.Model.Generator
         /// <summary>
         /// 导入代码生成表列名 首字母转了小写
         /// </summary>
+        [SugarColumn(Length = 40)]
         public string ColumnName { get; set; }
 
         /// <summary>
@@ -31,17 +32,19 @@ namespace Ams.Model.Generator
         /// 表名
         /// </summary>
 
-        [SugarColumn(IsOnlyIgnoreUpdate = true)]
+        [SugarColumn(Length = 40, IsOnlyIgnoreUpdate = true)]
         public string TableName { get; set; }
 
         /// <summary>
         /// 列说明
         /// </summary>
+
         private string columnComment;
 
         /// <summary>
         /// 列说明
         /// </summary>
+        [SugarColumn(Length = 40)]
         public string ColumnComment
         {
             get
@@ -58,17 +61,19 @@ namespace Ams.Model.Generator
         /// 数据库列类型
         /// </summary>
 
-        [SugarColumn(IsOnlyIgnoreUpdate = true)]
+        [SugarColumn(Length = 40, IsOnlyIgnoreUpdate = true)]
         public string ColumnType { get; set; }
 
         /// <summary>
         /// C#类型
         /// </summary>
+        [SugarColumn(Length = 40)]
         public string CsharpType { get; set; }
 
         /// <summary>
         /// C# 字段名 首字母大写
         /// </summary>
+        [SugarColumn(Length = 40)]
         public string CsharpField { get; set; }
 
         /// <summary>
@@ -132,12 +137,13 @@ namespace Ams.Model.Generator
         /// <summary>
         /// 显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）
         /// </summary>
+        [SugarColumn(Length = 40)]
         public string HtmlType { get; set; }
 
         /// <summary>
         /// 查询类型（等于、不等于、大于、小于、范围）
         /// </summary>
-        [SugarColumn(DefaultValue = "EQ")]
+        [SugarColumn(Length = 40, DefaultValue = "EQ")]
         public string QueryType { get; set; } = "EQ";
 
         public int Sort { get; set; }
@@ -145,6 +151,7 @@ namespace Ams.Model.Generator
         /// <summary>
         /// 字典类别
         /// </summary>
+        [SugarColumn(Length = 40)]
         public string DictType { get; set; } = "";
 
         /// <summary>

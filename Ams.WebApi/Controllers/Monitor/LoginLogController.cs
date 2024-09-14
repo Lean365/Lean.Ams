@@ -1,14 +1,9 @@
-﻿using Ams.Model.Monitor.Dto;
-using Microsoft.AspNetCore.Mvc;
-using SqlSugar;
+﻿using Ams.Infrastructure.Helper;
 
 namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
-    /// 登录日志
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
+    /// 系统访问记录
     /// </summary>
     [Verify]
     [Route("/monitor/login")]
@@ -110,7 +105,7 @@ namespace Ams.WebApi.Controllers.Monitor
         /// </summary>
         /// <returns></returns>
         [HttpGet("statiLoginLog")]
-        [ActionPermissionFilter(Permission = "monitor:login:read")]
+        [ActionPermissionFilter(Permission = "monitor:login:list")]
         public IActionResult QueryStatiLoginLog()
         {
             var list = sysLoginService.GetStatiLoginlog();

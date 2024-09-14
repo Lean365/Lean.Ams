@@ -1,5 +1,4 @@
-using Ams.Model.Monitor.Dto;
-using Ams.Service.Monitor.IMonitorService;
+using Ams.Repository;
 
 namespace Ams.Service.Monitor
 {
@@ -21,9 +20,9 @@ namespace Ams.Service.Monitor
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.TableName), it => it.TableName == parm.TableName);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DiffType), it => it.DiffType == parm.DiffType);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.UserName), it => it.UserName == parm.UserName);
-            predicate = predicate.AndIF(parm.BeginTime == null, it => it.Create_time >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, it => it.Create_time <= parm.EndTime);
+            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.Create_time >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginAddTime != null, it => it.Create_time >= parm.BeginAddTime);
+            predicate = predicate.AndIF(parm.EndAddTime != null, it => it.Create_time <= parm.EndAddTime);
             var response = Queryable()
                 //.OrderBy("PId desc")
                 .Where(predicate.ToExpression())
@@ -72,8 +71,7 @@ namespace Ams.Service.Monitor
             //    BeforeData = model.BeforeData,
             //    AfterData = model.AfterData,
             //    UserName = model.UserName,
-            //    create_by = model.UserName,
-            //    create_time = model.create_time,
+            //    AddTime = model.AddTime,
             //    ConfigId = model.ConfigId,
             //});
             //return response;

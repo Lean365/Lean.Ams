@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 销售凭证
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 13:36:22
+    /// @Date: 2024/9/11 15:47:09
     /// </summary>
     public interface ISdSellingInvoiceService : IBaseService<SdSellingInvoice>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取销售凭证信息
         /// </summary>
-        /// <param name="SsiSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        SdSellingInvoice GetInfo(long SsiSfId);
+        SdSellingInvoice GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 制一OPH主表分页查询
+ * 组立OPH分页查询
  * @param {查询条件} data
  */
 export function listPpOutputAssyMaster(query) {
@@ -14,7 +14,7 @@ export function listPpOutputAssyMaster(query) {
 }
 
 /**
- * 新增制一OPH主表
+ * 新增组立OPH
  * @param data
  */
 export function addPpOutputAssyMaster(data) {
@@ -25,7 +25,7 @@ export function addPpOutputAssyMaster(data) {
   })
 }
 /**
- * 修改制一OPH主表
+ * 修改组立OPH
  * @param data
  */
 export function updatePpOutputAssyMaster(data) {
@@ -36,7 +36,7 @@ export function updatePpOutputAssyMaster(data) {
   })
 }
 /**
- * 获取制一OPH主表详情
+ * 获取组立OPH详情
  * @param {Id}
  */
 export function getPpOutputAssyMaster(id) {
@@ -47,7 +47,7 @@ export function getPpOutputAssyMaster(id) {
 }
 
 /**
- * 删除制一OPH主表
+ * 删除组立OPH
  * @param {主键} pid
  */
 export function delPpOutputAssyMaster(pid) {
@@ -56,7 +56,7 @@ export function delPpOutputAssyMaster(pid) {
     method: 'delete'
   })
 }
-// 导出制一OPH主表
+// 导出组立OPH
 export async function exportPpOutputAssyMaster(query) {
   await downFile('Logistics/PpOutputAssyMaster/export', { ...query })
 }

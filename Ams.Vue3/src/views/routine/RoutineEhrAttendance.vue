@@ -1,8 +1,9 @@
 <!--
  * @Descripttion: 考勤/routine_ehr_attendance
- * @Version: 1.0.0.0
+ * @Version: 0.24.621.24558
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/30 9:31:57
+ * @Date: 2024/9/12 15:26:15
+ * @column：44
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,8 +12,27 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="工号" prop="eeWorkID">
-        <el-input v-model="queryParams.eeWorkID" :placeholder="$t('btn.enterSearchPrefix')+'工号'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="工号" prop="mg003">
+        <el-input v-model="queryParams.mg003" :placeholder="$t('btn.enterSearchPrefix')+'工号'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="班别" prop="mg004">
+        <el-select filterable clearable   v-model="queryParams.mg004" :placeholder="$t('btn.selectSearchPrefix')+'班别'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sys_shifts_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+            <span class="fl">{{ item.dictLabel }}</span>
+            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="日期">
+        <el-date-picker
+          v-model="dateRangeMg006" 
+          type="datetimerange"
+          :start-placeholder="$t('btn.dateStart')"
+          :end-placeholder="$t('btn.dateEnd')"
+          value-format="YYYY-MM-DD HH:mm:ss"
+          :default-time="defaultTime"
+          :shortcuts="dateOptions">
+        </el-date-picker>
       </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
@@ -76,31 +96,31 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="eeSfid" label="ID" align="center" v-if="columns.showColumn('eeSfid')"/>
-      <el-table-column prop="eeParentSfid" label="父ID" align="center" v-if="columns.showColumn('eeParentSfid')"/>
-      <el-table-column prop="eeWorkID" label="工号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('eeWorkID')"/>
-      <el-table-column prop="eeShiftsType" label="班别" align="center" v-if="columns.showColumn('eeShiftsType')"/>
-      <el-table-column prop="eeHolidayType" label="假日别" align="center" v-if="columns.showColumn('eeHolidayType')"/>
-      <el-table-column prop="eeDate" label="日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('eeDate')"/>
-      <el-table-column prop="eeClockIn" label="上班时间" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('eeClockIn')"/>
-      <el-table-column prop="eeClockOff" label="下班时间" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('eeClockOff')"/>
-      <el-table-column prop="eeOvertimeIn" label="加班上班时间" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('eeOvertimeIn')"/>
-      <el-table-column prop="eeOvertimeOff" label="加班下班时间" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('eeOvertimeOff')"/>
-      <el-table-column prop="eeLateIn" label="迟到分钟" align="center" v-if="columns.showColumn('eeLateIn')"/>
-      <el-table-column prop="eeLate" label="迟到否" align="center" v-if="columns.showColumn('eeLate')"/>
-      <el-table-column prop="eeEarlyOff" label="早退分钟" align="center" v-if="columns.showColumn('eeEarlyOff')"/>
-      <el-table-column prop="eeEarly" label="早退否" align="center" v-if="columns.showColumn('eeEarly')"/>
-      <el-table-column prop="eeHolidayOvertimeHours" label="假日加班时数" align="center" v-if="columns.showColumn('eeHolidayOvertimeHours')"/>
-      <el-table-column prop="eeAbnormal" label="异常" align="center" v-if="columns.showColumn('eeAbnormal')"/>
-      <el-table-column prop="eeEeAbnormalCause" label="异常原因" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('eeEeAbnormalCause')"/>
-      <el-table-column prop="eeLeaveType" label="已有请假信息" align="center" v-if="columns.showColumn('eeLeaveType')"/>
-      <el-table-column prop="eeNormalOvertimeHours" label="正常加班" align="center" v-if="columns.showColumn('eeNormalOvertimeHours')"/>
-      <el-table-column prop="eeFestivalOvertimeHours" label="节日加班" align="center" v-if="columns.showColumn('eeFestivalOvertimeHours')"/>
-      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
-      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
-      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
-      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
+      <el-table-column prop="parentId" label="父ID" align="center" v-if="columns.showColumn('parentId')"/>
+      <el-table-column prop="mg003" label="工号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mg003')"/>
+      <el-table-column prop="mg004" label="班别" align="center" v-if="columns.showColumn('mg004')">
+        <template #default="scope">
+          <dict-tag :options=" options.sys_shifts_list " :value="scope.row.mg004"  />
+        </template>
+      </el-table-column>
+      <el-table-column prop="mg005" label="假日别" align="center" v-if="columns.showColumn('mg005')"/>
+      <el-table-column prop="mg006" label="日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('mg006')"/>
+      <el-table-column prop="mg007" label="上班时间" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mg007')"/>
+      <el-table-column prop="mg008" label="下班时间" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mg008')"/>
+      <el-table-column prop="mg009" label="加班上班时间" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mg009')"/>
+      <el-table-column prop="mg010" label="加班下班时间" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mg010')"/>
+      <el-table-column prop="mg011" label="迟到分钟" align="center" v-if="columns.showColumn('mg011')"/>
+      <el-table-column prop="mg012" label="迟到否" align="center" v-if="columns.showColumn('mg012')"/>
+      <el-table-column prop="mg013" label="早退分钟" align="center" v-if="columns.showColumn('mg013')"/>
+      <el-table-column prop="mg014" label="早退否" align="center" v-if="columns.showColumn('mg014')"/>
+      <el-table-column prop="mg015" label="假日加班时数" align="center" v-if="columns.showColumn('mg015')"/>
+      <el-table-column prop="mg016" label="异常" align="center" v-if="columns.showColumn('mg016')"/>
+      <el-table-column prop="mg017" label="异常原因" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mg017')"/>
+      <el-table-column prop="mg018" label="已有请假信息" align="center" v-if="columns.showColumn('mg018')"/>
+      <el-table-column prop="mg019" label="正常加班" align="center" v-if="columns.showColumn('mg019')"/>
+      <el-table-column prop="mg020" label="节日加班" align="center" v-if="columns.showColumn('mg020')"/>
+      <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button-group>
@@ -120,234 +140,129 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="ID" prop="eeSfid">
-              <el-input v-model.number="form.eeSfid" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
+            <el-form-item label="父ID" prop="parentId">
+              <el-input   v-model.number="form.parentId" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')"  show-word-limit   maxlength="19"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="工号" prop="mg003">
+              <el-input   v-model="form.mg003" :placeholder="$t('btn.enterPrefix')+'工号'+$t('btn.enterSuffix')"  show-word-limit   maxlength="8"/>
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="父ID" prop="eeParentSfid">
-              <el-input v-model.number="form.eeParentSfid" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')" />
+            <el-form-item label="班别" prop="mg004">
+              <el-select filterable clearable   v-model="form.mg004"  :placeholder="$t('btn.selectPrefix')+'班别'+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sys_shifts_list" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="parseInt(item.dictValue)"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+            
+          <el-col :lg="12">
+            <el-form-item label="假日别" prop="mg005">
+              <el-input-number v-model.number="form.mg005" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'假日别'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="工号" prop="eeWorkID">
-              <el-input v-model="form.eeWorkID" :placeholder="$t('btn.enterPrefix')+'工号'+$t('btn.enterSuffix')" />
+            <el-form-item label="日期" prop="mg006">
+              <el-date-picker v-model="form.mg006" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="上班时间" prop="mg007">
+              <el-input   v-model="form.mg007" :placeholder="$t('btn.enterPrefix')+'上班时间'+$t('btn.enterSuffix')"  show-word-limit   maxlength="16"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="下班时间" prop="mg008">
+              <el-input   v-model="form.mg008" :placeholder="$t('btn.enterPrefix')+'下班时间'+$t('btn.enterSuffix')"  show-word-limit   maxlength="16"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="加班上班时间" prop="mg009">
+              <el-input   v-model="form.mg009" :placeholder="$t('btn.enterPrefix')+'加班上班时间'+$t('btn.enterSuffix')"  show-word-limit   maxlength="16"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="加班下班时间" prop="mg010">
+              <el-input   v-model="form.mg010" :placeholder="$t('btn.enterPrefix')+'加班下班时间'+$t('btn.enterSuffix')"  show-word-limit   maxlength="16"/>
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="班别" prop="eeShiftsType">
-              <el-input v-model.number="form.eeShiftsType" :placeholder="$t('btn.enterPrefix')+'班别'+$t('btn.enterSuffix')" />
+            <el-form-item label="迟到分钟" prop="mg011">
+              <el-input-number v-model.number="form.mg011" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'迟到分钟'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="假日别" prop="eeHolidayType">
-              <el-input v-model.number="form.eeHolidayType" :placeholder="$t('btn.enterPrefix')+'假日别'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="日期" prop="eeDate">
-              <el-date-picker v-model="form.eeDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="上班时间" prop="eeClockIn">
-              <el-input v-model="form.eeClockIn" :placeholder="$t('btn.enterPrefix')+'上班时间'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="下班时间" prop="eeClockOff">
-              <el-input v-model="form.eeClockOff" :placeholder="$t('btn.enterPrefix')+'下班时间'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="加班上班时间" prop="eeOvertimeIn">
-              <el-input v-model="form.eeOvertimeIn" :placeholder="$t('btn.enterPrefix')+'加班上班时间'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="加班下班时间" prop="eeOvertimeOff">
-              <el-input v-model="form.eeOvertimeOff" :placeholder="$t('btn.enterPrefix')+'加班下班时间'+$t('btn.enterSuffix')" />
+            <el-form-item label="迟到否" prop="mg012">
+              <el-input-number v-model.number="form.mg012" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'迟到否'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="迟到分钟" prop="eeLateIn">
-              <el-input-number v-model.number="form.eeLateIn" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'迟到分钟'+$t('btn.enterSuffix')" />
+            <el-form-item label="早退分钟" prop="mg013">
+              <el-input-number v-model.number="form.mg013" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'早退分钟'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="迟到否" prop="eeLate">
-              <el-input-number v-model.number="form.eeLate" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'迟到否'+$t('btn.enterSuffix')" />
+            <el-form-item label="早退否" prop="mg014">
+              <el-input-number v-model.number="form.mg014" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'早退否'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="早退分钟" prop="eeEarlyOff">
-              <el-input-number v-model.number="form.eeEarlyOff" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'早退分钟'+$t('btn.enterSuffix')" />
+            <el-form-item label="假日加班时数" prop="mg015">
+              <el-input-number v-model.number="form.mg015" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'假日加班时数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="早退否" prop="eeEarly">
-              <el-input-number v-model.number="form.eeEarly" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'早退否'+$t('btn.enterSuffix')" />
+            <el-form-item label="异常" prop="mg016">
+              <el-input-number v-model.number="form.mg016" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'异常'+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="异常原因" prop="mg017">
+              <el-input   v-model="form.mg017" :placeholder="$t('btn.enterPrefix')+'异常原因'+$t('btn.enterSuffix')"  show-word-limit   maxlength="255"/>
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="假日加班时数" prop="eeHolidayOvertimeHours">
-              <el-input-number v-model.number="form.eeHolidayOvertimeHours" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'假日加班时数'+$t('btn.enterSuffix')" />
+            <el-form-item label="已有请假信息" prop="mg018">
+              <el-input-number v-model.number="form.mg018" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'已有请假信息'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="异常" prop="eeAbnormal">
-              <el-input-number v-model.number="form.eeAbnormal" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'异常'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="异常原因" prop="eeEeAbnormalCause">
-              <el-input v-model="form.eeEeAbnormalCause" :placeholder="$t('btn.enterPrefix')+'异常原因'+$t('btn.enterSuffix')" />
+            <el-form-item label="正常加班" prop="mg019">
+              <el-input-number v-model.number="form.mg019" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'正常加班'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="已有请假信息" prop="eeLeaveType">
-              <el-input v-model.number="form.eeLeaveType" :placeholder="$t('btn.enterPrefix')+'已有请假信息'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="正常加班" prop="eeNormalOvertimeHours">
-              <el-input-number v-model.number="form.eeNormalOvertimeHours" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'正常加班'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="节日加班" prop="eeFestivalOvertimeHours">
-              <el-input-number v-model.number="form.eeFestivalOvertimeHours" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'节日加班'+$t('btn.enterSuffix')" />
+            <el-form-item label="节日加班" prop="mg020">
+              <el-input-number v-model.number="form.mg020" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'节日加班'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="自定义A" prop="uDF01">
-              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义B" prop="uDF02">
-              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义C" prop="uDF03">
-              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义D" prop="uDF04">
-              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义E" prop="uDF05">
-              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义F" prop="uDF06">
-              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义1" prop="uDF51">
-              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义2" prop="uDF52">
-              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义3" prop="uDF53">
-              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义4" prop="uDF54">
-              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义5" prop="uDF55">
-              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义6" prop="uDF56">
-              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="软删除" prop="isDeleted">
-              <el-radio-group v-model="form.isDeleted">
-                <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue" :value="parseInt(item.dictValue)">
-                  {{item.dictLabel}}
-                </el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="备注" prop="remark">
-              <el-input v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建者" prop="createBy">
-              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建时间" prop="createTime">
-              <el-date-picker v-model="form.createTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新者" prop="updateBy">
-              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新时间" prop="updateTime">
-              <el-date-picker v-model="form.updateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+          <el-col :lg="24">
+            <el-form-item label="备注说明" prop="remark">
+              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -461,36 +376,36 @@ const queryParams = reactive({
   pageSize: 56,
   sort: '',
   sortType: 'asc',
-//是否查询（1是）
-  eeWorkID: undefined,
+  //是否查询（1是）
+  mg003: undefined,
+  //是否查询（1是）
+  mg004: undefined,
+  //是否查询（1是）
+  mg006: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'eeSfid', label: 'ID' },
-  { visible: true, prop: 'eeParentSfid', label: '父ID' },
-  { visible: true, prop: 'eeWorkID', label: '工号' },
-  { visible: true, prop: 'eeShiftsType', label: '班别' },
-  { visible: true, prop: 'eeHolidayType', label: '假日别' },
-  { visible: true, prop: 'eeDate', label: '日期' },
-  { visible: true, prop: 'eeClockIn', label: '上班时间' },
-  { visible: true, prop: 'eeClockOff', label: '下班时间' },
-  { visible: false, prop: 'eeOvertimeIn', label: '加班上班时间' },
-  { visible: false, prop: 'eeOvertimeOff', label: '加班下班时间' },
-  { visible: false, prop: 'eeLateIn', label: '迟到分钟' },
-  { visible: false, prop: 'eeLate', label: '迟到否' },
-  { visible: false, prop: 'eeEarlyOff', label: '早退分钟' },
-  { visible: false, prop: 'eeEarly', label: '早退否' },
-  { visible: false, prop: 'eeHolidayOvertimeHours', label: '假日加班时数' },
-  { visible: false, prop: 'eeAbnormal', label: '异常' },
-  { visible: false, prop: 'eeEeAbnormalCause', label: '异常原因' },
-  { visible: false, prop: 'eeLeaveType', label: '已有请假信息' },
-  { visible: false, prop: 'eeNormalOvertimeHours', label: '正常加班' },
-  { visible: false, prop: 'eeFestivalOvertimeHours', label: '节日加班' },
-  { visible: false, prop: 'remark', label: '备注' },
-  { visible: false, prop: 'createBy', label: '创建者' },
-  { visible: false, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新者' },
-  { visible: false, prop: 'updateTime', label: '更新时间' },
+  { visible: true, prop: 'id', label: 'ID' },
+  { visible: true, prop: 'parentId', label: '父ID' },
+  { visible: true, prop: 'mg003', label: '工号' },
+  { visible: true, prop: 'mg004', label: '班别' },
+  { visible: true, prop: 'mg005', label: '假日别' },
+  { visible: true, prop: 'mg006', label: '日期' },
+  { visible: true, prop: 'mg007', label: '上班时间' },
+  { visible: true, prop: 'mg008', label: '下班时间' },
+  { visible: false, prop: 'mg009', label: '加班上班时间' },
+  { visible: false, prop: 'mg010', label: '加班下班时间' },
+  { visible: false, prop: 'mg011', label: '迟到分钟' },
+  { visible: false, prop: 'mg012', label: '迟到否' },
+  { visible: false, prop: 'mg013', label: '早退分钟' },
+  { visible: false, prop: 'mg014', label: '早退否' },
+  { visible: false, prop: 'mg015', label: '假日加班时数' },
+  { visible: false, prop: 'mg016', label: '异常' },
+  { visible: false, prop: 'mg017', label: '异常原因' },
+  { visible: false, prop: 'mg018', label: '已有请假信息' },
+  { visible: false, prop: 'mg019', label: '正常加班' },
+  { visible: false, prop: 'mg020', label: '节日加班' },
+  { visible: false, prop: 'remark', label: '备注说明' },
 ])
 // 记录数
 const total = ref(0)
@@ -500,10 +415,12 @@ const dataList = ref([])
 const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
+// 日期时间范围
+const dateRangeMg006 = ref([])
 
 //字典参数
 var dictParams = [
-  { dictType: "sys_is_deleted" },
+  { dictType: "sys_shifts_list" },
 ]
 
 //字典加载
@@ -514,6 +431,7 @@ proxy.getDicts(dictParams).then((response) => {
 })
 //API获取从考勤/routine_ehr_attendance表记录数据
 function getList(){
+  proxy.addDateRange(queryParams, dateRangeMg006.value, 'Mg006');
   loading.value = true
   listRoutineEhrAttendance(queryParams).then(res => {
     const { code, data } = res
@@ -533,12 +451,14 @@ function handleQuery() {
 
 // 重置查询操作
 function resetQuery(){
+  // 日期时间范围
+  dateRangeMg006.value = []
   proxy.resetForm("queryRef")
   handleQuery()
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.eeSfid);
+  ids.value = selection.map((item) => item.id);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -573,23 +493,26 @@ const state = reactive({
   single: true,
   multiple: true,
   form: {},
+//正则表达式
   rules: {
-    eeSfid: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    eeParentSfid: [{ required: true, message: "父ID"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    eeWorkID: [{ required: true, message: "工号"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    eeShiftsType: [{ required: true, message: "班别"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    eeDate: [{ required: true, message: "日期"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF54: [{ required: true, message: "自定义4"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF55: [{ required: true, message: "自定义5"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF56: [{ required: true, message: "自定义6"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    parentId: [{ required: true, message: "父ID"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mg003: [{ required: true, message: "工号"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    mg004: [{ required: true, message: "班别"+proxy.$t('btn.isEmpty'), trigger: "change"    , type: "number"  }],
+    mg005: [{ required: true, message: "假日别"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mg011: [{ required: true, message: "迟到分钟"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mg012: [{ required: true, message: "迟到否"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mg013: [{ required: true, message: "早退分钟"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mg014: [{ required: true, message: "早退否"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mg015: [{ required: true, message: "假日加班时数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mg016: [{ required: true, message: "异常"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mg018: [{ required: true, message: "已有请假信息"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mg019: [{ required: true, message: "正常加班"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mg020: [{ required: true, message: "节日加班"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
   },
+//字典名称
   options: {
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_deleted: [],
+    // 班别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sys_shifts_list: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -604,44 +527,26 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    eeSfid: 0,
-    eeParentSfid: 0,
-    eeWorkID: null,
-    eeShiftsType: 0,
-    eeHolidayType: 0,
-    eeDate: null,
-    eeClockIn: null,
-    eeClockOff: null,
-    eeOvertimeIn: null,
-    eeOvertimeOff: null,
-    eeLateIn: 0,
-    eeLate: 0,
-    eeEarlyOff: 0,
-    eeEarly: 0,
-    eeHolidayOvertimeHours: 0,
-    eeAbnormal: 0,
-    eeEeAbnormalCause: null,
-    eeLeaveType: 0,
-    eeNormalOvertimeHours: 0,
-    eeFestivalOvertimeHours: 0,
-    uDF01: null,
-    uDF02: null,
-    uDF03: null,
-    uDF04: null,
-    uDF05: null,
-    uDF06: null,
-    uDF51: 0,
-    uDF52: 0,
-    uDF53: 0,
-    uDF54: 0,
-    uDF55: 0,
-    uDF56: 0,
-    isDeleted: 0,
+    parentId: 0,
+    mg003: null,
+    mg004: [],
+    mg005: 0,
+    mg006: null,
+    mg007: null,
+    mg008: null,
+    mg009: null,
+    mg010: null,
+    mg011: 0,
+    mg012: 0,
+    mg013: 0,
+    mg014: 0,
+    mg015: 0,
+    mg016: 0,
+    mg017: null,
+    mg018: 0,
+    mg019: 0,
+    mg020: 0,
     remark: null,
-    createBy: null,
-    createTime: null,
-    updateBy: null,
-    updateTime: null,
   };
   proxy.resetForm("formRef")
 }
@@ -653,25 +558,23 @@ function handleAdd() {
   open.value = true
   title.value = proxy.$t('btn.add')+" "+'考勤'
   opertype.value = 1
-  form.value.eeShiftsType= 0
-  form.value.eeHolidayType= 0
-  form.value.eeDate= new Date()
-  form.value.eeLateIn= 0
-  form.value.eeLate= 0
-  form.value.eeEarlyOff= 0
-  form.value.eeEarly= 0
-  form.value.eeHolidayOvertimeHours= 0
-  form.value.eeAbnormal= 0
-  form.value.eeLeaveType= 0
-  form.value.eeNormalOvertimeHours= 0
-  form.value.eeFestivalOvertimeHours= 0
-  form.value.createTime= new Date()
-  form.value.updateTime= new Date()
+  form.value.mg004= 0
+  form.value.mg005= 0
+  form.value.mg006= new Date()
+  form.value.mg011= 0
+  form.value.mg012= 0
+  form.value.mg013= 0
+  form.value.mg014= 0
+  form.value.mg015= 0
+  form.value.mg016= 0
+  form.value.mg018= 0
+  form.value.mg019= 0
+  form.value.mg020= 0
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.eeSfid || ids.value
+  const id = row.id || ids.value
   getRoutineEhrAttendance(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -691,7 +594,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.eeSfid != undefined && opertype.value === 2) {
+      if (form.value.id != undefined && opertype.value === 2) {
         updateRoutineEhrAttendance(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -710,7 +613,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.eeSfid || ids.value
+  const Ids = row.id || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {

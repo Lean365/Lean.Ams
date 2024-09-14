@@ -1,7 +1,9 @@
-using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
 using Microsoft.AspNetCore.Mvc;
+using Ams.Model.Routine.Dto;
+using Ams.Model.Routine;
+using Ams.Service.Routine.IRoutineService;
 using MiniExcelLibs;
+
 
 namespace Ams.WebApi.Controllers.Routine
 {
@@ -9,7 +11,7 @@ namespace Ams.WebApi.Controllers.Routine
     /// 计算公式
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/17 10:24:50
+    /// @Date: 2024/9/5 10:17:40
     /// </summary>
     [Verify]
     [Route("Routine/InstFormula")]
@@ -39,17 +41,18 @@ namespace Ams.WebApi.Controllers.Routine
             return SUCCESS(response);
         }
 
+
         /// <summary>
         /// 查询计算公式详情
         /// </summary>
-        /// <param name="IfSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{IfSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "inst:formula:query")]
-        public IActionResult GetInstFormula(long IfSfId)
+        public IActionResult GetInstFormula(long Id)
         {
-            var response = _InstFormulaService.GetInfo(IfSfId);
-
+            var response = _InstFormulaService.GetInfo(Id);
+            
             var info = response.Adapt<InstFormulaDto>();
             return SUCCESS(info);
         }
@@ -60,14 +63,14 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "inst:formula:add")]
-        [Log(Title = "计算公式", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "计算公式", BusinessType = BusinessType.ADD)]
         public IActionResult AddInstFormula([FromBody] InstFormulaDto parm)
         {
-            // 校验输入项目唯一性
+           // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_InstFormulaService.CheckInputUnique(parm.IfType.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_InstFormulaService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增计算公式 '{parm.IfType}'失败(Add failed)，输入的计算公式已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增计算公式 '{parm.Id}'失败(Add failed)，输入的计算公式已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<InstFormula>().ToCreate(HttpContext);
 
@@ -82,7 +85,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "inst:formula:edit")]
-        [Log(Title = "计算公式", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "计算公式", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateInstFormula([FromBody] InstFormulaDto parm)
         {
             var modal = parm.Adapt<InstFormula>().ToUpdate(HttpContext);
@@ -98,7 +101,7 @@ namespace Ams.WebApi.Controllers.Routine
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "inst:formula:delete")]
         [Log(Title = "计算公式", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteInstFormula([FromRoute] string ids)
+        public IActionResult DeleteInstFormula([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -109,7 +112,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// 导出计算公式
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "计算公式", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "计算公式导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "inst:formula:export")]
         public IActionResult Export([FromQuery] InstFormulaQueryDto parm)
@@ -126,14 +129,14 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 导入
+        /// 导入计算公式
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "计算公式导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "inst:formula:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<InstFormulaDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -145,16 +148,18 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 计算公式导入模板下载
+        /// 计算公式
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "计算公式模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<InstFormulaImportTpl>() { }, "InstFormula_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
+
     }
 }

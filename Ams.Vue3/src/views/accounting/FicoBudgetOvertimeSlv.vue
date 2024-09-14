@@ -2,7 +2,7 @@
  * @Descripttion: 加班预算/fico_budget_overtime_slv
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/8/9 12:06:46
+ * @Date: 2024/8/29 13:30:23
  * @column：46
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
@@ -12,47 +12,6 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="年月" prop="fbosYm">
-        <el-select filterable clearable   v-model="queryParams.fbosYm" :placeholder="$t('btn.selectSearchPrefix')+'年月'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_ym_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="科目" prop="fbosTitle">
-        <el-select filterable clearable   v-model="queryParams.fbosTitle" :placeholder="$t('btn.selectSearchPrefix')+'科目'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_budget_title " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="名称" prop="fbosClass">
-        <el-input v-model="queryParams.fbosClass" :placeholder="$t('btn.enterSearchPrefix')+'名称'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="审核日期">
-        <el-date-picker
-          v-model="dateRangeFbosAuditDate" 
-          type="datetimerange"
-          :start-placeholder="$t('btn.dateStart')"
-          :end-placeholder="$t('btn.dateEnd')"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          :default-time="defaultTime"
-          :shortcuts="dateOptions">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="撤消日期">
-        <el-date-picker
-          v-model="dateRangeFbosUndoDate" 
-          type="datetimerange"
-          :start-placeholder="$t('btn.dateStart')"
-          :end-placeholder="$t('btn.dateEnd')"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          :default-time="defaultTime"
-          :shortcuts="dateOptions">
-        </el-date-picker>
-      </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
       <el-form-item>
@@ -117,42 +76,26 @@
       <el-table-column type="selection" width="50" align="center"/>
       <el-table-column prop="fbosSfId" label="ID" align="center" v-if="columns.showColumn('fbosSfId')"/>
       <el-table-column prop="fbosParentSfId" label="父ID" align="center" v-if="columns.showColumn('fbosParentSfId')"/>
-      <el-table-column prop="fbosYm" label="年月" align="center" v-if="columns.showColumn('fbosYm')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_ym_list " :value="scope.row.fbosYm"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="fbosTitle" label="科目" align="center" v-if="columns.showColumn('fbosTitle')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_budget_title " :value="scope.row.fbosTitle"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="fbosClass" label="名称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbosClass')"/>
-      <el-table-column prop="fbosRequiredst" label="必要工数" align="center" v-if="columns.showColumn('fbosRequiredst')"/>
-      <el-table-column prop="fbosDirectEmployee" label="保有人数" align="center" v-if="columns.showColumn('fbosDirectEmployee')"/>
-      <el-table-column prop="fbosIndirectEmployee" label="间接人数" align="center" v-if="columns.showColumn('fbosIndirectEmployee')"/>
-      <el-table-column prop="fbosDays" label="上班天数" align="center" v-if="columns.showColumn('fbosDays')"/>
-      <el-table-column prop="fbosContent" label="加班事由" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbosContent')"/>
-      <el-table-column prop="fbosRetainst" label="保有工数" align="center" v-if="columns.showColumn('fbosRetainst')"/>
-      <el-table-column prop="fbosRetainstdiff" label="工数差异" align="center" v-if="columns.showColumn('fbosRetainstdiff')"/>
-      <el-table-column prop="fbosOvertime" label="投入加班" align="center" v-if="columns.showColumn('fbosOvertime')"/>
-      <el-table-column prop="fbosDirectovertime" label="平均投入加班" align="center" v-if="columns.showColumn('fbosDirectovertime')"/>
-      <el-table-column prop="fbosIndirectovertime" label="间接加班" align="center" v-if="columns.showColumn('fbosIndirectovertime')"/>
-      <el-table-column prop="fbosOvertimetotal" label="投入总加班" align="center" v-if="columns.showColumn('fbosOvertimetotal')"/>
-      <el-table-column prop="fbosFlag" label="启用标记" align="center" v-if="columns.showColumn('fbosFlag')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_is_status " :value="scope.row.fbosFlag"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="fbosAudit" label="审核" align="center" v-if="columns.showColumn('fbosAudit')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_is_status " :value="scope.row.fbosAudit"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="fbosAuditName" label="审核人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbosAuditName')"/>
-      <el-table-column prop="fbosAuditDate" label="审核日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('fbosAuditDate')"/>
-      <el-table-column prop="fbosUndoName" label="撤消人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbosUndoName')"/>
-      <el-table-column prop="fbosUndoDate" label="撤消日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('fbosUndoDate')"/>
+      <el-table-column prop="fbosLfmon" label="年月" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbosLfmon')"/>
+      <el-table-column prop="fbosFipls" label="科目" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbosFipls')"/>
+      <el-table-column prop="fbosStext" label="名称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbosStext')"/>
+      <el-table-column prop="fbosRewok" label="必要工数" align="center" v-if="columns.showColumn('fbosRewok')"/>
+      <el-table-column prop="fbosKeper" label="保有人数" align="center" v-if="columns.showColumn('fbosKeper')"/>
+      <el-table-column prop="fbosInper" label="间接人数" align="center" v-if="columns.showColumn('fbosInper')"/>
+      <el-table-column prop="fbosWotnr" label="上班天数" align="center" v-if="columns.showColumn('fbosWotnr')"/>
+      <el-table-column prop="fbosPsoak" label="加班事由" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbosPsoak')"/>
+      <el-table-column prop="fbosKewok" label="保有工数" align="center" v-if="columns.showColumn('fbosKewok')"/>
+      <el-table-column prop="fbosAbsvar" label="工数差异" align="center" v-if="columns.showColumn('fbosAbsvar')"/>
+      <el-table-column prop="fbosStdaz" label="投入加班" align="center" v-if="columns.showColumn('fbosStdaz')"/>
+      <el-table-column prop="fbosZmgen" label="平均投入加班" align="center" v-if="columns.showColumn('fbosZmgen')"/>
+      <el-table-column prop="fbosInBearz" label="间接加班" align="center" v-if="columns.showColumn('fbosInBearz')"/>
+      <el-table-column prop="fbosToBearz" label="投入总加班" align="center" v-if="columns.showColumn('fbosToBearz')"/>
+      <el-table-column prop="fbosAktiv" label="启用标记" align="center" v-if="columns.showColumn('fbosAktiv')"/>
+      <el-table-column prop="fbosFrgzu" label="审核" align="center" v-if="columns.showColumn('fbosFrgzu')"/>
+      <el-table-column prop="fbosAutna" label="审核人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbosAutna')"/>
+      <el-table-column prop="fbosFrgdt" label="审核日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('fbosFrgdt')"/>
+      <el-table-column prop="fbosAbskz" label="撤消人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbosAbskz')"/>
+      <el-table-column prop="fbosAbgda" label="撤消日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('fbosAbgda')"/>
       <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
@@ -179,150 +122,122 @@
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="年月" prop="fbosYm">
-              <el-select filterable clearable   v-model="form.fbosYm"  :placeholder="$t('btn.selectPrefix')+'年月'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sql_ym_list" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :lg="12">
-            <el-form-item label="科目" prop="fbosTitle">
-              <el-select filterable clearable   v-model="form.fbosTitle"  :placeholder="$t('btn.selectPrefix')+'科目'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sql_budget_title" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :lg="12">
-            <el-form-item label="名称" prop="fbosClass">
-              <el-input v-model="form.fbosClass" :placeholder="$t('btn.enterPrefix')+'名称'+$t('btn.enterSuffix')"  show-word-limit maxlength="100"/>
+            <el-form-item label="年月" prop="fbosLfmon">
+              <el-input v-model="form.fbosLfmon" :placeholder="$t('btn.enterPrefix')+'年月'+$t('btn.enterSuffix')"  show-word-limit maxlength="4"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="必要工数" prop="fbosRequiredst">
-              <el-input-number v-model.number="form.fbosRequiredst" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'必要工数'+$t('btn.enterSuffix')" />
+            <el-form-item label="科目" prop="fbosFipls">
+              <el-input v-model="form.fbosFipls" :placeholder="$t('btn.enterPrefix')+'科目'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="名称" prop="fbosStext">
+              <el-input v-model="form.fbosStext" :placeholder="$t('btn.enterPrefix')+'名称'+$t('btn.enterSuffix')"  show-word-limit maxlength="100"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="必要工数" prop="fbosRewok">
+              <el-input-number v-model.number="form.fbosRewok" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'必要工数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="保有人数" prop="fbosDirectEmployee">
-              <el-input-number v-model.number="form.fbosDirectEmployee" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'保有人数'+$t('btn.enterSuffix')" />
+            <el-form-item label="保有人数" prop="fbosKeper">
+              <el-input-number v-model.number="form.fbosKeper" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'保有人数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="间接人数" prop="fbosIndirectEmployee">
-              <el-input-number v-model.number="form.fbosIndirectEmployee" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'间接人数'+$t('btn.enterSuffix')" />
+            <el-form-item label="间接人数" prop="fbosInper">
+              <el-input-number v-model.number="form.fbosInper" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'间接人数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="上班天数" prop="fbosDays">
-              <el-input-number v-model.number="form.fbosDays" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'上班天数'+$t('btn.enterSuffix')" />
+            <el-form-item label="上班天数" prop="fbosWotnr">
+              <el-input-number v-model.number="form.fbosWotnr" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'上班天数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="加班事由" prop="fbosContent">
-              <el-input v-model="form.fbosContent" :placeholder="$t('btn.enterPrefix')+'加班事由'+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
+            <el-form-item label="加班事由" prop="fbosPsoak">
+              <el-input v-model="form.fbosPsoak" :placeholder="$t('btn.enterPrefix')+'加班事由'+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="保有工数" prop="fbosRetainst">
-              <el-input-number v-model.number="form.fbosRetainst" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'保有工数'+$t('btn.enterSuffix')" />
+            <el-form-item label="保有工数" prop="fbosKewok">
+              <el-input-number v-model.number="form.fbosKewok" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'保有工数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="工数差异" prop="fbosRetainstdiff">
-              <el-input-number v-model.number="form.fbosRetainstdiff" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'工数差异'+$t('btn.enterSuffix')" />
+            <el-form-item label="工数差异" prop="fbosAbsvar">
+              <el-input-number v-model.number="form.fbosAbsvar" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'工数差异'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="投入加班" prop="fbosOvertime">
-              <el-input-number v-model.number="form.fbosOvertime" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'投入加班'+$t('btn.enterSuffix')" />
+            <el-form-item label="投入加班" prop="fbosStdaz">
+              <el-input-number v-model.number="form.fbosStdaz" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'投入加班'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="平均投入加班" prop="fbosDirectovertime">
-              <el-input-number v-model.number="form.fbosDirectovertime" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'平均投入加班'+$t('btn.enterSuffix')" />
+            <el-form-item label="平均投入加班" prop="fbosZmgen">
+              <el-input-number v-model.number="form.fbosZmgen" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'平均投入加班'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="间接加班" prop="fbosIndirectovertime">
-              <el-input-number v-model.number="form.fbosIndirectovertime" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'间接加班'+$t('btn.enterSuffix')" />
+            <el-form-item label="间接加班" prop="fbosInBearz">
+              <el-input-number v-model.number="form.fbosInBearz" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'间接加班'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="投入总加班" prop="fbosOvertimetotal">
-              <el-input-number v-model.number="form.fbosOvertimetotal" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'投入总加班'+$t('btn.enterSuffix')" />
+            <el-form-item label="投入总加班" prop="fbosToBearz">
+              <el-input-number v-model.number="form.fbosToBearz" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'投入总加班'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="启用标记" prop="fbosFlag">
-              <el-select filterable clearable   v-model="form.fbosFlag"  :placeholder="$t('btn.selectPrefix')+'启用标记'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sys_is_status" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="parseInt(item.dictValue)"></el-option>
-              </el-select>
+            <el-form-item label="启用标记" prop="fbosAktiv">
+              <el-input-number v-model.number="form.fbosAktiv" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'启用标记'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
-
             
           <el-col :lg="12">
-            <el-form-item label="审核" prop="fbosAudit">
-              <el-select filterable clearable   v-model="form.fbosAudit"  :placeholder="$t('btn.selectPrefix')+'审核'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sys_is_status" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="parseInt(item.dictValue)"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :lg="12">
-            <el-form-item label="审核人员" prop="fbosAuditName">
-              <el-input v-model="form.fbosAuditName" :placeholder="$t('btn.enterPrefix')+'审核人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="20"/>
+            <el-form-item label="审核" prop="fbosFrgzu">
+              <el-input-number v-model.number="form.fbosFrgzu" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'审核'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="审核日期" prop="fbosAuditDate">
-              <el-date-picker v-model="form.fbosAuditDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="审核人员" prop="fbosAutna">
+              <el-input v-model="form.fbosAutna" :placeholder="$t('btn.enterPrefix')+'审核人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="20"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="撤消人员" prop="fbosUndoName">
-              <el-input v-model="form.fbosUndoName" :placeholder="$t('btn.enterPrefix')+'撤消人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="20"/>
+            <el-form-item label="审核日期" prop="fbosFrgdt">
+              <el-date-picker v-model="form.fbosFrgdt" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="撤消日期" prop="fbosUndoDate">
-              <el-date-picker v-model="form.fbosUndoDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="撤消人员" prop="fbosAbskz">
+              <el-input v-model="form.fbosAbskz" :placeholder="$t('btn.enterPrefix')+'撤消人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="20"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="撤消日期" prop="fbosAbgda">
+              <el-date-picker v-model="form.fbosAbgda" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
@@ -440,43 +355,33 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: 'FbosYm',
+  sort: 'FbosLfmon',
   sortType: 'desc',
-//是否查询（1是）
-  fbosYm: undefined,
-//是否查询（1是）
-  fbosTitle: undefined,
-//是否查询（1是）
-  fbosClass: undefined,
-//是否查询（1是）
-  fbosAuditDate: undefined,
-//是否查询（1是）
-  fbosUndoDate: undefined,
 })
 //字段显示控制
 const columns = ref([
   { visible: true, prop: 'fbosSfId', label: 'ID' },
   { visible: true, prop: 'fbosParentSfId', label: '父ID' },
-  { visible: true, prop: 'fbosYm', label: '年月' },
-  { visible: true, prop: 'fbosTitle', label: '科目' },
-  { visible: true, prop: 'fbosClass', label: '名称' },
-  { visible: true, prop: 'fbosRequiredst', label: '必要工数' },
-  { visible: true, prop: 'fbosDirectEmployee', label: '保有人数' },
-  { visible: true, prop: 'fbosIndirectEmployee', label: '间接人数' },
-  { visible: false, prop: 'fbosDays', label: '上班天数' },
-  { visible: false, prop: 'fbosContent', label: '加班事由' },
-  { visible: false, prop: 'fbosRetainst', label: '保有工数' },
-  { visible: false, prop: 'fbosRetainstdiff', label: '工数差异' },
-  { visible: false, prop: 'fbosOvertime', label: '投入加班' },
-  { visible: false, prop: 'fbosDirectovertime', label: '平均投入加班' },
-  { visible: false, prop: 'fbosIndirectovertime', label: '间接加班' },
-  { visible: false, prop: 'fbosOvertimetotal', label: '投入总加班' },
-  { visible: false, prop: 'fbosFlag', label: '启用标记' },
-  { visible: false, prop: 'fbosAudit', label: '审核' },
-  { visible: false, prop: 'fbosAuditName', label: '审核人员' },
-  { visible: false, prop: 'fbosAuditDate', label: '审核日期' },
-  { visible: false, prop: 'fbosUndoName', label: '撤消人员' },
-  { visible: false, prop: 'fbosUndoDate', label: '撤消日期' },
+  { visible: true, prop: 'fbosLfmon', label: '年月' },
+  { visible: true, prop: 'fbosFipls', label: '科目' },
+  { visible: true, prop: 'fbosStext', label: '名称' },
+  { visible: true, prop: 'fbosRewok', label: '必要工数' },
+  { visible: true, prop: 'fbosKeper', label: '保有人数' },
+  { visible: true, prop: 'fbosInper', label: '间接人数' },
+  { visible: false, prop: 'fbosWotnr', label: '上班天数' },
+  { visible: false, prop: 'fbosPsoak', label: '加班事由' },
+  { visible: false, prop: 'fbosKewok', label: '保有工数' },
+  { visible: false, prop: 'fbosAbsvar', label: '工数差异' },
+  { visible: false, prop: 'fbosStdaz', label: '投入加班' },
+  { visible: false, prop: 'fbosZmgen', label: '平均投入加班' },
+  { visible: false, prop: 'fbosInBearz', label: '间接加班' },
+  { visible: false, prop: 'fbosToBearz', label: '投入总加班' },
+  { visible: false, prop: 'fbosAktiv', label: '启用标记' },
+  { visible: false, prop: 'fbosFrgzu', label: '审核' },
+  { visible: false, prop: 'fbosAutna', label: '审核人员' },
+  { visible: false, prop: 'fbosFrgdt', label: '审核日期' },
+  { visible: false, prop: 'fbosAbskz', label: '撤消人员' },
+  { visible: false, prop: 'fbosAbgda', label: '撤消日期' },
   { visible: false, prop: 'remark', label: '备注说明' },
 ])
 // 记录数
@@ -487,16 +392,9 @@ const dataList = ref([])
 const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-// 审核日期时间范围
-const dateRangeFbosAuditDate = ref([])
-// 撤消日期时间范围
-const dateRangeFbosUndoDate = ref([])
 
 //字典参数
 var dictParams = [
-  { dictType: "sql_ym_list" },
-  { dictType: "sql_budget_title" },
-  { dictType: "sys_is_status" },
   { dictType: "sys_is_deleted" },
 ]
 
@@ -508,8 +406,6 @@ proxy.getDicts(dictParams).then((response) => {
 })
 //API获取从加班预算/fico_budget_overtime_slv表记录数据
 function getList(){
-  proxy.addDateRange(queryParams, dateRangeFbosAuditDate.value, 'FbosAuditDate');
-  proxy.addDateRange(queryParams, dateRangeFbosUndoDate.value, 'FbosUndoDate');
   loading.value = true
   listFicoBudgetOvertimeSlv(queryParams).then(res => {
     const { code, data } = res
@@ -529,10 +425,6 @@ function handleQuery() {
 
 // 重置查询操作
 function resetQuery(){
-  // 审核日期时间范围
-  dateRangeFbosAuditDate.value = []
-  // 撤消日期时间范围
-  dateRangeFbosUndoDate.value = []
   proxy.resetForm("queryRef")
   handleQuery()
 }
@@ -577,12 +469,6 @@ const state = reactive({
     fbosSfId: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
   },
   options: {
-    // 年月 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_ym_list: [],
-    // 科目 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_budget_title: [],
-    // 启用标记 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_status: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_is_deleted: [],
   }
@@ -601,26 +487,26 @@ function reset() {
   form.value = {
     fbosSfId: 0,
     fbosParentSfId: 0,
-    fbosYm: null,
-    fbosTitle: null,
-    fbosClass: null,
-    fbosRequiredst: 0,
-    fbosDirectEmployee: 0,
-    fbosIndirectEmployee: 0,
-    fbosDays: 0,
-    fbosContent: null,
-    fbosRetainst: 0,
-    fbosRetainstdiff: 0,
-    fbosOvertime: 0,
-    fbosDirectovertime: 0,
-    fbosIndirectovertime: 0,
-    fbosOvertimetotal: 0,
-    fbosFlag: 0,
-    fbosAudit: 0,
-    fbosAuditName: null,
-    fbosAuditDate: null,
-    fbosUndoName: null,
-    fbosUndoDate: null,
+    fbosLfmon: null,
+    fbosFipls: null,
+    fbosStext: null,
+    fbosRewok: 0,
+    fbosKeper: 0,
+    fbosInper: 0,
+    fbosWotnr: 0,
+    fbosPsoak: null,
+    fbosKewok: 0,
+    fbosAbsvar: 0,
+    fbosStdaz: 0,
+    fbosZmgen: 0,
+    fbosInBearz: 0,
+    fbosToBearz: 0,
+    fbosAktiv: 0,
+    fbosFrgzu: 0,
+    fbosAutna: null,
+    fbosFrgdt: null,
+    fbosAbskz: null,
+    fbosAbgda: null,
     rEF01: null,
     rEF02: null,
     rEF03: null,
@@ -656,22 +542,20 @@ function handleAdd() {
   open.value = true
   title.value = proxy.$t('btn.add')+" "+'加班预算'
   opertype.value = 1
-  form.value.fbosYm= []
-  form.value.fbosTitle= []
-  form.value.fbosRequiredst= 0
-  form.value.fbosDirectEmployee= 0
-  form.value.fbosIndirectEmployee= 0
-  form.value.fbosDays= 0
-  form.value.fbosRetainst= 0
-  form.value.fbosRetainstdiff= 0
-  form.value.fbosOvertime= 0
-  form.value.fbosDirectovertime= 0
-  form.value.fbosIndirectovertime= 0
-  form.value.fbosOvertimetotal= 0
-  form.value.fbosFlag= 0
-  form.value.fbosAudit= 0
-  form.value.fbosAuditDate= new Date()
-  form.value.fbosUndoDate= new Date()
+  form.value.fbosRewok= 0
+  form.value.fbosKeper= 0
+  form.value.fbosInper= 0
+  form.value.fbosWotnr= 0
+  form.value.fbosKewok= 0
+  form.value.fbosAbsvar= 0
+  form.value.fbosStdaz= 0
+  form.value.fbosZmgen= 0
+  form.value.fbosInBearz= 0
+  form.value.fbosToBearz= 0
+  form.value.fbosAktiv= 0
+  form.value.fbosFrgzu= 0
+  form.value.fbosFrgdt= new Date()
+  form.value.fbosAbgda= new Date()
 }
 // 修改按钮操作
 function handleUpdate(row) {

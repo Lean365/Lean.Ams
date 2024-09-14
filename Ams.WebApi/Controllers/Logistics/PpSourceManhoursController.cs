@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 源工时
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:11:09
+    /// @Date: 2024/9/11 13:39:17
     /// </summary>
     [Verify]
     [Route("Logistics/PpSourceManhours")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询源工时详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{SfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "pp:sourcemanhours:query")]
-        public IActionResult GetPpSourceManhours(long SfId)
+        public IActionResult GetPpSourceManhours(long Id)
         {
-            var response = _PpSourceManhoursService.GetInfo(SfId);
+            var response = _PpSourceManhoursService.GetInfo(Id);
             
             var info = response.Adapt<PpSourceManhoursDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "pp:sourcemanhours:add")]
-        [Log(Title = "源工时", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "源工时", BusinessType = BusinessType.ADD)]
         public IActionResult AddPpSourceManhours([FromBody] PpSourceManhoursDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceManhoursService.CheckInputUnique(parm.SfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceManhoursService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增源工时 '{parm.SfId}'失败(Add failed)，输入的源工时已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增源工时 '{parm.Id}'失败(Add failed)，输入的源工时已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpSourceManhours>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "pp:sourcemanhours:edit")]
-        [Log(Title = "源工时", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "源工时", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdatePpSourceManhours([FromBody] PpSourceManhoursDto parm)
         {
             var modal = parm.Adapt<PpSourceManhours>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出源工时
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "源工时", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "源工时导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "pp:sourcemanhours:export")]
         public IActionResult Export([FromQuery] PpSourceManhoursQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入源工时
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "源工时导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "pp:sourcemanhours:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<PpSourceManhoursDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 源工时导入模板下载
+        /// 源工时
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "源工时模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<PpSourceManhoursImportTpl>() { }, "PpSourceManhours_tpl");
             return ExportExcel(result.Item2, result.Item1);

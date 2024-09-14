@@ -2,7 +2,7 @@
  * @Descripttion: 资产预算/fico_budget_assets_slv
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/8/9 13:23:49
+ * @Date: 2024/8/29 13:30:38
  * @column：42
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
@@ -12,67 +12,6 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="年月" prop="fbasYm">
-        <el-select filterable clearable   v-model="queryParams.fbasYm" :placeholder="$t('btn.selectSearchPrefix')+'年月'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_ym_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="科目" prop="fbasTitle">
-        <el-select filterable clearable   v-model="queryParams.fbasTitle" :placeholder="$t('btn.selectSearchPrefix')+'科目'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_budget_title " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="类别" prop="fbasClass">
-        <el-select filterable clearable   v-model="queryParams.fbasClass" :placeholder="$t('btn.selectSearchPrefix')+'类别'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_exp_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="名称" prop="fbasName">
-        <el-input v-model="queryParams.fbasName" :placeholder="$t('btn.enterSearchPrefix')+'名称'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="启用" prop="fbasFlag">
-        <el-radio-group v-model="queryParams.fbasFlag">
-          <el-radio>{{$t('common.all')}}</el-radio>
-          <el-radio v-for="item in  options.sys_is_status " :key="item.dictValue" :value="item.dictValue">{{item.dictLabel}}</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="审核标志" prop="fbasAudit">
-        <el-radio-group v-model="queryParams.fbasAudit">
-          <el-radio>{{$t('common.all')}}</el-radio>
-          <el-radio v-for="item in  options.sys_is_status " :key="item.dictValue" :value="item.dictValue">{{item.dictLabel}}</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="审核日期">
-        <el-date-picker
-          v-model="dateRangeFbasAuditDate" 
-          type="datetimerange"
-          :start-placeholder="$t('btn.dateStart')"
-          :end-placeholder="$t('btn.dateEnd')"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          :default-time="defaultTime"
-          :shortcuts="dateOptions">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="撤消日期">
-        <el-date-picker
-          v-model="dateRangeFbasUndoDate" 
-          type="datetimerange"
-          :start-placeholder="$t('btn.dateStart')"
-          :end-placeholder="$t('btn.dateEnd')"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          :default-time="defaultTime"
-          :shortcuts="dateOptions">
-        </el-date-picker>
-      </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
       <el-form-item>
@@ -137,42 +76,22 @@
       <el-table-column type="selection" width="50" align="center"/>
       <el-table-column prop="fbasSfId" label="ID" align="center" v-if="columns.showColumn('fbasSfId')"/>
       <el-table-column prop="fbasParentSfId" label="父ID" align="center" v-if="columns.showColumn('fbasParentSfId')"/>
-      <el-table-column prop="fbasYm" label="年月" align="center" v-if="columns.showColumn('fbasYm')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_ym_list " :value="scope.row.fbasYm"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="fbasTitle" label="科目" align="center" v-if="columns.showColumn('fbasTitle')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_budget_title " :value="scope.row.fbasTitle"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="fbasClass" label="类别" align="center" v-if="columns.showColumn('fbasClass')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_exp_type " :value="scope.row.fbasClass"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="fbasName" label="名称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbasName')"/>
-      <el-table-column prop="fbasDesc" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbasDesc')"/>
-      <el-table-column prop="fbasServiceLife" label="年限" align="center" v-if="columns.showColumn('fbasServiceLife')"/>
-      <el-table-column prop="fbasBudgetAmount" label="预算" align="center" v-if="columns.showColumn('fbasBudgetAmount')"/>
-      <el-table-column prop="fbasActualAmount" label="实际" align="center" v-if="columns.showColumn('fbasActualAmount')"/>
-      <el-table-column prop="fbasDifferenceAmount" label="差异" align="center" v-if="columns.showColumn('fbasDifferenceAmount')"/>
-      <el-table-column prop="fbasDepreciation" label="折旧" align="center" v-if="columns.showColumn('fbasDepreciation')"/>
-      <el-table-column prop="fbasFlag" label="启用" align="center" v-if="columns.showColumn('fbasFlag')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_is_status " :value="scope.row.fbasFlag"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="fbasAudit" label="审核标志" align="center" v-if="columns.showColumn('fbasAudit')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_is_status " :value="scope.row.fbasAudit"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="fbasAuditName" label="审核人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbasAuditName')"/>
-      <el-table-column prop="fbasAuditDate" label="审核日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('fbasAuditDate')"/>
-      <el-table-column prop="fbasUndoName" label="撤消人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbasUndoName')"/>
-      <el-table-column prop="fbasUndoDate" label="撤消日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('fbasUndoDate')"/>
+      <el-table-column prop="fbasLfmon" label="年月" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbasLfmon')"/>
+      <el-table-column prop="fbasFipls" label="科目" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbasFipls')"/>
+      <el-table-column prop="fbasChgty" label="类别" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbasChgty')"/>
+      <el-table-column prop="fbasStext" label="名称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbasStext')"/>
+      <el-table-column prop="fbasFtext" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbasFtext')"/>
+      <el-table-column prop="fbasMaxdj" label="年限" align="center" v-if="columns.showColumn('fbasMaxdj')"/>
+      <el-table-column prop="fbasAnval" label="预算" align="center" v-if="columns.showColumn('fbasAnval')"/>
+      <el-table-column prop="fbasDmist" label="实际" align="center" v-if="columns.showColumn('fbasDmist')"/>
+      <el-table-column prop="fbasBfaac" label="差异" align="center" v-if="columns.showColumn('fbasBfaac')"/>
+      <el-table-column prop="fbasBafaw" label="折旧" align="center" v-if="columns.showColumn('fbasBafaw')"/>
+      <el-table-column prop="fbasAktiv" label="启用" align="center" v-if="columns.showColumn('fbasAktiv')"/>
+      <el-table-column prop="fbasFrgzu" label="审核标志" align="center" v-if="columns.showColumn('fbasFrgzu')"/>
+      <el-table-column prop="fbasAutna" label="审核人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbasAutna')"/>
+      <el-table-column prop="fbasFrgdt" label="审核日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('fbasFrgdt')"/>
+      <el-table-column prop="fbasAbskz" label="撤消人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('fbasAbskz')"/>
+      <el-table-column prop="fbasAbgda" label="撤消日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('fbasAbgda')"/>
       <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
@@ -199,127 +118,98 @@
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="年月" prop="fbasYm">
-              <el-select filterable clearable   v-model="form.fbasYm"  :placeholder="$t('btn.selectPrefix')+'年月'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sql_ym_list" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :lg="12">
-            <el-form-item label="科目" prop="fbasTitle">
-              <el-select filterable clearable   v-model="form.fbasTitle"  :placeholder="$t('btn.selectPrefix')+'科目'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sql_budget_title" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :lg="12">
-            <el-form-item label="类别" prop="fbasClass">
-              <el-select filterable clearable   v-model="form.fbasClass"  :placeholder="$t('btn.selectPrefix')+'类别'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sys_exp_type" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :lg="12">
-            <el-form-item label="名称" prop="fbasName">
-              <el-input v-model="form.fbasName" :placeholder="$t('btn.enterPrefix')+'名称'+$t('btn.enterSuffix')"  show-word-limit maxlength="100"/>
+            <el-form-item label="年月" prop="fbasLfmon">
+              <el-input v-model="form.fbasLfmon" :placeholder="$t('btn.enterPrefix')+'年月'+$t('btn.enterSuffix')"  show-word-limit maxlength="4"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="说明" prop="fbasDesc">
-              <el-input v-model="form.fbasDesc" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')"  show-word-limit maxlength="250"/>
+            <el-form-item label="科目" prop="fbasFipls">
+              <el-input v-model="form.fbasFipls" :placeholder="$t('btn.enterPrefix')+'科目'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="类别" prop="fbasChgty">
+              <el-input v-model="form.fbasChgty" :placeholder="$t('btn.enterPrefix')+'类别'+$t('btn.enterSuffix')"  show-word-limit maxlength="100"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="名称" prop="fbasStext">
+              <el-input v-model="form.fbasStext" :placeholder="$t('btn.enterPrefix')+'名称'+$t('btn.enterSuffix')"  show-word-limit maxlength="100"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="说明" prop="fbasFtext">
+              <el-input v-model="form.fbasFtext" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')"  show-word-limit maxlength="250"/>
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="年限" prop="fbasServiceLife">
-              <el-input-number v-model.number="form.fbasServiceLife" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'年限'+$t('btn.enterSuffix')" />
+            <el-form-item label="年限" prop="fbasMaxdj">
+              <el-input-number v-model.number="form.fbasMaxdj" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'年限'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="预算" prop="fbasBudgetAmount">
-              <el-input-number v-model.number="form.fbasBudgetAmount" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预算'+$t('btn.enterSuffix')" />
+            <el-form-item label="预算" prop="fbasAnval">
+              <el-input-number v-model.number="form.fbasAnval" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预算'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="实际" prop="fbasActualAmount">
-              <el-input-number v-model.number="form.fbasActualAmount" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'实际'+$t('btn.enterSuffix')" />
+            <el-form-item label="实际" prop="fbasDmist">
+              <el-input-number v-model.number="form.fbasDmist" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'实际'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="差异" prop="fbasDifferenceAmount">
-              <el-input-number v-model.number="form.fbasDifferenceAmount" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'差异'+$t('btn.enterSuffix')" />
+            <el-form-item label="差异" prop="fbasBfaac">
+              <el-input-number v-model.number="form.fbasBfaac" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'差异'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="折旧" prop="fbasDepreciation">
-              <el-input-number v-model.number="form.fbasDepreciation" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'折旧'+$t('btn.enterSuffix')" />
+            <el-form-item label="折旧" prop="fbasBafaw">
+              <el-input-number v-model.number="form.fbasBafaw" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'折旧'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="启用" prop="fbasFlag">
-              <el-radio-group v-model="form.fbasFlag">
-                <el-radio v-for="item in options.sys_is_status" :key="item.dictValue" :value="parseInt(item.dictValue)">
-                  {{item.dictLabel}}
-                </el-radio>
-              </el-radio-group>
+            <el-form-item label="启用" prop="fbasAktiv">
+              <el-input-number v-model.number="form.fbasAktiv" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'启用'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="审核标志" prop="fbasAudit">
-              <el-radio-group v-model="form.fbasAudit">
-                <el-radio v-for="item in options.sys_is_status" :key="item.dictValue" :value="parseInt(item.dictValue)">
-                  {{item.dictLabel}}
-                </el-radio>
-              </el-radio-group>
+            <el-form-item label="审核标志" prop="fbasFrgzu">
+              <el-input-number v-model.number="form.fbasFrgzu" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'审核标志'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="审核人员" prop="fbasAuditName">
-              <el-input v-model="form.fbasAuditName" :placeholder="$t('btn.enterPrefix')+'审核人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="20"/>
+            <el-form-item label="审核人员" prop="fbasAutna">
+              <el-input v-model="form.fbasAutna" :placeholder="$t('btn.enterPrefix')+'审核人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="20"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="审核日期" prop="fbasAuditDate">
-              <el-date-picker v-model="form.fbasAuditDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="审核日期" prop="fbasFrgdt">
+              <el-date-picker v-model="form.fbasFrgdt" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="撤消人员" prop="fbasUndoName">
-              <el-input v-model="form.fbasUndoName" :placeholder="$t('btn.enterPrefix')+'撤消人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="20"/>
+            <el-form-item label="撤消人员" prop="fbasAbskz">
+              <el-input v-model="form.fbasAbskz" :placeholder="$t('btn.enterPrefix')+'撤消人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="20"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="撤消日期" prop="fbasUndoDate">
-              <el-date-picker v-model="form.fbasUndoDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="撤消日期" prop="fbasAbgda">
+              <el-date-picker v-model="form.fbasAbgda" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
@@ -437,45 +327,29 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: 'FbasYm',
+  sort: 'FbasLfmon',
   sortType: 'desc',
-//是否查询（1是）
-  fbasYm: undefined,
-//是否查询（1是）
-  fbasTitle: undefined,
-//是否查询（1是）
-  fbasClass: undefined,
-//是否查询（1是）
-  fbasName: undefined,
-//是否查询（1是）
-  fbasFlag: undefined,
-//是否查询（1是）
-  fbasAudit: undefined,
-//是否查询（1是）
-  fbasAuditDate: undefined,
-//是否查询（1是）
-  fbasUndoDate: undefined,
 })
 //字段显示控制
 const columns = ref([
   { visible: true, prop: 'fbasSfId', label: 'ID' },
   { visible: true, prop: 'fbasParentSfId', label: '父ID' },
-  { visible: true, prop: 'fbasYm', label: '年月' },
-  { visible: true, prop: 'fbasTitle', label: '科目' },
-  { visible: true, prop: 'fbasClass', label: '类别' },
-  { visible: true, prop: 'fbasName', label: '名称' },
-  { visible: true, prop: 'fbasDesc', label: '说明' },
-  { visible: true, prop: 'fbasServiceLife', label: '年限' },
-  { visible: false, prop: 'fbasBudgetAmount', label: '预算' },
-  { visible: false, prop: 'fbasActualAmount', label: '实际' },
-  { visible: false, prop: 'fbasDifferenceAmount', label: '差异' },
-  { visible: false, prop: 'fbasDepreciation', label: '折旧' },
-  { visible: false, prop: 'fbasFlag', label: '启用' },
-  { visible: false, prop: 'fbasAudit', label: '审核标志' },
-  { visible: false, prop: 'fbasAuditName', label: '审核人员' },
-  { visible: false, prop: 'fbasAuditDate', label: '审核日期' },
-  { visible: false, prop: 'fbasUndoName', label: '撤消人员' },
-  { visible: false, prop: 'fbasUndoDate', label: '撤消日期' },
+  { visible: true, prop: 'fbasLfmon', label: '年月' },
+  { visible: true, prop: 'fbasFipls', label: '科目' },
+  { visible: true, prop: 'fbasChgty', label: '类别' },
+  { visible: true, prop: 'fbasStext', label: '名称' },
+  { visible: true, prop: 'fbasFtext', label: '说明' },
+  { visible: true, prop: 'fbasMaxdj', label: '年限' },
+  { visible: false, prop: 'fbasAnval', label: '预算' },
+  { visible: false, prop: 'fbasDmist', label: '实际' },
+  { visible: false, prop: 'fbasBfaac', label: '差异' },
+  { visible: false, prop: 'fbasBafaw', label: '折旧' },
+  { visible: false, prop: 'fbasAktiv', label: '启用' },
+  { visible: false, prop: 'fbasFrgzu', label: '审核标志' },
+  { visible: false, prop: 'fbasAutna', label: '审核人员' },
+  { visible: false, prop: 'fbasFrgdt', label: '审核日期' },
+  { visible: false, prop: 'fbasAbskz', label: '撤消人员' },
+  { visible: false, prop: 'fbasAbgda', label: '撤消日期' },
   { visible: false, prop: 'remark', label: '备注说明' },
 ])
 // 记录数
@@ -486,17 +360,9 @@ const dataList = ref([])
 const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-// 审核日期时间范围
-const dateRangeFbasAuditDate = ref([])
-// 撤消日期时间范围
-const dateRangeFbasUndoDate = ref([])
 
 //字典参数
 var dictParams = [
-  { dictType: "sql_ym_list" },
-  { dictType: "sql_budget_title" },
-  { dictType: "sys_exp_type" },
-  { dictType: "sys_is_status" },
   { dictType: "sys_is_deleted" },
 ]
 
@@ -508,8 +374,6 @@ proxy.getDicts(dictParams).then((response) => {
 })
 //API获取从资产预算/fico_budget_assets_slv表记录数据
 function getList(){
-  proxy.addDateRange(queryParams, dateRangeFbasAuditDate.value, 'FbasAuditDate');
-  proxy.addDateRange(queryParams, dateRangeFbasUndoDate.value, 'FbasUndoDate');
   loading.value = true
   listFicoBudgetAssetsSlv(queryParams).then(res => {
     const { code, data } = res
@@ -529,10 +393,6 @@ function handleQuery() {
 
 // 重置查询操作
 function resetQuery(){
-  // 审核日期时间范围
-  dateRangeFbasAuditDate.value = []
-  // 撤消日期时间范围
-  dateRangeFbasUndoDate.value = []
   proxy.resetForm("queryRef")
   handleQuery()
 }
@@ -577,14 +437,6 @@ const state = reactive({
     fbasSfId: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
   },
   options: {
-    // 年月 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_ym_list: [],
-    // 科目 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_budget_title: [],
-    // 类别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_exp_type: [],
-    // 启用 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_status: [],
     // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_is_deleted: [],
   }
@@ -603,22 +455,22 @@ function reset() {
   form.value = {
     fbasSfId: 0,
     fbasParentSfId: 0,
-    fbasYm: null,
-    fbasTitle: null,
-    fbasClass: null,
-    fbasName: null,
-    fbasDesc: null,
-    fbasServiceLife: 0,
-    fbasBudgetAmount: 0,
-    fbasActualAmount: 0,
-    fbasDifferenceAmount: 0,
-    fbasDepreciation: 0,
-    fbasFlag: 0,
-    fbasAudit: 0,
-    fbasAuditName: null,
-    fbasAuditDate: null,
-    fbasUndoName: null,
-    fbasUndoDate: null,
+    fbasLfmon: null,
+    fbasFipls: null,
+    fbasChgty: null,
+    fbasStext: null,
+    fbasFtext: null,
+    fbasMaxdj: 0,
+    fbasAnval: 0,
+    fbasDmist: 0,
+    fbasBfaac: 0,
+    fbasBafaw: 0,
+    fbasAktiv: 0,
+    fbasFrgzu: 0,
+    fbasAutna: null,
+    fbasFrgdt: null,
+    fbasAbskz: null,
+    fbasAbgda: null,
     rEF01: null,
     rEF02: null,
     rEF03: null,
@@ -654,18 +506,15 @@ function handleAdd() {
   open.value = true
   title.value = proxy.$t('btn.add')+" "+'资产预算'
   opertype.value = 1
-  form.value.fbasYm= []
-  form.value.fbasTitle= []
-  form.value.fbasClass= []
-  form.value.fbasServiceLife= 0
-  form.value.fbasBudgetAmount= 0
-  form.value.fbasActualAmount= 0
-  form.value.fbasDifferenceAmount= 0
-  form.value.fbasDepreciation= 0
-  form.value.fbasFlag= 0
-  form.value.fbasAudit= 0
-  form.value.fbasAuditDate= new Date()
-  form.value.fbasUndoDate= new Date()
+  form.value.fbasMaxdj= 0
+  form.value.fbasAnval= 0
+  form.value.fbasDmist= 0
+  form.value.fbasBfaac= 0
+  form.value.fbasBafaw= 0
+  form.value.fbasAktiv= 0
+  form.value.fbasFrgzu= 0
+  form.value.fbasFrgdt= new Date()
+  form.value.fbasAbgda= new Date()
 }
 // 修改按钮操作
 function handleUpdate(row) {

@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 源物料
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:18:11
+    /// @Date: 2024/9/11 13:36:27
     /// </summary>
     public interface IPpSourceMaterialService : IBaseService<PpSourceMaterial>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取源物料信息
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        PpSourceMaterial GetInfo(long SfId);
+        PpSourceMaterial GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

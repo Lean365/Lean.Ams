@@ -4,26 +4,26 @@ using Ams.Model.Logistics;
 namespace Ams.Service.Logistics.ILogisticsService
 {
     /// <summary>
-    /// 检查日报slv
+    /// 检查明细
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 12:01:22
+    /// @Date: 2024/9/12 16:38:55
     /// </summary>
     public interface IPpInspPcbaSlvService : IBaseService<PpInspPcbaSlv>
     {
         /// <summary>
-        /// 获取检查日报slv列表
+        /// 获取检查明细列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         PagedInfo<PpInspPcbaSlvDto> GetList(PpInspPcbaSlvQueryDto parm);
 
         /// <summary>
-        /// 获取检查日报slv信息
+        /// 获取检查明细信息
         /// </summary>
-        /// <param name="PdiSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        PpInspPcbaSlv GetInfo(long PdiSfId);
+        PpInspPcbaSlv GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -33,7 +33,7 @@ namespace Ams.Service.Logistics.ILogisticsService
         public string CheckInputUnique(string enterString);
         /// <summary>
         /// 新增
-        /// 检查日报slv
+        /// 检查明细
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 更新
-        /// 检查日报slv
+        /// 检查明细
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 批量导入
-        /// 检查日报slv
+        /// 检查明细
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 导出
-        /// 检查日报slv
+        /// 检查明细
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>

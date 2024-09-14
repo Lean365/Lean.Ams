@@ -8,10 +8,10 @@ using MiniExcelLibs;
 namespace Ams.WebApi.Controllers.Logistics
 {
     /// <summary>
-    /// 厂商信息
+    /// 销售商
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:23:27
+    /// @Date: 2024/9/11 11:38:56
     /// </summary>
     [Verify]
     [Route("Logistics/MmVendor")]
@@ -19,7 +19,7 @@ namespace Ams.WebApi.Controllers.Logistics
     public class MmVendorController : BaseController
     {
         /// <summary>
-        /// 厂商信息接口
+        /// 销售商接口
         /// </summary>
         private readonly IMmVendorService _MmVendorService;
 
@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 查询厂商信息列表
+        /// 查询销售商列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -43,34 +43,34 @@ namespace Ams.WebApi.Controllers.Logistics
 
 
         /// <summary>
-        /// 查询厂商信息详情
+        /// 查询销售商详情
         /// </summary>
-        /// <param name="VeSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{VeSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "mm:vendor:query")]
-        public IActionResult GetMmVendor(long VeSfId)
+        public IActionResult GetMmVendor(long Id)
         {
-            var response = _MmVendorService.GetInfo(VeSfId);
+            var response = _MmVendorService.GetInfo(Id);
             
             var info = response.Adapt<MmVendorDto>();
             return SUCCESS(info);
         }
 
         /// <summary>
-        /// 添加厂商信息
+        /// 添加销售商
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "mm:vendor:add")]
-        [Log(Title = "厂商信息", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "销售商", BusinessType = BusinessType.ADD)]
         public IActionResult AddMmVendor([FromBody] MmVendorDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_MmVendorService.CheckInputUnique(parm.VeSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_MmVendorService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增厂商信息 '{parm.VeSfId}'失败(Add failed)，输入的厂商信息已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增销售商 '{parm.Id}'失败(Add failed)，输入的销售商已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<MmVendor>().ToCreate(HttpContext);
 
@@ -80,12 +80,12 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 更新厂商信息
+        /// 更新销售商
         /// </summary>
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "mm:vendor:edit")]
-        [Log(Title = "厂商信息", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "销售商", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateMmVendor([FromBody] MmVendorDto parm)
         {
             var modal = parm.Adapt<MmVendor>().ToUpdate(HttpContext);
@@ -95,24 +95,24 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 删除厂商信息
+        /// 删除销售商
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "mm:vendor:delete")]
-        [Log(Title = "厂商信息", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "销售商", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteMmVendor([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
-            return ToResponse(_MmVendorService.Delete(idArr, "删除厂商信息"));
+            return ToResponse(_MmVendorService.Delete(idArr, "删除销售商"));
         }
 
         /// <summary>
-        /// 导出厂商信息
+        /// 导出销售商
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "厂商信息", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "销售商导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "mm:vendor:export")]
         public IActionResult Export([FromQuery] MmVendorQueryDto parm)
@@ -124,19 +124,19 @@ namespace Ams.WebApi.Controllers.Logistics
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "厂商信息", "厂商信息");
+            var result = ExportExcelMini(list, "销售商", "销售商");
             return ExportExcel(result.Item2, result.Item1);
         }
 
         /// <summary>
-        /// 导入
+        /// 导入销售商
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
-        [Log(Title = "厂商信息导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
+      [HttpPost("importData")]
+        [Log(Title = "销售商导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "mm:vendor:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<MmVendorDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 厂商信息导入模板下载
+        /// 销售商
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
-        [Log(Title = "厂商信息模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "销售商模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<MmVendorImportTpl>() { }, "MmVendor_tpl");
             return ExportExcel(result.Item2, result.Item1);

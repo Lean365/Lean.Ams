@@ -1,8 +1,8 @@
 use Ams_Tes;
 
--- 客户信息菜单
+-- 客户菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('客户信息', 1143, 999, 'SdClient', 'logistics/SdClient', 0, 0, 'C', '0', '0', 'sd:client:list', 'icon1', 'Lean365', GETDATE(), 'menu.sd.client');
+VALUES ('客户', 1143, 999, 'SdClient', 'logistics/SdClient', 0, 0, 'C', '0', '0', 'sd:client:list', 'icon1', 'Lean365', GETDATE(), 'menu.sd.client');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -28,17 +28,35 @@ SELECT * FROM sys_menu WHERE parentId = @menuId;
 SELECT * FROM sys_menu WHERE menuId = @menuId;
 
 
--- 客户信息多语言
+-- 客户多语言
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143001,'zh-cn', 'menu.sd.client', '客户信息', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143001,'zh-cn', 'menu.sd.client', '客户', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143002,'zh-tw', 'menu.sd.client', 'TW_客户信息', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143002,'zh-tw', 'menu.sd.client', 'TW_客户', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'en', 'menu.sd.client', 'EN_客户信息', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'en', 'menu.sd.client', 'EN_客户', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143004,'ja', 'menu.sd.client', 'JA_客户信息', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143004,'ja', 'menu.sd.client', 'JA_客户', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'fr', 'menu.sd.client', 'FR_客户', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'ko', 'menu.sd.client', 'KO_客户', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'ar', 'menu.sd.client', 'AR_客户', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'ru', 'menu.sd.client', 'RU_客户', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'de', 'menu.sd.client', 'DE_客户', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1143003,'es', 'menu.sd.client', 'ES_客户', 'Lean365', GETDATE());

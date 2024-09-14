@@ -1,8 +1,9 @@
 <!--
- * @Descripttion: 制二OPH从表/pp_output_pcba_slave
+ * @Descripttion: PCBA明细/pp_output_pcba_slave
  * @Version: 1.0.0.0
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/26 16:07:20
+ * @Date: 2024/8/29 12:09:28
+ * @column：47
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,30 +12,6 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="班组" prop="posLineName">
-        <el-select filterable clearable   v-model="queryParams.posLineName" :placeholder="$t('btn.selectSearchPrefix')+'班组'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_line_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="板别" prop="posPcbaType">
-        <el-select filterable clearable   v-model="queryParams.posPcbaType" :placeholder="$t('btn.selectSearchPrefix')+'板别'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_pcb_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="板面" prop="posPcbaSide">
-        <el-select filterable clearable   v-model="queryParams.posPcbaSide" :placeholder="$t('btn.selectSearchPrefix')+'板面'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_pcb_side " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
       <el-form-item>
@@ -97,8 +74,8 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="posSfid" label="SFID" align="center" v-if="columns.showColumn('posSfid')"/>
-      <el-table-column prop="posParentSfid" label="父SFID" align="center" v-if="columns.showColumn('posParentSfid')"/>
+      <el-table-column prop="posSfId" label="ID" align="center" v-if="columns.showColumn('posSfId')"/>
+      <el-table-column prop="posParentSfId" label="父SfId" align="center" v-if="columns.showColumn('posParentSfId')"/>
       <el-table-column prop="posLineName" label="班组" align="center" v-if="columns.showColumn('posLineName')">
         <template #default="scope">
           <dict-tag :options=" options.sql_line_list " :value="scope.row.posLineName"  />
@@ -134,21 +111,17 @@
       <el-table-column prop="posRepairLoss" label="修正仕损" align="center" v-if="columns.showColumn('posRepairLoss')"/>
       <el-table-column prop="posDownTimeReasons" label="停线原因" align="center" v-if="columns.showColumn('posDownTimeReasons')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_line_stop " :value="scope.row.posDownTimeReasons" split="," />
+          <dict-tag :options=" options.sql_line_stop " :value="scope.row.posDownTimeReasons"  />
         </template>
       </el-table-column>
       <el-table-column prop="posDownTimeDescription" label="停线备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('posDownTimeDescription')"/>
       <el-table-column prop="posMissingReasons" label="未达成原因" align="center" v-if="columns.showColumn('posMissingReasons')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_non_conf " :value="scope.row.posMissingReasons" split="," />
+          <dict-tag :options=" options.sql_non_conf " :value="scope.row.posMissingReasons"  />
         </template>
       </el-table-column>
       <el-table-column prop="posMissingDescription" label="未达成备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('posMissingDescription')"/>
-      <el-table-column prop="remark" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
-      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
-      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
-      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
+      <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button-group>
@@ -160,7 +133,7 @@
     </el-table>
     <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
 
-    <!-- 添加或修改制二OPH从表对话框 -->
+    <!-- 添加或修改PCBA明细对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" >
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
@@ -168,14 +141,8 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="SFID" prop="posSfid">
-              <el-input v-model.number="form.posSfid" :placeholder="$t('btn.enterPrefix')+'SFID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="父SFID" prop="posParentSfid">
-              <el-input v-model.number="form.posParentSfid" :placeholder="$t('btn.enterPrefix')+'父SFID'+$t('btn.enterSuffix')" />
+            <el-form-item label="父SfId" prop="posParentSfId">
+              <el-input v-model.number="form.posParentSfId" :placeholder="$t('btn.enterPrefix')+'父SfId'+$t('btn.enterSuffix')"  show-word-limit maxlength="19"/>
             </el-form-item>
           </el-col>
 
@@ -204,19 +171,6 @@
             </el-form-item>
           </el-col>
 
-
-          <el-col :lg="12">
-            <el-form-item label="板面" prop="posPcbaSide">
-              <el-select filterable clearable   v-model="form.posPcbaSide"  :placeholder="$t('btn.selectPrefix')+'板面'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sys_pcb_side" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
             
           <el-col :lg="12">
             <el-form-item label="Lot数" prop="posLotQty">
@@ -238,22 +192,19 @@
 
           <el-col :lg="24">
             <el-form-item label="序列号" prop="posPcbSerial">
-              <el-input type="textarea" v-model="form.posPcbSerial" :placeholder="$t('btn.enterPrefix')+'序列号'+$t('btn.enterSuffix')"/>
+              <el-input type="textarea" v-model="form.posPcbSerial" :placeholder="$t('btn.enterPrefix')+'序列号'+$t('btn.enterSuffix')" show-word-limit maxlength="2000"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="完成情况" prop="posPcbaStated">
-              <el-select filterable clearable   v-model="form.posPcbaStated"  :placeholder="$t('btn.selectPrefix')+'完成情况'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sql_comp_status" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
+              <el-radio-group v-model="form.posPcbaStated">
+                <el-radio v-for="item in options.sql_comp_status" :key="item.dictValue" :value="item.dictValue">
+                  {{item.dictLabel}}
+                </el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-col>
-
             
           <el-col :lg="12">
             <el-form-item label="生产工数" prop="posProTime">
@@ -311,7 +262,7 @@
 
           <el-col :lg="12">
             <el-form-item label="停线原因" prop="posDownTimeReasons">
-              <el-select filterable clearable multiple collapse-tags collapse-tags-tooltip  v-model="form.posDownTimeReasonsChecked"  :placeholder="$t('btn.selectPrefix')+'停线原因'+$t('btn.selectSuffix')">
+              <el-select filterable clearable   v-model="form.posDownTimeReasons"  :placeholder="$t('btn.selectPrefix')+'停线原因'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_line_stop" 
                   :key="item.dictValue" 
@@ -324,13 +275,13 @@
 
           <el-col :lg="12">
             <el-form-item label="停线备注说明" prop="posDownTimeDescription">
-              <el-input v-model="form.posDownTimeDescription" :placeholder="$t('btn.enterPrefix')+'停线备注说明'+$t('btn.enterSuffix')" />
+              <el-input v-model="form.posDownTimeDescription" :placeholder="$t('btn.enterPrefix')+'停线备注说明'+$t('btn.enterSuffix')"  show-word-limit maxlength="200"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="未达成原因" prop="posMissingReasons">
-              <el-select filterable clearable multiple collapse-tags collapse-tags-tooltip  v-model="form.posMissingReasonsChecked"  :placeholder="$t('btn.selectPrefix')+'未达成原因'+$t('btn.selectSuffix')">
+              <el-select filterable clearable   v-model="form.posMissingReasons"  :placeholder="$t('btn.selectPrefix')+'未达成原因'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_non_conf" 
                   :key="item.dictValue" 
@@ -343,119 +294,13 @@
 
           <el-col :lg="12">
             <el-form-item label="未达成备注说明" prop="posMissingDescription">
-              <el-input v-model="form.posMissingDescription" :placeholder="$t('btn.enterPrefix')+'未达成备注说明'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义A" prop="uDF01">
-              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义B" prop="uDF02">
-              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义C" prop="uDF03">
-              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义D" prop="uDF04">
-              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义E" prop="uDF05">
-              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义F" prop="uDF06">
-              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义1" prop="uDF51">
-              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义2" prop="uDF52">
-              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义3" prop="uDF53">
-              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义4" prop="uDF54">
-              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义5" prop="uDF55">
-              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义6" prop="uDF56">
-              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="软删除" prop="isDeleted">
-              <el-radio-group v-model="form.isDeleted">
-                <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue" :value="parseInt(item.dictValue)">
-                  {{item.dictLabel}}
-                </el-radio>
-              </el-radio-group>
+              <el-input v-model="form.posMissingDescription" :placeholder="$t('btn.enterPrefix')+'未达成备注说明'+$t('btn.enterSuffix')"  show-word-limit maxlength="200"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="说明" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建者" prop="createBy">
-              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建时间" prop="createTime">
-              <el-date-picker v-model="form.createTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新者" prop="updateBy">
-              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新时间" prop="updateTime">
-              <el-date-picker v-model="form.updateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="备注说明" prop="remark">
+              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -569,17 +414,11 @@ const queryParams = reactive({
   pageSize: 56,
   sort: '',
   sortType: 'asc',
-//是否查询（1是）
-  posLineName: undefined,
-//是否查询（1是）
-  posPcbaType: undefined,
-//是否查询（1是）
-  posPcbaSide: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'posSfid', label: 'SFID' },
-  { visible: true, prop: 'posParentSfid', label: '父SFID' },
+  { visible: true, prop: 'posSfId', label: 'ID' },
+  { visible: true, prop: 'posParentSfId', label: '父SfId' },
   { visible: true, prop: 'posLineName', label: '班组' },
   { visible: true, prop: 'posPcbaType', label: '板别' },
   { visible: true, prop: 'posPcbaSide', label: '板面' },
@@ -601,11 +440,7 @@ const columns = ref([
   { visible: false, prop: 'posDownTimeDescription', label: '停线备注说明' },
   { visible: false, prop: 'posMissingReasons', label: '未达成原因' },
   { visible: false, prop: 'posMissingDescription', label: '未达成备注说明' },
-  { visible: false, prop: 'remark', label: '说明' },
-  { visible: false, prop: 'createBy', label: '创建者' },
-  { visible: false, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新者' },
-  { visible: false, prop: 'updateTime', label: '更新时间' },
+  { visible: false, prop: 'remark', label: '备注说明' },
 ])
 // 记录数
 const total = ref(0)
@@ -633,7 +468,7 @@ proxy.getDicts(dictParams).then((response) => {
     state.options[element.dictType] = element.list
   })
 })
-//API获取从制二OPH从表/pp_output_pcba_slave表记录数据
+//API获取从PCBA明细/pp_output_pcba_slave表记录数据
 function getList(){
   loading.value = true
   listPpOutputPcbaSlave(queryParams).then(res => {
@@ -659,7 +494,7 @@ function resetQuery(){
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.posSfid);
+  ids.value = selection.map((item) => item.posSfId);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -695,30 +530,7 @@ const state = reactive({
   multiple: true,
   form: {},
   rules: {
-    posSfid: [{ required: true, message: "SFID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    posParentSfid: [{ required: true, message: "父SFID"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    posLineName: [{ required: true, message: "班组"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    posPcbaType: [{ required: true, message: "板别"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    posPcbaSide: [{ required: true, message: "板面"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    posLotQty: [{ required: true, message: "Lot数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    posRealOutput: [{ required: true, message: "生产实绩"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    posRealTotal: [{ required: true, message: "累计生产数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    posProTime: [{ required: true, message: "生产工数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    posHandoffNum: [{ required: true, message: "切换次数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    posHandoffTime: [{ required: true, message: "切换时间"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    posDownTime: [{ required: true, message: "切停机时间"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    posLossTime: [{ required: true, message: "损失工数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    posMakeTime: [{ required: true, message: "投入工数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    posBadQty: [{ required: true, message: "不良台数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    posManualLoss: [{ required: true, message: "手插仕损"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    posRepairLoss: [{ required: true, message: "修正仕损"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    uDF51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF54: [{ required: true, message: "自定义4"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF55: [{ required: true, message: "自定义5"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF56: [{ required: true, message: "自定义6"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    posSfId: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
   },
   options: {
     // 班组 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
@@ -749,8 +561,8 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    posSfid: 0,
-    posParentSfid: 0,
+    posSfId: 0,
+    posParentSfId: 0,
     posLineName: null,
     posPcbaType: null,
     posPcbaSide: null,
@@ -768,10 +580,16 @@ function reset() {
     posBadQty: 0,
     posManualLoss: 0,
     posRepairLoss: 0,
-    posDownTimeReasonsChecked: [],
+    posDownTimeReasons: null,
     posDownTimeDescription: null,
-    posMissingReasonsChecked: [],
+    posMissingReasons: null,
     posMissingDescription: null,
+    rEF01: null,
+    rEF02: null,
+    rEF03: null,
+    rEF04: 0,
+    rEF05: 0,
+    rEF06: 0,
     uDF01: null,
     uDF02: null,
     uDF03: null,
@@ -799,7 +617,7 @@ function reset() {
 function handleAdd() {
   reset();
   open.value = true
-  title.value = proxy.$t('btn.add')+" "+'制二OPH从表'
+  title.value = proxy.$t('btn.add')+" "+'PCBA明细'
   opertype.value = 1
   form.value.posLineName= []
   form.value.posPcbaType= []
@@ -807,7 +625,7 @@ function handleAdd() {
   form.value.posLotQty= 0
   form.value.posRealOutput= 0
   form.value.posRealTotal= 0
-  form.value.posPcbaStated= []
+  form.value.posPcbaStated= 0
   form.value.posProTime= 0
   form.value.posHandoffNum= 0
   form.value.posHandoffTime= 0
@@ -817,24 +635,22 @@ function handleAdd() {
   form.value.posBadQty= 0
   form.value.posManualLoss= 0
   form.value.posRepairLoss= 0
-  form.value.createTime= new Date()
-  form.value.updateTime= new Date()
+  form.value.posDownTimeReasons= []
+  form.value.posMissingReasons= []
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.posSfid || ids.value
+  const id = row.posSfId || ids.value
   getPpOutputPcbaSlave(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
       open.value = true
-      title.value = proxy.$t('btn.edit')+" "+ '制二OPH从表'
+      title.value = proxy.$t('btn.edit')+" "+ 'PCBA明细'
       opertype.value = 2
 
       form.value = {
         ...data,
-        posDownTimeReasonsChecked: data.posDownTimeReasons ? data.posDownTimeReasons.split(',') : [],
-        posMissingReasonsChecked: data.posMissingReasons ? data.posMissingReasons.split(',') : [],
       }
     }
   })
@@ -844,10 +660,8 @@ function handleUpdate(row) {
 function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
-      form.value.posDownTimeReasons = form.value.posDownTimeReasonsChecked.toString();
-      form.value.posMissingReasons = form.value.posMissingReasonsChecked.toString();
 
-      if (form.value.posSfid != undefined && opertype.value === 2) {
+      if (form.value.posSfId != undefined && opertype.value === 2) {
         updatePpOutputPcbaSlave(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -866,7 +680,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.posSfid || ids.value
+  const Ids = row.posSfId || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {
@@ -900,7 +714,7 @@ const handleFileSuccess = (response) => {
 // 导出按钮操作
 function handleExport() {
   proxy
-    .$confirm(proxy.$t('common.tipConfirmExport')+"<制二OPH从表.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
+    .$confirm(proxy.$t('common.tipConfirmExport')+"<PCBA明细.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
       confirmButtonText: proxy.$t('btn.submit'),
       cancelButtonText: proxy.$t('btn.cancel'),
       type: "warning",

@@ -1,18 +1,11 @@
-using Ams.Model.Monitor.Dto;
-using Ams.Service.Monitor.IMonitorService;
-using Microsoft.AspNetCore.Mvc;
-
 namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
     /// 审计日志
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("monitor/diff")]
-    [ApiExplorerSettings(GroupName = "monitor")]
+    [ApiExplorerSettings(GroupName = "system")]
     public class DiffLogController : BaseController
     {
         /// <summary>

@@ -1,12 +1,12 @@
 namespace Ams.Model.Logistics
 {
     /// <summary>
-    /// 组立不良slv
+    /// 不良明细
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 11:58:58
+    /// @Date: 2024/9/12 16:38:50
     /// </summary>
-    [SugarTable("pp_repair_assy_slv", "组立不良slv")]
+    [SugarTable("pp_repair_assy_slv", "不良明细")]
     public class PpRepairAssySlv : SysBase
     {
         /// <summary>
@@ -14,48 +14,49 @@ namespace Ams.Model.Logistics
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long PpdSfId { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 父ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long PpdParentSfId { get; set; }
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
+        public long? ParentId { get; set; }
 
         /// <summary>
-        /// 不良类别
+        /// 不良区分
         /// </summary>
-        [SugarColumn(ColumnName = "PpdBadType", ColumnDescription = "不良类别 ", Length = 20)]
-        public string PpdBadType { get; set; }
+        [SugarColumn(ColumnName = "Mfa003", ColumnDescription = "不良区分", Length = 20)]
+        public string Mfa003 { get; set; }
 
         /// <summary>
         /// 不良数量
         /// </summary>
-        [SugarColumn(ColumnName = "PpdBadQty", ColumnDescription = "不良数量 ", DefaultValue = "0")]
-        public int PpdBadQty { get; set; }
+        [SugarColumn(ColumnName = "Mfa004", ColumnDescription = "不良数量", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mfa004 { get; set; }
 
         /// <summary>
         /// 不良总数
         /// </summary>
-        [SugarColumn(ColumnName = "PpdBadTotal", ColumnDescription = "不良总数 ", DefaultValue = "0")]
-        public int PpdBadTotal { get; set; }
+        [SugarColumn(ColumnName = "Mfa005", ColumnDescription = "不良总数", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mfa005 { get; set; }
 
         /// <summary>
         /// 不良状况
         /// </summary>
-        [SugarColumn(ColumnName = "PpdBadSymptom", ColumnDescription = "不良状况 ", Length = 200)]
-        public string PpdBadSymptom { get; set; }
+        [SugarColumn(ColumnName = "Mfa006", ColumnDescription = "不良状况", Length = 200)]
+        public string Mfa006 { get; set; }
 
         /// <summary>
         /// 不良个所
         /// </summary>
-        [SugarColumn(ColumnName = "PpdBadPosition", ColumnDescription = "不良个所 ", Length = 200)]
-        public string PpdBadPosition { get; set; }
+        [SugarColumn(ColumnName = "Mfa007", ColumnDescription = "不良个所", Length = 200)]
+        public string Mfa007 { get; set; }
 
         /// <summary>
         /// 不良原因
         /// </summary>
-        [SugarColumn(ColumnName = "PpdBadReason", ColumnDescription = "不良原因 ", Length = 200)]
-        public string PpdBadReason { get; set; }
+        [SugarColumn(ColumnName = "Mfa008", ColumnDescription = "不良原因", Length = 200)]
+        public string Mfa008 { get; set; }
     }
 }

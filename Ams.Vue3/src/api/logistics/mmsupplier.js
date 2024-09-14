@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 供应商信息分页查询
+ * 供应商分页查询
  * @param {查询条件} data
  */
 export function listMmSupplier(query) {
@@ -14,7 +14,7 @@ export function listMmSupplier(query) {
 }
 
 /**
- * 新增供应商信息
+ * 新增供应商
  * @param data
  */
 export function addMmSupplier(data) {
@@ -25,7 +25,7 @@ export function addMmSupplier(data) {
   })
 }
 /**
- * 修改供应商信息
+ * 修改供应商
  * @param data
  */
 export function updateMmSupplier(data) {
@@ -36,7 +36,7 @@ export function updateMmSupplier(data) {
   })
 }
 /**
- * 获取供应商信息详情
+ * 获取供应商详情
  * @param {Id}
  */
 export function getMmSupplier(id) {
@@ -47,7 +47,7 @@ export function getMmSupplier(id) {
 }
 
 /**
- * 删除供应商信息
+ * 删除供应商
  * @param {主键} pid
  */
 export function delMmSupplier(pid) {
@@ -56,7 +56,7 @@ export function delMmSupplier(pid) {
     method: 'delete'
   })
 }
-// 导出供应商信息
+// 导出供应商
 export async function exportMmSupplier(query) {
   await downFile('Logistics/MmSupplier/export', { ...query })
 }

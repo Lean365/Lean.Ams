@@ -1,5 +1,4 @@
 ﻿namespace Ams.Model.Routine.Dto
-
 {
     /// <summary>
     /// 评论
@@ -12,8 +11,8 @@
         public long? UserId { get; set; }
         public int ClassifyId { get; set; }
         public long TargetId { get; set; }
-        public DateTime? BeginTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime? BeginAddTime { get; set; }
+        public DateTime? EndAddTime { get; set; }
     }
 
     public class ArticleCommentDto
@@ -36,6 +35,11 @@
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         public long ParentId { get; set; }
+
+        /// <summary>
+        /// 评论时间
+        /// </summary>
+        public DateTime AddTime { get; set; }
 
         /// <summary>
         /// 回复用户id

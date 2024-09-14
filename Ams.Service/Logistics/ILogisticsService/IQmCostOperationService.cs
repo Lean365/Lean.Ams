@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 品质业务
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 15:11:02
+    /// @Date: 2024/9/11 16:48:39
     /// </summary>
     public interface IQmCostOperationService : IBaseService<QmCostOperation>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取品质业务信息
         /// </summary>
-        /// <param name="QcodSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        QmCostOperation GetInfo(long QcodSfId);
+        QmCostOperation GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

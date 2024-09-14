@@ -1,15 +1,10 @@
-using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
+//创建时间：2023-11-20
 namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
-    /// 已发邮件
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
+    /// 邮件记录
     /// </summary>
     [Verify]
     [Route("routine/email/items")]
@@ -17,7 +12,7 @@ namespace Ams.WebApi.Controllers.Routine
     public class EmailItemsController : BaseController
     {
         /// <summary>
-        /// 邮件发送记录接口
+        /// 邮件记录接口
         /// </summary>
         private readonly IEmailItemsService _EmailLogService;
 
@@ -32,7 +27,7 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 查询邮件发送记录列表
+        /// 查询邮件记录列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -45,7 +40,7 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 查询邮件发送记录详情
+        /// 查询邮件记录详情
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
@@ -94,12 +89,12 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 删除邮件发送记录
+        /// 删除邮件记录
         /// </summary>
         /// <returns></returns>
         [HttpDelete("{ids}")]
         [ActionPermissionFilter(Permission = "routine:emailitems:delete")]
-        [Log(Title = "邮件发送记录", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "邮件记录", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteEmailLog(string ids)
         {
             long[] idsArr = Tools.SpitLongArrary(ids);

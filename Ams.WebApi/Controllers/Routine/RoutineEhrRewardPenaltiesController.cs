@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Routine
     /// 奖惩
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:30:08
+    /// @Date: 2024/9/12 15:16:00
     /// </summary>
     [Verify]
     [Route("Routine/RoutineEhrRewardPenalties")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Routine
         /// <summary>
         /// 查询奖惩详情
         /// </summary>
-        /// <param name="EeSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{EeSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "routine:ehrrewardpenalties:query")]
-        public IActionResult GetRoutineEhrRewardPenalties(long EeSfId)
+        public IActionResult GetRoutineEhrRewardPenalties(long Id)
         {
-            var response = _RoutineEhrRewardPenaltiesService.GetInfo(EeSfId);
+            var response = _RoutineEhrRewardPenaltiesService.GetInfo(Id);
             
             var info = response.Adapt<RoutineEhrRewardPenaltiesDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "routine:ehrrewardpenalties:add")]
-        [Log(Title = "奖惩", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "奖惩", BusinessType = BusinessType.ADD)]
         public IActionResult AddRoutineEhrRewardPenalties([FromBody] RoutineEhrRewardPenaltiesDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_RoutineEhrRewardPenaltiesService.CheckInputUnique(parm.EeSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_RoutineEhrRewardPenaltiesService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增奖惩 '{parm.EeSfId}'失败(Add failed)，输入的奖惩已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增奖惩 '{parm.Id}'失败(Add failed)，输入的奖惩已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<RoutineEhrRewardPenalties>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "routine:ehrrewardpenalties:edit")]
-        [Log(Title = "奖惩", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "奖惩", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateRoutineEhrRewardPenalties([FromBody] RoutineEhrRewardPenaltiesDto parm)
         {
             var modal = parm.Adapt<RoutineEhrRewardPenalties>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Routine
         /// 导出奖惩
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "奖惩", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "奖惩导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "routine:ehrrewardpenalties:export")]
         public IActionResult Export([FromQuery] RoutineEhrRewardPenaltiesQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 导入
+        /// 导入奖惩
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "奖惩导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "routine:ehrrewardpenalties:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<RoutineEhrRewardPenaltiesDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Routine
         }
 
         /// <summary>
-        /// 奖惩导入模板下载
+        /// 奖惩
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "奖惩模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<RoutineEhrRewardPenaltiesImportTpl>() { }, "RoutineEhrRewardPenalties_tpl");
             return ExportExcel(result.Item2, result.Item1);

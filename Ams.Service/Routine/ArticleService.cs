@@ -1,10 +1,8 @@
-﻿using Ams.Common;
-using Ams.Infrastructure;
-using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
+﻿using Ams.Model.Enums;
+using Ams.Repository;
 using Mapster;
 
-namespace Ams.Service.Content
+namespace Ams.Service.Routine
 {
     /// <summary>
     ///
@@ -12,7 +10,7 @@ namespace Ams.Service.Content
     [AppService(ServiceType = typeof(IArticleService), ServiceLifetime = LifeTime.Transient)]
     public class ArticleService : BaseService<Article>, IArticleService
     {
-        private readonly IArticleCategoryService _categoryService;
+        private readonly IArticleCatalogService _categoryService;
         private readonly IArticleTopicService _topicService;
         private readonly ISysConfigService _sysConfigService;
         private readonly ISysUserMsgService _userMsgService;
@@ -25,7 +23,7 @@ namespace Ams.Service.Content
         /// <param name="sysConfigService"></param>
         /// <param name="userMsgService"></param>
         public ArticleService(
-            IArticleCategoryService categoryService,
+            IArticleCatalogService categoryService,
             IArticleTopicService topicService,
             ISysConfigService sysConfigService,
             ISysUserMsgService userMsgService)
@@ -47,7 +45,7 @@ namespace Ams.Service.Content
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Title), m => m.Title.Contains(parm.Title));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.AbstractText), m => m.AbstractText.Contains(parm.AbstractText));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IsStatus.ToString()), m => m.IsStatus == parm.IsStatus);
+            predicate = predicate.AndIF(parm.IsStatus != -1, m => m.IsStatus == parm.IsStatus);
             predicate = predicate.AndIF(parm.IsPublic != null, m => m.IsPublic == parm.IsPublic);
             predicate = predicate.AndIF(parm.IsTop != null, m => m.IsTop == parm.IsTop);
             predicate = predicate.AndIF(parm.ArticleType != null, m => (int)m.ArticleType == parm.ArticleType);
@@ -56,7 +54,7 @@ namespace Ams.Service.Content
 
             if (parm.CategoryId != null)
             {
-                var allChildCategory = Context.Queryable<ArticleCategory>()
+                var allChildCategory = Context.Queryable<ArticleCatalog>()
                     .ToChildList(m => m.ParentId, parm.CategoryId);
                 var categoryIdList = allChildCategory.Select(x => x.CategoryId).ToArray();
                 predicate = predicate.And(m => categoryIdList.Contains(m.CategoryId));
@@ -90,7 +88,7 @@ namespace Ams.Service.Content
 
             if (parm.CategoryId != null)
             {
-                var allChildCategory = Context.Queryable<ArticleCategory>()
+                var allChildCategory = Context.Queryable<ArticleCatalog>()
                     .ToChildList(m => m.ParentId, parm.CategoryId);
                 var categoryIdList = allChildCategory.Select(x => x.CategoryId).ToArray();
                 predicate = predicate.And(m => categoryIdList.Contains(m.CategoryId));
@@ -112,7 +110,7 @@ namespace Ams.Service.Content
                     },
                     Content = string.Empty,
                     UserIP = string.Empty,
-                    CategoryNav = m.ArticleCategoryNav.Adapt<ArticleCategoryDto>()
+                    CategoryNav = m.ArticleCategoryNav.Adapt<ArticleCatalogDto>()
                 }, true)
                 .ToPage(parm);
 
@@ -121,7 +119,7 @@ namespace Ams.Service.Content
                 Context.ThenMapper(response.Result, item =>
                 {
                     item.IsPraise = Context.Queryable<ArticlePraise>()
-                    .Where(f => f.UserId == parm.UserId && f.IsDeleted == 0)
+                    .Where(f => f.UserId == parm.UserId && f.Is_deleted == 0)
                     .SetContext(scl => scl.ArticleId, () => item.Cid, item).Any() ? 1 : 0;
                 });
             }
@@ -159,7 +157,7 @@ namespace Ams.Service.Content
                         NickName = u.NickName,
                         Sex = u.Gender,
                     },
-                    CategoryNav = m.ArticleCategoryNav.Adapt<ArticleCategoryDto>()
+                    CategoryNav = m.ArticleCategoryNav.Adapt<ArticleCatalogDto>()
                 }, true)
                 .ToPage(parm);
 
@@ -168,7 +166,7 @@ namespace Ams.Service.Content
                 Context.ThenMapper(response.Result, item =>
                 {
                     item.IsPraise = Context.Queryable<ArticlePraise>()
-                    .Where(f => f.UserId == parm.UserId && f.IsDeleted == 0)
+                    .Where(f => f.UserId == parm.UserId && f.Is_deleted == 0)
                     .SetContext(scl => scl.ArticleId, () => item.Cid, item).Any() ? 1 : 0;
                 });
             }
@@ -203,9 +201,9 @@ namespace Ams.Service.Content
             var predicate = Expressionable.Create<Article>();
 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Title), m => m.Title.Contains(parm.Title));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IsStatus.ToString()), m => m.IsStatus == parm.IsStatus);
-            predicate = predicate.AndIF(parm.BeginTime != null, m => m.CreateTime >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, m => m.CreateTime <= parm.EndTime);
+            predicate = predicate.AndIF(parm.IsStatus != -1, m => m.IsStatus == parm.IsStatus);
+            predicate = predicate.AndIF(parm.BeginTime != null, m => m.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, m => m.Create_time <= parm.EndTime);
             predicate = predicate.And(m => m.UserId == parm.UserId);
             predicate = predicate.AndIF(parm.ArticleType != null, m => (int)m.ArticleType == parm.ArticleType);
             predicate = predicate.AndIF(parm.TabId == 2, m => m.IsPublic == 0 && m.UserId == parm.UserId);
@@ -238,7 +236,7 @@ namespace Ams.Service.Content
                 Content = model.Content,
                 IsStatus = model.IsStatus,
                 Tags = model.Tags,
-                UpdateTime = DateTime.Now,
+                Update_time = DateTime.Now,
                 CoverUrl = model.CoverUrl,
                 CategoryId = model.CategoryId,
                 IsPublic = model.IsPublic,
@@ -344,7 +342,7 @@ namespace Ams.Service.Content
             //更新圈子加入数
             if (article.Cid > 0 && article.CategoryId > 0)
             {
-                _categoryService.Update(w => w.CategoryId == article.CategoryId, it => new ArticleCategory() { JoinNum = it.JoinNum + 1 });
+                _categoryService.Update(w => w.CategoryId == article.CategoryId, it => new ArticleCatalog() { JoinNum = it.JoinNum + 1 });
             }
             return article;
         }
@@ -366,7 +364,7 @@ namespace Ams.Service.Content
             }
             if (model != null)
             {
-                model.CategoryNav = _categoryService.GetById(model.CategoryId).Adapt<ArticleCategoryDto>();
+                model.CategoryNav = _categoryService.GetById(model.CategoryId).Adapt<ArticleCatalogDto>();
             }
 
             var webContext = App.HttpContext;
@@ -389,7 +387,7 @@ namespace Ams.Service.Content
             if (userId > 0)
             {
                 model.IsPraise = Context.Queryable<ArticlePraise>()
-               .Where(f => f.UserId == userId && f.ArticleId == cid && f.IsDeleted == 0)
+               .Where(f => f.UserId == userId && f.ArticleId == cid && f.Is_deleted == 0)
                .Any() ? 1 : 0;
             }
 

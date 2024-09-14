@@ -1,8 +1,8 @@
-use Lean365;
+use Ams_Tes;
 
 -- 源机种仕向菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('源机种仕向', 1139, 999, 'PpSourceModelRegion', 'logistics/PpSourceModelRegion', 0, 0, 'C', '0', '0', 'pp:sourcemodelregion:list', 'icon1', 'Lean365', GETDATE(), 'menu.pp.sourcemodelregion');
+VALUES ('源机种仕向', 1426, 999, 'PpSourceModelRegion', 'logistics/PpSourceModelRegion', 0, 0, 'C', '0', '0', 'pp:sourcemodelregion:list', 'icon1', 'Lean365', GETDATE(), 'menu.pp.sourcemodelregion');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -32,13 +32,31 @@ SELECT * FROM sys_menu WHERE menuId = @menuId;
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1139001,'zh-cn', 'menu.pp.sourcemodelregion', '源机种仕向', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1426001,'zh-cn', 'menu.pp.sourcemodelregion', '源机种仕向', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1139002,'zh-tw', 'menu.pp.sourcemodelregion', 'TW_源机种仕向', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1426002,'zh-tw', 'menu.pp.sourcemodelregion', 'TW_源机种仕向', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1139003,'en', 'menu.pp.sourcemodelregion', 'EN_源机种仕向', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1426003,'en', 'menu.pp.sourcemodelregion', 'EN_源机种仕向', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1139004,'ja', 'menu.pp.sourcemodelregion', 'JA_源机种仕向', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1426004,'ja', 'menu.pp.sourcemodelregion', 'JA_源机种仕向', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1426003,'fr', 'menu.pp.sourcemodelregion', 'FR_源机种仕向', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1426003,'ko', 'menu.pp.sourcemodelregion', 'KO_源机种仕向', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1426003,'ar', 'menu.pp.sourcemodelregion', 'AR_源机种仕向', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1426003,'ru', 'menu.pp.sourcemodelregion', 'RU_源机种仕向', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1426003,'de', 'menu.pp.sourcemodelregion', 'DE_源机种仕向', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1426003,'es', 'menu.pp.sourcemodelregion', 'ES_源机种仕向', 'Lean365', GETDATE());

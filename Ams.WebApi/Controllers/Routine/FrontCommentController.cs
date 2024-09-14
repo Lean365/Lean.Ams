@@ -1,15 +1,7 @@
-﻿using Ams.Model;
-using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Ams.WebApi.Controllers
+﻿namespace Ams.WebApi.Controllers.Routine
 {
     /// <summary>
     /// 评论
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
     /// </summary>
     [Route("routine/article/comment")]
     [ApiExplorerSettings(GroupName = "routine")]
@@ -60,14 +52,14 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpPost("add")]
         [Verify]
-        [ActionPermissionFilter(Permission = "routine:articlecomment:add")]
+        [ActionPermissionFilter(Permission = "article:comment:add")]
         public IActionResult Create([FromBody] ArticleCommentDto parm)
         {
-            var uid = HttpContextExtension.GetUId(HttpContext);
+            var uid = HttpContext.GetUId();
             if (uid <= 0) { return ToResponse(ResultCode.DENY); }
 
             var addModel = parm.Adapt<ArticleComment>().ToCreate(context: HttpContext);
-            addModel.UserIP = HttpContextExtension.GetClientUserIp(HttpContext);
+            addModel.UserIP = HttpContext.GetClientUserIp();
             addModel.UserId = uid;
             return SUCCESS(messageService.AddMessage(addModel).Adapt<ArticleCommentDto>());
         }
@@ -78,7 +70,7 @@ namespace Ams.WebApi.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost("praise")]
-        [ActionPermissionFilter(Permission = "routine:articlepraise:add")]
+        [ActionPermissionFilter(Permission = "article:comment:add")]
         [Verify]
         public IActionResult Praise([FromBody] ArticleCommentDto dto)
         {
@@ -94,11 +86,11 @@ namespace Ams.WebApi.Controllers
         /// <param name="mid"></param>
         /// <returns></returns>
         [HttpDelete("delete/{mid}")]
-        [ActionPermissionFilter(Permission = "routine:articlecomment:delete")]
+        [ActionPermissionFilter(Permission = "article:comment:delete")]
         [Verify]
         public IActionResult Delete(long mid)
         {
-            var uid = HttpContextExtension.GetUId(HttpContext);
+            var uid = HttpContext.GetUId();
             if (uid <= 0) { return ToResponse(ResultCode.DENY); }
             return SUCCESS(messageService.DeleteMessage(mid.ParseToLong(), uid));
         }
@@ -123,10 +115,10 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpPut("top")]
         [Verify]
-        [ActionPermissionFilter(Permission = "routine:articletop:add")]
+        [ActionPermissionFilter(Permission = "article:comment:update")]
         public IActionResult Top([FromBody] ArticleCommentDto parm)
         {
-            var uid = HttpContextExtension.GetUId(HttpContext);
+            var uid = HttpContext.GetUId();
             if (uid <= 0) { return ToResponse(ResultCode.DENY); }
             var contentInfo = articleService.GetArticle(parm.TargetId, uid);
             if (contentInfo == null) { return ToResponse(ResultCode.CUSTOM_ERROR, "操作失败"); }

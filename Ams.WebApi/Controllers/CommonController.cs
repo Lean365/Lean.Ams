@@ -1,41 +1,41 @@
 ﻿using Ams.Infrastructure.IPTools;
-using Ams.Service.Kernel;
-using Lna.Service.Resources;
-using Microsoft.AspNetCore.Mvc;
+using Ams.Service.Resources;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
-using MiniExcelLibs;
 
 namespace Ams.WebApi.Controllers
 {
     /// <summary>
-    /// 通用
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
+    /// 公共模块
     /// </summary>
     [Route("[controller]/[action]")]
-    [ApiExplorerSettings(GroupName = "tool")]
+    [ApiExplorerSettings(GroupName = "system")]
     public class CommonController : BaseController
     {
-        private readonly OptionsSetting OptionsSetting;
+        private OptionsSetting OptionsSetting;
+        private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        //private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private IWebHostEnvironment WebHostEnvironment;
+        private IFileStorageService FileStorageService;
         private readonly IStringLocalizer<SharedResource> _StringLocalizer;
 
-        private readonly IWebHostEnvironment WebHostEnvironment;
-        private readonly IFileStorageService SysFileService;
-
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="stringLocalizer"></param>
+        /// <param name="options"></param>
+        /// <param name="webHostEnvironment"></param>
+        /// <param name="fileService"></param>
         public CommonController(
-             IStringLocalizer<SharedResource> StringLocalizer,
+            IStringLocalizer<SharedResource> stringLocalizer,
             IOptions<OptionsSetting> options,
             IWebHostEnvironment webHostEnvironment,
             IFileStorageService fileService)
         {
             WebHostEnvironment = webHostEnvironment;
-            SysFileService = fileService;
+            FileStorageService = fileService;
             OptionsSetting = options.Value;
-            _StringLocalizer = StringLocalizer;
+            _StringLocalizer = stringLocalizer;
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Ams.WebApi.Controllers
         public async Task<IActionResult> UploadFile([FromForm] UploadDto uploadDto, IFormFile file, StoreType storeType = StoreType.LOCAL)
         {
             if (file == null) throw new CustomException(ResultCode.PARAM_ERROR, "上传文件不能为空");
-            FileStorage sysfile = new();
+            FileStorage FileStorage = new();
             IFormFile formFile = file;
             string fileExt = Path.GetExtension(formFile.FileName);//文件后缀
             double fileSize = Math.Round(formFile.Length / 1024.0, 2);//文件大小KB
@@ -116,7 +116,7 @@ namespace Ams.WebApi.Controllers
             }
             else if (uploadDto.FileNameType == 3)
             {
-                uploadDto.FileName = SysFileService.HashFileName();
+                uploadDto.FileName = FileStorageService.HashFileName();
             }
             switch (storeType)
             {
@@ -126,7 +126,7 @@ namespace Ams.WebApi.Controllers
                     {
                         uploadDto.FileDir = OptionsSetting.Upload.LocalSavePath;
                     }
-                    sysfile = await SysFileService.SaveFileToLocal(savePath, uploadDto.FileName, uploadDto.FileDir, HttpContext.GetName(), formFile);
+                    FileStorage = await FileStorageService.SaveFileToLocal(savePath, uploadDto.FileName, uploadDto.FileDir, HttpContext.GetName(), formFile);
                     break;
 
                 case StoreType.REMOTE:
@@ -138,18 +138,18 @@ namespace Ams.WebApi.Controllers
                     {
                         return ToResponse(ResultCode.CUSTOM_ERROR, "配置文件缺失");
                     }
-                    if ((fileSize / 1024) > AlimaxContentLength)
+                    if (fileSize / 1024 > AlimaxContentLength)
                     {
                         return ToResponse(ResultCode.CUSTOM_ERROR, "上传文件过大，不能超过 " + AlimaxContentLength + " MB");
                     }
-                    sysfile = new(formFile.FileName, uploadDto.FileName, fileExt, fileSize + "kb", uploadDto.FileDir, HttpContext.GetName())
+                    FileStorage = new(formFile.FileName, uploadDto.FileName, fileExt, fileSize + "kb", uploadDto.FileDir, HttpContext.GetName())
                     {
                         StoreType = (int)StoreType.ALIYUN,
                         FileType = formFile.ContentType
                     };
-                    sysfile = await SysFileService.SaveFileToAliyun(sysfile, formFile);
+                    FileStorage = await FileStorageService.SaveFileToAliyun(FileStorage, formFile);
 
-                    if (sysfile.Id <= 0) { return ToResponse(ApiResult.Error("阿里云连接失败")); }
+                    if (FileStorage.Id <= 0) { return ToResponse(ApiResult.Error("阿里云连接失败")); }
                     break;
 
                 case StoreType.TENCENT:
@@ -163,9 +163,9 @@ namespace Ams.WebApi.Controllers
             }
             return SUCCESS(new
             {
-                url = sysfile.AccessUrl,
-                fileName = sysfile.FileName,
-                fileId = sysfile.Id.ToString()
+                url = FileStorage.AccessUrl,
+                fileName = FileStorage.FileName,
+                fileId = FileStorage.Id.ToString()
             });
         }
 
@@ -186,7 +186,7 @@ namespace Ams.WebApi.Controllers
             var tempPath = path;
             if (fileId > 0)
             {
-                var fileInfo = SysFileService.GetById(fileId);
+                var fileInfo = FileStorageService.GetById(fileId);
                 if (fileInfo != null)
                 {
                     tempPath = fileInfo.FileUrl;
@@ -208,7 +208,7 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [ActionPermissionFilter(Permission = "common")]
-        [Log(BusinessType = BusinessType.INSERT, Title = "初始化数据")]
+        [Log(BusinessType = BusinessType.ADD, Title = "初始化数据")]
         public IActionResult InitSeedData(bool clean = false)
         {
             if (!WebHostEnvironment.IsDevelopment())
@@ -236,7 +236,7 @@ namespace Ams.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [ActionPermissionFilter(Permission = "common")]
-        [Log(BusinessType = BusinessType.INSERT, Title = "初始化数据")]
+        [Log(BusinessType = BusinessType.ADD, Title = "初始化数据")]
         public IActionResult UpdateSeedData()
         {
             if (!WebHostEnvironment.IsDevelopment())
@@ -246,8 +246,8 @@ namespace Ams.WebApi.Controllers
             var path = Path.Combine(WebHostEnvironment.WebRootPath, "data.xlsx");
             SeedDataService seedDataService = new();
 
-            var sysNotice = MiniExcel.Query<NoticeStorage>(path, sheetName: "notice").ToList();
-            var result = seedDataService.InitNoticeData(sysNotice);
+            var NoticeStorage = MiniExcel.Query<NoticeStorage>(path, sheetName: "notice").ToList();
+            var result = seedDataService.InitNoticeData(NoticeStorage);
 
             var sysMenu = MiniExcel.Query<SysMenu>(path, sheetName: "menu").Where(f => f.MenuId >= 1104).ToList();
             var result5 = seedDataService.InitMenuData(sysMenu);

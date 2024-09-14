@@ -1,6 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
+		<Deterministic>false</Deterministic>
+		<Lastyear>$([System.DateTime]::get_Now().Year)</Lastyear>
+		<Lastmonth>$([System.DateTime]::get_Now().Month)</Lastmonth>
+		<Lastday>$([System.DateTime]::Now.ToString(`yyMMDD`))</Lastday>
+		<Lasthour>$([System.DateTime]::Now.ToString(`HH`))</Lasthour>
+		<Build>$([System.DateTime]::Now.ToString(`yy`))</Build>
+
+		<Minor>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2022,12,31))).get_TotalDays())</Minor>
+		<!--格式化日期 年份+天数-->
+		<Patch>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2021,12,31))).get_TotalDays())</Patch>
+
+		<!--格式化日期-->
+		<Revision>$([MSBuild]::Divide($([System.DateTime]::get_Now().get_TimeOfDay().get_TotalSeconds()), 2).ToString('F0'))</Revision>
+
+		<Alpha>$(Revision)-alpha</Alpha>
+		<!--Alpha 版本通常是软件开发的早期版本，包含有限的功能，可能存在许多漏洞和问题，仅供开发人员进行内部测试和调试使用。-->
+		<Beta>$(Lastday)-beta</Beta>
+		<!--Beta 版本是相对于 Alpha 版本而言的，通常包含更多的功能和修复了一些漏洞和问题，但仍然可能存在一些问题和缺陷。Beta 版本通常会发布给一些有限的测试用户或公众进行测试和反馈。-->
+		<Release>$(Lastmonth)-rc</Release>
+		<!--RC 版本是指预发布的版本，通常是最终版本发布之前的最后一个版本。RC 版本通常包含所有预计的功能和修复的漏洞，但仍然需要进行测试和反馈，以确保最终版本的质量和稳定性。-->
+		<Stable>$(Lastyear)-stable</Stable>
+		<!--Stable 版本是指最终发布的稳定版本，通常包含所有功能和修复的漏洞，经过了充分的测试和反馈，具有较高的质量和稳定性。-->
+		<Copyright>© $(Lastyear) Lean365 Inc.</Copyright>
+		<Version>0.$(Build).$(Minor).$(Alpha)</Version>
+		<!--<Version>0.$(Build).$(Minor).$(Beta)</Version>-->
+		<!--<Version>4.1.$(Minor).$(Release)</Version>-->
+		<!--<Version>4.2.$(Minor).$(Stable)</Version>-->
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<NoWarn>8632</NoWarn>
@@ -12,14 +39,13 @@
 
 	<ItemGroup>
 		<PackageReference Include="AspectCore.Abstractions" Version="2.4.0" />
-		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.7" />
-		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="UAParser" Version="3.1.47" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
-		<PackageReference Include="JinianNet.JNTemplate" Version="2.4.1" />
-		<PackageReference Include="MiniExcel" Version="1.31.2" />
-		<PackageReference Include="CSRedisCore" Version="3.8.801" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+		<PackageReference Include="JinianNet.JNTemplate" Version="2.4.2" />
+		<PackageReference Include="MiniExcel" Version="1.34.1" />
+		<PackageReference Include="CSRedisCore" Version="3.8.803" />
 		<PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
 		<PackageReference Include="IP2Region.Net" Version="2.0.2" />
 	</ItemGroup>

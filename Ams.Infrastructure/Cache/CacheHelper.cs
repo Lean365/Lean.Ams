@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Reflection;
 
-namespace Ams.Common
+namespace Ams.Infrastructure.Cache
 {
     public class CacheHelper
     {

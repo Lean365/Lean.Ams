@@ -2,8 +2,8 @@
   <el-form class="mt10" ref="formRef" :model="form" label-width="100px" :rules="rules">
     <el-row>
       <el-col :lg="6">
-        <el-form-item label="发送邮箱" prop="fromName">
-          <el-select v-model="form.fromName" placeholder="请选择发送邮箱">
+        <el-form-item label="发件人" prop="fromName">
+          <el-select v-model="form.fromName" placeholder="发件人">
             <el-option v-for="dict in sendEmailOptions" :key="dict.dictValue" :label="dict.dictLabel"
               :value="dict.dictValue" />
           </el-select>
@@ -31,17 +31,18 @@
       </el-col>
     </el-row>
 
-    <el-form-item label="接收人" prop="toEmails">
+    <el-form-item label="收件人" prop="toEmails">
       <el-tag v-for="tag in form.toEmails" :key="tag" class="mr10" closable @close="handleCloseTag(tag)">
         {{ tag }}
       </el-tag>
       <el-input size="small" v-if="inputVisible" style="width: 180px" ref="inputRef" v-model="inputValue"
-        placeholder="请输入邮箱地址" @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" />
+        placeholder="请输入收件人邮箱地址" @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" show-word-limit
+        maxlength="40" />
 
       <el-button v-else class="button-new-tag" size="small" icon="plus" text @click="showInput">收件人邮箱</el-button>
     </el-form-item>
     <el-form-item label="邮件主题" prop="subject">
-      <el-input v-model="form.subject"></el-input>
+      <el-input v-model="form.subject" show-word-limit maxlength="200"></el-input>
     </el-form-item>
 
     <el-form-item label="邮件内容" prop="htmlContent">
@@ -68,7 +69,7 @@
       htmlContent: '',
       toEmails: [],
       email: '',
-      fromName: 'system'
+      fromName: 'Lean365'
     },
     rules: {
       fromName: [{ required: true, message: '发送邮箱不能为空', trigger: 'blur' }],
@@ -78,8 +79,8 @@
     },
     sendEmailOptions: [
       {
-        dictLabel: 'system',
-        dictValue: 'system'
+        dictLabel: 'Lean365',
+        dictValue: 'Lean365'
       }
     ]
   })
@@ -182,7 +183,9 @@
   // 标签确认
   function handleInputConfirm() {
     if (inputValue.value) {
-      const regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+      //const regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+
+      const regEmail = /^\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}$/
       if (!regEmail.test(inputValue.value)) {
         proxy.$modal.msgError('请输入有效的邮箱')
         return

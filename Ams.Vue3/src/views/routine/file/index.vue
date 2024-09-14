@@ -89,8 +89,8 @@
     <pagination background :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
       @pagination="getList" />
 
-    <el-dialog :title="title" :lock-scroll="false" v-model="open" width="400px" draggable>
-      <el-form ref="formRef" :model="form" :rules="rules" label-width="90px" label-position="left">
+    <el-dialog :title="title" :lock-scroll="false" v-model="open" width="500px" draggable>
+      <el-form ref="formRef" :model="form" :rules="rules" label-width="auto" label-position="left">
         <el-row>
           <el-col :lg="24">
             <el-form-item label="存储类型" prop="storeType">
@@ -133,7 +133,7 @@
           </el-col>
           <el-col :lg="24" v-if="form.fileNameType == 2">
             <el-form-item label="自定文件名" prop="fileName">
-              <el-input v-model="form.fileName" placeholder="请输入文件名" clearable="" />
+              <el-input v-model="form.fileName" placeholder="请输入文件名" clearable="" show-word-limit maxlength="80" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
@@ -151,7 +151,7 @@
     </el-dialog>
 
     <el-dialog :lock-scroll="false" v-model="openView">
-      <el-form ref="form" :model="formView" :rules="rules" label-width="90px" label-position="left">
+      <el-form ref="form" :model="formView" :rules="rules" label-width="auto" label-position="left">
         <el-row>
           <el-col :lg="12">
             <el-form-item label="文件id">{{ formView.id }}</el-form-item>
@@ -250,9 +250,12 @@
   ])
   // 存储目录前缀
   const saveDirOptions = ref([
-    { dictLabel: 'uploads', dictValue: 'uploads' },
-    { dictLabel: 'video', dictValue: 'video' },
-    { dictLabel: 'avatar', dictValue: 'avatar' }
+    { dictLabel: '默认', dictValue: 'uploads' },
+    { dictLabel: '视频', dictValue: 'video' },
+    { dictLabel: '头像', dictValue: 'avatar' },
+    { dictLabel: '财务', dictValue: 'accounting' },
+    { dictLabel: '后勤', dictValue: 'logistics' },
+    { dictLabel: '日常', dictValue: 'routine' },
   ])
   // 数据列表
   const dataList = ref([])
@@ -318,12 +321,12 @@
     form.value = {
       fileName: '',
       fileUrl: '',
-      storePath: '',
+      storePath: 'uploads',
       fileSize: 0,
       fileExt: '',
       storeType: 1,
       accessUrl: '',
-      fileNameType: 3
+      fileNameType: 1
     }
     proxy.resetForm('formRef')
   }

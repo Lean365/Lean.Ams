@@ -1,18 +1,20 @@
+using Ams.Model;
+
 namespace Ams.Model.Monitor.Dto
 {
     /// <summary>
-    /// 用户在线时长查询对象
+    /// 在线时长查询对象
     /// </summary>
     public class DurationLogQueryDto : PagerInfo
     {
         public int? UserId { get; set; }
         public string UserIP { get; set; }
-        public DateTime? BeginTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime? BeginAddTime { get; set; }
+        public DateTime? EndAddTime { get; set; }
     }
 
     /// <summary>
-    /// 用户在线时长输入输出对象
+    /// 在线时长输入输出对象
     /// </summary>
     public class DurationLogDto
     {
@@ -31,6 +33,10 @@ namespace Ams.Model.Monitor.Dto
         [ExcelColumn(Name = "在线时长(分)")]
         [ExcelColumnName("在线时长(分)")]
         public double OnlineTime { get; set; }
+
+        [ExcelColumn(Name = "结束时间", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("结束时间")]
+        public DateTime? AddTime { get; set; }
 
         [ExcelColumn(Name = "地址位置")]
         [ExcelColumnName("地址位置")]

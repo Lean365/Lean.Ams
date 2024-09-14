@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 从设变分页查询
+ * 设变明细分页查询
  * @param {查询条件} data
  */
 export function listPpEcSlave(query) {
@@ -14,7 +14,7 @@ export function listPpEcSlave(query) {
 }
 
 /**
- * 新增从设变
+ * 新增设变明细
  * @param data
  */
 export function addPpEcSlave(data) {
@@ -25,7 +25,7 @@ export function addPpEcSlave(data) {
   })
 }
 /**
- * 修改从设变
+ * 修改设变明细
  * @param data
  */
 export function updatePpEcSlave(data) {
@@ -36,7 +36,7 @@ export function updatePpEcSlave(data) {
   })
 }
 /**
- * 获取从设变详情
+ * 获取设变明细详情
  * @param {Id}
  */
 export function getPpEcSlave(id) {
@@ -47,7 +47,7 @@ export function getPpEcSlave(id) {
 }
 
 /**
- * 删除从设变
+ * 删除设变明细
  * @param {主键} pid
  */
 export function delPpEcSlave(pid) {
@@ -56,7 +56,7 @@ export function delPpEcSlave(pid) {
     method: 'delete'
   })
 }
-// 导出从设变
+// 导出设变明细
 export async function exportPpEcSlave(query) {
   await downFile('Logistics/PpEcSlave/export', { ...query })
 }

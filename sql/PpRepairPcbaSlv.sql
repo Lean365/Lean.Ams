@@ -1,8 +1,8 @@
-use Lean365;
+use Ams_Tes;
 
--- 修理日报slv菜单
+-- 修理明细菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('修理日报slv', 1285, 999, 'PpRepairPcbaSlv', 'logistics/PpRepairPcbaSlv', 0, 0, 'C', '0', '0', 'pp:repairpcbaslv:list', 'icon1', 'Lean365', GETDATE(), 'menu.pp.repairpcbaslv');
+VALUES ('修理明细', 1147, 999, 'PpRepairPcbaSlv', 'logistics/PpRepairPcbaSlv', 0, 0, 'C', '0', '0', 'pp:repairpcbaslv:list', 'icon1', 'Lean365', GETDATE(), 'menu.pp.repairpcbaslv');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -28,17 +28,35 @@ SELECT * FROM sys_menu WHERE parentId = @menuId;
 SELECT * FROM sys_menu WHERE menuId = @menuId;
 
 
--- 修理日报slv多语言
+-- 修理明细多语言
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285001,'zh-cn', 'menu.pp.repairpcbaslv', '修理日报slv', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1147001,'zh-cn', 'menu.pp.repairpcbaslv', '修理明细', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285002,'zh-tw', 'menu.pp.repairpcbaslv', 'TW_修理日报slv', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1147002,'zh-tw', 'menu.pp.repairpcbaslv', 'TW_修理明细', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285003,'en', 'menu.pp.repairpcbaslv', 'EN_修理日报slv', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1147003,'en', 'menu.pp.repairpcbaslv', 'EN_修理明细', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1285004,'ja', 'menu.pp.repairpcbaslv', 'JA_修理日报slv', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1147004,'ja', 'menu.pp.repairpcbaslv', 'JA_修理明细', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1147003,'fr', 'menu.pp.repairpcbaslv', 'FR_修理明细', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1147003,'ko', 'menu.pp.repairpcbaslv', 'KO_修理明细', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1147003,'ar', 'menu.pp.repairpcbaslv', 'AR_修理明细', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1147003,'ru', 'menu.pp.repairpcbaslv', 'RU_修理明细', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1147003,'de', 'menu.pp.repairpcbaslv', 'DE_修理明细', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1147003,'es', 'menu.pp.repairpcbaslv', 'ES_修理明细', 'Lean365', GETDATE());

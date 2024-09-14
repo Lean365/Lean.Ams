@@ -5,319 +5,430 @@ namespace Ams.Model.Routine.Dto
     /// 薪资
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:32:33
+    /// @Date: 2024/9/12 15:20:02
     /// </summary>
     public class RoutineEhrPayrollQueryDto : PagerInfo 
     {
-        public string EeName { get; set; }
-        public DateTime? BeginEeBirthday { get; set; }
-        public DateTime? EndEeBirthday { get; set; }
+        /// <summary>
+        /// 部门 
+        /// </summary>        
+        public int? Mk002 { get; set; }
+        /// <summary>
+        /// 工号 
+        /// </summary>        
+        public string Mk003 { get; set; }
+        /// <summary>
+        /// 姓名 
+        /// </summary>        
+        public string Mk004 { get; set; }
     }
 
     /// <summary>
     /// 薪资
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:32:33
+    /// @Date: 2024/9/12 15:20:02
     /// </summary>
     public class RoutineEhrPayrollDto
     {
-        [Required(ErrorMessage = "SfId不能为空")]
-        [ExcelColumn(Name = "SfId")]
-        [ExcelColumnName("SfId")]
-        [JsonConverter(typeof(ValueToStringConverter))]
-        public long EeSfId { get; set; }
+        [Required(ErrorMessage = "ID不能为空")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
 
-        [Required(ErrorMessage = "姓名不能为空")]
-        [ExcelColumn(Name = "姓名")]
-        [ExcelColumnName("姓名")]
-        public string EeName { get; set; }
-
-        [Required(ErrorMessage = "工资日期不能为空")]
-        [ExcelColumn(Name = "工资日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("工资日期")]
-        public DateTime? EeBirthday { get; set; }
+        public long Id { get; set; }
 
         [Required(ErrorMessage = "部门不能为空")]
-        [ExcelColumn(Name = "部门")]
+        //[ExcelColumn(Name = "部门")]
         [ExcelColumnName("部门")]
-        public int EeDepartmentId { get; set; }
 
-        [Required(ErrorMessage = "职称不能为空")]
-        [ExcelColumn(Name = "职称")]
-        [ExcelColumnName("职称")]
-        public int EeTitlesId { get; set; }
+        public int Mk002 { get; set; }
+
+        //[ExcelColumn(Name = "工号")]
+        [ExcelColumnName("工号")]
+
+        public string Mk003 { get; set; }
+
+        //[ExcelColumn(Name = "姓名")]
+        [ExcelColumnName("姓名")]
+
+        public string Mk004 { get; set; }
 
         [Required(ErrorMessage = "岗位不能为空")]
-        [ExcelColumn(Name = "岗位")]
+        //[ExcelColumn(Name = "岗位")]
         [ExcelColumnName("岗位")]
-        public int EePostId { get; set; }
+
+        public int Mk005 { get; set; }
 
         [Required(ErrorMessage = "等级不能为空")]
-        [ExcelColumn(Name = "等级")]
+        //[ExcelColumn(Name = "等级")]
         [ExcelColumnName("等级")]
-        public int EePostLevel { get; set; }
 
-        [Required(ErrorMessage = "职务不能为空")]
-        [ExcelColumn(Name = "职务")]
-        [ExcelColumnName("职务")]
-        public int EeDutyName { get; set; }
+        public int Mk006 { get; set; }
 
-        [ExcelColumn(Name = "聘用形式")]
-        [ExcelColumnName("聘用形式")]
-        public string EeEngageForm { get; set; }
+        //[ExcelColumn(Name = "薪别")]
+        [ExcelColumnName("薪别")]
 
-        [ExcelColumn(Name = "工号")]
-        [ExcelColumnName("工号")]
-        public string EeWorkID { get; set; }
+        public string Mk007 { get; set; }
 
-        [ExcelColumn(Name = "入职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "入职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("入职日期")]
-        public DateTime? EeBeginDate { get; set; }
 
-        [ExcelColumn(Name = "在职状态")]
-        [ExcelColumnName("在职状态")]
-        public string EeWorkState { get; set; }
+        public DateTime? Mk008 { get; set; }
 
-        [ExcelColumn(Name = "试用期")]
-        [ExcelColumnName("试用期")]
-        public string EeProbation { get; set; }
-
-        [ExcelColumn(Name = "合同期限")]
-        [ExcelColumnName("合同期限")]
-        public string EeContractTerm { get; set; }
-
-        [ExcelColumn(Name = "转正日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("转正日期")]
-        public DateTime? EeConversionTime { get; set; }
-
-        [ExcelColumn(Name = "离职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "离职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("离职日期")]
-        public DateTime? EeLeaveDate { get; set; }
 
-        [ExcelColumn(Name = "合同起始日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("合同起始日")]
-        public DateTime? EeBeginContract { get; set; }
+        public DateTime? Mk009 { get; set; }
 
-        [ExcelColumn(Name = "合同终止日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("合同终止日")]
-        public DateTime? EeBndContract { get; set; }
+        [Required(ErrorMessage = "税别不能为空")]
+        //[ExcelColumn(Name = "税别")]
+        [ExcelColumnName("税别")]
 
-        [ExcelColumn(Name = "工龄")]
+        public int Mk010 { get; set; }
+
+        [Required(ErrorMessage = "基本工资不能为空")]
+        //[ExcelColumn(Name = "基本工资")]
+        [ExcelColumnName("基本工资")]
+
+        public decimal Mk011 { get; set; }
+
+        //[ExcelColumn(Name = "全勤")]
+        [ExcelColumnName("全勤")]
+
+        public decimal Mk012 { get; set; }
+
+        //[ExcelColumn(Name = "全勤否")]
+        [ExcelColumnName("全勤否")]
+
+        public int? Mk013 { get; set; }
+
+        //[ExcelColumn(Name = "职位津贴")]
+        [ExcelColumnName("职位津贴")]
+
+        public decimal Mk014 { get; set; }
+
+        //[ExcelColumn(Name = "职能调整")]
+        [ExcelColumnName("职能调整")]
+
+        public decimal Mk015 { get; set; }
+
+        //[ExcelColumn(Name = "补助(夜霄，银行，其它)")]
+        [ExcelColumnName("补助(夜霄，银行，其它)")]
+
+        public decimal Mk016 { get; set; }
+
+        //[ExcelColumn(Name = "其它津贴")]
+        [ExcelColumnName("其它津贴")]
+
+        public decimal Mk017 { get; set; }
+
+        //[ExcelColumn(Name = "保险")]
+        [ExcelColumnName("保险")]
+
+        public decimal Mk018 { get; set; }
+
+        [Required(ErrorMessage = "工龄不能为空")]
+        //[ExcelColumn(Name = "工龄")]
         [ExcelColumnName("工龄")]
-        public int? EeWorkAge { get; set; }
+
+        public int Mk019 { get; set; }
+
+        //[ExcelColumn(Name = "社保")]
+        [ExcelColumnName("社保")]
+
+        public decimal Mk020 { get; set; }
+
+        //[ExcelColumn(Name = "奖金")]
+        [ExcelColumnName("奖金")]
+
+        public decimal Mk021 { get; set; }
+
+        //[ExcelColumn(Name = "加班")]
+        [ExcelColumnName("加班")]
+
+        public decimal Mk022 { get; set; }
+
+        //[ExcelColumn(Name = "特殊津贴")]
+        [ExcelColumnName("特殊津贴")]
+
+        public decimal Mk023 { get; set; }
+
+        //[ExcelColumn(Name = "伙食")]
+        [ExcelColumnName("伙食")]
+
+        public decimal Nk024 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
+        public decimal Ref06 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF51 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
+        public string Udf01 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF52 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
+        public string Udf02 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF53 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
+        public string Udf03 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
+        public string Udf04 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
+        public string Udf05 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
 
-        [Required(ErrorMessage = "软删除不能为空")]
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        public string Udf06 { get; set; }
 
-        [ExcelColumn(Name = "备注")]
-        [ExcelColumnName("备注")]
+        [ExcelIgnore]
+
+        public int? Udf51 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? IsDeleted { get; set; }
+
+        [ExcelIgnore]
+
         public string Remark { get; set; }
 
         [ExcelIgnore]
+
         public string CreateBy { get; set; }
 
         [ExcelIgnore]
+
         public DateTime? CreateTime { get; set; }
 
         [ExcelIgnore]
+
         public string UpdateBy { get; set; }
 
         [ExcelIgnore]
+
         public DateTime? UpdateTime { get; set; }
 
 
 
-        [ExcelColumn(Name = "软删除")]
-        public string IsDeletedLabel { get; set; }
+        [ExcelColumn(Name = "部门")]
+        public string Mk002Label { get; set; }
     }
 
     /// <summary>
     /// 薪资
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:32:33
+    /// @Date: 2024/9/12 15:20:02
     /// </summary>
     public class RoutineEhrPayrollImportTpl
     {
-        [Required(ErrorMessage = "SfId不能为空")]
-        [ExcelColumn(Name = "SfId")]
-        [ExcelColumnName("SfId")]
-        [JsonConverter(typeof(ValueToStringConverter))]
-        public long EeSfId { get; set; }
-
-        [Required(ErrorMessage = "姓名不能为空")]
-        [ExcelColumn(Name = "姓名")]
-        [ExcelColumnName("姓名")]
-        public string EeName { get; set; }
-
-        [Required(ErrorMessage = "工资日期不能为空")]
-        [ExcelColumn(Name = "工资日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("工资日期")]
-        public DateTime? EeBirthday { get; set; }
+        [Required(ErrorMessage = "ID不能为空")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
+        public long Id { get; set; }
 
         [Required(ErrorMessage = "部门不能为空")]
-        [ExcelColumn(Name = "部门")]
+        //[ExcelColumn(Name = "部门")]
         [ExcelColumnName("部门")]
-        public int EeDepartmentId { get; set; }
+        public int Mk002 { get; set; }
 
-        [Required(ErrorMessage = "职称不能为空")]
-        [ExcelColumn(Name = "职称")]
-        [ExcelColumnName("职称")]
-        public int EeTitlesId { get; set; }
+        //[ExcelColumn(Name = "工号")]
+        [ExcelColumnName("工号")]
+        public string Mk003 { get; set; }
+
+        //[ExcelColumn(Name = "姓名")]
+        [ExcelColumnName("姓名")]
+        public string Mk004 { get; set; }
 
         [Required(ErrorMessage = "岗位不能为空")]
-        [ExcelColumn(Name = "岗位")]
+        //[ExcelColumn(Name = "岗位")]
         [ExcelColumnName("岗位")]
-        public int EePostId { get; set; }
+        public int Mk005 { get; set; }
 
         [Required(ErrorMessage = "等级不能为空")]
-        [ExcelColumn(Name = "等级")]
+        //[ExcelColumn(Name = "等级")]
         [ExcelColumnName("等级")]
-        public int EePostLevel { get; set; }
+        public int Mk006 { get; set; }
 
-        [Required(ErrorMessage = "职务不能为空")]
-        [ExcelColumn(Name = "职务")]
-        [ExcelColumnName("职务")]
-        public int EeDutyName { get; set; }
+        //[ExcelColumn(Name = "薪别")]
+        [ExcelColumnName("薪别")]
+        public string Mk007 { get; set; }
 
-        [ExcelColumn(Name = "聘用形式")]
-        [ExcelColumnName("聘用形式")]
-        public string EeEngageForm { get; set; }
-
-        [ExcelColumn(Name = "工号")]
-        [ExcelColumnName("工号")]
-        public string EeWorkID { get; set; }
-
-        [ExcelColumn(Name = "入职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "入职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("入职日期")]
-        public DateTime? EeBeginDate { get; set; }
+        public DateTime? Mk008 { get; set; }
 
-        [ExcelColumn(Name = "在职状态")]
-        [ExcelColumnName("在职状态")]
-        public string EeWorkState { get; set; }
-
-        [ExcelColumn(Name = "试用期")]
-        [ExcelColumnName("试用期")]
-        public string EeProbation { get; set; }
-
-        [ExcelColumn(Name = "合同期限")]
-        [ExcelColumnName("合同期限")]
-        public string EeContractTerm { get; set; }
-
-        [ExcelColumn(Name = "转正日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("转正日期")]
-        public DateTime? EeConversionTime { get; set; }
-
-        [ExcelColumn(Name = "离职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "离职日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("离职日期")]
-        public DateTime? EeLeaveDate { get; set; }
+        public DateTime? Mk009 { get; set; }
 
-        [ExcelColumn(Name = "合同起始日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("合同起始日")]
-        public DateTime? EeBeginContract { get; set; }
+        [Required(ErrorMessage = "税别不能为空")]
+        //[ExcelColumn(Name = "税别")]
+        [ExcelColumnName("税别")]
+        public int Mk010 { get; set; }
 
-        [ExcelColumn(Name = "合同终止日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("合同终止日")]
-        public DateTime? EeBndContract { get; set; }
+        [Required(ErrorMessage = "基本工资不能为空")]
+        //[ExcelColumn(Name = "基本工资")]
+        [ExcelColumnName("基本工资")]
+        public decimal Mk011 { get; set; }
 
-        [ExcelColumn(Name = "工龄")]
+        //[ExcelColumn(Name = "全勤")]
+        [ExcelColumnName("全勤")]
+        public decimal Mk012 { get; set; }
+
+        //[ExcelColumn(Name = "全勤否")]
+        [ExcelColumnName("全勤否")]
+        public int? Mk013 { get; set; }
+
+        //[ExcelColumn(Name = "职位津贴")]
+        [ExcelColumnName("职位津贴")]
+        public decimal Mk014 { get; set; }
+
+        //[ExcelColumn(Name = "职能调整")]
+        [ExcelColumnName("职能调整")]
+        public decimal Mk015 { get; set; }
+
+        //[ExcelColumn(Name = "补助(夜霄，银行，其它)")]
+        [ExcelColumnName("补助(夜霄，银行，其它)")]
+        public decimal Mk016 { get; set; }
+
+        //[ExcelColumn(Name = "其它津贴")]
+        [ExcelColumnName("其它津贴")]
+        public decimal Mk017 { get; set; }
+
+        //[ExcelColumn(Name = "保险")]
+        [ExcelColumnName("保险")]
+        public decimal Mk018 { get; set; }
+
+        [Required(ErrorMessage = "工龄不能为空")]
+        //[ExcelColumn(Name = "工龄")]
         [ExcelColumnName("工龄")]
-        public int? EeWorkAge { get; set; }
+        public int Mk019 { get; set; }
+
+        //[ExcelColumn(Name = "社保")]
+        [ExcelColumnName("社保")]
+        public decimal Mk020 { get; set; }
+
+        //[ExcelColumn(Name = "奖金")]
+        [ExcelColumnName("奖金")]
+        public decimal Mk021 { get; set; }
+
+        //[ExcelColumn(Name = "加班")]
+        [ExcelColumnName("加班")]
+        public decimal Mk022 { get; set; }
+
+        //[ExcelColumn(Name = "特殊津贴")]
+        [ExcelColumnName("特殊津贴")]
+        public decimal Mk023 { get; set; }
+
+        //[ExcelColumn(Name = "伙食")]
+        [ExcelColumnName("伙食")]
+        public decimal Nk024 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
+        public decimal Ref06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
         [ExcelIgnore]
-        public decimal UDF51 { get; set; }
+        public string Udf01 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
         [ExcelIgnore]
-        public decimal UDF52 { get; set; }
+        public string Udf02 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
         [ExcelIgnore]
-        public decimal UDF53 { get; set; }
+        public string Udf03 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
+        public string Udf04 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
+        public string Udf05 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
+        public string Udf06 { get; set; }
 
-        [Required(ErrorMessage = "软删除不能为空")]
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        [ExcelIgnore]
+        public int? Udf51 { get; set; }
 
-        [ExcelColumn(Name = "备注")]
-        [ExcelColumnName("备注")]
+        [ExcelIgnore]
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
+        public int? IsDeleted { get; set; }
+
+        [ExcelIgnore]
         public string Remark { get; set; }
 
         [ExcelIgnore]
@@ -335,8 +446,8 @@ namespace Ams.Model.Routine.Dto
 
 
         [ExcelIgnore]
-        [ExcelColumn(Name = "软删除")]
-        public string IsDeletedLabel { get; set; }
+        [ExcelColumn(Name = "部门")]
+        public string Mk002Label { get; set; }
     }
 
 }

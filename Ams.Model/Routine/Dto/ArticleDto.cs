@@ -1,12 +1,12 @@
-﻿using Ams.Model.Enums;
+﻿using Ams.Model;
+using Ams.Model.Enums;
 
 namespace Ams.Model.Routine.Dto
-
 {
     public class ArticleQueryDto : PagerInfo
     {
         public long? UserId { get; set; }
-        public int IsStatus { get; set; }
+        public int? IsStatus { get; set; }
         public string Title { get; set; }
         public string AbstractText { get; set; }
         public int? IsPublic { get; set; }
@@ -63,15 +63,11 @@ namespace Ams.Model.Routine.Dto
 
         public int? CategoryId { get; set; }
 
-        public DateTime? CreateTime { get; set; }
-
-        public DateTime? UpdateTime { get; set; }
-
         public string AuthorName { get; set; }
 
         public string CoverUrl { get; set; }
 
-        public ArticleCategoryDto CategoryNav { get; set; }
+        public ArticleCatalogDto CategoryNav { get; set; }
 
         public string[] TagList
         {

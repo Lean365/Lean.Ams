@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ams.Repository", "Ams.Repos
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ams.CodeGenerator", "Ams.CodeGenerator\Ams.CodeGenerator.csproj", "{B353DE0B-12C6-4C15-909A-DB68F71D5AE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ams.Statistics", "Ams.Statistics\Ams.Statistics.csproj", "{CA96C7F6-D881-417C-A1C9-92AA6ECE94AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ams.Statistics", "Ams.Statistics\Ams.Statistics.csproj", "{BAEEB892-0B6A-4519-8118-686D1E0EA428}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +59,10 @@ Global
 		{B353DE0B-12C6-4C15-909A-DB68F71D5AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B353DE0B-12C6-4C15-909A-DB68F71D5AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B353DE0B-12C6-4C15-909A-DB68F71D5AE9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA96C7F6-D881-417C-A1C9-92AA6ECE94AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA96C7F6-D881-417C-A1C9-92AA6ECE94AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA96C7F6-D881-417C-A1C9-92AA6ECE94AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA96C7F6-D881-417C-A1C9-92AA6ECE94AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAEEB892-0B6A-4519-8118-686D1E0EA428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAEEB892-0B6A-4519-8118-686D1E0EA428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAEEB892-0B6A-4519-8118-686D1E0EA428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAEEB892-0B6A-4519-8118-686D1E0EA428}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

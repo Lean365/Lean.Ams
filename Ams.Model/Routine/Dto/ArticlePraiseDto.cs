@@ -1,5 +1,4 @@
 ﻿namespace Ams.Model.Routine.Dto
-
 {
     public class ArticlePraiseDto
     {

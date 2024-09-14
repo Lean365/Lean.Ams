@@ -1,5 +1,6 @@
-using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
+using Ams.Repository;
 
 namespace Ams.Service.Routine
 {
@@ -7,7 +8,7 @@ namespace Ams.Service.Routine
     /// 绩效
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 17:21:08
+    /// @Date: 2024/9/12 15:19:03
     /// </summary>
     [AppService(ServiceType = typeof(IRoutineEhrPerformanceMaService), ServiceLifetime = LifeTime.Transient)]
     public class RoutineEhrPerformanceMaService : BaseService<RoutineEhrPerformanceMa>, IRoutineEhrPerformanceMaService
@@ -23,7 +24,7 @@ namespace Ams.Service.Routine
 
             var response = Queryable()
                 //.Includes(x => x.RoutineEhrPerformanceSlvNav) //填充子对象
-                //.OrderBy("EpEvalYear desc")
+                //.OrderBy("Ml002 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<RoutineEhrPerformanceMa, RoutineEhrPerformanceMaDto>(parm);
 
@@ -38,7 +39,7 @@ namespace Ams.Service.Routine
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.EpSfId.ToString() == enterString);
+            int count = Count(it => it.Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,13 +50,13 @@ namespace Ams.Service.Routine
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="EpSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public RoutineEhrPerformanceMa GetInfo(long EpSfId)
+        public RoutineEhrPerformanceMa GetInfo(long Id)
         {
             var response = Queryable()
                 .Includes(x => x.RoutineEhrPerformanceSlvNav) //填充子对象
-                .Where(x => x.EpSfId == EpSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
@@ -89,8 +90,8 @@ namespace Ams.Service.Routine
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.EpSfId.IsEmpty(), "ID不能为空")
-                .SplitError(x => x.Item.EpName.IsEmpty(), "姓名不能为空")
+                .SplitError(x => x.Item.Ml002.IsEmpty(), "工号不能为空")
+                .SplitError(x => x.Item.Ml003.IsEmpty(), "姓名不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -124,10 +125,12 @@ namespace Ams.Service.Routine
                 .Where(predicate.ToExpression())
                 .Select((it) => new RoutineEhrPerformanceMaDto()
                 {
-                    EpNameLabel = it.EpName.GetConfigValue<SysDictData>("sql_inspector_list"),
-                    EpEvalYearLabel = it.EpEvalYear.GetConfigValue<SysDictData>("sql_ym_list"),
-                    EpEvalGradeLabel = it.EpEvalGrade.GetConfigValue<SysDictData>("sys_eval_grade"),
-                    //EpEvalItemsLabel = it.EpEvalItems.GetConfigValue<SysDictData>("sys_eval_items"),
+                    //查询字典: <年度>
+                    Ml004Label = it.Ml004.GetConfigValue<SysDictData>("sql_attr_list"),
+                    //查询字典: <等级>
+                    Ml006Label = it.Ml006.GetConfigValue<SysDictData>("sys_eval_grade"),
+                    //查询字典: <考核项目>
+                    //Mm003Label = it.Mm003.GetConfigValue<SysDictData>("sys_eval_items"),
                 }, true)
                 .ToPage(parm);
 
@@ -143,10 +146,14 @@ namespace Ams.Service.Routine
         {
             var predicate = Expressionable.Create<RoutineEhrPerformanceMa>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EpEmployeeId), it => it.EpEmployeeId.Contains(parm.EpEmployeeId));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EpName), it => it.EpName == parm.EpName);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EpEvalYear), it => it.EpEvalYear == parm.EpEvalYear);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.EpEvalGrade), it => it.EpEvalGrade == parm.EpEvalGrade);
+            //查询字段: <工号>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ml002), it => it.Ml002.Contains(parm.Ml002));
+            //查询字段: <姓名>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ml003), it => it.Ml003.Contains(parm.Ml003));
+            //查询字段: <年度>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ml004), it => it.Ml004 == parm.Ml004);
+            //查询字段: <等级>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ml006), it => it.Ml006 == parm.Ml006);
             return predicate;
         }
     }

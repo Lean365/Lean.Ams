@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 月度存货
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 11:52:42
+    /// @Date: 2024/9/10 16:55:10
     /// </summary>
     public interface IFicoMonthlyInventoryService : IBaseService<FicoMonthlyInventory>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取月度存货信息
         /// </summary>
-        /// <param name="MiSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        FicoMonthlyInventory GetInfo(long MiSfId);
+        FicoMonthlyInventory GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

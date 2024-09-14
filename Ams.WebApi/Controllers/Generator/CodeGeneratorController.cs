@@ -1,22 +1,18 @@
 ﻿using Ams.CodeGenerator;
 using Ams.CodeGenerator.Model;
 using Ams.CodeGenerator.Service;
-using Ams.Model;
-using Microsoft.AspNetCore.Mvc;
+using Ams.Infrastructure.Helper;
+using Ams.Model.Generator.Dto;
 using Microsoft.Extensions.Options;
-using SqlSugar;
 
 namespace Ams.WebApi.Controllers.Generator
 {
     /// <summary>
     /// 代码生成
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
     /// </summary>
     [Verify]
     [Route("tool/gen")]
-    [ApiExplorerSettings(GroupName = "tool")]
+    [ApiExplorerSettings(GroupName = "system")]
     public class CodeGeneratorController : BaseController
     {
         private readonly CodeGeneratorService _CodeGeneraterService = new CodeGeneratorService();
@@ -85,7 +81,7 @@ namespace Ams.WebApi.Controllers.Generator
         [ActionPermissionFilter(Permission = "tool:gen:list")]
         public IActionResult GetGenTable(string? tableName, PagerInfo pagerInfo)
         {
-            //查询原表数据，部分字段映射到代码生成表字段
+            //查询原表数据，部分字段映射到生成字段
             var rows = GenTableService.GetGenTables(new GenTable() { TableName = tableName }, pagerInfo);
 
             return SUCCESS(rows, TIME_FORMAT_FULL);

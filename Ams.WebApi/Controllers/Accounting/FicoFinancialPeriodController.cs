@@ -1,16 +1,17 @@
-using Ams.Model.Accounting;
-using Ams.Model.Accounting.Dto;
-using Ams.Service.Accounting.IAccountingService;
 using Microsoft.AspNetCore.Mvc;
+using Ams.Model.Accounting.Dto;
+using Ams.Model.Accounting;
+using Ams.Service.Accounting.IAccountingService;
 using MiniExcelLibs;
+
 
 namespace Ams.WebApi.Controllers.Accounting
 {
     /// <summary>
-    /// 财务期间
+    /// 财政年度
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/6 13:51:07
+    /// @Date: 2024/9/5 15:42:58
     /// </summary>
     [Verify]
     [Route("Accounting/FicoFinancialPeriod")]
@@ -18,7 +19,7 @@ namespace Ams.WebApi.Controllers.Accounting
     public class FicoFinancialPeriodController : BaseController
     {
         /// <summary>
-        /// 财务期间接口
+        /// 财政年度接口
         /// </summary>
         private readonly IFicoFinancialPeriodService _FicoFinancialPeriodService;
 
@@ -28,7 +29,7 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 查询财务期间列表
+        /// 查询财政年度列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -40,35 +41,36 @@ namespace Ams.WebApi.Controllers.Accounting
             return SUCCESS(response);
         }
 
-        /// <summary>
-        /// 查询财务期间详情
-        /// </summary>
-        /// <param name="FpSfId"></param>
-        /// <returns></returns>
-        [HttpGet("{FpSfId}")]
-        [ActionPermissionFilter(Permission = "fico:financialperiod:query")]
-        public IActionResult GetFicoFinancialPeriod(long FpSfId)
-        {
-            var response = _FicoFinancialPeriodService.GetInfo(FpSfId);
 
+        /// <summary>
+        /// 查询财政年度详情
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpGet("{Id}")]
+        [ActionPermissionFilter(Permission = "fico:financialperiod:query")]
+        public IActionResult GetFicoFinancialPeriod(long Id)
+        {
+            var response = _FicoFinancialPeriodService.GetInfo(Id);
+            
             var info = response.Adapt<FicoFinancialPeriodDto>();
             return SUCCESS(info);
         }
 
         /// <summary>
-        /// 添加财务期间
+        /// 添加财政年度
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "fico:financialperiod:add")]
-        [Log(Title = "财务期间", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "财政年度", BusinessType = BusinessType.ADD)]
         public IActionResult AddFicoFinancialPeriod([FromBody] FicoFinancialPeriodDto parm)
         {
-            // 校验输入项目唯一性
+           // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoFinancialPeriodService.CheckInputUnique(parm.FpYearMonth.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoFinancialPeriodService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增财务期间 '{parm.FpYearMonth}'失败(Add failed)，输入的财务期间已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增财政年度 '{parm.Id}'失败(Add failed)，输入的财政年度已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoFinancialPeriod>().ToCreate(HttpContext);
 
@@ -78,12 +80,12 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 更新财务期间
+        /// 更新财政年度
         /// </summary>
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "fico:financialperiod:edit")]
-        [Log(Title = "财务期间", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "财政年度", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateFicoFinancialPeriod([FromBody] FicoFinancialPeriodDto parm)
         {
             var modal = parm.Adapt<FicoFinancialPeriod>().ToUpdate(HttpContext);
@@ -93,24 +95,24 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 删除财务期间
+        /// 删除财政年度
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "fico:financialperiod:delete")]
-        [Log(Title = "财务期间", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteFicoFinancialPeriod([FromRoute] string ids)
+        [Log(Title = "财政年度", BusinessType = BusinessType.DELETE)]
+        public IActionResult DeleteFicoFinancialPeriod([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
-            return ToResponse(_FicoFinancialPeriodService.Delete(idArr, "删除财务期间"));
+            return ToResponse(_FicoFinancialPeriodService.Delete(idArr, "删除财政年度"));
         }
 
         /// <summary>
-        /// 导出财务期间
+        /// 导出财政年度
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "财务期间", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "财政年度导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "fico:financialperiod:export")]
         public IActionResult Export([FromQuery] FicoFinancialPeriodQueryDto parm)
@@ -122,19 +124,19 @@ namespace Ams.WebApi.Controllers.Accounting
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "财务期间", "财务期间");
+            var result = ExportExcelMini(list, "财政年度", "财政年度");
             return ExportExcel(result.Item2, result.Item1);
         }
 
         /// <summary>
-        /// 导入
+        /// 导入财政年度
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
-        [Log(Title = "财务期间导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
+      [HttpPost("importData")]
+        [Log(Title = "财政年度导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "fico:financialperiod:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<FicoFinancialPeriodDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -146,16 +148,18 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 财务期间导入模板下载
+        /// 财政年度
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
-        [Log(Title = "财务期间模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "财政年度模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<FicoFinancialPeriodImportTpl>() { }, "FicoFinancialPeriod_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
+
     }
 }

@@ -1,12 +1,13 @@
 <template>
   <!-- 添加或修改公告对话框 -->
-  <zr-dialog :title="title" draggable v-model="open" width="580px">
+  <zr-dialog :title="title" draggable v-model="open" width="680px">
     <el-form ref="noticeRef" :model="form" :rules="rules" label-width="auto">
       <el-row>
         <el-col :lg="24">
           <el-form-item :label="$t('pnotice.noticeTitle')" prop="noticeTitle">
             <el-input v-model="form.noticeTitle"
-              :placeholder="$t('btn.enterPrefix')+$t('pnotice.noticeTitle')+$t('btn.enterSuffix')" />
+              :placeholder="$t('btn.enterPrefix')+$t('pnotice.noticeTitle')+$t('btn.enterSuffix')" show-word-limit
+              maxlength="40" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
@@ -32,7 +33,8 @@
         <el-col :lg="24">
           <el-form-item :label="$t('pnotice.publisher')" prop="publisher">
             <el-input v-model="form.publisher"
-              :placeholder="$t('btn.enterPrefix')+$t('pnotice.publisher')+$t('btn.enterSuffix')" />
+              :placeholder="$t('btn.enterPrefix')+$t('pnotice.publisher')+$t('btn.enterSuffix')" show-word-limit
+              maxlength="40" :disabled="true" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
@@ -50,7 +52,8 @@
         </el-col>
         <el-col :lg="24">
           <el-form-item :label="$t('pnotice.noticeFileUrl')" prop="fileUrl">
-            <UploadFile v-model="form.fileUrl" :data="{ uploadType: 1 }" />
+            <UploadFile v-model="form.fileUrl" fileSize="20" :fileType="['pdf']" limit="1"
+              :data=" {fileNameType:1, fileDir: 'routine/notice/file' ,uploadType: 1}" />
           </el-form-item>
         </el-col>
         <el-col :lg="24">

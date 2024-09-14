@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Ams.Model;
 
 namespace Ams.Model.Routine.Dto
 {

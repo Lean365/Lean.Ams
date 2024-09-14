@@ -134,7 +134,8 @@
         </el-form-item>
         <el-form-item :label="$t('pdict.dictName')" prop="dictName">
           <el-input v-model="form.dictName"
-            :placeholder="$t('btn.enterPrefix')+$t('pdict.dictName')+$t('btn.enterSuffix')" @input="handleInput" />
+            :placeholder="$t('btn.enterPrefix')+$t('pdict.dictName')+$t('btn.enterSuffix')" @input="handleInput"
+            show-word-limit maxlength="80" />
         </el-form-item>
         <el-form-item :label="$t('pdict.dictType')" prop="dictType">
           <template #label>
@@ -148,7 +149,8 @@
             </span>
           </template>
           <el-input v-model="form.dictType"
-            :placeholder="$t('btn.enterPrefix')+$t('pdict.dictType')+$t('btn.enterSuffix')" @input="handleInput" />
+            :placeholder="$t('btn.enterPrefix')+$t('pdict.dictType')+$t('btn.enterSuffix')" @input="handleInput"
+            show-word-limit maxlength="80" />
         </el-form-item>
         <el-form-item :label="$t('common.tipIsStated')" prop="isStatus">
           <el-radio-group v-model="form.isStatus">
@@ -163,10 +165,6 @@
               }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item :label="$t('common.tipRemarks')" prop="remark">
-          <el-input v-model="form.remark" type="textarea"
-            :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')"></el-input>
-        </el-form-item>
         <el-form-item :label="$t('pdict.sql')" prop="customSql">
           <template #label>
             <span>
@@ -179,8 +177,15 @@
             </span>
           </template>
           <el-input v-model="form.customSql" type="textarea"
-            :placeholder="$t('btn.enterPrefix')+$t('pdict.sql')+$t('btn.enterSuffix')"></el-input>
+            :placeholder="$t('btn.enterPrefix')+$t('pdict.sql')+$t('btn.enterSuffix')" show-word-limit
+            maxlength="4000"></el-input>
         </el-form-item>
+        <el-form-item :label="$t('common.tipRemarks')" prop="remark">
+          <el-input v-model="form.remark" type="textarea"
+            :placeholder="$t('btn.enterPrefix')+$t('common.tipRemarks')+$t('btn.enterSuffix')" show-word-limit
+            maxlength="400"></el-input>
+        </el-form-item>
+
       </el-form>
       <template #footer>
         <el-button text @click="cancel">{{ $t('btn.cancel') }}</el-button>
@@ -236,7 +241,9 @@
   const state = reactive({
     rules: {
       dictName: [{ required: true, message: proxy.$t('pdict.dictName') + proxy.$t('btn.isEmpty'), trigger: 'blur' }],
-      dictType: [{ required: true, message: proxy.$t('pdict.dictType') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
+      dictType: [
+        // { pattern: /^[A-Za-z]_+$/, message: proxy.$t('pdict.dictTypeRex'), trigger: 'blur' },
+        { required: true, message: proxy.$t('pdict.dictType') + proxy.$t('btn.isEmpty'), trigger: 'blur' }]
     },
     form: {},
     queryParams: {

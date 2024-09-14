@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
@@ -8,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 进料检验
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 9:53:50
+    /// @Date: 2024/9/11 16:45:51
     /// </summary>
     [AppService(ServiceType = typeof(IQmIncomingService), ServiceLifetime = LifeTime.Transient)]
     public class QmIncomingService : BaseService<QmIncoming>, IQmIncomingService
@@ -23,11 +26,13 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Mf006 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<QmIncoming, QmIncomingDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. QminSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,16 +53,17 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="QminSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public QmIncoming GetInfo(long QminSfId)
+        public QmIncoming GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.QminSfId == QminSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加进料检验
         /// </summary>
@@ -68,6 +74,7 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改进料检验
         /// </summary>
@@ -86,29 +93,13 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.QminSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.QminPurOrder.IsEmpty(), "采购订单不能为空")
-                .SplitError(x => x.Item.QminMaterial.IsEmpty(), "物料不能为空")
-                .SplitError(x => x.Item.QminPurOrderQty.IsEmpty(), "数量不能为空")
-                .SplitError(x => x.Item.QminPurDate.IsEmpty(), "进货日期不能为空")
-                .SplitError(x => x.Item.QminInspector.IsEmpty(), "检验员不能为空")
-                .SplitError(x => x.Item.QminCheckDate.IsEmpty(), "检验日期不能为空")
-                .SplitError(x => x.Item.QminInspectingItem.IsEmpty(), "检验项目不能为空")
-                .SplitError(x => x.Item.QminSamplingLevel.IsEmpty(), "检验水准不能为空")
-                .SplitError(x => x.Item.QminCheckMethod.IsEmpty(), "检验方式不能为空")
-                .SplitError(x => x.Item.QminSamplingQty.IsEmpty(), "抽样数不能为空")
-                .SplitError(x => x.Item.QminJudgment.IsEmpty(), "判定不能为空")
-                .SplitError(x => x.Item.QminJudgmentLevel.IsEmpty(), "不良级别不能为空")
-                .SplitError(x => x.Item.QminRejectQty.IsEmpty(), "验退数不能为空")
-                .SplitError(x => x.Item.QminAcceptQty.IsEmpty(), "验收数量不能为空")
-                .SplitError(x => x.Item.QminCheckoutSequence.IsEmpty(), "检验次数不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Mf002.IsEmpty(), "工厂不能为空")
+                .SplitError(x => x.Item.Mf003.IsEmpty(), "采购订单不能为空")
+                .SplitError(x => x.Item.Mf005.IsEmpty(), "数量不能为空")
+                .SplitError(x => x.Item.Mf012.IsEmpty(), "抽样数不能为空")
+                .SplitError(x => x.Item.Mf015.IsEmpty(), "验退数不能为空")
+                .SplitError(x => x.Item.Mf017.IsEmpty(), "验收数量不能为空")
+                .SplitError(x => x.Item.Mf018.IsEmpty(), "检验次数不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -142,13 +133,22 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new QmIncomingDto()
                 {
-                    QminInspectorLabel = it.QminInspector.GetConfigValue<SysDictData>("sql_ec_group"),
-                    QminInspectingItemLabel = it.QminInspectingItem.GetConfigValue<SysDictData>("sql_insp_list"),
-                    QminSamplingLevelLabel = it.QminSamplingLevel.GetConfigValue<SysDictData>("sys_insp_level"),
-                    QminCheckMethodLabel = it.QminCheckMethod.GetConfigValue<SysDictData>("sys_insp_method"),
-                    QminJudgmentLabel = it.QminJudgment.GetConfigValue<SysDictData>("sys_insp_judge"),
-                    QminJudgmentLevelLabel = it.QminJudgmentLevel.GetConfigValue<SysDictData>("sys_insp_bad"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <工厂> 
+                    Mf002Label = it.Mf002.GetConfigValue<SysDictData>("sql_plant_list"),
+                    //查询字典: <采购订单> 
+                    Mf003Label = it.Mf003.GetConfigValue<SysDictData>("sql_marb_pur"),
+                    //查询字典: <检验员> 
+                    Mf007Label = it.Mf007.GetConfigValue<SysDictData>("sql_insp_list"),
+                    //查询字典: <检验项目> 
+                    Mf009Label = it.Mf009.GetConfigValue<SysDictData>("sql_insp_item"),
+                    //查询字典: <检验水准> 
+                    Mf010Label = it.Mf010.GetConfigValue<SysDictData>("sys_insp_level"),
+                    //查询字典: <检验方式> 
+                    Mf011Label = it.Mf011.GetConfigValue<SysDictData>("sys_insp_method"),
+                    //查询字典: <判定> 
+                    Mf013Label = it.Mf013.GetConfigValue<SysDictData>("sys_insp_judge"),
+                    //查询字典: <不良级别> 
+                    Mf014Label = it.Mf014.GetConfigValue<SysDictData>("sys_insp_bad"),
                 }, true)
                 .ToPage(parm);
 
@@ -164,26 +164,22 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<QmIncoming>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QminPurOrder), it => it.QminPurOrder == parm.QminPurOrder);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QminMaterial), it => it.QminMaterial.Contains(parm.QminMaterial));
+            //查询字段: <工厂> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mf002), it => it.Mf002 == parm.Mf002);
+            //查询字段: <采购订单> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mf003), it => it.Mf003 == parm.Mf003);
+            //查询字段: <物料> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mf004), it => it.Mf004.Contains(parm.Mf004));
+            //查询字段: <检验日期> 
+            //predicate = predicate.AndIF(parm.BeginMf008 == null, it => it.Mf008 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMf008 != null, it => it.Mf008 >= parm.BeginMf008);
+            //predicate = predicate.AndIF(parm.EndMf008 != null, it => it.Mf008 <= parm.EndMf008);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginQminPurDate == null, it => it.QminPurDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginMf008 == null, it => it.Mf008 >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginQminPurDate == null, it => it.QminPurDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginQminPurDate != null, it => it.QminPurDate >= parm.BeginQminPurDate);
-            predicate = predicate.AndIF(parm.EndQminPurDate != null, it => it.QminPurDate <= parm.EndQminPurDate);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QminInspector), it => it.QminInspector == parm.QminInspector);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginQminCheckDate == null, it => it.QminCheckDate >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginQminCheckDate == null, it => it.QminCheckDate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginQminCheckDate != null, it => it.QminCheckDate >= parm.BeginQminCheckDate);
-            predicate = predicate.AndIF(parm.EndQminCheckDate != null, it => it.QminCheckDate <= parm.EndQminCheckDate);
-            predicate = predicate.AndIF(parm.QminInspectingItem != null, it => parm.QminInspectingItem.Contains(it.QminInspectingItem));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QminSamplingLevel), it => it.QminSamplingLevel == parm.QminSamplingLevel);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QminCheckMethod), it => it.QminCheckMethod == parm.QminCheckMethod);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QminJudgment), it => it.QminJudgment == parm.QminJudgment);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.QminJudgmentLevel), it => it.QminJudgmentLevel == parm.QminJudgmentLevel);
+            predicate = predicate.AndIF(parm.BeginMf008 == null, it => it.Mf008 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMf008 != null, it => it.Mf008 >= parm.BeginMf008);
+            predicate = predicate.AndIF(parm.EndMf008 != null, it => it.Mf008 <= parm.EndMf008);
             return predicate;
         }
     }

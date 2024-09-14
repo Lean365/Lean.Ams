@@ -1,8 +1,9 @@
 <!--
- * @Descripttion: 组立不良slv/pp_repair_assy_slv
- * @Version: 1.0.0.0
+ * @Descripttion: 不良明细/pp_repair_assy_slv
+ * @Version: 0.24.621.29885
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/7/22 11:58:58
+ * @Date: 2024/9/12 16:38:50
+ * @column：32
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -11,23 +12,6 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="不良类别" prop="ppdBadType">
-        <el-select filterable clearable   v-model="queryParams.ppdBadType" :placeholder="$t('btn.selectSearchPrefix')+'不良类别'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_bad_dist " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="不良状况" prop="ppdBadSymptom">
-        <el-input v-model="queryParams.ppdBadSymptom" :placeholder="$t('btn.enterSearchPrefix')+'不良状况'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="不良个所" prop="ppdBadPosition">
-        <el-input v-model="queryParams.ppdBadPosition" :placeholder="$t('btn.enterSearchPrefix')+'不良个所'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="不良原因" prop="ppdBadReason">
-        <el-input v-model="queryParams.ppdBadReason" :placeholder="$t('btn.enterSearchPrefix')+'不良原因'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
       <el-form-item>
@@ -90,23 +74,19 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="ppdSfid" label="SFID" align="center" v-if="columns.showColumn('ppdSfid')"/>
-      <el-table-column prop="ppdParentSfid" label="PpdParentSfid" align="center" v-if="columns.showColumn('ppdParentSfid')"/>
-      <el-table-column prop="ppdBadType" label="不良类别" align="center" v-if="columns.showColumn('ppdBadType')">
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
+      <el-table-column prop="parentId" label="父ID" align="center" v-if="columns.showColumn('parentId')"/>
+      <el-table-column prop="mfa003" label="不良区分" align="center" v-if="columns.showColumn('mfa003')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_bad_dist " :value="scope.row.ppdBadType"  />
+          <dict-tag :options=" options.sql_bad_dist " :value="scope.row.mfa003"  />
         </template>
       </el-table-column>
-      <el-table-column prop="ppdBadQty" label="不良数量" align="center" v-if="columns.showColumn('ppdBadQty')"/>
-      <el-table-column prop="ppdBadTotal" label="不良总数" align="center" v-if="columns.showColumn('ppdBadTotal')"/>
-      <el-table-column prop="ppdBadSymptom" label="不良状况" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ppdBadSymptom')"/>
-      <el-table-column prop="ppdBadPosition" label="不良个所" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ppdBadPosition')"/>
-      <el-table-column prop="ppdBadReason" label="不良原因" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('ppdBadReason')"/>
-      <el-table-column prop="remark" label="说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column prop="createBy" label="创建者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
-      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
-      <el-table-column prop="updateBy" label="更新者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
-      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
+      <el-table-column prop="mfa004" label="不良数量" align="center" v-if="columns.showColumn('mfa004')"/>
+      <el-table-column prop="mfa005" label="不良总数" align="center" v-if="columns.showColumn('mfa005')"/>
+      <el-table-column prop="mfa006" label="不良状况" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mfa006')"/>
+      <el-table-column prop="mfa007" label="不良个所" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mfa007')"/>
+      <el-table-column prop="mfa008" label="不良原因" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mfa008')"/>
+      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button-group>
@@ -118,7 +98,7 @@
     </el-table>
     <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
 
-    <!-- 添加或修改组立不良slv对话框 -->
+    <!-- 添加或修改不良明细对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" >
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
@@ -126,20 +106,20 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="SFID" prop="ppdSfid">
-              <el-input v-model.number="form.ppdSfid" :placeholder="$t('btn.enterPrefix')+'SFID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
+            <el-form-item label="ID" prop="id">
+              <el-input v-model.number="form.id" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="PpdParentSfid" prop="ppdParentSfid">
-              <el-input v-model.number="form.ppdParentSfid" :placeholder="$t('btn.enterPrefix')+'PpdParentSfid'+$t('btn.enterSuffix')" />
+            <el-form-item label="父ID" prop="parentId">
+              <el-input v-model.number="form.parentId" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="不良类别" prop="ppdBadType">
-              <el-select filterable clearable   v-model="form.ppdBadType"  :placeholder="$t('btn.selectPrefix')+'不良类别'+$t('btn.selectSuffix')">
+            <el-form-item label="不良区分" prop="mfa003">
+              <el-select filterable clearable   v-model="form.mfa003"  :placeholder="$t('btn.selectPrefix')+'不良区分'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sql_bad_dist" 
                   :key="item.dictValue" 
@@ -151,144 +131,38 @@
 
             
           <el-col :lg="12">
-            <el-form-item label="不良数量" prop="ppdBadQty">
-              <el-input-number v-model.number="form.ppdBadQty" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'不良数量'+$t('btn.enterSuffix')" />
+            <el-form-item label="不良数量" prop="mfa004">
+              <el-input-number v-model.number="form.mfa004" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'不良数量'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="不良总数" prop="ppdBadTotal">
-              <el-input-number v-model.number="form.ppdBadTotal" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'不良总数'+$t('btn.enterSuffix')" />
+            <el-form-item label="不良总数" prop="mfa005">
+              <el-input-number v-model.number="form.mfa005" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'不良总数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="不良状况" prop="ppdBadSymptom">
-              <el-input v-model="form.ppdBadSymptom" :placeholder="$t('btn.enterPrefix')+'不良状况'+$t('btn.enterSuffix')" />
+            <el-form-item label="不良状况" prop="mfa006">
+              <el-input   v-model="form.mfa006" :placeholder="$t('btn.enterPrefix')+'不良状况'+$t('btn.enterSuffix')"  show-word-limit   maxlength="200"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="不良个所" prop="ppdBadPosition">
-              <el-input v-model="form.ppdBadPosition" :placeholder="$t('btn.enterPrefix')+'不良个所'+$t('btn.enterSuffix')" />
+            <el-form-item label="不良个所" prop="mfa007">
+              <el-input   v-model="form.mfa007" :placeholder="$t('btn.enterPrefix')+'不良个所'+$t('btn.enterSuffix')"  show-word-limit   maxlength="200"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="不良原因" prop="ppdBadReason">
-              <el-input v-model="form.ppdBadReason" :placeholder="$t('btn.enterPrefix')+'不良原因'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义A" prop="uDF01">
-              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义B" prop="uDF02">
-              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义C" prop="uDF03">
-              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义D" prop="uDF04">
-              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义E" prop="uDF05">
-              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义F" prop="uDF06">
-              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义1" prop="uDF51">
-              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义2" prop="uDF52">
-              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义3" prop="uDF53">
-              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义4" prop="uDF54">
-              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义5" prop="uDF55">
-              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义6" prop="uDF56">
-              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="软删除" prop="isDeleted">
-              <el-radio-group v-model="form.isDeleted">
-                <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue" :value="parseInt(item.dictValue)">
-                  {{item.dictLabel}}
-                </el-radio>
-              </el-radio-group>
+            <el-form-item label="不良原因" prop="mfa008">
+              <el-input   v-model="form.mfa008" :placeholder="$t('btn.enterPrefix')+'不良原因'+$t('btn.enterSuffix')"  show-word-limit   maxlength="200"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="说明" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建者" prop="createBy">
-              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建时间" prop="createTime">
-              <el-date-picker v-model="form.createTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新者" prop="updateBy">
-              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新者'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新时间" prop="updateTime">
-              <el-date-picker v-model="form.updateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="备注" prop="remark">
+              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -402,30 +276,18 @@ const queryParams = reactive({
   pageSize: 56,
   sort: '',
   sortType: 'asc',
-//是否查询（1是）
-  ppdBadType: undefined,
-//是否查询（1是）
-  ppdBadSymptom: undefined,
-//是否查询（1是）
-  ppdBadPosition: undefined,
-//是否查询（1是）
-  ppdBadReason: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'ppdSfid', label: 'SFID' },
-  { visible: true, prop: 'ppdParentSfid', label: 'PpdParentSfid' },
-  { visible: true, prop: 'ppdBadType', label: '不良类别' },
-  { visible: true, prop: 'ppdBadQty', label: '不良数量' },
-  { visible: true, prop: 'ppdBadTotal', label: '不良总数' },
-  { visible: true, prop: 'ppdBadSymptom', label: '不良状况' },
-  { visible: true, prop: 'ppdBadPosition', label: '不良个所' },
-  { visible: true, prop: 'ppdBadReason', label: '不良原因' },
-  { visible: false, prop: 'remark', label: '说明' },
-  { visible: false, prop: 'createBy', label: '创建者' },
-  { visible: false, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新者' },
-  { visible: false, prop: 'updateTime', label: '更新时间' },
+  { visible: true, prop: 'id', label: 'ID' },
+  { visible: true, prop: 'parentId', label: '父ID' },
+  { visible: true, prop: 'mfa003', label: '不良区分' },
+  { visible: true, prop: 'mfa004', label: '不良数量' },
+  { visible: true, prop: 'mfa005', label: '不良总数' },
+  { visible: true, prop: 'mfa006', label: '不良状况' },
+  { visible: true, prop: 'mfa007', label: '不良个所' },
+  { visible: true, prop: 'mfa008', label: '不良原因' },
+  { visible: false, prop: 'remark', label: '备注' },
 ])
 // 记录数
 const total = ref(0)
@@ -439,7 +301,6 @@ const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23,
 //字典参数
 var dictParams = [
   { dictType: "sql_bad_dist" },
-  { dictType: "sys_is_deleted" },
 ]
 
 //字典加载
@@ -448,7 +309,7 @@ proxy.getDicts(dictParams).then((response) => {
     state.options[element.dictType] = element.list
   })
 })
-//API获取从组立不良slv/pp_repair_assy_slv表记录数据
+//API获取从不良明细/pp_repair_assy_slv表记录数据
 function getList(){
   loading.value = true
   listPpRepairAssySlv(queryParams).then(res => {
@@ -474,7 +335,7 @@ function resetQuery(){
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.ppdSfid);
+  ids.value = selection.map((item) => item.id);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -509,24 +370,15 @@ const state = reactive({
   single: true,
   multiple: true,
   form: {},
+//正则表达式
   rules: {
-    ppdSfid: [{ required: true, message: "SFID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    ppdParentSfid: [{ required: true, message: "PpdParentSfid"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    ppdBadQty: [{ required: true, message: "不良数量"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    ppdBadTotal: [{ required: true, message: "不良总数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    uDF51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF54: [{ required: true, message: "自定义4"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF55: [{ required: true, message: "自定义5"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    uDF56: [{ required: true, message: "自定义6"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
-    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mfa004: [{ required: true, message: "不良数量"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mfa005: [{ required: true, message: "不良总数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
   },
+//字典名称
   options: {
-    // 不良类别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+    // 不良区分 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_bad_dist: [],
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_deleted: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -541,32 +393,15 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    ppdSfid: 0,
-    ppdParentSfid: 0,
-    ppdBadType: null,
-    ppdBadQty: 0,
-    ppdBadTotal: 0,
-    ppdBadSymptom: null,
-    ppdBadPosition: null,
-    ppdBadReason: null,
-    uDF01: null,
-    uDF02: null,
-    uDF03: null,
-    uDF04: null,
-    uDF05: null,
-    uDF06: null,
-    uDF51: 0,
-    uDF52: 0,
-    uDF53: 0,
-    uDF54: 0,
-    uDF55: 0,
-    uDF56: 0,
-    isDeleted: 0,
+    id: 0,
+    parentId: 0,
+    mfa003: [],
+    mfa004: 0,
+    mfa005: 0,
+    mfa006: null,
+    mfa007: null,
+    mfa008: null,
     remark: null,
-    createBy: null,
-    createTime: null,
-    updateBy: null,
-    updateTime: null,
   };
   proxy.resetForm("formRef")
 }
@@ -576,23 +411,21 @@ function reset() {
 function handleAdd() {
   reset();
   open.value = true
-  title.value = proxy.$t('btn.add')+" "+'组立不良slv'
+  title.value = proxy.$t('btn.add')+" "+'不良明细'
   opertype.value = 1
-  form.value.ppdBadType= []
-  form.value.ppdBadQty= 0
-  form.value.ppdBadTotal= 0
-  form.value.createTime= new Date()
-  form.value.updateTime= new Date()
+  form.value.mfa003= []
+  form.value.mfa004= 0
+  form.value.mfa005= 0
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.ppdSfid || ids.value
+  const id = row.id || ids.value
   getPpRepairAssySlv(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
       open.value = true
-      title.value = proxy.$t('btn.edit')+" "+ '组立不良slv'
+      title.value = proxy.$t('btn.edit')+" "+ '不良明细'
       opertype.value = 2
 
       form.value = {
@@ -607,7 +440,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.ppdSfid != undefined && opertype.value === 2) {
+      if (form.value.id != undefined && opertype.value === 2) {
         updatePpRepairAssySlv(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -626,7 +459,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.ppdSfid || ids.value
+  const Ids = row.id || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {
@@ -660,7 +493,7 @@ const handleFileSuccess = (response) => {
 // 导出按钮操作
 function handleExport() {
   proxy
-    .$confirm(proxy.$t('common.tipConfirmExport')+"<组立不良slv.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
+    .$confirm(proxy.$t('common.tipConfirmExport')+"<不良明细.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
       confirmButtonText: proxy.$t('btn.submit'),
       cancelButtonText: proxy.$t('btn.cancel'),
       type: "warning",

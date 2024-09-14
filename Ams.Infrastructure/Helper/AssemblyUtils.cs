@@ -43,13 +43,13 @@ namespace Ams.Infrastructure.Helper
                 {
                     return baseType?.GetGenericTypeDefinition();
                 }
-                
+
 
             }
 
             return type;
         }
-        public static bool IsDerivedFromGenericBaseRepository(this Type? type, Type genericBase)
+        public static bool IsDerivedFromGenericBaseRepository(this Type type, Type genericBase)
         {
             while (type != null && type != typeof(object))
             {

@@ -1,5 +1,4 @@
 ﻿//using Microsoft.AspNetCore.Http;
-
 namespace Ams.Infrastructure.Extensions
 {
     public static partial class Extensions
@@ -15,10 +14,12 @@ namespace Ams.Infrastructure.Extensions
                 return true;
             }
         }
+
         public static bool IsNotEmpty(this object value)
         {
             return !IsEmpty(value);
         }
+
         public static bool IsNullOrZero(this object value)
         {
             if (value == null || value.ParseToString().Trim() == "0")

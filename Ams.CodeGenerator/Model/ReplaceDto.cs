@@ -25,7 +25,7 @@ namespace Ams.CodeGenerator.Model
         public string PermissionPrefix { get; set; }
 
         /// <summary>
-        /// 多翻译Key后缀
+        /// 多翻译键值后缀
         /// </summary>
         public string LocalePrefix { get; set; }
 
@@ -156,6 +156,11 @@ namespace Ams.CodeGenerator.Model
         /// 远程下拉框
         /// </summary>
         public int SelectRemote { get; set; }
+
+        /// <summary>
+        /// 虚拟化下拉框
+        /// </summary>
+        public int SelectVirtual { get; set; }
 
         /// <summary>
         /// 作者

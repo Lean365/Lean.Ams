@@ -7,7 +7,7 @@ namespace Ams.Service.Routine.IRoutineService
     /// 机构目标
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 10:30:14
+    /// @Date: 2024/9/5 10:12:49
     /// </summary>
     public interface IInstTargetService : IBaseService<InstTarget>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Routine.IRoutineService
         /// <summary>
         /// 获取机构目标信息
         /// </summary>
-        /// <param name="IkSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        InstTarget GetInfo(long IkSfId);
+        InstTarget GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

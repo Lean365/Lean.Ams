@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 实际对比
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 11:50:08
+    /// @Date: 2024/9/10 14:38:54
     /// </summary>
     [Verify]
     [Route("Accounting/FicoBudgetActualCont")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询实际对比详情
         /// </summary>
-        /// <param name="FbSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{FbSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "fico:budgetactualcont:query")]
-        public IActionResult GetFicoBudgetActualCont(long FbSfId)
+        public IActionResult GetFicoBudgetActualCont(long Id)
         {
-            var response = _FicoBudgetActualContService.GetInfo(FbSfId);
+            var response = _FicoBudgetActualContService.GetInfo(Id);
             
             var info = response.Adapt<FicoBudgetActualContDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "fico:budgetactualcont:add")]
-        [Log(Title = "实际对比", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "实际对比", BusinessType = BusinessType.ADD)]
         public IActionResult AddFicoBudgetActualCont([FromBody] FicoBudgetActualContDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetActualContService.CheckInputUnique(parm.FbSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetActualContService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增实际对比 '{parm.FbSfId}'失败(Add failed)，输入的实际对比已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增实际对比 '{parm.Id}'失败(Add failed)，输入的实际对比已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoBudgetActualCont>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "fico:budgetactualcont:edit")]
-        [Log(Title = "实际对比", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "实际对比", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateFicoBudgetActualCont([FromBody] FicoBudgetActualContDto parm)
         {
             var modal = parm.Adapt<FicoBudgetActualCont>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// 导出实际对比
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "实际对比", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "实际对比导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "fico:budgetactualcont:export")]
         public IActionResult Export([FromQuery] FicoBudgetActualContQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 导入
+        /// 导入实际对比
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "实际对比导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "fico:budgetactualcont:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<FicoBudgetActualContDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 实际对比导入模板下载
+        /// 实际对比
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "实际对比模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<FicoBudgetActualContImportTpl>() { }, "FicoBudgetActualCont_tpl");
             return ExportExcel(result.Item2, result.Item1);

@@ -1,8 +1,8 @@
 <!--
  * @Descripttion: 培训/routine_ehr_training_ma
- * @Version: 1.0.0.0
+ * @Version: 0.24.621.24558
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/8/9 17:23:27
+ * @Date: 2024/9/12 15:13:49
  * @column：28
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
@@ -12,20 +12,15 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="工号" prop="epEmployeeId">
-        <el-input v-model="queryParams.epEmployeeId" :placeholder="$t('btn.enterSearchPrefix')+'工号'+$t('btn.enterSearchSuffix')" />
+      <el-form-item label="工号" prop="mq002">
+        <el-input v-model="queryParams.mq002" :placeholder="$t('btn.enterSearchPrefix')+'工号'+$t('btn.enterSearchSuffix')" />
       </el-form-item>
-      <el-form-item label="姓名" prop="epName">
-        <el-select filterable clearable   v-model="queryParams.epName" :placeholder="$t('btn.selectSearchPrefix')+'姓名'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_inspector_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
+      <el-form-item label="姓名" prop="mq003">
+        <el-input v-model="queryParams.mq003" :placeholder="$t('btn.enterSearchPrefix')+'姓名'+$t('btn.enterSearchSuffix')" />
       </el-form-item>
-      <el-form-item label="年度" prop="epTrainingYear">
-        <el-select filterable clearable   v-model="queryParams.epTrainingYear" :placeholder="$t('btn.selectSearchPrefix')+'年度'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_fy_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="年度" prop="mq004">
+        <el-select filterable clearable   v-model="queryParams.mq004" :placeholder="$t('btn.selectSearchPrefix')+'年度'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_attr_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -98,18 +93,15 @@
           <el-button class="btn-view" plain  icon="view" size="small" @click="rowClick(scope.row)" :title=" $t('btn.details') "></el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="epSfId" label="ID" align="center" v-if="columns.showColumn('epSfId')"/>
-      <el-table-column prop="epEmployeeId" label="工号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epEmployeeId')"/>
-      <el-table-column prop="epName" label="姓名" align="center" v-if="columns.showColumn('epName')">
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
+      <el-table-column prop="mq002" label="工号" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mq002')"/>
+      <el-table-column prop="mq003" label="姓名" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mq003')"/>
+      <el-table-column prop="mq004" label="年度" align="center" v-if="columns.showColumn('mq004')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_inspector_list " :value="scope.row.epName"  />
+          <dict-tag :options=" options.sql_attr_list " :value="scope.row.mq004"  />
         </template>
       </el-table-column>
-      <el-table-column prop="epTrainingYear" label="年度" align="center" v-if="columns.showColumn('epTrainingYear')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_fy_list " :value="scope.row.epTrainingYear"  />
-        </template>
-      </el-table-column>
+      <el-table-column prop="isDeleted" label="软删除" align="center" v-if="columns.showColumn('isDeleted')"/>
       <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
@@ -126,29 +118,30 @@
     <el-drawer v-model="drawer" size="65%" direction="rtl">
       <el-table :data="routineEhrTrainingSlvList" header-row-class-name="text-navy">
         <el-table-column :label="$t('layout.indexNo')" type="index" width="80" />
-        <el-table-column prop="epSfId" label="ID"/>
-        <el-table-column prop="epParentSfId" label="父ID"/>
-        <el-table-column prop="epTrainingItems" label="项目">
+        <el-table-column prop="id" label="ID"/>
+        <el-table-column prop="parentId" label="父ID"/>
+        <el-table-column prop="mr003" label="项目">
           <template #default="scope">
-            <dict-tag :options=" options.sys_training_items " :value="scope.row.epTrainingItems"  />
+            <dict-tag :options=" options.sys_training_items " :value="scope.row.mr003"  />
           </template>
         </el-table-column>
-        <el-table-column prop="epTrainingContent" label="内容"/>
-        <el-table-column prop="epTrainingPurpose" label="目的"/>
-        <el-table-column prop="epTrainingScore" label="分数"/>
-        <el-table-column prop="epTrainingResults" label="结果">
+        <el-table-column prop="mr004" label="内容"/>
+        <el-table-column prop="mr005" label="目的"/>
+        <el-table-column prop="mr006" label="分数"/>
+        <el-table-column prop="mr007" label="结果">
           <template #default="scope">
-            <dict-tag :options=" options.sys_training_results " :value="scope.row.epTrainingResults"  />
+            <dict-tag :options=" options.sys_training_results " :value="scope.row.mr007"  />
           </template>
         </el-table-column>
-        <el-table-column prop="epTrainingDate" label="日期"/>
-        <el-table-column prop="epTrainingTeacher" label="指导老师"/>
-        <el-table-column prop="epFirstConfirmer" label="确认"/>
-        <el-table-column prop="epSecondConfirmer" label="确认"/>
-        <el-table-column prop="epThirdConfirmer" label="确认"/>
-        <el-table-column prop="epFourthApprover" label="承认"/>
-        <el-table-column prop="epFifthApprover" label="承认"/>
-        <el-table-column prop="epSixthApprover" label="承认"/>
+        <el-table-column prop="mr008" label="日期"/>
+        <el-table-column prop="mr009" label="指导老师"/>
+        <el-table-column prop="mr010" label="确认"/>
+        <el-table-column prop="mr011" label="确认"/>
+        <el-table-column prop="mr012" label="确认"/>
+        <el-table-column prop="mr013" label="承认"/>
+        <el-table-column prop="mr014" label="承认"/>
+        <el-table-column prop="mr015" label="承认"/>
+        <el-table-column prop="isDeleted" label="软删除"/>
         <el-table-column prop="remark" label="备注说明"/>
       </el-table>
     </el-drawer>
@@ -160,16 +153,22 @@
         <el-row :gutter="20">
 
           <el-col :lg="12">
-            <el-form-item label="工号" prop="epEmployeeId">
-              <el-input v-model="form.epEmployeeId" :placeholder="$t('btn.enterPrefix')+'工号'+$t('btn.enterSuffix')"  show-word-limit maxlength="8"/>
+            <el-form-item label="工号" prop="mq002">
+              <el-input   v-model="form.mq002" :placeholder="$t('btn.enterPrefix')+'工号'+$t('btn.enterSuffix')"  show-word-limit   maxlength="8"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="姓名" prop="epName">
-              <el-select filterable clearable   v-model="form.epName"  :placeholder="$t('btn.selectPrefix')+'姓名'+$t('btn.selectSuffix')">
+            <el-form-item label="姓名" prop="mq003">
+              <el-input   v-model="form.mq003" :placeholder="$t('btn.enterPrefix')+'姓名'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="年度" prop="mq004">
+              <el-select filterable clearable   v-model="form.mq004"  :placeholder="$t('btn.selectPrefix')+'年度'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_inspector_list" 
+                  v-for="item in  options.sql_attr_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -177,19 +176,12 @@
             </el-form-item>
           </el-col>
 
-
+            
           <el-col :lg="12">
-            <el-form-item label="年度" prop="epTrainingYear">
-              <el-select filterable clearable   v-model="form.epTrainingYear"  :placeholder="$t('btn.selectPrefix')+'年度'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sql_fy_list" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
+            <el-form-item label="软删除" prop="isDeleted">
+              <el-input-number v-model.number="form.isDeleted" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'软删除'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
-
 
           <el-col :lg="24">
             <el-form-item label="备注说明" prop="remark">
@@ -285,9 +277,9 @@
         <el-table :data="routineEhrTrainingSlvList" :row-class-name="rowRoutineEhrTrainingSlvIndex" @selection-change="handleRoutineEhrTrainingSlvSelectionChange" ref="RoutineEhrTrainingSlvRef">
           <el-table-column type="selection" width="40" align="center" />
           <el-table-column :label="$t('layout.indexNo')" align="center" prop="index" width="50"/>
-          <el-table-column label="项目" prop="epTrainingItems">
+          <el-table-column label="项目" prop="mr003">
             <template #default="scope">
-              <el-select filterable clearable  v-model="scope.row.epTrainingItems" :placeholder="$t('btn.enterPrefix')+'项目'+$t('btn.enterSuffix')">
+              <el-select filterable clearable  v-model="scope.row.mr003" :placeholder="$t('btn.enterPrefix')+'项目'+$t('btn.enterSuffix')">
                 <el-option
                   v-for="item in options.sys_training_items" 
                   :key="item.dictValue" 
@@ -296,24 +288,24 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="内容" align="center" prop="epTrainingContent">
+          <el-table-column label="内容" align="center" prop="mr004">
             <template #default="scope">
-              <el-input v-model="scope.row.epTrainingContent" :placeholder="$t('btn.enterPrefix')+'内容'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.mr004" :placeholder="$t('btn.enterPrefix')+'内容'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="目的" align="center" prop="epTrainingPurpose">
+          <el-table-column label="目的" align="center" prop="mr005">
             <template #default="scope">
-              <el-input v-model="scope.row.epTrainingPurpose" :placeholder="$t('btn.enterPrefix')+'目的'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.mr005" :placeholder="$t('btn.enterPrefix')+'目的'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="分数" align="center" prop="epTrainingScore" width="140">
+          <el-table-column label="分数" align="center" prop="mr006" width="140">
             <template #default="scope">
-              <el-input-number v-model="scope.row.epTrainingScore" controls-position="right" :placeholder="$t('btn.enterPrefix')+'分数'+$t('btn.enterSuffix')" />
+              <el-input-number v-model="scope.row.mr006" controls-position="right" :placeholder="$t('btn.enterPrefix')+'分数'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="结果" prop="epTrainingResults">
+          <el-table-column label="结果" prop="mr007">
             <template #default="scope">
-              <el-select filterable clearable  v-model="scope.row.epTrainingResults" :placeholder="$t('btn.enterPrefix')+'结果'+$t('btn.enterSuffix')">
+              <el-select filterable clearable  v-model="scope.row.mr007" :placeholder="$t('btn.enterPrefix')+'结果'+$t('btn.enterSuffix')">
                 <el-option
                   v-for="item in options.sys_training_results" 
                   :key="item.dictValue" 
@@ -322,44 +314,49 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="日期" align="center" prop="epTrainingDate">
+          <el-table-column label="日期" align="center" prop="mr008">
             <template #default="scope">
-              <el-date-picker clearable v-model="scope.row.epTrainingDate" type="date" :placeholder="$t('btn.dateselect')"></el-date-picker>
+              <el-date-picker clearable v-model="scope.row.mr008" type="date" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </template>
           </el-table-column>
-          <el-table-column label="指导老师" align="center" prop="epTrainingTeacher">
+          <el-table-column label="指导老师" align="center" prop="mr009">
             <template #default="scope">
-              <el-input v-model="scope.row.epTrainingTeacher" :placeholder="$t('btn.enterPrefix')+'指导老师'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.mr009" :placeholder="$t('btn.enterPrefix')+'指导老师'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="确认" align="center" prop="epFirstConfirmer">
+          <el-table-column label="确认" align="center" prop="mr010">
             <template #default="scope">
-              <el-input v-model="scope.row.epFirstConfirmer" :placeholder="$t('btn.enterPrefix')+'确认'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.mr010" :placeholder="$t('btn.enterPrefix')+'确认'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="确认" align="center" prop="epSecondConfirmer">
+          <el-table-column label="确认" align="center" prop="mr011">
             <template #default="scope">
-              <el-input v-model="scope.row.epSecondConfirmer" :placeholder="$t('btn.enterPrefix')+'确认'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.mr011" :placeholder="$t('btn.enterPrefix')+'确认'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="确认" align="center" prop="epThirdConfirmer">
+          <el-table-column label="确认" align="center" prop="mr012">
             <template #default="scope">
-              <el-input v-model="scope.row.epThirdConfirmer" :placeholder="$t('btn.enterPrefix')+'确认'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.mr012" :placeholder="$t('btn.enterPrefix')+'确认'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="承认" align="center" prop="epFourthApprover">
+          <el-table-column label="承认" align="center" prop="mr013">
             <template #default="scope">
-              <el-input v-model="scope.row.epFourthApprover" :placeholder="$t('btn.enterPrefix')+'承认'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.mr013" :placeholder="$t('btn.enterPrefix')+'承认'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="承认" align="center" prop="epFifthApprover">
+          <el-table-column label="承认" align="center" prop="mr014">
             <template #default="scope">
-              <el-input v-model="scope.row.epFifthApprover" :placeholder="$t('btn.enterPrefix')+'承认'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.mr014" :placeholder="$t('btn.enterPrefix')+'承认'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
-          <el-table-column label="承认" align="center" prop="epSixthApprover">
+          <el-table-column label="承认" align="center" prop="mr015">
             <template #default="scope">
-              <el-input v-model="scope.row.epSixthApprover" :placeholder="$t('btn.enterPrefix')+'承认'+$t('btn.enterSuffix')" />
+              <el-input v-model="scope.row.mr015" :placeholder="$t('btn.enterPrefix')+'承认'+$t('btn.enterSuffix')" />
+            </template>
+          </el-table-column>
+          <el-table-column label="软删除" align="center" prop="isDeleted" width="140">
+            <template #default="scope">
+              <el-input-number v-model="scope.row.isDeleted" controls-position="right" :placeholder="$t('btn.enterPrefix')+'软删除'+$t('btn.enterSuffix')" />
             </template>
           </el-table-column>
           <el-table-column label="备注说明" align="center" prop="remark">
@@ -405,21 +402,22 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: 'EpTrainingYear',
+  sort: 'Mq004',
   sortType: 'desc',
-//是否查询（1是）
-  epEmployeeId: undefined,
-//是否查询（1是）
-  epName: undefined,
-//是否查询（1是）
-  epTrainingYear: undefined,
+  //是否查询（1是）
+  mq002: undefined,
+  //是否查询（1是）
+  mq003: undefined,
+  //是否查询（1是）
+  mq004: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'epSfId', label: 'ID' },
-  { visible: true, prop: 'epEmployeeId', label: '工号' },
-  { visible: true, prop: 'epName', label: '姓名' },
-  { visible: true, prop: 'epTrainingYear', label: '年度' },
+  { visible: true, prop: 'id', label: 'ID' },
+  { visible: true, prop: 'mq002', label: '工号' },
+  { visible: true, prop: 'mq003', label: '姓名' },
+  { visible: true, prop: 'mq004', label: '年度' },
+  { visible: false, prop: 'isDeleted', label: '软删除' },
   { visible: false, prop: 'remark', label: '备注说明' },
 ])
 // 记录数
@@ -433,9 +431,7 @@ const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23,
 
 //字典参数
 var dictParams = [
-  { dictType: "sql_inspector_list" },
-  { dictType: "sql_fy_list" },
-  { dictType: "sys_is_deleted" },
+  { dictType: "sql_attr_list" },
   { dictType: "sys_training_items" },
   { dictType: "sys_training_results" },
 ]
@@ -472,7 +468,7 @@ function resetQuery(){
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.epSfId);
+  ids.value = selection.map((item) => item.id);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -507,17 +503,16 @@ const state = reactive({
   single: true,
   multiple: true,
   form: {},
+//正则表达式
   rules: {
-    epSfId: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
-    epName: [{ required: true, message: "姓名"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    mq002: [{ required: true, message: "工号"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    mq003: [{ required: true, message: "姓名"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
   },
+//字典名称
   options: {
-    // 姓名 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_inspector_list: [],
     // 年度 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_fy_list: [],
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_deleted: [],
+sql_attr_list: [],
     // 项目 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_training_items: [],
     // 结果 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
@@ -536,34 +531,11 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    epSfId: 0,
-    epEmployeeId: null,
-    epName: null,
-    epTrainingYear: null,
-    rEF01: null,
-    rEF02: null,
-    rEF03: null,
-    rEF04: 0,
-    rEF05: 0,
-    rEF06: 0,
-    uDF01: null,
-    uDF02: null,
-    uDF03: null,
-    uDF04: null,
-    uDF05: null,
-    uDF06: null,
-    uDF51: 0,
-    uDF52: 0,
-    uDF53: 0,
-    uDF54: 0,
-    uDF55: 0,
-    uDF56: 0,
+    mq002: null,
+    mq003: null,
+    mq004: [],
     isDeleted: 0,
     remark: null,
-    createBy: null,
-    createTime: null,
-    updateBy: null,
-    updateTime: null,
   };
   routineEhrTrainingSlvList.value = []
   proxy.resetForm("formRef")
@@ -576,13 +548,13 @@ function handleAdd() {
   open.value = true
   title.value = proxy.$t('btn.add')+" "+'培训'
   opertype.value = 1
-  form.value.epName= []
-  form.value.epTrainingYear= []
+  form.value.mq004= []
+  form.value.isDeleted= 0
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.epSfId || ids.value
+  const id = row.id || ids.value
   getRoutineEhrTrainingMa(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -604,7 +576,7 @@ function submitForm() {
     if (valid) {
 
       form.value.routineEhrTrainingSlvNav = routineEhrTrainingSlvList.value
-      if (form.value.epSfId != undefined && opertype.value === 2) {
+      if (form.value.id != undefined && opertype.value === 2) {
         updateRoutineEhrTrainingMa(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -623,7 +595,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.epSfId || ids.value
+  const Ids = row.id || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {
@@ -682,19 +654,20 @@ function rowRoutineEhrTrainingSlvIndex({ row, rowIndex }) {
 function handleAddRoutineEhrTrainingSlv() {
   let obj = {};
   //下面的代码自己设置默认值
-  //obj.epTrainingItems = null;
-  //obj.epTrainingContent = null;
-  //obj.epTrainingPurpose = null;
-  //obj.epTrainingScore = null;
-  //obj.epTrainingResults = null;
-  //obj.epTrainingDate = null;
-  //obj.epTrainingTeacher = null;
-  //obj.epFirstConfirmer = null;
-  //obj.epSecondConfirmer = null;
-  //obj.epThirdConfirmer = null;
-  //obj.epFourthApprover = null;
-  //obj.epFifthApprover = null;
-  //obj.epSixthApprover = null;
+  //obj.mr003 = null;
+  //obj.mr004 = null;
+  //obj.mr005 = null;
+  //obj.mr006 = null;
+  //obj.mr007 = null;
+  //obj.mr008 = null;
+  //obj.mr009 = null;
+  //obj.mr010 = null;
+  //obj.mr011 = null;
+  //obj.mr012 = null;
+  //obj.mr013 = null;
+  //obj.mr014 = null;
+  //obj.mr015 = null;
+  //obj.isDeleted = null;
   //obj.remark = null;
   routineEhrTrainingSlvList.value.push(obj);
 }
@@ -719,7 +692,7 @@ function handleDeleteRoutineEhrTrainingSlv() {
 
 /** 培训详情 */
 function rowClick(row) {
-  const id = row.epSfId || ids.value
+  const id = row.id || ids.value
   getRoutineEhrTrainingMa(id).then((res) => {
     const { code, data } = res
     if (code == 200) {

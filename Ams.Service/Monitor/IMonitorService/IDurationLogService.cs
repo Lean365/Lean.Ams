@@ -1,9 +1,9 @@
-using Ams.Model.Monitor.Dto;
+using Ams.Service;
 
 namespace Ams.Service.Monitor.IMonitorService
 {
     /// <summary>
-    /// 用户在线时长service接口
+    /// 在线时长service接口
     /// </summary>
     public interface IDurationLogService : IBaseService<DurationLog>
     {

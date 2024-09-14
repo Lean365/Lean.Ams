@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Ams.Infrastructure.Extensions;
+using Newtonsoft.Json;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 using Ams.Common.Model;
+using Ams.Infrastructure.Helper;
+using Ams.Infrastructure.Cache;
 using Ams.Infrastructure;
-using Ams.Infrastructure.Extensions;
-using Newtonsoft.Json;
 
 namespace Ams.Common
 {
@@ -18,7 +20,7 @@ namespace Ams.Common
         /// <summary>
         /// 获取访问token
         /// </summary>
-        /// <returns>
+        /// <returns>           
         /// {"errcode":0,"errmsg":"ok","access_token":"iCbcfE1OjfRhV0_io-CzqTNC0lnrudeW3oF5rhJKfmINaxLClLa1FoqAY_wEXtodYh_DTnrtAwZfzeb-NRXvwiOoqUTHx3i6QKLYcfBtF8y-xd5mvaeaf3e9mvTAPhmX0lkm1cLTwRLmoa1IwzgQ-QZEZcuIcntWdEMGseVYok3BwCGpC87bt6nNdgnekZdFVRp1uuaxoctDGlXpoQlQsA","expires_in":7200}
         /// </returns>
         private static WxTokenResult GetAccessToken()

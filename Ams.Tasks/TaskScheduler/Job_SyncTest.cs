@@ -2,7 +2,7 @@ using Ams.Infrastructure.Attribute;
 using Quartz;
 using SqlSugar.IOC;
 using System.Threading.Tasks;
-using Ams.Model.Kernel;
+using Ams.Model.Admin;
 
 namespace Ams.Tasks.TaskScheduler
 {
@@ -17,7 +17,7 @@ namespace Ams.Tasks.TaskScheduler
 
         public async Task Execute(IJobExecutionContext context)
         {
-            await ExecuteJob(context, Run);            
+            await ExecuteJob(context, Run);
         }
 
         /// <summary>

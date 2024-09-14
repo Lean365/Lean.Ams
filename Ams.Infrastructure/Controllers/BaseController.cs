@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Web;
+using Ams.Infrastructure.Apps;
+using Ams.Infrastructure.CustomExceptions;
 using Ams.Infrastructure.Extensions;
 using Ams.Infrastructure.Model;
 using Microsoft.AspNetCore.Hosting;
@@ -101,7 +103,7 @@ namespace Ams.Infrastructure.Controllers
         /// <param name="rows">受影响行数</param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected ApiResult ToJson(long rows, object? data = null)
+        protected ApiResult ToJson(long rows, object data = null)
         {
             return rows > 0 ? ApiResult.Success("success", data) : GetApiResult(ResultCode.FAIL);
         }
@@ -112,7 +114,7 @@ namespace Ams.Infrastructure.Controllers
         /// <param name="resultCode"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected ApiResult GetApiResult(ResultCode resultCode, object? data = null)
+        protected ApiResult GetApiResult(ResultCode resultCode, object data = null)
         {
             var msg = resultCode.GetDescription();
 

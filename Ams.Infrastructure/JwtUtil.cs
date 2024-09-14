@@ -1,14 +1,15 @@
-﻿using Ams.Infrastructure.Extensions;
-using Ams.Infrastructure.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Ams.Infrastructure.Extensions;
+using Ams.Infrastructure.Model;
+using Ams.Infrastructure.WebExtensions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace Ams.Infrastructure
 {
@@ -65,6 +66,7 @@ namespace Ams.Infrastructure
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
         /// <summary>
         /// 验证Token
         /// </summary>
@@ -94,12 +96,13 @@ namespace Ams.Infrastructure
             };
             return tokenDescriptor;
         }
+
         /// <summary>
         /// 从令牌中获取数据声明
         /// </summary>
         /// <param name="token">令牌</param>
         /// <returns></returns>
-        public static JwtSecurityToken? ParseToken(string token)
+        public static JwtSecurityToken ParseToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var validateParameter = ValidParameters();
@@ -123,7 +126,7 @@ namespace Ams.Infrastructure
         /// </summary>
         /// <param name="jwtSecurityToken"></param>
         /// <returns></returns>
-        public static TokenModel? ValidateJwtToken(JwtSecurityToken jwtSecurityToken)
+        public static TokenModel ValidateJwtToken(JwtSecurityToken jwtSecurityToken)
         {
             try
             {
@@ -164,6 +167,5 @@ namespace Ams.Infrastructure
 
             return claims;
         }
-
     }
 }

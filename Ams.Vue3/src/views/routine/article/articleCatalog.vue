@@ -130,7 +130,8 @@
           <el-col :lg="24">
             <el-form-item :label="$t('pcategory.category')+$t('pcategory.name')" prop="name">
               <el-input v-model="form.name"
-                :placeholder="$t('btn.enterPrefix')+$t('pcategory.category')+$t('pcategory.name')+$t('btn.enterSuffix')" />
+                :placeholder="$t('btn.enterPrefix')+$t('pcategory.category')+$t('pcategory.name')+$t('btn.enterSuffix')"
+                show-word-limit maxlength="20" />
             </el-form-item>
           </el-col>
 
@@ -161,8 +162,9 @@
           </el-col>
           <el-col :lg="24">
             <el-form-item :label="$t('pcategory.introduce')" prop="introduce">
-              <el-input v-model="form.introduce"
-                :placeholder="$t('btn.enterPrefix')+$t('pcategory.introduce')+$t('btn.enterSuffix')" />
+              <el-input v-model="form.introduce" type="textarea"
+                :placeholder="$t('btn.enterPrefix')+$t('pcategory.introduce')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="200" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">

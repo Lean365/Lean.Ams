@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 月度存货
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 11:52:42
+    /// @Date: 2024/9/10 16:55:10
     /// </summary>
     [Verify]
     [Route("Accounting/FicoMonthlyInventory")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询月度存货详情
         /// </summary>
-        /// <param name="MiSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{MiSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "fico:monthlyinventory:query")]
-        public IActionResult GetFicoMonthlyInventory(long MiSfId)
+        public IActionResult GetFicoMonthlyInventory(long Id)
         {
-            var response = _FicoMonthlyInventoryService.GetInfo(MiSfId);
+            var response = _FicoMonthlyInventoryService.GetInfo(Id);
             
             var info = response.Adapt<FicoMonthlyInventoryDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "fico:monthlyinventory:add")]
-        [Log(Title = "月度存货", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "月度存货", BusinessType = BusinessType.ADD)]
         public IActionResult AddFicoMonthlyInventory([FromBody] FicoMonthlyInventoryDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoMonthlyInventoryService.CheckInputUnique(parm.MiSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoMonthlyInventoryService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增月度存货 '{parm.MiSfId}'失败(Add failed)，输入的月度存货已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增月度存货 '{parm.Id}'失败(Add failed)，输入的月度存货已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoMonthlyInventory>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "fico:monthlyinventory:edit")]
-        [Log(Title = "月度存货", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "月度存货", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateFicoMonthlyInventory([FromBody] FicoMonthlyInventoryDto parm)
         {
             var modal = parm.Adapt<FicoMonthlyInventory>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// 导出月度存货
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "月度存货", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "月度存货导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "fico:monthlyinventory:export")]
         public IActionResult Export([FromQuery] FicoMonthlyInventoryQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 导入
+        /// 导入月度存货
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "月度存货导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "fico:monthlyinventory:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<FicoMonthlyInventoryDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 月度存货导入模板下载
+        /// 月度存货
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "月度存货模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<FicoMonthlyInventoryImportTpl>() { }, "FicoMonthlyInventory_tpl");
             return ExportExcel(result.Item2, result.Item1);

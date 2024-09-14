@@ -3,7 +3,7 @@ import QS from 'qs'
 import { downFile } from '@/utils/request'
 
 /**
- * 制一OPH从表分页查询
+ * 组立明细分页查询
  * @param {查询条件} data
  */
 export function listPpOutputAssySlave(query) {
@@ -18,7 +18,7 @@ export function listPpOutputAssySlave(query) {
 }
 
 /**
- * 新增制一OPH从表
+ * 新增组立明细
  * @param data
  */
 export function addPpOutputAssySlave(data) {
@@ -29,7 +29,7 @@ export function addPpOutputAssySlave(data) {
   })
 }
 /**
- * 修改制一OPH从表
+ * 修改组立明细
  * @param data
  */
 export function updatePpOutputAssySlave(data) {
@@ -40,7 +40,7 @@ export function updatePpOutputAssySlave(data) {
   })
 }
 /**
- * 获取制一OPH从表详情
+ * 获取组立明细详情
  * @param {Id}
  */
 export function getPpOutputAssySlave(id) {
@@ -51,7 +51,7 @@ export function getPpOutputAssySlave(id) {
 }
 
 /**
- * 删除制一OPH从表
+ * 删除组立明细
  * @param {主键} pid
  */
 export function delPpOutputAssySlave(pid) {
@@ -60,7 +60,7 @@ export function delPpOutputAssySlave(pid) {
     method: 'delete'
   })
 }
-// 导出制一OPH从表
+// 导出组立明细
 export async function exportPpOutputAssySlave(query) {
   await downFile('Logistics/PpOutputAssySlave/export', { ...query })
 }

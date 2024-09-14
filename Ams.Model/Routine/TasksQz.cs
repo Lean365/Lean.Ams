@@ -2,8 +2,11 @@
 {
     ///<summary>
     ///计划任务
+    /// 数据实体对象
+    /// @author lean365(Davis.Ching)
+    /// @date 2024-01-01
     ///</summary>
-    [SugarTable("routine_tasksqz", "计划任务表")]
+    [SugarTable("routine_tasks_qz", "计划任务")]
     [Tenant("0")]
     public class TasksQz : SysBase
     {
@@ -12,7 +15,7 @@
         }
 
         /// <summary>
-        /// 任务ID
+        /// 任务id
         /// </summary>
         [Display(Name = "任务id")]
         //[JsonConverter(typeof(ValueToStringConverter))]
@@ -23,35 +26,35 @@
         /// 任务名称
         /// </summary>
         [Display(Name = "任务名称")]
-        [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(Length = 40, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string Name { get; set; }
 
         /// <summary>
         /// 任务分组
         /// </summary>
         [Display(Name = "任务分组")]
-        [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(Length = 10, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string JobGroup { get; set; }
 
         /// <summary>
         /// 运行时间表达式
         /// </summary>
         [Display(Name = "运行时间表达式")]
-        [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(Length = 400, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string Cron { get; set; }
 
         /// <summary>
         /// 程序集名称
         /// </summary>
         [Display(Name = "程序集名称")]
-        [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(Length = 100, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string AssemblyName { get; set; }
 
         /// <summary>
         /// 任务所在类
         /// </summary>
         [Display(Name = "任务所在类")]
-        [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(Length = 100, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string ClassName { get; set; }
 
         /// <summary>
@@ -78,7 +81,7 @@
         /// 默认 : 1
         /// </summary>
         [Display(Name = "触发器类型（0、simple 1、cron）")]
-        [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(Length = 10, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public int TriggerType { get; set; }
 
         /// <summary>
@@ -100,6 +103,7 @@
         /// 传入参数
         /// </summary>
         [Display(Name = "传入参数")]
+        [SugarColumn(Length = 200)]
         public string JobParams { get; set; }
 
         /// <summary>
@@ -110,6 +114,7 @@
         /// <summary>
         /// api执行地址
         /// </summary>
+        [SugarColumn(Length = 100)]
         public string ApiUrl { get; set; }
 
         /// <summary>
@@ -121,6 +126,7 @@
         /// <summary>
         /// SQL语句
         /// </summary>
+        [SugarColumn(ColumnDataType = StaticConfig.CodeFirst_BigString)]
         public string SqlText { get; set; }
 
         /// <summary>

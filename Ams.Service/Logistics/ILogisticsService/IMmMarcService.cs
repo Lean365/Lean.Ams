@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 工厂物料
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:45:06
+    /// @Date: 2024/9/11 11:30:16
     /// </summary>
     public interface IMmMarcService : IBaseService<MmMarc>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取工厂物料信息
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        MmMarc GetInfo(long SfId);
+        MmMarc GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

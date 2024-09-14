@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 主设变分页查询
+ * 设变分页查询
  * @param {查询条件} data
  */
 export function listPpEcMaster(query) {
@@ -14,7 +14,7 @@ export function listPpEcMaster(query) {
 }
 
 /**
- * 新增主设变
+ * 新增设变
  * @param data
  */
 export function addPpEcMaster(data) {
@@ -25,7 +25,7 @@ export function addPpEcMaster(data) {
   })
 }
 /**
- * 修改主设变
+ * 修改设变
  * @param data
  */
 export function updatePpEcMaster(data) {
@@ -36,7 +36,7 @@ export function updatePpEcMaster(data) {
   })
 }
 /**
- * 获取主设变详情
+ * 获取设变详情
  * @param {Id}
  */
 export function getPpEcMaster(id) {
@@ -47,7 +47,7 @@ export function getPpEcMaster(id) {
 }
 
 /**
- * 删除主设变
+ * 删除设变
  * @param {主键} pid
  */
 export function delPpEcMaster(pid) {
@@ -56,7 +56,7 @@ export function delPpEcMaster(pid) {
     method: 'delete'
   })
 }
-// 导出主设变
+// 导出设变
 export async function exportPpEcMaster(query) {
   await downFile('Logistics/PpEcMaster/export', { ...query })
 }

@@ -1,8 +1,8 @@
 <!--
- * @Descripttion: 汇率表/fico_exchange_rate
- * @Version: 1.0.0.0
+ * @Descripttion: 币种汇率/fico_exchange_rate
+ * @Version: 0.24.619.29178
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/8/5 16:43:18
+ * @Date: 2024/9/10 16:52:45
  * @column：31
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
@@ -12,9 +12,9 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="公司 " prop="ferCorp">
-        <el-select filterable clearable   v-model="queryParams.ferCorp" :placeholder="$t('btn.selectSearchPrefix')+'公司 '+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_crop_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="公司" prop="mm002">
+        <el-select filterable clearable   v-model="queryParams.mm002" :placeholder="$t('btn.selectSearchPrefix')+'公司'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_corp_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -22,7 +22,7 @@
       </el-form-item>
       <el-form-item label="日期">
         <el-date-picker
-          v-model="dateRangeFerEffDate" 
+          v-model="dateRangeMm003" 
           type="datetimerange"
           :start-placeholder="$t('btn.dateStart')"
           :end-placeholder="$t('btn.dateEnd')"
@@ -31,17 +31,9 @@
           :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="从币种 " prop="ferfmCcy">
-        <el-select filterable clearable   v-model="queryParams.ferfmCcy" :placeholder="$t('btn.selectSearchPrefix')+'从币种 '+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_ccy_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="到币种 " prop="fertoCcy">
-        <el-select filterable clearable   v-model="queryParams.fertoCcy" :placeholder="$t('btn.selectSearchPrefix')+'到币种 '+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_ccy_type " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+      <el-form-item label="从币种" prop="mm004">
+        <el-select filterable clearable   v-model="queryParams.mm004" :placeholder="$t('btn.selectSearchPrefix')+'从币种'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   options.sql_global_currency " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -109,36 +101,26 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="ferSfId" label="ID" align="center" v-if="columns.showColumn('ferSfId')"/>
-      <el-table-column prop="ferCorp" label="公司 " align="center" v-if="columns.showColumn('ferCorp')">
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
+      <el-table-column prop="mm002" label="公司" align="center" v-if="columns.showColumn('mm002')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_crop_list " :value="scope.row.ferCorp"  />
+          <dict-tag :options=" options.sql_corp_list " :value="scope.row.mm002"  />
         </template>
       </el-table-column>
-      <el-table-column prop="ferEffDate" label="日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('ferEffDate')"/>
-      <el-table-column prop="ferStd" label="基数 " align="center" v-if="columns.showColumn('ferStd')"/>
-      <el-table-column prop="ferfmCcy" label="从币种 " align="center" v-if="columns.showColumn('ferfmCcy')">
+      <el-table-column prop="mm003" label="日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('mm003')"/>
+      <el-table-column prop="mm004" label="从币种" align="center" v-if="columns.showColumn('mm004')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_ccy_type " :value="scope.row.ferfmCcy"  />
+          <dict-tag :options=" options.sql_global_currency " :value="scope.row.mm004"  />
         </template>
       </el-table-column>
-      <el-table-column prop="ferRate" label="汇率 " align="center" v-if="columns.showColumn('ferRate')"/>
-      <el-table-column prop="fertoCcy" label="到币种 " align="center" v-if="columns.showColumn('fertoCcy')">
+      <el-table-column prop="mm005" label="基数" align="center" v-if="columns.showColumn('mm005')"/>
+      <el-table-column prop="mm006" label="汇率" align="center" v-if="columns.showColumn('mm006')"/>
+      <el-table-column prop="mm007" label="到币种" align="center" v-if="columns.showColumn('mm007')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_ccy_type " :value="scope.row.fertoCcy"  />
+          <dict-tag :options=" options.sql_global_currency " :value="scope.row.mm007"  />
         </template>
       </el-table-column>
-      <el-table-column prop="rEF01" label="预留A " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF01')"/>
-      <el-table-column prop="rEF02" label="预留B " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF02')"/>
-      <el-table-column prop="rEF03" label="预留C " align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('rEF03')"/>
-      <el-table-column prop="rEF04" label="预留1 " align="center" v-if="columns.showColumn('rEF04')"/>
-      <el-table-column prop="rEF05" label="预留2 " align="center" v-if="columns.showColumn('rEF05')"/>
-      <el-table-column prop="rEF06" label="预留3" align="center" v-if="columns.showColumn('rEF06')"/>
       <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column prop="createBy" label="创建人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')"/>
-      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('createTime')"/>
-      <el-table-column prop="updateBy" label="更新人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')"/>
-      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true"  v-if="columns.showColumn('updateTime')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button-group>
@@ -150,24 +132,18 @@
     </el-table>
     <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
 
-    <!-- 添加或修改汇率表对话框 -->
+    <!-- 添加或修改币种汇率对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" >
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane :label="$t('ptabs.basicInfo')" name="first">
         <el-row :gutter="20">
-            
-          <el-col :lg="12">
-            <el-form-item label="ID" prop="ferSfId">
-              <el-input v-model.number="form.ferSfId" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
-            </el-form-item>
-          </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="公司 " prop="ferCorp">
-              <el-select filterable clearable   v-model="form.ferCorp"  :placeholder="$t('btn.selectPrefix')+'公司 '+$t('btn.selectSuffix')">
+            <el-form-item label="公司" prop="mm002">
+              <el-select filterable clearable   v-model="form.mm002"  :placeholder="$t('btn.selectPrefix')+'公司'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sys_crop_list" 
+                  v-for="item in  options.sql_corp_list" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -177,22 +153,41 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="日期" prop="ferEffDate">
-              <el-date-picker v-model="form.ferEffDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="基数 " prop="ferStd">
-              <el-input-number v-model.number="form.ferStd" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'基数 '+$t('btn.enterSuffix')" />
+            <el-form-item label="日期" prop="mm003">
+              <el-date-picker v-model="form.mm003" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="从币种 " prop="ferfmCcy">
-              <el-select filterable clearable   v-model="form.ferfmCcy"  :placeholder="$t('btn.selectPrefix')+'从币种 '+$t('btn.selectSuffix')">
+            <el-form-item label="从币种" prop="mm004">
+              <el-select filterable clearable   v-model="form.mm004"  :placeholder="$t('btn.selectPrefix')+'从币种'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sys_ccy_type" 
+                  v-for="item in  options.sql_global_currency" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+            
+          <el-col :lg="12">
+            <el-form-item label="基数" prop="mm005">
+              <el-input-number v-model.number="form.mm005" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'基数'+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="汇率" prop="mm006">
+              <el-input-number v-model.number="form.mm006" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'汇率'+$t('btn.enterSuffix')" />
+            </el-form-item>
+          </el-col>
+
+          <el-col :lg="12">
+            <el-form-item label="到币种" prop="mm007">
+              <el-select filterable clearable   v-model="form.mm007"  :placeholder="$t('btn.selectPrefix')+'到币种'+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sql_global_currency" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
@@ -201,170 +196,9 @@
           </el-col>
 
 
-          <el-col :lg="12">
-            <el-form-item label="汇率 " prop="ferRate">
-              <el-input-number v-model.number="form.ferRate" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'汇率 '+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="到币种 " prop="fertoCcy">
-              <el-select filterable clearable   v-model="form.fertoCcy"  :placeholder="$t('btn.selectPrefix')+'到币种 '+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sys_ccy_type" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-
-          <el-col :lg="12">
-            <el-form-item label="预留A " prop="rEF01">
-              <el-input v-model="form.rEF01" :placeholder="$t('btn.enterPrefix')+'预留A '+$t('btn.enterSuffix')"  show-word-limit maxlength="1"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="预留B " prop="rEF02">
-              <el-input v-model="form.rEF02" :placeholder="$t('btn.enterPrefix')+'预留B '+$t('btn.enterSuffix')"  show-word-limit maxlength="8"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="预留C " prop="rEF03">
-              <el-input v-model="form.rEF03" :placeholder="$t('btn.enterPrefix')+'预留C '+$t('btn.enterSuffix')"  show-word-limit maxlength="30"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="预留1 " prop="rEF04">
-              <el-input-number v-model.number="form.rEF04" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留1 '+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="预留2 " prop="rEF05">
-              <el-input-number v-model.number="form.rEF05" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留2 '+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="预留3" prop="rEF06">
-              <el-input-number v-model.number="form.rEF06" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预留3'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义A " prop="uDF01">
-              <el-input v-model="form.uDF01" :placeholder="$t('btn.enterPrefix')+'自定义A '+$t('btn.enterSuffix')"  show-word-limit maxlength="200"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义B " prop="uDF02">
-              <el-input v-model="form.uDF02" :placeholder="$t('btn.enterPrefix')+'自定义B '+$t('btn.enterSuffix')"  show-word-limit maxlength="200"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义C " prop="uDF03">
-              <el-input v-model="form.uDF03" :placeholder="$t('btn.enterPrefix')+'自定义C '+$t('btn.enterSuffix')"  show-word-limit maxlength="200"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义D " prop="uDF04">
-              <el-input v-model="form.uDF04" :placeholder="$t('btn.enterPrefix')+'自定义D '+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义E " prop="uDF05">
-              <el-input v-model="form.uDF05" :placeholder="$t('btn.enterPrefix')+'自定义E '+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义F " prop="uDF06">
-              <el-input v-model="form.uDF06" :placeholder="$t('btn.enterPrefix')+'自定义F '+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="自定义1 " prop="uDF51">
-              <el-input-number v-model.number="form.uDF51" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义1 '+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="自定义2 " prop="uDF52">
-              <el-input-number v-model.number="form.uDF52" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义2 '+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="自定义3 " prop="uDF53">
-              <el-input-number v-model.number="form.uDF53" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义3 '+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义4 " prop="uDF54">
-              <el-input-number v-model.number="form.uDF54" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义4 '+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义5 " prop="uDF55">
-              <el-input-number v-model.number="form.uDF55" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义5 '+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="自定义6 " prop="uDF56">
-              <el-input-number v-model.number="form.uDF56" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'自定义6 '+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="软删除" prop="isDeleted">
-              <el-radio-group v-model="form.isDeleted">
-                <el-radio v-for="item in options.sys_is_deleted" :key="item.dictValue" :value="parseInt(item.dictValue)">
-                  {{item.dictLabel}}
-                </el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
+          <el-col :lg="24">
             <el-form-item label="备注说明" prop="remark">
-              <el-input v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')"  show-word-limit maxlength="500"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建人员" prop="createBy">
-              <el-input v-model="form.createBy" :placeholder="$t('btn.enterPrefix')+'创建人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="创建时间" prop="createTime">
-              <el-date-picker v-model="form.createTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新人员" prop="updateBy">
-              <el-input v-model="form.updateBy" :placeholder="$t('btn.enterPrefix')+'更新人员'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
-            </el-form-item>
-          </el-col>
-
-          <el-col :lg="12">
-            <el-form-item label="更新时间" prop="updateTime">
-              <el-date-picker v-model="form.updateTime" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -476,37 +310,25 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: '',
-  sortType: 'asc',
-//是否查询（1是）
-  ferCorp: undefined,
-//是否查询（1是）
-  ferEffDate: undefined,
-//是否查询（1是）
-  ferfmCcy: undefined,
-//是否查询（1是）
-  fertoCcy: undefined,
+  sort: 'Mm003',
+  sortType: 'desc',
+  //是否查询（1是）
+  mm002: undefined,
+  //是否查询（1是）
+  mm003: undefined,
+  //是否查询（1是）
+  mm004: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'ferSfId', label: 'ID' },
-  { visible: true, prop: 'ferCorp', label: '公司 ' },
-  { visible: true, prop: 'ferEffDate', label: '日期' },
-  { visible: true, prop: 'ferStd', label: '基数 ' },
-  { visible: true, prop: 'ferfmCcy', label: '从币种 ' },
-  { visible: true, prop: 'ferRate', label: '汇率 ' },
-  { visible: true, prop: 'fertoCcy', label: '到币种 ' },
-  { visible: true, prop: 'rEF01', label: '预留A ' },
-  { visible: false, prop: 'rEF02', label: '预留B ' },
-  { visible: false, prop: 'rEF03', label: '预留C ' },
-  { visible: false, prop: 'rEF04', label: '预留1 ' },
-  { visible: false, prop: 'rEF05', label: '预留2 ' },
-  { visible: false, prop: 'rEF06', label: '预留3' },
+  { visible: true, prop: 'id', label: 'ID' },
+  { visible: true, prop: 'mm002', label: '公司' },
+  { visible: true, prop: 'mm003', label: '日期' },
+  { visible: true, prop: 'mm004', label: '从币种' },
+  { visible: true, prop: 'mm005', label: '基数' },
+  { visible: true, prop: 'mm006', label: '汇率' },
+  { visible: true, prop: 'mm007', label: '到币种' },
   { visible: false, prop: 'remark', label: '备注说明' },
-  { visible: false, prop: 'createBy', label: '创建人员' },
-  { visible: false, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新人员' },
-  { visible: false, prop: 'updateTime', label: '更新时间' },
 ])
 // 记录数
 const total = ref(0)
@@ -517,13 +339,12 @@ const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
 // 日期时间范围
-const dateRangeFerEffDate = ref([])
+const dateRangeMm003 = ref([])
 
 //字典参数
 var dictParams = [
-  { dictType: "sys_crop_list" },
-  { dictType: "sys_ccy_type" },
-  { dictType: "sys_is_deleted" },
+  { dictType: "sql_corp_list" },
+  { dictType: "sql_global_currency" },
 ]
 
 //字典加载
@@ -532,9 +353,9 @@ proxy.getDicts(dictParams).then((response) => {
     state.options[element.dictType] = element.list
   })
 })
-//API获取从汇率表/fico_exchange_rate表记录数据
+//API获取从币种汇率/fico_exchange_rate表记录数据
 function getList(){
-  proxy.addDateRange(queryParams, dateRangeFerEffDate.value, 'FerEffDate');
+  proxy.addDateRange(queryParams, dateRangeMm003.value, 'Mm003');
   loading.value = true
   listFicoExchangeRate(queryParams).then(res => {
     const { code, data } = res
@@ -555,13 +376,13 @@ function handleQuery() {
 // 重置查询操作
 function resetQuery(){
   // 日期时间范围
-  dateRangeFerEffDate.value = []
+  dateRangeMm003.value = []
   proxy.resetForm("queryRef")
   handleQuery()
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.ferSfId);
+  ids.value = selection.map((item) => item.id);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -596,16 +417,30 @@ const state = reactive({
   single: true,
   multiple: true,
   form: {},
+//正则表达式
   rules: {
-    ferSfId: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
+    id: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
+    mm002: [{ required: true, message: "公司"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    mm003: [{ required: true, message: "日期"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    mm004: [{ required: true, message: "从币种"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
+    mm005: [{ required: true, message: "基数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    mm006: [{ required: true, message: "汇率"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ref04: [{ required: true, message: "预留1"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ref05: [{ required: true, message: "预留2"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    ref06: [{ required: true, message: "预留3"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    udf51: [{ required: true, message: "自定义1"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    udf52: [{ required: true, message: "自定义2"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    udf53: [{ required: true, message: "自定义3"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    udf54: [{ required: true, message: "自定义4"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    udf55: [{ required: true, message: "自定义5"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
+    udf56: [{ required: true, message: "自定义6"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
   },
+//字典名称
   options: {
-    // 公司  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_crop_list: [],
-    // 从币种  选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_ccy_type: [],
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_deleted: [],
+    // 公司 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_corp_list: [],
+    // 从币种 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_global_currency: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -620,37 +455,13 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    ferSfId: 0,
-    ferCorp: null,
-    ferEffDate: null,
-    ferStd: 0,
-    ferfmCcy: null,
-    ferRate: 0,
-    fertoCcy: null,
-    rEF01: null,
-    rEF02: null,
-    rEF03: null,
-    rEF04: 0,
-    rEF05: 0,
-    rEF06: 0,
-    uDF01: null,
-    uDF02: null,
-    uDF03: null,
-    uDF04: null,
-    uDF05: null,
-    uDF06: null,
-    uDF51: 0,
-    uDF52: 0,
-    uDF53: 0,
-    uDF54: 0,
-    uDF55: 0,
-    uDF56: 0,
-    isDeleted: 0,
+    mm002: [],
+    mm003: null,
+    mm004: [],
+    mm005: 0,
+    mm006: 0,
+    mm007: [],
     remark: null,
-    createBy: null,
-    createTime: null,
-    updateBy: null,
-    updateTime: null,
   };
   proxy.resetForm("formRef")
 }
@@ -660,29 +471,24 @@ function reset() {
 function handleAdd() {
   reset();
   open.value = true
-  title.value = proxy.$t('btn.add')+" "+'汇率表'
+  title.value = proxy.$t('btn.add')+" "+'币种汇率'
   opertype.value = 1
-  form.value.ferCorp= []
-  form.value.ferEffDate= new Date()
-  form.value.ferStd= 0
-  form.value.ferfmCcy= []
-  form.value.ferRate= 0
-  form.value.fertoCcy= []
-  form.value.rEF04= 0
-  form.value.rEF05= 0
-  form.value.rEF06= 0
-  form.value.createTime= new Date()
-  form.value.updateTime= new Date()
+  form.value.mm002= []
+  form.value.mm003= new Date()
+  form.value.mm004= []
+  form.value.mm005= 0
+  form.value.mm006= 0
+  form.value.mm007= []
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.ferSfId || ids.value
+  const id = row.id || ids.value
   getFicoExchangeRate(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
       open.value = true
-      title.value = proxy.$t('btn.edit')+" "+ '汇率表'
+      title.value = proxy.$t('btn.edit')+" "+ '币种汇率'
       opertype.value = 2
 
       form.value = {
@@ -697,7 +503,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.ferSfId != undefined && opertype.value === 2) {
+      if (form.value.id != undefined && opertype.value === 2) {
         updateFicoExchangeRate(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -716,7 +522,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.ferSfId || ids.value
+  const Ids = row.id || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {
@@ -750,7 +556,7 @@ const handleFileSuccess = (response) => {
 // 导出按钮操作
 function handleExport() {
   proxy
-    .$confirm(proxy.$t('common.tipConfirmExport')+"<汇率表.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
+    .$confirm(proxy.$t('common.tipConfirmExport')+"<币种汇率.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
       confirmButtonText: proxy.$t('btn.submit'),
       cancelButtonText: proxy.$t('btn.cancel'),
       type: "warning",

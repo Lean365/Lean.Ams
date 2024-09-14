@@ -1,4 +1,4 @@
-using Ams.Model.Monitor.Dto;
+using Ams.Service;
 
 namespace Ams.Service.Monitor.IMonitorService
 {

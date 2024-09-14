@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Ams.Common;
-using Ams.Infrastructure;
+using Ams.Infrastructure.Apps;
 using Ams.Model.Monitor;
 using Ams.Model.Routine;
 using Ams.Service.Monitor.IMonitorService;
@@ -10,7 +10,7 @@ using Ams.Service.Routine.IRoutineService;
 using NLog;
 using Quartz;
 
-namespace Ams.Tasks
+namespace Ams.Tasks.TaskScheduler
 {
     public class JobBase
     {

@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Accounting;
 using Ams.Model.Accounting.Dto;
+using Ams.Repository;
 using Ams.Service.Accounting.IAccountingService;
 
 namespace Ams.Service.Accounting
@@ -8,7 +11,7 @@ namespace Ams.Service.Accounting
     /// 利润中心
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/6 14:40:21
+    /// @Date: 2024/9/5 15:42:56
     /// </summary>
     [AppService(ServiceType = typeof(IFicoProfitCenterService), ServiceLifetime = LifeTime.Transient)]
     public class FicoProfitCenterService : BaseService<FicoProfitCenter>, IFicoProfitCenterService
@@ -23,6 +26,7 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Mq003 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoProfitCenter, FicoProfitCenterDto>(parm);
 
@@ -33,12 +37,11 @@ namespace Ams.Service.Accounting
         /// 校验
         /// 输入项目唯一性
         /// </summary>
-        /// <param name="Prctr"></param>
-        /// <param name="Kokrs"></param>
+        /// <param name="enterString"></param>
         /// <returns></returns>
-        public string CheckInputUnique(string Prctr, string Kokrs)
+        public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.Prctr.ToString() == Prctr && it.Kokrs.ToString() == Kokrs);
+            int count = Count(it => it.Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,12 +52,12 @@ namespace Ams.Service.Accounting
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="FpSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public FicoProfitCenter GetInfo(long FpSfId)
+        public FicoProfitCenter GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.FpSfId == FpSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
@@ -89,9 +92,9 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.FpSfId.IsEmpty(), "ID不能为空")
-                .SplitError(x => x.Item.Prctr.IsEmpty(), "利润中心  不能为空")
-                .SplitError(x => x.Item.Kokrs.IsEmpty(), "控制范围  不能为空")
+                .SplitError(x => x.Item.Id.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.Mq003.IsEmpty(), "利润中心不能为空")
+                .SplitError(x => x.Item.Mq010.IsEmpty(), "名称不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -125,11 +128,16 @@ namespace Ams.Service.Accounting
                 .Where(predicate.ToExpression())
                 .Select((it) => new FicoProfitCenterDto()
                 {
-                    KokrsLabel = it.Kokrs.GetConfigValue<SysDictData>("sys_crop_list"),
-                    AbteiLabel = it.Abtei.GetConfigValue<SysDictData>("sql_dept_list"),
-                    WaersLabel = it.Waers.GetConfigValue<SysDictData>("sys_ccy_type"),
-                    EtypeLabel = it.Etype.GetConfigValue<SysDictData>("sys_costs_type"),
-                    LockIndLabel = it.LockInd.GetConfigValue<SysDictData>("sys_is_status"),
+                    //查询字典: <控制范围>
+                    Mq004Label = it.Mq004.GetConfigValue<SysDictData>("sql_corp_list"),
+                    //查询字典: <货币>
+                    Mq009Label = it.Mq009.GetConfigValue<SysDictData>("sql_global_currency"),
+                    //查询字典: <锁定标记>
+                    Mq016Label = it.Mq016.GetConfigValue<SysDictData>("sys_locked_flag"),
+                    //查询字典: <状态>
+                    Mq017Label = it.Mq017.GetConfigValue<SysDictData>("sys_is_status"),
+                    //查询字典: <软删除>
+                    //IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_Is_deleted"),
                 }, true)
                 .ToPage(parm);
 
@@ -145,17 +153,12 @@ namespace Ams.Service.Accounting
         {
             var predicate = Expressionable.Create<FicoProfitCenter>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Prctr), it => it.Prctr.Contains(parm.Prctr));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Kokrs), it => it.Kokrs == parm.Kokrs);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginDatbi == null, it => it.Datbi >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginDatbi == null, it => it.Datbi >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginDatbi != null, it => it.Datbi >= parm.BeginDatbi);
-            predicate = predicate.AndIF(parm.EndDatbi != null, it => it.Datbi <= parm.EndDatbi);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ltext), it => it.Ltext.Contains(parm.Ltext));
-            predicate = predicate.AndIF(parm.LockInd != null, it => it.LockInd == parm.LockInd);
-            predicate = predicate.AndIF(parm.Tstate != null, it => it.Tstate == parm.Tstate);
+            //查询字段: <利润中心>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mq003), it => it.Mq003.Contains(parm.Mq003));
+            //查询字段: <控制范围>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mq004), it => it.Mq004 == parm.Mq004);
+            //查询字段: <名称>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mq010), it => it.Mq010 == parm.Mq010);
             return predicate;
         }
     }

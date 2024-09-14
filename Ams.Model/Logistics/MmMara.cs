@@ -4,7 +4,7 @@ namespace Ams.Model.Logistics
     /// 常规物料
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:37:36
+    /// @Date: 2024/9/11 10:59:57
     /// </summary>
     [SugarTable("mm_mara", "常规物料")]
     public class MmMara : SysBase
@@ -14,1362 +14,1340 @@ namespace Ams.Model.Logistics
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long SfId { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 集团
         /// </summary>
-        [SugarColumn(ColumnName = "Mandt", ColumnDescription = "集团 ", Length = 6)]
-        public string Mandt { get; set; }
+        [SugarColumn(ColumnName = "Ma002", ColumnDescription = "集团", Length = 6)]
+        public string Ma002 { get; set; }
 
         /// <summary>
         /// 物料号
         /// </summary>
-        [SugarColumn(ColumnName = "Matnr", ColumnDescription = "物料号 ", Length = 36)]
-        public string Matnr { get; set; }
+        [SugarColumn(ColumnName = "Ma003", ColumnDescription = "物料号", Length = 36, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Ma003 { get; set; }
 
         /// <summary>
-        /// 创建日期
+        /// 完整状态
         /// </summary>
-        public DateTime? Ersda { get; set; }
-
-        /// <summary>
-        /// 创建对象的人员名称
-        /// </summary>
-        [SugarColumn(ColumnName = "Ernam", ColumnDescription = "创建对象的人员名称 ", Length = 24)]
-        public string Ernam { get; set; }
-
-        /// <summary>
-        /// 上次更改的日期
-        /// </summary>
-        public DateTime? Laeda { get; set; }
-
-        /// <summary>
-        /// 对象更改人员的名称
-        /// </summary>
-        [SugarColumn(ColumnName = "Aenam", ColumnDescription = "对象更改人员的名称 ", Length = 24)]
-        public string Aenam { get; set; }
-
-        /// <summary>
-        /// 维护全部物料状态
-        /// </summary>
-        [SugarColumn(ColumnName = "Vpsta", ColumnDescription = "维护全部物料状态 ", Length = 30)]
-        public string Vpsta { get; set; }
+        [SugarColumn(ColumnName = "Ma004", ColumnDescription = "完整状态", Length = 30)]
+        public string Ma004 { get; set; }
 
         /// <summary>
         /// 维护状态
         /// </summary>
-        [SugarColumn(ColumnName = "Pstat", ColumnDescription = "维护状态 ", Length = 30)]
-        public string Pstat { get; set; }
+        [SugarColumn(ColumnName = "Ma005", ColumnDescription = "维护状态", Length = 30)]
+        public string Ma005 { get; set; }
 
         /// <summary>
-        /// 在客户级标记要删除的物料
+        /// 集团删除
         /// </summary>
-        [SugarColumn(ColumnName = "Lvorm", ColumnDescription = "在客户级标记要删除的物料 ", Length = 2)]
-        public string Lvorm { get; set; }
+        [SugarColumn(ColumnName = "Ma006", ColumnDescription = "集团删除", Length = 2)]
+        public string Ma006 { get; set; }
 
         /// <summary>
         /// 物料类型
         /// </summary>
-        [SugarColumn(ColumnName = "Mtart", ColumnDescription = "物料类型 ", Length = 8)]
-        public string Mtart { get; set; }
+        [SugarColumn(ColumnName = "Ma007", ColumnDescription = "物料类型", Length = 8, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Ma007 { get; set; }
 
         /// <summary>
         /// 行业领域
         /// </summary>
-        [SugarColumn(ColumnName = "Mbrsh", ColumnDescription = "行业领域 ", Length = 2)]
-        public string Mbrsh { get; set; }
+        [SugarColumn(ColumnName = "Ma008", ColumnDescription = "行业领域", Length = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Ma008 { get; set; }
 
         /// <summary>
         /// 物料组
         /// </summary>
-        [SugarColumn(ColumnName = "Matkl", ColumnDescription = "物料组 ", Length = 18)]
-        public string Matkl { get; set; }
+        [SugarColumn(ColumnName = "Ma009", ColumnDescription = "物料组", Length = 18)]
+        public string Ma009 { get; set; }
 
         /// <summary>
         /// 旧物料号
         /// </summary>
-        [SugarColumn(ColumnName = "Bismt", ColumnDescription = "旧物料号 ", Length = 36)]
-        public string Bismt { get; set; }
+        [SugarColumn(ColumnName = "Ma010", ColumnDescription = "旧物料号", Length = 36)]
+        public string Ma010 { get; set; }
 
         /// <summary>
-        /// 基本计量单位
+        /// 基本单位
         /// </summary>
-        [SugarColumn(ColumnName = "Meins", ColumnDescription = "基本计量单位 ", Length = 6)]
-        public string Meins { get; set; }
+        [SugarColumn(ColumnName = "Ma011", ColumnDescription = "基本单位", Length = 6, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Ma011 { get; set; }
 
         /// <summary>
-        /// 采购订单的计量单位
+        /// 订单单位
         /// </summary>
-        [SugarColumn(ColumnName = "Bstme", ColumnDescription = "采购订单的计量单位 ", Length = 6)]
-        public string Bstme { get; set; }
+        [SugarColumn(ColumnName = "Ma012", ColumnDescription = "订单单位", Length = 6)]
+        public string Ma012 { get; set; }
 
         /// <summary>
-        /// 文档号码(无文档管理系统)
+        /// 凭证
         /// </summary>
-        [SugarColumn(ColumnName = "Zeinr", ColumnDescription = "文档号码(无文档管理系统) ", Length = 44)]
-        public string Zeinr { get; set; }
+        [SugarColumn(ColumnName = "Ma013", ColumnDescription = "凭证", Length = 44)]
+        public string Ma013 { get; set; }
 
         /// <summary>
-        /// 凭证类型(无凭证管理系统)
+        /// 凭证类型
         /// </summary>
-        [SugarColumn(ColumnName = "Zeiar", ColumnDescription = "凭证类型(无凭证管理系统) ", Length = 6)]
-        public string Zeiar { get; set; }
+        [SugarColumn(ColumnName = "Ma014", ColumnDescription = "凭证类型", Length = 6)]
+        public string Ma014 { get; set; }
 
         /// <summary>
-        /// 文档版本（无文档管理系统）
+        /// 凭证版本
         /// </summary>
-        [SugarColumn(ColumnName = "Zeivr", ColumnDescription = "文档版本（无文档管理系统） ", Length = 4)]
-        public string Zeivr { get; set; }
+        [SugarColumn(ColumnName = "Ma015", ColumnDescription = "凭证版本", Length = 4)]
+        public string Ma015 { get; set; }
 
         /// <summary>
-        /// 文件的页面大小（不包括文件管理系统）
+        /// 页面大小
         /// </summary>
-        [SugarColumn(ColumnName = "Zeifo", ColumnDescription = "文件的页面大小（不包括文件管理系统） ", Length = 8)]
-        public string Zeifo { get; set; }
+        [SugarColumn(ColumnName = "Ma016", ColumnDescription = "页面大小", Length = 8)]
+        public string Ma016 { get; set; }
 
         /// <summary>
-        /// 文档变更号(无文档管理系统)
+        /// 文档变更号
         /// </summary>
-        [SugarColumn(ColumnName = "Aeszn", ColumnDescription = "文档变更号(无文档管理系统) ", Length = 12)]
-        public string Aeszn { get; set; }
+        [SugarColumn(ColumnName = "Ma017", ColumnDescription = "文档变更号", Length = 12)]
+        public string Ma017 { get; set; }
 
         /// <summary>
-        /// 凭证的页号(不带凭证管理系统)
+        /// 页号
         /// </summary>
-        [SugarColumn(ColumnName = "Blatt", ColumnDescription = "凭证的页号(不带凭证管理系统) ", Length = 6)]
-        public string Blatt { get; set; }
+        [SugarColumn(ColumnName = "Ma018", ColumnDescription = "页号", Length = 6)]
+        public string Ma018 { get; set; }
 
         /// <summary>
-        /// 页数(没有凭证管理系统)
+        /// 页数
         /// </summary>
-        [SugarColumn(ColumnName = "Blanz", ColumnDescription = "页数(没有凭证管理系统) ", DefaultValue = "0")]
-        public int? Blanz { get; set; }
+        [SugarColumn(ColumnName = "Ma019", ColumnDescription = "页数", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma019 { get; set; }
 
         /// <summary>
-        /// 生产/检验备忘录
+        /// 备忘录
         /// </summary>
-        [SugarColumn(ColumnName = "Ferth", ColumnDescription = "生产/检验备忘录 ", Length = 36)]
-        public string Ferth { get; set; }
+        [SugarColumn(ColumnName = "Ma020", ColumnDescription = "备忘录", Length = 36)]
+        public string Ma020 { get; set; }
 
         /// <summary>
-        /// 生产备忘录的页格式
+        /// 页格式
         /// </summary>
-        [SugarColumn(ColumnName = "Formt", ColumnDescription = "生产备忘录的页格式 ", Length = 8)]
-        public string Formt { get; set; }
+        [SugarColumn(ColumnName = "Ma021", ColumnDescription = "页格式", Length = 8)]
+        public string Ma021 { get; set; }
 
         /// <summary>
         /// 大小/量纲
         /// </summary>
-        [SugarColumn(ColumnName = "Groes", ColumnDescription = "大小/量纲 ", Length = 64)]
-        public string Groes { get; set; }
+        [SugarColumn(ColumnName = "Ma022", ColumnDescription = "大小/量纲", Length = 64)]
+        public string Ma022 { get; set; }
 
         /// <summary>
         /// 基本物料
         /// </summary>
-        [SugarColumn(ColumnName = "Wrkst", ColumnDescription = "基本物料 ", Length = 96)]
-        public string Wrkst { get; set; }
+        [SugarColumn(ColumnName = "Ma023", ColumnDescription = "基本物料", Length = 96)]
+        public string Ma023 { get; set; }
 
         /// <summary>
-        /// 行业标准描述（例如 ANSI 或 ISO）
+        /// 行业标准
         /// </summary>
-        [SugarColumn(ColumnName = "Normt", ColumnDescription = "行业标准描述（例如 ANSI 或 ISO） ", Length = 36)]
-        public string Normt { get; set; }
+        [SugarColumn(ColumnName = "Ma024", ColumnDescription = "行业标准", Length = 36)]
+        public string Ma024 { get; set; }
 
         /// <summary>
         /// 实验室/设计室
         /// </summary>
-        [SugarColumn(ColumnName = "Labor", ColumnDescription = "实验室/设计室 ", Length = 6)]
-        public string Labor { get; set; }
+        [SugarColumn(ColumnName = "Ma025", ColumnDescription = "实验室/设计室", Length = 6)]
+        public string Ma025 { get; set; }
 
         /// <summary>
-        /// 采购价值代码
+        /// 采购值代码
         /// </summary>
-        [SugarColumn(ColumnName = "Ekwsl", ColumnDescription = "采购价值代码 ", Length = 8)]
-        public string Ekwsl { get; set; }
+        [SugarColumn(ColumnName = "Ma026", ColumnDescription = "采购值代码", Length = 8)]
+        public string Ma026 { get; set; }
 
         /// <summary>
         /// 毛重
         /// </summary>
-        [SugarColumn(ColumnName = "Brgew", ColumnDescription = "毛重 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Brgew { get; set; }
+        [SugarColumn(ColumnName = "Ma027", ColumnDescription = "毛重", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma027 { get; set; }
 
         /// <summary>
         /// 净重
         /// </summary>
-        [SugarColumn(ColumnName = "Ntgew", ColumnDescription = "净重 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Ntgew { get; set; }
+        [SugarColumn(ColumnName = "Ma028", ColumnDescription = "净重", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma028 { get; set; }
 
         /// <summary>
         /// 重量单位
         /// </summary>
-        [SugarColumn(ColumnName = "Gewei", ColumnDescription = "重量单位 ", Length = 6)]
-        public string Gewei { get; set; }
+        [SugarColumn(ColumnName = "Ma029", ColumnDescription = "重量单位", Length = 6)]
+        public string Ma029 { get; set; }
 
         /// <summary>
         /// 业务量
         /// </summary>
-        [SugarColumn(ColumnName = "Volum", ColumnDescription = "业务量 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Volum { get; set; }
+        [SugarColumn(ColumnName = "Ma030", ColumnDescription = "业务量", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma030 { get; set; }
 
         /// <summary>
         /// 体积单位
         /// </summary>
-        [SugarColumn(ColumnName = "Voleh", ColumnDescription = "体积单位 ", Length = 6)]
-        public string Voleh { get; set; }
+        [SugarColumn(ColumnName = "Ma031", ColumnDescription = "体积单位", Length = 6)]
+        public string Ma031 { get; set; }
 
         /// <summary>
         /// 容器需求
         /// </summary>
-        [SugarColumn(ColumnName = "Behvo", ColumnDescription = "容器需求 ", Length = 4)]
-        public string Behvo { get; set; }
+        [SugarColumn(ColumnName = "Ma032", ColumnDescription = "容器需求", Length = 4)]
+        public string Ma032 { get; set; }
 
         /// <summary>
         /// 存储条件
         /// </summary>
-        [SugarColumn(ColumnName = "Raube", ColumnDescription = "存储条件 ", Length = 4)]
-        public string Raube { get; set; }
+        [SugarColumn(ColumnName = "Ma033", ColumnDescription = "存储条件", Length = 4)]
+        public string Ma033 { get; set; }
 
         /// <summary>
-        /// 温度条件标识
+        /// 温度
         /// </summary>
-        [SugarColumn(ColumnName = "Tempb", ColumnDescription = "温度条件标识 ", Length = 4)]
-        public string Tempb { get; set; }
+        [SugarColumn(ColumnName = "Ma034", ColumnDescription = "温度", Length = 4)]
+        public string Ma034 { get; set; }
 
         /// <summary>
         /// 低层代码
         /// </summary>
-        [SugarColumn(ColumnName = "Disst", ColumnDescription = "低层代码 ", Length = 6)]
-        public string Disst { get; set; }
+        [SugarColumn(ColumnName = "Ma035", ColumnDescription = "低层代码", Length = 6)]
+        public string Ma035 { get; set; }
 
         /// <summary>
         /// 运输组
         /// </summary>
-        [SugarColumn(ColumnName = "Tragr", ColumnDescription = "运输组 ", Length = 8)]
-        public string Tragr { get; set; }
+        [SugarColumn(ColumnName = "Ma036", ColumnDescription = "运输组", Length = 8)]
+        public string Ma036 { get; set; }
 
         /// <summary>
         /// 危险物料号
         /// </summary>
-        [SugarColumn(ColumnName = "Stoff", ColumnDescription = "危险物料号 ", Length = 36)]
-        public string Stoff { get; set; }
+        [SugarColumn(ColumnName = "Ma037", ColumnDescription = "危险物料号", Length = 36)]
+        public string Ma037 { get; set; }
 
         /// <summary>
         /// 产品组
         /// </summary>
-        [SugarColumn(ColumnName = "Spart", ColumnDescription = "产品组 ", Length = 4)]
-        public string Spart { get; set; }
+        [SugarColumn(ColumnName = "Ma038", ColumnDescription = "产品组", Length = 4)]
+        public string Ma038 { get; set; }
 
         /// <summary>
         /// 竞争者
         /// </summary>
-        [SugarColumn(ColumnName = "Kunnr", ColumnDescription = "竞争者 ", Length = 20)]
-        public string Kunnr { get; set; }
+        [SugarColumn(ColumnName = "Ma039", ColumnDescription = "竞争者", Length = 20)]
+        public string Ma039 { get; set; }
 
         /// <summary>
-        /// 欧洲物品号 (EAN) - 已过时的 !!!!!
+        /// EAN号
         /// </summary>
-        [SugarColumn(ColumnName = "Eannr", ColumnDescription = "欧洲物品号 (EAN) - 已过时的 !!!!! ", Length = 26)]
-        public string Eannr { get; set; }
+        [SugarColumn(ColumnName = "Ma040", ColumnDescription = "EAN号", Length = 1)]
+        public string Ma040 { get; set; }
 
         /// <summary>
-        /// 数量: 待打印的 GR/GI 单数量
+        /// GR单数量
         /// </summary>
-        [SugarColumn(ColumnName = "Wesch", ColumnDescription = "数量: 待打印的 GR/GI 单数量 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Wesch { get; set; }
+        [SugarColumn(ColumnName = "Ma041", ColumnDescription = "GR单数量", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma041 { get; set; }
 
         /// <summary>
         /// 采购规则
         /// </summary>
-        [SugarColumn(ColumnName = "Bwvor", ColumnDescription = "采购规则 ", Length = 2)]
-        public string Bwvor { get; set; }
+        [SugarColumn(ColumnName = "Ma042", ColumnDescription = "采购规则", Length = 1)]
+        public string Ma042 { get; set; }
 
         /// <summary>
         /// 货源
         /// </summary>
-        [SugarColumn(ColumnName = "Bwscl", ColumnDescription = "货源 ", Length = 2)]
-        public string Bwscl { get; set; }
+        [SugarColumn(ColumnName = "Ma043", ColumnDescription = "货源", Length = 2)]
+        public string Ma043 { get; set; }
 
         /// <summary>
-        /// 季节类别
+        /// 季节
         /// </summary>
-        [SugarColumn(ColumnName = "Saiso", ColumnDescription = "季节类别 ", Length = 8)]
-        public string Saiso { get; set; }
+        [SugarColumn(ColumnName = "Ma044", ColumnDescription = "季节", Length = 8)]
+        public string Ma044 { get; set; }
 
         /// <summary>
         /// 标签类型
         /// </summary>
-        [SugarColumn(ColumnName = "Etiar", ColumnDescription = "标签类型 ", Length = 4)]
-        public string Etiar { get; set; }
+        [SugarColumn(ColumnName = "Ma045", ColumnDescription = "标签类型", Length = 4)]
+        public string Ma045 { get; set; }
 
         /// <summary>
         /// 标签格式
         /// </summary>
-        [SugarColumn(ColumnName = "Etifo", ColumnDescription = "标签格式 ", Length = 4)]
-        public string Etifo { get; set; }
+        [SugarColumn(ColumnName = "Ma046", ColumnDescription = "标签格式", Length = 1)]
+        public string Ma046 { get; set; }
 
         /// <summary>
-        /// 取消激活的
+        /// 取消激活
         /// </summary>
-        [SugarColumn(ColumnName = "Entar", ColumnDescription = "取消激活的 ", Length = 2)]
-        public string Entar { get; set; }
+        [SugarColumn(ColumnName = "Ma047", ColumnDescription = "取消激活", Length = 2)]
+        public string Ma047 { get; set; }
 
         /// <summary>
-        /// 国际文件号(EAN/UPC)
+        /// EAN
         /// </summary>
-        [SugarColumn(ColumnName = "Ean11", ColumnDescription = "国际文件号(EAN/UPC) ", Length = 36)]
-        public string Ean11 { get; set; }
+        [SugarColumn(ColumnName = "Ma048", ColumnDescription = "EAN", Length = 36)]
+        public string Ma048 { get; set; }
 
         /// <summary>
-        /// 国际商品编码的类别 (EAN)
+        /// EAN类别
         /// </summary>
-        [SugarColumn(ColumnName = "Numtp", ColumnDescription = "国际商品编码的类别 (EAN) ", Length = 4)]
-        public string Numtp { get; set; }
+        [SugarColumn(ColumnName = "Ma049", ColumnDescription = "EAN类别", Length = 4)]
+        public string Ma049 { get; set; }
 
         /// <summary>
         /// 长度
         /// </summary>
-        [SugarColumn(ColumnName = "Laeng", ColumnDescription = "长度 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Laeng { get; set; }
+        [SugarColumn(ColumnName = "Ma050", ColumnDescription = "长度", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma050 { get; set; }
 
         /// <summary>
         /// 宽度
         /// </summary>
-        [SugarColumn(ColumnName = "Breit", ColumnDescription = "宽度 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Breit { get; set; }
+        [SugarColumn(ColumnName = "Ma051", ColumnDescription = "宽度", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma051 { get; set; }
 
         /// <summary>
         /// 高度
         /// </summary>
-        [SugarColumn(ColumnName = "Hoehe", ColumnDescription = "高度 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Hoehe { get; set; }
+        [SugarColumn(ColumnName = "Ma052", ColumnDescription = "高度", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma052 { get; set; }
 
         /// <summary>
-        /// 长度/宽度/高度的尺寸单位
+        /// 尺寸单位
         /// </summary>
-        [SugarColumn(ColumnName = "Meabm", ColumnDescription = "长度/宽度/高度的尺寸单位 ", Length = 6)]
-        public string Meabm { get; set; }
+        [SugarColumn(ColumnName = "Ma053", ColumnDescription = "尺寸单位", Length = 6)]
+        public string Ma053 { get; set; }
 
         /// <summary>
         /// 产品层次
         /// </summary>
-        [SugarColumn(ColumnName = "Prdha", ColumnDescription = "产品层次 ", Length = 36)]
-        public string Prdha { get; set; }
+        [SugarColumn(ColumnName = "Ma054", ColumnDescription = "产品层次", Length = 36)]
+        public string Ma054 { get; set; }
 
         /// <summary>
-        /// 库存转移净改变成本核算
+        /// 净改变成本核算
         /// </summary>
-        [SugarColumn(ColumnName = "Aeklk", ColumnDescription = "库存转移净改变成本核算 ", Length = 2)]
-        public string Aeklk { get; set; }
+        [SugarColumn(ColumnName = "Ma055", ColumnDescription = "净改变成本核算", Length = 2)]
+        public string Ma055 { get; set; }
 
         /// <summary>
-        /// CAD 标识
+        /// CAD标识
         /// </summary>
-        [SugarColumn(ColumnName = "Cadkz", ColumnDescription = "CAD 标识 ", Length = 2)]
-        public string Cadkz { get; set; }
+        [SugarColumn(ColumnName = "Ma056", ColumnDescription = "CAD标识", Length = 2)]
+        public string Ma056 { get; set; }
 
         /// <summary>
-        /// 激活采购中的 QM
+        /// QM采购
         /// </summary>
-        [SugarColumn(ColumnName = "Qmpur", ColumnDescription = "激活采购中的 QM ", Length = 2)]
-        public string Qmpur { get; set; }
+        [SugarColumn(ColumnName = "Ma057", ColumnDescription = "QM采购", Length = 2)]
+        public string Ma057 { get; set; }
 
         /// <summary>
         /// 允许的包装重量
         /// </summary>
-        [SugarColumn(ColumnName = "Ergew", ColumnDescription = "允许的包装重量 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Ergew { get; set; }
+        [SugarColumn(ColumnName = "Ma058", ColumnDescription = "允许的包装重量", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma058 { get; set; }
 
         /// <summary>
-        /// 加权的单位(允许打包加权)
+        /// 重量单位
         /// </summary>
-        [SugarColumn(ColumnName = "Ergei", ColumnDescription = "加权的单位(允许打包加权) ", Length = 6)]
-        public string Ergei { get; set; }
+        [SugarColumn(ColumnName = "Ma059", ColumnDescription = "重量单位", Length = 6)]
+        public string Ma059 { get; set; }
 
         /// <summary>
-        /// 允许的包装体积
+        /// 允许体积
         /// </summary>
-        [SugarColumn(ColumnName = "Ervol", ColumnDescription = "允许的包装体积 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Ervol { get; set; }
+        [SugarColumn(ColumnName = "Ma060", ColumnDescription = "允许体积", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma060 { get; set; }
 
         /// <summary>
-        /// 体积单位(允许打包体积)
+        /// 体积单位
         /// </summary>
-        [SugarColumn(ColumnName = "Ervoe", ColumnDescription = "体积单位(允许打包体积) ", Length = 6)]
-        public string Ervoe { get; set; }
+        [SugarColumn(ColumnName = "Ma061", ColumnDescription = "体积单位", Length = 6)]
+        public string Ma061 { get; set; }
 
         /// <summary>
-        /// 处理单位的超重量容差
+        /// 超重量容差
         /// </summary>
-        [SugarColumn(ColumnName = "Gewto", ColumnDescription = "处理单位的超重量容差 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Gewto { get; set; }
+        [SugarColumn(ColumnName = "Ma062", ColumnDescription = "超重量容差", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma062 { get; set; }
 
         /// <summary>
-        /// 处理单位的超量冗差
+        /// 超体积容差
         /// </summary>
-        [SugarColumn(ColumnName = "Volto", ColumnDescription = "处理单位的超量冗差 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Volto { get; set; }
+        [SugarColumn(ColumnName = "Ma063", ColumnDescription = "超体积容差", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma063 { get; set; }
 
         /// <summary>
-        /// 可变采购订单单位活动
+        /// 可变订单单位
         /// </summary>
-        [SugarColumn(ColumnName = "Vabme", ColumnDescription = "可变采购订单单位活动 ", Length = 2)]
-        public string Vabme { get; set; }
+        [SugarColumn(ColumnName = "Ma064", ColumnDescription = "可变订单单位", Length = 2)]
+        public string Ma064 { get; set; }
 
         /// <summary>
-        /// 标识: 修改水平已分配到物料
+        /// 修订等级
         /// </summary>
-        [SugarColumn(ColumnName = "Kzrev", ColumnDescription = "标识: 修改水平已分配到物料 ", Length = 2)]
-        public string Kzrev { get; set; }
+        [SugarColumn(ColumnName = "Ma065", ColumnDescription = "修订等级", Length = 2)]
+        public string Ma065 { get; set; }
 
         /// <summary>
-        /// 可配置的物料
+        /// 可配置
         /// </summary>
-        [SugarColumn(ColumnName = "Kzkfg", ColumnDescription = "可配置的物料 ", Length = 2)]
-        public string Kzkfg { get; set; }
+        [SugarColumn(ColumnName = "Ma066", ColumnDescription = "可配置", Length = 2)]
+        public string Ma066 { get; set; }
 
         /// <summary>
-        /// 批次管理需求的标识
+        /// 批次管理需求
         /// </summary>
-        [SugarColumn(ColumnName = "Xchpf", ColumnDescription = "批次管理需求的标识 ", Length = 2)]
-        public string Xchpf { get; set; }
+        [SugarColumn(ColumnName = "Ma067", ColumnDescription = "批次管理需求", Length = 2)]
+        public string Ma067 { get; set; }
 
         /// <summary>
         /// 包装物料类型
         /// </summary>
-        [SugarColumn(ColumnName = "Vhart", ColumnDescription = "包装物料类型 ", Length = 8)]
-        public string Vhart { get; set; }
+        [SugarColumn(ColumnName = "Ma068", ColumnDescription = "包装物料类型", Length = 8)]
+        public string Ma068 { get; set; }
 
         /// <summary>
-        /// 最大层次 (按体积)
+        /// 最大层次
         /// </summary>
-        [SugarColumn(ColumnName = "Fuelg", ColumnDescription = "最大层次 (按体积) ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Fuelg { get; set; }
+        [SugarColumn(ColumnName = "Ma069", ColumnDescription = "最大层次", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma069 { get; set; }
 
         /// <summary>
         /// 堆栈因子
         /// </summary>
-        [SugarColumn(ColumnName = "Stfak", ColumnDescription = "堆栈因子 ", DefaultValue = "0")]
-        public int? Stfak { get; set; }
+        [SugarColumn(ColumnName = "Ma070", ColumnDescription = "堆栈因子", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma070 { get; set; }
 
         /// <summary>
-        /// 物料组: 包装物料
+        /// 物料组包装物料
         /// </summary>
-        [SugarColumn(ColumnName = "Magrv", ColumnDescription = "物料组: 包装物料 ", Length = 8)]
-        public string Magrv { get; set; }
+        [SugarColumn(ColumnName = "Ma071", ColumnDescription = "物料组包装物料", Length = 1)]
+        public string Ma071 { get; set; }
 
         /// <summary>
         /// 权限组
         /// </summary>
-        [SugarColumn(ColumnName = "Begru", ColumnDescription = "权限组 ", Length = 8)]
-        public string Begru { get; set; }
+        [SugarColumn(ColumnName = "Ma072", ColumnDescription = "权限组", Length = 8)]
+        public string Ma072 { get; set; }
 
         /// <summary>
-        /// 开始生效日期
+        /// 有效起始日
         /// </summary>
-        public DateTime? Datab { get; set; }
+        public DateTime? Ma073 { get; set; }
 
         /// <summary>
-        /// 删除日期
+        /// 有效结束日
         /// </summary>
-        public DateTime? Liqdt { get; set; }
+        public DateTime? Ma074 { get; set; }
 
         /// <summary>
         /// 季度年
         /// </summary>
-        [SugarColumn(ColumnName = "Saisj", ColumnDescription = "季度年 ", Length = 8)]
-        public string Saisj { get; set; }
+        [SugarColumn(ColumnName = "Ma075", ColumnDescription = "季度年", Length = 8)]
+        public string Ma075 { get; set; }
 
         /// <summary>
-        /// 价格标记类别
+        /// 价格标记
         /// </summary>
-        [SugarColumn(ColumnName = "Plgtp", ColumnDescription = "价格标记类别 ", Length = 4)]
-        public string Plgtp { get; set; }
+        [SugarColumn(ColumnName = "Ma076", ColumnDescription = "价格标记", Length = 4)]
+        public string Ma076 { get; set; }
 
         /// <summary>
-        /// 空白物料清单
+        /// 空白BOM
         /// </summary>
-        [SugarColumn(ColumnName = "Mlgut", ColumnDescription = "空白物料清单 ", Length = 2)]
-        public string Mlgut { get; set; }
+        [SugarColumn(ColumnName = "Ma077", ColumnDescription = "空白BOM", Length = 2)]
+        public string Ma077 { get; set; }
 
         /// <summary>
         /// 外部物料组
         /// </summary>
-        [SugarColumn(ColumnName = "Extwg", ColumnDescription = "外部物料组 ", Length = 36)]
-        public string Extwg { get; set; }
+        [SugarColumn(ColumnName = "Ma078", ColumnDescription = "外部物料组", Length = 1)]
+        public string Ma078 { get; set; }
 
         /// <summary>
         /// 一般可配置物料
         /// </summary>
-        [SugarColumn(ColumnName = "Satnr", ColumnDescription = "一般可配置物料 ", Length = 36)]
-        public string Satnr { get; set; }
+        [SugarColumn(ColumnName = "Ma079", ColumnDescription = "一般可配置物料", Length = 1)]
+        public string Ma079 { get; set; }
 
         /// <summary>
         /// 物料类别
         /// </summary>
-        [SugarColumn(ColumnName = "Attyp", ColumnDescription = "物料类别 ", Length = 4)]
-        public string Attyp { get; set; }
+        [SugarColumn(ColumnName = "Ma080", ColumnDescription = "物料类别", Length = 1)]
+        public string Ma080 { get; set; }
 
         /// <summary>
-        /// 指示符 : 物料是联产品
+        /// 联产品
         /// </summary>
-        [SugarColumn(ColumnName = "Kzkup", ColumnDescription = "指示符 : 物料是联产品 ", Length = 2)]
-        public string Kzkup { get; set; }
+        [SugarColumn(ColumnName = "Ma081", ColumnDescription = "联产品", Length = 1)]
+        public string Ma081 { get; set; }
 
         /// <summary>
-        /// 标记：物料有一后续物料
+        /// 后续物料
         /// </summary>
-        [SugarColumn(ColumnName = "Kznfm", ColumnDescription = "标记：物料有一后续物料 ", Length = 2)]
-        public string Kznfm { get; set; }
+        [SugarColumn(ColumnName = "Ma082", ColumnDescription = "后续物料", Length = 1)]
+        public string Ma082 { get; set; }
 
         /// <summary>
         /// 定价参考物料
         /// </summary>
-        [SugarColumn(ColumnName = "Pmata", ColumnDescription = "定价参考物料 ", Length = 36)]
-        public string Pmata { get; set; }
+        [SugarColumn(ColumnName = "Ma083", ColumnDescription = "定价参考物料", Length = 1)]
+        public string Ma083 { get; set; }
 
         /// <summary>
-        /// 跨工厂物料状态
+        /// 跨工厂状态
         /// </summary>
-        [SugarColumn(ColumnName = "Mstae", ColumnDescription = "跨工厂物料状态 ", Length = 4)]
-        public string Mstae { get; set; }
+        [SugarColumn(ColumnName = "Ma084", ColumnDescription = "跨工厂状态", Length = 1)]
+        public string Ma084 { get; set; }
 
         /// <summary>
-        /// 跨分销链物料状态
+        /// 跨分销链状态
         /// </summary>
-        [SugarColumn(ColumnName = "Mstav", ColumnDescription = "跨分销链物料状态 ", Length = 4)]
-        public string Mstav { get; set; }
+        [SugarColumn(ColumnName = "Ma085", ColumnDescription = "跨分销链状态", Length = 4)]
+        public string Ma085 { get; set; }
 
         /// <summary>
-        /// 从跨工厂物料状态有效起的日期
+        /// 跨工厂有效日期
         /// </summary>
-        public DateTime? Mstde { get; set; }
+        public DateTime? Ma086 { get; set; }
 
         /// <summary>
-        /// 从跨分销链物料状态有效起的日期
+        /// 跨分销有效日期
         /// </summary>
-        public DateTime? Mstdv { get; set; }
+        public DateTime? Ma087 { get; set; }
 
         /// <summary>
-        /// 物料从税收分类
+        /// 税收分类
         /// </summary>
-        [SugarColumn(ColumnName = "Taklv", ColumnDescription = "物料从税收分类 ", Length = 2)]
-        public string Taklv { get; set; }
+        [SugarColumn(ColumnName = "Ma088", ColumnDescription = "税收分类", Length = 2)]
+        public string Ma088 { get; set; }
 
         /// <summary>
         /// 类别参数文件
         /// </summary>
-        [SugarColumn(ColumnName = "Rbnrm", ColumnDescription = "类别参数文件 ", Length = 18)]
-        public string Rbnrm { get; set; }
+        [SugarColumn(ColumnName = "Ma089", ColumnDescription = "类别参数文件", Length = 1)]
+        public string Ma089 { get; set; }
 
         /// <summary>
-        /// 最短剩余货架寿命
+        /// 剩余货架寿命
         /// </summary>
-        [SugarColumn(ColumnName = "Mhdrz", ColumnDescription = "最短剩余货架寿命 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Mhdrz { get; set; }
+        [SugarColumn(ColumnName = "Ma090", ColumnDescription = "剩余货架寿命", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma090 { get; set; }
 
         /// <summary>
         /// 总货架寿命
         /// </summary>
-        [SugarColumn(ColumnName = "Mhdhb", ColumnDescription = "总货架寿命 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Mhdhb { get; set; }
+        [SugarColumn(ColumnName = "Ma091", ColumnDescription = "总货架寿命", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma091 { get; set; }
 
         /// <summary>
         /// 仓储百分比
         /// </summary>
-        [SugarColumn(ColumnName = "Mhdlp", ColumnDescription = "仓储百分比 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Mhdlp { get; set; }
+        [SugarColumn(ColumnName = "Ma092", ColumnDescription = "仓储百分比", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma092 { get; set; }
 
         /// <summary>
         /// 内容单位
         /// </summary>
-        [SugarColumn(ColumnName = "Inhme", ColumnDescription = "内容单位 ", Length = 6)]
-        public string Inhme { get; set; }
+        [SugarColumn(ColumnName = "Ma093", ColumnDescription = "内容单位", Length = 1)]
+        public string Ma093 { get; set; }
 
         /// <summary>
         /// 净内容
         /// </summary>
-        [SugarColumn(ColumnName = "Inhal", ColumnDescription = "净内容 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Inhal { get; set; }
+        [SugarColumn(ColumnName = "Ma094", ColumnDescription = "净内容", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma094 { get; set; }
 
         /// <summary>
         /// 比较价格单位
         /// </summary>
-        [SugarColumn(ColumnName = "Vpreh", ColumnDescription = "比较价格单位 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Vpreh { get; set; }
+        [SugarColumn(ColumnName = "Ma095", ColumnDescription = "比较价格单位", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma095 { get; set; }
 
         /// <summary>
-        /// IS-R 标签：物料组（在 4.0 中不活动）
+        /// 物料组标签
         /// </summary>
-        [SugarColumn(ColumnName = "Etiag", ColumnDescription = "IS-R 标签：物料组（在 4.0 中不活动） ", Length = 36)]
-        public string Etiag { get; set; }
+        [SugarColumn(ColumnName = "Ma096", ColumnDescription = "物料组标签", Length = 36)]
+        public string Ma096 { get; set; }
 
         /// <summary>
         /// 毛内容
         /// </summary>
-        [SugarColumn(ColumnName = "Inhbr", ColumnDescription = "毛内容 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Inhbr { get; set; }
+        [SugarColumn(ColumnName = "Ma097", ColumnDescription = "毛内容", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma097 { get; set; }
 
         /// <summary>
-        /// 数量转换方法
+        /// 转换方法
         /// </summary>
-        [SugarColumn(ColumnName = "Cmeth", ColumnDescription = "数量转换方法 ", Length = 2)]
-        public string Cmeth { get; set; }
+        [SugarColumn(ColumnName = "Ma098", ColumnDescription = "转换方法", Length = 2)]
+        public string Ma098 { get; set; }
 
         /// <summary>
         /// 内部对象号
         /// </summary>
-        [SugarColumn(ColumnName = "Cuobf", ColumnDescription = "内部对象号 ", DefaultValue = "0")]
-        public int? Cuobf { get; set; }
+        [SugarColumn(ColumnName = "Ma099", ColumnDescription = "内部对象号", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma099 { get; set; }
 
         /// <summary>
         /// 环境相关
         /// </summary>
-        [SugarColumn(ColumnName = "Kzumw", ColumnDescription = "环境相关 ", Length = 2)]
-        public string Kzumw { get; set; }
+        [SugarColumn(ColumnName = "Ma100", ColumnDescription = "环境相关", Length = 2)]
+        public string Ma100 { get; set; }
 
         /// <summary>
-        /// 产品分配确定程序
+        /// 产品分配
         /// </summary>
-        [SugarColumn(ColumnName = "Kosch", ColumnDescription = "产品分配确定程序 ", Length = 36)]
-        public string Kosch { get; set; }
+        [SugarColumn(ColumnName = "Ma101", ColumnDescription = "产品分配", Length = 1)]
+        public string Ma101 { get; set; }
 
         /// <summary>
-        /// 变式的定价参数文件
+        /// 定价参数文件
         /// </summary>
-        [SugarColumn(ColumnName = "Sprof", ColumnDescription = "变式的定价参数文件 ", Length = 2)]
-        public string Sprof { get; set; }
+        [SugarColumn(ColumnName = "Ma102", ColumnDescription = "定价参数文件", Length = 2)]
+        public string Ma102 { get; set; }
 
         /// <summary>
-        /// 针对物料的折扣类型
+        /// 折扣类型
         /// </summary>
-        [SugarColumn(ColumnName = "Nrfhg", ColumnDescription = "针对物料的折扣类型 ", Length = 2)]
-        public string Nrfhg { get; set; }
+        [SugarColumn(ColumnName = "Ma103", ColumnDescription = "折扣类型", Length = 1)]
+        public string Ma103 { get; set; }
 
         /// <summary>
         /// 制造商零件编号
         /// </summary>
-        [SugarColumn(ColumnName = "Mfrpn", ColumnDescription = "制造商零件编号 ", Length = 80)]
-        public string Mfrpn { get; set; }
+        [SugarColumn(ColumnName = "Ma104", ColumnDescription = "制造商零件编号", Length = 80)]
+        public string Ma104 { get; set; }
 
         /// <summary>
-        /// 制造商编号
+        /// 制造商
         /// </summary>
-        [SugarColumn(ColumnName = "Mfrnr", ColumnDescription = "制造商编号 ", Length = 20)]
-        public string Mfrnr { get; set; }
+        [SugarColumn(ColumnName = "Ma105", ColumnDescription = "制造商", Length = 1)]
+        public string Ma105 { get; set; }
 
         /// <summary>
-        /// 公司自己 (内部) 的盘点管理物料编号
+        /// 内部物料编号
         /// </summary>
-        [SugarColumn(ColumnName = "Bmatn", ColumnDescription = "公司自己 (内部) 的盘点管理物料编号 ", Length = 36)]
-        public string Bmatn { get; set; }
+        [SugarColumn(ColumnName = "Ma106", ColumnDescription = "内部物料编号", Length = 36)]
+        public string Ma106 { get; set; }
 
         /// <summary>
         /// 制造商部件参数文件
         /// </summary>
-        [SugarColumn(ColumnName = "Mprof", ColumnDescription = "制造商部件参数文件 ", Length = 8)]
-        public string Mprof { get; set; }
+        [SugarColumn(ColumnName = "Ma107", ColumnDescription = "制造商部件参数文件", Length = 1)]
+        public string Ma107 { get; set; }
 
         /// <summary>
-        /// 计量单位使用
+        /// 测量单位用法
         /// </summary>
-        [SugarColumn(ColumnName = "Kzwsm", ColumnDescription = "计量单位使用 ", Length = 2)]
-        public string Kzwsm { get; set; }
+        [SugarColumn(ColumnName = "Ma108", ColumnDescription = "测量单位用法", Length = 2)]
+        public string Ma108 { get; set; }
 
         /// <summary>
-        /// 在季节内展开
+        /// 展开
         /// </summary>
-        [SugarColumn(ColumnName = "Saity", ColumnDescription = "在季节内展开 ", Length = 4)]
-        public string Saity { get; set; }
+        [SugarColumn(ColumnName = "Ma109", ColumnDescription = "展开", Length = 1)]
+        public string Ma109 { get; set; }
 
         /// <summary>
         /// 危险货物标识参数文件
         /// </summary>
-        [SugarColumn(ColumnName = "Profl", ColumnDescription = "危险货物标识参数文件 ", Length = 6)]
-        public string Profl { get; set; }
+        [SugarColumn(ColumnName = "Ma110", ColumnDescription = "危险货物标识参数文件", Length = 6)]
+        public string Ma110 { get; set; }
 
         /// <summary>
-        /// 标识符:高粘性的
+        /// 高粘性的
         /// </summary>
-        [SugarColumn(ColumnName = "Ihivi", ColumnDescription = "标识符:高粘性的 ", Length = 2)]
-        public string Ihivi { get; set; }
+        [SugarColumn(ColumnName = "Ma111", ColumnDescription = "高粘性的", Length = 1)]
+        public string Ma111 { get; set; }
 
         /// <summary>
-        /// 标识符:固体/液体
+        /// 固体/液体
         /// </summary>
-        [SugarColumn(ColumnName = "Iloos", ColumnDescription = "标识符:固体/液体 ", Length = 2)]
-        public string Iloos { get; set; }
+        [SugarColumn(ColumnName = "Ma112", ColumnDescription = "固体/液体", Length = 2)]
+        public string Ma112 { get; set; }
 
         /// <summary>
-        /// 序列号的清晰的级别
+        /// 序列号层次
         /// </summary>
-        [SugarColumn(ColumnName = "Serlv", ColumnDescription = "序列号的清晰的级别 ", Length = 2)]
-        public string Serlv { get; set; }
+        [SugarColumn(ColumnName = "Ma113", ColumnDescription = "序列号层次", Length = 1)]
+        public string Ma113 { get; set; }
 
         /// <summary>
-        /// 包装物料是密闭包装的
+        /// 密闭
         /// </summary>
-        [SugarColumn(ColumnName = "Kzgvh", ColumnDescription = "包装物料是密闭包装的 ", Length = 2)]
-        public string Kzgvh { get; set; }
+        [SugarColumn(ColumnName = "Ma114", ColumnDescription = "密闭", Length = 2)]
+        public string Ma114 { get; set; }
 
         /// <summary>
-        /// 指示符：需要批准的批量记录
+        /// 需要批量记录
         /// </summary>
-        [SugarColumn(ColumnName = "Xgchp", ColumnDescription = "指示符：需要批准的批量记录 ", Length = 2)]
-        public string Xgchp { get; set; }
+        [SugarColumn(ColumnName = "Ma115", ColumnDescription = "需要批量记录", Length = 1)]
+        public string Ma115 { get; set; }
 
         /// <summary>
-        /// 指定有效参数值/覆盖更改编号
+        /// 参数有效值
         /// </summary>
-        [SugarColumn(ColumnName = "Kzeff", ColumnDescription = "指定有效参数值/覆盖更改编号 ", Length = 2)]
-        public string Kzeff { get; set; }
+        [SugarColumn(ColumnName = "Ma116", ColumnDescription = "参数有效值", Length = 2)]
+        public string Ma116 { get; set; }
 
         /// <summary>
-        /// 物料完成的水平
+        /// 完成水平
         /// </summary>
-        [SugarColumn(ColumnName = "Compl", ColumnDescription = "物料完成的水平 ", DefaultValue = "0")]
-        public int? Compl { get; set; }
+        [SugarColumn(ColumnName = "Ma117", ColumnDescription = "完成水平", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma117 { get; set; }
 
         /// <summary>
-        /// 货架寿命到期日的期间标识
+        /// 期间标识
         /// </summary>
-        [SugarColumn(ColumnName = "Iprkz", ColumnDescription = "货架寿命到期日的期间标识 ", Length = 2)]
-        public string Iprkz { get; set; }
+        [SugarColumn(ColumnName = "Ma118", ColumnDescription = "期间标识", Length = 2)]
+        public string Ma118 { get; set; }
 
         /// <summary>
-        /// 货架寿命到期日期计算舍入规则
+        /// 舍入规则
         /// </summary>
-        [SugarColumn(ColumnName = "Rdmhd", ColumnDescription = "货架寿命到期日期计算舍入规则 ", Length = 2)]
-        public string Rdmhd { get; set; }
+        [SugarColumn(ColumnName = "Ma119", ColumnDescription = "舍入规则", Length = 1)]
+        public string Ma119 { get; set; }
 
         /// <summary>
-        /// 标识：印刷在包装上的产品成份
+        /// 产品成份
         /// </summary>
-        [SugarColumn(ColumnName = "Przus", ColumnDescription = "标识：印刷在包装上的产品成份 ", Length = 2)]
-        public string Przus { get; set; }
+        [SugarColumn(ColumnName = "Ma120", ColumnDescription = "产品成份", Length = 2)]
+        public string Ma120 { get; set; }
 
         /// <summary>
         /// 普通项目类别组
         /// </summary>
-        [SugarColumn(ColumnName = "Mtposmara", ColumnDescription = "普通项目类别组 ", Length = 8)]
-        public string Mtposmara { get; set; }
+        [SugarColumn(ColumnName = "Ma121", ColumnDescription = "普通项目类别组", Length = 1)]
+        public string Ma121 { get; set; }
 
         /// <summary>
-        /// 含后勤变量的一般物料
+        /// 后勤变量
         /// </summary>
-        [SugarColumn(ColumnName = "Bflme", ColumnDescription = "含后勤变量的一般物料 ", Length = 2)]
-        public string Bflme { get; set; }
+        [SugarColumn(ColumnName = "Ma122", ColumnDescription = "后勤变量", Length = 2)]
+        public string Ma122 { get; set; }
 
         /// <summary>
         /// 物料被锁定
         /// </summary>
-        [SugarColumn(ColumnName = "Matfi", ColumnDescription = "物料被锁定 ", Length = 2)]
-        public string Matfi { get; set; }
+        [SugarColumn(ColumnName = "Ma123", ColumnDescription = "物料被锁定", Length = 1)]
+        public string Ma123 { get; set; }
 
         /// <summary>
-        /// 与配置管理相关
+        /// 配置相关
         /// </summary>
-        [SugarColumn(ColumnName = "Cmrel", ColumnDescription = "与配置管理相关 ", Length = 2)]
-        public string Cmrel { get; set; }
+        [SugarColumn(ColumnName = "Ma124", ColumnDescription = "配置相关", Length = 2)]
+        public string Ma124 { get; set; }
 
         /// <summary>
         /// 分类清单类型
         /// </summary>
-        [SugarColumn(ColumnName = "Bbtyp", ColumnDescription = "分类清单类型 ", Length = 2)]
-        public string Bbtyp { get; set; }
+        [SugarColumn(ColumnName = "Ma125", ColumnDescription = "分类清单类型", Length = 1)]
+        public string Ma125 { get; set; }
 
         /// <summary>
         /// 过期日期
         /// </summary>
-        [SugarColumn(ColumnName = "Sledbbd", ColumnDescription = "过期日期 ", Length = 2)]
-        public string Sledbbd { get; set; }
+        [SugarColumn(ColumnName = "Ma126", ColumnDescription = "过期日期", Length = 2)]
+        public string Ma126 { get; set; }
 
         /// <summary>
-        /// 全球贸易项目编号变式
+        /// EAN变式
         /// </summary>
-        [SugarColumn(ColumnName = "Gtinvariant", ColumnDescription = "全球贸易项目编号变式 ", Length = 4)]
-        public string Gtinvariant { get; set; }
+        [SugarColumn(ColumnName = "Ma127", ColumnDescription = "EAN变式", Length = 1)]
+        public string Ma127 { get; set; }
 
         /// <summary>
-        /// 在预包装物料中的一般物料的物料编号
+        /// 一般物料
         /// </summary>
-        [SugarColumn(ColumnName = "Gennr", ColumnDescription = "在预包装物料中的一般物料的物料编号 ", Length = 36)]
-        public string Gennr { get; set; }
+        [SugarColumn(ColumnName = "Ma128", ColumnDescription = "一般物料", Length = 36)]
+        public string Ma128 { get; set; }
 
         /// <summary>
-        /// 以相同方式包装的物料的参考物料
+        /// 包装参考物料
         /// </summary>
-        [SugarColumn(ColumnName = "Rmatp", ColumnDescription = "以相同方式包装的物料的参考物料 ", Length = 36)]
-        public string Rmatp { get; set; }
+        [SugarColumn(ColumnName = "Ma129", ColumnDescription = "包装参考物料", Length = 1)]
+        public string Ma129 { get; set; }
 
         /// <summary>
-        /// 标识：全局数据同步相关
+        /// GDS相关
         /// </summary>
-        [SugarColumn(ColumnName = "Gdsrelevant", ColumnDescription = "标识：全局数据同步相关 ", Length = 2)]
-        public string Gdsrelevant { get; set; }
+        [SugarColumn(ColumnName = "Ma130", ColumnDescription = "GDS相关", Length = 2)]
+        public string Ma130 { get; set; }
 
         /// <summary>
         /// 原始接受
         /// </summary>
-        [SugarColumn(ColumnName = "Weora", ColumnDescription = "原始接受 ", Length = 2)]
-        public string Weora { get; set; }
+        [SugarColumn(ColumnName = "Ma131", ColumnDescription = "原始接受", Length = 1)]
+        public string Ma131 { get; set; }
 
         /// <summary>
         /// 标准处理单位类型
         /// </summary>
-        [SugarColumn(ColumnName = "Hutypdflt", ColumnDescription = "标准处理单位类型 ", Length = 8)]
-        public string Hutypdflt { get; set; }
+        [SugarColumn(ColumnName = "Ma132", ColumnDescription = "标准处理单位类型", Length = 8)]
+        public string Ma132 { get; set; }
 
         /// <summary>
         /// 可偷窃的
         /// </summary>
-        [SugarColumn(ColumnName = "Pilferable", ColumnDescription = "可偷窃的 ", Length = 2)]
-        public string Pilferable { get; set; }
+        [SugarColumn(ColumnName = "Ma133", ColumnDescription = "可偷窃的", Length = 1)]
+        public string Ma133 { get; set; }
 
         /// <summary>
         /// 仓库存储条件
         /// </summary>
-        [SugarColumn(ColumnName = "Whstc", ColumnDescription = "仓库存储条件 ", Length = 4)]
-        public string Whstc { get; set; }
+        [SugarColumn(ColumnName = "Ma134", ColumnDescription = "仓库存储条件", Length = 4)]
+        public string Ma134 { get; set; }
 
         /// <summary>
         /// 仓库物料组
         /// </summary>
-        [SugarColumn(ColumnName = "Whmatgr", ColumnDescription = "仓库物料组 ", Length = 8)]
-        public string Whmatgr { get; set; }
+        [SugarColumn(ColumnName = "Ma135", ColumnDescription = "仓库物料组", Length = 1)]
+        public string Ma135 { get; set; }
 
         /// <summary>
         /// 处理标识
         /// </summary>
-        [SugarColumn(ColumnName = "Hndlcode", ColumnDescription = "处理标识 ", Length = 8)]
-        public string Hndlcode { get; set; }
+        [SugarColumn(ColumnName = "Ma136", ColumnDescription = "处理标识", Length = 8)]
+        public string Ma136 { get; set; }
 
         /// <summary>
-        /// 与危险物料相关
+        /// 危险物料
         /// </summary>
-        [SugarColumn(ColumnName = "Hazmat", ColumnDescription = "与危险物料相关 ", Length = 2)]
-        public string Hazmat { get; set; }
+        [SugarColumn(ColumnName = "Ma137", ColumnDescription = "危险物料", Length = 1)]
+        public string Ma137 { get; set; }
 
         /// <summary>
         /// 处理单位类型
         /// </summary>
-        [SugarColumn(ColumnName = "Hutyp", ColumnDescription = "处理单位类型 ", Length = 8)]
-        public string Hutyp { get; set; }
+        [SugarColumn(ColumnName = "Ma138", ColumnDescription = "处理单位类型", Length = 8)]
+        public string Ma138 { get; set; }
 
         /// <summary>
         /// 可变皮重
         /// </summary>
-        [SugarColumn(ColumnName = "Tarevar", ColumnDescription = "可变皮重 ", Length = 2)]
-        public string Tarevar { get; set; }
+        [SugarColumn(ColumnName = "Ma139", ColumnDescription = "可变皮重", Length = 1)]
+        public string Ma139 { get; set; }
 
         /// <summary>
-        /// 包装物料的最大允许容量
+        /// 最大容量
         /// </summary>
-        [SugarColumn(ColumnName = "Maxc", ColumnDescription = "包装物料的最大允许容量 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Maxc { get; set; }
+        [SugarColumn(ColumnName = "Ma140", ColumnDescription = "最大容量", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma140 { get; set; }
 
         /// <summary>
-        /// 处理单位的最大容量容差
+        /// 最大容量容差
         /// </summary>
-        [SugarColumn(ColumnName = "Maxctol", ColumnDescription = "处理单位的最大容量容差 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Maxctol { get; set; }
+        [SugarColumn(ColumnName = "Ma141", ColumnDescription = "最大容量容差", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma141 { get; set; }
 
         /// <summary>
-        /// 包装物料的最大包长度
+        /// 最大长度
         /// </summary>
-        [SugarColumn(ColumnName = "Maxl", ColumnDescription = "包装物料的最大包长度 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Maxl { get; set; }
+        [SugarColumn(ColumnName = "Ma142", ColumnDescription = "最大长度", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma142 { get; set; }
 
         /// <summary>
-        /// 包装物料的最大包宽度
+        /// 最大宽度
         /// </summary>
-        [SugarColumn(ColumnName = "Maxb", ColumnDescription = "包装物料的最大包宽度 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Maxb { get; set; }
+        [SugarColumn(ColumnName = "Ma143", ColumnDescription = "最大宽度", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma143 { get; set; }
 
         /// <summary>
-        /// 包装物料的最大包高度
+        /// 最大高度
         /// </summary>
-        [SugarColumn(ColumnName = "Maxh", ColumnDescription = "包装物料的最大包高度 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Maxh { get; set; }
+        [SugarColumn(ColumnName = "Ma144", ColumnDescription = "最大高度", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma144 { get; set; }
 
         /// <summary>
-        /// 最大包装长/宽/高的计量单位
+        /// 计量单位
         /// </summary>
-        [SugarColumn(ColumnName = "Maxdimuom", ColumnDescription = "最大包装长/宽/高的计量单位 ", Length = 6)]
-        public string Maxdimuom { get; set; }
+        [SugarColumn(ColumnName = "Ma145", ColumnDescription = "计量单位", Length = 1)]
+        public string Ma145 { get; set; }
 
         /// <summary>
-        /// 物料原产地国家
+        /// 原产地国
         /// </summary>
-        [SugarColumn(ColumnName = "Herkl", ColumnDescription = "物料原产地国家 ", Length = 6)]
-        public string Herkl { get; set; }
+        [SugarColumn(ColumnName = "Ma146", ColumnDescription = "原产地国", Length = 6)]
+        public string Ma146 { get; set; }
 
         /// <summary>
         /// 物料运输组
         /// </summary>
-        [SugarColumn(ColumnName = "Mfrgr", ColumnDescription = "物料运输组 ", Length = 16)]
-        public string Mfrgr { get; set; }
+        [SugarColumn(ColumnName = "Ma147", ColumnDescription = "物料运输组", Length = 1)]
+        public string Ma147 { get; set; }
 
         /// <summary>
         /// 隔离期间
         /// </summary>
-        [SugarColumn(ColumnName = "Qqtime", ColumnDescription = "隔离期间 ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Qqtime { get; set; }
+        [SugarColumn(ColumnName = "Ma148", ColumnDescription = "隔离期间", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma148 { get; set; }
 
         /// <summary>
-        /// 隔离期间的时间单位
+        /// 时间单位
         /// </summary>
-        [SugarColumn(ColumnName = "Qqtimeuom", ColumnDescription = "隔离期间的时间单位 ", Length = 6)]
-        public string Qqtimeuom { get; set; }
+        [SugarColumn(ColumnName = "Ma149", ColumnDescription = "时间单位", Length = 1)]
+        public string Ma149 { get; set; }
 
         /// <summary>
         /// 质量检查组
         /// </summary>
-        [SugarColumn(ColumnName = "Qgrp", ColumnDescription = "质量检查组 ", Length = 8)]
-        public string Qgrp { get; set; }
+        [SugarColumn(ColumnName = "Ma150", ColumnDescription = "质量检查组", Length = 8)]
+        public string Ma150 { get; set; }
 
         /// <summary>
         /// 序列号参数文件
         /// </summary>
-        [SugarColumn(ColumnName = "Serial", ColumnDescription = "序列号参数文件 ", Length = 8)]
-        public string Serial { get; set; }
+        [SugarColumn(ColumnName = "Ma151", ColumnDescription = "序列号参数文件", Length = 1)]
+        public string Ma151 { get; set; }
 
         /// <summary>
         /// 表格名
         /// </summary>
-        [SugarColumn(ColumnName = "Pssmartform", ColumnDescription = "表格名 ", Length = 60)]
-        public string Pssmartform { get; set; }
+        [SugarColumn(ColumnName = "Ma152", ColumnDescription = "表格名", Length = 60)]
+        public string Ma152 { get; set; }
 
         /// <summary>
-        /// EWM CW: 后勤计量单位
+        /// 后勤计量单位
         /// </summary>
-        [SugarColumn(ColumnName = "Logunit", ColumnDescription = "EWM CW: 后勤计量单位 ", Length = 6)]
-        public string Logunit { get; set; }
+        [SugarColumn(ColumnName = "Ma153", ColumnDescription = "后勤计量单位", Length = 1)]
+        public string Ma153 { get; set; }
 
         /// <summary>
-        /// EWM CW: 物料是称重物料
+        /// 称重物料相关
         /// </summary>
-        [SugarColumn(ColumnName = "Cwqrel", ColumnDescription = "EWM CW: 物料是称重物料 ", Length = 2)]
-        public string Cwqrel { get; set; }
+        [SugarColumn(ColumnName = "Ma154", ColumnDescription = "称重物料相关", Length = 2)]
+        public string Ma154 { get; set; }
 
         /// <summary>
-        /// EWM CW: 输入 CW 数量的称重参数文件
+        /// CW参数文件
         /// </summary>
-        [SugarColumn(ColumnName = "Cwqproc", ColumnDescription = "EWM CW: 输入 CW 数量的称重参数文件 ", Length = 4)]
-        public string Cwqproc { get; set; }
+        [SugarColumn(ColumnName = "Ma155", ColumnDescription = "CW参数文件", Length = 1)]
+        public string Ma155 { get; set; }
 
         /// <summary>
-        /// EWM-CW: EWM 的称重容差组
+        /// CW容差组
         /// </summary>
-        [SugarColumn(ColumnName = "Cwqtolgr", ColumnDescription = "EWM-CW: EWM 的称重容差组 ", Length = 18)]
-        public string Cwqtolgr { get; set; }
+        [SugarColumn(ColumnName = "Ma156", ColumnDescription = "CW容差组", Length = 18)]
+        public string Ma156 { get; set; }
 
         /// <summary>
         /// 调整参数文件
         /// </summary>
-        [SugarColumn(ColumnName = "Adprof", ColumnDescription = "调整参数文件 ", Length = 6)]
-        public string Adprof { get; set; }
+        [SugarColumn(ColumnName = "Ma157", ColumnDescription = "调整参数文件", Length = 1)]
+        public string Ma157 { get; set; }
 
         /// <summary>
-        /// 知识产权标识（CRM 产品）
+        /// 知识产权
         /// </summary>
-        [SugarColumn(ColumnName = "Ipmipproduct", ColumnDescription = "知识产权标识（CRM 产品） ", Length = 80)]
-        public string Ipmipproduct { get; set; }
+        [SugarColumn(ColumnName = "Ma158", ColumnDescription = "知识产权", Length = 80)]
+        public string Ma158 { get; set; }
 
         /// <summary>
-        /// 允许的变式价格（针对物料主数据）
+        /// 允许的变式价格
         /// </summary>
-        [SugarColumn(ColumnName = "Allowpmatigno", ColumnDescription = "允许的变式价格（针对物料主数据） ", Length = 2)]
-        public string Allowpmatigno { get; set; }
+        [SugarColumn(ColumnName = "Ma159", ColumnDescription = "允许的变式价格", Length = 1)]
+        public string Ma159 { get; set; }
 
         /// <summary>
         /// 中间
         /// </summary>
-        [SugarColumn(ColumnName = "Medium", ColumnDescription = "中间 ", Length = 12)]
-        public string Medium { get; set; }
+        [SugarColumn(ColumnName = "Ma160", ColumnDescription = "中间", Length = 12)]
+        public string Ma160 { get; set; }
 
         /// <summary>
         /// 实物商品
         /// </summary>
-        [SugarColumn(ColumnName = "Commodity", ColumnDescription = "实物商品 ", Length = 36)]
-        public string Commodity { get; set; }
+        [SugarColumn(ColumnName = "Ma161", ColumnDescription = "实物商品", Length = 1)]
+        public string Ma161 { get; set; }
 
         /// <summary>
-        /// 标识：包含动物源的非纺织部分
+        /// 动物源
         /// </summary>
-        [SugarColumn(ColumnName = "Animalorigin", ColumnDescription = "标识：包含动物源的非纺织部分 ", Length = 2)]
-        public string Animalorigin { get; set; }
+        [SugarColumn(ColumnName = "Ma162", ColumnDescription = "动物源", Length = 2)]
+        public string Ma162 { get; set; }
 
         /// <summary>
-        /// 标识：新纺织组分功能
+        /// 纺织组分功能
         /// </summary>
-        [SugarColumn(ColumnName = "Textilecompind", ColumnDescription = "标识：新纺织组分功能 ", Length = 2)]
-        public string Textilecompind { get; set; }
+        [SugarColumn(ColumnName = "Ma163", ColumnDescription = "纺织组分功能", Length = 1)]
+        public string Ma163 { get; set; }
 
         /// <summary>
         /// 分段结构
         /// </summary>
-        [SugarColumn(ColumnName = "Sgtcsgr", ColumnDescription = "分段结构 ", Length = 8)]
-        public string Sgtcsgr { get; set; }
+        [SugarColumn(ColumnName = "Ma164", ColumnDescription = "分段结构", Length = 8)]
+        public string Ma164 { get; set; }
 
         /// <summary>
         /// 分段策略
         /// </summary>
-        [SugarColumn(ColumnName = "Sgtcovsa", ColumnDescription = "分段策略 ", Length = 16)]
-        public string Sgtcovsa { get; set; }
+        [SugarColumn(ColumnName = "Ma165", ColumnDescription = "分段策略", Length = 1)]
+        public string Ma165 { get; set; }
 
         /// <summary>
-        /// 分段物料主数据状态
+        /// 分段状态
         /// </summary>
-        [SugarColumn(ColumnName = "Sgtstat", ColumnDescription = "分段物料主数据状态 ", Length = 2)]
-        public string Sgtstat { get; set; }
+        [SugarColumn(ColumnName = "Ma166", ColumnDescription = "分段状态", Length = 2)]
+        public string Ma166 { get; set; }
 
         /// <summary>
-        /// 分段策略范围
+        /// 分段范围
         /// </summary>
-        [SugarColumn(ColumnName = "Sgtscope", ColumnDescription = "分段策略范围 ", Length = 2)]
-        public string Sgtscope { get; set; }
+        [SugarColumn(ColumnName = "Ma167", ColumnDescription = "分段范围", Length = 1)]
+        public string Ma167 { get; set; }
 
         /// <summary>
         /// 分段相关
         /// </summary>
-        [SugarColumn(ColumnName = "Sgtrel", ColumnDescription = "分段相关 ", Length = 2)]
-        public string Sgtrel { get; set; }
+        [SugarColumn(ColumnName = "Ma168", ColumnDescription = "分段相关", Length = 2)]
+        public string Ma168 { get; set; }
 
         /// <summary>
         /// ANP Code
         /// </summary>
-        [SugarColumn(ColumnName = "Anp", ColumnDescription = "ANP Code ", DefaultValue = "0")]
-        public int? Anp { get; set; }
+        [SugarColumn(ColumnName = "Ma169", ColumnDescription = "ANP Code", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma169 { get; set; }
 
         /// <summary>
-        /// Fashion 信息字段：1
+        /// Fashion属性1
         /// </summary>
-        [SugarColumn(ColumnName = "Fshmgat1", ColumnDescription = "Fashion 信息字段：1 ", Length = 20)]
-        public string Fshmgat1 { get; set; }
+        [SugarColumn(ColumnName = "Ma170", ColumnDescription = "Fashion属性1", Length = 20)]
+        public string Ma170 { get; set; }
 
         /// <summary>
-        /// Fashion 信息字段：2
+        /// Fashion属性2
         /// </summary>
-        [SugarColumn(ColumnName = "Fshmgat2", ColumnDescription = "Fashion 信息字段：2 ", Length = 20)]
-        public string Fshmgat2 { get; set; }
+        [SugarColumn(ColumnName = "Ma171", ColumnDescription = "Fashion属性2", Length = 1)]
+        public string Ma171 { get; set; }
 
         /// <summary>
-        /// Fashion 信息字段：3
+        /// Fashion属性3
         /// </summary>
-        [SugarColumn(ColumnName = "Fshmgat3", ColumnDescription = "Fashion 信息字段：3 ", Length = 12)]
-        public string Fshmgat3 { get; set; }
+        [SugarColumn(ColumnName = "Ma172", ColumnDescription = "Fashion属性3", Length = 12)]
+        public string Ma172 { get; set; }
 
         /// <summary>
-        /// 标识：季节使用
+        /// 季节使用
         /// </summary>
-        [SugarColumn(ColumnName = "Fshsealv", ColumnDescription = "标识：季节使用 ", Length = 2)]
-        public string Fshsealv { get; set; }
+        [SugarColumn(ColumnName = "Ma173", ColumnDescription = "季节使用", Length = 1)]
+        public string Ma173 { get; set; }
 
         /// <summary>
-        /// 标识：在库存管理中激活季节
+        /// 库存管理中激活季节
         /// </summary>
-        [SugarColumn(ColumnName = "Fshseaim", ColumnDescription = "标识：在库存管理中激活季节 ", Length = 2)]
-        public string Fshseaim { get; set; }
+        [SugarColumn(ColumnName = "Ma174", ColumnDescription = "库存管理中激活季节", Length = 2)]
+        public string Ma174 { get; set; }
 
         /// <summary>
-        /// 特征值转换的物料转换标识
+        /// 物料转换标识
         /// </summary>
-        [SugarColumn(ColumnName = "Fshscmid", ColumnDescription = "特征值转换的物料转换标识 ", Length = 4)]
-        public string Fshscmid { get; set; }
+        [SugarColumn(ColumnName = "Ma175", ColumnDescription = "物料转换标识", Length = 1)]
+        public string Ma175 { get; set; }
 
         /// <summary>
         /// 装载单位
         /// </summary>
-        [SugarColumn(ColumnName = "Bev1luleinh", ColumnDescription = "装载单位 ", DefaultValue = "0")]
-        public int? Bev1luleinh { get; set; }
+        [SugarColumn(ColumnName = "Ma176", ColumnDescription = "装载单位", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma176 { get; set; }
 
         /// <summary>
-        /// 装载单位组：IS 饮料
+        /// 装载单位组
         /// </summary>
-        [SugarColumn(ColumnName = "Bev1luldegrp", ColumnDescription = "装载单位组：IS 饮料 ", Length = 6)]
-        public string Bev1luldegrp { get; set; }
+        [SugarColumn(ColumnName = "Ma177", ColumnDescription = "装载单位组", Length = 1)]
+        public string Ma177 { get; set; }
 
         /// <summary>
-        /// 物料关系的结构类别
+        /// 结构类别
         /// </summary>
-        [SugarColumn(ColumnName = "Bev1nestruccat", ColumnDescription = "物料关系的结构类别 ", Length = 2)]
-        public string Bev1nestruccat { get; set; }
+        [SugarColumn(ColumnName = "Ma178", ColumnDescription = "结构类别", Length = 2)]
+        public string Ma178 { get; set; }
 
         /// <summary>
-        /// 容差类型标识
+        /// 容差类型
         /// </summary>
-        [SugarColumn(ColumnName = "Dsdsltoltyp", ColumnDescription = "容差类型标识 ", Length = 8)]
-        public string Dsdsltoltyp { get; set; }
+        [SugarColumn(ColumnName = "Ma179", ColumnDescription = "容差类型", Length = 1)]
+        public string Ma179 { get; set; }
 
         /// <summary>
         /// 计算组
         /// </summary>
-        [SugarColumn(ColumnName = "Dsdsvcntgrp", ColumnDescription = "计算组 ", Length = 20)]
-        public string Dsdsvcntgrp { get; set; }
+        [SugarColumn(ColumnName = "Ma180", ColumnDescription = "计算组", Length = 20)]
+        public string Ma180 { get; set; }
 
         /// <summary>
         /// DSD 分组
         /// </summary>
-        [SugarColumn(ColumnName = "Dsdvcgroup", ColumnDescription = "DSD 分组 ", Length = 12)]
-        public string Dsdvcgroup { get; set; }
+        [SugarColumn(ColumnName = "Ma181", ColumnDescription = "DSD 分组", Length = 1)]
+        public string Ma181 { get; set; }
 
         /// <summary>
-        /// 可以倾斜物料 (车辆空间优化)
+        /// 允许倾斜
         /// </summary>
-        [SugarColumn(ColumnName = "Vsortiltind", ColumnDescription = "可以倾斜物料 (车辆空间优化) ", Length = 2)]
-        public string Vsortiltind { get; set; }
+        [SugarColumn(ColumnName = "Ma182", ColumnDescription = "允许倾斜", Length = 2)]
+        public string Ma182 { get; set; }
 
         /// <summary>
-        /// 不允许堆栈 (VSO)
+        /// 无堆栈
         /// </summary>
-        [SugarColumn(ColumnName = "Vsorstackind", ColumnDescription = "不允许堆栈 (VSO) ", Length = 2)]
-        public string Vsorstackind { get; set; }
+        [SugarColumn(ColumnName = "Ma183", ColumnDescription = "无堆栈", Length = 1)]
+        public string Ma183 { get; set; }
 
         /// <summary>
-        /// 底层 (车辆空间最优化)
+        /// 底层
         /// </summary>
-        [SugarColumn(ColumnName = "Vsorbotind", ColumnDescription = "底层 (车辆空间最优化) ", Length = 2)]
-        public string Vsorbotind { get; set; }
+        [SugarColumn(ColumnName = "Ma184", ColumnDescription = "底层", Length = 2)]
+        public string Ma184 { get; set; }
 
         /// <summary>
-        /// 顶层 (VSO)
+        /// 顶层
         /// </summary>
-        [SugarColumn(ColumnName = "Vsortopind", ColumnDescription = "顶层 (VSO) ", Length = 2)]
-        public string Vsortopind { get; set; }
+        [SugarColumn(ColumnName = "Ma185", ColumnDescription = "顶层", Length = 1)]
+        public string Ma185 { get; set; }
 
         /// <summary>
-        /// 堆栈因子 (车辆空间优化)
+        /// 堆栈因子
         /// </summary>
-        [SugarColumn(ColumnName = "Vsorstackno", ColumnDescription = "堆栈因子 (车辆空间优化) ", DefaultValue = "0")]
-        public int? Vsorstackno { get; set; }
+        [SugarColumn(ColumnName = "Ma186", ColumnDescription = "堆栈因子", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma186 { get; set; }
 
         /// <summary>
-        /// 无包装物料的装载 (VSO)
+        /// 无包装物料装载
         /// </summary>
-        [SugarColumn(ColumnName = "Vsorpalind", ColumnDescription = "无包装物料的装载 (VSO) ", Length = 2)]
-        public string Vsorpalind { get; set; }
+        [SugarColumn(ColumnName = "Ma187", ColumnDescription = "无包装物料装载", Length = 1)]
+        public string Ma187 { get; set; }
 
         /// <summary>
-        /// 包装物料的允许悬挂深度 (VSO)
+        /// 悬挂深度
         /// </summary>
-        [SugarColumn(ColumnName = "Vsorpalovrd", ColumnDescription = "包装物料的允许悬挂深度 (VSO) ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Vsorpalovrd { get; set; }
+        [SugarColumn(ColumnName = "Ma188", ColumnDescription = "悬挂深度", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma188 { get; set; }
 
         /// <summary>
-        /// 装运物料的允许悬挂宽度 (VSO)
+        /// 悬挂宽度
         /// </summary>
-        [SugarColumn(ColumnName = "Vsorpalovrw", ColumnDescription = "装运物料的允许悬挂宽度 (VSO) ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Vsorpalovrw { get; set; }
+        [SugarColumn(ColumnName = "Ma189", ColumnDescription = "悬挂宽度", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma189 { get; set; }
 
         /// <summary>
-        /// 包装物料的最大叠放高度 (VSO)
+        /// 最大叠放高度
         /// </summary>
-        [SugarColumn(ColumnName = "Vsorpalbht", ColumnDescription = "包装物料的最大叠放高度 (VSO) ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Vsorpalbht { get; set; }
+        [SugarColumn(ColumnName = "Ma190", ColumnDescription = "最大叠放高度", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma190 { get; set; }
 
         /// <summary>
-        /// 包装物料的最小叠放高度 (VSO)
+        /// 最小叠放高度
         /// </summary>
-        [SugarColumn(ColumnName = "Vsorpalminh", ColumnDescription = "包装物料的最小叠放高度 (VSO) ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Vsorpalminh { get; set; }
+        [SugarColumn(ColumnName = "Ma191", ColumnDescription = "最小叠放高度", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma191 { get; set; }
 
         /// <summary>
-        /// 超出最大叠放高度的容差 (VSO)
+        /// 叠放高度容差
         /// </summary>
-        [SugarColumn(ColumnName = "Vsortolbht", ColumnDescription = "超出最大叠放高度的容差 (VSO) ", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
-        public decimal Vsortolbht { get; set; }
+        [SugarColumn(ColumnName = "Ma192", ColumnDescription = "叠放高度容差", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Ma192 { get; set; }
 
         /// <summary>
-        /// 每个已结清 PKM 的物料编号(VSO)
+        /// 物料编号PKM
         /// </summary>
-        [SugarColumn(ColumnName = "Vsornopgvh", ColumnDescription = "每个已结清 PKM 的物料编号(VSO) ", DefaultValue = "0")]
-        public int? Vsornopgvh { get; set; }
+        [SugarColumn(ColumnName = "Ma193", ColumnDescription = "物料编号PKM", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma193 { get; set; }
 
         /// <summary>
-        /// 计量单位车辆空间优化
+        /// VSO
         /// </summary>
-        [SugarColumn(ColumnName = "Vsorquanunit", ColumnDescription = "计量单位车辆空间优化 ", Length = 6)]
-        public string Vsorquanunit { get; set; }
+        [SugarColumn(ColumnName = "Ma194", ColumnDescription = "VSO", Length = 6)]
+        public string Ma194 { get; set; }
 
         /// <summary>
-        /// 请求的已清包装物料 (VSO)
+        /// 请求已清PKM
         /// </summary>
-        [SugarColumn(ColumnName = "Vsorkzgvhind", ColumnDescription = "请求的已清包装物料 (VSO) ", Length = 2)]
-        public string Vsorkzgvhind { get; set; }
+        [SugarColumn(ColumnName = "Ma195", ColumnDescription = "请求已清PKM", Length = 1)]
+        public string Ma195 { get; set; }
 
         /// <summary>
         /// Packaging Code
         /// </summary>
-        [SugarColumn(ColumnName = "Packcode", ColumnDescription = "Packaging Code ", Length = 20)]
-        public string Packcode { get; set; }
+        [SugarColumn(ColumnName = "Ma196", ColumnDescription = "Packaging Code", Length = 20)]
+        public string Ma196 { get; set; }
 
         /// <summary>
         /// 危险品的包装状态
         /// </summary>
-        [SugarColumn(ColumnName = "Dgpackstatus", ColumnDescription = "危险品的包装状态 ", Length = 20)]
-        public string Dgpackstatus { get; set; }
+        [SugarColumn(ColumnName = "Ma197", ColumnDescription = "危险品的包装状态", Length = 1)]
+        public string Ma197 { get; set; }
 
         /// <summary>
         /// 物料条件管理
         /// </summary>
-        [SugarColumn(ColumnName = "Mcond", ColumnDescription = "物料条件管理 ", Length = 2)]
-        public string Mcond { get; set; }
+        [SugarColumn(ColumnName = "Ma198", ColumnDescription = "物料条件管理", Length = 2)]
+        public string Ma198 { get; set; }
 
         /// <summary>
         /// 返回代码
         /// </summary>
-        [SugarColumn(ColumnName = "Retdelc", ColumnDescription = "返回代码 ", Length = 2)]
-        public string Retdelc { get; set; }
+        [SugarColumn(ColumnName = "Ma199", ColumnDescription = "返回代码", Length = 1)]
+        public string Ma199 { get; set; }
 
         /// <summary>
         /// 后勤等级退货
         /// </summary>
-        [SugarColumn(ColumnName = "Loglevreto", ColumnDescription = "后勤等级退货 ", Length = 2)]
-        public string Loglevreto { get; set; }
+        [SugarColumn(ColumnName = "Ma200", ColumnDescription = "后勤等级退货", Length = 2)]
+        public string Ma200 { get; set; }
 
         /// <summary>
-        /// NATO 项目标识编号
+        /// NATO项目
         /// </summary>
-        [SugarColumn(ColumnName = "Nsnid", ColumnDescription = "NATO 项目标识编号 ", Length = 18)]
-        public string Nsnid { get; set; }
+        [SugarColumn(ColumnName = "Ma201", ColumnDescription = "NATO项目", Length = 1)]
+        public string Ma201 { get; set; }
 
         /// <summary>
         /// 完全互换组
         /// </summary>
-        [SugarColumn(ColumnName = "Imatn", ColumnDescription = "完全互换组 ", Length = 36)]
-        public string Imatn { get; set; }
+        [SugarColumn(ColumnName = "Ma202", ColumnDescription = "完全互换组", Length = 36)]
+        public string Ma202 { get; set; }
 
         /// <summary>
-        /// 替换链编号
+        /// 链编号
         /// </summary>
-        [SugarColumn(ColumnName = "Picnum", ColumnDescription = "替换链编号 ", Length = 36)]
-        public string Picnum { get; set; }
+        [SugarColumn(ColumnName = "Ma203", ColumnDescription = "链编号", Length = 1)]
+        public string Ma203 { get; set; }
 
         /// <summary>
-        /// 创建状态 - 季节性采购
+        /// 创建状态
         /// </summary>
-        [SugarColumn(ColumnName = "Bstat", ColumnDescription = "创建状态 - 季节性采购 ", Length = 4)]
-        public string Bstat { get; set; }
+        [SugarColumn(ColumnName = "Ma204", ColumnDescription = "创建状态", Length = 4)]
+        public string Ma204 { get; set; }
 
         /// <summary>
-        /// 颜色特性的内部特性编号
+        /// 内部特性1
         /// </summary>
-        [SugarColumn(ColumnName = "Coloratinn", ColumnDescription = "颜色特性的内部特性编号 ", DefaultValue = "0")]
-        public int? Coloratinn { get; set; }
+        [SugarColumn(ColumnName = "Ma205", ColumnDescription = "内部特性1", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma205 { get; set; }
 
         /// <summary>
-        /// 主尺寸的特性的内部特性编号
+        /// 内部特性2
         /// </summary>
-        [SugarColumn(ColumnName = "Size1atinn", ColumnDescription = "主尺寸的特性的内部特性编号 ", DefaultValue = "0")]
-        public int? Size1atinn { get; set; }
+        [SugarColumn(ColumnName = "Ma206", ColumnDescription = "内部特性2", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma206 { get; set; }
 
         /// <summary>
-        /// 次尺寸的特性的内部特性编号
+        /// 内部特性3
         /// </summary>
-        [SugarColumn(ColumnName = "Size2atinn", ColumnDescription = "次尺寸的特性的内部特性编号 ", DefaultValue = "0")]
-        public int? Size2atinn { get; set; }
+        [SugarColumn(ColumnName = "Ma207", ColumnDescription = "内部特性3", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma207 { get; set; }
 
         /// <summary>
-        /// 变式颜色的特性值
+        /// 颜色
         /// </summary>
-        [SugarColumn(ColumnName = "Color", ColumnDescription = "变式颜色的特性值 ", Length = 36)]
-        public string Color { get; set; }
+        [SugarColumn(ColumnName = "Ma208", ColumnDescription = "颜色", Length = 36)]
+        public string Ma208 { get; set; }
 
         /// <summary>
-        /// 变式主尺寸的特性值
+        /// 主尺寸
         /// </summary>
-        [SugarColumn(ColumnName = "Size1", ColumnDescription = "变式主尺寸的特性值 ", Length = 36)]
-        public string Size1 { get; set; }
+        [SugarColumn(ColumnName = "Ma209", ColumnDescription = "主尺寸", Length = 1)]
+        public string Ma209 { get; set; }
 
         /// <summary>
-        /// 变式的次尺寸的特性值
+        /// 次尺寸
         /// </summary>
-        [SugarColumn(ColumnName = "Size2", ColumnDescription = "变式的次尺寸的特性值 ", Length = 36)]
-        public string Size2 { get; set; }
+        [SugarColumn(ColumnName = "Ma210", ColumnDescription = "次尺寸", Length = 36)]
+        public string Ma210 { get; set; }
 
         /// <summary>
-        /// 评估目的的特性值
+        /// 特性值
         /// </summary>
-        [SugarColumn(ColumnName = "Freechar", ColumnDescription = "评估目的的特性值 ", Length = 36)]
-        public string Freechar { get; set; }
+        [SugarColumn(ColumnName = "Ma211", ColumnDescription = "特性值", Length = 1)]
+        public string Ma211 { get; set; }
 
         /// <summary>
-        /// 护理代码（例如洗涤代码, 烫平衣服代码, 等等)
+        /// 护理代码
         /// </summary>
-        [SugarColumn(ColumnName = "Carecode", ColumnDescription = "护理代码（例如洗涤代码, 烫平衣服代码, 等等) ", Length = 32)]
-        public string Carecode { get; set; }
+        [SugarColumn(ColumnName = "Ma212", ColumnDescription = "护理代码", Length = 32)]
+        public string Ma212 { get; set; }
 
         /// <summary>
         /// 商标
         /// </summary>
-        [SugarColumn(ColumnName = "Brandid", ColumnDescription = "商标 ", Length = 8)]
-        public string Brandid { get; set; }
+        [SugarColumn(ColumnName = "Ma213", ColumnDescription = "商标", Length = 1)]
+        public string Ma213 { get; set; }
 
         /// <summary>
-        /// 纺织品的光纤代码（组件1）
+        /// 组件1
         /// </summary>
-        [SugarColumn(ColumnName = "Fibercode1", ColumnDescription = "纺织品的光纤代码（组件1） ", Length = 6)]
-        public string Fibercode1 { get; set; }
+        [SugarColumn(ColumnName = "Ma214", ColumnDescription = "组件1", Length = 6)]
+        public string Ma214 { get; set; }
 
         /// <summary>
-        /// 光纤的百分比共享（组件1）
+        /// 百分比共享1
         /// </summary>
-        [SugarColumn(ColumnName = "Fiberpart1", ColumnDescription = "光纤的百分比共享（组件1） ", DefaultValue = "0")]
-        public int? Fiberpart1 { get; set; }
+        [SugarColumn(ColumnName = "Ma215", ColumnDescription = "百分比共享1", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma215 { get; set; }
 
         /// <summary>
-        /// 纺织品的光纤代码（组件2）
+        /// 组件2
         /// </summary>
-        [SugarColumn(ColumnName = "Fibercode2", ColumnDescription = "纺织品的光纤代码（组件2） ", Length = 6)]
-        public string Fibercode2 { get; set; }
+        [SugarColumn(ColumnName = "Ma216", ColumnDescription = "组件2", Length = 6)]
+        public string Ma216 { get; set; }
 
         /// <summary>
-        /// 光纤的百分比共享（组件2）
+        /// 百分比共2
         /// </summary>
-        [SugarColumn(ColumnName = "Fiberpart2", ColumnDescription = "光纤的百分比共享（组件2） ", DefaultValue = "0")]
-        public int? Fiberpart2 { get; set; }
+        [SugarColumn(ColumnName = "Ma217", ColumnDescription = "百分比共2", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma217 { get; set; }
 
         /// <summary>
-        /// 纺织品的光纤代码（组件3）
+        /// 组件3
         /// </summary>
-        [SugarColumn(ColumnName = "Fibercode3", ColumnDescription = "纺织品的光纤代码（组件3） ", Length = 6)]
-        public string Fibercode3 { get; set; }
+        [SugarColumn(ColumnName = "Ma218", ColumnDescription = "组件3", Length = 6)]
+        public string Ma218 { get; set; }
 
         /// <summary>
-        /// 光纤的百分比共享（组件3）
+        /// 百分比共享3
         /// </summary>
-        [SugarColumn(ColumnName = "Fiberpart3", ColumnDescription = "光纤的百分比共享（组件3） ", DefaultValue = "0")]
-        public int? Fiberpart3 { get; set; }
+        [SugarColumn(ColumnName = "Ma219", ColumnDescription = "百分比共享3", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma219 { get; set; }
 
         /// <summary>
-        /// 纺织品的光纤代码（组件4）
+        /// 组件4
         /// </summary>
-        [SugarColumn(ColumnName = "Fibercode4", ColumnDescription = "纺织品的光纤代码（组件4） ", Length = 6)]
-        public string Fibercode4 { get; set; }
+        [SugarColumn(ColumnName = "Ma220", ColumnDescription = "组件4", Length = 6)]
+        public string Ma220 { get; set; }
 
         /// <summary>
-        /// 光纤的百分比共享（组件4）
+        /// 百分比共享4
         /// </summary>
-        [SugarColumn(ColumnName = "Fiberpart4", ColumnDescription = "光纤的百分比共享（组件4） ", DefaultValue = "0")]
-        public int? Fiberpart4 { get; set; }
+        [SugarColumn(ColumnName = "Ma221", ColumnDescription = "百分比共享4", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma221 { get; set; }
 
         /// <summary>
-        /// 纺织品的光纤代码（组件5）
+        /// 组件5
         /// </summary>
-        [SugarColumn(ColumnName = "Fibercode5", ColumnDescription = "纺织品的光纤代码（组件5） ", Length = 6)]
-        public string Fibercode5 { get; set; }
+        [SugarColumn(ColumnName = "Ma222", ColumnDescription = "组件5", Length = 6)]
+        public string Ma222 { get; set; }
 
         /// <summary>
-        /// 光纤的百分比共享（组件5）
+        /// 百分比共享5
         /// </summary>
-        [SugarColumn(ColumnName = "Fiberpart5", ColumnDescription = "光纤的百分比共享（组件5） ", DefaultValue = "0")]
-        public int? Fiberpart5 { get; set; }
+        [SugarColumn(ColumnName = "Ma223", ColumnDescription = "百分比共享5", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Ma223 { get; set; }
 
         /// <summary>
         /// 时装等级
         /// </summary>
-        [SugarColumn(ColumnName = "Fashgrd", ColumnDescription = "时装等级 ", Length = 8)]
-        public string Fashgrd { get; set; }
+        [SugarColumn(ColumnName = "Ma224", ColumnDescription = "时装等级", Length = 8)]
+        public string Ma224 { get; set; }
     }
 }

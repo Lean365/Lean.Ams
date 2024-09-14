@@ -1,17 +1,7 @@
-﻿using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Ams.WebApi.Controllers
+﻿namespace Ams.WebApi.Controllers.Routine
 {
-    /// <summary>
-    /// 动态
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
-    /// </summary>
     [Verify]
-    [Route("routine/article/moments")]
+    [Route("routine/article/moment")]
     [ApiExplorerSettings(GroupName = "routine")]
     public class MomentsController : BaseController
     {
@@ -66,7 +56,7 @@ namespace Ams.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("publishMoment")]
-        [ActionPermissionFilter(Permission = "routine:articlemoment:add")]
+        [ActionPermissionFilter(Permission = "article:moment:add")]
         public IActionResult PublishMoment([FromBody] ArticleDto parm)
         {
             if (parm == null) { return ToResponse(ResultCode.PARAM_ERROR); }

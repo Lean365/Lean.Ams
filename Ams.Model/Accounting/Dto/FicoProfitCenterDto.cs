@@ -5,192 +5,228 @@ namespace Ams.Model.Accounting.Dto
     /// 利润中心
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/6 14:40:21
+    /// @Date: 2024/9/5 15:42:56
     /// </summary>
     public class FicoProfitCenterQueryDto : PagerInfo 
     {
-        public string Prctr { get; set; }
-        public string Kokrs { get; set; }
-        public DateTime? BeginDatbi { get; set; }
-        public DateTime? EndDatbi { get; set; }
-        public string Ltext { get; set; }
-        public int? LockInd { get; set; }
-        public int? Tstate { get; set; }
+        /// <summary>
+        /// 利润中心 
+        /// </summary>        
+        public string Mq003 { get; set; }
+        /// <summary>
+        /// 控制范围 
+        /// </summary>        
+        public string Mq004 { get; set; }
+        /// <summary>
+        /// 名称 
+        /// </summary>        
+        public string Mq010 { get; set; }
     }
 
     /// <summary>
     /// 利润中心
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/6 14:40:21
+    /// @Date: 2024/9/5 15:42:56
     /// </summary>
     public class FicoProfitCenterDto
     {
         [Required(ErrorMessage = "ID不能为空")]
-        [ExcelColumn(Name = "ID")]
+        //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FpSfId { get; set; }
 
-        [ExcelColumn(Name = "集团  ")]
-        [ExcelColumnName("集团  ")]
-        public string Mandt { get; set; }
+        public long Id { get; set; }
 
-        [Required(ErrorMessage = "利润中心  不能为空")]
-        [ExcelColumn(Name = "利润中心  ")]
-        [ExcelColumnName("利润中心  ")]
-        public string Prctr { get; set; }
+        //[ExcelColumn(Name = "集团")]
+        [ExcelColumnName("集团")]
 
-        [Required(ErrorMessage = "控制范围  不能为空")]
-        [ExcelColumn(Name = "控制范围  ")]
-        [ExcelColumnName("控制范围  ")]
-        public string Kokrs { get; set; }
+        public string Mq002 { get; set; }
 
-        [ExcelColumn(Name = "开始生效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [Required(ErrorMessage = "利润中心不能为空")]
+        //[ExcelColumn(Name = "利润中心")]
+        [ExcelColumnName("利润中心")]
+
+        public string Mq003 { get; set; }
+
+        //[ExcelColumn(Name = "控制范围")]
+        [ExcelColumnName("控制范围")]
+
+        public string Mq004 { get; set; }
+
+        //[ExcelColumn(Name = "开始生效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("开始生效日期")]
-        public DateTime? Datab { get; set; }
 
-        [ExcelColumn(Name = "有效截至日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public DateTime? Mq005 { get; set; }
+
+        //[ExcelColumn(Name = "有效截至日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("有效截至日期")]
-        public DateTime? Datbi { get; set; }
 
-        [ExcelColumn(Name = "部门  ")]
-        [ExcelColumnName("部门  ")]
-        public int? Abtei { get; set; }
+        public DateTime? Mq006 { get; set; }
 
-        [ExcelColumn(Name = "负责人  ")]
-        [ExcelColumnName("负责人  ")]
-        public string Verak { get; set; }
+        //[ExcelColumn(Name = "部门")]
+        [ExcelColumnName("部门")]
 
-        [ExcelColumn(Name = "货币  ")]
-        [ExcelColumnName("货币  ")]
-        public string Waers { get; set; }
+        public int? Mq007 { get; set; }
 
-        [ExcelColumn(Name = "名称  ")]
-        [ExcelColumnName("名称  ")]
-        public string Stext { get; set; }
+        //[ExcelColumn(Name = "负责人")]
+        [ExcelColumnName("负责人")]
 
-        [ExcelColumn(Name = "长文本  ")]
-        [ExcelColumnName("长文本  ")]
-        public string Ltext { get; set; }
+        public string Mq008 { get; set; }
 
-        [ExcelColumn(Name = "利润中心说明  ")]
-        [ExcelColumnName("利润中心说明  ")]
-        public string Atext { get; set; }
+        //[ExcelColumn(Name = "货币")]
+        [ExcelColumnName("货币")]
 
-        [ExcelColumn(Name = "利润中心组  ")]
-        [ExcelColumnName("利润中心组  ")]
-        public string Khinr { get; set; }
+        public string Mq009 { get; set; }
 
-        [ExcelColumn(Name = "权益类型  ")]
-        [ExcelColumnName("权益类型  ")]
-        public string Etype { get; set; }
+        [Required(ErrorMessage = "名称不能为空")]
+        //[ExcelColumn(Name = "名称")]
+        [ExcelColumnName("名称")]
 
-        [ExcelColumn(Name = "地区税务代码  ")]
-        [ExcelColumnName("地区税务代码  ")]
-        public string Txjcd { get; set; }
+        public string Mq010 { get; set; }
 
-        [ExcelColumn(Name = "锁定标记  ")]
-        [ExcelColumnName("锁定标记  ")]
-        public int? LockInd { get; set; }
+        //[ExcelColumn(Name = "长文本")]
+        [ExcelColumnName("长文本")]
 
-        [ExcelColumn(Name = "状态  ")]
-        [ExcelColumnName("状态  ")]
-        public int? Tstate { get; set; }
+        public string Mq011 { get; set; }
 
-        [ExcelColumn(Name = "预留A  ")]
-        [ExcelColumnName("预留A  ")]
+        //[ExcelColumn(Name = "利润中心说明")]
+        [ExcelColumnName("利润中心说明")]
+
+        public string Mq012 { get; set; }
+
+        //[ExcelColumn(Name = "利润中心组")]
+        [ExcelColumnName("利润中心组")]
+
+        public string Mq013 { get; set; }
+
+        //[ExcelColumn(Name = "权益类型")]
+        [ExcelColumnName("权益类型")]
+
+        public string Mq014 { get; set; }
+
+        //[ExcelColumn(Name = "地区税务代码")]
+        [ExcelColumnName("地区税务代码")]
+
+        public string Mq015 { get; set; }
+
+        //[ExcelColumn(Name = "锁定标记")]
+        [ExcelColumnName("锁定标记")]
+
+        public int? Mq016 { get; set; }
+
+        //[ExcelColumn(Name = "状态")]
+        [ExcelColumnName("状态")]
+
+        public int? Mq017 { get; set; }
+
+        [ExcelIgnore]
+
         public string REF01 { get; set; }
 
-        [ExcelColumn(Name = "预留B  ")]
-        [ExcelColumnName("预留B  ")]
+        [ExcelIgnore]
+
         public string REF02 { get; set; }
 
-        [ExcelColumn(Name = "预留C  ")]
-        [ExcelColumnName("预留C  ")]
+        [ExcelIgnore]
+
         public string REF03 { get; set; }
 
-        [ExcelColumn(Name = "预留1  ")]
-        [ExcelColumnName("预留1  ")]
+        [ExcelIgnore]
+
         public decimal REF04 { get; set; }
 
-        [ExcelColumn(Name = "预留2  ")]
-        [ExcelColumnName("预留2  ")]
+        [ExcelIgnore]
+
         public decimal REF05 { get; set; }
 
-        [ExcelColumn(Name = "预留3 ")]
-        [ExcelColumnName("预留3 ")]
+        [ExcelIgnore]
+
         public decimal REF06 { get; set; }
 
         [ExcelIgnore]
+
         public string UDF01 { get; set; }
 
         [ExcelIgnore]
+
         public string UDF02 { get; set; }
 
         [ExcelIgnore]
+
         public string UDF03 { get; set; }
 
         [ExcelIgnore]
+
         public string UDF04 { get; set; }
 
         [ExcelIgnore]
+
         public string UDF05 { get; set; }
 
         [ExcelIgnore]
+
         public string UDF06 { get; set; }
 
         [ExcelIgnore]
+
         public int? UDF51 { get; set; }
 
         [ExcelIgnore]
+
         public int? UDF52 { get; set; }
 
         [ExcelIgnore]
+
         public int? UDF53 { get; set; }
 
         [ExcelIgnore]
+
         public decimal UDF54 { get; set; }
 
         [ExcelIgnore]
+
         public decimal UDF55 { get; set; }
 
         [ExcelIgnore]
+
         public decimal UDF56 { get; set; }
 
-        [ExcelColumn(Name = "软删除 ")]
-        [ExcelColumnName("软删除 ")]
+        [ExcelIgnore]
+
         public int? IsDeleted { get; set; }
 
-        [ExcelColumn(Name = "备注说明 ")]
-        [ExcelColumnName("备注说明 ")]
+        [ExcelIgnore]
+
         public string Remark { get; set; }
 
         [ExcelIgnore]
+
         public string CreateBy { get; set; }
 
         [ExcelIgnore]
+
         public DateTime? CreateTime { get; set; }
 
         [ExcelIgnore]
+
         public string UpdateBy { get; set; }
 
         [ExcelIgnore]
+
         public DateTime? UpdateTime { get; set; }
 
 
 
-        [ExcelColumn(Name = "控制范围  ")]
-        public string KokrsLabel { get; set; }
-        [ExcelColumn(Name = "部门  ")]
-        public string AbteiLabel { get; set; }
-        [ExcelColumn(Name = "货币  ")]
-        public string WaersLabel { get; set; }
-        [ExcelColumn(Name = "权益类型  ")]
-        public string EtypeLabel { get; set; }
-        [ExcelColumn(Name = "锁定标记  ")]
-        public string LockIndLabel { get; set; }
-        [ExcelColumn(Name = "软删除 ")]
+        [ExcelColumn(Name = "控制范围")]
+        public string Mq004Label { get; set; }
+        [ExcelColumn(Name = "货币")]
+        public string Mq009Label { get; set; }
+        [ExcelColumn(Name = "锁定标记")]
+        public string Mq016Label { get; set; }
+        [ExcelColumn(Name = "状态")]
+        public string Mq017Label { get; set; }
+        [ExcelColumn(Name = "软删除")]
         public string IsDeletedLabel { get; set; }
     }
 
@@ -198,104 +234,98 @@ namespace Ams.Model.Accounting.Dto
     /// 利润中心
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/6 14:40:21
+    /// @Date: 2024/9/5 15:42:56
     /// </summary>
     public class FicoProfitCenterImportTpl
     {
         [Required(ErrorMessage = "ID不能为空")]
-        [ExcelColumn(Name = "ID")]
+        //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long FpSfId { get; set; }
+        public long Id { get; set; }
 
-        [ExcelColumn(Name = "集团  ")]
-        [ExcelColumnName("集团  ")]
-        public string Mandt { get; set; }
+        //[ExcelColumn(Name = "集团")]
+        [ExcelColumnName("集团")]
+        public string Mq002 { get; set; }
 
-        [Required(ErrorMessage = "利润中心  不能为空")]
-        [ExcelColumn(Name = "利润中心  ")]
-        [ExcelColumnName("利润中心  ")]
-        public string Prctr { get; set; }
+        [Required(ErrorMessage = "利润中心不能为空")]
+        //[ExcelColumn(Name = "利润中心")]
+        [ExcelColumnName("利润中心")]
+        public string Mq003 { get; set; }
 
-        [Required(ErrorMessage = "控制范围  不能为空")]
-        [ExcelColumn(Name = "控制范围  ")]
-        [ExcelColumnName("控制范围  ")]
-        public string Kokrs { get; set; }
+        //[ExcelColumn(Name = "控制范围")]
+        [ExcelColumnName("控制范围")]
+        public string Mq004 { get; set; }
 
-        [ExcelColumn(Name = "开始生效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "开始生效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("开始生效日期")]
-        public DateTime? Datab { get; set; }
+        public DateTime? Mq005 { get; set; }
 
-        [ExcelColumn(Name = "有效截至日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "有效截至日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("有效截至日期")]
-        public DateTime? Datbi { get; set; }
+        public DateTime? Mq006 { get; set; }
 
-        [ExcelColumn(Name = "部门  ")]
-        [ExcelColumnName("部门  ")]
-        public int? Abtei { get; set; }
+        //[ExcelColumn(Name = "部门")]
+        [ExcelColumnName("部门")]
+        public int? Mq007 { get; set; }
 
-        [ExcelColumn(Name = "负责人  ")]
-        [ExcelColumnName("负责人  ")]
-        public string Verak { get; set; }
+        //[ExcelColumn(Name = "负责人")]
+        [ExcelColumnName("负责人")]
+        public string Mq008 { get; set; }
 
-        [ExcelColumn(Name = "货币  ")]
-        [ExcelColumnName("货币  ")]
-        public string Waers { get; set; }
+        //[ExcelColumn(Name = "货币")]
+        [ExcelColumnName("货币")]
+        public string Mq009 { get; set; }
 
-        [ExcelColumn(Name = "名称  ")]
-        [ExcelColumnName("名称  ")]
-        public string Stext { get; set; }
+        [Required(ErrorMessage = "名称不能为空")]
+        //[ExcelColumn(Name = "名称")]
+        [ExcelColumnName("名称")]
+        public string Mq010 { get; set; }
 
-        [ExcelColumn(Name = "长文本  ")]
-        [ExcelColumnName("长文本  ")]
-        public string Ltext { get; set; }
+        //[ExcelColumn(Name = "长文本")]
+        [ExcelColumnName("长文本")]
+        public string Mq011 { get; set; }
 
-        [ExcelColumn(Name = "利润中心说明  ")]
-        [ExcelColumnName("利润中心说明  ")]
-        public string Atext { get; set; }
+        //[ExcelColumn(Name = "利润中心说明")]
+        [ExcelColumnName("利润中心说明")]
+        public string Mq012 { get; set; }
 
-        [ExcelColumn(Name = "利润中心组  ")]
-        [ExcelColumnName("利润中心组  ")]
-        public string Khinr { get; set; }
+        //[ExcelColumn(Name = "利润中心组")]
+        [ExcelColumnName("利润中心组")]
+        public string Mq013 { get; set; }
 
-        [ExcelColumn(Name = "权益类型  ")]
-        [ExcelColumnName("权益类型  ")]
-        public string Etype { get; set; }
+        //[ExcelColumn(Name = "权益类型")]
+        [ExcelColumnName("权益类型")]
+        public string Mq014 { get; set; }
 
-        [ExcelColumn(Name = "地区税务代码  ")]
-        [ExcelColumnName("地区税务代码  ")]
-        public string Txjcd { get; set; }
+        //[ExcelColumn(Name = "地区税务代码")]
+        [ExcelColumnName("地区税务代码")]
+        public string Mq015 { get; set; }
 
-        [ExcelColumn(Name = "锁定标记  ")]
-        [ExcelColumnName("锁定标记  ")]
-        public int? LockInd { get; set; }
+        //[ExcelColumn(Name = "锁定标记")]
+        [ExcelColumnName("锁定标记")]
+        public int? Mq016 { get; set; }
 
-        [ExcelColumn(Name = "状态  ")]
-        [ExcelColumnName("状态  ")]
-        public int? Tstate { get; set; }
+        //[ExcelColumn(Name = "状态")]
+        [ExcelColumnName("状态")]
+        public int? Mq017 { get; set; }
 
-        [ExcelColumn(Name = "预留A  ")]
-        [ExcelColumnName("预留A  ")]
+        [ExcelIgnore]
         public string REF01 { get; set; }
 
-        [ExcelColumn(Name = "预留B  ")]
-        [ExcelColumnName("预留B  ")]
+        [ExcelIgnore]
         public string REF02 { get; set; }
 
-        [ExcelColumn(Name = "预留C  ")]
-        [ExcelColumnName("预留C  ")]
+        [ExcelIgnore]
         public string REF03 { get; set; }
 
-        [ExcelColumn(Name = "预留1  ")]
-        [ExcelColumnName("预留1  ")]
+        [ExcelIgnore]
         public decimal REF04 { get; set; }
 
-        [ExcelColumn(Name = "预留2  ")]
-        [ExcelColumnName("预留2  ")]
+        [ExcelIgnore]
         public decimal REF05 { get; set; }
 
-        [ExcelColumn(Name = "预留3 ")]
-        [ExcelColumnName("预留3 ")]
+        [ExcelIgnore]
         public decimal REF06 { get; set; }
 
         [ExcelIgnore]
@@ -334,12 +364,10 @@ namespace Ams.Model.Accounting.Dto
         [ExcelIgnore]
         public decimal UDF56 { get; set; }
 
-        [ExcelColumn(Name = "软删除 ")]
-        [ExcelColumnName("软删除 ")]
+        [ExcelIgnore]
         public int? IsDeleted { get; set; }
 
-        [ExcelColumn(Name = "备注说明 ")]
-        [ExcelColumnName("备注说明 ")]
+        [ExcelIgnore]
         public string Remark { get; set; }
 
         [ExcelIgnore]
@@ -357,23 +385,17 @@ namespace Ams.Model.Accounting.Dto
 
 
         [ExcelIgnore]
-        [ExcelColumn(Name = "控制范围  ")]
-        public string KokrsLabel { get; set; }
+        [ExcelColumn(Name = "控制范围")]
+        public string Mq004Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "部门  ")]
-        public string AbteiLabel { get; set; }
+        [ExcelColumn(Name = "货币")]
+        public string Mq009Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "货币  ")]
-        public string WaersLabel { get; set; }
+        [ExcelColumn(Name = "锁定标记")]
+        public string Mq016Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "权益类型  ")]
-        public string EtypeLabel { get; set; }
-        [ExcelIgnore]
-        [ExcelColumn(Name = "锁定标记  ")]
-        public string LockIndLabel { get; set; }
-        [ExcelIgnore]
-        [ExcelColumn(Name = "软删除 ")]
-        public string IsDeletedLabel { get; set; }
+        [ExcelColumn(Name = "状态")]
+        public string Mq017Label { get; set; }
     }
 
 }

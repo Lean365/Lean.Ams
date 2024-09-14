@@ -1,6 +1,6 @@
-using Ams.Model.Routine.Dto;
-using Ams.Model.Routine;
-using Ams.Service.Routine.IRoutineService;
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
+using Ams.Repository;
 
 namespace Ams.Service.Routine
 {
@@ -8,7 +8,7 @@ namespace Ams.Service.Routine
     /// 机构目标
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 10:30:14
+    /// @Date: 2024/9/5 10:12:49
     /// </summary>
     [AppService(ServiceType = typeof(IInstTargetService), ServiceLifetime = LifeTime.Transient)]
     public class InstTargetService : BaseService<InstTarget>, IInstTargetService
@@ -23,12 +23,13 @@ namespace Ams.Service.Routine
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("IkAnnual desc")
+                //.OrderBy("Md002 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<InstTarget, InstTargetDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -37,7 +38,7 @@ namespace Ams.Service.Routine
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. IkSfId.ToString() == enterString);
+            int count = Count(it => it.Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -45,20 +46,20 @@ namespace Ams.Service.Routine
             return UserConstants.UNIQUE;
         }
 
-
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="IkSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public InstTarget GetInfo(long IkSfId)
+        public InstTarget GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.IkSfId == IkSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加机构目标
         /// </summary>
@@ -69,6 +70,7 @@ namespace Ams.Service.Routine
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改机构目标
         /// </summary>
@@ -87,15 +89,19 @@ namespace Ams.Service.Routine
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.IkSfId.IsEmpty(), "SfId不能为空")
+                .SplitError(x => x.Item.Id.IsEmpty(), "ID不能为空")
+                .SplitError(x => x.Item.Md002.IsEmpty(), "期间不能为空")
+                .SplitError(x => x.Item.Md003.IsEmpty(), "公司不能为空")
+                .SplitError(x => x.Item.Md004.IsEmpty(), "翻译键值不能为空")
+                .SplitError(x => x.Item.Md005.IsEmpty(), "目标标识不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
 
-            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";                    
+            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";
             Console.WriteLine(msg);
 
-            //输出错误信息               
+            //输出错误信息
             foreach (var item in x.ErrorList)
             {
                 Console.WriteLine("错误" + item.StorageMessage);
@@ -121,8 +127,12 @@ namespace Ams.Service.Routine
                 .Where(predicate.ToExpression())
                 .Select((it) => new InstTargetDto()
                 {
-                    IkAnnualLabel = it.IkAnnual.GetConfigValue<SysDictData>("sql_fy_list"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <期间>
+                    Md002Label = it.Md002.GetConfigValue<SysDictData>("sql_attr_list"),
+                    //查询字典: <公司>
+                    Md003Label = it.Md003.GetConfigValue<SysDictData>("sql_corp_list"),
+                    //查询字典: <软删除>
+                    //IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_Is_deleted"),
                 }, true)
                 .ToPage(parm);
 
@@ -138,8 +148,10 @@ namespace Ams.Service.Routine
         {
             var predicate = Expressionable.Create<InstTarget>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IkAbbrName), it => it.IkAbbrName.Contains(parm.IkAbbrName));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IkAnnual), it => it.IkAnnual == parm.IkAnnual);
+            //查询字段: <期间>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md002), it => it.Md002 == parm.Md002);
+            //查询字段: <公司>
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md003), it => it.Md003 == parm.Md003);
             return predicate;
         }
     }

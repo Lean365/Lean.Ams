@@ -141,6 +141,7 @@
                 <el-option :label="$t('gencode.formselect')" value="select" />
                 <el-option :label="$t('gencode.formselectRemote')" value="selectRemote" />
                 <el-option :label="$t('gencode.formselectMulti')" value="selectMulti" />
+                <el-option :label="$t('gencode.formselectVirtual')" value="selectVirtual" />
                 <el-option :label="$t('gencode.formradio')" value="radio" />
                 <el-option :label="$t('gencode.formcheckbox')" value="checkbox" />
                 <el-option :label="$t('gencode.formdatetime')" value="datetime" />
@@ -163,6 +164,7 @@
                 :placeholder="$t('btn.selectPrefix')+$t('gencode.dictType')+$t('btn.selectSuffix')" v-if="
                   scope.row.htmlType == 'selectMulti' ||
                   scope.row.htmlType == 'selectRemote' ||
+                  scope.row.htmlType == 'selectVirtual' ||
                   scope.row.htmlType == 'select' ||
                   scope.row.htmlType == 'radio' ||
                   scope.row.htmlType == 'checkbox' ||

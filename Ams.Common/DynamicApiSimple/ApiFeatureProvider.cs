@@ -14,7 +14,7 @@ class ApiFeatureProvider : ControllerFeatureProvider
         if (!type.IsPublic || type.IsValueType || type.IsAbstract || type.IsGenericType || type.IsPrimitive || string.IsNullOrWhiteSpace(type.Namespace)) return false;
 
         // 原生层或者实现IDynamicApiController（类）,[DynamicApi](接口)
-        if ((!typeof(Controller).IsAssignableFrom(type) && typeof(ControllerBase).IsAssignableFrom(type)) || type.IsDefined(typeof(DynamicApiAttribute), true) || typeof(IDynamicApi).IsAssignableFrom(type))
+        if (!typeof(Controller).IsAssignableFrom(type) && typeof(ControllerBase).IsAssignableFrom(type) || type.IsDefined(typeof(DynamicApiAttribute), true) || typeof(IDynamicApi).IsAssignableFrom(type))
         {
             // 如果是忽略的则跳过自定义的接口在前面会报错，所以必须在后面
             if (type.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && type.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi)

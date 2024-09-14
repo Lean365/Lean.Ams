@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 从源设变
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:04:44
+    /// @Date: 2024/9/10 17:08:51
     /// </summary>
     [Verify]
     [Route("Logistics/PpSourceEcSlv")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询从源设变详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{SfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "pp:sourceecslv:query")]
-        public IActionResult GetPpSourceEcSlv(long SfId)
+        public IActionResult GetPpSourceEcSlv(long Id)
         {
-            var response = _PpSourceEcSlvService.GetInfo(SfId);
+            var response = _PpSourceEcSlvService.GetInfo(Id);
             
             var info = response.Adapt<PpSourceEcSlvDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "pp:sourceecslv:add")]
-        [Log(Title = "从源设变", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "从源设变", BusinessType = BusinessType.ADD)]
         public IActionResult AddPpSourceEcSlv([FromBody] PpSourceEcSlvDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceEcSlvService.CheckInputUnique(parm.SfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceEcSlvService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增从源设变 '{parm.SfId}'失败(Add failed)，输入的从源设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增从源设变 '{parm.Id}'失败(Add failed)，输入的从源设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpSourceEcSlv>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "pp:sourceecslv:edit")]
-        [Log(Title = "从源设变", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "从源设变", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdatePpSourceEcSlv([FromBody] PpSourceEcSlvDto parm)
         {
             var modal = parm.Adapt<PpSourceEcSlv>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出从源设变
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "从源设变", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "从源设变导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "pp:sourceecslv:export")]
         public IActionResult Export([FromQuery] PpSourceEcSlvQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入从源设变
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "从源设变导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "pp:sourceecslv:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<PpSourceEcSlvDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 从源设变导入模板下载
+        /// 从源设变
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "从源设变模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<PpSourceEcSlvImportTpl>() { }, "PpSourceEcSlv_tpl");
             return ExportExcel(result.Item2, result.Item1);

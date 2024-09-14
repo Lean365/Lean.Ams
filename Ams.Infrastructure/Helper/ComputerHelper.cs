@@ -1,13 +1,11 @@
-﻿using Ams.Infrastructure.Extensions;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
+using Ams.Infrastructure.Extensions;
+using Newtonsoft.Json;
 
-namespace Ams.Infrastructure
+namespace Ams.Infrastructure.Helper
 {
     public class ComputerHelper
     {
@@ -162,24 +160,30 @@ namespace Ams.Infrastructure
     {
         [JsonIgnore]
         public double Total { get; set; }
+
         [JsonIgnore]
         public double Used { get; set; }
+
         [JsonIgnore]
         public double Free { get; set; }
 
         public string UsedRam { get; set; }
+
         /// <summary>
         /// CPU使用率%
         /// </summary>
         public string CPURate { get; set; }
+
         /// <summary>
         /// 总内存 GB
         /// </summary>
         public string TotalRAM { get; set; }
+
         /// <summary>
         /// 内存使用率 %
         /// </summary>
         public string RAMRate { get; set; }
+
         /// <summary>
         /// 空闲内存
         /// </summary>
@@ -192,17 +196,21 @@ namespace Ams.Infrastructure
         /// 磁盘名
         /// </summary>
         public string DiskName { get; set; }
+
         public string TypeName { get; set; }
         public long TotalFree { get; set; }
         public long TotalSize { get; set; }
+
         /// <summary>
         /// 已使用
         /// </summary>
         public long Used { get; set; }
+
         /// <summary>
         /// 可使用
         /// </summary>
         public long AvailableFreeSpace { get; set; }
+
         public decimal AvailablePercent { get; set; }
     }
 
@@ -256,6 +264,7 @@ namespace Ams.Infrastructure
             }
             return metrics;
         }
-        #endregion
+
+        #endregion 获取内存信息
     }
 }

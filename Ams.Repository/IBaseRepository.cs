@@ -1,9 +1,9 @@
-﻿using SqlSugar;
+﻿using Ams.Model;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
-using Ams.Model;
 
 namespace Ams.Repository
 {

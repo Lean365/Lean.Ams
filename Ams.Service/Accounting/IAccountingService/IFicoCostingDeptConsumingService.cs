@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 部门消耗
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 12:03:53
+    /// @Date: 2024/9/10 16:51:22
     /// </summary>
     public interface IFicoCostingDeptConsumingService : IBaseService<FicoCostingDeptConsuming>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取部门消耗信息
         /// </summary>
-        /// <param name="DcSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        FicoCostingDeptConsuming GetInfo(long DcSfId);
+        FicoCostingDeptConsuming GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

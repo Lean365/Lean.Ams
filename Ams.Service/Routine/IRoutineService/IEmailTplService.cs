@@ -1,5 +1,6 @@
+using Ams.Service;
 using Ams.Model;
-using Ams.Model.Routine.Dto;
+using Ams.Model.Monitor.Dto;
 
 namespace Ams.Service.Routine.IRoutineService
 {
@@ -15,5 +16,6 @@ namespace Ams.Service.Routine.IRoutineService
         EmailTpl AddEmailTpl(EmailTpl parm);
 
         int UpdateEmailTpl(EmailTpl parm);
+
     }
 }

@@ -1,20 +1,19 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Reflection;
-using Ams.Infrastructure.Extensions;
-using Microsoft.AspNetCore.Http;
 
-namespace Ams.Infrastructure
+namespace Ams.Infrastructure.WebExtensions
 {
     public static class EntityExtension
     {
-        public static TSource ToCreate<TSource>(this TSource source, HttpContext? context = null)
+        public static TSource ToCreate<TSource>(this TSource source, HttpContext context = null)
         {
             var types = source?.GetType();
             if (types == null || context == null) return source;
             BindingFlags flag = BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.Instance;
 
             types.GetProperty("CreateTime", flag)?.SetValue(source, DateTime.Now, null);
-            types.GetProperty("Create_time", flag)?.SetValue(source, DateTime.Now, null);
+            types.GetProperty("AddTime", flag)?.SetValue(source, DateTime.Now, null);
             types.GetProperty("CreateBy", flag)?.SetValue(source, context.GetName(), null);
             types.GetProperty("Create_by", flag)?.SetValue(source, context.GetName(), null);
             //types.GetProperty("UserId", flag)?.SetValue(source, context.GetUId(), null);
@@ -23,7 +22,7 @@ namespace Ams.Infrastructure
             return source;
         }
 
-        public static TSource ToUpdate<TSource>(this TSource source, HttpContext? context = null)
+        public static TSource ToUpdate<TSource>(this TSource source, HttpContext context = null)
         {
             var types = source?.GetType();
             if (types == null || context == null) return source;
@@ -36,5 +35,6 @@ namespace Ams.Infrastructure
 
             return source;
         }
+
     }
 }

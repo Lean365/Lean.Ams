@@ -1,8 +1,9 @@
-using Ams.Model.Accounting;
-using Ams.Model.Accounting.Dto;
-using Ams.Service.Accounting.IAccountingService;
 using Microsoft.AspNetCore.Mvc;
+using Ams.Model.Accounting.Dto;
+using Ams.Model.Accounting;
+using Ams.Service.Accounting.IAccountingService;
 using MiniExcelLibs;
+
 
 namespace Ams.WebApi.Controllers.Accounting
 {
@@ -10,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 会计科目
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/6 12:02:48
+    /// @Date: 2024/9/5 16:53:13
     /// </summary>
     [Verify]
     [Route("Accounting/FicoAccountingTitle")]
@@ -40,17 +41,18 @@ namespace Ams.WebApi.Controllers.Accounting
             return SUCCESS(response);
         }
 
+
         /// <summary>
         /// 查询会计科目详情
         /// </summary>
-        /// <param name="FatSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{FatSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "fico:accountingtitle:query")]
-        public IActionResult GetFicoAccountingTitle(long FatSfId)
+        public IActionResult GetFicoAccountingTitle(long Id)
         {
-            var response = _FicoAccountingTitleService.GetInfo(FatSfId);
-
+            var response = _FicoAccountingTitleService.GetInfo(Id);
+            
             var info = response.Adapt<FicoAccountingTitleDto>();
             return SUCCESS(info);
         }
@@ -61,14 +63,14 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "fico:accountingtitle:add")]
-        [Log(Title = "会计科目", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "会计科目", BusinessType = BusinessType.ADD)]
         public IActionResult AddFicoAccountingTitle([FromBody] FicoAccountingTitleDto parm)
         {
-            // 校验输入项目唯一性
+           // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingTitleService.CheckInputUnique(parm.Bukrs.ToString(), parm.Saknr.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingTitleService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增会计科目 '{"公司代码：" + parm.Bukrs + ",科目代码：" + parm.Saknr}'失败(Add failed)，输入的会计科目已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增会计科目 '{parm.Id}'失败(Add failed)，输入的会计科目已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoAccountingTitle>().ToCreate(HttpContext);
 
@@ -83,7 +85,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "fico:accountingtitle:edit")]
-        [Log(Title = "会计科目", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "会计科目", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateFicoAccountingTitle([FromBody] FicoAccountingTitleDto parm)
         {
             var modal = parm.Adapt<FicoAccountingTitle>().ToUpdate(HttpContext);
@@ -99,7 +101,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "fico:accountingtitle:delete")]
         [Log(Title = "会计科目", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteFicoAccountingTitle([FromRoute] string ids)
+        public IActionResult DeleteFicoAccountingTitle([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -110,7 +112,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// 导出会计科目
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "会计科目", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "会计科目导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "fico:accountingtitle:export")]
         public IActionResult Export([FromQuery] FicoAccountingTitleQueryDto parm)
@@ -127,14 +129,14 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 导入
+        /// 导入会计科目
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "会计科目导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "fico:accountingtitle:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<FicoAccountingTitleDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -146,16 +148,18 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 会计科目导入模板下载
+        /// 会计科目
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "会计科目模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<FicoAccountingTitleImportTpl>() { }, "FicoAccountingTitle_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
+
     }
 }

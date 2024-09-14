@@ -1,6 +1,8 @@
-﻿using Ams.Service.Routine.IRoutineService;
+﻿using Ams.Service;
+using Ams.Service.Admin.IAdminService;
+using Ams.Service.Routine.IRoutineService;
 
-namespace Ams.Service.Content
+namespace Ams.Service.Routine
 {
     [AppService(ServiceType = typeof(IArticlePraiseService), ServiceLifetime = LifeTime.Transient)]
     public class ArticlePraiseService : BaseService<ArticlePraise>, IArticlePraiseService
@@ -52,7 +54,7 @@ namespace Ams.Service.Content
                 }
                 else
                 {
-                    if (praiseInfo.IsDeleted == 0)
+                    if (praiseInfo.Is_deleted == 0)
                     {
                         result = CanclePraise(dto.UserId, dto.ArticleId);
                         //文章点赞-1

@@ -1,7 +1,10 @@
 namespace Ams.Model.Routine
 {
     /// <summary>
-    /// 话题
+    /// 文章话题
+    /// 数据实体对象
+    /// @author lean365(Davis.Ching)
+    /// @date 2024-01-01
     /// </summary>
     [SugarTable("routine_article_topic", TableDescription = "文章话题")]
     [Tenant(0)]
@@ -16,11 +19,13 @@ namespace Ams.Model.Routine
         /// <summary>
         /// 话题名
         /// </summary>
+        [SugarColumn(Length = 40)]
         public string TopicName { get; set; }
 
         /// <summary>
         /// 话题描述
         /// </summary>
+        [SugarColumn(Length = 200)]
         public string TopicDescription { get; set; }
 
         /// <summary>

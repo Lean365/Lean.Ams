@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 源订单
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:20:14
+    /// @Date: 2024/9/10 17:05:57
     /// </summary>
     [Verify]
     [Route("Logistics/PpSourceOrder")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询源订单详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{SfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "pp:sourceorder:query")]
-        public IActionResult GetPpSourceOrder(long SfId)
+        public IActionResult GetPpSourceOrder(long Id)
         {
-            var response = _PpSourceOrderService.GetInfo(SfId);
+            var response = _PpSourceOrderService.GetInfo(Id);
             
             var info = response.Adapt<PpSourceOrderDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "pp:sourceorder:add")]
-        [Log(Title = "源订单", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "源订单", BusinessType = BusinessType.ADD)]
         public IActionResult AddPpSourceOrder([FromBody] PpSourceOrderDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceOrderService.CheckInputUnique(parm.SfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceOrderService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增源订单 '{parm.SfId}'失败(Add failed)，输入的源订单已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增源订单 '{parm.Id}'失败(Add failed)，输入的源订单已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpSourceOrder>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "pp:sourceorder:edit")]
-        [Log(Title = "源订单", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "源订单", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdatePpSourceOrder([FromBody] PpSourceOrderDto parm)
         {
             var modal = parm.Adapt<PpSourceOrder>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出源订单
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "源订单", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "源订单导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "pp:sourceorder:export")]
         public IActionResult Export([FromQuery] PpSourceOrderQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入源订单
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "源订单导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "pp:sourceorder:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<PpSourceOrderDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 源订单导入模板下载
+        /// 源订单
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "源订单模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<PpSourceOrderImportTpl>() { }, "PpSourceOrder_tpl");
             return ExportExcel(result.Item2, result.Item1);

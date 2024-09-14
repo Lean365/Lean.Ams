@@ -1,13 +1,12 @@
-using Ams.Model.Routine.Dto;
-using Ams.Service.Routine.IRoutineService;
+using Ams.Repository;
 
-namespace Ams.Service.Kernel
+namespace Ams.Service.Routine
 {
     /// <summary>
-    /// 通知公告表Service业务层处理
-    ///
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
+    /// 通知公告
+    /// 业务层处理
+    /// @Author: Lean365(Davis.Ching)
+    /// @Date: 2024/8/29 13:30:50
     /// </summary>
     [AppService(ServiceType = typeof(INoticeStorageService), ServiceLifetime = LifeTime.Transient)]
     public class NoticeStorageService : BaseService<NoticeStorage>, INoticeStorageService
@@ -16,7 +15,7 @@ namespace Ams.Service.Kernel
         /// 查询系统通知
         /// </summary>
         /// <returns></returns>
-        public List<NoticeStorage> GetSysNotices()
+        public List<NoticeStorage> GetNoticeStorages()
         {
             var predicate = Expressionable.Create<NoticeStorage>();
             var now = DateTime.Now;
@@ -37,7 +36,7 @@ namespace Ams.Service.Kernel
         }
 
         /// <summary>
-        /// 导出通知公告表
+        /// 导出通知公告
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -50,7 +49,7 @@ namespace Ams.Service.Kernel
                 .Select((it) => new NoticeStorageDto()
                 {
                     NoticeTypeLabel = it.NoticeType.GetConfigValue<SysDictData>("sys_notice_type"),
-                    IsStatusLabel = int.Parse(it.IsStatus.GetConfigValue<SysDictData>("sys_notice_status")),
+                    StatusLabel = it.IsStatus.GetConfigValue<SysDictData>("sys_notice_status"),
                 }, true)
                 .ToPage(parm);
 

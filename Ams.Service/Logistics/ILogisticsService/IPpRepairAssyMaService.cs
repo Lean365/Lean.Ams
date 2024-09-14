@@ -4,26 +4,26 @@ using Ams.Model.Logistics;
 namespace Ams.Service.Logistics.ILogisticsService
 {
     /// <summary>
-    /// 组立不良ma
+    /// 不良
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 12:00:50
+    /// @Date: 2024/9/12 16:33:52
     /// </summary>
     public interface IPpRepairAssyMaService : IBaseService<PpRepairAssyMa>
     {
         /// <summary>
-        /// 获取组立不良ma列表
+        /// 获取不良列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         PagedInfo<PpRepairAssyMaDto> GetList(PpRepairAssyMaQueryDto parm);
 
         /// <summary>
-        /// 获取组立不良ma信息
+        /// 获取不良信息
         /// </summary>
-        /// <param name="PpdSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        PpRepairAssyMa GetInfo(long PpdSfId);
+        PpRepairAssyMa GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -33,7 +33,7 @@ namespace Ams.Service.Logistics.ILogisticsService
         public string CheckInputUnique(string enterString);
         /// <summary>
         /// 新增
-        /// 组立不良ma
+        /// 不良
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 更新
-        /// 组立不良ma
+        /// 不良
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 批量导入
-        /// 组立不良ma
+        /// 不良
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 导出
-        /// 组立不良ma
+        /// 不良
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>

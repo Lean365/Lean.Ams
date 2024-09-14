@@ -1,12 +1,12 @@
 namespace Ams.Model.Accounting
 {
     /// <summary>
-    /// 财务期间
+    /// 财政年度
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/6 13:51:07
+    /// @Date: 2024/9/5 15:42:58
     /// </summary>
-    [SugarTable("fico_financial_period", "财务期间")]
+    [SugarTable("fico_financial_period", "财政年度")]
     public class FicoFinancialPeriod : SysBase
     {
         /// <summary>
@@ -14,36 +14,36 @@ namespace Ams.Model.Accounting
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long FpSfId { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
-        /// 财年
+        /// 期间
         /// </summary>
-        [SugarColumn(ColumnName = "FpFinancialYear", ColumnDescription = "财年  ", Length = 6)]
-        public string FpFinancialYear { get; set; }
+        [SugarColumn(ColumnName = "Mn002", ColumnDescription = "期间", Length = 6, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mn002 { get; set; }
 
         /// <summary>
         /// 年月
         /// </summary>
-        [SugarColumn(ColumnName = "FpYearMonth", ColumnDescription = "年月  ", Length = 6)]
-        public string FpYearMonth { get; set; }
+        [SugarColumn(ColumnName = "Mn003", ColumnDescription = "年月", Length = 6, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mn003 { get; set; }
 
         /// <summary>
         /// 年
         /// </summary>
-        [SugarColumn(ColumnName = "FpYear", ColumnDescription = "年  ", Length = 4)]
-        public string FpYear { get; set; }
+        [SugarColumn(ColumnName = "Mn004", ColumnDescription = "年", Length = 4, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mn004 { get; set; }
 
         /// <summary>
         /// 月
         /// </summary>
-        [SugarColumn(ColumnName = "FpMonth", ColumnDescription = "月  ", Length = 2)]
-        public string FpMonth { get; set; }
+        [SugarColumn(ColumnName = "Mn005", ColumnDescription = "月", Length = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mn005 { get; set; }
 
         /// <summary>
         /// 季度
         /// </summary>
-        [SugarColumn(ColumnName = "FpQuarter", ColumnDescription = "季度  ", Length = 2)]
-        public string FpQuarter { get; set; }
+        [SugarColumn(ColumnName = "Mn006", ColumnDescription = "季度", Length = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mn006 { get; set; }
     }
 }

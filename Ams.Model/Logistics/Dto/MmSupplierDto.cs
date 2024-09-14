@@ -1,698 +1,779 @@
+
 namespace Ams.Model.Logistics.Dto
 {
     /// <summary>
-    /// 供应商信息
+    /// 供应商
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:22:58
+    /// @Date: 2024/9/11 11:38:53
     /// </summary>
-    public class MmSupplierQueryDto : PagerInfo
+    public class MmSupplierQueryDto : PagerInfo 
     {
-        public string SuOrg { get; set; }
-        public string SuIndustryType { get; set; }
-        public string SuEnterpriseNature { get; set; }
-        public string SuCode { get; set; }
-        public string SuAbbr { get; set; }
-        public string SuName { get; set; }
-        public string SuTaxType { get; set; }
-        public string SuCcy { get; set; }
-        public string SuPayTerms { get; set; }
-        public string SuPayMethod { get; set; }
-        public string SuRecAccount { get; set; }
-        public string SuTradeTerms { get; set; }
-        public string SuShippingTerms { get; set; }
-        public string SuSupplierGrade { get; set; }
-        public string SuSupplierCredit { get; set; }
-        public DateTime? BeginSuFirstTransDate { get; set; }
-        public DateTime? EndSuFirstTransDate { get; set; }
-        public string SuRegionCode { get; set; }
-        public int? IsFroze { get; set; }
+        /// <summary>
+        /// 购买组织 
+        /// </summary>        
+        public string Mf003 { get; set; }
+        /// <summary>
+        /// 行业类别 
+        /// </summary>        
+        public string Mf004 { get; set; }
+        /// <summary>
+        /// 企业性质 
+        /// </summary>        
+        public string Mf005 { get; set; }
+        /// <summary>
+        /// 供应商代码 
+        /// </summary>        
+        public string Mf006 { get; set; }
+        /// <summary>
+        /// 供应商简称 
+        /// </summary>        
+        public string Mf008 { get; set; }
+        /// <summary>
+        /// 供应商名称 
+        /// </summary>        
+        public string Mf009 { get; set; }
+        /// <summary>
+        /// 税别 
+        /// </summary>        
+        public string Mf013 { get; set; }
+        /// <summary>
+        /// 采购组 
+        /// </summary>        
+        public string Mf015 { get; set; }
+        /// <summary>
+        /// 交易币种 
+        /// </summary>        
+        public string Mf016 { get; set; }
+        /// <summary>
+        /// 付款条件 
+        /// </summary>        
+        public string Mf017 { get; set; }
+        /// <summary>
+        /// 付款方式 
+        /// </summary>        
+        public string Mf018 { get; set; }
+        /// <summary>
+        /// 统驭科目 
+        /// </summary>        
+        public string Mf019 { get; set; }
+        /// <summary>
+        /// 贸易条件 
+        /// </summary>        
+        public string Mf020 { get; set; }
+        /// <summary>
+        /// 供应商等级 
+        /// </summary>        
+        public string Mf023 { get; set; }
+        /// <summary>
+        /// 国家地区 
+        /// </summary>        
+        public string Mf028 { get; set; }
+        /// <summary>
+        /// 交易冻结 
+        /// </summary>        
+        public int? Mf045 { get; set; }
     }
 
     /// <summary>
-    /// 供应商信息
+    /// 供应商
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:22:58
+    /// @Date: 2024/9/11 11:38:53
     /// </summary>
     public class MmSupplierDto
     {
-        [Required(ErrorMessage = "SfId不能为空")]
-        [ExcelColumn(Name = "SfId")]
-        [ExcelColumnName("SfId")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long SuSfId { get; set; }
+
+        public long Id { get; set; }
+
+        [Required(ErrorMessage = "集团不能为空")]
+        //[ExcelColumn(Name = "集团")]
+        [ExcelColumnName("集团")]
+
+        public string Mf002 { get; set; }
 
         [Required(ErrorMessage = "购买组织不能为空")]
-        [ExcelColumn(Name = "购买组织")]
+        //[ExcelColumn(Name = "购买组织")]
         [ExcelColumnName("购买组织")]
-        public string SuOrg { get; set; }
+
+        public string Mf003 { get; set; }
 
         [Required(ErrorMessage = "行业类别不能为空")]
-        [ExcelColumn(Name = "行业类别")]
+        //[ExcelColumn(Name = "行业类别")]
         [ExcelColumnName("行业类别")]
-        public string SuIndustryType { get; set; }
+
+        public string Mf004 { get; set; }
 
         [Required(ErrorMessage = "企业性质不能为空")]
-        [ExcelColumn(Name = "企业性质")]
+        //[ExcelColumn(Name = "企业性质")]
         [ExcelColumnName("企业性质")]
-        public string SuEnterpriseNature { get; set; }
+
+        public string Mf005 { get; set; }
 
         [Required(ErrorMessage = "供应商代码不能为空")]
-        [ExcelColumn(Name = "供应商代码")]
+        //[ExcelColumn(Name = "供应商代码")]
         [ExcelColumnName("供应商代码")]
-        public string SuCode { get; set; }
 
-        [Required(ErrorMessage = "供应商简称不能为空")]
-        [ExcelColumn(Name = "供应商简称")]
+        public string Mf006 { get; set; }
+
+        //[ExcelColumn(Name = "ABC标识")]
+        [ExcelColumnName("ABC标识")]
+
+        public string Mf007 { get; set; }
+
+        //[ExcelColumn(Name = "供应商简称")]
         [ExcelColumnName("供应商简称")]
-        public string SuAbbr { get; set; }
 
-        [Required(ErrorMessage = "供应商名称不能为空")]
-        [ExcelColumn(Name = "供应商名称")]
+        public string Mf008 { get; set; }
+
+        //[ExcelColumn(Name = "供应商名称")]
         [ExcelColumnName("供应商名称")]
-        public string SuName { get; set; }
 
-        [Required(ErrorMessage = "企业法人不能为空")]
-        [ExcelColumn(Name = "企业法人")]
+        public string Mf009 { get; set; }
+
+        //[ExcelColumn(Name = "企业法人")]
         [ExcelColumnName("企业法人")]
-        public string SuEbe { get; set; }
 
-        [Required(ErrorMessage = "营业执照不能为空")]
-        [ExcelColumn(Name = "营业执照")]
+        public string Mf010 { get; set; }
+
+        //[ExcelColumn(Name = "营业执照")]
         [ExcelColumnName("营业执照")]
-        public string SuBusinessNo { get; set; }
 
-        [Required(ErrorMessage = "税号不能为空")]
-        [ExcelColumn(Name = "税号")]
+        public string Mf011 { get; set; }
+
+        //[ExcelColumn(Name = "税号")]
         [ExcelColumnName("税号")]
-        public string SuTaxNo { get; set; }
 
-        [Required(ErrorMessage = "税别不能为空")]
-        [ExcelColumn(Name = "税别")]
+        public string Mf012 { get; set; }
+
+        //[ExcelColumn(Name = "税别")]
         [ExcelColumnName("税别")]
-        public string SuTaxType { get; set; }
 
-        [Required(ErrorMessage = "主营业务不能为空")]
-        [ExcelColumn(Name = "主营业务")]
+        public string Mf013 { get; set; }
+
+        //[ExcelColumn(Name = "主营业务")]
         [ExcelColumnName("主营业务")]
-        public string SuMainBusiness { get; set; }
 
-        [Required(ErrorMessage = "交易币种不能为空")]
-        [ExcelColumn(Name = "交易币种")]
+        public string Mf014 { get; set; }
+
+        //[ExcelColumn(Name = "采购组")]
+        [ExcelColumnName("采购组")]
+
+        public string Mf015 { get; set; }
+
+        //[ExcelColumn(Name = "交易币种")]
         [ExcelColumnName("交易币种")]
-        public string SuCcy { get; set; }
 
-        [Required(ErrorMessage = "付款条件不能为空")]
-        [ExcelColumn(Name = "付款条件")]
+        public string Mf016 { get; set; }
+
+        //[ExcelColumn(Name = "付款条件")]
         [ExcelColumnName("付款条件")]
-        public string SuPayTerms { get; set; }
 
-        [Required(ErrorMessage = "付款方式不能为空")]
-        [ExcelColumn(Name = "付款方式")]
+        public string Mf017 { get; set; }
+
+        //[ExcelColumn(Name = "付款方式")]
         [ExcelColumnName("付款方式")]
-        public string SuPayMethod { get; set; }
 
-        [Required(ErrorMessage = "统驭科目不能为空")]
-        [ExcelColumn(Name = "统驭科目")]
+        public string Mf018 { get; set; }
+
+        //[ExcelColumn(Name = "统驭科目")]
         [ExcelColumnName("统驭科目")]
-        public string SuRecAccount { get; set; }
 
-        [Required(ErrorMessage = "贸易条件不能为空")]
-        [ExcelColumn(Name = "贸易条件")]
+        public string Mf019 { get; set; }
+
+        //[ExcelColumn(Name = "贸易条件")]
         [ExcelColumnName("贸易条件")]
-        public string SuTradeTerms { get; set; }
 
-        [Required(ErrorMessage = "装运条件不能为空")]
-        [ExcelColumn(Name = "装运条件")]
+        public string Mf020 { get; set; }
+
+        //[ExcelColumn(Name = "装运条件")]
         [ExcelColumnName("装运条件")]
-        public string SuShippingTerms { get; set; }
 
-        [ExcelColumn(Name = "供应商等级")]
+        public string Mf021 { get; set; }
+
+        //[ExcelColumn(Name = "运输方式")]
+        [ExcelColumnName("运输方式")]
+
+        public string Mf022 { get; set; }
+
+        //[ExcelColumn(Name = "供应商等级")]
         [ExcelColumnName("供应商等级")]
-        public string SuSupplierGrade { get; set; }
 
-        [ExcelColumn(Name = "供应商信用")]
+        public string Mf023 { get; set; }
+
+        //[ExcelColumn(Name = "供应商信用")]
         [ExcelColumnName("供应商信用")]
-        public string SuSupplierCredit { get; set; }
 
-        [ExcelColumn(Name = "首次交易", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public string Mf024 { get; set; }
+
+        //[ExcelColumn(Name = "客户")]
+        [ExcelColumnName("客户")]
+
+        public string Mf025 { get; set; }
+
+        //[ExcelColumn(Name = "首次交易", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("首次交易")]
-        public DateTime? SuFirstTransDate { get; set; }
 
-        [ExcelColumn(Name = "末次交易", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public DateTime? Mf026 { get; set; }
+
+        //[ExcelColumn(Name = "末次交易", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("末次交易")]
-        public DateTime? SuLastTransDate { get; set; }
 
-        [Required(ErrorMessage = "银行代码不能为空")]
-        [ExcelColumn(Name = "银行代码")]
-        [ExcelColumnName("银行代码")]
-        public string SuBankCode { get; set; }
+        public DateTime? Mf027 { get; set; }
 
-        [Required(ErrorMessage = "银行名称不能为空")]
-        [ExcelColumn(Name = "银行名称")]
-        [ExcelColumnName("银行名称")]
-        public string SuBankName { get; set; }
-
-        [ExcelColumn(Name = "分行名称")]
-        [ExcelColumnName("分行名称")]
-        public string SuBranchName { get; set; }
-
-        [Required(ErrorMessage = "银行所在国不能为空")]
-        [ExcelColumn(Name = "银行所在国")]
-        [ExcelColumnName("银行所在国")]
-        public string SuBankCountry { get; set; }
-
-        [Required(ErrorMessage = "所在州省不能为空")]
-        [ExcelColumn(Name = "所在州省")]
-        [ExcelColumnName("所在州省")]
-        public string SuBankState { get; set; }
-
-        [Required(ErrorMessage = "所在市不能为空")]
-        [ExcelColumn(Name = "所在市")]
-        [ExcelColumnName("所在市")]
-        public string SuBankCity { get; set; }
-
-        [Required(ErrorMessage = "所在县不能为空")]
-        [ExcelColumn(Name = "所在县")]
-        [ExcelColumnName("所在县")]
-        public string SuBankCounty { get; set; }
-
-        [Required(ErrorMessage = "银行地址不能为空")]
-        [ExcelColumn(Name = "银行地址")]
-        [ExcelColumnName("银行地址")]
-        public string SuBankAddr { get; set; }
-
-        [ExcelColumn(Name = "银行地址1")]
-        [ExcelColumnName("银行地址1")]
-        public string SuBankAddr1 { get; set; }
-
-        [ExcelColumn(Name = "银行地址2")]
-        [ExcelColumnName("银行地址2")]
-        public string SuBankAddr2 { get; set; }
-
-        [Required(ErrorMessage = "银行账号不能为空")]
-        [ExcelColumn(Name = "银行账号")]
-        [ExcelColumnName("银行账号")]
-        public string SuBankAccount { get; set; }
-
-        [ExcelColumn(Name = "SWIFT代码")]
-        [ExcelColumnName("SWIFT代码")]
-        public string SuBankSwiftNo { get; set; }
-
-        [ExcelColumn(Name = "国家地区")]
+        //[ExcelColumn(Name = "国家地区")]
         [ExcelColumnName("国家地区")]
-        public string SuRegionCode { get; set; }
 
-        [ExcelColumn(Name = "州省")]
+        public string Mf028 { get; set; }
+
+        //[ExcelColumn(Name = "州省")]
         [ExcelColumnName("州省")]
-        public string SuState { get; set; }
 
-        [ExcelColumn(Name = "市")]
+        public string Mf029 { get; set; }
+
+        //[ExcelColumn(Name = "市")]
         [ExcelColumnName("市")]
-        public string SuCity { get; set; }
 
-        [ExcelColumn(Name = "县")]
+        public string Mf030 { get; set; }
+
+        //[ExcelColumn(Name = "县")]
         [ExcelColumnName("县")]
-        public string SuCounty { get; set; }
 
-        [Required(ErrorMessage = "地址不能为空")]
-        [ExcelColumn(Name = "地址")]
+        public string Mf031 { get; set; }
+
+        //[ExcelColumn(Name = "地址")]
         [ExcelColumnName("地址")]
-        public string SuAddr { get; set; }
 
-        [ExcelColumn(Name = "地址1")]
+        public string Mf032 { get; set; }
+
+        //[ExcelColumn(Name = "地址1")]
         [ExcelColumnName("地址1")]
-        public string SuAddr1 { get; set; }
 
-        [ExcelColumn(Name = "地址2")]
+        public string Mf033 { get; set; }
+
+        //[ExcelColumn(Name = "地址2")]
         [ExcelColumnName("地址2")]
-        public string SuAddr2 { get; set; }
 
-        [ExcelColumn(Name = "联系人")]
+        public string Mf034 { get; set; }
+
+        //[ExcelColumn(Name = "邮政编码")]
+        [ExcelColumnName("邮政编码")]
+
+        public string Mf035 { get; set; }
+
+        //[ExcelColumn(Name = "地址号码")]
+        [ExcelColumnName("地址号码")]
+
+        public string Mf036 { get; set; }
+
+        //[ExcelColumn(Name = "联系人")]
         [ExcelColumnName("联系人")]
-        public string SuContacts { get; set; }
 
-        [ExcelColumn(Name = "邮件")]
+        public string Mf037 { get; set; }
+
+        //[ExcelColumn(Name = "邮件")]
         [ExcelColumnName("邮件")]
-        public string SuEmail { get; set; }
 
-        [ExcelColumn(Name = "电话")]
+        public string Mf038 { get; set; }
+
+        //[ExcelColumn(Name = "电话")]
         [ExcelColumnName("电话")]
-        public string SuTelNo { get; set; }
 
-        [ExcelColumn(Name = "传真")]
+        public string Mf039 { get; set; }
+
+        //[ExcelColumn(Name = "传真")]
         [ExcelColumnName("传真")]
-        public string SuFaxNp { get; set; }
 
-        [ExcelColumn(Name = "手机")]
+        public string Mf040 { get; set; }
+
+        //[ExcelColumn(Name = "手机")]
         [ExcelColumnName("手机")]
-        public string SuPhoneNo { get; set; }
 
-        [Required(ErrorMessage = "冻结标志不能为空")]
-        [ExcelColumn(Name = "冻结标志")]
-        [ExcelColumnName("冻结标志")]
-        public int IsFroze { get; set; }
+        public string Mf041 { get; set; }
 
-        [ExcelColumn(Name = "营业执照附件")]
+        //[ExcelColumn(Name = "帐户组")]
+        [ExcelColumnName("帐户组")]
+
+        public string Mf042 { get; set; }
+
+        //[ExcelColumn(Name = "营业执照附件")]
         [ExcelColumnName("营业执照附件")]
-        public string SuLicenseAnnex { get; set; }
 
-        [ExcelColumn(Name = "其它附件")]
+        public string Mf043 { get; set; }
+
+        //[ExcelColumn(Name = "其它附件")]
         [ExcelColumnName("其它附件")]
-        public string SuOtherAnnex { get; set; }
+
+        public string Mf044 { get; set; }
+
+        [Required(ErrorMessage = "交易冻结不能为空")]
+        //[ExcelColumn(Name = "交易冻结")]
+        [ExcelColumnName("交易冻结")]
+
+        public int Mf045 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
+        public decimal Ref06 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF51 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
+        public string Udf01 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF52 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
+        public string Udf02 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF53 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
+        public string Udf03 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
+        public string Udf04 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
+        public string Udf05 { get; set; }
+
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
 
-        [Required(ErrorMessage = "软删除不能为空")]
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        public string Udf06 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf51 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
+
+        public int? IsDeleted { get; set; }
+
+        [ExcelIgnore]
+
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+
+        public DateTime? UpdateTime { get; set; }
+
+
 
         [ExcelColumn(Name = "购买组织")]
-        public string SuOrgLabel { get; set; }
-
+        public string Mf003Label { get; set; }
         [ExcelColumn(Name = "行业类别")]
-        public string SuIndustryTypeLabel { get; set; }
-
+        public string Mf004Label { get; set; }
         [ExcelColumn(Name = "企业性质")]
-        public string SuEnterpriseNatureLabel { get; set; }
-
+        public string Mf005Label { get; set; }
         [ExcelColumn(Name = "税别")]
-        public string SuTaxTypeLabel { get; set; }
-
+        public string Mf013Label { get; set; }
+        [ExcelColumn(Name = "采购组")]
+        public string Mf015Label { get; set; }
         [ExcelColumn(Name = "交易币种")]
-        public string SuCcyLabel { get; set; }
-
+        public string Mf016Label { get; set; }
         [ExcelColumn(Name = "付款条件")]
-        public string SuPayTermsLabel { get; set; }
-
+        public string Mf017Label { get; set; }
         [ExcelColumn(Name = "付款方式")]
-        public string SuPayMethodLabel { get; set; }
-
+        public string Mf018Label { get; set; }
         [ExcelColumn(Name = "统驭科目")]
-        public string SuRecAccountLabel { get; set; }
-
+        public string Mf019Label { get; set; }
         [ExcelColumn(Name = "贸易条件")]
-        public string SuTradeTermsLabel { get; set; }
-
+        public string Mf020Label { get; set; }
         [ExcelColumn(Name = "装运条件")]
-        public string SuShippingTermsLabel { get; set; }
-
+        public string Mf021Label { get; set; }
+        [ExcelColumn(Name = "运输方式")]
+        public string Mf022Label { get; set; }
         [ExcelColumn(Name = "供应商等级")]
-        public string SuSupplierGradeLabel { get; set; }
-
+        public string Mf023Label { get; set; }
         [ExcelColumn(Name = "供应商信用")]
-        public string SuSupplierCreditLabel { get; set; }
-
-        [ExcelColumn(Name = "银行所在国")]
-        public string SuBankCountryLabel { get; set; }
-
-        [ExcelColumn(Name = "冻结标志")]
-        public string IsFrozeLabel { get; set; }
-
-        [ExcelColumn(Name = "软删除")]
-        public string IsDeletedLabel { get; set; }
+        public string Mf024Label { get; set; }
+        [ExcelColumn(Name = "国家地区")]
+        public string Mf028Label { get; set; }
+        [ExcelColumn(Name = "州省")]
+        public string Mf029Label { get; set; }
+        [ExcelColumn(Name = "市")]
+        public string Mf030Label { get; set; }
+        [ExcelColumn(Name = "交易冻结")]
+        public string Mf045Label { get; set; }
     }
 
     /// <summary>
-    /// 供应商信息
+    /// 供应商
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 11:22:58
+    /// @Date: 2024/9/11 11:38:53
     /// </summary>
     public class MmSupplierImportTpl
     {
-        [Required(ErrorMessage = "SfId不能为空")]
-        [ExcelColumn(Name = "SfId")]
-        [ExcelColumnName("SfId")]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long SuSfId { get; set; }
+        public long Id { get; set; }
+
+        [Required(ErrorMessage = "集团不能为空")]
+        //[ExcelColumn(Name = "集团")]
+        [ExcelColumnName("集团")]
+        public string Mf002 { get; set; }
 
         [Required(ErrorMessage = "购买组织不能为空")]
-        [ExcelColumn(Name = "购买组织")]
+        //[ExcelColumn(Name = "购买组织")]
         [ExcelColumnName("购买组织")]
-        public string SuOrg { get; set; }
+        public string Mf003 { get; set; }
 
         [Required(ErrorMessage = "行业类别不能为空")]
-        [ExcelColumn(Name = "行业类别")]
+        //[ExcelColumn(Name = "行业类别")]
         [ExcelColumnName("行业类别")]
-        public string SuIndustryType { get; set; }
+        public string Mf004 { get; set; }
 
         [Required(ErrorMessage = "企业性质不能为空")]
-        [ExcelColumn(Name = "企业性质")]
+        //[ExcelColumn(Name = "企业性质")]
         [ExcelColumnName("企业性质")]
-        public string SuEnterpriseNature { get; set; }
+        public string Mf005 { get; set; }
 
         [Required(ErrorMessage = "供应商代码不能为空")]
-        [ExcelColumn(Name = "供应商代码")]
+        //[ExcelColumn(Name = "供应商代码")]
         [ExcelColumnName("供应商代码")]
-        public string SuCode { get; set; }
+        public string Mf006 { get; set; }
 
-        [Required(ErrorMessage = "供应商简称不能为空")]
-        [ExcelColumn(Name = "供应商简称")]
+        //[ExcelColumn(Name = "ABC标识")]
+        [ExcelColumnName("ABC标识")]
+        public string Mf007 { get; set; }
+
+        //[ExcelColumn(Name = "供应商简称")]
         [ExcelColumnName("供应商简称")]
-        public string SuAbbr { get; set; }
+        public string Mf008 { get; set; }
 
-        [Required(ErrorMessage = "供应商名称不能为空")]
-        [ExcelColumn(Name = "供应商名称")]
+        //[ExcelColumn(Name = "供应商名称")]
         [ExcelColumnName("供应商名称")]
-        public string SuName { get; set; }
+        public string Mf009 { get; set; }
 
-        [Required(ErrorMessage = "企业法人不能为空")]
-        [ExcelColumn(Name = "企业法人")]
+        //[ExcelColumn(Name = "企业法人")]
         [ExcelColumnName("企业法人")]
-        public string SuEbe { get; set; }
+        public string Mf010 { get; set; }
 
-        [Required(ErrorMessage = "营业执照不能为空")]
-        [ExcelColumn(Name = "营业执照")]
+        //[ExcelColumn(Name = "营业执照")]
         [ExcelColumnName("营业执照")]
-        public string SuBusinessNo { get; set; }
+        public string Mf011 { get; set; }
 
-        [Required(ErrorMessage = "税号不能为空")]
-        [ExcelColumn(Name = "税号")]
+        //[ExcelColumn(Name = "税号")]
         [ExcelColumnName("税号")]
-        public string SuTaxNo { get; set; }
+        public string Mf012 { get; set; }
 
-        [Required(ErrorMessage = "税别不能为空")]
-        [ExcelColumn(Name = "税别")]
+        //[ExcelColumn(Name = "税别")]
         [ExcelColumnName("税别")]
-        public string SuTaxType { get; set; }
+        public string Mf013 { get; set; }
 
-        [Required(ErrorMessage = "主营业务不能为空")]
-        [ExcelColumn(Name = "主营业务")]
+        //[ExcelColumn(Name = "主营业务")]
         [ExcelColumnName("主营业务")]
-        public string SuMainBusiness { get; set; }
+        public string Mf014 { get; set; }
 
-        [Required(ErrorMessage = "交易币种不能为空")]
-        [ExcelColumn(Name = "交易币种")]
+        //[ExcelColumn(Name = "采购组")]
+        [ExcelColumnName("采购组")]
+        public string Mf015 { get; set; }
+
+        //[ExcelColumn(Name = "交易币种")]
         [ExcelColumnName("交易币种")]
-        public string SuCcy { get; set; }
+        public string Mf016 { get; set; }
 
-        [Required(ErrorMessage = "付款条件不能为空")]
-        [ExcelColumn(Name = "付款条件")]
+        //[ExcelColumn(Name = "付款条件")]
         [ExcelColumnName("付款条件")]
-        public string SuPayTerms { get; set; }
+        public string Mf017 { get; set; }
 
-        [Required(ErrorMessage = "付款方式不能为空")]
-        [ExcelColumn(Name = "付款方式")]
+        //[ExcelColumn(Name = "付款方式")]
         [ExcelColumnName("付款方式")]
-        public string SuPayMethod { get; set; }
+        public string Mf018 { get; set; }
 
-        [Required(ErrorMessage = "统驭科目不能为空")]
-        [ExcelColumn(Name = "统驭科目")]
+        //[ExcelColumn(Name = "统驭科目")]
         [ExcelColumnName("统驭科目")]
-        public string SuRecAccount { get; set; }
+        public string Mf019 { get; set; }
 
-        [Required(ErrorMessage = "贸易条件不能为空")]
-        [ExcelColumn(Name = "贸易条件")]
+        //[ExcelColumn(Name = "贸易条件")]
         [ExcelColumnName("贸易条件")]
-        public string SuTradeTerms { get; set; }
+        public string Mf020 { get; set; }
 
-        [Required(ErrorMessage = "装运条件不能为空")]
-        [ExcelColumn(Name = "装运条件")]
+        //[ExcelColumn(Name = "装运条件")]
         [ExcelColumnName("装运条件")]
-        public string SuShippingTerms { get; set; }
+        public string Mf021 { get; set; }
 
-        [ExcelColumn(Name = "供应商等级")]
+        //[ExcelColumn(Name = "运输方式")]
+        [ExcelColumnName("运输方式")]
+        public string Mf022 { get; set; }
+
+        //[ExcelColumn(Name = "供应商等级")]
         [ExcelColumnName("供应商等级")]
-        public string SuSupplierGrade { get; set; }
+        public string Mf023 { get; set; }
 
-        [ExcelColumn(Name = "供应商信用")]
+        //[ExcelColumn(Name = "供应商信用")]
         [ExcelColumnName("供应商信用")]
-        public string SuSupplierCredit { get; set; }
+        public string Mf024 { get; set; }
 
-        [ExcelColumn(Name = "首次交易", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "客户")]
+        [ExcelColumnName("客户")]
+        public string Mf025 { get; set; }
+
+        //[ExcelColumn(Name = "首次交易", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("首次交易")]
-        public DateTime? SuFirstTransDate { get; set; }
+        public DateTime? Mf026 { get; set; }
 
-        [ExcelColumn(Name = "末次交易", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "末次交易", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("末次交易")]
-        public DateTime? SuLastTransDate { get; set; }
+        public DateTime? Mf027 { get; set; }
 
-        [Required(ErrorMessage = "银行代码不能为空")]
-        [ExcelColumn(Name = "银行代码")]
-        [ExcelColumnName("银行代码")]
-        public string SuBankCode { get; set; }
-
-        [Required(ErrorMessage = "银行名称不能为空")]
-        [ExcelColumn(Name = "银行名称")]
-        [ExcelColumnName("银行名称")]
-        public string SuBankName { get; set; }
-
-        [ExcelColumn(Name = "分行名称")]
-        [ExcelColumnName("分行名称")]
-        public string SuBranchName { get; set; }
-
-        [Required(ErrorMessage = "银行所在国不能为空")]
-        [ExcelColumn(Name = "银行所在国")]
-        [ExcelColumnName("银行所在国")]
-        public string SuBankCountry { get; set; }
-
-        [Required(ErrorMessage = "所在州省不能为空")]
-        [ExcelColumn(Name = "所在州省")]
-        [ExcelColumnName("所在州省")]
-        public string SuBankState { get; set; }
-
-        [Required(ErrorMessage = "所在市不能为空")]
-        [ExcelColumn(Name = "所在市")]
-        [ExcelColumnName("所在市")]
-        public string SuBankCity { get; set; }
-
-        [Required(ErrorMessage = "所在县不能为空")]
-        [ExcelColumn(Name = "所在县")]
-        [ExcelColumnName("所在县")]
-        public string SuBankCounty { get; set; }
-
-        [Required(ErrorMessage = "银行地址不能为空")]
-        [ExcelColumn(Name = "银行地址")]
-        [ExcelColumnName("银行地址")]
-        public string SuBankAddr { get; set; }
-
-        [ExcelColumn(Name = "银行地址1")]
-        [ExcelColumnName("银行地址1")]
-        public string SuBankAddr1 { get; set; }
-
-        [ExcelColumn(Name = "银行地址2")]
-        [ExcelColumnName("银行地址2")]
-        public string SuBankAddr2 { get; set; }
-
-        [Required(ErrorMessage = "银行账号不能为空")]
-        [ExcelColumn(Name = "银行账号")]
-        [ExcelColumnName("银行账号")]
-        public string SuBankAccount { get; set; }
-
-        [ExcelColumn(Name = "SWIFT代码")]
-        [ExcelColumnName("SWIFT代码")]
-        public string SuBankSwiftNo { get; set; }
-
-        [ExcelColumn(Name = "国家地区")]
+        //[ExcelColumn(Name = "国家地区")]
         [ExcelColumnName("国家地区")]
-        public string SuRegionCode { get; set; }
+        public string Mf028 { get; set; }
 
-        [ExcelColumn(Name = "州省")]
+        //[ExcelColumn(Name = "州省")]
         [ExcelColumnName("州省")]
-        public string SuState { get; set; }
+        public string Mf029 { get; set; }
 
-        [ExcelColumn(Name = "市")]
+        //[ExcelColumn(Name = "市")]
         [ExcelColumnName("市")]
-        public string SuCity { get; set; }
+        public string Mf030 { get; set; }
 
-        [ExcelColumn(Name = "县")]
+        //[ExcelColumn(Name = "县")]
         [ExcelColumnName("县")]
-        public string SuCounty { get; set; }
+        public string Mf031 { get; set; }
 
-        [Required(ErrorMessage = "地址不能为空")]
-        [ExcelColumn(Name = "地址")]
+        //[ExcelColumn(Name = "地址")]
         [ExcelColumnName("地址")]
-        public string SuAddr { get; set; }
+        public string Mf032 { get; set; }
 
-        [ExcelColumn(Name = "地址1")]
+        //[ExcelColumn(Name = "地址1")]
         [ExcelColumnName("地址1")]
-        public string SuAddr1 { get; set; }
+        public string Mf033 { get; set; }
 
-        [ExcelColumn(Name = "地址2")]
+        //[ExcelColumn(Name = "地址2")]
         [ExcelColumnName("地址2")]
-        public string SuAddr2 { get; set; }
+        public string Mf034 { get; set; }
 
-        [ExcelColumn(Name = "联系人")]
+        //[ExcelColumn(Name = "邮政编码")]
+        [ExcelColumnName("邮政编码")]
+        public string Mf035 { get; set; }
+
+        //[ExcelColumn(Name = "地址号码")]
+        [ExcelColumnName("地址号码")]
+        public string Mf036 { get; set; }
+
+        //[ExcelColumn(Name = "联系人")]
         [ExcelColumnName("联系人")]
-        public string SuContacts { get; set; }
+        public string Mf037 { get; set; }
 
-        [ExcelColumn(Name = "邮件")]
+        //[ExcelColumn(Name = "邮件")]
         [ExcelColumnName("邮件")]
-        public string SuEmail { get; set; }
+        public string Mf038 { get; set; }
 
-        [ExcelColumn(Name = "电话")]
+        //[ExcelColumn(Name = "电话")]
         [ExcelColumnName("电话")]
-        public string SuTelNo { get; set; }
+        public string Mf039 { get; set; }
 
-        [ExcelColumn(Name = "传真")]
+        //[ExcelColumn(Name = "传真")]
         [ExcelColumnName("传真")]
-        public string SuFaxNp { get; set; }
+        public string Mf040 { get; set; }
 
-        [ExcelColumn(Name = "手机")]
+        //[ExcelColumn(Name = "手机")]
         [ExcelColumnName("手机")]
-        public string SuPhoneNo { get; set; }
+        public string Mf041 { get; set; }
 
-        [Required(ErrorMessage = "冻结标志不能为空")]
-        [ExcelColumn(Name = "冻结标志")]
-        [ExcelColumnName("冻结标志")]
-        public int IsFroze { get; set; }
+        //[ExcelColumn(Name = "帐户组")]
+        [ExcelColumnName("帐户组")]
+        public string Mf042 { get; set; }
 
-        [ExcelColumn(Name = "营业执照附件")]
+        //[ExcelColumn(Name = "营业执照附件")]
         [ExcelColumnName("营业执照附件")]
-        public string SuLicenseAnnex { get; set; }
+        public string Mf043 { get; set; }
 
-        [ExcelColumn(Name = "其它附件")]
+        //[ExcelColumn(Name = "其它附件")]
         [ExcelColumnName("其它附件")]
-        public string SuOtherAnnex { get; set; }
+        public string Mf044 { get; set; }
+
+        [Required(ErrorMessage = "交易冻结不能为空")]
+        //[ExcelColumn(Name = "交易冻结")]
+        [ExcelColumnName("交易冻结")]
+        public int Mf045 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
+        public decimal Ref06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
         [ExcelIgnore]
-        public decimal UDF51 { get; set; }
+        public string Udf01 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
         [ExcelIgnore]
-        public decimal UDF52 { get; set; }
+        public string Udf02 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
         [ExcelIgnore]
-        public decimal UDF53 { get; set; }
+        public string Udf03 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
+        public string Udf04 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
+        public string Udf05 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
+        public string Udf06 { get; set; }
 
-        [Required(ErrorMessage = "软删除不能为空")]
-        [ExcelColumn(Name = "软删除")]
-        [ExcelColumnName("软删除")]
-        public int IsDeleted { get; set; }
+        [ExcelIgnore]
+        public int? Udf51 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf52 { get; set; }
+
+        [ExcelIgnore]
+        public int? Udf53 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf54 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf56 { get; set; }
+
+        [ExcelIgnore]
+        public int? IsDeleted { get; set; }
+
+        [ExcelIgnore]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+        public string CreateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? CreateTime { get; set; }
+
+        [ExcelIgnore]
+        public string UpdateBy { get; set; }
+
+        [ExcelIgnore]
+        public DateTime? UpdateTime { get; set; }
+
+
 
         [ExcelIgnore]
         [ExcelColumn(Name = "购买组织")]
-        public string SuOrgLabel { get; set; }
-
+        public string Mf003Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "行业类别")]
-        public string SuIndustryTypeLabel { get; set; }
-
+        public string Mf004Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "企业性质")]
-        public string SuEnterpriseNatureLabel { get; set; }
-
+        public string Mf005Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "税别")]
-        public string SuTaxTypeLabel { get; set; }
-
+        public string Mf013Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "采购组")]
+        public string Mf015Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "交易币种")]
-        public string SuCcyLabel { get; set; }
-
+        public string Mf016Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "付款条件")]
-        public string SuPayTermsLabel { get; set; }
-
+        public string Mf017Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "付款方式")]
-        public string SuPayMethodLabel { get; set; }
-
+        public string Mf018Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "统驭科目")]
-        public string SuRecAccountLabel { get; set; }
-
+        public string Mf019Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "贸易条件")]
-        public string SuTradeTermsLabel { get; set; }
-
+        public string Mf020Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "装运条件")]
-        public string SuShippingTermsLabel { get; set; }
-
+        public string Mf021Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "运输方式")]
+        public string Mf022Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "供应商等级")]
-        public string SuSupplierGradeLabel { get; set; }
-
+        public string Mf023Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "供应商信用")]
-        public string SuSupplierCreditLabel { get; set; }
-
+        public string Mf024Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "银行所在国")]
-        public string SuBankCountryLabel { get; set; }
-
+        [ExcelColumn(Name = "国家地区")]
+        public string Mf028Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "冻结标志")]
-        public string IsFrozeLabel { get; set; }
-
+        [ExcelColumn(Name = "州省")]
+        public string Mf029Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "软删除")]
-        public string IsDeletedLabel { get; set; }
+        [ExcelColumn(Name = "市")]
+        public string Mf030Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "交易冻结")]
+        public string Mf045Label { get; set; }
     }
+
 }

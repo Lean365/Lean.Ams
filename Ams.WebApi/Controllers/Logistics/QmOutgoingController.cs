@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 出货检验
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 9:46:39
+    /// @Date: 2024/9/11 16:38:43
     /// </summary>
     [Verify]
     [Route("Logistics/QmOutgoing")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询出货检验详情
         /// </summary>
-        /// <param name="QmoutSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{QmoutSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "qm:outgoing:query")]
-        public IActionResult GetQmOutgoing(long QmoutSfId)
+        public IActionResult GetQmOutgoing(long Id)
         {
-            var response = _QmOutgoingService.GetInfo(QmoutSfId);
+            var response = _QmOutgoingService.GetInfo(Id);
             
             var info = response.Adapt<QmOutgoingDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "qm:outgoing:add")]
-        [Log(Title = "出货检验", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "出货检验", BusinessType = BusinessType.ADD)]
         public IActionResult AddQmOutgoing([FromBody] QmOutgoingDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmOutgoingService.CheckInputUnique(parm.QmoutSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmOutgoingService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增出货检验 '{parm.QmoutSfId}'失败(Add failed)，输入的出货检验已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增出货检验 '{parm.Id}'失败(Add failed)，输入的出货检验已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmOutgoing>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "qm:outgoing:edit")]
-        [Log(Title = "出货检验", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "出货检验", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateQmOutgoing([FromBody] QmOutgoingDto parm)
         {
             var modal = parm.Adapt<QmOutgoing>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出出货检验
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "出货检验", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "出货检验导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "qm:outgoing:export")]
         public IActionResult Export([FromQuery] QmOutgoingQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入出货检验
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "出货检验导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "qm:outgoing:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<QmOutgoingDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 出货检验导入模板下载
+        /// 出货检验
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "出货检验模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<QmOutgoingImportTpl>() { }, "QmOutgoing_tpl");
             return ExportExcel(result.Item2, result.Item1);

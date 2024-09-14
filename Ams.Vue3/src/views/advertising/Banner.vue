@@ -6,22 +6,28 @@
 <template>
   <div>
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
-      <el-form-item label="标题" prop="title">
-        <el-input v-model="queryParams.title" placeholder="请输入标题" />
+      <el-form-item label="标题" prop="mb002">
+        <el-input v-model="queryParams.mb002" placeholder="请输入标题" />
       </el-form-item>
-      <el-form-item label="是否显示" prop="showStatus">
-        <el-radio-group v-model="queryParams.showStatus">
-          <el-radio-button>全部</el-radio-button>
-          <el-radio-button v-for="item in options.sys_show_hide" :key="item.dictValue" :value="item.dictValue">{{
+      <el-form-item label="是否显示" prop="mb008">
+        <el-radio-group v-model="queryParams.mb008">
+          <el-radio :value="-1">{{$t('common.all')}}</el-radio>
+          <el-radio v-for="item in  options.sys_menu_show " :key="item.dictValue"
+            :value="item.dictValue">{{item.dictLabel}}</el-radio>
+          <!--  <el-radio-button>全部</el-radio-button> -->
+          <!-- <el-radio-button v-for="item in options.sys_menu_show" :key="item.dictValue" :value="item.dictValue">{{ 
             item.dictLabel
-            }}</el-radio-button>
+            }}</el-radio-button> -->
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="广告类型" prop="adType">
-        <el-radio-group v-model="queryParams.adType" @change="handleQuery()">
-          <el-radio-button>全部</el-radio-button>
-          <el-radio-button v-for="item in options.sys_ad_type" :key="item.dictValue" :value="item.dictValue">{{
-            item.dictLabel }}</el-radio-button>
+      <el-form-item label="广告类型" prop="mb009">
+        <el-radio-group v-model="queryParams.mb009" @change="handleQuery()">
+          <el-radio :value="-1">{{$t('common.all')}}</el-radio>
+          <el-radio v-for="item in  options.sys_ad_type " :key="item.dictValue"
+            :value="item.dictValue">{{item.dictLabel}}</el-radio>
+          <!-- <el-radio-button>全部</el-radio-button> -->
+          <!-- <el-radio-button v-for="item in options.sys_ad_type" :key="item.dictValue" :value="item.dictValue">{{
+            item.dictLabel }}</el-radio-button> -->
         </el-radio-group>
       </el-form-item>
       <el-form-item>
@@ -49,13 +55,13 @@
       <!-- <template #tableColumn>
         <el-table-column type="selection" width="50" align="center" :selectable="checkSelectable" />
       </template> -->
-      <template #beginTime="{ row }">
-        <div>{{ showTime(row.beginTime) }}</div>
-        <div>{{ showTime(row.endTime) }}</div>
+      <template #mb010="{ row }">
+        <div>{{ showTime(row.mb010) }}</div>
+        <div>{{ showTime(row.mb011) }}</div>
       </template>
-      <template #sortId="{ scope }">
-        <span v-show="editIndex != scope.$index" @click="editCurrRow(scope.$index)">{{ scope.row.sortId }}</span>
-        <el-input :ref="setColumnsRef" v-show="editIndex == scope.$index" v-model="scope.row.sortId"
+      <template #mb012="{ scope }">
+        <span v-show="editIndex != scope.$index" @click="editCurrRow(scope.$index)">{{ scope.row.mb012 }}</span>
+        <el-input :ref="setColumnsRef" v-show="editIndex == scope.$index" v-model="scope.row.mb012"
           @blur="handleChangeSort(scope.row)"></el-input>
       </template>
       <template #actions="{ scope }">
@@ -72,8 +78,8 @@
       <el-form ref="formRef" :model="form" :rules="rules" label-width="100px">
         <el-row :gutter="20">
           <el-col :lg="24">
-            <el-form-item label="类型" prop="adType">
-              <el-radio-group v-model="form.adType">
+            <el-form-item label="类型" prop="mb009">
+              <el-radio-group v-model="form.mb009">
                 <el-radio v-for="item in options.sys_ad_type" :key="item.dictValue" :value="parseInt(item.dictValue)">
                   {{ item.dictLabel }}
                 </el-radio>
@@ -81,27 +87,27 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="标题" prop="title">
-              <el-input v-model="form.title" placeholder="请输入标题" />
+            <el-form-item label="标题" prop="mb002">
+              <el-input v-model="form.mb002" placeholder="请输入标题" show-word-limit maxlength="40" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="说明" prop="content">
-              <el-input v-model="form.content" placeholder="请输入说明" />
+            <el-form-item label="说明" prop="mb003">
+              <el-input v-model="form.mb003" placeholder="请输入说明" show-word-limit maxlength="200" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="图片" prop="imgUrl">
-              <UploadImage v-model="form.imgUrl" :limit="1" :data="{ uploadType: 1 }" />
+            <el-form-item label="图片" prop="mb005">
+              <UploadImage v-model="form.mb005" :limit="1" :data="{ uploadType: 1 }" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="跳转类型" prop="jumpType">
-              <el-radio-group v-model="form.jumpType">
-                <el-radio-button v-for="item in options.jumpTypeOptions" :key="item.dictValue"
+            <el-form-item label="跳转类型" prop="mb006">
+              <el-radio-group v-model="form.mb006">
+                <el-radio-button v-for="item in options.mb006Options" :key="item.dictValue"
                   :value="parseInt(item.dictValue)">
                   {{ item.dictLabel }}
                 </el-radio-button>
@@ -109,34 +115,34 @@
             </el-form-item>
           </el-col>
 
-          <el-col :lg="24" v-if="form.jumpType != 0">
-            <el-form-item label="链接" prop="link">
-              <el-input v-model="form.link" placeholder="请输入链接" />
+          <el-col :lg="24" v-if="form.mb006 != 0">
+            <el-form-item label="链接" prop="mb004">
+              <el-input v-model="form.mb004" placeholder="请输入链接" show-word-limit maxlength="200" />
             </el-form-item>
           </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="开始时间" prop="beginTime">
-              <el-date-picker v-model="form.beginTime" type="datetime" placeholder="选择日期时间"> </el-date-picker>
+          <el-col :lg="24">
+            <el-form-item label="开始时间" prop="mb010">
+              <el-date-picker v-model="form.mb010" type="datetime" placeholder="选择日期时间"> </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :lg="12">
-            <el-form-item label="结束时间" prop="endTime">
-              <el-date-picker v-model="form.endTime" type="datetime" placeholder="选择日期时间"></el-date-picker>
+          <el-col :lg="24">
+            <el-form-item label="结束时间" prop="mb011">
+              <el-date-picker v-model="form.mb011" type="datetime" placeholder="选择日期时间"></el-date-picker>
             </el-form-item>
           </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="排序id" prop="sortId">
-              <el-input-number v-model.number="form.sortId" :min="0" :controls="true" controls-position="right"
+          <el-col :lg="24">
+            <el-form-item label="排序id" prop="mb012">
+              <el-input-number v-model.number="form.mb012" :min="0" :controls="true" controls-position="right"
                 placeholder="请输入排序id" />
             </el-form-item>
           </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="是否显示" prop="showStatus">
-              <el-radio-group v-model="form.showStatus">
-                <el-radio v-for="item in options.sys_show_hide" :key="item.dictValue" :value="parseInt(item.dictValue)">
+          <el-col :lg="24">
+            <el-form-item label="是否显示" prop="mb008">
+              <el-radio-group v-model="form.mb008">
+                <el-radio v-for="item in options.sys_menu_show" :key="item.dictValue" :value="parseInt(item.dictValue)">
                   {{ item.dictLabel }}
                 </el-radio>
               </el-radio-group>
@@ -161,27 +167,27 @@
   const showSearch = ref(true)
   const queryParams = reactive({
     pageNum: 1,
-    pageSize: 10,
-    sort: 'sfId',
+    pageSize: 56,
+    sort: 'Id',
     sortType: 'desc',
-    title: undefined,
-    jumpType: undefined,
-    showStatus: undefined,
-    adType: undefined
+    mb002: undefined,
+    mb006: undefined,
+    mb008: -1,
+    mb009: -1
   })
   const columns = ref([
-    { visible: true, prop: 'sfId', label: 'sfId' },
-    { visible: true, prop: 'title', label: '标题' },
-    { visible: true, prop: 'content', label: '说明' },
-    { visible: true, prop: 'link', label: '链接', showOverflowTooltip: true },
-    { visible: true, prop: 'imgUrl', label: '图片', type: 'img' },
-    { visible: true, prop: 'jumpType', label: '跳转类型', type: 'dict', dictType: 'jumpTypeOptions' },
-    { visible: false, prop: 'addTime', label: '添加时间' },
-    { visible: true, prop: 'clicksNumber', label: '点击次数' },
-    { visible: true, prop: 'showStatus', label: '是否显示', type: 'dict', dictType: 'sys_show_hide' },
-    { visible: true, prop: 'adType', label: '广告类型', type: 'dict', dictType: 'sys_ad_type' },
-    { visible: true, prop: 'beginTime', label: '显示时间', type: 'slot', width: '130', align: 'left' },
-    { visible: true, prop: 'sortId', label: '排序id', type: 'slot' },
+    { visible: true, prop: 'id', label: 'id' },
+    { visible: true, prop: 'mb002', label: '标题' },
+    { visible: true, prop: 'mb003', label: '说明' },
+    { visible: true, prop: 'mb004', label: '链接', showOverflowTooltip: true },
+    { visible: true, prop: 'mb005', label: '图片', type: 'img' },
+    { visible: true, prop: 'mb006', label: '跳转类型', type: 'dict', dictType: 'mb006Options' },
+
+    { visible: true, prop: 'mb007', label: '点击次数' },
+    { visible: true, prop: 'mb008', label: '是否显示', type: 'dict', dictType: 'sys_menu_show' },
+    { visible: true, prop: 'mb009', label: '广告类型', type: 'dict', dictType: 'sys_ad_type' },
+    { visible: true, prop: 'mb010', label: '显示时间', type: 'slot', width: '130', align: 'left' },
+    { visible: true, prop: 'mb012', label: '排序id', type: 'slot' },
     {
       visible: true,
       prop: 'actions',
@@ -217,7 +223,7 @@
     proxy
       .$confirm('是否保存数据?')
       .then(function () {
-        return changeSort({ value: info.sortId, id: info.id })
+        return changeSort({ value: info.mb012, id: info.id })
       })
       .then(() => {
         handleQuery()
@@ -226,7 +232,7 @@
   }
   /******************自定义编辑 end **********************/
 
-  var dictParams = ['sys_show_hide', 'sys_ad_type']
+  var dictParams = ['sys_menu_show', 'sys_ad_type']
 
   proxy.getDicts(dictParams).then((response) => {
     response.data.forEach((element) => {
@@ -283,22 +289,22 @@
     form: {},
     rules: {
       title: [{ required: true, message: 'Title不能为空', trigger: 'blur' }],
-      jumpType: [{ required: true, message: '跳转类型不能为空', trigger: 'change', type: 'number' }],
-      showStatus: [{ required: true, message: '是否显示不能为空', trigger: 'blur', type: 'number' }],
-      adType: [{ required: true, message: '广告类型不能为空', trigger: 'change', type: 'number' }],
-      beginTime: [{ required: true, message: '广告显示时间不能为空', trigger: 'change' }],
-      endTime: [{ required: true, message: '广告显示时间不能为空', trigger: 'change' }],
-      link: [{ required: true, message: '跳转链接不能为空', trigger: 'blur' }]
+      mb006: [{ required: true, message: '跳转类型不能为空', trigger: 'change', type: 'number' }],
+      mb008: [{ required: true, message: '是否显示不能为空', trigger: 'blur', type: 'number' }],
+      mb009: [{ required: true, message: '广告类型不能为空', trigger: 'change', type: 'number' }],
+      mb010: [{ required: true, message: '广告显示时间不能为空', trigger: 'change' }],
+      mb011: [{ required: true, message: '广告显示时间不能为空', trigger: 'change' }],
+      mb004: [{ required: true, message: '跳转链接不能为空', trigger: 'blur' }]
     },
     options: {
       // 跳转类型 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-      jumpTypeOptions: [
+      mb006Options: [
         { dictLabel: '不跳转', dictValue: '0' },
         { dictLabel: '外链', dictValue: '1' },
         { dictLabel: '内部跳转', dictValue: '2' }
       ],
       // 是否显示 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-      sys_show_hide: [],
+      sys_menu_show: [],
       // 广告类型
       sys_ad_type: []
     }
@@ -316,18 +322,18 @@
   function reset() {
     form.value = {
       id: null,
-      title: null,
-      content: null,
-      link: null,
-      imgUrl: null,
-      jumpType: null,
-      addTime: null,
-      clicksNumber: null,
-      showStatus: 1,
-      adType: null,
-      beginTime: null,
-      endTime: null,
-      sortId: 0
+      mb002: null,
+      mb003: null,
+      mb004: null,
+      mb005: null,
+      mb006: 0,
+
+      mb007: null,
+      mb008: 0,
+      mb009: 0,
+      mb010: null,
+      mb011: null,
+      mb012: 99
     }
     proxy.resetForm('formRef')
   }

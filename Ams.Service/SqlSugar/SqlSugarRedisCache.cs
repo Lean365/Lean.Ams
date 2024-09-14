@@ -1,4 +1,4 @@
-﻿using Ams.Common.Cache;
+﻿using Ams.Infrastructure.Cache;
 
 namespace Ams.Service.SqlSugar
 {

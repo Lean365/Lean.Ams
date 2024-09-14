@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 废弃部品
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 15:11:57
+    /// @Date: 2024/9/11 16:46:48
     /// </summary>
     public interface IQmCostWasteService : IBaseService<QmCostWaste>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取废弃部品信息
         /// </summary>
-        /// <param name="QcwdSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        QmCostWaste GetInfo(long QcwdSfId);
+        QmCostWaste GetInfo(int Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

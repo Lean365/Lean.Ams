@@ -7,7 +7,7 @@ namespace Ams.Service.Routine.IRoutineService
     /// 公积金
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:33:02
+    /// @Date: 2024/9/12 15:20:44
     /// </summary>
     public interface IRoutineEhrFundsService : IBaseService<RoutineEhrFunds>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Routine.IRoutineService
         /// <summary>
         /// 获取公积金信息
         /// </summary>
-        /// <param name="EfSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        RoutineEhrFunds GetInfo(long EfSfId);
+        RoutineEhrFunds GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

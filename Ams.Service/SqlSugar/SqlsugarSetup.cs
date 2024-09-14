@@ -85,22 +85,18 @@ namespace Ams.Service.SqlSugar
                     string log = $"【db{configId} SQL】{UtilMethods.GetSqlString(config.DbType, sql, pars)}\n";
                     if (sql.TrimStart().StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
                     {
-                        log.ToCreate();
                         logger.Info(log);
                     }
                     else if (sql.StartsWith("UPDATE", StringComparison.OrdinalIgnoreCase) || sql.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase))
                     {
-                        log.ToCreate();
                         logger.Warn(log);
                     }
                     else if (sql.StartsWith("DELETE", StringComparison.OrdinalIgnoreCase) || sql.StartsWith("TRUNCATE", StringComparison.OrdinalIgnoreCase))
                     {
-                        log.ToCreate();
                         logger.Error(log);
                     }
                     else
                     {
-                        log.ToCreate();
                         log = $"【db{configId} SQL语句】dbo.{sql} {string.Join(", ", pars.Select(x => x.ParameterName + " = " + GetParsValue(x)))};\n";
                         logger.Info(log);
                     }
@@ -142,7 +138,6 @@ namespace Ams.Service.SqlSugar
                         Sql = sql,
                         TableName = item.TableName,
                         UserName = name,
-                        Create_by = name,
                         Create_time = DateTime.Now,
                         ConfigId = configId
                     };

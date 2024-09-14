@@ -2,7 +2,7 @@ use Ams_Tes;
 
 -- 社保菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('社保', 1210, 999, 'RoutineEhrSocialSecurity', 'routine/RoutineEhrSocialSecurity', 0, 0, 'C', '0', '0', 'routine:ehrsocialsecurity:list', 'icon1', 'Lean365', GETDATE(), 'menu.routine.ehrsocialsecurity');
+VALUES ('社保', 1914, 999, 'RoutineEhrSocialSecurity', 'routine/RoutineEhrSocialSecurity', 0, 0, 'C', '0', '0', 'routine:ehrsocialsecurity:list', 'icon1', 'Lean365', GETDATE(), 'menu.routine.ehrsocialsecurity');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -32,13 +32,31 @@ SELECT * FROM sys_menu WHERE menuId = @menuId;
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210001,'zh-cn', 'menu.routine.ehrsocialsecurity', '社保', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914001,'zh-cn', 'menu.routine.ehrsocialsecurity', '社保', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210002,'zh-tw', 'menu.routine.ehrsocialsecurity', 'TW_社保', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914002,'zh-tw', 'menu.routine.ehrsocialsecurity', 'TW_社保', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210003,'en', 'menu.routine.ehrsocialsecurity', 'EN_社保', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'en', 'menu.routine.ehrsocialsecurity', 'EN_社保', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210004,'ja', 'menu.routine.ehrsocialsecurity', 'JA_社保', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914004,'ja', 'menu.routine.ehrsocialsecurity', 'JA_社保', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'fr', 'menu.routine.ehrsocialsecurity', 'FR_社保', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'ko', 'menu.routine.ehrsocialsecurity', 'KO_社保', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'ar', 'menu.routine.ehrsocialsecurity', 'AR_社保', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'ru', 'menu.routine.ehrsocialsecurity', 'RU_社保', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'de', 'menu.routine.ehrsocialsecurity', 'DE_社保', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1914003,'es', 'menu.routine.ehrsocialsecurity', 'ES_社保', 'Lean365', GETDATE());

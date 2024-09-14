@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 常规物料
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:37:36
+    /// @Date: 2024/9/11 10:59:57
     /// </summary>
     [Verify]
     [Route("Logistics/MmMara")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询常规物料详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{SfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "mm:mara:query")]
-        public IActionResult GetMmMara(long SfId)
+        public IActionResult GetMmMara(long Id)
         {
-            var response = _MmMaraService.GetInfo(SfId);
+            var response = _MmMaraService.GetInfo(Id);
             
             var info = response.Adapt<MmMaraDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "mm:mara:add")]
-        [Log(Title = "常规物料", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "常规物料", BusinessType = BusinessType.ADD)]
         public IActionResult AddMmMara([FromBody] MmMaraDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_MmMaraService.CheckInputUnique(parm.SfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_MmMaraService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增常规物料 '{parm.SfId}'失败(Add failed)，输入的常规物料已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增常规物料 '{parm.Id}'失败(Add failed)，输入的常规物料已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<MmMara>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "mm:mara:edit")]
-        [Log(Title = "常规物料", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "常规物料", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateMmMara([FromBody] MmMaraDto parm)
         {
             var modal = parm.Adapt<MmMara>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出常规物料
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "常规物料", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "常规物料导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "mm:mara:export")]
         public IActionResult Export([FromQuery] MmMaraQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入常规物料
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "常规物料导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "mm:mara:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<MmMaraDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 常规物料导入模板下载
+        /// 常规物料
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "常规物料模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<MmMaraImportTpl>() { }, "MmMara_tpl");
             return ExportExcel(result.Item2, result.Item1);

@@ -1,4 +1,6 @@
-﻿namespace Ams.Model.Routine.Dto
+﻿using Ams.Model;
+
+namespace Ams.Model.Routine.Dto
 {
     public class TasksQzQueryDto : PagerInfo
     {

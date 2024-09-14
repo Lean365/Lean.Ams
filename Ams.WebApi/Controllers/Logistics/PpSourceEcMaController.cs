@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 主源设变
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:08:51
+    /// @Date: 2024/9/10 17:09:51
     /// </summary>
     [Verify]
     [Route("Logistics/PpSourceEcMa")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询主源设变详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{SfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "pp:sourceecma:query")]
-        public IActionResult GetPpSourceEcMa(long SfId)
+        public IActionResult GetPpSourceEcMa(long Id)
         {
-            var response = _PpSourceEcMaService.GetInfo(SfId);
+            var response = _PpSourceEcMaService.GetInfo(Id);
             
             var info = response.Adapt<PpSourceEcMaDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "pp:sourceecma:add")]
-        [Log(Title = "主源设变", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "主源设变", BusinessType = BusinessType.ADD)]
         public IActionResult AddPpSourceEcMa([FromBody] PpSourceEcMaDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceEcMaService.CheckInputUnique(parm.SfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpSourceEcMaService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增主源设变 '{parm.SfId}'失败(Add failed)，输入的主源设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增主源设变 '{parm.Id}'失败(Add failed)，输入的主源设变已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpSourceEcMa>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "pp:sourceecma:edit")]
-        [Log(Title = "主源设变", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "主源设变", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdatePpSourceEcMa([FromBody] PpSourceEcMaDto parm)
         {
             var modal = parm.Adapt<PpSourceEcMa>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出主源设变
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "主源设变", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "主源设变导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "pp:sourceecma:export")]
         public IActionResult Export([FromQuery] PpSourceEcMaQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入主源设变
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "主源设变导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "pp:sourceecma:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<PpSourceEcMaDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 主源设变导入模板下载
+        /// 主源设变
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "主源设变模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<PpSourceEcMaImportTpl>() { }, "PpSourceEcMa_tpl");
             return ExportExcel(result.Item2, result.Item1);

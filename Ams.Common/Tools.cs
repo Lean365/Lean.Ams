@@ -34,7 +34,7 @@ namespace Ams.Common
         {
             if (string.IsNullOrEmpty(input)) { return Array.Empty<T>(); }
             string[] parts = input.Split(split, (char)StringSplitOptions.RemoveEmptyEntries);
-            T[] result =  Array.ConvertAll(parts, s => (T)Convert.ChangeType(s, typeof(T)));
+            T[] result = Array.ConvertAll(parts, s => (T)Convert.ChangeType(s, typeof(T)));
             //for (int i = 0; i < parts.Length; i++)
             //{
             //    result[i] = (T)Convert.ChangeType(parts[i], typeof(T));
@@ -63,16 +63,16 @@ namespace Ams.Common
             //本月第一天
             DateTime firstDay = daytime.AddDays(1 - daytime.Day);
             //本月第一天是周几
-            int weekday = (int)firstDay.DayOfWeek == 0 ? 7 : (int)firstDay.DayOfWeek;
+            int weekday = firstDay.DayOfWeek == 0 ? 7 : (int)firstDay.DayOfWeek;
             //本月第一周有几天
             int firstWeekEndDay = 7 - (weekday - 1);
             //当前日期和第一周之差
             int diffday = dayInMonth - firstWeekEndDay;
             diffday = diffday > 0 ? diffday : 1;
             //当前是第几周,如果整除7就减一天
-            int weekNumInMonth = ((diffday % 7) == 0
-                ? (diffday / 7 - 1)
-                : (diffday / 7)) + 1 + (dayInMonth > firstWeekEndDay ? 1 : 0);
+            int weekNumInMonth = (diffday % 7 == 0
+                ? diffday / 7 - 1
+                : diffday / 7) + 1 + (dayInMonth > firstWeekEndDay ? 1 : 0);
             return weekNumInMonth;
         }
         /// <summary>

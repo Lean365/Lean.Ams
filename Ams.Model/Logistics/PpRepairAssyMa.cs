@@ -1,12 +1,12 @@
 namespace Ams.Model.Logistics
 {
     /// <summary>
-    /// 组立不良ma
+    /// 不良
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 12:00:50
+    /// @Date: 2024/9/12 16:33:52
     /// </summary>
-    [SugarTable("pp_repair_assy_ma", "组立不良ma")]
+    [SugarTable("pp_repair_assy_ma", "不良")]
     public class PpRepairAssyMa : SysBase
     {
         /// <summary>
@@ -14,56 +14,56 @@ namespace Ams.Model.Logistics
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long PpdSfId { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 生产订单
         /// </summary>
-        [SugarColumn(ColumnName = "PpdOrderNo", ColumnDescription = "生产订单 ", Length = 20)]
-        public string PpdOrderNo { get; set; }
+        [SugarColumn(ColumnName = "Mea002", ColumnDescription = "生产订单", Length = 20, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mea002 { get; set; }
 
         /// <summary>
         /// 订单数量
         /// </summary>
-        [SugarColumn(ColumnName = "PpdOrderQty", ColumnDescription = "订单数量 ", DefaultValue = "0")]
-        public int PpdOrderQty { get; set; }
+        [SugarColumn(ColumnName = "Mea003", ColumnDescription = "订单数量", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mea003 { get; set; }
 
         /// <summary>
         /// 生产批次
         /// </summary>
-        [SugarColumn(ColumnName = "PpdLot", ColumnDescription = "生产批次 ", Length = 20)]
-        public string PpdLot { get; set; }
+        [SugarColumn(ColumnName = "Mea004", ColumnDescription = "生产批次", Length = 20)]
+        public string Mea004 { get; set; }
 
         /// <summary>
         /// 生产机种
         /// </summary>
-        [SugarColumn(ColumnName = "PpdModel", ColumnDescription = "生产机种 ", Length = 20)]
-        public string PpdModel { get; set; }
+        [SugarColumn(ColumnName = "Mea005", ColumnDescription = "生产机种", Length = 20)]
+        public string Mea005 { get; set; }
 
         /// <summary>
         /// 生产日期
         /// </summary>
-        public DateTime? PpdDate { get; set; }
+        public DateTime? Mea006 { get; set; }
 
         /// <summary>
         /// 生产班组
         /// </summary>
-        [SugarColumn(ColumnName = "PpdLineName", ColumnDescription = "生产班组 ", Length = 20)]
-        public string PpdLineName { get; set; }
+        [SugarColumn(ColumnName = "Mea007", ColumnDescription = "生产班组", Length = 20)]
+        public string Mea007 { get; set; }
 
         /// <summary>
         /// 生产实绩
         /// </summary>
-        [SugarColumn(ColumnName = "PpdRealQty", ColumnDescription = "生产实绩 ", DefaultValue = "0")]
-        public int PpdRealQty { get; set; }
+        [SugarColumn(ColumnName = "Mea008", ColumnDescription = "生产实绩", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mea008 { get; set; }
 
         /// <summary>
         /// 无不良数
         /// </summary>
-        [SugarColumn(ColumnName = "PpdNobadQty", ColumnDescription = "无不良数 ", DefaultValue = "0")]
-        public int PpdNobadQty { get; set; }
+        [SugarColumn(ColumnName = "Mea009", ColumnDescription = "无不良数", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mea009 { get; set; }
 
-        [Navigate(NavigateType.OneToMany, nameof(PpRepairAssySlv.PpdParentSfId), nameof(PpdSfId))] //自定义关系映射
-        public List<PpRepairAssySlv> PpDefectAssyRepairSlvNav { get; set; }
+        [Navigate(NavigateType.OneToMany, nameof(PpRepairAssySlv.ParentId), nameof(Id))] //自定义关系映射
+        public List<PpRepairAssySlv> PpRepairAssySlvNav { get; set; }
     }
 }

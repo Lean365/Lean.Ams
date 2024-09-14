@@ -3,10 +3,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Ams.Common;
 using Ams.Infrastructure;
-using Ams.Infrastructure.Attribute;
 using Ams.Infrastructure.Enums;
 using Ams.Infrastructure.Model;
-using Ams.Service.Routine.IRoutineService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
@@ -29,6 +27,22 @@ namespace Ams.Service.Routine
         }
 
         /// <summary>
+        /// 校验
+        /// 输入项目唯一性
+        /// </summary>
+        /// <param name="enterString"></param>
+        /// <returns></returns>
+        public string CheckInputUnique(string enterString)
+        {
+            int count = Count(it => it.FileName.ToString() == enterString);
+            if (count > 0)
+            {
+                return UserConstants.NOT_UNIQUE;
+            }
+            return UserConstants.UNIQUE;
+        }
+
+        /// <summary>
         /// 存储本地
         /// </summary>
         /// <param name="fileDir">存储文件夹</param>
@@ -41,7 +55,13 @@ namespace Ams.Service.Routine
         {
             string fileExt = Path.GetExtension(formFile.FileName);
             fileName = (fileName.IsEmpty() ? HashFileName() : fileName) + fileExt;
+            // 校验输入项目唯一性
 
+            if (UserConstants.NOT_UNIQUE.Equals(CheckInputUnique(fileName.ToString())))
+            {
+                throw new CustomException(ResultCode.FAIL, "该文件已存在(Failed, upload file already exists)");
+                // return ToResponse(ApiResult.Error($"新增公司科目 '{fileName}'失败(Add failed)，输入的公司科目已存在(The entered already exists)"));
+            }
             string filePath = GetdirPath(fileDir);
             string finalFilePath = Path.Combine(rootPath, filePath, fileName);
             double fileSize = Math.Round(formFile.Length / 1024.0, 2);

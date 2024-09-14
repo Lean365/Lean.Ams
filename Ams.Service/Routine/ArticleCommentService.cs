@@ -1,8 +1,11 @@
-﻿using Ams.Infrastructure;
-using Ams.Model.Routine.Dto;
+﻿using Ams.Service;
+using Ams.Service.Admin.IAdminService;
 using Ams.Service.Routine.IRoutineService;
+using Ams.Infrastructure;
+using Ams.Model.Enums;
+using Ams.Repository;
 
-namespace Ams.Service.Content
+namespace Ams.Service.Routine
 {
     [AppService(ServiceType = typeof(IArticleCommentService), ServiceLifetime = LifeTime.Transient)]
     public class ArticleCommentService : BaseService<ArticleComment>, IArticleCommentService
@@ -20,7 +23,7 @@ namespace Ams.Service.Content
             ISysConfigService sysConfigService,
             ISysUserMsgService sysUserMsgService)
         {
-            this.UserService = userService;
+            UserService = userService;
             EmailLogService = emailLogService;
             ArticleService = articleService;
             SysConfigService = sysConfigService;
@@ -35,7 +38,7 @@ namespace Ams.Service.Content
         public PagedInfo<ArticleCommentDto> GetMessageList(MessageQueryDto dto)
         {
             var predicate = Expressionable.Create<ArticleComment>();
-            predicate.And(it => it.IsDeleted == 0);
+            predicate.And(it => it.Is_deleted == 0);
             predicate.And(it => it.ParentId == dto.CommentId);
             predicate.AndIF(dto.UserId != null, it => it.UserId == dto.UserId);
             predicate.AndIF(dto.CommentId > 0, it => it.CommentId > dto.CommentId);//分页使用
@@ -96,7 +99,7 @@ namespace Ams.Service.Content
         {
             return Queryable()
                             .LeftJoin<SysUser>((f, u) => f.UserId == u.UserId)
-                            .Where(f => f.ParentId == cid && f.IsDeleted == 0)
+                            .Where(f => f.ParentId == cid && f.Is_deleted == 0)
                             //.WhereIF(cid > 0, f => f.MId > cid)
                             //.Includes(f => f.User.MappingField(z => z.Useridx, () => f.Useridx))
                             .OrderBy(f => f.CommentId)
@@ -124,13 +127,13 @@ namespace Ams.Service.Content
             var contentInfo = ArticleService.GetById(message.TargetId);
             switch (contentInfo.CommentSwitch)
             {
-                case Model.Enums.CommentSwitchEnum.ALL:
+                case CommentSwitchEnum.ALL:
                     break;
 
-                case Model.Enums.CommentSwitchEnum.FANS:
+                case CommentSwitchEnum.FANS:
                     break;
 
-                case Model.Enums.CommentSwitchEnum.SELF:
+                case CommentSwitchEnum.SELF:
                     if (message.UserId != contentInfo.UserId)
                     {
                         throw new CustomException("仅作者才能评论");
@@ -208,7 +211,7 @@ namespace Ams.Service.Content
             var deleteNum = 0;
             var result = UseTran(() =>
             {
-                Update(it => it.CommentId == commentId, it => new ArticleComment() { IsDeleted = 1 });
+                Update(it => it.CommentId == commentId, it => new ArticleComment() { Is_deleted = 1 });
                 if (info.ParentId > 0)
                 {
                     //评论表 评论数 - 1
@@ -236,11 +239,11 @@ namespace Ams.Service.Content
         public PagedInfo<ArticleCommentDto> GetMyMessageList(MessageQueryDto dto)
         {
             var predicate = Expressionable.Create<ArticleComment>();
-            predicate.And(it => it.IsDeleted == 0);
+            predicate.And(it => it.Is_deleted == 0);
             //predicate.And(it => it.ParentId == dto.MId);
             predicate.AndIF(dto.UserId != null, it => it.UserId == dto.UserId);
             predicate.AndIF(dto.CommentId > 0, it => it.CommentId > dto.CommentId);//分页使用
-            predicate.AndIF(dto.BeginTime != null, it => it.Create_time >= dto.BeginTime && it.Create_time <= dto.EndTime);//分页使用
+            predicate.AndIF(dto.BeginAddTime != null, it => it.Create_time >= dto.BeginAddTime && it.Create_time <= dto.EndAddTime);//分页使用
 
             return Queryable()
                 .WithCache(60)

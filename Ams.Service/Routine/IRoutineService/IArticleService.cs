@@ -1,4 +1,4 @@
-﻿using Ams.Model.Routine.Dto;
+﻿using Ams.Service;
 
 namespace Ams.Service.Routine.IRoutineService
 {

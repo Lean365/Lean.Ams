@@ -5,353 +5,444 @@ namespace Ams.Model.Accounting.Dto
     /// 部门消耗
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 12:03:53
+    /// @Date: 2024/9/10 16:51:22
     /// </summary>
     public class FicoCostingDeptConsumingQueryDto : PagerInfo 
     {
-        public string DcLfgja { get; set; }
-        public string DcLfmon { get; set; }
-        public string DcBukrs { get; set; }
-        public string DcMatnr { get; set; }
+        /// <summary>
+        /// 期间 
+        /// </summary>        
+        public string Ml002 { get; set; }
+        /// <summary>
+        /// 年月 
+        /// </summary>        
+        public string Ml003 { get; set; }
+        /// <summary>
+        /// 公司代码 
+        /// </summary>        
+        public string Ml004 { get; set; }
+        /// <summary>
+        /// 物料 
+        /// </summary>        
+        public string Ml013 { get; set; }
     }
 
     /// <summary>
     /// 部门消耗
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 12:03:53
+    /// @Date: 2024/9/10 16:51:22
     /// </summary>
     public class FicoCostingDeptConsumingDto
     {
         [Required(ErrorMessage = "ID不能为空")]
-        [ExcelIgnore]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long DcSfId { get; set; }
 
-        [ExcelColumn(Name = "期间")]
+        public long Id { get; set; }
+
+        [Required(ErrorMessage = "期间不能为空")]
+        //[ExcelColumn(Name = "期间")]
         [ExcelColumnName("期间")]
-        public string DcLfgja { get; set; }
 
-        [ExcelColumn(Name = "年月")]
+        public string Ml002 { get; set; }
+
+        [Required(ErrorMessage = "年月不能为空")]
+        //[ExcelColumn(Name = "年月")]
         [ExcelColumnName("年月")]
-        public string DcLfmon { get; set; }
 
-        [ExcelColumn(Name = "公司代码")]
+        public string Ml003 { get; set; }
+
+        [Required(ErrorMessage = "公司代码不能为空")]
+        //[ExcelColumn(Name = "公司代码")]
         [ExcelColumnName("公司代码")]
-        public string DcBukrs { get; set; }
 
-        [ExcelColumn(Name = "统计类别")]
+        public string Ml004 { get; set; }
+
+        //[ExcelColumn(Name = "统计类别")]
         [ExcelColumnName("统计类别")]
-        public string DcStatyp { get; set; }
 
-        [ExcelColumn(Name = "成本科目")]
+        public string Ml005 { get; set; }
+
+        //[ExcelColumn(Name = "成本科目")]
         [ExcelColumnName("成本科目")]
-        public string DcKtosl { get; set; }
 
-        [ExcelColumn(Name = "科目代码")]
+        public string Ml006 { get; set; }
+
+        //[ExcelColumn(Name = "科目代码")]
         [ExcelColumnName("科目代码")]
-        public string DcKonto { get; set; }
 
-        [ExcelColumn(Name = "科目分类")]
+        public string Ml007 { get; set; }
+
+        //[ExcelColumn(Name = "科目分类")]
         [ExcelColumnName("科目分类")]
-        public string DcKotyp { get; set; }
 
-        [ExcelColumn(Name = "预算")]
+        public string Ml008 { get; set; }
+
+        //[ExcelColumn(Name = "预算")]
         [ExcelColumnName("预算")]
-        public decimal DcAnval { get; set; }
 
-        [ExcelColumn(Name = "实际")]
+        public decimal Ml009 { get; set; }
+
+        //[ExcelColumn(Name = "实际")]
         [ExcelColumnName("实际")]
-        public decimal DcDmist { get; set; }
 
-        [ExcelColumn(Name = "差异")]
+        public decimal Ml010 { get; set; }
+
+        //[ExcelColumn(Name = "差异")]
         [ExcelColumnName("差异")]
-        public decimal DcBfaac { get; set; }
 
-        [ExcelColumn(Name = "工厂")]
+        public decimal Ml011 { get; set; }
+
+        [Required(ErrorMessage = "工厂不能为空")]
+        //[ExcelColumn(Name = "工厂")]
         [ExcelColumnName("工厂")]
-        public string DcWerks { get; set; }
 
-        [ExcelColumn(Name = "物料")]
+        public string Ml012 { get; set; }
+
+        [Required(ErrorMessage = "物料不能为空")]
+        //[ExcelColumn(Name = "物料")]
         [ExcelColumnName("物料")]
-        public string DcMatnr { get; set; }
 
-        [ExcelColumn(Name = "仓库")]
+        public string Ml013 { get; set; }
+
+        //[ExcelColumn(Name = "仓库")]
         [ExcelColumnName("仓库")]
-        public string DcLgort { get; set; }
 
-        [ExcelColumn(Name = "移动类型")]
+        public string Ml014 { get; set; }
+
+        //[ExcelColumn(Name = "移动类型")]
         [ExcelColumnName("移动类型")]
-        public string DcBwart { get; set; }
 
-        [ExcelColumn(Name = "物料凭证")]
+        public string Ml015 { get; set; }
+
+        //[ExcelColumn(Name = "物料凭证")]
         [ExcelColumnName("物料凭证")]
-        public string DcMblnr { get; set; }
 
-        [ExcelColumn(Name = "项目明细")]
+        public string Ml016 { get; set; }
+
+        //[ExcelColumn(Name = "项目明细")]
         [ExcelColumnName("项目明细")]
-        public string DcZeile { get; set; }
 
-        [ExcelColumn(Name = "数量")]
+        public string Ml017 { get; set; }
+
+        //[ExcelColumn(Name = "数量")]
         [ExcelColumnName("数量")]
-        public decimal DcMenge { get; set; }
 
-        [ExcelColumn(Name = "币种")]
+        public decimal Ml018 { get; set; }
+
+        //[ExcelColumn(Name = "币种")]
         [ExcelColumnName("币种")]
-        public string DcWaers { get; set; }
 
-        [ExcelColumn(Name = "金额")]
+        public string Ml019 { get; set; }
+
+        //[ExcelColumn(Name = "金额")]
         [ExcelColumnName("金额")]
-        public decimal DcDmbtr { get; set; }
 
-        [ExcelColumn(Name = "预留单")]
+        public decimal Ml020 { get; set; }
+
+        //[ExcelColumn(Name = "预留单")]
         [ExcelColumnName("预留单")]
-        public string DcRsnum { get; set; }
 
-        [ExcelColumn(Name = "预留明细")]
+        public string Ml021 { get; set; }
+
+        //[ExcelColumn(Name = "预留明细")]
         [ExcelColumnName("预留明细")]
-        public string DcRspos { get; set; }
 
-        [ExcelColumn(Name = "领用日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        public string Ml022 { get; set; }
+
+        //[ExcelColumn(Name = "领用日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("领用日期")]
-        public DateTime? DcBudat { get; set; }
+
+        public DateTime? Ml023 { get; set; }
 
         [ExcelIgnore]
-        public string REF01 { get; set; }
+
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string REF02 { get; set; }
+
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string REF03 { get; set; }
+
+        public string Ref03 { get; set; }
+
+        [Required(ErrorMessage = "预留1不能为空")]
+        [ExcelIgnore]
+
+        public decimal Ref04 { get; set; }
+
+        [Required(ErrorMessage = "预留2不能为空")]
+        [ExcelIgnore]
+
+        public decimal Ref05 { get; set; }
+
+        [Required(ErrorMessage = "预留3不能为空")]
+        [ExcelIgnore]
+
+        public decimal Ref06 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF04 { get; set; }
+
+        public string Udf01 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF05 { get; set; }
+
+        public string Udf02 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF06 { get; set; }
+
+        public string Udf03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+
+        public string Udf04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+
+        public string Udf05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+
+        public string Udf06 { get; set; }
+
+        [Required(ErrorMessage = "自定义1不能为空")]
+        [ExcelIgnore]
+
+        public int Udf51 { get; set; }
+
+        [Required(ErrorMessage = "自定义2不能为空")]
+        [ExcelIgnore]
+
+        public int Udf52 { get; set; }
+
+        [Required(ErrorMessage = "自定义3不能为空")]
+        [ExcelIgnore]
+
+        public int Udf53 { get; set; }
+
+        [Required(ErrorMessage = "自定义4不能为空")]
+        [ExcelIgnore]
+
+        public decimal Udf54 { get; set; }
+
+        [Required(ErrorMessage = "自定义5不能为空")]
+        [ExcelIgnore]
+
+        public decimal Udf55 { get; set; }
+
+        [Required(ErrorMessage = "自定义6不能为空")]
+        [ExcelIgnore]
+
+        public decimal Udf56 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
 
-        [ExcelIgnore]
-        public string UDF05 { get; set; }
-
-        [ExcelIgnore]
-        public string UDF06 { get; set; }
-
-        [ExcelIgnore]
-        public int? UDF51 { get; set; }
-
-        [ExcelIgnore]
-        public int? UDF52 { get; set; }
-
-        [ExcelIgnore]
-        public int? UDF53 { get; set; }
-
-        [ExcelIgnore]
-        public decimal UDF54 { get; set; }
-
-        [ExcelIgnore]
-        public decimal UDF55 { get; set; }
-
-        [ExcelIgnore]
-        public decimal UDF56 { get; set; }
-
-        [ExcelIgnore]
         public string Remark { get; set; }
 
         [ExcelIgnore]
+
         public int? IsDeleted { get; set; }
 
         [ExcelIgnore]
+
         public string CreateBy { get; set; }
 
         [ExcelIgnore]
+
         public DateTime? CreateTime { get; set; }
 
         [ExcelIgnore]
+
         public string UpdateBy { get; set; }
 
         [ExcelIgnore]
+
         public DateTime? UpdateTime { get; set; }
 
 
 
         [ExcelColumn(Name = "期间")]
-        public string DcLfgjaLabel { get; set; }
+        public string Ml002Label { get; set; }
         [ExcelColumn(Name = "年月")]
-        public string DcLfmonLabel { get; set; }
+        public string Ml003Label { get; set; }
         [ExcelColumn(Name = "公司代码")]
-        public string DcBukrsLabel { get; set; }
+        public string Ml004Label { get; set; }
+        [ExcelColumn(Name = "工厂")]
+        public string Ml012Label { get; set; }
     }
 
     /// <summary>
     /// 部门消耗
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 12:03:53
+    /// @Date: 2024/9/10 16:51:22
     /// </summary>
     public class FicoCostingDeptConsumingImportTpl
     {
         [Required(ErrorMessage = "ID不能为空")]
-        [ExcelIgnore]
+        //[ExcelColumn(Name = "ID")]
+        [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long DcSfId { get; set; }
+        public long Id { get; set; }
 
-        [ExcelColumn(Name = "期间")]
+        [Required(ErrorMessage = "期间不能为空")]
+        //[ExcelColumn(Name = "期间")]
         [ExcelColumnName("期间")]
-        public string DcLfgja { get; set; }
+        public string Ml002 { get; set; }
 
-        [ExcelColumn(Name = "年月")]
+        [Required(ErrorMessage = "年月不能为空")]
+        //[ExcelColumn(Name = "年月")]
         [ExcelColumnName("年月")]
-        public string DcLfmon { get; set; }
+        public string Ml003 { get; set; }
 
-        [ExcelColumn(Name = "公司代码")]
+        [Required(ErrorMessage = "公司代码不能为空")]
+        //[ExcelColumn(Name = "公司代码")]
         [ExcelColumnName("公司代码")]
-        public string DcBukrs { get; set; }
+        public string Ml004 { get; set; }
 
-        [ExcelColumn(Name = "统计类别")]
+        //[ExcelColumn(Name = "统计类别")]
         [ExcelColumnName("统计类别")]
-        public string DcStatyp { get; set; }
+        public string Ml005 { get; set; }
 
-        [ExcelColumn(Name = "成本科目")]
+        //[ExcelColumn(Name = "成本科目")]
         [ExcelColumnName("成本科目")]
-        public string DcKtosl { get; set; }
+        public string Ml006 { get; set; }
 
-        [ExcelColumn(Name = "科目代码")]
+        //[ExcelColumn(Name = "科目代码")]
         [ExcelColumnName("科目代码")]
-        public string DcKonto { get; set; }
+        public string Ml007 { get; set; }
 
-        [ExcelColumn(Name = "科目分类")]
+        //[ExcelColumn(Name = "科目分类")]
         [ExcelColumnName("科目分类")]
-        public string DcKotyp { get; set; }
+        public string Ml008 { get; set; }
 
-        [ExcelColumn(Name = "预算")]
+        //[ExcelColumn(Name = "预算")]
         [ExcelColumnName("预算")]
-        public decimal DcAnval { get; set; }
+        public decimal Ml009 { get; set; }
 
-        [ExcelColumn(Name = "实际")]
+        //[ExcelColumn(Name = "实际")]
         [ExcelColumnName("实际")]
-        public decimal DcDmist { get; set; }
+        public decimal Ml010 { get; set; }
 
-        [ExcelColumn(Name = "差异")]
+        //[ExcelColumn(Name = "差异")]
         [ExcelColumnName("差异")]
-        public decimal DcBfaac { get; set; }
+        public decimal Ml011 { get; set; }
 
-        [ExcelColumn(Name = "工厂")]
+        [Required(ErrorMessage = "工厂不能为空")]
+        //[ExcelColumn(Name = "工厂")]
         [ExcelColumnName("工厂")]
-        public string DcWerks { get; set; }
+        public string Ml012 { get; set; }
 
-        [ExcelColumn(Name = "物料")]
+        [Required(ErrorMessage = "物料不能为空")]
+        //[ExcelColumn(Name = "物料")]
         [ExcelColumnName("物料")]
-        public string DcMatnr { get; set; }
+        public string Ml013 { get; set; }
 
-        [ExcelColumn(Name = "仓库")]
+        //[ExcelColumn(Name = "仓库")]
         [ExcelColumnName("仓库")]
-        public string DcLgort { get; set; }
+        public string Ml014 { get; set; }
 
-        [ExcelColumn(Name = "移动类型")]
+        //[ExcelColumn(Name = "移动类型")]
         [ExcelColumnName("移动类型")]
-        public string DcBwart { get; set; }
+        public string Ml015 { get; set; }
 
-        [ExcelColumn(Name = "物料凭证")]
+        //[ExcelColumn(Name = "物料凭证")]
         [ExcelColumnName("物料凭证")]
-        public string DcMblnr { get; set; }
+        public string Ml016 { get; set; }
 
-        [ExcelColumn(Name = "项目明细")]
+        //[ExcelColumn(Name = "项目明细")]
         [ExcelColumnName("项目明细")]
-        public string DcZeile { get; set; }
+        public string Ml017 { get; set; }
 
-        [ExcelColumn(Name = "数量")]
+        //[ExcelColumn(Name = "数量")]
         [ExcelColumnName("数量")]
-        public decimal DcMenge { get; set; }
+        public decimal Ml018 { get; set; }
 
-        [ExcelColumn(Name = "币种")]
+        //[ExcelColumn(Name = "币种")]
         [ExcelColumnName("币种")]
-        public string DcWaers { get; set; }
+        public string Ml019 { get; set; }
 
-        [ExcelColumn(Name = "金额")]
+        //[ExcelColumn(Name = "金额")]
         [ExcelColumnName("金额")]
-        public decimal DcDmbtr { get; set; }
+        public decimal Ml020 { get; set; }
 
-        [ExcelColumn(Name = "预留单")]
+        //[ExcelColumn(Name = "预留单")]
         [ExcelColumnName("预留单")]
-        public string DcRsnum { get; set; }
+        public string Ml021 { get; set; }
 
-        [ExcelColumn(Name = "预留明细")]
+        //[ExcelColumn(Name = "预留明细")]
         [ExcelColumnName("预留明细")]
-        public string DcRspos { get; set; }
+        public string Ml022 { get; set; }
 
-        [ExcelColumn(Name = "领用日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        //[ExcelColumn(Name = "领用日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("领用日期")]
-        public DateTime? DcBudat { get; set; }
+        public DateTime? Ml023 { get; set; }
 
         [ExcelIgnore]
-        public string REF01 { get; set; }
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string REF02 { get; set; }
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public string REF03 { get; set; }
+        public string Ref03 { get; set; }
+
+        [Required(ErrorMessage = "预留1不能为空")]
+        [ExcelIgnore]
+        public decimal Ref04 { get; set; }
+
+        [Required(ErrorMessage = "预留2不能为空")]
+        [ExcelIgnore]
+        public decimal Ref05 { get; set; }
+
+        [Required(ErrorMessage = "预留3不能为空")]
+        [ExcelIgnore]
+        public decimal Ref06 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF04 { get; set; }
+        public string Udf01 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF05 { get; set; }
+        public string Udf02 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF06 { get; set; }
+        public string Udf03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+        public string Udf04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+        public string Udf05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+        public string Udf06 { get; set; }
 
+        [Required(ErrorMessage = "自定义1不能为空")]
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+        public int Udf51 { get; set; }
 
+        [Required(ErrorMessage = "自定义2不能为空")]
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+        public int Udf52 { get; set; }
 
+        [Required(ErrorMessage = "自定义3不能为空")]
         [ExcelIgnore]
-        public string UDF06 { get; set; }
+        public int Udf53 { get; set; }
 
+        [Required(ErrorMessage = "自定义4不能为空")]
         [ExcelIgnore]
-        public int? UDF51 { get; set; }
+        public decimal Udf54 { get; set; }
 
+        [Required(ErrorMessage = "自定义5不能为空")]
         [ExcelIgnore]
-        public int? UDF52 { get; set; }
+        public decimal Udf55 { get; set; }
 
+        [Required(ErrorMessage = "自定义6不能为空")]
         [ExcelIgnore]
-        public int? UDF53 { get; set; }
-
-        [ExcelIgnore]
-        public decimal UDF54 { get; set; }
-
-        [ExcelIgnore]
-        public decimal UDF55 { get; set; }
-
-        [ExcelIgnore]
-        public decimal UDF56 { get; set; }
+        public decimal Udf56 { get; set; }
 
         [ExcelIgnore]
         public string Remark { get; set; }
@@ -375,13 +466,16 @@ namespace Ams.Model.Accounting.Dto
 
         [ExcelIgnore]
         [ExcelColumn(Name = "期间")]
-        public string DcLfgjaLabel { get; set; }
+        public string Ml002Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "年月")]
-        public string DcLfmonLabel { get; set; }
+        public string Ml003Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "公司代码")]
-        public string DcBukrsLabel { get; set; }
+        public string Ml004Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "工厂")]
+        public string Ml012Label { get; set; }
     }
 
 }

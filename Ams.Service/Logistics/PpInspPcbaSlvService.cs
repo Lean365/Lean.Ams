@@ -1,20 +1,23 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
 {
     /// <summary>
-    /// 检查日报slv
+    /// 检查明细
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 12:01:22
+    /// @Date: 2024/9/12 16:38:55
     /// </summary>
     [AppService(ServiceType = typeof(IPpInspPcbaSlvService), ServiceLifetime = LifeTime.Transient)]
     public class PpInspPcbaSlvService : BaseService<PpInspPcbaSlv>, IPpInspPcbaSlvService
     {
         /// <summary>
-        /// 查询检查日报slv列表
+        /// 查询检查明细列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -28,6 +31,7 @@ namespace Ams.Service.Logistics
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +40,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. PdiSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,18 +52,19 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="PdiSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public PpInspPcbaSlv GetInfo(long PdiSfId)
+        public PpInspPcbaSlv GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.PdiSfId == PdiSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
-        /// 添加检查日报slv
+        /// 添加检查明细
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -68,39 +73,32 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
-        /// 修改检查日报slv
+        /// 修改检查明细
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         public int UpdatePpInspPcbaSlv(PpInspPcbaSlv model)
         {
-            return Update(model, true, "修改检查日报slv");
+            return Update(model, true, "修改检查明细");
         }
 
         /// <summary>
-        /// 导入检查日报slv
+        /// 导入检查明细
         /// </summary>
         /// <returns></returns>
         public (string, object, object) ImportPpInspPcbaSlv(List<PpInspPcbaSlv> list)
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.PdiSfId.IsEmpty(), "ID不能为空")
-                .SplitError(x => x.Item.PdiParentSfId.IsEmpty(), "PdiParentSfId不能为空")
-                .SplitError(x => x.Item.Pdirealqty.IsEmpty(), "当日完成数不能为空")
-                .SplitError(x => x.Item.Pdirealtotal.IsEmpty(), "累计完成数不能为空")
-                .SplitError(x => x.Item.Pdiispqty.IsEmpty(), "检查台数不能为空")
-                .SplitError(x => x.Item.Pdiinsqtime.IsEmpty(), "检查工数不能为空")
-                .SplitError(x => x.Item.Pdiaoitime.IsEmpty(), "AOI工数不能为空")
-                .SplitError(x => x.Item.Pdibadqty.IsEmpty(), "不良数量不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Mv004.IsEmpty(), "Lot数不能为空")
+                .SplitError(x => x.Item.Mv012.IsEmpty(), "当日完成数不能为空")
+                .SplitError(x => x.Item.Mv013.IsEmpty(), "累计完成数不能为空")
+                .SplitError(x => x.Item.Mv014.IsEmpty(), "检查台数不能为空")
+                .SplitError(x => x.Item.Mv017.IsEmpty(), "检查工数不能为空")
+                .SplitError(x => x.Item.Mv018.IsEmpty(), "AOI工数不能为空")
+                .SplitError(x => x.Item.Mv019.IsEmpty(), "不良数量不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -122,7 +120,7 @@ namespace Ams.Service.Logistics
         }
 
         /// <summary>
-        /// 导出检查日报slv
+        /// 导出检查明细
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -134,14 +132,20 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpInspPcbaSlvDto()
                 {
-                    PdipcbtypeLabel = it.Pdipcbtype.GetConfigValue<SysDictData>("sql_pcb_type"),
-                    PdivisualtypeLabel = it.Pdivisualtype.GetConfigValue<SysDictData>("sys_visual_type"),
-                    PdivctypeLabel = it.Pdivctype.GetConfigValue<SysDictData>("sys_aoi_type"),
-                    PdidshiftnameLabel = it.Pdidshiftname.GetConfigValue<SysDictData>("sql_smt_class"),
-                    PdipcbchecktypeLabel = it.Pdipcbchecktype.GetConfigValue<SysDictData>("sql_smt_status"),
-                    PdilinenameLabel = it.Pdilinename.GetConfigValue<SysDictData>("sql_smt_line"),
-                    PdibadPositionLabel = it.PdibadPosition.GetConfigValue<SysDictData>("sql_pcb_place"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <板别> 
+                    Mv005Label = it.Mv005.GetConfigValue<SysDictData>("sql_pcb_type"),
+                    //查询字典: <目视线别> 
+                    Mv006Label = it.Mv006.GetConfigValue<SysDictData>("sys_visual_type"),
+                    //查询字典: <AOI线别> 
+                    Mv007Label = it.Mv007.GetConfigValue<SysDictData>("sys_aoi_type"),
+                    //查询字典: <生产班别> 
+                    Mv010Label = it.Mv010.GetConfigValue<SysDictData>("sys_shifts_list"),
+                    //查询字典: <检查状态> 
+                    Mv015Label = it.Mv015.GetConfigValue<SysDictData>("sql_smt_status"),
+                    //查询字典: <生产线别> 
+                    Mv016Label = it.Mv016.GetConfigValue<SysDictData>("sql_smt_line"),
+                    //查询字典: <个所区分> 
+                    Mv023Label = it.Mv023.GetConfigValue<SysDictData>("sql_pcb_place"),
                 }, true)
                 .ToPage(parm);
 
@@ -157,23 +161,6 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpInspPcbaSlv>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Pdilot), it => it.Pdilot.Contains(parm.Pdilot));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Pdipcbtype), it => it.Pdipcbtype == parm.Pdipcbtype);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Pdivisualtype), it => it.Pdivisualtype == parm.Pdivisualtype);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Pdivctype), it => it.Pdivctype == parm.Pdivctype);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginPdisideadate == null, it => it.Pdisideadate >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginPdisideadate == null, it => it.Pdisideadate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginPdisideadate != null, it => it.Pdisideadate >= parm.BeginPdisideadate);
-            predicate = predicate.AndIF(parm.EndPdisideadate != null, it => it.Pdisideadate <= parm.EndPdisideadate);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginPdisidebdate == null, it => it.Pdisidebdate >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginPdisidebdate == null, it => it.Pdisidebdate >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginPdisidebdate != null, it => it.Pdisidebdate >= parm.BeginPdisidebdate);
-            predicate = predicate.AndIF(parm.EndPdisidebdate != null, it => it.Pdisidebdate <= parm.EndPdisidebdate);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.PdibadPosition), it => it.PdibadPosition == parm.PdibadPosition);
             return predicate;
         }
     }

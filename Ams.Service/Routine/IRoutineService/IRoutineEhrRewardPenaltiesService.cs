@@ -7,7 +7,7 @@ namespace Ams.Service.Routine.IRoutineService
     /// 奖惩
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/30 9:30:08
+    /// @Date: 2024/9/12 15:16:00
     /// </summary>
     public interface IRoutineEhrRewardPenaltiesService : IBaseService<RoutineEhrRewardPenalties>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Routine.IRoutineService
         /// <summary>
         /// 获取奖惩信息
         /// </summary>
-        /// <param name="EeSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        RoutineEhrRewardPenalties GetInfo(long EeSfId);
+        RoutineEhrRewardPenalties GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

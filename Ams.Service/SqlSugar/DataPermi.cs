@@ -1,5 +1,5 @@
-﻿using Ams.Infrastructure;
-using SqlSugar.IOC;
+﻿using SqlSugar.IOC;
+using Ams.Infrastructure;
 
 namespace Ams.Service.SqlSugar
 {
@@ -49,10 +49,10 @@ namespace Ams.Service.SqlSugar
             if (user == null) return;
 
             var db = DbScoped.SugarScope.GetConnectionScope(configId);
-            var expUser = Expressionable.Create<SysUser>().And(it => it.IsDeleted == 0);
+            var expUser = Expressionable.Create<SysUser>().And(it => it.Is_deleted == 0);
             var expRole = Expressionable.Create<SysRole>();
             var expLoginlog = Expressionable.Create<LoginLog>();
-            var expSysMsg = Expressionable.Create<SysUserMsg>().And(it => it.IsDeleted == 0);
+            var expSysMsg = Expressionable.Create<SysUserMsg>().And(it => it.IsDelete == 0);
 
             db.QueryFilter.AddTableFilter(expSysMsg.ToExpression());
             //管理员不过滤

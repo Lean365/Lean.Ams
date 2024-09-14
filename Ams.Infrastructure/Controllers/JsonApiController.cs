@@ -1,14 +1,17 @@
-﻿using Ams.Infrastructure.Extensions;
-using Ams.Infrastructure.Model;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using MiniExcelLibs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Web;
+using Ams.Infrastructure.Apps;
+using Ams.Infrastructure.CustomExceptions;
+using Ams.Infrastructure.Extensions;
+using Ams.Infrastructure.Model;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using MiniExcelLibs;
 using textJson = System.Text.Json;
 
 namespace Ams.Infrastructure.Controllers
@@ -75,7 +78,7 @@ namespace Ams.Infrastructure.Controllers
             }
             var stream = System.IO.File.OpenRead(path);  //创建文件流
 
-            Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
+            Response.Headers.Append("Access-Control-Expose-Headers", "Content-Disposition");
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", HttpUtility.UrlEncode(fileName));
         }
 
@@ -92,7 +95,7 @@ namespace Ams.Infrastructure.Controllers
                 return NotFound();
             }
             var stream = System.IO.File.OpenRead(path);  //创建文件流
-            Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
+            Response.Headers.Append("Access-Control-Expose-Headers", "Content-Disposition");
             return File(stream, "application/octet-stream", HttpUtility.UrlEncode(fileName));
         }
 
@@ -104,7 +107,7 @@ namespace Ams.Infrastructure.Controllers
         /// <param name="rows">受影响行数</param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected ApiResult ToJson(long rows, object? data = null)
+        protected ApiResult ToJson(long rows, object data = null)
         {
             return rows > 0 ? ApiResult.Success("success", data) : GetApiResult(ResultCode.FAIL);
         }
@@ -115,19 +118,20 @@ namespace Ams.Infrastructure.Controllers
         /// <param name="resultCode"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected ApiResult GetApiResult(ResultCode resultCode, object? data = null)
+        protected ApiResult GetApiResult(ResultCode resultCode, object data = null)
         {
             var msg = resultCode.GetDescription();
 
             return new ApiResult((int)resultCode, msg, data);
         }
+
         protected ApiResult Success()
         {
             return GetApiResult(ResultCode.SUCCESS);
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="apiResult"></param>
         /// <param name="timeFormatStr"></param>
@@ -158,7 +162,8 @@ namespace Ams.Infrastructure.Controllers
             string responseResult = textJson.JsonSerializer.Serialize(apiResult, options);
             return responseResult;
         }
-        #endregion
+
+        #endregion 方法
 
         /// <summary>
         /// 导出Excel
@@ -173,7 +178,7 @@ namespace Ams.Infrastructure.Controllers
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>

@@ -1,8 +1,8 @@
 <!--
  * @Descripttion: 绩效/routine_ehr_performance_slv
- * @Version: 1.0.0.0
+ * @Version: 0.24.621.29885
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/8/9 17:21:01
+ * @Date: 2024/9/12 16:38:43
  * @column：45
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
@@ -12,35 +12,13 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="考核项目" prop="epEvalItems">
-        <el-select filterable clearable   v-model="queryParams.epEvalItems" :placeholder="$t('btn.selectSearchPrefix')+'考核项目'+$t('btn.selectSearchSuffix')">
+      <el-form-item label="考核项目" prop="mm003">
+        <el-select filterable clearable   v-model="queryParams.mm003" :placeholder="$t('btn.selectSearchPrefix')+'考核项目'+$t('btn.selectSearchSuffix')">
           <el-option v-for="item in   options.sys_eval_items " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="初评日期">
-        <el-date-picker
-          v-model="dateRangeEpFirstEvalDate" 
-          type="datetimerange"
-          :start-placeholder="$t('btn.dateStart')"
-          :end-placeholder="$t('btn.dateEnd')"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          :default-time="defaultTime"
-          :shortcuts="dateOptions">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="六次考评日期">
-        <el-date-picker
-          v-model="dateRangeEpSixthEvalDate" 
-          type="datetimerange"
-          :start-placeholder="$t('btn.dateStart')"
-          :end-placeholder="$t('btn.dateEnd')"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          :default-time="defaultTime"
-          :shortcuts="dateOptions">
-        </el-date-picker>
       </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
@@ -104,31 +82,32 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="epSfId" label="ID" align="center" v-if="columns.showColumn('epSfId')"/>
-      <el-table-column prop="epParentSfId" label="父ID" align="center" v-if="columns.showColumn('epParentSfId')"/>
-      <el-table-column prop="epEvalItems" label="考核项目" align="center" v-if="columns.showColumn('epEvalItems')">
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
+      <el-table-column prop="parentId" label="父ID" align="center" v-if="columns.showColumn('parentId')"/>
+      <el-table-column prop="mm003" label="考核项目" align="center" v-if="columns.showColumn('mm003')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_eval_items " :value="scope.row.epEvalItems"  />
+          <dict-tag :options=" options.sys_eval_items " :value="scope.row.mm003"  />
         </template>
       </el-table-column>
-      <el-table-column prop="epFirstEvalScore" label="初次评分" align="center" v-if="columns.showColumn('epFirstEvalScore')"/>
-      <el-table-column prop="epFirstEvaluator" label="初评人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epFirstEvaluator')"/>
-      <el-table-column prop="epFirstEvalDate" label="初评日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('epFirstEvalDate')"/>
-      <el-table-column prop="epSecondEvalScore" label="二次评分" align="center" v-if="columns.showColumn('epSecondEvalScore')"/>
-      <el-table-column prop="eSecondEvaluator" label="二次考评人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('eSecondEvaluator')"/>
-      <el-table-column prop="epSecondEvalDate" label="二次考评日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('epSecondEvalDate')"/>
-      <el-table-column prop="epThirdEvalScore" label="三次评分" align="center" v-if="columns.showColumn('epThirdEvalScore')"/>
-      <el-table-column prop="epThirdEvaluator" label="三次考评人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epThirdEvaluator')"/>
-      <el-table-column prop="epThirdEvalDate" label="三次考评日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('epThirdEvalDate')"/>
-      <el-table-column prop="epFourthEvalScore" label="四次评分" align="center" v-if="columns.showColumn('epFourthEvalScore')"/>
-      <el-table-column prop="epFourthEvaluator" label="四次考评人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epFourthEvaluator')"/>
-      <el-table-column prop="epFourthEvalDate" label="四次考评日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('epFourthEvalDate')"/>
-      <el-table-column prop="epFifthEvalScore" label="五次评分" align="center" v-if="columns.showColumn('epFifthEvalScore')"/>
-      <el-table-column prop="epFifthEvaluator" label="五次考评人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epFifthEvaluator')"/>
-      <el-table-column prop="eFifthEvalDate" label="五次考评日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('eFifthEvalDate')"/>
-      <el-table-column prop="epSixthEvalScore" label="六次评分" align="center" v-if="columns.showColumn('epSixthEvalScore')"/>
-      <el-table-column prop="epSixthEvaluator" label="六次考评人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epSixthEvaluator')"/>
-      <el-table-column prop="epSixthEvalDate" label="六次考评日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('epSixthEvalDate')"/>
+      <el-table-column prop="mm004" label="初次评分" align="center" v-if="columns.showColumn('mm004')"/>
+      <el-table-column prop="mm005" label="初评人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mm005')"/>
+      <el-table-column prop="mm006" label="初评日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('mm006')"/>
+      <el-table-column prop="mm007" label="二次评分" align="center" v-if="columns.showColumn('mm007')"/>
+      <el-table-column prop="mm008" label="二次考评人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mm008')"/>
+      <el-table-column prop="mm009" label="二次考评日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('mm009')"/>
+      <el-table-column prop="mm010" label="三次评分" align="center" v-if="columns.showColumn('mm010')"/>
+      <el-table-column prop="mm011" label="三次考评人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mm011')"/>
+      <el-table-column prop="mm012" label="三次考评日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('mm012')"/>
+      <el-table-column prop="mm013" label="四次评分" align="center" v-if="columns.showColumn('mm013')"/>
+      <el-table-column prop="mm014" label="四次考评人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mm014')"/>
+      <el-table-column prop="mm015" label="四次考评日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('mm015')"/>
+      <el-table-column prop="mm016" label="五次评分" align="center" v-if="columns.showColumn('mm016')"/>
+      <el-table-column prop="mm017" label="五次考评人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mm017')"/>
+      <el-table-column prop="mm018" label="五次考评日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('mm018')"/>
+      <el-table-column prop="mm019" label="六次评分" align="center" v-if="columns.showColumn('mm019')"/>
+      <el-table-column prop="mm020" label="六次考评人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mm020')"/>
+      <el-table-column prop="mm021" label="六次考评日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('mm021')"/>
+      <el-table-column prop="isDeleted" label="软删除" align="center" v-if="columns.showColumn('isDeleted')"/>
       <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
@@ -149,14 +128,14 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="父ID" prop="epParentSfId">
-              <el-input v-model.number="form.epParentSfId" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')"  show-word-limit maxlength="19"/>
+            <el-form-item label="父ID" prop="parentId">
+              <el-input v-model.number="form.parentId" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="考核项目" prop="epEvalItems">
-              <el-select filterable clearable   v-model="form.epEvalItems"  :placeholder="$t('btn.selectPrefix')+'考核项目'+$t('btn.selectSuffix')">
+            <el-form-item label="考核项目" prop="mm003">
+              <el-select filterable clearable   v-model="form.mm003"  :placeholder="$t('btn.selectPrefix')+'考核项目'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sys_eval_items" 
                   :key="item.dictValue" 
@@ -168,110 +147,116 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="初次评分" prop="epFirstEvalScore">
-              <el-input-number v-model.number="form.epFirstEvalScore" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'初次评分'+$t('btn.enterSuffix')" />
+            <el-form-item label="初次评分" prop="mm004">
+              <el-input-number v-model.number="form.mm004" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'初次评分'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="初评人" prop="epFirstEvaluator">
-              <el-input v-model="form.epFirstEvaluator" :placeholder="$t('btn.enterPrefix')+'初评人'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="初评人" prop="mm005">
+              <el-input   v-model="form.mm005" :placeholder="$t('btn.enterPrefix')+'初评人'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="初评日期" prop="epFirstEvalDate">
-              <el-date-picker v-model="form.epFirstEvalDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="初评日期" prop="mm006">
+              <el-date-picker v-model="form.mm006" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="二次评分" prop="epSecondEvalScore">
-              <el-input-number v-model.number="form.epSecondEvalScore" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'二次评分'+$t('btn.enterSuffix')" />
+            <el-form-item label="二次评分" prop="mm007">
+              <el-input-number v-model.number="form.mm007" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'二次评分'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="二次考评人" prop="eSecondEvaluator">
-              <el-input v-model="form.eSecondEvaluator" :placeholder="$t('btn.enterPrefix')+'二次考评人'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="二次考评人" prop="mm008">
+              <el-input   v-model="form.mm008" :placeholder="$t('btn.enterPrefix')+'二次考评人'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="二次考评日期" prop="epSecondEvalDate">
-              <el-date-picker v-model="form.epSecondEvalDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="二次考评日期" prop="mm009">
+              <el-date-picker v-model="form.mm009" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="三次评分" prop="epThirdEvalScore">
-              <el-input-number v-model.number="form.epThirdEvalScore" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'三次评分'+$t('btn.enterSuffix')" />
+            <el-form-item label="三次评分" prop="mm010">
+              <el-input-number v-model.number="form.mm010" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'三次评分'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="三次考评人" prop="epThirdEvaluator">
-              <el-input v-model="form.epThirdEvaluator" :placeholder="$t('btn.enterPrefix')+'三次考评人'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="三次考评人" prop="mm011">
+              <el-input   v-model="form.mm011" :placeholder="$t('btn.enterPrefix')+'三次考评人'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="三次考评日期" prop="epThirdEvalDate">
-              <el-date-picker v-model="form.epThirdEvalDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="三次考评日期" prop="mm012">
+              <el-date-picker v-model="form.mm012" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="四次评分" prop="epFourthEvalScore">
-              <el-input-number v-model.number="form.epFourthEvalScore" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'四次评分'+$t('btn.enterSuffix')" />
+            <el-form-item label="四次评分" prop="mm013">
+              <el-input-number v-model.number="form.mm013" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'四次评分'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="四次考评人" prop="epFourthEvaluator">
-              <el-input v-model="form.epFourthEvaluator" :placeholder="$t('btn.enterPrefix')+'四次考评人'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="四次考评人" prop="mm014">
+              <el-input   v-model="form.mm014" :placeholder="$t('btn.enterPrefix')+'四次考评人'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="四次考评日期" prop="epFourthEvalDate">
-              <el-date-picker v-model="form.epFourthEvalDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="四次考评日期" prop="mm015">
+              <el-date-picker v-model="form.mm015" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="五次评分" prop="epFifthEvalScore">
-              <el-input-number v-model.number="form.epFifthEvalScore" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'五次评分'+$t('btn.enterSuffix')" />
+            <el-form-item label="五次评分" prop="mm016">
+              <el-input-number v-model.number="form.mm016" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'五次评分'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="五次考评人" prop="epFifthEvaluator">
-              <el-input v-model="form.epFifthEvaluator" :placeholder="$t('btn.enterPrefix')+'五次考评人'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="五次考评人" prop="mm017">
+              <el-input   v-model="form.mm017" :placeholder="$t('btn.enterPrefix')+'五次考评人'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="五次考评日期" prop="eFifthEvalDate">
-              <el-date-picker v-model="form.eFifthEvalDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="五次考评日期" prop="mm018">
+              <el-date-picker v-model="form.mm018" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="六次评分" prop="epSixthEvalScore">
-              <el-input-number v-model.number="form.epSixthEvalScore" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'六次评分'+$t('btn.enterSuffix')" />
+            <el-form-item label="六次评分" prop="mm019">
+              <el-input-number v-model.number="form.mm019" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'六次评分'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="六次考评人" prop="epSixthEvaluator">
-              <el-input v-model="form.epSixthEvaluator" :placeholder="$t('btn.enterPrefix')+'六次考评人'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="六次考评人" prop="mm020">
+              <el-input   v-model="form.mm020" :placeholder="$t('btn.enterPrefix')+'六次考评人'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="六次考评日期" prop="epSixthEvalDate">
-              <el-date-picker v-model="form.epSixthEvalDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="六次考评日期" prop="mm021">
+              <el-date-picker v-model="form.mm021" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="软删除" prop="isDeleted">
+              <el-input-number v-model.number="form.isDeleted" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'软删除'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
@@ -389,38 +374,35 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: 'EpFirstEvalDate',
-  sortType: 'desc',
-//是否查询（1是）
-  epEvalItems: undefined,
-//是否查询（1是）
-  epFirstEvalDate: undefined,
-//是否查询（1是）
-  epSixthEvalDate: undefined,
+  sort: 'Mm003',
+  sortType: 'asc',
+  //是否查询（1是）
+  mm003: undefined,
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'epSfId', label: 'ID' },
-  { visible: true, prop: 'epParentSfId', label: '父ID' },
-  { visible: true, prop: 'epEvalItems', label: '考核项目' },
-  { visible: true, prop: 'epFirstEvalScore', label: '初次评分' },
-  { visible: true, prop: 'epFirstEvaluator', label: '初评人' },
-  { visible: true, prop: 'epFirstEvalDate', label: '初评日期' },
-  { visible: true, prop: 'epSecondEvalScore', label: '二次评分' },
-  { visible: true, prop: 'eSecondEvaluator', label: '二次考评人' },
-  { visible: false, prop: 'epSecondEvalDate', label: '二次考评日期' },
-  { visible: false, prop: 'epThirdEvalScore', label: '三次评分' },
-  { visible: false, prop: 'epThirdEvaluator', label: '三次考评人' },
-  { visible: false, prop: 'epThirdEvalDate', label: '三次考评日期' },
-  { visible: false, prop: 'epFourthEvalScore', label: '四次评分' },
-  { visible: false, prop: 'epFourthEvaluator', label: '四次考评人' },
-  { visible: false, prop: 'epFourthEvalDate', label: '四次考评日期' },
-  { visible: false, prop: 'epFifthEvalScore', label: '五次评分' },
-  { visible: false, prop: 'epFifthEvaluator', label: '五次考评人' },
-  { visible: false, prop: 'eFifthEvalDate', label: '五次考评日期' },
-  { visible: false, prop: 'epSixthEvalScore', label: '六次评分' },
-  { visible: false, prop: 'epSixthEvaluator', label: '六次考评人' },
-  { visible: false, prop: 'epSixthEvalDate', label: '六次考评日期' },
+  { visible: true, prop: 'id', label: 'ID' },
+  { visible: true, prop: 'parentId', label: '父ID' },
+  { visible: true, prop: 'mm003', label: '考核项目' },
+  { visible: true, prop: 'mm004', label: '初次评分' },
+  { visible: true, prop: 'mm005', label: '初评人' },
+  { visible: true, prop: 'mm006', label: '初评日期' },
+  { visible: true, prop: 'mm007', label: '二次评分' },
+  { visible: true, prop: 'mm008', label: '二次考评人' },
+  { visible: false, prop: 'mm009', label: '二次考评日期' },
+  { visible: false, prop: 'mm010', label: '三次评分' },
+  { visible: false, prop: 'mm011', label: '三次考评人' },
+  { visible: false, prop: 'mm012', label: '三次考评日期' },
+  { visible: false, prop: 'mm013', label: '四次评分' },
+  { visible: false, prop: 'mm014', label: '四次考评人' },
+  { visible: false, prop: 'mm015', label: '四次考评日期' },
+  { visible: false, prop: 'mm016', label: '五次评分' },
+  { visible: false, prop: 'mm017', label: '五次考评人' },
+  { visible: false, prop: 'mm018', label: '五次考评日期' },
+  { visible: false, prop: 'mm019', label: '六次评分' },
+  { visible: false, prop: 'mm020', label: '六次考评人' },
+  { visible: false, prop: 'mm021', label: '六次考评日期' },
+  { visible: false, prop: 'isDeleted', label: '软删除' },
   { visible: false, prop: 'remark', label: '备注说明' },
 ])
 // 记录数
@@ -431,15 +413,10 @@ const dataList = ref([])
 const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-// 初评日期时间范围
-const dateRangeEpFirstEvalDate = ref([])
-// 六次考评日期时间范围
-const dateRangeEpSixthEvalDate = ref([])
 
 //字典参数
 var dictParams = [
   { dictType: "sys_eval_items" },
-  { dictType: "sys_is_deleted" },
 ]
 
 //字典加载
@@ -450,8 +427,6 @@ proxy.getDicts(dictParams).then((response) => {
 })
 //API获取从绩效/routine_ehr_performance_slv表记录数据
 function getList(){
-  proxy.addDateRange(queryParams, dateRangeEpFirstEvalDate.value, 'EpFirstEvalDate');
-  proxy.addDateRange(queryParams, dateRangeEpSixthEvalDate.value, 'EpSixthEvalDate');
   loading.value = true
   listRoutineEhrPerformanceSlv(queryParams).then(res => {
     const { code, data } = res
@@ -471,16 +446,12 @@ function handleQuery() {
 
 // 重置查询操作
 function resetQuery(){
-  // 初评日期时间范围
-  dateRangeEpFirstEvalDate.value = []
-  // 六次考评日期时间范围
-  dateRangeEpSixthEvalDate.value = []
   proxy.resetForm("queryRef")
   handleQuery()
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.epSfId);
+  ids.value = selection.map((item) => item.id);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -515,14 +486,15 @@ const state = reactive({
   single: true,
   multiple: true,
   form: {},
+//正则表达式
   rules: {
-    epSfId: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
+    mm003: [{ required: true, message: "考核项目"+proxy.$t('btn.isEmpty'), trigger: "change"    , type: "number"  }],
+    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
   },
+//字典名称
   options: {
     // 考核项目 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_eval_items: [],
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_deleted: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -537,51 +509,28 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    epSfId: 0,
-    epParentSfId: 0,
-    epEvalItems: 0,
-    epFirstEvalScore: 0,
-    epFirstEvaluator: null,
-    epFirstEvalDate: null,
-    epSecondEvalScore: 0,
-    eSecondEvaluator: null,
-    epSecondEvalDate: null,
-    epThirdEvalScore: 0,
-    epThirdEvaluator: null,
-    epThirdEvalDate: null,
-    epFourthEvalScore: 0,
-    epFourthEvaluator: null,
-    epFourthEvalDate: null,
-    epFifthEvalScore: 0,
-    epFifthEvaluator: null,
-    eFifthEvalDate: null,
-    epSixthEvalScore: 0,
-    epSixthEvaluator: null,
-    epSixthEvalDate: null,
-    rEF01: null,
-    rEF02: null,
-    rEF03: null,
-    rEF04: 0,
-    rEF05: 0,
-    rEF06: 0,
-    uDF01: null,
-    uDF02: null,
-    uDF03: null,
-    uDF04: null,
-    uDF05: null,
-    uDF06: null,
-    uDF51: 0,
-    uDF52: 0,
-    uDF53: 0,
-    uDF54: 0,
-    uDF55: 0,
-    uDF56: 0,
+    parentId: 0,
+    mm003: [],
+    mm004: 0,
+    mm005: null,
+    mm006: null,
+    mm007: 0,
+    mm008: null,
+    mm009: null,
+    mm010: 0,
+    mm011: null,
+    mm012: null,
+    mm013: 0,
+    mm014: null,
+    mm015: null,
+    mm016: 0,
+    mm017: null,
+    mm018: null,
+    mm019: 0,
+    mm020: null,
+    mm021: null,
     isDeleted: 0,
     remark: null,
-    createBy: null,
-    createTime: null,
-    updateBy: null,
-    updateTime: null,
   };
   proxy.resetForm("formRef")
 }
@@ -593,24 +542,25 @@ function handleAdd() {
   open.value = true
   title.value = proxy.$t('btn.add')+" "+'绩效'
   opertype.value = 1
-  form.value.epEvalItems= 0
-  form.value.epFirstEvalScore= 0
-  form.value.epFirstEvalDate= new Date()
-  form.value.epSecondEvalScore= 0
-  form.value.epSecondEvalDate= new Date()
-  form.value.epThirdEvalScore= 0
-  form.value.epThirdEvalDate= new Date()
-  form.value.epFourthEvalScore= 0
-  form.value.epFourthEvalDate= new Date()
-  form.value.epFifthEvalScore= 0
-  form.value.eFifthEvalDate= new Date()
-  form.value.epSixthEvalScore= 0
-  form.value.epSixthEvalDate= new Date()
+  form.value.mm003= 0
+  form.value.mm004= 0
+  form.value.mm006= new Date()
+  form.value.mm007= 0
+  form.value.mm009= new Date()
+  form.value.mm010= 0
+  form.value.mm012= new Date()
+  form.value.mm013= 0
+  form.value.mm015= new Date()
+  form.value.mm016= 0
+  form.value.mm018= new Date()
+  form.value.mm019= 0
+  form.value.mm021= new Date()
+  form.value.isDeleted= 0
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.epSfId || ids.value
+  const id = row.id || ids.value
   getRoutineEhrPerformanceSlv(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -630,7 +580,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.epSfId != undefined && opertype.value === 2) {
+      if (form.value.id != undefined && opertype.value === 2) {
         updateRoutineEhrPerformanceSlv(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -649,7 +599,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.epSfId || ids.value
+  const Ids = row.id || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {

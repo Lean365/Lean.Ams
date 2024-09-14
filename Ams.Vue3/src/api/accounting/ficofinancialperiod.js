@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 财务期间分页查询
+ * 财政年度分页查询
  * @param {查询条件} data
  */
 export function listFicoFinancialPeriod(query) {
@@ -14,7 +14,7 @@ export function listFicoFinancialPeriod(query) {
 }
 
 /**
- * 新增财务期间
+ * 新增财政年度
  * @param data
  */
 export function addFicoFinancialPeriod(data) {
@@ -25,7 +25,7 @@ export function addFicoFinancialPeriod(data) {
   })
 }
 /**
- * 修改财务期间
+ * 修改财政年度
  * @param data
  */
 export function updateFicoFinancialPeriod(data) {
@@ -36,7 +36,7 @@ export function updateFicoFinancialPeriod(data) {
   })
 }
 /**
- * 获取财务期间详情
+ * 获取财政年度详情
  * @param {Id}
  */
 export function getFicoFinancialPeriod(id) {
@@ -47,7 +47,7 @@ export function getFicoFinancialPeriod(id) {
 }
 
 /**
- * 删除财务期间
+ * 删除财政年度
  * @param {主键} pid
  */
 export function delFicoFinancialPeriod(pid) {
@@ -56,7 +56,7 @@ export function delFicoFinancialPeriod(pid) {
     method: 'delete'
   })
 }
-// 导出财务期间
+// 导出财政年度
 export async function exportFicoFinancialPeriod(query) {
   await downFile('Accounting/FicoFinancialPeriod/export', { ...query })
 }

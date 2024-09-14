@@ -1,12 +1,12 @@
-﻿using Ams.Infrastructure;
+﻿using System.Threading.Tasks;
 using Ams.Infrastructure.Attribute;
+using Ams.Infrastructure.CustomExceptions;
 using Ams.Infrastructure.Extensions;
+using Ams.Service.Monitor.IMonitorService;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Triggers;
 using SqlSugar.IOC;
-using System.Threading.Tasks;
-using Ams.Service.Routine.IRoutineService;
 
 namespace Ams.Tasks.TaskScheduler
 {
@@ -20,14 +20,16 @@ namespace Ams.Tasks.TaskScheduler
         {
             this.tasksQzService = tasksQzService;
         }
+
         public async Task Execute(IJobExecutionContext context)
         {
             await ExecuteJob(context, async () => await Run(context));
         }
+
         public async Task Run(IJobExecutionContext context)
         {
             AbstractTrigger trigger = (context as JobExecutionContextImpl).Trigger as AbstractTrigger;
-            
+
             var info = await tasksQzService.GetByIdAsync(trigger.JobName);
 
             if (info != null && info.SqlText.IsNotEmpty())

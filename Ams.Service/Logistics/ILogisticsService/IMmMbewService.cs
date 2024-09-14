@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 物料评估
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 10:50:11
+    /// @Date: 2024/9/11 11:30:25
     /// </summary>
     public interface IMmMbewService : IBaseService<MmMbew>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取物料评估信息
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        MmMbew GetInfo(long SfId);
+        MmMbew GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

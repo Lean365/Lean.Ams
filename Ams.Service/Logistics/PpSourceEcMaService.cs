@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
@@ -8,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 主源设变
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:08:51
+    /// @Date: 2024/9/10 17:09:51
     /// </summary>
     [AppService(ServiceType = typeof(IPpSourceEcMaService), ServiceLifetime = LifeTime.Transient)]
     public class PpSourceEcMaService : BaseService<PpSourceEcMa>, IPpSourceEcMaService
@@ -24,11 +27,13 @@ namespace Ams.Service.Logistics
 
             var response = Queryable()
                 //.Includes(x => x.PpSourceEcSlvNav) //填充子对象
+                //.OrderBy("Za002 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<PpSourceEcMa, PpSourceEcMaDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -37,7 +42,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. SfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -49,17 +54,18 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public PpSourceEcMa GetInfo(long SfId)
+        public PpSourceEcMa GetInfo(long Id)
         {
             var response = Queryable()
                 .Includes(x => x.PpSourceEcSlvNav) //填充子对象
-                .Where(x => x.SfId == SfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加主源设变
         /// </summary>
@@ -69,6 +75,7 @@ namespace Ams.Service.Logistics
         {
             return Context.InsertNav(model).Include(s1 => s1.PpSourceEcSlvNav).ExecuteReturnEntity();
         }
+
         /// <summary>
         /// 修改主源设变
         /// </summary>
@@ -87,8 +94,18 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.IsSolved.IsEmpty(), "处理标记不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Za002.IsEmpty(), "设变No.不能为空")
+                .SplitError(x => x.Item.Za025.IsEmpty(), "单位成本不能为空")
+                .SplitError(x => x.Item.Za026.IsEmpty(), "模具改造费不能为空")
+                .SplitError(x => x.Item.Ref04.IsEmpty(), "预留1不能为空")
+                .SplitError(x => x.Item.Ref05.IsEmpty(), "预留2不能为空")
+                .SplitError(x => x.Item.Ref06.IsEmpty(), "预留3不能为空")
+                .SplitError(x => x.Item.Udf51.IsEmpty(), "自定义1不能为空")
+                .SplitError(x => x.Item.Udf52.IsEmpty(), "自定义2不能为空")
+                .SplitError(x => x.Item.Udf53.IsEmpty(), "自定义3不能为空")
+                .SplitError(x => x.Item.Udf54.IsEmpty(), "自定义4不能为空")
+                .SplitError(x => x.Item.Udf55.IsEmpty(), "自定义5不能为空")
+                .SplitError(x => x.Item.Udf56.IsEmpty(), "自定义6不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -122,9 +139,6 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpSourceEcMaDto()
                 {
-                    Zpabdz004Label = it.Zpabdz004.GetConfigValue<SysDictData>("sys_ec_status"),
-                    IsSolvedLabel = it.IsSolved.GetConfigValue<SysDictData>("sys_normal_whether"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
                 }, true)
                 .ToPage(parm);
 
@@ -140,16 +154,20 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpSourceEcMa>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zpabdz001), it => it.Zpabdz001.Contains(parm.Zpabdz001));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zpabdz003), it => it.Zpabdz003.Contains(parm.Zpabdz003));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zpabdz004), it => it.Zpabdz004 == parm.Zpabdz004);
+            //查询字段: <设变No.> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Za002), it => it.Za002.Contains(parm.Za002));
+            //查询字段: <标题> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Za004), it => it.Za004.Contains(parm.Za004));
+            //查询字段: <发行日> 
+            //predicate = predicate.AndIF(parm.BeginZa006 == null, it => it.Za006 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginZa006 != null, it => it.Za006 >= parm.BeginZa006);
+            //predicate = predicate.AndIF(parm.EndZa006 != null, it => it.Za006 <= parm.EndZa006);
             //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginZpabdz005 == null, it => it.Zpabdz005 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginZa006 == null, it => it.Za006 >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginZpabdz005 == null, it => it.Zpabdz005 >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginZpabdz005 != null, it => it.Zpabdz005 >= parm.BeginZpabdz005);
-            predicate = predicate.AndIF(parm.EndZpabdz005 != null, it => it.Zpabdz005 <= parm.EndZpabdz005);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.IsSolved), it => it.IsSolved == parm.IsSolved);
+            predicate = predicate.AndIF(parm.BeginZa006 == null, it => it.Za006 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginZa006 != null, it => it.Za006 >= parm.BeginZa006);
+            predicate = predicate.AndIF(parm.EndZa006 != null, it => it.Za006 <= parm.EndZa006);
             return predicate;
         }
     }

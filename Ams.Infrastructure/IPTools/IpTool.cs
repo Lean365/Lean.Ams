@@ -1,7 +1,7 @@
-﻿using System;
-using System.IO;
-using Ams.Infrastructure.IPTools.Model;
+﻿using Ams.Infrastructure.IPTools.Model;
 using IP2Region.Net.XDB;
+using System;
+using System.IO;
 
 namespace Ams.Infrastructure.IPTools
 {
@@ -9,7 +9,6 @@ namespace Ams.Infrastructure.IPTools
     {
         private static readonly string DbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ip2region.xdb");
         private static readonly Searcher Searcher;
-
         static IpTool()
         {
             if (!File.Exists(DbPath))

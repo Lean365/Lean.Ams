@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
@@ -8,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 源工时
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:11:09
+    /// @Date: 2024/9/11 13:39:17
     /// </summary>
     [AppService(ServiceType = typeof(IPpSourceManhoursService), ServiceLifetime = LifeTime.Transient)]
     public class PpSourceManhoursService : BaseService<PpSourceManhours>, IPpSourceManhoursService
@@ -23,11 +26,13 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Zc003 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<PpSourceManhours, PpSourceManhoursDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. SfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,16 +53,17 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public PpSourceManhours GetInfo(long SfId)
+        public PpSourceManhours GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.SfId == SfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加源工时
         /// </summary>
@@ -68,6 +74,7 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改源工时
         /// </summary>
@@ -86,13 +93,10 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.SfId.IsEmpty(), "ID不能为空")
-                .SplitError(x => x.Item.Zpbldz001.IsEmpty(), "工厂不能为空")
-                .SplitError(x => x.Item.Zpbldz002.IsEmpty(), "物料不能为空")
-                .SplitError(x => x.Item.Zpbldz003.IsEmpty(), "工作中心不能为空")
-                .SplitError(x => x.Item.Zpbldz005.IsEmpty(), "标准值不能为空")
-                .SplitError(x => x.Item.Zpbldz007.IsEmpty(), "标准值不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Zc002.IsEmpty(), "工厂不能为空")
+                .SplitError(x => x.Item.Zc003.IsEmpty(), "物料不能为空")
+                .SplitError(x => x.Item.Zc006.IsEmpty(), "标准值不能为空")
+                .SplitError(x => x.Item.Zc008.IsEmpty(), "标准值不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -126,9 +130,10 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new PpSourceManhoursDto()
                 {
-                    Zpbldz001Label = it.Zpbldz001.GetConfigValue<SysDictData>("sys_plant_list"),
-                    Zpbldz003Label = it.Zpbldz003.GetConfigValue<SysDictData>("sys_work_center"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <工厂> 
+                    Zc002Label = it.Zc002.GetConfigValue<SysDictData>("sql_plant_list"),
+                    //查询字典: <工作中心> 
+                    Zc004Label = it.Zc004.GetConfigValue<SysDictData>("sys_work_center"),
                 }, true)
                 .ToPage(parm);
 
@@ -144,9 +149,12 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<PpSourceManhours>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zpbldz001), it => it.Zpbldz001 == parm.Zpbldz001);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zpbldz002), it => it.Zpbldz002 == parm.Zpbldz002);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zpbldz003), it => it.Zpbldz003 == parm.Zpbldz003);
+            //查询字段: <工厂> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zc002), it => it.Zc002 == parm.Zc002);
+            //查询字段: <物料> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zc003), it => it.Zc003.Contains(parm.Zc003));
+            //查询字段: <工作中心> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Zc004), it => it.Zc004 == parm.Zc004);
             return predicate;
         }
     }

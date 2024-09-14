@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 实际对比
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 11:50:08
+    /// @Date: 2024/9/10 14:38:54
     /// </summary>
     public interface IFicoBudgetActualContService : IBaseService<FicoBudgetActualCont>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取实际对比信息
         /// </summary>
-        /// <param name="FbSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        FicoBudgetActualCont GetInfo(long FbSfId);
+        FicoBudgetActualCont GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

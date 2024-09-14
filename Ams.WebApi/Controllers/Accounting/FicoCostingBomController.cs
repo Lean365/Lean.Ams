@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// bom核算
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 11:34:34
+    /// @Date: 2024/9/10 16:12:02
     /// </summary>
     [Verify]
     [Route("Accounting/FicoCostingBom")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <summary>
         /// 查询bom核算详情
         /// </summary>
-        /// <param name="BcSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{BcSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "fico:costingbom:query")]
-        public IActionResult GetFicoCostingBom(long BcSfId)
+        public IActionResult GetFicoCostingBom(long Id)
         {
-            var response = _FicoCostingBomService.GetInfo(BcSfId);
+            var response = _FicoCostingBomService.GetInfo(Id);
             
             var info = response.Adapt<FicoCostingBomDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "fico:costingbom:add")]
-        [Log(Title = "bom核算", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "bom核算", BusinessType = BusinessType.ADD)]
         public IActionResult AddFicoCostingBom([FromBody] FicoCostingBomDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_FicoCostingBomService.CheckInputUnique(parm.BcSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_FicoCostingBomService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增bom核算 '{parm.BcSfId}'失败(Add failed)，输入的bom核算已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增bom核算 '{parm.Id}'失败(Add failed)，输入的bom核算已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<FicoCostingBom>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "fico:costingbom:edit")]
-        [Log(Title = "bom核算", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "bom核算", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateFicoCostingBom([FromBody] FicoCostingBomDto parm)
         {
             var modal = parm.Adapt<FicoCostingBom>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// 导出bom核算
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "bom核算", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "bom核算导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "fico:costingbom:export")]
         public IActionResult Export([FromQuery] FicoCostingBomQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// 导入
+        /// 导入bom核算
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "bom核算导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "fico:costingbom:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<FicoCostingBomDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
-        /// bom核算导入模板下载
+        /// bom核算
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "bom核算模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<FicoCostingBomImportTpl>() { }, "FicoCostingBom_tpl");
             return ExportExcel(result.Item2, result.Item1);

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 修理日报ma分页查询
+ * 修理分页查询
  * @param {查询条件} data
  */
 export function listPpRepairPcbaMa(query) {
@@ -14,7 +14,7 @@ export function listPpRepairPcbaMa(query) {
 }
 
 /**
- * 新增修理日报ma
+ * 新增修理
  * @param data
  */
 export function addPpRepairPcbaMa(data) {
@@ -25,7 +25,7 @@ export function addPpRepairPcbaMa(data) {
   })
 }
 /**
- * 修改修理日报ma
+ * 修改修理
  * @param data
  */
 export function updatePpRepairPcbaMa(data) {
@@ -36,7 +36,7 @@ export function updatePpRepairPcbaMa(data) {
   })
 }
 /**
- * 获取修理日报ma详情
+ * 获取修理详情
  * @param {Id}
  */
 export function getPpRepairPcbaMa(id) {
@@ -47,7 +47,7 @@ export function getPpRepairPcbaMa(id) {
 }
 
 /**
- * 删除修理日报ma
+ * 删除修理
  * @param {主键} pid
  */
 export function delPpRepairPcbaMa(pid) {
@@ -56,7 +56,7 @@ export function delPpRepairPcbaMa(pid) {
     method: 'delete'
   })
 }
-// 导出修理日报ma
+// 导出修理
 export async function exportPpRepairPcbaMa(query) {
   await downFile('Logistics/PpRepairPcbaMa/export', { ...query })
 }

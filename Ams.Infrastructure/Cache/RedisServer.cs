@@ -1,7 +1,6 @@
 ﻿using CSRedis;
-using Ams.Infrastructure;
 
-namespace Ams.Common.Cache
+namespace Ams.Infrastructure.Cache
 {
     public class RedisServer
     {

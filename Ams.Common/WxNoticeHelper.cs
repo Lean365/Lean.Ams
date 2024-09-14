@@ -1,7 +1,8 @@
-﻿using Ams.Infrastructure;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.Json;
 using Ams.Common.Model;
+using Ams.Infrastructure.Helper;
+using Ams.Infrastructure;
 
 namespace Ams.Common
 {

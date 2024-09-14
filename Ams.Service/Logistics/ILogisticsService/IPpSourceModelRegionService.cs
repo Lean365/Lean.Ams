@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 源机种仕向
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:18:52
+    /// @Date: 2024/9/11 13:38:17
     /// </summary>
     public interface IPpSourceModelRegionService : IBaseService<PpSourceModelRegion>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取源机种仕向信息
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        PpSourceModelRegion GetInfo(long SfId);
+        PpSourceModelRegion GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

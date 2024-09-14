@@ -1,17 +1,16 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.Mvc;
+using Ams.Infrastructure.Controllers;
+using Ams.Infrastructure.Helper;
+using Ams.Infrastructure.Model;
 using Microsoft.Extensions.Options;
 
 namespace Ams.WebApi.Controllers.Monitor
 {
     /// <summary>
     /// 系统监控
-    /// API控制器
-    /// @author Lean365(Davis.Ching)
-    /// @date 2024-05-20
     /// </summary>
-    [ApiExplorerSettings(GroupName = "monitor")]
+    [ApiExplorerSettings(GroupName = "system")]
     [Verify]
     public class MonitorController : BaseController
     {

@@ -1,20 +1,23 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
 {
     /// <summary>
-    /// 顾客信息
+    /// 顾客
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 13:49:23
+    /// @Date: 2024/9/11 16:25:01
     /// </summary>
     [AppService(ServiceType = typeof(ISdCustomerService), ServiceLifetime = LifeTime.Transient)]
     public class SdCustomerService : BaseService<SdCustomer>, ISdCustomerService
     {
         /// <summary>
-        /// 查询顾客信息列表
+        /// 查询顾客列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -23,11 +26,13 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Mb003 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<SdCustomer, SdCustomerDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. ScSfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,18 +53,19 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="ScSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public SdCustomer GetInfo(long ScSfId)
+        public SdCustomer GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.ScSfId == ScSfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
-        /// 添加顾客信息
+        /// 添加顾客
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -68,59 +74,31 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
-        /// 修改顾客信息
+        /// 修改顾客
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         public int UpdateSdCustomer(SdCustomer model)
         {
-            return Update(model, true, "修改顾客信息");
+            return Update(model, true, "修改顾客");
         }
 
         /// <summary>
-        /// 导入顾客信息
+        /// 导入顾客
         /// </summary>
         /// <returns></returns>
         public (string, object, object) ImportSdCustomer(List<SdCustomer> list)
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.ScSfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.ScOrg.IsEmpty(), "销售组织不能为空")
-                .SplitError(x => x.Item.ScIndustryType.IsEmpty(), "行业类别不能为空")
-                .SplitError(x => x.Item.ScEnterpriseNature.IsEmpty(), "企业性质不能为空")
-                .SplitError(x => x.Item.ScCode.IsEmpty(), "客户代码不能为空")
-                .SplitError(x => x.Item.ScAbbr.IsEmpty(), "客户简称不能为空")
-                .SplitError(x => x.Item.ScName.IsEmpty(), "客户名称不能为空")
-                .SplitError(x => x.Item.ScEbe.IsEmpty(), "企业法人不能为空")
-                .SplitError(x => x.Item.ScTaxNo.IsEmpty(), "税号不能为空")
-                .SplitError(x => x.Item.ScBusinessNo.IsEmpty(), "营业执照不能为空")
-                .SplitError(x => x.Item.ScTaxType.IsEmpty(), "税别不能为空")
-                .SplitError(x => x.Item.ScMainBusiness.IsEmpty(), "主营业务不能为空")
-                .SplitError(x => x.Item.ScCcy.IsEmpty(), "交易币种不能为空")
-                .SplitError(x => x.Item.ScPayTerms.IsEmpty(), "付款条件不能为空")
-                .SplitError(x => x.Item.ScPayMethod.IsEmpty(), "付款方式不能为空")
-                .SplitError(x => x.Item.ScRecAccount.IsEmpty(), "统驭科目不能为空")
-                .SplitError(x => x.Item.ScTradeTerms.IsEmpty(), "贸易条件不能为空")
-                .SplitError(x => x.Item.ScShippingTerms.IsEmpty(), "装运条件不能为空")
-                .SplitError(x => x.Item.ScBankCode.IsEmpty(), "银行代码不能为空")
-                .SplitError(x => x.Item.ScBankName.IsEmpty(), "银行名称不能为空")
-                .SplitError(x => x.Item.ScBankCountry.IsEmpty(), "银行所在国不能为空")
-                .SplitError(x => x.Item.ScBankState.IsEmpty(), "银行所在州省不能为空")
-                .SplitError(x => x.Item.ScBankCity.IsEmpty(), "银行所在市不能为空")
-                .SplitError(x => x.Item.ScBankCounty.IsEmpty(), "银行所在县不能为空")
-                .SplitError(x => x.Item.ScBankAddr.IsEmpty(), "银行地址不能为空")
-                .SplitError(x => x.Item.ScBankAccount.IsEmpty(), "银行账号不能为空")
-                .SplitError(x => x.Item.ScAddr.IsEmpty(), "地址不能为空")
-                .SplitError(x => x.Item.IsFroze.IsEmpty(), "冻结标记不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
-                .SplitError(x => x.Item.IsDeleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Mb002.IsEmpty(), "集团不能为空")
+                .SplitError(x => x.Item.Mb003.IsEmpty(), "销售组织不能为空")
+                .SplitError(x => x.Item.Mb004.IsEmpty(), "行业类别不能为空")
+                .SplitError(x => x.Item.Mb005.IsEmpty(), "企业性质不能为空")
+                .SplitError(x => x.Item.Mb006.IsEmpty(), "客户代码不能为空")
+                .SplitError(x => x.Item.Mb039.IsEmpty(), "冻结标记不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -142,7 +120,7 @@ namespace Ams.Service.Logistics
         }
 
         /// <summary>
-        /// 导出顾客信息
+        /// 导出顾客
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -154,24 +132,38 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new SdCustomerDto()
                 {
-                    ScOrgLabel = it.ScOrg.GetConfigValue<SysDictData>("sys_crop_list"),
-                    ScIndustryTypeLabel = it.ScIndustryType.GetConfigValue<SysDictData>("sys_ind_type"),
-                    ScEnterpriseNatureLabel = it.ScEnterpriseNature.GetConfigValue<SysDictData>("sys_nature_list"),
-                    ScTaxTypeLabel = it.ScTaxType.GetConfigValue<SysDictData>("sys_tax_list"),
-                    ScCcyLabel = it.ScCcy.GetConfigValue<SysDictData>("sys_ccy_type"),
-                    ScPayTermsLabel = it.ScPayTerms.GetConfigValue<SysDictData>("sys_payment_terms"),
-                    ScPayMethodLabel = it.ScPayMethod.GetConfigValue<SysDictData>("sys_payment_method"),
-                    ScRecAccountLabel = it.ScRecAccount.GetConfigValue<SysDictData>("sql_recon_account"),
-                    ScTradeTermsLabel = it.ScTradeTerms.GetConfigValue<SysDictData>("sys_terms_trade"),
-                    ScShippingTermsLabel = it.ScShippingTerms.GetConfigValue<SysDictData>("sys_cond_shipment"),
-                    ScCustomerGradeLabel = it.ScCustomerGrade.GetConfigValue<SysDictData>("sys_grade_list"),
-                    ScCustomerCreditLabel = it.ScCustomerCredit.GetConfigValue<SysDictData>("sys_credit_list"),
-                    ScBankCountryLabel = it.ScBankCountry.GetConfigValue<SysDictData>("sys_country_list"),
-                    ScBankStateLabel = it.ScBankState.GetConfigValue<SysDictData>("sql_region_province"),
-                    ScBankCityLabel = it.ScBankCity.GetConfigValue<SysDictData>("sql_region_city"),
-                    ScBankCountyLabel = it.ScBankCounty.GetConfigValue<SysDictData>("sql_region_county"),
-                    IsFrozeLabel = it.IsFroze.GetConfigValue<SysDictData>("sys_freeze_flag"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <销售组织> 
+                    Mb003Label = it.Mb003.GetConfigValue<SysDictData>("sql_corp_list"),
+                    //查询字典: <行业类别> 
+                    Mb004Label = it.Mb004.GetConfigValue<SysDictData>("sys_ind_type"),
+                    //查询字典: <企业性质> 
+                    Mb005Label = it.Mb005.GetConfigValue<SysDictData>("sys_nature_list"),
+                    //查询字典: <税别> 
+                    Mb012Label = it.Mb012.GetConfigValue<SysDictData>("sys_tax_type"),
+                    //查询字典: <交易币种> 
+                    Mb014Label = it.Mb014.GetConfigValue<SysDictData>("sql_global_currency"),
+                    //查询字典: <付款条件> 
+                    Mb015Label = it.Mb015.GetConfigValue<SysDictData>("sys_payment_terms"),
+                    //查询字典: <付款方式> 
+                    Mb016Label = it.Mb016.GetConfigValue<SysDictData>("sys_payment_method"),
+                    //查询字典: <统驭科目> 
+                    Mb017Label = it.Mb017.GetConfigValue<SysDictData>("sql_mitkz_list"),
+                    //查询字典: <贸易条件> 
+                    Mb018Label = it.Mb018.GetConfigValue<SysDictData>("sys_terms_trade"),
+                    //查询字典: <装运条件> 
+                    Mb019Label = it.Mb019.GetConfigValue<SysDictData>("sys_cond_shipment"),
+                    //查询字典: <客户等级> 
+                    Mb020Label = it.Mb020.GetConfigValue<SysDictData>("sys_grade_list"),
+                    //查询字典: <客户信用> 
+                    Mb021Label = it.Mb021.GetConfigValue<SysDictData>("sys_credit_list"),
+                    //查询字典: <国家地区> 
+                    Mb025Label = it.Mb025.GetConfigValue<SysDictData>("sql_global_country"),
+                    //查询字典: <州省> 
+                    Mb026Label = it.Mb026.GetConfigValue<SysDictData>("sql_global_state"),
+                    //查询字典: <市> 
+                    Mb027Label = it.Mb027.GetConfigValue<SysDictData>("sql_global_city"),
+                    //查询字典: <冻结标记> 
+                    Mb039Label = it.Mb039.GetConfigValue<SysDictData>("sys_freeze_flag"),
                 }, true)
                 .ToPage(parm);
 
@@ -187,25 +179,28 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<SdCustomer>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScOrg), it => it.ScOrg == parm.ScOrg);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScIndustryType), it => it.ScIndustryType == parm.ScIndustryType);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScEnterpriseNature), it => it.ScEnterpriseNature == parm.ScEnterpriseNature);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScCode), it => it.ScCode.Contains(parm.ScCode));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScAbbr), it => it.ScAbbr.Contains(parm.ScAbbr));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScName), it => it.ScName.Contains(parm.ScName));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScTaxNo), it => it.ScTaxNo == parm.ScTaxNo);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScTaxType), it => it.ScTaxType == parm.ScTaxType);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScCcy), it => it.ScCcy == parm.ScCcy);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScPayTerms), it => it.ScPayTerms == parm.ScPayTerms);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScPayMethod), it => it.ScPayMethod == parm.ScPayMethod);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScRecAccount), it => it.ScRecAccount == parm.ScRecAccount);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScTradeTerms), it => it.ScTradeTerms == parm.ScTradeTerms);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScShippingTerms), it => it.ScShippingTerms == parm.ScShippingTerms);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScCustomerGrade), it => it.ScCustomerGrade == parm.ScCustomerGrade);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScCustomerCredit), it => it.ScCustomerCredit == parm.ScCustomerCredit);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScRegionCode), it => it.ScRegionCode == parm.ScRegionCode);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.ScState), it => it.ScState == parm.ScState);
-            predicate = predicate.AndIF(parm.IsFroze != null, it => it.IsFroze == parm.IsFroze);
+            //查询字段: <销售组织> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb003), it => it.Mb003 == parm.Mb003);
+            //查询字段: <行业类别> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb004), it => it.Mb004 == parm.Mb004);
+            //查询字段: <企业性质> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb005), it => it.Mb005 == parm.Mb005);
+            //查询字段: <客户代码> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb006), it => it.Mb006.Contains(parm.Mb006));
+            //查询字段: <客户简称> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb007), it => it.Mb007.Contains(parm.Mb007));
+            //查询字段: <客户名称> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb008), it => it.Mb008.Contains(parm.Mb008));
+            //查询字段: <交易币种> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb014), it => it.Mb014 == parm.Mb014);
+            //查询字段: <付款条件> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb015), it => it.Mb015 == parm.Mb015);
+            //查询字段: <客户等级> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb020), it => it.Mb020 == parm.Mb020);
+            //查询字段: <供应商> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb024), it => it.Mb024.Contains(parm.Mb024));
+            //查询字段: <国家地区> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb025), it => it.Mb025 == parm.Mb025);
             return predicate;
         }
     }

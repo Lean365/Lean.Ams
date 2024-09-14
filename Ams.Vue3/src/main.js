@@ -46,6 +46,11 @@ import dateOptions from '@/utils/dateOptions'
 import Dialog from '@/components/Dialog'
 // 自定义table
 import MyTable from '@/components/MyTable'
+// 2024/9/13 一次性解决时区和日期格式问题
+import moment from 'moment'
+Date.prototype.toISOString = function () {
+  return moment(this).format('YYYY-MM-DD HH:mm:ss')
+}
 
 const app = createApp(App)
 signalR.init(import.meta.env.VITE_APP_SOCKET_API)

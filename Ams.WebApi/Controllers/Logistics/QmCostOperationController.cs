@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 品质业务
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/19 15:11:02
+    /// @Date: 2024/9/11 16:48:39
     /// </summary>
     [Verify]
     [Route("Logistics/QmCostOperation")]
@@ -45,13 +45,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <summary>
         /// 查询品质业务详情
         /// </summary>
-        /// <param name="QcodSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{QcodSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "qm:costoperation:query")]
-        public IActionResult GetQmCostOperation(long QcodSfId)
+        public IActionResult GetQmCostOperation(long Id)
         {
-            var response = _QmCostOperationService.GetInfo(QcodSfId);
+            var response = _QmCostOperationService.GetInfo(Id);
             
             var info = response.Adapt<QmCostOperationDto>();
             return SUCCESS(info);
@@ -63,14 +63,14 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "qm:costoperation:add")]
-        [Log(Title = "品质业务", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "品质业务", BusinessType = BusinessType.ADD)]
         public IActionResult AddQmCostOperation([FromBody] QmCostOperationDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmCostOperationService.CheckInputUnique(parm.QcodSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmCostOperationService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增品质业务 '{parm.QcodSfId}'失败(Add failed)，输入的品质业务已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增品质业务 '{parm.Id}'失败(Add failed)，输入的品质业务已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<QmCostOperation>().ToCreate(HttpContext);
 
@@ -85,7 +85,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "qm:costoperation:edit")]
-        [Log(Title = "品质业务", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "品质业务", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdateQmCostOperation([FromBody] QmCostOperationDto parm)
         {
             var modal = parm.Adapt<QmCostOperation>().ToUpdate(HttpContext);
@@ -112,7 +112,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// 导出品质业务
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "品质业务", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "品质业务导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "qm:costoperation:export")]
         public IActionResult Export([FromQuery] QmCostOperationQueryDto parm)
@@ -129,14 +129,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 导入
+        /// 导入品质业务
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
+      [HttpPost("importData")]
         [Log(Title = "品质业务导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "qm:costoperation:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<QmCostOperationDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 品质业务导入模板下载
+        /// 品质业务
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
         [Log(Title = "品质业务模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<QmCostOperationImportTpl>() { }, "QmCostOperation_tpl");
             return ExportExcel(result.Item2, result.Item1);

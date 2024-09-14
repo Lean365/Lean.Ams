@@ -1,19 +1,21 @@
+using Ams.Model;
+
 namespace Ams.Model.Monitor.Dto
 {
     /// <summary>
-    /// 短信验证码记录查询对象
+    /// 短信验证查询对象
     /// </summary>
     public class SmsLogQueryDto : PagerInfo
     {
         public int? Userid { get; set; }
         public long? PhoneNum { get; set; }
-        public DateTime? BeginTime { get; set; }
-        public DateTime? EndTime { get; set; }
+        public DateTime? BeginAddTime { get; set; }
+        public DateTime? EndAddTime { get; set; }
         public int? SendType { get; set; }
     }
 
     /// <summary>
-    /// 短信验证码记录输入输出对象
+    /// 短信验证输入输出对象
     /// </summary>
     public class SmsLogDto
     {
@@ -39,6 +41,10 @@ namespace Ams.Model.Monitor.Dto
         [ExcelColumn(Name = "短信内容")]
         [ExcelColumnName("短信内容")]
         public string SmsContent { get; set; }
+
+        [ExcelColumn(Name = "添加时间", Format = "yyyy-MM-dd HH:mm:ss")]
+        [ExcelColumnName("添加时间")]
+        public DateTime? AddTime { get; set; }
 
         [ExcelColumn(Name = "用户IP")]
         [ExcelColumnName("用户IP")]

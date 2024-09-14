@@ -1,8 +1,8 @@
 use Ams_Tes;
 
--- 财务期间菜单
+-- 财政年度菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('财务期间', 1136, 999, 'FicoFinancialPeriod', 'accounting/FicoFinancialPeriod', 0, 0, 'C', '0', '0', 'fico:financialperiod:list', 'icon1', 'Lean365', GETDATE(), 'menu.fico.financialperiod');
+VALUES ('财政年度', 1136, 999, 'FicoFinancialPeriod', 'accounting/FicoFinancialPeriod', 0, 0, 'C', '0', '0', 'fico:financialperiod:list', 'icon1', 'Lean365', GETDATE(), 'menu.fico.financialperiod');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -28,17 +28,35 @@ SELECT * FROM sys_menu WHERE parentId = @menuId;
 SELECT * FROM sys_menu WHERE menuId = @menuId;
 
 
--- 财务期间多语言
+-- 财政年度多语言
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136001,'zh-cn', 'menu.fico.financialperiod', '财务期间', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136001,'zh-cn', 'menu.fico.financialperiod', '财政年度', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136002,'zh-tw', 'menu.fico.financialperiod', 'TW_财务期间', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136002,'zh-tw', 'menu.fico.financialperiod', 'TW_财政年度', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'en', 'menu.fico.financialperiod', 'EN_财务期间', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'en', 'menu.fico.financialperiod', 'EN_财政年度', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136004,'ja', 'menu.fico.financialperiod', 'JA_财务期间', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136004,'ja', 'menu.fico.financialperiod', 'JA_财政年度', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'fr', 'menu.fico.financialperiod', 'FR_财政年度', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'ko', 'menu.fico.financialperiod', 'KO_财政年度', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'ar', 'menu.fico.financialperiod', 'AR_财政年度', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'ru', 'menu.fico.financialperiod', 'RU_财政年度', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'de', 'menu.fico.financialperiod', 'DE_财政年度', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1136003,'es', 'menu.fico.financialperiod', 'ES_财政年度', 'Lean365', GETDATE());

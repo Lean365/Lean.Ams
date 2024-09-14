@@ -4,26 +4,26 @@ using Ams.Model.Logistics;
 namespace Ams.Service.Logistics.ILogisticsService
 {
     /// <summary>
-    /// 顾客信息
+    /// 顾客
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 13:49:23
+    /// @Date: 2024/9/11 16:25:01
     /// </summary>
     public interface ISdCustomerService : IBaseService<SdCustomer>
     {
         /// <summary>
-        /// 获取顾客信息列表
+        /// 获取顾客列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         PagedInfo<SdCustomerDto> GetList(SdCustomerQueryDto parm);
 
         /// <summary>
-        /// 获取顾客信息信息
+        /// 获取顾客信息
         /// </summary>
-        /// <param name="ScSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        SdCustomer GetInfo(long ScSfId);
+        SdCustomer GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -33,7 +33,7 @@ namespace Ams.Service.Logistics.ILogisticsService
         public string CheckInputUnique(string enterString);
         /// <summary>
         /// 新增
-        /// 顾客信息
+        /// 顾客
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 更新
-        /// 顾客信息
+        /// 顾客
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 批量导入
-        /// 顾客信息
+        /// 顾客
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace Ams.Service.Logistics.ILogisticsService
 
         /// <summary>
         /// 导出
-        /// 顾客信息
+        /// 顾客
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Ams.Infrastructure
+namespace Ams.Infrastructure.Helper
 {
     public class FileUtil
     {

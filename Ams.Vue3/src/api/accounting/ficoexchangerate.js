@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import { downFile } from '@/utils/request'
 
 /**
- * 汇率表分页查询
+ * 币种汇率分页查询
  * @param {查询条件} data
  */
 export function listFicoExchangeRate(query) {
@@ -14,7 +14,7 @@ export function listFicoExchangeRate(query) {
 }
 
 /**
- * 新增汇率表
+ * 新增币种汇率
  * @param data
  */
 export function addFicoExchangeRate(data) {
@@ -25,7 +25,7 @@ export function addFicoExchangeRate(data) {
   })
 }
 /**
- * 修改汇率表
+ * 修改币种汇率
  * @param data
  */
 export function updateFicoExchangeRate(data) {
@@ -36,7 +36,7 @@ export function updateFicoExchangeRate(data) {
   })
 }
 /**
- * 获取汇率表详情
+ * 获取币种汇率详情
  * @param {Id}
  */
 export function getFicoExchangeRate(id) {
@@ -47,7 +47,7 @@ export function getFicoExchangeRate(id) {
 }
 
 /**
- * 删除汇率表
+ * 删除币种汇率
  * @param {主键} pid
  */
 export function delFicoExchangeRate(pid) {
@@ -56,7 +56,7 @@ export function delFicoExchangeRate(pid) {
     method: 'delete'
   })
 }
-// 导出汇率表
+// 导出币种汇率
 export async function exportFicoExchangeRate(query) {
   await downFile('Accounting/FicoExchangeRate/export', { ...query })
 }

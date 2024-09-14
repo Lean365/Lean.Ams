@@ -4,12 +4,13 @@
       <el-row class="mb10">
         <el-col :lg="24">
           <el-form-item label="" prop="title">
-            <el-input v-model="form.title" placeholder="请输入标题" />
+            <el-input v-model="form.title" placeholder="请输入标题" show-word-limit maxlength="40" />
           </el-form-item>
         </el-col>
         <el-col :lg="24">
           <el-form-item prop="content" label="">
-            <el-input type="textarea" rows="10" placeholder="说点什么吧" show-word-limit v-model="form.content"></el-input>
+            <el-input type="textarea" rows="10" placeholder="说点什么吧" v-model="form.content" show-word-limit
+              maxlength="400"></el-input>
           </el-form-item>
         </el-col>
 

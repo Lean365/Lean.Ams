@@ -1,5 +1,8 @@
+//using Ams.Infrastructure.Attribute;
+//using Ams.Infrastructure.Extensions;
 using Ams.Model.Logistics.Dto;
 using Ams.Model.Logistics;
+using Ams.Repository;
 using Ams.Service.Logistics.ILogisticsService;
 
 namespace Ams.Service.Logistics
@@ -8,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 物料信息
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 14:13:37
+    /// @Date: 2024/9/11 11:22:47
     /// </summary>
     [AppService(ServiceType = typeof(IMmMarbService), ServiceLifetime = LifeTime.Transient)]
     public class MmMarbService : BaseService<MmMarb>, IMmMarbService
@@ -23,11 +26,13 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
+                //.OrderBy("Mb003 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<MmMarb, MmMarbDto>(parm);
 
             return response;
         }
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -36,7 +41,7 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it. SfId.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
@@ -48,16 +53,17 @@ namespace Ams.Service.Logistics
         /// <summary>
         /// 获取详情
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        public MmMarb GetInfo(long SfId)
+        public MmMarb GetInfo(long Id)
         {
             var response = Queryable()
-                .Where(x => x.SfId == SfId)
+                .Where(x => x.Id == Id)
                 .First();
 
             return response;
         }
+
         /// <summary>
         /// 添加物料信息
         /// </summary>
@@ -68,6 +74,7 @@ namespace Ams.Service.Logistics
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
         }
+
         /// <summary>
         /// 修改物料信息
         /// </summary>
@@ -86,30 +93,11 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.SfId.IsEmpty(), "SfId不能为空")
-                .SplitError(x => x.Item.Werks.IsEmpty(), "工厂不能为空")
-                .SplitError(x => x.Item.Matnr.IsEmpty(), "物料号不能为空")
-                .SplitError(x => x.Item.Mbrsh.IsEmpty(), "行业领域不能为空")
-                .SplitError(x => x.Item.Mtart.IsEmpty(), "物料类型不能为空")
-                .SplitError(x => x.Item.Meins.IsEmpty(), "基本计量单位不能为空")
-                .SplitError(x => x.Item.Matkl.IsEmpty(), "物料组不能为空")
-                .SplitError(x => x.Item.Ekgrp.IsEmpty(), "采购组不能为空")
-                .SplitError(x => x.Item.Beskz.IsEmpty(), "采购类型不能为空")
-                .SplitError(x => x.Item.Sobsl.IsEmpty(), "特殊采购类型不能为空")
-                .SplitError(x => x.Item.Insmk.IsEmpty(), "过帐到检验库存不能为空")
-                .SplitError(x => x.Item.Prctr.IsEmpty(), "利润中心不能为空")
-                .SplitError(x => x.Item.Xchpf.IsEmpty(), "批次管理需求的标识不能为空")
-                .SplitError(x => x.Item.Bklas.IsEmpty(), "评估类不能为空")
-                .SplitError(x => x.Item.Waers.IsEmpty(), "币种不能为空")
-                .SplitError(x => x.Item.Lgpro.IsEmpty(), "发货库存地点不能为空")
-                .SplitError(x => x.Item.Lgfsb.IsEmpty(), "外部采购的缺省仓储位置不能为空")
-                .SplitError(x => x.Item.Lvorm.IsEmpty(), "在工厂级标记要删除的物料不能为空")
-                .SplitError(x => x.Item.UDF51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.UDF52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.UDF53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.UDF54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.UDF55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.UDF56.IsEmpty(), "自定义6不能为空")
+                .SplitError(x => x.Item.Mb002.IsEmpty(), "工厂不能为空")
+                .SplitError(x => x.Item.Mb003.IsEmpty(), "物料号不能为空")
+                .SplitError(x => x.Item.Mb004.IsEmpty(), "行业领域不能为空")
+                .SplitError(x => x.Item.Mb005.IsEmpty(), "物料类型不能为空")
+                .SplitError(x => x.Item.Mb028.IsEmpty(), "币种不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -143,21 +131,34 @@ namespace Ams.Service.Logistics
                 .Where(predicate.ToExpression())
                 .Select((it) => new MmMarbDto()
                 {
-                    WerksLabel = it.Werks.GetConfigValue<SysDictData>("sys_plant_list"),
-                    MbrshLabel = it.Mbrsh.GetConfigValue<SysDictData>("sys_ind_type"),
-                    MtartLabel = it.Mtart.GetConfigValue<SysDictData>("sys_matl_type"),
-                    MeinsLabel = it.Meins.GetConfigValue<SysDictData>("sys_unit_list"),
-                    MatklLabel = it.Matkl.GetConfigValue<SysDictData>("sys_matl_group"),
-                    EkgrpLabel = it.Ekgrp.GetConfigValue<SysDictData>("sys_pur_group"),
-                    BeskzLabel = it.Beskz.GetConfigValue<SysDictData>("sys_pur_type"),
-                    SobslLabel = it.Sobsl.GetConfigValue<SysDictData>("sys_pur_spec"),
-                    SchgtLabel = it.Schgt.GetConfigValue<SysDictData>("sys_normal_whether"),
-                    PrctrLabel = it.Prctr.GetConfigValue<SysDictData>("sql_prctr_list"),
-                    BklasLabel = it.Bklas.GetConfigValue<SysDictData>("sys_val_type"),
-                    WaersLabel = it.Waers.GetConfigValue<SysDictData>("sys_ccy_type"),
-                    LgproLabel = it.Lgpro.GetConfigValue<SysDictData>("sys_sloc_list"),
-                    LvormLabel = it.Lvorm.GetConfigValue<SysDictData>("sys_eol_list"),
-                    IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_is_deleted"),
+                    //查询字典: <工厂> 
+                    Mb002Label = it.Mb002.GetConfigValue<SysDictData>("sql_plant_list"),
+                    //查询字典: <行业领域> 
+                    Mb004Label = it.Mb004.GetConfigValue<SysDictData>("sys_ind_type"),
+                    //查询字典: <物料类型> 
+                    Mb005Label = it.Mb005.GetConfigValue<SysDictData>("sys_matl_type"),
+                    //查询字典: <基本单位> 
+                    Mb007Label = it.Mb007.GetConfigValue<SysDictData>("sys_unit_list"),
+                    //查询字典: <物料组> 
+                    Mb009Label = it.Mb009.GetConfigValue<SysDictData>("sys_matl_group"),
+                    //查询字典: <采购组> 
+                    Mb010Label = it.Mb010.GetConfigValue<SysDictData>("sys_pur_group"),
+                    //查询字典: <采购> 
+                    Mb011Label = it.Mb011.GetConfigValue<SysDictData>("sys_pur_type"),
+                    //查询字典: <特殊采购> 
+                    Mb012Label = it.Mb012.GetConfigValue<SysDictData>("sys_pur_spec"),
+                    //查询字典: <利润中心> 
+                    Mb021Label = it.Mb021.GetConfigValue<SysDictData>("sql_prctr_list"),
+                    //查询字典: <评估类> 
+                    Mb026Label = it.Mb026.GetConfigValue<SysDictData>("sys_val_type"),
+                    //查询字典: <币种> 
+                    Mb028Label = it.Mb028.GetConfigValue<SysDictData>("sql_global_currency"),
+                    //查询字典: <发货库存地点> 
+                    Mb031Label = it.Mb031.GetConfigValue<SysDictData>("sys_sloc_list"),
+                    //查询字典: <库存仓位> 
+                    Mb033Label = it.Mb033.GetConfigValue<SysDictData>("sys_whse_location"),
+                    //查询字典: <工厂级删除标记> 
+                    Mb035Label = it.Mb035.GetConfigValue<SysDictData>("sys_eol_list"),
                 }, true)
                 .ToPage(parm);
 
@@ -173,23 +174,40 @@ namespace Ams.Service.Logistics
         {
             var predicate = Expressionable.Create<MmMarb>();
 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Werks), it => it.Werks == parm.Werks);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Matnr), it => it.Matnr.Contains(parm.Matnr));
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mbrsh), it => it.Mbrsh == parm.Mbrsh);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mtart), it => it.Mtart == parm.Mtart);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Meins), it => it.Meins == parm.Meins);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Matkl), it => it.Matkl == parm.Matkl);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ekgrp), it => it.Ekgrp == parm.Ekgrp);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Beskz), it => it.Beskz == parm.Beskz);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Sobsl), it => it.Sobsl == parm.Sobsl);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Insmk), it => it.Insmk == parm.Insmk);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Prctr), it => it.Prctr == parm.Prctr);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Xchpf), it => it.Xchpf == parm.Xchpf);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Bklas), it => it.Bklas == parm.Bklas);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Waers), it => it.Waers == parm.Waers);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Lgpro), it => it.Lgpro == parm.Lgpro);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Lgfsb), it => it.Lgfsb == parm.Lgfsb);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Lvorm), it => it.Lvorm == parm.Lvorm);
+            //查询字段: <工厂> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb002), it => it.Mb002 == parm.Mb002);
+            //查询字段: <物料号> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb003), it => it.Mb003.Contains(parm.Mb003));
+            //查询字段: <行业领域> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb004), it => it.Mb004 == parm.Mb004);
+            //查询字段: <物料类型> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb005), it => it.Mb005 == parm.Mb005);
+            //查询字段: <物料描述> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb006), it => it.Mb006.Contains(parm.Mb006));
+            //查询字段: <基本单位> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb007), it => it.Mb007 == parm.Mb007);
+            //查询字段: <物料组> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb009), it => it.Mb009 == parm.Mb009);
+            //查询字段: <采购组> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb010), it => it.Mb010 == parm.Mb010);
+            //查询字段: <采购> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb011), it => it.Mb011 == parm.Mb011);
+            //查询字段: <特殊采购> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb012), it => it.Mb012 == parm.Mb012);
+            //查询字段: <散装物料> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb013), it => it.Mb013.Contains(parm.Mb013));
+            //查询字段: <利润中心> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb021), it => it.Mb021 == parm.Mb021);
+            //查询字段: <批次管理> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb023), it => it.Mb023 == parm.Mb023);
+            //查询字段: <评估类> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb026), it => it.Mb026 == parm.Mb026);
+            //查询字段: <币种> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb028), it => it.Mb028 == parm.Mb028);
+            //查询字段: <发货库存地点> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb031), it => it.Mb031 == parm.Mb031);
+            //查询字段: <工厂级删除标记> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb035), it => it.Mb035 == parm.Mb035);
             return predicate;
         }
     }

@@ -1,8 +1,8 @@
 <!--
  * @Descripttion: 培训/routine_ehr_training_slv
- * @Version: 1.0.0.0
+ * @Version: 0.24.621.29885
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/8/9 17:22:49
+ * @Date: 2024/9/12 16:38:39
  * @column：39
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
@@ -12,36 +12,6 @@
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
-      <el-form-item label="项目" prop="epTrainingItems">
-        <el-select filterable clearable   v-model="queryParams.epTrainingItems" :placeholder="$t('btn.selectSearchPrefix')+'项目'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_training_items " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="内容" prop="epTrainingContent">
-        <el-input v-model="queryParams.epTrainingContent" :placeholder="$t('btn.enterSearchPrefix')+'内容'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="结果" prop="epTrainingResults">
-        <el-select filterable clearable   v-model="queryParams.epTrainingResults" :placeholder="$t('btn.selectSearchPrefix')+'结果'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sys_training_results " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="日期">
-        <el-date-picker
-          v-model="dateRangeEpTrainingDate" 
-          type="datetimerange"
-          :start-placeholder="$t('btn.dateStart')"
-          :end-placeholder="$t('btn.dateEnd')"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          :default-time="defaultTime"
-          :shortcuts="dateOptions">
-        </el-date-picker>
-      </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
       <el-form-item>
@@ -104,29 +74,30 @@
       @selection-change="handleSelectionChange"
       >
       <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="epSfId" label="ID" align="center" v-if="columns.showColumn('epSfId')"/>
-      <el-table-column prop="epParentSfId" label="父ID" align="center" v-if="columns.showColumn('epParentSfId')"/>
-      <el-table-column prop="epTrainingItems" label="项目" align="center" v-if="columns.showColumn('epTrainingItems')">
+      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
+      <el-table-column prop="parentId" label="父ID" align="center" v-if="columns.showColumn('parentId')"/>
+      <el-table-column prop="mr003" label="项目" align="center" v-if="columns.showColumn('mr003')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_training_items " :value="scope.row.epTrainingItems"  />
+          <dict-tag :options=" options.sys_training_items " :value="scope.row.mr003"  />
         </template>
       </el-table-column>
-      <el-table-column prop="epTrainingContent" label="内容" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epTrainingContent')"/>
-      <el-table-column prop="epTrainingPurpose" label="目的" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epTrainingPurpose')"/>
-      <el-table-column prop="epTrainingScore" label="分数" align="center" v-if="columns.showColumn('epTrainingScore')"/>
-      <el-table-column prop="epTrainingResults" label="结果" align="center" v-if="columns.showColumn('epTrainingResults')">
+      <el-table-column prop="mr004" label="内容" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mr004')"/>
+      <el-table-column prop="mr005" label="目的" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mr005')"/>
+      <el-table-column prop="mr006" label="分数" align="center" v-if="columns.showColumn('mr006')"/>
+      <el-table-column prop="mr007" label="结果" align="center" v-if="columns.showColumn('mr007')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_training_results " :value="scope.row.epTrainingResults"  />
+          <dict-tag :options=" options.sys_training_results " :value="scope.row.mr007"  />
         </template>
       </el-table-column>
-      <el-table-column prop="epTrainingDate" label="日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('epTrainingDate')"/>
-      <el-table-column prop="epTrainingTeacher" label="指导老师" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epTrainingTeacher')"/>
-      <el-table-column prop="epFirstConfirmer" label="确认" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epFirstConfirmer')"/>
-      <el-table-column prop="epSecondConfirmer" label="确认" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epSecondConfirmer')"/>
-      <el-table-column prop="epThirdConfirmer" label="确认" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epThirdConfirmer')"/>
-      <el-table-column prop="epFourthApprover" label="承认" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epFourthApprover')"/>
-      <el-table-column prop="epFifthApprover" label="承认" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epFifthApprover')"/>
-      <el-table-column prop="epSixthApprover" label="承认" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('epSixthApprover')"/>
+      <el-table-column prop="mr008" label="日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('mr008')"/>
+      <el-table-column prop="mr009" label="指导老师" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mr009')"/>
+      <el-table-column prop="mr010" label="确认" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mr010')"/>
+      <el-table-column prop="mr011" label="确认" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mr011')"/>
+      <el-table-column prop="mr012" label="确认" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mr012')"/>
+      <el-table-column prop="mr013" label="承认" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mr013')"/>
+      <el-table-column prop="mr014" label="承认" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mr014')"/>
+      <el-table-column prop="mr015" label="承认" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mr015')"/>
+      <el-table-column prop="isDeleted" label="软删除" align="center" v-if="columns.showColumn('isDeleted')"/>
       <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
@@ -147,14 +118,14 @@
         <el-row :gutter="20">
             
           <el-col :lg="12">
-            <el-form-item label="父ID" prop="epParentSfId">
-              <el-input v-model.number="form.epParentSfId" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')"  show-word-limit maxlength="19"/>
+            <el-form-item label="父ID" prop="parentId">
+              <el-input v-model.number="form.parentId" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')" :disabled="opertype != 1"/>
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="项目" prop="epTrainingItems">
-              <el-select filterable clearable   v-model="form.epTrainingItems"  :placeholder="$t('btn.selectPrefix')+'项目'+$t('btn.selectSuffix')">
+            <el-form-item label="项目" prop="mr003">
+              <el-select filterable clearable   v-model="form.mr003"  :placeholder="$t('btn.selectPrefix')+'项目'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sys_training_items" 
                   :key="item.dictValue" 
@@ -165,27 +136,27 @@
           </el-col>
 
 
-          <el-col :lg="24">
-            <el-form-item label="内容" prop="epTrainingContent">
-              <el-input type="textarea" v-model="form.epTrainingContent" :placeholder="$t('btn.enterPrefix')+'内容'+$t('btn.enterSuffix')" show-word-limit maxlength="-1"/>
+          <el-col :lg="12">
+            <el-form-item label="内容" prop="mr004">
+              <el-input  type="textarea"  v-model="form.mr004" :placeholder="$t('btn.enterPrefix')+'内容'+$t('btn.enterSuffix')"  show-word-limit  maxlength="4000" />
             </el-form-item>
           </el-col>
 
-          <el-col :lg="24">
-            <el-form-item label="目的" prop="epTrainingPurpose">
-              <el-input type="textarea" v-model="form.epTrainingPurpose" :placeholder="$t('btn.enterPrefix')+'目的'+$t('btn.enterSuffix')" show-word-limit maxlength="-1"/>
+          <el-col :lg="12">
+            <el-form-item label="目的" prop="mr005">
+              <el-input  type="textarea"  v-model="form.mr005" :placeholder="$t('btn.enterPrefix')+'目的'+$t('btn.enterSuffix')"  show-word-limit  maxlength="4000" />
             </el-form-item>
           </el-col>
             
           <el-col :lg="12">
-            <el-form-item label="分数" prop="epTrainingScore">
-              <el-input-number v-model.number="form.epTrainingScore" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'分数'+$t('btn.enterSuffix')" />
+            <el-form-item label="分数" prop="mr006">
+              <el-input-number v-model.number="form.mr006" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'分数'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="结果" prop="epTrainingResults">
-              <el-select filterable clearable   v-model="form.epTrainingResults"  :placeholder="$t('btn.selectPrefix')+'结果'+$t('btn.selectSuffix')">
+            <el-form-item label="结果" prop="mr007">
+              <el-select filterable clearable   v-model="form.mr007"  :placeholder="$t('btn.selectPrefix')+'结果'+$t('btn.selectSuffix')">
                 <el-option
                   v-for="item in  options.sys_training_results" 
                   :key="item.dictValue" 
@@ -197,50 +168,56 @@
 
 
           <el-col :lg="12">
-            <el-form-item label="日期" prop="epTrainingDate">
-              <el-date-picker v-model="form.epTrainingDate" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
+            <el-form-item label="日期" prop="mr008">
+              <el-date-picker v-model="form.mr008" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="指导老师" prop="epTrainingTeacher">
-              <el-input v-model="form.epTrainingTeacher" :placeholder="$t('btn.enterPrefix')+'指导老师'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="指导老师" prop="mr009">
+              <el-input   v-model="form.mr009" :placeholder="$t('btn.enterPrefix')+'指导老师'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="确认" prop="epFirstConfirmer">
-              <el-input v-model="form.epFirstConfirmer" :placeholder="$t('btn.enterPrefix')+'确认'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="确认" prop="mr010">
+              <el-input   v-model="form.mr010" :placeholder="$t('btn.enterPrefix')+'确认'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="确认" prop="epSecondConfirmer">
-              <el-input v-model="form.epSecondConfirmer" :placeholder="$t('btn.enterPrefix')+'确认'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="确认" prop="mr011">
+              <el-input   v-model="form.mr011" :placeholder="$t('btn.enterPrefix')+'确认'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="确认" prop="epThirdConfirmer">
-              <el-input v-model="form.epThirdConfirmer" :placeholder="$t('btn.enterPrefix')+'确认'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="确认" prop="mr012">
+              <el-input   v-model="form.mr012" :placeholder="$t('btn.enterPrefix')+'确认'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="承认" prop="epFourthApprover">
-              <el-input v-model="form.epFourthApprover" :placeholder="$t('btn.enterPrefix')+'承认'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="承认" prop="mr013">
+              <el-input   v-model="form.mr013" :placeholder="$t('btn.enterPrefix')+'承认'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="承认" prop="epFifthApprover">
-              <el-input v-model="form.epFifthApprover" :placeholder="$t('btn.enterPrefix')+'承认'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="承认" prop="mr014">
+              <el-input   v-model="form.mr014" :placeholder="$t('btn.enterPrefix')+'承认'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="承认" prop="epSixthApprover">
-              <el-input v-model="form.epSixthApprover" :placeholder="$t('btn.enterPrefix')+'承认'+$t('btn.enterSuffix')"  show-word-limit maxlength="40"/>
+            <el-form-item label="承认" prop="mr015">
+              <el-input   v-model="form.mr015" :placeholder="$t('btn.enterPrefix')+'承认'+$t('btn.enterSuffix')"  show-word-limit   maxlength="40"/>
+            </el-form-item>
+          </el-col>
+            
+          <el-col :lg="12">
+            <el-form-item label="软删除" prop="isDeleted">
+              <el-input-number v-model.number="form.isDeleted" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'软删除'+$t('btn.enterSuffix')" />
             </el-form-item>
           </el-col>
 
@@ -358,34 +335,27 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: 'EpTrainingDate',
-  sortType: 'desc',
-//是否查询（1是）
-  epTrainingItems: undefined,
-//是否查询（1是）
-  epTrainingContent: undefined,
-//是否查询（1是）
-  epTrainingResults: undefined,
-//是否查询（1是）
-  epTrainingDate: undefined,
+  sort: '',
+  sortType: 'asc',
 })
 //字段显示控制
 const columns = ref([
-  { visible: true, prop: 'epSfId', label: 'ID' },
-  { visible: true, prop: 'epParentSfId', label: '父ID' },
-  { visible: true, prop: 'epTrainingItems', label: '项目' },
-  { visible: true, prop: 'epTrainingContent', label: '内容' },
-  { visible: true, prop: 'epTrainingPurpose', label: '目的' },
-  { visible: true, prop: 'epTrainingScore', label: '分数' },
-  { visible: true, prop: 'epTrainingResults', label: '结果' },
-  { visible: true, prop: 'epTrainingDate', label: '日期' },
-  { visible: false, prop: 'epTrainingTeacher', label: '指导老师' },
-  { visible: false, prop: 'epFirstConfirmer', label: '确认' },
-  { visible: false, prop: 'epSecondConfirmer', label: '确认' },
-  { visible: false, prop: 'epThirdConfirmer', label: '确认' },
-  { visible: false, prop: 'epFourthApprover', label: '承认' },
-  { visible: false, prop: 'epFifthApprover', label: '承认' },
-  { visible: false, prop: 'epSixthApprover', label: '承认' },
+  { visible: true, prop: 'id', label: 'ID' },
+  { visible: true, prop: 'parentId', label: '父ID' },
+  { visible: true, prop: 'mr003', label: '项目' },
+  { visible: true, prop: 'mr004', label: '内容' },
+  { visible: true, prop: 'mr005', label: '目的' },
+  { visible: true, prop: 'mr006', label: '分数' },
+  { visible: true, prop: 'mr007', label: '结果' },
+  { visible: true, prop: 'mr008', label: '日期' },
+  { visible: false, prop: 'mr009', label: '指导老师' },
+  { visible: false, prop: 'mr010', label: '确认' },
+  { visible: false, prop: 'mr011', label: '确认' },
+  { visible: false, prop: 'mr012', label: '确认' },
+  { visible: false, prop: 'mr013', label: '承认' },
+  { visible: false, prop: 'mr014', label: '承认' },
+  { visible: false, prop: 'mr015', label: '承认' },
+  { visible: false, prop: 'isDeleted', label: '软删除' },
   { visible: false, prop: 'remark', label: '备注说明' },
 ])
 // 记录数
@@ -396,14 +366,11 @@ const dataList = ref([])
 const queryRef = ref()
 //定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-// 日期时间范围
-const dateRangeEpTrainingDate = ref([])
 
 //字典参数
 var dictParams = [
   { dictType: "sys_training_items" },
   { dictType: "sys_training_results" },
-  { dictType: "sys_is_deleted" },
 ]
 
 //字典加载
@@ -414,7 +381,6 @@ proxy.getDicts(dictParams).then((response) => {
 })
 //API获取从培训/routine_ehr_training_slv表记录数据
 function getList(){
-  proxy.addDateRange(queryParams, dateRangeEpTrainingDate.value, 'EpTrainingDate');
   loading.value = true
   listRoutineEhrTrainingSlv(queryParams).then(res => {
     const { code, data } = res
@@ -434,14 +400,12 @@ function handleQuery() {
 
 // 重置查询操作
 function resetQuery(){
-  // 日期时间范围
-  dateRangeEpTrainingDate.value = []
   proxy.resetForm("queryRef")
   handleQuery()
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.epSfId);
+  ids.value = selection.map((item) => item.id);
   single.value = selection.length != 1
   multiple.value = !selection.length;
 }
@@ -476,16 +440,18 @@ const state = reactive({
   single: true,
   multiple: true,
   form: {},
+//正则表达式
   rules: {
-    epSfId: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur" }],
+    mr003: [{ required: true, message: "项目"+proxy.$t('btn.isEmpty'), trigger: "change"    , type: "number"  }],
+    mr006: [{ required: true, message: "分数"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
+    isDeleted: [{ required: true, message: "软删除"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
   },
+//字典名称
   options: {
     // 项目 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_training_items: [],
     // 结果 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sys_training_results: [],
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_deleted: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -500,45 +466,22 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    epSfId: 0,
-    epParentSfId: 0,
-    epTrainingItems: 0,
-    epTrainingContent: null,
-    epTrainingPurpose: null,
-    epTrainingScore: 0,
-    epTrainingResults: null,
-    epTrainingDate: null,
-    epTrainingTeacher: null,
-    epFirstConfirmer: null,
-    epSecondConfirmer: null,
-    epThirdConfirmer: null,
-    epFourthApprover: null,
-    epFifthApprover: null,
-    epSixthApprover: null,
-    rEF01: null,
-    rEF02: null,
-    rEF03: null,
-    rEF04: 0,
-    rEF05: 0,
-    rEF06: 0,
-    uDF01: null,
-    uDF02: null,
-    uDF03: null,
-    uDF04: null,
-    uDF05: null,
-    uDF06: null,
-    uDF51: 0,
-    uDF52: 0,
-    uDF53: 0,
-    uDF54: 0,
-    uDF55: 0,
-    uDF56: 0,
+    parentId: 0,
+    mr003: [],
+    mr004: null,
+    mr005: null,
+    mr006: 0,
+    mr007: [],
+    mr008: null,
+    mr009: null,
+    mr010: null,
+    mr011: null,
+    mr012: null,
+    mr013: null,
+    mr014: null,
+    mr015: null,
     isDeleted: 0,
     remark: null,
-    createBy: null,
-    createTime: null,
-    updateBy: null,
-    updateTime: null,
   };
   proxy.resetForm("formRef")
 }
@@ -550,15 +493,16 @@ function handleAdd() {
   open.value = true
   title.value = proxy.$t('btn.add')+" "+'培训'
   opertype.value = 1
-  form.value.epTrainingItems= 0
-  form.value.epTrainingScore= 0
-  form.value.epTrainingResults= []
-  form.value.epTrainingDate= new Date()
+  form.value.mr003= 0
+  form.value.mr006= 0
+  form.value.mr007= []
+  form.value.mr008= new Date()
+  form.value.isDeleted= 0
 }
 // 修改按钮操作
 function handleUpdate(row) {
   reset()
-  const id = row.epSfId || ids.value
+  const id = row.id || ids.value
   getRoutineEhrTrainingSlv(id).then((res) => {
     const { code, data } = res
     if (code == 200) {
@@ -578,7 +522,7 @@ function submitForm() {
   proxy.$refs["formRef"].validate((valid) => {
     if (valid) {
 
-      if (form.value.epSfId != undefined && opertype.value === 2) {
+      if (form.value.id != undefined && opertype.value === 2) {
         updateRoutineEhrTrainingSlv(form.value).then((res) => {
          proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
           open.value = false
@@ -597,7 +541,7 @@ function submitForm() {
 
 // 删除按钮操作
 function handleDelete(row) {
-  const Ids = row.epSfId || ids.value
+  const Ids = row.id || ids.value
 
   proxy
     .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {

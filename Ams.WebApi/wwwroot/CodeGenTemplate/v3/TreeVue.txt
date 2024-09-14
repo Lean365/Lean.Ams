@@ -1,11 +1,17 @@
 ﻿<!--
- * @Descripttion: (${genTable.functionName}/${genTable.tableName})
- * @Author: (${replaceDto.Author})
- * @Date: (${replaceDto.CreateTime})
+ * @Descripttion: ${genTable.functionName}/${genTable.tableName}
+ * @Version: ${ReplaceDto.EndVersion}
+ * @Author: ${ReplaceDto.Author}
+ * @Date: ${ReplaceDto.CreateTime}
+ * @column：${genTable.Columns.count}
+ * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
   <div>
+    <!-- 查询区域 -->
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
+      <el-row :gutter="10" class="mb8">
+        <el-col :lg="24">
 $foreach(column in genTable.Columns)
 $set(labelName = "")
 $set(columnName = "")
@@ -26,50 +32,62 @@ $if(column.HtmlType == "datetime")
           v-model="dateRange${column.CsharpField}" 
           type="datetimerange" 
           range-separator="-"
-          start-placeholder="开始日期" 
-          end-placeholder="结束日期" 
-          placeholder="请选择$labelName"
+          :start-placeholder="${t}t('btn.dateStart')"
+          :end-placeholder="${t}t('btn.dateEnd')"
+           :placeholder="${t}t('btn.selectSearchPrefix')+'$labelName'+${t}t('btn.selectSearchSuffix')">
           value-format="YYYY-MM-DD HH:mm:ss"
           :default-time="defaultTime"
           :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
-$elseif(column.HtmlType == "select" || column.HtmlType == "radio" || column.HtmlType == "selectMulti")
+$elseif(column.HtmlType.Contains("select"))
       <el-form-item label="${labelName}" prop="${columnName}">
-        <el-select clearable $if(column.HtmlType == "selectMulti")multiple$end v-model="queryParams.${columnName}" placeholder="请选择${labelName}">
-          <el-option v-for="item in $if(column.DictType != "") options.${column.DictType} $else options.${column.CsharpFieldFl}Options$end" :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+        <el-select filterable clearable $if(column.HtmlType == "selectMulti")multiple collapse-tags collapse-tags-tooltip$end $if(column.HtmlType == "selectRemote") remote remote-show-suffix :remote-method="remoteMethod_${column.DictType}" :loading="loading"$end v-model="queryParams.${columnName}" :placeholder="${t}t('btn.selectSearchPrefix')+'${labelName}'+${t}t('btn.selectSearchSuffix')">
+          <el-option v-for="item in $if(column.DictType != "") $if(column.HtmlType == "selectRemote") remotequery_$else options.$end${column.DictType} $else options.${column.CsharpFieldFl}Options$end" :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
         </el-select>
       </el-form-item>
+$elseif(column.HtmlType == "radio")
+      <el-form-item label="${labelName}" prop="${columnName}">
+        <el-radio-group v-model="queryParams.${columnName}">
+          <el-radio :value="-1">{{${t}t('common.all')}}</el-radio>
+          <el-radio v-for="item in $if(column.DictType != "") options.${column.DictType} $else options.${column.CsharpFieldFl}Options$end" :key="item.dictValue" :value="item.dictValue">{{item.dictLabel}}</el-radio>
+        </el-radio-group>
+      </el-form-item>
 $else
       <el-form-item label="${labelName}" prop="${columnName}">
-        <el-input v-model${numLabel}="queryParams.${columnName}" placeholder="请输入${labelName}" />
+        <el-input v-model${numLabel}="queryParams.${columnName}" :placeholder="${t}t('btn.enterSearchPrefix')+'${labelName}'+${t}t('btn.enterSearchSuffix')" />
       </el-form-item>
 $end
 $end
 $end
+        </el-col>
+        <el-col :lg="24" :offset="12">
       <el-form-item>
         <el-button icon="search" type="primary" @click="handleQuery">{{ ${t}t('btn.search') }}</el-button>
         <el-button icon="refresh" @click="resetQuery">{{ ${t}t('btn.reset') }}</el-button>
       </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <!-- 工具区域 -->
     <el-row :gutter="10" class="mb8">
 $if(replaceDto.ShowBtnAdd)
       <el-col :span="1.5">
-        <el-button type="primary" v-hasPermi="['${replaceDto.PermissionPrefix}:add']" plain icon="plus" @click="handleAdd">
+        <el-button class="btn-add" v-hasPermi="['${replaceDto.PermissionPrefix}:add']" plain icon="plus" @click="handleAdd">
           {{ ${t}t('btn.add') }}
         </el-button>
       </el-col>
 $end
        <el-col :span="1.5">
-        <el-button type="info" plain icon="sort" @click="toggleExpandAll">展开/折叠</el-button>
+        <el-button type="info" plain icon="sort" @click="toggleExpandAll">{{ ${t}t('btn.expand') }}/{{  ${t}t('btn.collapse')
+          }}</el-button>
       </el-col>
 $if(replaceDto.ShowBtnMultiDel)
       <el-col :span="1.5">
-        <el-button type="danger" :disabled="multiple" v-hasPermi="['${replaceDto.PermissionPrefix}:delete']" plain icon="delete" @click="handleDelete">
+        <el-button class="btn-deletebatch" :disabled="multiple" v-hasPermi="['${replaceDto.PermissionPrefix}:delete']" plain icon="delete" @click="handleDelete">
           {{ ${t}t('btn.delete') }}
         </el-button>
       </el-col>
@@ -81,16 +99,16 @@ $if(replaceDto.ShowBtnExport)
         </el-button>
       </el-col>
 $end
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
 
     <!-- 数据区域 -->
-    <el-table
+    <el-table 
       v-if="refreshTable"
       :data="dataList"
       v-loading="loading"
       ref="tableRef"
-      border
+      border height="600px"
       highlight-current-row
       @selection-change="handleSelectionChange"
       :default-expand-all="isExpandAll"
@@ -111,20 +129,20 @@ $set(labelName = column.CsharpFieldFl)
 $end
 $if(column.IsList == true)
 $if(column.HtmlType == "customInput" && column.IsPk == false)
-      <el-table-column prop="${columnName}" label="${labelName}" width="90" sortable align="center">
+      <el-table-column prop="${columnName}" label="${labelName}" width="90" sortable align="center" v-if="columns.showColumn('${columnName}')">
         <template #default="scope">
           <span v-show="editIndex != scope.$${index}index" @click="editCurrRow(scope.$${index}index)">{{scope.row.${columnName}}}</span>
           <el-input :id="scope.$${index}index" v-show="(editIndex == scope.$${index}index)" v-model="scope.row.${columnName}" @blur="handleChangeSort(scope.row)"></el-input>
         </template>
       </el-table-column>
 $elseif(column.HtmlType == "imageUpload")
-      <el-table-column prop="${columnName}" label="${labelName}" align="center">
+      <el-table-column prop="${columnName}" label="${labelName}" align="center" v-if="columns.showColumn('${columnName}')">
         <template #default="scope">
           <ImagePreview :src="scope.row.${columnName}"></ImagePreview>
         </template>
       </el-table-column>
 $elseif(column.HtmlType == "checkbox" || column.HtmlType == "select" || column.HtmlType == "radio")
-      <el-table-column prop="${columnName}" label="${labelName}" align="center">
+      <el-table-column prop="${columnName}" label="${labelName}" align="center" v-if="columns.showColumn('${columnName}')">
         <template #default="scope">
 $if(column.HtmlType == "checkbox")
           <dict-tag :options="$if(column.DictType != "") options.${column.DictType} $else options.${column.CsharpFieldFl}Options$end" :value="scope.row.${columnName} ? scope.row.${columnName}.split(',') : []" />
@@ -134,19 +152,19 @@ $end
         </template>
       </el-table-column>
 $else
-      <el-table-column prop="${columnName}" label="${labelName}" align="center"${showToolTipHtml} />
+      <el-table-column prop="${columnName}" label="${labelName}" align="center"${showToolTipHtml} v-if="columns.showColumn('${columnName}')"/>
 $end
 $end
 $end
 
-      <el-table-column label="操作" align="center" width="140">
+      <el-table-column :label="${t}t('btn.operation')" align="center" width="140">
         <template #default="scope">
 $if(replaceDto.ShowBtnEdit)
-          <el-button v-hasPermi="['${replaceDto.PermissionPrefix}:edit']" type="success" icon="edit" title="编辑" 
+          <el-button v-hasPermi="['${replaceDto.PermissionPrefix}:edit']" class="btn-edit" icon="edit" size="small" :title="${t}t('btn.edit')" 
             @click="handleUpdate(scope.row)"></el-button>      
 $end
 $if(replaceDto.ShowBtnDelete)
-          <el-button v-hasPermi="['${replaceDto.PermissionPrefix}:delete']" type="danger" icon="delete" title="删除" 
+          <el-button v-hasPermi="['${replaceDto.PermissionPrefix}:delete']" class="btn-delete" icon="delete" size="small" :title="${t}t('btn.delete')"  
             @click="handleDelete(scope.row)"></el-button>
 $end
         </template>      
@@ -155,9 +173,10 @@ $end
 
     <!-- 添加或修改${genTable.functionName}对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open" >
-      <el-form ref="formRef" :model="form" :rules="rules" label-width="100px">
+      <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-row :gutter="20">
 $foreach(column in genTable.Columns)
+$if(column.IsEdit)
 $set(labelName = "")
 $set(labelDisabled = "")
 $set(columnName = column.CsharpFieldFl)
@@ -174,18 +193,18 @@ $if(column.CsharpType == "int" || column.CsharpType == "long")
     $set(value = "parseInt(item.dictValue)")
 $end
 
-$if(column.IsInsert == false && column.IsEdit == false)
+$if(column.IsInsert == false || column.IsEdit == false)
           <el-col :lg="12" v-if="opertype == 2">
             <el-form-item label="${labelName}">{{form.${columnName}}}</el-form-item>
           </el-col>
 $elseif(tool.CheckTree(genTable ,column.CsharpField))
           <el-col :lg="24">
-            <el-form-item label="父级id" prop="${columnName}">
+            <el-form-item :label="${t}t('common.tipParentId')" prop="${columnName}">
               <el-cascader
                 class="w100"
                 :options="dataList"
                 :props="{ checkStrictly: true, value: '${treeCode}', label: '${treeName}', emitPath: false }"
-                placeholder="请选择上级菜单"
+                :placeholder="${t}t('common.tipPreviousName')"
                 clearable
                 v-model="form.${columnName}"
               >
@@ -200,7 +219,7 @@ $elseif(column.IsPK || column.IsIncrement)
           <el-col :lg="${options.ColNum}">
             <el-form-item label="${labelName}" prop="${columnName}">
 $if(column.IsIncrement == false)
-              <el-input-number v-model.number="form.${columnName}" controls-position="right" placeholder="请输入${labelName}" :disabled="title=='修改数据'"/>
+              <el-input-number v-model.number="form.${columnName}" controls-position="right" :placeholder="${t}t('btn.enterPrefix')+'${labelName}'+${t}t('btn.enterSuffix')" :disabled="opertype != 1"/>
 $else
               <span v-html="form.${columnName}"/>
 $end
@@ -210,13 +229,13 @@ $else
 $if(column.HtmlType == "inputNumber")
           <el-col :lg="${options.ColNum}">
             <el-form-item label="${labelName}" prop="${columnName}">
-              <el-input-number v-model.number="form.${columnName}" controls-position="right" placeholder="请输入${labelName}" ${labelDisabled}/>
+              <el-input-number v-model.number="form.${columnName}" controls-position="right" :placeholder="${t}t('btn.enterPrefix')+'${labelName}'+${t}t('btn.enterSuffix')" ${column.DisabledStr} ${labelDisabled}/>
             </el-form-item>
           </el-col>
 $elseif(column.HtmlType == "datetime")
           <el-col :lg="${options.ColNum}">
             <el-form-item label="${labelName}" prop="${columnName}">
-              <el-date-picker v-model="form.${columnName}" type="datetime" placeholder="选择日期时间"></el-date-picker>
+              <el-date-picker v-model="form.${columnName}" type="datetime" :placeholder="${t}t('btn.selectPrefix')+'${labelName}'+${t}t('btn.selectSuffix')"${column.DisabledStr}></el-date-picker>
             </el-form-item>
           </el-col>
 $elseif(column.HtmlType == "imageUpload")
@@ -239,10 +258,10 @@ $elseif(column.HtmlType == "radio")
               </el-radio-group>
             </el-form-item>
           </el-col>
-$elseif(column.HtmlType == "textarea")
+$elseif(column.HtmlType == "textarea" ||column.columnName == "remark")
           <el-col :lg="24">
             <el-form-item label="${labelName}" prop="${columnName}">
-              <el-input type="textarea" v-model="form.${columnName}" placeholder="请输入${labelName}"/>
+              <el-input type="textarea" v-model="form.${columnName}" :placeholder="${t}t('btn.enterPrefix')+'${labelName}'+${t}t('btn.enterSuffix')"${column.DisabledStr} show-word-limit maxlength="${column.CsharpLength}"/>
             </el-form-item>
           </el-col>
 $elseif(column.HtmlType == "editor")
@@ -251,11 +270,16 @@ $elseif(column.HtmlType == "editor")
               <editor v-model="form.${columnName}" :min-height="200" />
             </el-form-item>
           </el-col>
-$elseif(column.HtmlType == "select" || column.HtmlType == "selectMulti")
+$elseif(column.HtmlType == "select" || column.HtmlType == "selectMulti"|| column.HtmlType == "selectRemote")
           <el-col :lg="${options.ColNum}">
             <el-form-item label="${labelName}" prop="${columnName}">
-              <el-select v-model="form.${columnName}" placeholder="请选择${labelName}"${column.DisabledStr}>
-                <el-option v-for="item in $if(column.DictType != "") options.${column.DictType} $else options.${column.CsharpFieldFl}Options$end" :key="item.dictValue" :label="item.dictLabel" :value="${value}"></el-option>
+              <el-select filterable clearable $if(column.HtmlType == "selectMulti")multiple collapse-tags collapse-tags-tooltip$end $if(column.HtmlType == "selectRemote")remote remote-show-suffix :remote-method="remoteMethod_${column.DictType}" 
+              :loading="loading"$end v-model="form.${columnName}$if(column.HtmlType == "selectMulti")Checked$end"  :placeholder="${t}t('btn.selectPrefix')+'${labelName}'+${t}t('btn.selectSuffix')"${column.DisabledStr}>
+                <el-option
+                  v-for="item in $if(column.DictType != "")$if(column.HtmlType == "selectRemote") remotequery_$elseif(column.HtmlType != "selectRemote") options.$end${column.DictType}${else}$if(column.HtmlType == "selectRemote") remotequery_$elseif(column.HtmlType != "selectRemote") options.$end${column.CsharpFieldFl}Options$end" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="${value}"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -270,9 +294,10 @@ $elseif(column.HtmlType == "checkbox")
 $else
           <el-col :lg="${options.ColNum}">
             <el-form-item label="${labelName}" prop="${columnName}">
-              <el-input v-model="form.${columnName}" placeholder="请输入${labelName}" ${labelDisabled}/>
+              <el-input $if(column.CsharpLength == "-1")type="textarea" $end v-model="form.${columnName}" :placeholder="${t}t('btn.enterPrefix')+'${labelName}'+${t}t('btn.enterSuffix')" ${column.DisabledStr} show-word-limit $if(column.CsharpLength == "-1" &&  column.ColumnType=="nvarchar")maxlength="8000" $else $if(column.CsharpLength == "-1" &&  column.ColumnType=="varchar")maxlength="4000" $else maxlength="${column.CsharpLength}"$end$end ${labelDisabled}/>
             </el-form-item>
           </el-col>
+$end
 $end
 $end
 $end
@@ -290,6 +315,7 @@ $end
 </template>
 
 <script setup name="${genTable.BusinessName.ToLower()}">
+  import '@/assets/styles/btn-custom.scss'
 import { treelist${genTable.BusinessName}, list${genTable.BusinessName}, 
 $if(replaceDto.ShowBtnAdd) add${genTable.BusinessName}, $end
 $if(replaceDto.ShowBtnDelete || replaceDto.ShowBtnMultiDel)del${genTable.BusinessName},$end
@@ -299,8 +325,11 @@ $if(showCustomInput) changeSort $end } from '@/api/${tool.FirstLowerCase(genTabl
 $if(replaceDto.ShowEditor == 1)
 import Editor from '@/components/Editor'
 $end
-
+//防抖处理函数 import { debounce } from 'lodash';
+import { debounce } from 'lodash';
+//获取当前组件实例
 const { proxy } = getCurrentInstance()
+//展开否
 const isExpandAll = ref(false)
 const refreshTable = ref(true)
 function toggleExpandAll() {
@@ -311,26 +340,51 @@ function toggleExpandAll() {
   })
 }
 
-// 选中${replaceDto.FistLowerPk}数组数组
+// 选中${replaceDto.FistLowerPk}数组
 const ids = ref([])
+//是否单选
 const single = ref(true)
+//是否多选
 const multiple = ref(true)
+//是否加载动画
 const loading = ref(false)
+//显示搜索条件
 const showSearch = ref(true)
+//使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
 const queryParams = reactive({
   pageNum: 1,
-  pageSize: 10,
+  pageSize: 56,
   sort: '${genTable.Options.SortField}',
   sortType: '${genTable.Options.SortType}',
 $foreach(item in genTable.Columns)
 $if(item.IsQuery == true)
+$if(item.HtmlType == "radio")
+   //是否查询（1是）
+  ${item.CsharpFieldFl}: -1,
+$else
+  //是否查询（1是）
   ${item.CsharpFieldFl}: undefined,
 $end
 $end
+$end
 })
+//字段显示控制
+const columns = ref([
+$set(index = 0)
+$foreach(column in genTable.Columns)
+$set(index = index + 1)
+$if(column.IsList)
+  { visible: ${if(index < 9)}true${else}false${end}, prop: '${column.CsharpFieldFl}', label: '${column.ColumnComment}' },
+$end
+$end
+])
+// 记录数
 const total = ref(0)
+//定义数据变量
 const dataList = ref([])
+//查询参数
 const queryRef = ref()
+//定义起始时间
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
 
 $foreach(item in genTable.Columns)
@@ -363,9 +417,66 @@ function handleChangeSort(info) {
     })
 }
 // ******************自定义编辑 end **********************
+$elseif(item.HtmlType == "selectRemote")
+//定义远程搜索变量
+const remotequeryList_${item.DictType}=ref([])
+//定义远程搜索变量
+const remotequery_${item.DictType}=ref([])
+//远程字典参数
+var remotedictParams_${item.DictType} = [
+    { dictType: "${item.DictType}" },
+]
+//远程搜索组件实例
+onMounted(() => {
+    proxy.getDicts(remotedictParams_${item.DictType}).then((response) => {
+      response.data.forEach((element) => {
+        remotequeryList_${item.DictType}.value = element.list
+      })
+      //console.log(remotequeryList_${item.DictType})
+    })
+  })
+//远程搜索
+const remoteMethod_${item.DictType} = debounce((query) => {
+    if (query) {
+      loading.value = true
+      setTimeout(() => {
+        loading.value = false
+        // remotequery_${item.DictType}.value = remotequeryList_${item.DictType}.value.filter((item) => {
+        //   return item.dictValue.toLowerCase().includes(query.toLowerCase())
+        // })
+        filterMethod_${item.DictType}(query)
+      }, 2000)
+    } else {
+     //默认显示前15条记录
+      remotequery_${item.DictType}.value.slice(0, 15)
+    }
+  }, 300)
+// 筛选方法
+const filterMethod_${item.DictType} = debounce((query) => {
+    let arr = remotequeryList_${item.DictType}.value.filter((item) => {
+      return item.dictValue.toLowerCase().includes(query) || item.dictLabel.toLowerCase().includes(query);
+    })
+    if (arr.length > 5) {
+      remotequery_${item.DictType}.value = arr.slice(0, 5)
+      addFilterOptions_${item.DictType}(query)
+    } else {
+      remotequery_${item.DictType}.value = arr
+    }
+  }, 300)
+// 精准筛选方法
+const addFilterOptions_${item.DictType} =debounce((dictValue) => {
+    let target = remotequeryList_${item.DictType}.value.find((item) => {
+      return item.dictValue === dictValue
+    })
+    if (target) {
+      if (remotequery_${item.DictType}.value.toLowerCase().every(item => item.dictValue !== target.dictValue)) {
+        remotequery_${item.DictType}.value.toLowerCase().unshift(target)
+      }
+    }
+  }, 300)
 $end
 $end
-
+//字典参数
 $set(index = 0)
 var dictParams = [
 $foreach(item in genTable.Columns)
@@ -375,7 +486,7 @@ $set(index = index + 1)
 $end
 $end
 ]
-
+//字典加载
 $if(index > 0)
 proxy.getDicts(dictParams).then((response) => {
   response.data.forEach((element) => {
@@ -383,7 +494,7 @@ proxy.getDicts(dictParams).then((response) => {
   })
 })
 $end
-
+//API获取从${genTable.functionName}/${genTable.tableName}表记录数据
 function getList(){
 $foreach(item in genTable.Columns)
 $if(item.HtmlType == "datetime" && item.IsQuery == true)
@@ -453,13 +564,18 @@ ${end}
 }
 
 /*************** form操作 ***************/
+//定义响应式变量
 const formRef = ref()
-const title = ref("")
-// 操作类型 1、add 2、edit
+//弹出层标题
+const title = ref("")// 操作类型 1、add 2、edit 3、view
+//定义响应式变量
 const opertype = ref(0)
+//定义对话框打开或关闭
 const open = ref(false)
+//reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
 const state = reactive({
   form: {},
+//正则表达式
   rules: {
 $foreach(column in genTable.Columns)
 $if(column.IsRequired && column.IsIncrement == false)
@@ -468,6 +584,7 @@ $if(column.CsharpType == "int" || column.CsharpType == "long"), type: "number"$e
 $end
 $end
   },
+//字典名称
   options: {
 $foreach(column in genTable.Columns)
 $if(column.HtmlType == "radio" || column.HtmlType == "select" || column.HtmlType == "checkbox" || column.HtmlType == "selectMulti")
@@ -477,7 +594,7 @@ $end
 $end
   }
 })
-
+//将响应式对象转换成普通对象
 const { form, rules, options } = toRefs(state)
 
 // 关闭dialog
@@ -488,16 +605,46 @@ function cancel(){
 
 // 重置表单
 function reset() {
+  form.value = {
+$foreach(item in genTable.Columns)
+$if(item.IsEdit)
+$if(item.HtmlType == "checkbox" || item.HtmlType.Contains("select"))
+    ${item.CsharpFieldFl}: [],
+$elseif(item.CsharpType == "int" || item.CsharpType == "long" || item.CsharpType == "decimal")
+    $item.CsharpFieldFl: 0,
+$else
+    $item.CsharpFieldFl: null,
+$end
+$end
+$end
+  };
   proxy.resetForm("formRef")
 }
 
+$if(ReplaceDto.ShowBtnAdd)
 // 添加按钮操作
 function handleAdd() {
   reset();
   open.value = true
-  title.value = '添加'
+  title.value = proxy.${t}t('btn.add')+" "+'${genTable.functionName}'
   opertype.value = 1
+$foreach(item in genTable.Columns)
+$if(item.IsList==true)
+$if((item.IsPk) && item.CsharpType=="Guid")
+  form.value.$item.CsharpFieldFl= crypto.randomUUID()
+$elseif(item.HtmlType == "datetime" && item.csharpField != "Create_time" || item.csharpField != "Update_time")
+  form.value.$item.CsharpFieldFl= new Date()
+$elseif(item.CsharpType == "decimal" || item.CsharpType == "int")
+  form.value.$item.CsharpFieldFl= 0
+$elseif(item.HtmlType.Contains("select"))
+  form.value.$item.CsharpFieldFl= []
+$elseif(item.HtmlType == "radio")
+  form.value.$item.CsharpFieldFl= 0
+$end
+$end
+$end
 }
+$end
 
 // 修改按钮操作
 function handleUpdate(row) {
@@ -507,7 +654,7 @@ function handleUpdate(row) {
     const { code, data } = res
     if (code == 200) {
       open.value = true
-      title.value = "修改数据"
+      title.value = proxy.${t}t('btn.edit')+" "+ '${genTable.functionName}'
       opertype.value = 2
 
       form.value = {
@@ -528,14 +675,14 @@ function submitForm() {
     if (valid) {
       if (form.value.${replaceDto.FistLowerPk} != undefined && opertype.value === 2) {
         update${genTable.BusinessName}(form.value).then((res) => {
-          proxy.${modal}modal.msgSuccess("修改成功")
+          proxy.${modal}modal.msgSuccess(proxy.${t}t('common.tipEditSucceed'))
           open.value = false
           getList()
         })
         .catch(() => {})
       } else {
         add${genTable.BusinessName}(form.value).then((res) => {
-            proxy.${modal}modal.msgSuccess("新增成功")
+           proxy.${modal}modal.msgSuccess(proxy.${t}t('common.tipAddSucceed'))
             open.value = false
             getList()
           })
@@ -549,13 +696,18 @@ function submitForm() {
 function handleDelete(row) {
   const Ids = row.${replaceDto.FistLowerPk} || ids.value
 
-  proxy.${confirm}confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
+  proxy
+    .${confirm}confirm(proxy.${t}t('common.tipConfirmDel') + Ids + proxy.${t}t('common.tipConfirmDelDataitems'), proxy.${t}t('btn.delete')+' '+proxy.${t}t('common.tip'), {
+      confirmButtonText: proxy.${t}t('btn.submit'),
+      cancelButtonText: proxy.${t}t('btn.cancel'),
+      type: "warning",
+    })
   .then(function () {
       return del${genTable.BusinessName}(Ids)
   })
   .then(() => {
       getList()
-      proxy.${modal}modal.msgSuccess("删除成功")
+ 	proxy.${modal}modal.msgSuccess(proxy.${t}t('common.tipDeleteSucceed'))
   })
   .catch(() => {})
 }
@@ -564,9 +716,9 @@ $if(replaceDto.ShowBtnExport)
 // 导出按钮操作
 function handleExport() {
   proxy
-    .${confirm}confirm("是否确认导出${genTable.functionName}数据项?", "警告", {
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
+    .${confirm}confirm(proxy.${t}t('common.tipConfirmExport')+"<${genTable.functionName}.xlsx>", proxy.${t}t('btn.export')+' '+proxy.${t}t('common.tip'), {
+      confirmButtonText: proxy.${t}t('btn.submit'),
+      cancelButtonText: proxy.${t}t('btn.cancel'),
       type: "warning",
     })
     .then(async () => {
@@ -574,6 +726,67 @@ function handleExport() {
     })
 }
 $end
+// @Descripttion: (自定义函数/CustomFunctions)
+// @Functions: (assignValue,calculateValue,statisticValue)
 
+
+  const getSummaries = (param) => {
+    const { columns, data } = param;
+    const sums = [];
+    columns.forEach((column, index) => {
+      if (index === 1) {
+        sums[index] = '合计'
+        return
+      }
+      //合计的索引
+      // if (index === 2 || index === 3 || index === 4 || index === 5 || index === 6) {
+      if (index === 6 || index === 7) {
+        const values = data.map(item => Number(item[column.property]));
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return (prev + curr)
+            } else {
+              return prev
+            }
+          }, 0)
+          // sums[index] = (sums[index]).toFixed(2); 
+          sums[index] = ThousandWithNumber(sums[index])// !!重点 要对结果进行转换
+        }
+      }
+
+    })
+    //加减运算
+    //sums[8] = '未完成台数：' + ThousandWithNumber(formatNumber(sums[6]) - formatNumber(sums[7])).toString()
+    //合计库存金额，数量*价格
+    //sums[8] = ThousandWithNumber((data.reduce((sum, row) => sum + (row.mmMovingAvg * row.mmInventory / 1000.00), 0)).toFixed(2))// !!重点 要对结果进行转换
+    return sums
+  }
+  //千分位转number
+  const formatNumber = (val) => {
+    if (val == null || val == 0) {
+      return val = '0.00'
+    } else {
+      return val.replace(/,/g, '');
+    }
+  }
+  // 千分位函数
+  function ThousandWithNumber(value) {
+    if (!value) return 0
+    // 获取整数部分
+    const wholePart = Math.trunc(value)
+    // 梳理数据 -> 千分位
+    const wholePartFormat = wholePart.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+    // 处理小数部分
+    let decimalPart = ''
+    // 将数值截取为小数部分和整数部分
+    const valueArray = value.toString().split('.')
+    if (valueArray.length === 2) { // 有小数部分
+      decimalPart = valueArray[1].toString() // 取得小数部分
+      return wholePartFormat + '.' + decimalPart
+    }
+    return wholePartFormat + decimalPart
+  }
 handleQuery()
 </script>

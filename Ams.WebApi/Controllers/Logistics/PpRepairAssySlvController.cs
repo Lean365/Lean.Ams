@@ -8,10 +8,10 @@ using MiniExcelLibs;
 namespace Ams.WebApi.Controllers.Logistics
 {
     /// <summary>
-    /// 组立不良slv
+    /// 不良明细
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/22 11:58:58
+    /// @Date: 2024/9/12 16:38:50
     /// </summary>
     [Verify]
     [Route("Logistics/PpRepairAssySlv")]
@@ -19,7 +19,7 @@ namespace Ams.WebApi.Controllers.Logistics
     public class PpRepairAssySlvController : BaseController
     {
         /// <summary>
-        /// 组立不良slv接口
+        /// 不良明细接口
         /// </summary>
         private readonly IPpRepairAssySlvService _PpRepairAssySlvService;
 
@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 查询组立不良slv列表
+        /// 查询不良明细列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -43,34 +43,34 @@ namespace Ams.WebApi.Controllers.Logistics
 
 
         /// <summary>
-        /// 查询组立不良slv详情
+        /// 查询不良明细详情
         /// </summary>
-        /// <param name="PpdSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{PpdSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "pp:repairassyslv:query")]
-        public IActionResult GetPpRepairAssySlv(long PpdSfId)
+        public IActionResult GetPpRepairAssySlv(long Id)
         {
-            var response = _PpRepairAssySlvService.GetInfo(PpdSfId);
+            var response = _PpRepairAssySlvService.GetInfo(Id);
             
             var info = response.Adapt<PpRepairAssySlvDto>();
             return SUCCESS(info);
         }
 
         /// <summary>
-        /// 添加组立不良slv
+        /// 添加不良明细
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "pp:repairassyslv:add")]
-        [Log(Title = "组立不良slv", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "不良明细", BusinessType = BusinessType.ADD)]
         public IActionResult AddPpRepairAssySlv([FromBody] PpRepairAssySlvDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpRepairAssySlvService.CheckInputUnique(parm.PpdSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpRepairAssySlvService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增组立不良slv '{parm.PpdSfId}'失败(Add failed)，输入的组立不良slv已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增不良明细 '{parm.Id}'失败(Add failed)，输入的不良明细已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpRepairAssySlv>().ToCreate(HttpContext);
 
@@ -80,12 +80,12 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 更新组立不良slv
+        /// 更新不良明细
         /// </summary>
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "pp:repairassyslv:edit")]
-        [Log(Title = "组立不良slv", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "不良明细", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdatePpRepairAssySlv([FromBody] PpRepairAssySlvDto parm)
         {
             var modal = parm.Adapt<PpRepairAssySlv>().ToUpdate(HttpContext);
@@ -95,24 +95,24 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 删除组立不良slv
+        /// 删除不良明细
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "pp:repairassyslv:delete")]
-        [Log(Title = "组立不良slv", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "不良明细", BusinessType = BusinessType.DELETE)]
         public IActionResult DeletePpRepairAssySlv([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
-            return ToResponse(_PpRepairAssySlvService.Delete(idArr, "删除组立不良slv"));
+            return ToResponse(_PpRepairAssySlvService.Delete(idArr, "删除不良明细"));
         }
 
         /// <summary>
-        /// 导出组立不良slv
+        /// 导出不良明细
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "组立不良slv", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "不良明细导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "pp:repairassyslv:export")]
         public IActionResult Export([FromQuery] PpRepairAssySlvQueryDto parm)
@@ -124,19 +124,19 @@ namespace Ams.WebApi.Controllers.Logistics
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "组立不良slv", "组立不良slv");
+            var result = ExportExcelMini(list, "不良明细", "不良明细");
             return ExportExcel(result.Item2, result.Item1);
         }
 
         /// <summary>
-        /// 导入
+        /// 导入不良明细
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
-        [Log(Title = "组立不良slv导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
+      [HttpPost("importData")]
+        [Log(Title = "不良明细导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "pp:repairassyslv:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<PpRepairAssySlvDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 组立不良slv导入模板下载
+        /// 不良明细
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
-        [Log(Title = "组立不良slv模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "不良明细模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<PpRepairAssySlvImportTpl>() { }, "PpRepairAssySlv_tpl");
             return ExportExcel(result.Item2, result.Item1);

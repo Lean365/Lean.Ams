@@ -4,7 +4,7 @@ namespace Ams.Model.Routine
     /// 人事
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 8:47:39
+    /// @Date: 2024/9/12 15:25:31
     /// </summary>
     [SugarTable("routine_ehr_employee", "人事")]
     public class RoutineEhrEmployee : SysBase
@@ -14,281 +14,281 @@ namespace Ams.Model.Routine
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long EeSfId { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 姓名
         /// </summary>
-        [SugarColumn(ColumnName = "EeName", ColumnDescription = "姓名", Length = 40)]
-        public string EeName { get; set; }
+        [SugarColumn(ColumnName = "Mh002", ColumnDescription = "姓名", Length = 40, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mh002 { get; set; }
 
         /// <summary>
         /// 曾用名
         /// </summary>
-        [SugarColumn(ColumnName = "EeNameUsed", ColumnDescription = "曾用名", Length = 40)]
-        public string EeNameUsed { get; set; }
+        [SugarColumn(ColumnName = "Mh003", ColumnDescription = "曾用名", Length = 40)]
+        public string Mh003 { get; set; }
 
         /// <summary>
         /// 昵称
         /// </summary>
-        [SugarColumn(ColumnName = "EeNickName", ColumnDescription = "昵称", Length = 40)]
-        public string EeNickName { get; set; }
+        [SugarColumn(ColumnName = "Mh004", ColumnDescription = "昵称", Length = 40)]
+        public string Mh004 { get; set; }
 
         /// <summary>
         /// 英文名
         /// </summary>
-        [SugarColumn(ColumnName = "EeEnglishName", ColumnDescription = "英文名", Length = 200)]
-        public string EeEnglishName { get; set; }
+        [SugarColumn(ColumnName = "Mh005", ColumnDescription = "英文名", Length = 200)]
+        public string Mh005 { get; set; }
 
         /// <summary>
         /// 性别
         /// </summary>
-        [SugarColumn(ColumnName = "EeGenderId", ColumnDescription = "性别", DefaultValue = "0")]
-        public int EeGenderId { get; set; }
+        [SugarColumn(ColumnName = "Mh006", ColumnDescription = "性别", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh006 { get; set; }
 
         /// <summary>
         /// 出生日期
         /// </summary>
-        public DateTime? EeBirthday { get; set; }
+        public DateTime? Mh007 { get; set; }
 
         /// <summary>
         /// 身份证号
         /// </summary>
-        [SugarColumn(ColumnName = "EeIdentityCard", ColumnDescription = "身份证号", Length = 18)]
-        public string EeIdentityCard { get; set; }
+        [SugarColumn(ColumnName = "Mh008", ColumnDescription = "身份证号", Length = 18)]
+        public string Mh008 { get; set; }
 
         /// <summary>
         /// 婚姻状态
         /// </summary>
-        [SugarColumn(ColumnName = "EeWedlockId", ColumnDescription = "婚姻状态", DefaultValue = "0")]
-        public int EeWedlockId { get; set; }
+        [SugarColumn(ColumnName = "Mh009", ColumnDescription = "婚姻状态", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh009 { get; set; }
 
         /// <summary>
         /// 民族
         /// </summary>
-        [SugarColumn(ColumnName = "EeNationId", ColumnDescription = "民族", DefaultValue = "0")]
-        public int EeNationId { get; set; }
+        [SugarColumn(ColumnName = "Mh010", ColumnDescription = "民族", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh010 { get; set; }
 
         /// <summary>
         /// 籍贯
         /// </summary>
-        [SugarColumn(ColumnName = "EeNativePlace", ColumnDescription = "籍贯", Length = 100)]
-        public string EeNativePlace { get; set; }
+        [SugarColumn(ColumnName = "Mh011", ColumnDescription = "籍贯", Length = 100)]
+        public string Mh011 { get; set; }
 
         /// <summary>
         /// 政治面貌
         /// </summary>
-        [SugarColumn(ColumnName = "EePoliticId", ColumnDescription = "政治面貌", DefaultValue = "0")]
-        public int EePoliticId { get; set; }
+        [SugarColumn(ColumnName = "Mh012", ColumnDescription = "政治面貌", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh012 { get; set; }
 
         /// <summary>
         /// 邮件
         /// </summary>
-        [SugarColumn(ColumnName = "EeEmail", ColumnDescription = "邮件", Length = 20)]
-        public string EeEmail { get; set; }
+        [SugarColumn(ColumnName = "Mh013", ColumnDescription = "邮件", Length = 20)]
+        public string Mh013 { get; set; }
 
         /// <summary>
         /// 电话
         /// </summary>
-        [SugarColumn(ColumnName = "EePhone", ColumnDescription = "电话", Length = 11)]
-        public string EePhone { get; set; }
+        [SugarColumn(ColumnName = "Mh014", ColumnDescription = "电话", Length = 11)]
+        public string Mh014 { get; set; }
 
         /// <summary>
         /// 国家/地区
         /// </summary>
-        [SugarColumn(ColumnName = "EeCountry", ColumnDescription = "国家/地区", Length = 2)]
-        public string EeCountry { get; set; }
+        [SugarColumn(ColumnName = "Mh015", ColumnDescription = "国家/地区", Length = 2)]
+        public string Mh015 { get; set; }
 
         /// <summary>
         /// 省区
         /// </summary>
-        [SugarColumn(ColumnName = "EeProvince", ColumnDescription = "省区", Length = 10)]
-        public string EeProvince { get; set; }
+        [SugarColumn(ColumnName = "Mh016", ColumnDescription = "省区", Length = 10)]
+        public string Mh016 { get; set; }
 
         /// <summary>
         /// 市区
         /// </summary>
-        [SugarColumn(ColumnName = "EeCity", ColumnDescription = "市区", Length = 30)]
-        public string EeCity { get; set; }
+        [SugarColumn(ColumnName = "Mh017", ColumnDescription = "市区", Length = 30)]
+        public string Mh017 { get; set; }
 
         /// <summary>
         /// 县区
         /// </summary>
-        [SugarColumn(ColumnName = "EeCounty", ColumnDescription = "县区", Length = 50)]
-        public string EeCounty { get; set; }
+        [SugarColumn(ColumnName = "Mh018", ColumnDescription = "县区", Length = 50)]
+        public string Mh018 { get; set; }
 
         /// <summary>
         /// 家庭住址
         /// </summary>
-        [SugarColumn(ColumnName = "EeHomeAddress", ColumnDescription = "家庭住址", Length = 128)]
-        public string EeHomeAddress { get; set; }
+        [SugarColumn(ColumnName = "Mh019", ColumnDescription = "家庭住址", Length = 128)]
+        public string Mh019 { get; set; }
 
         /// <summary>
         /// 邮编
         /// </summary>
-        [SugarColumn(ColumnName = "EePostCode", ColumnDescription = "邮编", Length = 8)]
-        public string EePostCode { get; set; }
+        [SugarColumn(ColumnName = "Mh020", ColumnDescription = "邮编", Length = 8)]
+        public string Mh020 { get; set; }
 
         /// <summary>
         /// 户口性质
         /// </summary>
-        [SugarColumn(ColumnName = "EeHouseholdTypeId", ColumnDescription = "户口性质", DefaultValue = "0")]
-        public int EeHouseholdTypeId { get; set; }
+        [SugarColumn(ColumnName = "Mh021", ColumnDescription = "户口性质", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh021 { get; set; }
 
         /// <summary>
         /// 暂住地址
         /// </summary>
-        [SugarColumn(ColumnName = "EeStayAddress", ColumnDescription = "暂住地址", Length = 128)]
-        public string EeStayAddress { get; set; }
+        [SugarColumn(ColumnName = "Mh022", ColumnDescription = "暂住地址", Length = 128)]
+        public string Mh022 { get; set; }
 
         /// <summary>
         /// 部门
         /// </summary>
-        [SugarColumn(ColumnName = "EeDepartmentId", ColumnDescription = "部门", DefaultValue = "0")]
-        public int EeDepartmentId { get; set; }
+        [SugarColumn(ColumnName = "Mh023", ColumnDescription = "部门", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh023 { get; set; }
 
         /// <summary>
         /// 职称
         /// </summary>
-        [SugarColumn(ColumnName = "EeTitlesId", ColumnDescription = "职称", DefaultValue = "0")]
-        public int? EeTitlesId { get; set; }
+        [SugarColumn(ColumnName = "Mh024", ColumnDescription = "职称", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh024 { get; set; }
 
         /// <summary>
         /// 职位
         /// </summary>
-        [SugarColumn(ColumnName = "EePostId", ColumnDescription = "职位", DefaultValue = "0")]
-        public int? EePostId { get; set; }
+        [SugarColumn(ColumnName = "Mh025", ColumnDescription = "职位", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh025 { get; set; }
 
         /// <summary>
         /// 职级
         /// </summary>
-        [SugarColumn(ColumnName = "EePostLevel", ColumnDescription = "职级", DefaultValue = "0")]
-        public int? EePostLevel { get; set; }
+        [SugarColumn(ColumnName = "Mh026", ColumnDescription = "职级", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh026 { get; set; }
 
         /// <summary>
         /// 职务
         /// </summary>
-        [SugarColumn(ColumnName = "EeDutyId", ColumnDescription = "职务", DefaultValue = "0")]
-        public int? EeDutyId { get; set; }
+        [SugarColumn(ColumnName = "Mh027", ColumnDescription = "职务", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh027 { get; set; }
 
         /// <summary>
         /// 招聘来源
         /// </summary>
-        [SugarColumn(ColumnName = "EeRecruited", ColumnDescription = "招聘来源", DefaultValue = "0")]
-        public int? EeRecruited { get; set; }
+        [SugarColumn(ColumnName = "Mh028", ColumnDescription = "招聘来源", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh028 { get; set; }
 
         /// <summary>
         /// 聘用形式
         /// </summary>
-        [SugarColumn(ColumnName = "EeEngageFormId", ColumnDescription = "聘用形式", DefaultValue = "0")]
-        public int? EeEngageFormId { get; set; }
+        [SugarColumn(ColumnName = "Mh029", ColumnDescription = "聘用形式", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh029 { get; set; }
 
         /// <summary>
         /// 学历
         /// </summary>
-        [SugarColumn(ColumnName = "EeEducationalBackgroundId", ColumnDescription = "学历", DefaultValue = "0")]
-        public int? EeEducationalBackgroundId { get; set; }
+        [SugarColumn(ColumnName = "Mh030", ColumnDescription = "学历", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh030 { get; set; }
 
         /// <summary>
         /// 专业
         /// </summary>
-        [SugarColumn(ColumnName = "EeSpecialtyId", ColumnDescription = "专业", DefaultValue = "0")]
-        public int? EeSpecialtyId { get; set; }
+        [SugarColumn(ColumnName = "Mh031", ColumnDescription = "专业", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh031 { get; set; }
 
         /// <summary>
         /// 院校
         /// </summary>
-        [SugarColumn(ColumnName = "EeCollegeName", ColumnDescription = "院校", Length = 100)]
-        public string EeCollegeName { get; set; }
+        [SugarColumn(ColumnName = "Mh032", ColumnDescription = "院校", Length = 100)]
+        public string Mh032 { get; set; }
 
         /// <summary>
         /// 工号
         /// </summary>
-        [SugarColumn(ColumnName = "EeEmployeeId", ColumnDescription = "工号", Length = 8)]
-        public string EeEmployeeId { get; set; }
+        [SugarColumn(ColumnName = "Mh033", ColumnDescription = "工号", Length = 8, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mh033 { get; set; }
 
         /// <summary>
         /// 入职日期
         /// </summary>
-        public DateTime? EeJoinedDate { get; set; }
+        public DateTime? Mh034 { get; set; }
 
         /// <summary>
         /// 在职状态
         /// </summary>
-        [SugarColumn(ColumnName = "EeEmployedStatus", ColumnDescription = "在职状态", DefaultValue = "0")]
-        public int? EeEmployedStatus { get; set; }
+        [SugarColumn(ColumnName = "Mh035", ColumnDescription = "在职状态", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh035 { get; set; }
 
         /// <summary>
         /// 试用期
         /// </summary>
-        [SugarColumn(ColumnName = "EeProbationPeriod", ColumnDescription = "试用期", DefaultValue = "0")]
-        public int? EeProbationPeriod { get; set; }
+        [SugarColumn(ColumnName = "Mh036", ColumnDescription = "试用期", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh036 { get; set; }
 
         /// <summary>
         /// 合同期限
         /// </summary>
-        [SugarColumn(ColumnName = "EeContractPeriod", ColumnDescription = "合同期限", DefaultValue = "0")]
-        public int? EeContractPeriod { get; set; }
+        [SugarColumn(ColumnName = "Mh037", ColumnDescription = "合同期限", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh037 { get; set; }
 
         /// <summary>
         /// 转正日期
         /// </summary>
-        public DateTime? EePositiveDate { get; set; }
+        public DateTime? Mh038 { get; set; }
 
         /// <summary>
         /// 离职日期
         /// </summary>
-        public DateTime? EeLeaveDate { get; set; }
+        public DateTime? Mh039 { get; set; }
 
         /// <summary>
         /// 合同起始日
         /// </summary>
-        public DateTime? EeContractBeginDate { get; set; }
+        public DateTime? Mh040 { get; set; }
 
         /// <summary>
         /// 合同终止日
         /// </summary>
-        public DateTime? EeContractEndDate { get; set; }
+        public DateTime? Mh041 { get; set; }
 
         /// <summary>
         /// 工龄
         /// </summary>
-        [SugarColumn(ColumnName = "EeSeniority", ColumnDescription = "工龄", DefaultValue = "0")]
-        public int? EeSeniority { get; set; }
+        [SugarColumn(ColumnName = "Mh042", ColumnDescription = "工龄", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh042 { get; set; }
 
         /// <summary>
         /// 退休日期
         /// </summary>
-        public DateTime? EeRetirementDate { get; set; }
+        public DateTime? Mh043 { get; set; }
 
         /// <summary>
         /// 打卡否
         /// </summary>
-        [SugarColumn(ColumnName = "EeClockInId", ColumnDescription = "打卡否", DefaultValue = "0")]
-        public int EeClockInId { get; set; }
+        [SugarColumn(ColumnName = "Mh044", ColumnDescription = "打卡否", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh044 { get; set; }
 
         /// <summary>
         /// 班别
         /// </summary>
-        [SugarColumn(ColumnName = "EeShiftsTypeId", ColumnDescription = "班别", DefaultValue = "0")]
-        public int EeShiftsTypeId { get; set; }
+        [SugarColumn(ColumnName = "Mh045", ColumnDescription = "班别", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mh045 { get; set; }
 
         /// <summary>
         /// 头像
         /// </summary>
-        [SugarColumn(ColumnName = "EeAvatarFileUrl", ColumnDescription = "头像", Length = 255)]
-        public string EeAvatarFileUrl { get; set; }
+        [SugarColumn(ColumnName = "Mh046", ColumnDescription = "头像", Length = 255)]
+        public string Mh046 { get; set; }
 
         /// <summary>
         /// 学历附件
         /// </summary>
-        [SugarColumn(ColumnName = "EeQualificationFileUrl", ColumnDescription = "学历附件", Length = 255)]
-        public string EeQualificationFileUrl { get; set; }
+        [SugarColumn(ColumnName = "Mh047", ColumnDescription = "学历附件", Length = 255)]
+        public string Mh047 { get; set; }
 
         /// <summary>
         /// 职称附件
         /// </summary>
-        [SugarColumn(ColumnName = "EeTitleFileUrl", ColumnDescription = "职称附件", Length = 255)]
-        public string EeTitleFileUrl { get; set; }
+        [SugarColumn(ColumnName = "Mh048", ColumnDescription = "职称附件", Length = 255)]
+        public string Mh048 { get; set; }
     }
 }

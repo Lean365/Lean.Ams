@@ -1,17 +1,21 @@
 using System.Globalization;
 using System.Text.Json;
-using Ams.Common.Cache;
 using Ams.Common.DynamicApiSimple.Extens;
+using Ams.Infrastructure;
+using Ams.Infrastructure.Cache;
 using Ams.Infrastructure.Converter;
+using Ams.Infrastructure.Model;
 using Ams.Infrastructure.WebExtensions;
+using Ams.Service.Filters;
+using Ams.Service.Middleware;
 using Ams.Service.Signalr;
-using Ams.Service.SqlSugar;
 using Ams.WebApi.Extensions;
 using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
 using NLog.Web;
 using SqlSugar;
+using Ams.Service.SqlSugar;
 
 var builder = WebApplication.CreateBuilder(args);
 // NLog: Setup NLog for Dependency injection
@@ -86,6 +90,7 @@ builder.Services.AddSwaggerConfig();
 builder.Services.AddLogo();
 // 添加本地化服务
 builder.Services.AddLocalization(options => options.ResourcesPath = "");
+
 var app = builder.Build();
 InternalApp.ServiceProvider = app.Services;
 InternalApp.Configuration = builder.Configuration;
@@ -100,18 +105,12 @@ if (app.Environment.IsDevelopment())
 SnowFlakeSingle.WorkId = workId;
 //使用全局异常中间件
 app.UseMiddleware<GlobalExceptionMiddleware>();
+
 // 配置中间件以支持本地化
 var supportedCultures = new List<CultureInfo> {
-    new ("zh-CN"),
-    new ("zh-TW"),
-    new ("ja"),
-    new ("ko"),
-    new ("fr"),
-    new ("es"),
-    new ("ru"),
-    new ("ar"),
-    new ("de"),
-    new ("en"),
+                    new CultureInfo("zh-Hant"),
+                    new CultureInfo("zh-CN"),
+                    new CultureInfo("en")
                 };
 app.UseRequestLocalization(options =>
 {
@@ -120,6 +119,7 @@ app.UseRequestLocalization(options =>
     options.SupportedUICultures = supportedCultures;
     options.FallBackToParentCultures = true;
 });
+
 //请求头转发
 //ForwardedHeaders中间件会自动把反向代理服务器转发过来的X-Forwarded-For（客户端真实IP）以及X-Forwarded-Proto（客户端请求的协议）自动填充到HttpContext.Connection.RemoteIPAddress和HttpContext.Request.Scheme中，这样应用代码中读取到的就是真实的IP和真实的协议了，不需要应用做特殊处理。
 app.UseForwardedHeaders(new ForwardedHeadersOptions

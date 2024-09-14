@@ -211,8 +211,8 @@
           </el-col>
           <el-col :lg="12">
             <el-form-item :label="$t('ptask.name')" maxlength="200" prop="name">
-              <el-input v-model="form.name"
-                :placeholder="$t('btn.enterPrefix')+$t('ptask.name')+$t('btn.enterSuffix')" />
+              <el-input v-model="form.name" :placeholder="$t('btn.enterPrefix')+$t('ptask.name')+$t('btn.enterSuffix')"
+                show-word-limit maxlength="40" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
@@ -267,13 +267,15 @@
             <el-col :lg="24">
               <el-form-item :label="$t('ptask.assemblyName')" maxlength="200" prop="assemblyName">
                 <el-input v-model="form.assemblyName"
-                  :placeholder="$t('btn.enterPrefix')+$t('ptask.assemblyName')+$t('btn.enterSuffix')" />
+                  :placeholder="$t('btn.enterPrefix')+$t('ptask.assemblyName')+$t('btn.enterSuffix')" show-word-limit
+                  maxlength="80" />
               </el-form-item>
             </el-col>
             <el-col :lg="24">
               <el-form-item :label="$t('ptask.className')" maxlength="200" prop="className">
                 <el-input v-model="form.className"
-                  :placeholder="$t('btn.enterPrefix')+$t('ptask.className')+$t('btn.enterSuffix')" />
+                  :placeholder="$t('btn.enterPrefix')+$t('ptask.className')+$t('btn.enterSuffix')" show-word-limit
+                  maxlength="80" />
               </el-form-item>
             </el-col>
           </template>
@@ -292,7 +294,8 @@
               </template>
 
               <el-input v-model="form.jobParams"
-                :placeholder="$t('btn.enterPrefix')+$t('ptask.taskParams')+$t('btn.enterSuffix')" />
+                :placeholder="$t('btn.enterPrefix')+$t('ptask.taskParams')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="180" />
             </el-form-item>
           </el-col>
           <el-col :lg="24" v-if="form.triggerType == 1">
@@ -339,7 +342,7 @@
           </el-col>
           <el-col :lg="24">
             <el-form-item :label="$t('common.tipRemarks')" prop="remark">
-              <el-input type="textarea" v-model="form.remark" />
+              <el-input type="textarea" v-model="form.remark" show-word-limit maxlength="400" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
@@ -666,7 +669,7 @@
   }
 
   getList()
-  proxy.getDicts('sys_job_group').then((response) => {
+  proxy.getDicts('sys_tasks_group').then((response) => {
     state.options.jobGroupOptions = response.data
   })
 

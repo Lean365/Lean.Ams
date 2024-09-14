@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// bom核算
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/8/9 11:34:34
+    /// @Date: 2024/9/10 16:12:02
     /// </summary>
     public interface IFicoCostingBomService : IBaseService<FicoCostingBom>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <summary>
         /// 获取bom核算信息
         /// </summary>
-        /// <param name="BcSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        FicoCostingBom GetInfo(long BcSfId);
+        FicoCostingBom GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

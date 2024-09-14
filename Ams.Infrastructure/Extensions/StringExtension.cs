@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -7,7 +6,6 @@ namespace Ams.Infrastructure.Extensions
 {
     public static class StringExtension
     {
-
         /// <summary>
         /// SQL条件拼接
         /// </summary>
@@ -18,6 +16,7 @@ namespace Ams.Infrastructure.Extensions
         {
             return condition ? str : string.Empty;
         }
+
         /// <summary>
         /// 判断是否为空
         /// </summary>
@@ -172,7 +171,7 @@ namespace Ams.Infrastructure.Extensions
             {
                 result = fieldName.ToUpper();
             }
-            else if (fieldName.Length == CountUpper(fieldName))
+            else if (fieldName.Length == fieldName.CountUpper())
             {
                 result = fieldName[..1].ToUpper() + fieldName[1..].ToLower();
             }
@@ -215,7 +214,7 @@ namespace Ams.Infrastructure.Extensions
         public static string ConvertToCamel(this string fieldName, string fieldDelimiter)
         {
             //先Pascal
-            string result = ConvertToPascal(fieldName, fieldDelimiter);
+            string result = fieldName.ConvertToPascal(fieldDelimiter);
             //然后首字母小写
             if (result.Length == 1)
             {

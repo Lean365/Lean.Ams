@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 源订单序列号
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 15:20:55
+    /// @Date: 2024/9/11 13:43:48
     /// </summary>
     public interface IPpSourceOrderSerialService : IBaseService<PpSourceOrderSerial>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取源订单序列号信息
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        PpSourceOrderSerial GetInfo(string SfId);
+        PpSourceOrderSerial GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

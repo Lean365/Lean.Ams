@@ -1,18 +1,18 @@
-﻿using Aliyun.OSS;
+﻿using System;
+using System.IO;
+using Aliyun.OSS;
 using Aliyun.OSS.Common;
 using Ams.Infrastructure;
-using System;
-using System.IO;
 
 namespace Ams.Common
 {
     public class AliyunOssHelper
-    { 
-        static string accessKeyId = AppSettings.GetConfig("ALIYUN_OSS:KEY");
-        static string accessKeySecret = AppSettings.GetConfig("ALIYUN_OSS:SECRET");
-        static string endpoint = AppSettings.GetConfig("ALIYUN_OSS:REGIONID");
-        static string bucketName1 = AppSettings.GetConfig("ALIYUN_OSS:bucketName");
-        
+    {
+        private static string accessKeyId = AppSettings.GetConfig("ALIYUN_OSS:KEY");
+        private static string accessKeySecret = AppSettings.GetConfig("ALIYUN_OSS:SECRET");
+        private static string endpoint = AppSettings.GetConfig("ALIYUN_OSS:REGIONID");
+        private static string bucketName1 = AppSettings.GetConfig("ALIYUN_OSS:bucketName");
+
         /// <summary>
         /// 上传到阿里云
         /// </summary>

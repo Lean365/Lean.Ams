@@ -1,17 +1,18 @@
-using Ams.Infrastructure.Model;
-using Ams.Model.Routine.Dto;
+using Ams.Service;
 using Ams.Service.Routine.IRoutineService;
+using Ams.Infrastructure.Model;
+using Ams.Repository;
 
 namespace Ams.Service.Routine
 {
     /// <summary>
-    /// 邮件发送记录Service业务层处理
+    /// 邮件记录Service业务层处理
     /// </summary>
     [AppService(ServiceType = typeof(IEmailItemsService), ServiceLifetime = LifeTime.Transient)]
     public class EmailItemsService : BaseService<EmailItems>, IEmailItemsService
     {
         /// <summary>
-        /// 查询邮件发送记录列表
+        /// 查询邮件记录列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -22,9 +23,9 @@ namespace Ams.Service.Routine
             predicate = predicate.AndIF(parm.IsSend != null, it => it.IsSend == parm.IsSend);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.FromEmail), it => it.FromEmail == parm.FromEmail);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Subject), it => it.Subject.Contains(parm.Subject));
-            predicate = predicate.AndIF(parm.BeginTime == null, it => it.Create_time >= DateTime.Now.AddDays(-7).ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
-            predicate = predicate.AndIF(parm.EndTime != null, it => it.Create_time <= parm.EndTime);
+            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.Create_time >= DateTime.Now.AddDays(-7).ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginAddTime != null, it => it.Create_time >= parm.BeginAddTime);
+            predicate = predicate.AndIF(parm.EndAddTime != null, it => it.Create_time <= parm.EndAddTime);
             var response = Queryable()
                 .Where(predicate.ToExpression())
                 .ToPage<EmailItems, EmailItemsDto>(parm);
@@ -47,7 +48,7 @@ namespace Ams.Service.Routine
         }
 
         /// <summary>
-        /// 添加邮件发送记录
+        /// 添加邮件记录
         /// </summary>
         /// <param name="sendEmailVo"></param>
         /// <param name="result"></param>
@@ -70,7 +71,7 @@ namespace Ams.Service.Routine
         }
 
         /// <summary>
-        /// 修改邮件发送记录
+        /// 修改邮件记录
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>

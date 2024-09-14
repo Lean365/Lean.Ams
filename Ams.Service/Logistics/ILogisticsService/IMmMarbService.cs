@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 物料信息
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/18 14:13:37
+    /// @Date: 2024/9/11 11:22:47
     /// </summary>
     public interface IMmMarbService : IBaseService<MmMarb>
     {
@@ -21,9 +21,9 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// <summary>
         /// 获取物料信息信息
         /// </summary>
-        /// <param name="SfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        MmMarb GetInfo(long SfId);
+        MmMarb GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

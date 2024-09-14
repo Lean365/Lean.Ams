@@ -163,7 +163,8 @@
                 {{ $t('plang.languageKey') }}
               </template>
               <el-input v-model="form.langKey"
-                :placeholder="$t('btn.enterPrefix')+$t('plang.language')+$t('btn.enterSuffix')" />
+                :placeholder="$t('btn.enterPrefix')+$t('plang.language')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="80" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -178,7 +179,8 @@
             </el-table-column>
             <el-table-column :label="$t('plang.languageName')" align="center">
               <template #default="scope">
-                <el-input type="textarea" rows="2" prop="langName" v-model="scope.row.langName"></el-input>
+                <el-input type="textarea" rows="2" prop="langName" v-model="scope.row.langName" show-word-limit
+                  maxlength="200"></el-input>
               </template>
             </el-table-column>
           </el-table>

@@ -2,7 +2,7 @@ use Ams_Tes;
 
 -- 招聘菜单
 INSERT INTO sys_menu(menuName, parentId, SortingNum, path, component, isFrame, isCache, menuType, visible, IsStatus, perms, icon, Create_by, Create_time,menuName_key) 
-VALUES ('招聘', 1210, 999, 'RoutineEhrRecruitment', 'routine/RoutineEhrRecruitment', 0, 0, 'C', '0', '0', 'routine:ehrrecruitment:list', 'icon1', 'Lean365', GETDATE(), 'menu.routine.ehrrecruitment');
+VALUES ('招聘', 1912, 999, 'RoutineEhrRecruitment', 'routine/RoutineEhrRecruitment', 0, 0, 'C', '0', '0', 'routine:ehrrecruitment:list', 'icon1', 'Lean365', GETDATE(), 'menu.routine.ehrrecruitment');
 
 -- 按钮父菜单id
 declare @menuId int = @@identity
@@ -32,13 +32,31 @@ SELECT * FROM sys_menu WHERE menuId = @menuId;
 -- SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT) AS '随机数'
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210001,'zh-cn', 'menu.routine.ehrrecruitment', '招聘', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912001,'zh-cn', 'menu.routine.ehrrecruitment', '招聘', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210002,'zh-tw', 'menu.routine.ehrrecruitment', 'TW_招聘', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912002,'zh-tw', 'menu.routine.ehrrecruitment', 'TW_招聘', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210003,'en', 'menu.routine.ehrrecruitment', 'EN_招聘', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'en', 'menu.routine.ehrrecruitment', 'EN_招聘', 'Lean365', GETDATE());
 
 INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
-VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1210004,'ja', 'menu.routine.ehrrecruitment', 'JA_招聘', 'Lean365', GETDATE());
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912004,'ja', 'menu.routine.ehrrecruitment', 'JA_招聘', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'fr', 'menu.routine.ehrrecruitment', 'FR_招聘', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ko', 'menu.routine.ehrrecruitment', 'KO_招聘', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ar', 'menu.routine.ehrrecruitment', 'AR_招聘', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'ru', 'menu.routine.ehrrecruitment', 'RU_招聘', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'de', 'menu.routine.ehrrecruitment', 'DE_招聘', 'Lean365', GETDATE());
+
+INSERT INTO sys_locale_lang(id,lang_code, lang_key, lang_name, Create_by, Create_time) 
+VALUES ((SELECT CAST(CAST(NEWID() AS VARBINARY(3)) AS INT))+1912003,'es', 'menu.routine.ehrrecruitment', 'ES_招聘', 'Lean365', GETDATE());

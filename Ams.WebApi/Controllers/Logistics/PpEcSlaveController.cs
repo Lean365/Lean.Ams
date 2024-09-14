@@ -8,10 +8,10 @@ using MiniExcelLibs;
 namespace Ams.WebApi.Controllers.Logistics
 {
     /// <summary>
-    /// 从设变
+    /// 设变明细
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/7/26 16:30:08
+    /// @Date: 2024/9/13 8:13:42
     /// </summary>
     [Verify]
     [Route("Logistics/PpEcSlave")]
@@ -19,7 +19,7 @@ namespace Ams.WebApi.Controllers.Logistics
     public class PpEcSlaveController : BaseController
     {
         /// <summary>
-        /// 从设变接口
+        /// 设变明细接口
         /// </summary>
         private readonly IPpEcSlaveService _PpEcSlaveService;
 
@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 查询从设变列表
+        /// 查询设变明细列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
@@ -43,34 +43,34 @@ namespace Ams.WebApi.Controllers.Logistics
 
 
         /// <summary>
-        /// 查询从设变详情
+        /// 查询设变明细详情
         /// </summary>
-        /// <param name="EcsSfId"></param>
+        /// <param name="Id"></param>
         /// <returns></returns>
-        [HttpGet("{EcsSfId}")]
+        [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "pp:ecslave:query")]
-        public IActionResult GetPpEcSlave(long EcsSfId)
+        public IActionResult GetPpEcSlave(long Id)
         {
-            var response = _PpEcSlaveService.GetInfo(EcsSfId);
+            var response = _PpEcSlaveService.GetInfo(Id);
             
             var info = response.Adapt<PpEcSlaveDto>();
             return SUCCESS(info);
         }
 
         /// <summary>
-        /// 添加从设变
+        /// 添加设变明细
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [ActionPermissionFilter(Permission = "pp:ecslave:add")]
-        [Log(Title = "从设变", BusinessType = BusinessType.INSERT)]
+        [Log(Title = "设变明细", BusinessType = BusinessType.ADD)]
         public IActionResult AddPpEcSlave([FromBody] PpEcSlaveDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveService.CheckInputUnique(parm.EcsSfId.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_PpEcSlaveService.CheckInputUnique(parm.Id.ToString())))
             {
-                return ToResponse(ApiResult.Error($"新增从设变 '{parm.EcsSfId}'失败(Add failed)，输入的从设变已存在(The entered already exists)"));
+                return ToResponse(ApiResult.Error($"新增设变明细 '{parm.Id}'失败(Add failed)，输入的设变明细已存在(The entered already exists)"));
             }
             var modal = parm.Adapt<PpEcSlave>().ToCreate(HttpContext);
 
@@ -80,12 +80,12 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 更新从设变
+        /// 更新设变明细
         /// </summary>
         /// <returns></returns>
         [HttpPut]
         [ActionPermissionFilter(Permission = "pp:ecslave:edit")]
-        [Log(Title = "从设变", BusinessType = BusinessType.UPDATE)]
+        [Log(Title = "设变明细", BusinessType = BusinessType.EDIT)]
         public IActionResult UpdatePpEcSlave([FromBody] PpEcSlaveDto parm)
         {
             var modal = parm.Adapt<PpEcSlave>().ToUpdate(HttpContext);
@@ -95,24 +95,24 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 删除从设变
+        /// 删除设变明细
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "pp:ecslave:delete")]
-        [Log(Title = "从设变", BusinessType = BusinessType.DELETE)]
+        [Log(Title = "设变明细", BusinessType = BusinessType.DELETE)]
         public IActionResult DeletePpEcSlave([FromRoute]string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
-            return ToResponse(_PpEcSlaveService.Delete(idArr, "删除从设变"));
+            return ToResponse(_PpEcSlaveService.Delete(idArr, "删除设变明细"));
         }
 
         /// <summary>
-        /// 导出从设变
+        /// 导出设变明细
         /// </summary>
         /// <returns></returns>
-        [Log(Title = "从设变", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "设变明细导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
         [ActionPermissionFilter(Permission = "pp:ecslave:export")]
         public IActionResult Export([FromQuery] PpEcSlaveQueryDto parm)
@@ -124,19 +124,19 @@ namespace Ams.WebApi.Controllers.Logistics
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
             }
-            var result = ExportExcelMini(list, "从设变", "从设变");
+            var result = ExportExcelMini(list, "设变明细", "设变明细");
             return ExportExcel(result.Item2, result.Item1);
         }
 
         /// <summary>
-        /// 导入
+        /// 导入设变明细
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-        [HttpPost("importData")]
-        [Log(Title = "从设变导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
+      [HttpPost("importData")]
+        [Log(Title = "设变明细导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "pp:ecslave:import")]
-        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)
+        public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
             List<PpEcSlaveDto> list = new();
             using (var stream = formFile.OpenReadStream())
@@ -148,13 +148,14 @@ namespace Ams.WebApi.Controllers.Logistics
         }
 
         /// <summary>
-        /// 从设变导入模板下载
+        /// 设变明细
+        /// 导入模板下载
         /// </summary>
         /// <returns></returns>
         [HttpGet("importTemplate")]
-        [Log(Title = "从设变模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
+        [Log(Title = "设变明细模板", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [AllowAnonymous]
-        public IActionResult ImportTemplateExcel()
+        public IActionResult ImportDataTemplateExcel()
         {
             var result = DownloadImportTemplate(new List<PpEcSlaveImportTpl>() { }, "PpEcSlave_tpl");
             return ExportExcel(result.Item2, result.Item1);

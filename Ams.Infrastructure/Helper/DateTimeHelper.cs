@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ams.Infrastructure
+namespace Ams.Infrastructure.Helper
 {
     public class DateTimeHelper
     {
