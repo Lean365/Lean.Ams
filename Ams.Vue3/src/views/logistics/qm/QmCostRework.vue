@@ -1,8 +1,8 @@
 <!--
  * @Descripttion: 返工改修/qm_cost_rework
- * @Version: 0.24.620.29565
+ * @Version: 0.24.627.15377
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/9/11 16:47:36
+ * @Date: 2024/9/18 9:05:09
  * @column：95
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
@@ -32,8 +32,14 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item label="机种" prop="md004">
-        <el-select filterable clearable   v-model="queryParams.md004" :placeholder="$t('btn.selectSearchPrefix')+'机种'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_sap_model " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
+        <el-input v-model="queryParams.md004" :placeholder="$t('btn.enterSearchPrefix')+'机种'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="批次" prop="md005">
+        <el-input v-model="queryParams.md005" :placeholder="$t('btn.enterSearchPrefix')+'批次'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="顾客名" prop="md031">
+        <el-select filterable clearable   remote remote-show-suffix :remote-method="remoteMethod_sql_cus_list" :loading="loading" v-model="queryParams.md031" :placeholder="$t('btn.selectSearchPrefix')+'顾客名'+$t('btn.selectSearchSuffix')">
+          <el-option v-for="item in   remotequery_sql_cus_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
           </el-option>
@@ -108,11 +114,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="md003" label="日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('md003')"/>
-      <el-table-column prop="md004" label="机种" align="center" v-if="columns.showColumn('md004')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_sap_model " :value="scope.row.md004"  />
-        </template>
-      </el-table-column>
+      <el-table-column prop="md004" label="机种" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md004')"/>
       <el-table-column prop="md005" label="批次" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md005')"/>
       <el-table-column prop="md006" label="直接人员赁率" align="center" v-if="columns.showColumn('md006')"/>
       <el-table-column prop="md007" label="间接人员赁率" align="center" v-if="columns.showColumn('md007')"/>
@@ -139,12 +141,16 @@
       <el-table-column prop="md028" label="选别.改修其他费用" align="center" v-if="columns.showColumn('md028')"/>
       <el-table-column prop="md029" label="选别.改修备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md029')"/>
       <el-table-column prop="md030" label="向顾客的费用请求" align="center" v-if="columns.showColumn('md030')"/>
-      <el-table-column prop="md031" label="顾客名" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md031')"/>
+      <el-table-column prop="md031" label="顾客名" align="center" v-if="columns.showColumn('md031')">
+        <template #default="scope">
+          <dict-tag :options=" options.sql_cus_list " :value="scope.row.md031"  />
+        </template>
+      </el-table-column>
       <el-table-column prop="md032" label="请求号码" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md032')"/>
       <el-table-column prop="md033" label="请求费用" align="center" v-if="columns.showColumn('md033')"/>
       <el-table-column prop="md034" label="其他费用" align="center" v-if="columns.showColumn('md034')"/>
       <el-table-column prop="md035" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md035')"/>
-      <el-table-column prop="md036" label="附件2" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md036')"/>
+      <el-table-column prop="md036" label="附件1" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md036')"/>
       <el-table-column prop="md037" label="生管品质问题対応记录者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md037')"/>
       <el-table-column prop="md038" label="日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('md038')"/>
       <el-table-column prop="md039" label="不良内容" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md039')"/>
@@ -161,7 +167,7 @@
       <el-table-column prop="md050" label="请求费用" align="center" v-if="columns.showColumn('md050')"/>
       <el-table-column prop="md051" label="其他费用" align="center" v-if="columns.showColumn('md051')"/>
       <el-table-column prop="md052" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md052')"/>
-      <el-table-column prop="md053" label="附件1" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md053')"/>
+      <el-table-column prop="md053" label="附件2" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md053')"/>
       <el-table-column prop="md054" label="M/L不良改修対応记录者" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md054')"/>
       <el-table-column prop="md055" label="日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('md055')"/>
       <el-table-column prop="md056" label="不良内容" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md056')"/>
@@ -180,7 +186,7 @@
       <el-table-column prop="md069" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md069')"/>
       <el-table-column prop="md070" label="附件3" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md070')"/>
       <el-table-column prop="md071" label="担当" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md071')"/>
-      <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
+      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
         <template #default="scope">
           <el-button-group>
@@ -198,12 +204,6 @@
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane :label="$t('ptabs.basicInfo')" name="first">
         <el-row :gutter="20">
-            
-          <el-col :lg="12">
-            <el-form-item label="ID" prop="id">
-              <el-input   v-model.number="form.id" :placeholder="$t('btn.enterPrefix')+'ID'+$t('btn.enterSuffix')"  show-word-limit   maxlength="19"/>
-            </el-form-item>
-          </el-col>
 
           <el-col :lg="12">
             <el-form-item label="工厂" prop="md002">
@@ -226,20 +226,13 @@
 
           <el-col :lg="12">
             <el-form-item label="机种" prop="md004">
-              <el-select filterable clearable   v-model="form.md004"  :placeholder="$t('btn.selectPrefix')+'机种'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sql_sap_model" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
+              <el-input   v-model="form.md004" :placeholder="$t('btn.enterPrefix')+'机种'+$t('btn.enterSuffix')"  show-word-limit  maxlength="50"/>
             </el-form-item>
           </el-col>
 
-
           <el-col :lg="12">
             <el-form-item label="批次" prop="md005">
-              <el-input   v-model="form.md005" :placeholder="$t('btn.enterPrefix')+'批次'+$t('btn.enterSuffix')"  show-word-limit   maxlength="50"/>
+              <el-input   v-model="form.md005" :placeholder="$t('btn.enterPrefix')+'批次'+$t('btn.enterSuffix')"  show-word-limit  maxlength="50"/>
             </el-form-item>
           </el-col>
 
@@ -257,7 +250,7 @@
 
           <el-col :lg="12">
             <el-form-item label="检讨.调查.试验内容" prop="md008">
-              <el-input   v-model="form.md008" :placeholder="$t('btn.enterPrefix')+'检讨.调查.试验内容'+$t('btn.enterSuffix')"  show-word-limit   maxlength="500"/>
+              <el-input  type="textarea"  v-model="form.md008" :placeholder="$t('btn.enterPrefix')+'检讨.调查.试验内容'+$t('btn.enterSuffix')"  show-word-limit  :rows="2" maxlength="500"/>
             </el-form-item>
           </el-col>
 
@@ -323,13 +316,13 @@
 
           <el-col :lg="12">
             <el-form-item label="特记" prop="md019">
-              <el-input   v-model="form.md019" :placeholder="$t('btn.enterPrefix')+'特记'+$t('btn.enterSuffix')"  show-word-limit   maxlength="500"/>
+              <el-input  type="textarea"  v-model="form.md019" :placeholder="$t('btn.enterPrefix')+'特记'+$t('btn.enterSuffix')"  show-word-limit  :rows="2" maxlength="500"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="品质问题対応记录者" prop="md020">
-              <el-input   v-model="form.md020" :placeholder="$t('btn.enterPrefix')+'品质问题対応记录者'+$t('btn.enterSuffix')"  show-word-limit   maxlength="50"/>
+              <el-input   v-model="form.md020" :placeholder="$t('btn.enterPrefix')+'品质问题対応记录者'+$t('btn.enterSuffix')"  show-word-limit  maxlength="50"/>
             </el-form-item>
           </el-col>
 
@@ -341,7 +334,7 @@
 
           <el-col :lg="12">
             <el-form-item label="不良内容" prop="md022">
-              <el-input   v-model="form.md022" :placeholder="$t('btn.enterPrefix')+'不良内容'+$t('btn.enterSuffix')"  show-word-limit   maxlength="500"/>
+              <el-input  type="textarea"  v-model="form.md022" :placeholder="$t('btn.enterPrefix')+'不良内容'+$t('btn.enterSuffix')"  show-word-limit  :rows="2" maxlength="500"/>
             </el-form-item>
           </el-col>
 
@@ -383,7 +376,7 @@
 
           <el-col :lg="12">
             <el-form-item label="选别.改修备注" prop="md029">
-              <el-input   v-model="form.md029" :placeholder="$t('btn.enterPrefix')+'选别.改修备注'+$t('btn.enterSuffix')"  show-word-limit   maxlength="500"/>
+              <el-input  type="textarea"  v-model="form.md029" :placeholder="$t('btn.enterPrefix')+'选别.改修备注'+$t('btn.enterSuffix')"  show-word-limit  :rows="2" maxlength="500"/>
             </el-form-item>
           </el-col>
 
@@ -395,13 +388,21 @@
 
           <el-col :lg="12">
             <el-form-item label="顾客名" prop="md031">
-              <el-input   v-model="form.md031" :placeholder="$t('btn.enterPrefix')+'顾客名'+$t('btn.enterSuffix')"  show-word-limit   maxlength="50"/>
+              <el-select filterable clearable  remote remote-show-suffix :remote-method="remoteMethod_sql_cus_list" 
+              :loading="loading" v-model="form.md031"  :placeholder="$t('btn.selectPrefix')+'顾客名'+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  remotequery_sql_cus_list" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
 
+
           <el-col :lg="12">
             <el-form-item label="请求号码" prop="md032">
-              <el-input   v-model="form.md032" :placeholder="$t('btn.enterPrefix')+'请求号码'+$t('btn.enterSuffix')"  show-word-limit   maxlength="50"/>
+              <el-input   v-model="form.md032" :placeholder="$t('btn.enterPrefix')+'请求号码'+$t('btn.enterSuffix')"  show-word-limit  maxlength="50"/>
             </el-form-item>
           </el-col>
 
@@ -419,19 +420,19 @@
 
           <el-col :lg="12">
             <el-form-item label="备注" prop="md035">
-              <el-input   v-model="form.md035" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')"  show-word-limit   maxlength="500"/>
+              <el-input  type="textarea"  v-model="form.md035" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')"  show-word-limit  :rows="2" maxlength="500"/>
             </el-form-item>
           </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="附件2" prop="md036">
-              <el-input   v-model="form.md036" :placeholder="$t('btn.enterPrefix')+'附件2'+$t('btn.enterSuffix')"  show-word-limit   maxlength="255"/>
+          <el-col :lg="24">
+            <el-form-item label="附件1" prop="md036">
+              <UploadFile v-model="form.md036" :data="{ uploadType: 1 }" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="生管品质问题対応记录者" prop="md037">
-              <el-input   v-model="form.md037" :placeholder="$t('btn.enterPrefix')+'生管品质问题対応记录者'+$t('btn.enterSuffix')"  show-word-limit   maxlength="50"/>
+              <el-input   v-model="form.md037" :placeholder="$t('btn.enterPrefix')+'生管品质问题対応记录者'+$t('btn.enterSuffix')"  show-word-limit  maxlength="50"/>
             </el-form-item>
           </el-col>
 
@@ -443,7 +444,7 @@
 
           <el-col :lg="12">
             <el-form-item label="不良内容" prop="md039">
-              <el-input   v-model="form.md039" :placeholder="$t('btn.enterPrefix')+'不良内容'+$t('btn.enterSuffix')"  show-word-limit   maxlength="500"/>
+              <el-input  type="textarea"  v-model="form.md039" :placeholder="$t('btn.enterPrefix')+'不良内容'+$t('btn.enterSuffix')"  show-word-limit  :rows="2" maxlength="500"/>
             </el-form-item>
           </el-col>
 
@@ -485,7 +486,7 @@
 
           <el-col :lg="12">
             <el-form-item label="选别.改修备注" prop="md046">
-              <el-input   v-model="form.md046" :placeholder="$t('btn.enterPrefix')+'选别.改修备注'+$t('btn.enterSuffix')"  show-word-limit   maxlength="500"/>
+              <el-input  type="textarea"  v-model="form.md046" :placeholder="$t('btn.enterPrefix')+'选别.改修备注'+$t('btn.enterSuffix')"  show-word-limit  :rows="2" maxlength="500"/>
             </el-form-item>
           </el-col>
 
@@ -497,13 +498,13 @@
 
           <el-col :lg="12">
             <el-form-item label="顾客名" prop="md048">
-              <el-input   v-model="form.md048" :placeholder="$t('btn.enterPrefix')+'顾客名'+$t('btn.enterSuffix')"  show-word-limit   maxlength="50"/>
+              <el-input   v-model="form.md048" :placeholder="$t('btn.enterPrefix')+'顾客名'+$t('btn.enterSuffix')"  show-word-limit  maxlength="50"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="请求号码" prop="md049">
-              <el-input   v-model="form.md049" :placeholder="$t('btn.enterPrefix')+'请求号码'+$t('btn.enterSuffix')"  show-word-limit   maxlength="50"/>
+              <el-input   v-model="form.md049" :placeholder="$t('btn.enterPrefix')+'请求号码'+$t('btn.enterSuffix')"  show-word-limit  maxlength="50"/>
             </el-form-item>
           </el-col>
 
@@ -521,19 +522,19 @@
 
           <el-col :lg="12">
             <el-form-item label="备注" prop="md052">
-              <el-input   v-model="form.md052" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')"  show-word-limit   maxlength="500"/>
+              <el-input  type="textarea"  v-model="form.md052" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')"  show-word-limit  :rows="2" maxlength="500"/>
             </el-form-item>
           </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="附件1" prop="md053">
-              <el-input   v-model="form.md053" :placeholder="$t('btn.enterPrefix')+'附件1'+$t('btn.enterSuffix')"  show-word-limit   maxlength="255"/>
+          <el-col :lg="24">
+            <el-form-item label="附件2" prop="md053">
+              <UploadFile v-model="form.md053" :data="{ uploadType: 1 }" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="M/L不良改修対応记录者" prop="md054">
-              <el-input   v-model="form.md054" :placeholder="$t('btn.enterPrefix')+'M/L不良改修対応记录者'+$t('btn.enterSuffix')"  show-word-limit   maxlength="50"/>
+              <el-input   v-model="form.md054" :placeholder="$t('btn.enterPrefix')+'M/L不良改修対応记录者'+$t('btn.enterSuffix')"  show-word-limit  maxlength="50"/>
             </el-form-item>
           </el-col>
 
@@ -545,7 +546,7 @@
 
           <el-col :lg="12">
             <el-form-item label="不良内容" prop="md056">
-              <el-input   v-model="form.md056" :placeholder="$t('btn.enterPrefix')+'不良内容'+$t('btn.enterSuffix')"  show-word-limit   maxlength="500"/>
+              <el-input  type="textarea"  v-model="form.md056" :placeholder="$t('btn.enterPrefix')+'不良内容'+$t('btn.enterSuffix')"  show-word-limit  :rows="2" maxlength="500"/>
             </el-form-item>
           </el-col>
 
@@ -587,7 +588,7 @@
 
           <el-col :lg="12">
             <el-form-item label="选别.改修备注" prop="md063">
-              <el-input   v-model="form.md063" :placeholder="$t('btn.enterPrefix')+'选别.改修备注'+$t('btn.enterSuffix')"  show-word-limit   maxlength="500"/>
+              <el-input  type="textarea"  v-model="form.md063" :placeholder="$t('btn.enterPrefix')+'选别.改修备注'+$t('btn.enterSuffix')"  show-word-limit  :rows="2" maxlength="500"/>
             </el-form-item>
           </el-col>
 
@@ -599,13 +600,13 @@
 
           <el-col :lg="12">
             <el-form-item label="顾客名" prop="md065">
-              <el-input   v-model="form.md065" :placeholder="$t('btn.enterPrefix')+'顾客名'+$t('btn.enterSuffix')"  show-word-limit   maxlength="50"/>
+              <el-input   v-model="form.md065" :placeholder="$t('btn.enterPrefix')+'顾客名'+$t('btn.enterSuffix')"  show-word-limit  maxlength="50"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="请求号码" prop="md066">
-              <el-input   v-model="form.md066" :placeholder="$t('btn.enterPrefix')+'请求号码'+$t('btn.enterSuffix')"  show-word-limit   maxlength="50"/>
+              <el-input   v-model="form.md066" :placeholder="$t('btn.enterPrefix')+'请求号码'+$t('btn.enterSuffix')"  show-word-limit  maxlength="50"/>
             </el-form-item>
           </el-col>
 
@@ -623,25 +624,25 @@
 
           <el-col :lg="12">
             <el-form-item label="备注" prop="md069">
-              <el-input   v-model="form.md069" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')"  show-word-limit   maxlength="500"/>
+              <el-input  type="textarea"  v-model="form.md069" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')"  show-word-limit  :rows="2" maxlength="500"/>
             </el-form-item>
           </el-col>
 
-          <el-col :lg="12">
+          <el-col :lg="24">
             <el-form-item label="附件3" prop="md070">
-              <el-input   v-model="form.md070" :placeholder="$t('btn.enterPrefix')+'附件3'+$t('btn.enterSuffix')"  show-word-limit   maxlength="255"/>
+              <UploadFile v-model="form.md070" :data="{ uploadType: 1 }" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="担当" prop="md071">
-              <el-input   v-model="form.md071" :placeholder="$t('btn.enterPrefix')+'担当'+$t('btn.enterSuffix')"  show-word-limit   maxlength="50"/>
+              <el-input   v-model="form.md071" :placeholder="$t('btn.enterPrefix')+'担当'+$t('btn.enterSuffix')"  show-word-limit  maxlength="50"/>
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="备注说明" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
+            <el-form-item label="备注" prop="remark">
+              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -761,6 +762,10 @@ const queryParams = reactive({
   md003: undefined,
   //是否查询（1是）
   md004: undefined,
+  //是否查询（1是）
+  md005: undefined,
+  //是否查询（1是）
+  md031: undefined,
 })
 //字段显示控制
 const columns = ref([
@@ -799,7 +804,7 @@ const columns = ref([
   { visible: false, prop: 'md033', label: '请求费用' },
   { visible: false, prop: 'md034', label: '其他费用' },
   { visible: false, prop: 'md035', label: '备注' },
-  { visible: false, prop: 'md036', label: '附件2' },
+  { visible: false, prop: 'md036', label: '附件1' },
   { visible: false, prop: 'md037', label: '生管品质问题対応记录者' },
   { visible: false, prop: 'md038', label: '日期' },
   { visible: false, prop: 'md039', label: '不良内容' },
@@ -816,7 +821,7 @@ const columns = ref([
   { visible: false, prop: 'md050', label: '请求费用' },
   { visible: false, prop: 'md051', label: '其他费用' },
   { visible: false, prop: 'md052', label: '备注' },
-  { visible: false, prop: 'md053', label: '附件1' },
+  { visible: false, prop: 'md053', label: '附件2' },
   { visible: false, prop: 'md054', label: 'M/L不良改修対応记录者' },
   { visible: false, prop: 'md055', label: '日期' },
   { visible: false, prop: 'md056', label: '不良内容' },
@@ -835,7 +840,7 @@ const columns = ref([
   { visible: false, prop: 'md069', label: '备注' },
   { visible: false, prop: 'md070', label: '附件3' },
   { visible: false, prop: 'md071', label: '担当' },
-  { visible: false, prop: 'remark', label: '备注说明' },
+  { visible: false, prop: 'remark', label: '备注' },
 ])
 // 记录数
 const total = ref(0)
@@ -847,11 +852,67 @@ const queryRef = ref()
 const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
 // 日期时间范围
 const dateRangeMd003 = ref([])
+//定义远程搜索变量
+const remotequeryList_sql_cus_list=ref([])
+//定义远程搜索变量
+const remotequery_sql_cus_list=ref([])
+//远程字典参数
+var remotedictParams_sql_cus_list = [
+    { dictType: "sql_cus_list" },
+]
+//远程搜索组件实例
+onMounted(() => {
+    proxy.getDicts(remotedictParams_sql_cus_list).then((response) => {
+      response.data.forEach((element) => {
+        remotequeryList_sql_cus_list.value = element.list
+      })
+      //console.log(remotequeryList_sql_cus_list)
+    })
+  })
+//远程搜索
+const remoteMethod_sql_cus_list = debounce((query) => {
+    if (query) {
+      loading.value = true
+      setTimeout(() => {
+        loading.value = false
+        // remotequery_sql_cus_list.value = remotequeryList_sql_cus_list.value.filter((item) => {
+        //   return item.dictValue.toLowerCase().includes(query.toLowerCase())
+        // })
+        filterMethod_sql_cus_list(query)
+      }, 2000)
+    } else {
+     //默认显示前15条记录
+      remotequery_sql_cus_list.value.slice(0, 15)
+    }
+  }, 300)
+// 筛选方法
+const filterMethod_sql_cus_list = debounce((query) => {
+    let arr = remotequeryList_sql_cus_list.value.filter((item) => {
+      return item.dictValue.toLowerCase().includes(query) || item.dictLabel.toLowerCase().includes(query);
+    })
+    if (arr.length > 5) {
+      remotequery_sql_cus_list.value = arr.slice(0, 5)
+      addFilterOptions_sql_cus_list(query)
+    } else {
+      remotequery_sql_cus_list.value = arr
+    }
+  }, 300)
+// 精准筛选方法
+const addFilterOptions_sql_cus_list =debounce((dictValue) => {
+    let target = remotequeryList_sql_cus_list.value.find((item) => {
+      return item.dictValue === dictValue
+    })
+    if (target) {
+      if (remotequery_sql_cus_list.value.toLowerCase().every(item => item.dictValue !== target.dictValue)) {
+        remotequery_sql_cus_list.value.toLowerCase().unshift(target)
+      }
+    }
+  }, 300)
 
 //字典参数
 var dictParams = [
   { dictType: "sql_plant_list" },
-  { dictType: "sql_sap_model" },
+  { dictType: "sql_cus_list" },
 ]
 
 //字典加载
@@ -926,7 +987,6 @@ const state = reactive({
   form: {},
 //正则表达式
   rules: {
-    id: [{ required: true, message: "ID"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
     md002: [{ required: true, message: "工厂"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
     md003: [{ required: true, message: "日期"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
     md006: [{ required: true, message: "直接人员赁率"+proxy.$t('btn.isEmpty'), trigger: "blur"     }],
@@ -973,8 +1033,8 @@ const state = reactive({
   options: {
     // 工厂 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_plant_list: [],
-    // 机种 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_sap_model: [],
+    // 顾客名 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_cus_list: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -989,10 +1049,9 @@ function cancel(){
 // 重置表单
 function reset() {
   form.value = {
-    id: 0,
     md002: [],
     md003: null,
-    md004: [],
+    md004: null,
     md005: null,
     md006: 0,
     md007: 0,
@@ -1019,7 +1078,7 @@ function reset() {
     md028: 0,
     md029: null,
     md030: 0,
-    md031: null,
+    md031: [],
     md032: null,
     md033: 0,
     md034: 0,
@@ -1074,7 +1133,6 @@ function handleAdd() {
   opertype.value = 1
   form.value.md002= []
   form.value.md003= new Date()
-  form.value.md004= []
   form.value.md006= 0
   form.value.md007= 0
   form.value.md009= 0
@@ -1095,6 +1153,7 @@ function handleAdd() {
   form.value.md027= 0
   form.value.md028= 0
   form.value.md030= 0
+  form.value.md031= []
   form.value.md033= 0
   form.value.md034= 0
   form.value.md038= new Date()

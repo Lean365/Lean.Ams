@@ -5,9 +5,9 @@ import { downFile } from '@/utils/request'
  * 废弃部品分页查询
  * @param {查询条件} data
  */
-export function listQmCostWaste(query) {
+export function listQmCostDiscard(query) {
   return request({
-    url: 'Logistics/QmCostWaste/list',
+    url: 'Logistics/QmCostDiscard/list',
     method: 'get',
     params: query,
   })
@@ -17,9 +17,9 @@ export function listQmCostWaste(query) {
  * 新增废弃部品
  * @param data
  */
-export function addQmCostWaste(data) {
+export function addQmCostDiscard(data) {
   return request({
-    url: 'Logistics/QmCostWaste',
+    url: 'Logistics/QmCostDiscard',
     method: 'post',
     data: data,
   })
@@ -28,9 +28,9 @@ export function addQmCostWaste(data) {
  * 修改废弃部品
  * @param data
  */
-export function updateQmCostWaste(data) {
+export function updateQmCostDiscard(data) {
   return request({
-    url: 'Logistics/QmCostWaste',
+    url: 'Logistics/QmCostDiscard',
     method: 'PUT',
     data: data,
   })
@@ -39,9 +39,9 @@ export function updateQmCostWaste(data) {
  * 获取废弃部品详情
  * @param {Id}
  */
-export function getQmCostWaste(id) {
+export function getQmCostDiscard(id) {
   return request({
-    url: 'Logistics/QmCostWaste/' + id,
+    url: 'Logistics/QmCostDiscard/' + id,
     method: 'get'
   })
 }
@@ -50,13 +50,13 @@ export function getQmCostWaste(id) {
  * 删除废弃部品
  * @param {主键} pid
  */
-export function delQmCostWaste(pid) {
+export function delQmCostDiscard(pid) {
   return request({
-    url: 'Logistics/QmCostWaste/delete/' + pid,
+    url: 'Logistics/QmCostDiscard/delete/' + pid,
     method: 'delete'
   })
 }
 // 导出废弃部品
-export async function exportQmCostWaste(query) {
-  await downFile('Logistics/QmCostWaste/export', { ...query })
+export async function exportQmCostDiscard(query) {
+  await downFile('Logistics/QmCostDiscard/export', { ...query })
 }

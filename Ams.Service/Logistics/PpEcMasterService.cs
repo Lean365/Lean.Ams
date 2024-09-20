@@ -11,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 设变
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/14 8:48:00
+    /// @Date: 2024/9/18 8:51:20
     /// </summary>
     [AppService(ServiceType = typeof(IPpEcMasterService), ServiceLifetime = LifeTime.Transient)]
     public class PpEcMasterService : BaseService<PpEcMaster>, IPpEcMasterService
@@ -58,7 +58,7 @@ namespace Ams.Service.Logistics
         public PpEcMaster GetInfo(long Id)
         {
             var response = Queryable()
-                .Includes(x => x.PpEcSlaveNav) //填充子对象
+                .Includes(x => x.PpEcSlaveNav)//填充子对象
                 .Where(x => x.Id == Id)
                 .First();
 
@@ -137,6 +137,8 @@ namespace Ams.Service.Logistics
                     Mb008Label = it.Mb008.GetConfigValue<SysDictData>("sql_ec_group"),
                     //查询字典: <管理区分>
                     Mb013Label = it.Mb013.GetConfigValue<SysDictData>("sys_ec_mgtype"),
+                    //查询字典: <输入部门>
+                    Mb022Label = it.Mb022.GetConfigValue<SysDictData>("sql_dept_list"),
                 }, true)
                 .ToPage(parm);
 
@@ -159,7 +161,7 @@ namespace Ams.Service.Logistics
             //当日期条件为空时，默认查询大于今天的所有数据
             //predicate = predicate.AndIF(parm.BeginMb002 == null, it => it.Mb002 >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            //predicate = predicate.AndIF(parm.BeginMb002 == null, it => it.Mb002 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMb002 == null, it => it.Mb002 >= new DateTime(DateTime.Now.Year, 1, 1));
             predicate = predicate.AndIF(parm.BeginMb002 != null, it => it.Mb002 >= parm.BeginMb002);
             predicate = predicate.AndIF(parm.EndMb002 != null, it => it.Mb002 <= parm.EndMb002);
             //查询字段: <设变No.>
@@ -179,7 +181,7 @@ namespace Ams.Service.Logistics
             //当日期条件为空时，默认查询大于今天的所有数据
             //predicate = predicate.AndIF(parm.BeginMb023 == null, it => it.Mb023 >= DateTime.Now.ToShortDateString().ParseToDateTime());
             //当日期条件为空时，默认查询大于今年的所有数据
-            //predicate = predicate.AndIF(parm.BeginMb023 == null, it => it.Mb023 >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginMb023 == null, it => it.Mb023 >= new DateTime(DateTime.Now.Year, 1, 1));
             predicate = predicate.AndIF(parm.BeginMb023 != null, it => it.Mb023 >= parm.BeginMb023);
             predicate = predicate.AndIF(parm.EndMb023 != null, it => it.Mb023 <= parm.EndMb023);
             return predicate;

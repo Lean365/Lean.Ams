@@ -6,7 +6,7 @@ import request from '@/utils/request'
 
 export function getMonthlyProdCost(query) {
   return request({
-    url: 'stat/comparison/MonthlyProdCost',
+    url: 'stat/cost/monthlyProd',
     method: 'get',
     params: query,
   })

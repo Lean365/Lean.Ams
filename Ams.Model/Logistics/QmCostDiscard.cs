@@ -4,15 +4,17 @@ namespace Ams.Model.Logistics
     /// 废弃部品
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:46:48
+    /// @Date: 2024/9/18 8:30:51
     /// </summary>
-    [SugarTable("qm_cost_waste", "废弃部品")]
-    public class QmCostWaste : SysBase
+    [SugarTable("qm_cost_discard", "废弃部品")]
+    public class QmCostDiscard : SysBase
     {
         /// <summary>
         /// ID
         /// </summary>
-        public long Id { get; set; }
+        [JsonConverter(typeof(ValueToStringConverter))]
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
+        public long? Id { get; set; }
 
         /// <summary>
         /// 工厂

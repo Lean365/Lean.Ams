@@ -5,7 +5,7 @@ import request from '@/utils/request'
 */
 export function getEcCount(query) {
   return request({
-    url: 'stat/ec/EcCount',
+    url: 'stat/ec/totalStati',
     method: 'get',
     params: query,
   })

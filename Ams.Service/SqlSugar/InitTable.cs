@@ -30,6 +30,7 @@ namespace Ams.Service.SqlSugar
             //db.CodeFirst.InitTables(typeof(EmailTpl));
             //db.CodeFirst.InitTables(typeof(FileStorage));
             //db.CodeFirst.InitTables(typeof(NoticeStorage));
+            db.CodeFirst.InitTables(typeof(RoutineBoard));
             //db.CodeFirst.InitTables(typeof(RoutineEhrAttendance));
             //db.CodeFirst.InitTables(typeof(RoutineEhrEmployee));
             //db.CodeFirst.InitTables(typeof(RoutineEhrFunds));

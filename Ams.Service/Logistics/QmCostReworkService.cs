@@ -11,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 返工改修
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:47:36
+    /// @Date: 2024/9/18 9:05:09
     /// </summary>
     [AppService(ServiceType = typeof(IQmCostReworkService), ServiceLifetime = LifeTime.Transient)]
     public class QmCostReworkService : BaseService<QmCostRework>, IQmCostReworkService
@@ -55,7 +55,7 @@ namespace Ams.Service.Logistics
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public QmCostRework GetInfo(int Id)
+        public QmCostRework GetInfo(long Id)
         {
             var response = Queryable()
                 .Where(x => x.Id == Id)
@@ -93,7 +93,6 @@ namespace Ams.Service.Logistics
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.Id.IsEmpty(), "ID不能为空")
                 .SplitError(x => x.Item.Md002.IsEmpty(), "工厂不能为空")
                 .SplitError(x => x.Item.Md003.IsEmpty(), "日期不能为空")
                 .SplitError(x => x.Item.Md006.IsEmpty(), "直接人员赁率不能为空")
@@ -170,8 +169,8 @@ namespace Ams.Service.Logistics
                 {
                     //查询字典: <工厂> 
                     Md002Label = it.Md002.GetConfigValue<SysDictData>("sql_plant_list"),
-                    //查询字典: <机种> 
-                    Md004Label = it.Md004.GetConfigValue<SysDictData>("sql_sap_model"),
+                    //查询字典: <顾客名> 
+                    Md031Label = it.Md031.GetConfigValue<SysDictData>("sql_cus_list"),
                 }, true)
                 .ToPage(parm);
 
@@ -200,7 +199,11 @@ namespace Ams.Service.Logistics
             predicate = predicate.AndIF(parm.BeginMd003 != null, it => it.Md003 >= parm.BeginMd003);
             predicate = predicate.AndIF(parm.EndMd003 != null, it => it.Md003 <= parm.EndMd003);
             //查询字段: <机种> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md004), it => it.Md004 == parm.Md004);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md004), it => it.Md004.Contains(parm.Md004));
+            //查询字段: <批次> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md005), it => it.Md005.Contains(parm.Md005));
+            //查询字段: <顾客名> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md031), it => it.Md031 == parm.Md031);
             return predicate;
         }
     }

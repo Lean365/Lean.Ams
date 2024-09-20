@@ -11,21 +11,21 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 废弃部品
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:46:48
+    /// @Date: 2024/9/18 8:30:51
     /// </summary>
     [Verify]
-    [Route("Logistics/QmCostWaste")]
+    [Route("Logistics/QmCostDiscard")]
     [ApiExplorerSettings(GroupName = "logistics")]
-    public class QmCostWasteController : BaseController
+    public class QmCostDiscardController : BaseController
     {
         /// <summary>
         /// 废弃部品接口
         /// </summary>
-        private readonly IQmCostWasteService _QmCostWasteService;
+        private readonly IQmCostDiscardService _QmCostDiscardService;
 
-        public QmCostWasteController(IQmCostWasteService QmCostWasteService)
+        public QmCostDiscardController(IQmCostDiscardService QmCostDiscardService)
         {
-            _QmCostWasteService = QmCostWasteService;
+            _QmCostDiscardService = QmCostDiscardService;
         }
 
         /// <summary>
@@ -34,10 +34,10 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <param name="parm"></param>
         /// <returns></returns>
         [HttpGet("list")]
-        [ActionPermissionFilter(Permission = "qm:costwaste:list")]
-        public IActionResult QueryQmCostWaste([FromQuery] QmCostWasteQueryDto parm)
+        [ActionPermissionFilter(Permission = "qm:costdiscard:list")]
+        public IActionResult QueryQmCostDiscard([FromQuery] QmCostDiscardQueryDto parm)
         {
-            var response = _QmCostWasteService.GetList(parm);
+            var response = _QmCostDiscardService.GetList(parm);
             return SUCCESS(response);
         }
 
@@ -48,12 +48,12 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        [ActionPermissionFilter(Permission = "qm:costwaste:query")]
-        public IActionResult GetQmCostWaste(int Id)
+        [ActionPermissionFilter(Permission = "qm:costdiscard:query")]
+        public IActionResult GetQmCostDiscard(long Id)
         {
-            var response = _QmCostWasteService.GetInfo(Id);
+            var response = _QmCostDiscardService.GetInfo(Id);
             
-            var info = response.Adapt<QmCostWasteDto>();
+            var info = response.Adapt<QmCostDiscardDto>();
             return SUCCESS(info);
         }
 
@@ -62,19 +62,19 @@ namespace Ams.WebApi.Controllers.Logistics
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [ActionPermissionFilter(Permission = "qm:costwaste:add")]
+        [ActionPermissionFilter(Permission = "qm:costdiscard:add")]
         [Log(Title = "废弃部品", BusinessType = BusinessType.ADD)]
-        public IActionResult AddQmCostWaste([FromBody] QmCostWasteDto parm)
+        public IActionResult AddQmCostDiscard([FromBody] QmCostDiscardDto parm)
         {
            // 校验输入项目唯一性
 
-            if (UserConstants.NOT_UNIQUE.Equals(_QmCostWasteService.CheckInputUnique(parm.Id.ToString())))
+            if (UserConstants.NOT_UNIQUE.Equals(_QmCostDiscardService.CheckInputUnique(parm.Id.ToString())))
             {
                 return ToResponse(ApiResult.Error($"新增废弃部品 '{parm.Id}'失败(Add failed)，输入的废弃部品已存在(The entered already exists)"));
             }
-            var modal = parm.Adapt<QmCostWaste>().ToCreate(HttpContext);
+            var modal = parm.Adapt<QmCostDiscard>().ToCreate(HttpContext);
 
-            var response = _QmCostWasteService.AddQmCostWaste(modal);
+            var response = _QmCostDiscardService.AddQmCostDiscard(modal);
 
             return SUCCESS(response);
         }
@@ -84,12 +84,12 @@ namespace Ams.WebApi.Controllers.Logistics
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [ActionPermissionFilter(Permission = "qm:costwaste:edit")]
+        [ActionPermissionFilter(Permission = "qm:costdiscard:edit")]
         [Log(Title = "废弃部品", BusinessType = BusinessType.EDIT)]
-        public IActionResult UpdateQmCostWaste([FromBody] QmCostWasteDto parm)
+        public IActionResult UpdateQmCostDiscard([FromBody] QmCostDiscardDto parm)
         {
-            var modal = parm.Adapt<QmCostWaste>().ToUpdate(HttpContext);
-            var response = _QmCostWasteService.UpdateQmCostWaste(modal);
+            var modal = parm.Adapt<QmCostDiscard>().ToUpdate(HttpContext);
+            var response = _QmCostDiscardService.UpdateQmCostDiscard(modal);
 
             return ToResponse(response);
         }
@@ -99,13 +99,13 @@ namespace Ams.WebApi.Controllers.Logistics
         /// </summary>
         /// <returns></returns>
         [HttpDelete("delete/{ids}")]
-        [ActionPermissionFilter(Permission = "qm:costwaste:delete")]
+        [ActionPermissionFilter(Permission = "qm:costdiscard:delete")]
         [Log(Title = "废弃部品", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteQmCostWaste([FromRoute]string ids)
+        public IActionResult DeleteQmCostDiscard([FromRoute]string ids)
         {
-            var idArr = Tools.SplitAndConvert<int>(ids);
+            var idArr = Tools.SplitAndConvert<long>(ids);
 
-            return ToResponse(_QmCostWasteService.Delete(idArr, "删除废弃部品"));
+            return ToResponse(_QmCostDiscardService.Delete(idArr, "删除废弃部品"));
         }
 
         /// <summary>
@@ -114,12 +114,12 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [Log(Title = "废弃部品导出", BusinessType = BusinessType.EXPORT, IsSaveResponseData = false)]
         [HttpGet("export")]
-        [ActionPermissionFilter(Permission = "qm:costwaste:export")]
-        public IActionResult Export([FromQuery] QmCostWasteQueryDto parm)
+        [ActionPermissionFilter(Permission = "qm:costdiscard:export")]
+        public IActionResult Export([FromQuery] QmCostDiscardQueryDto parm)
         {
             parm.PageNum = 1;
             parm.PageSize = 100000;
-            var list = _QmCostWasteService.ExportList(parm).Result;
+            var list = _QmCostDiscardService.ExportList(parm).Result;
             if (list == null || list.Count <= 0)
             {
                 return ToResponse(ResultCode.FAIL, "没有要导出的数据");
@@ -135,16 +135,16 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
       [HttpPost("importData")]
         [Log(Title = "废弃部品导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
-        [ActionPermissionFilter(Permission = "qm:costwaste:import")]
+        [ActionPermissionFilter(Permission = "qm:costdiscard:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
-            List<QmCostWasteDto> list = new();
+            List<QmCostDiscardDto> list = new();
             using (var stream = formFile.OpenReadStream())
             {
-                list = stream.Query<QmCostWasteDto>(startCell: "A1").ToList();
+                list = stream.Query<QmCostDiscardDto>(startCell: "A1").ToList();
             }
 
-            return SUCCESS(_QmCostWasteService.ImportQmCostWaste(list.Adapt<List<QmCostWaste>>()));
+            return SUCCESS(_QmCostDiscardService.ImportQmCostDiscard(list.Adapt<List<QmCostDiscard>>()));
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [AllowAnonymous]
         public IActionResult ImportDataTemplateExcel()
         {
-            var result = DownloadImportTemplate(new List<QmCostWasteImportTpl>() { }, "QmCostWaste_tpl");
+            var result = DownloadImportTemplate(new List<QmCostDiscardImportTpl>() { }, "QmCostDiscard_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
 

@@ -20,7 +20,8 @@ const useUserStore = defineStore('user', {
     userId: 0,
     authSource: '',
     userName: '',
-    clientId: ''
+    clientId: '',
+    deptId: 0
   }),
   actions: {
     setAuthSource(source) {
@@ -128,6 +129,7 @@ const useUserStore = defineStore('user', {
             this.userInfo = data.user //新加
             this.userId = data.user.userId //新加
             this.userName = data.user.userName //新加
+            this.deptId = data.user.deptId //新加
             resolve(res)
           })
           .catch((error) => {

@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 设变
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/14 8:48:00
+    /// @Date: 2024/9/18 8:51:20
     /// </summary>
     public interface IPpEcMasterService : IBaseService<PpEcMaster>
     {

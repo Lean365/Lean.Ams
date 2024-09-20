@@ -5,9 +5,9 @@ namespace Ams.Model.Logistics.Dto
     /// 废弃部品
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:46:48
+    /// @Date: 2024/9/18 8:30:51
     /// </summary>
-    public class QmCostWasteQueryDto : PagerInfo 
+    public class QmCostDiscardQueryDto : PagerInfo 
     {
         /// <summary>
         /// 工厂 
@@ -32,15 +32,15 @@ namespace Ams.Model.Logistics.Dto
     /// 废弃部品
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:46:48
+    /// @Date: 2024/9/18 8:30:51
     /// </summary>
-    public class QmCostWasteDto
+    public class QmCostDiscardDto
     {
-        [Required(ErrorMessage = "ID不能为空")]
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
+        [JsonConverter(typeof(ValueToStringConverter))]
 
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [Required(ErrorMessage = "工厂不能为空")]
         //[ExcelColumn(Name = "工厂")]
@@ -48,7 +48,6 @@ namespace Ams.Model.Logistics.Dto
 
         public string Me002 { get; set; }
 
-        [Required(ErrorMessage = "日期不能为空")]
         //[ExcelColumn(Name = "日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("日期")]
 
@@ -152,6 +151,10 @@ namespace Ams.Model.Logistics.Dto
 
         [ExcelIgnore]
 
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+
         public string Ref01 { get; set; }
 
         [ExcelIgnore]
@@ -228,10 +231,6 @@ namespace Ams.Model.Logistics.Dto
 
         [ExcelIgnore]
 
-        public string Remark { get; set; }
-
-        [ExcelIgnore]
-
         public string CreateBy { get; set; }
 
         [ExcelIgnore]
@@ -250,31 +249,26 @@ namespace Ams.Model.Logistics.Dto
 
         [ExcelColumn(Name = "工厂")]
         public string Me002Label { get; set; }
-        [ExcelColumn(Name = "机种")]
-        public string Me004Label { get; set; }
-        [ExcelColumn(Name = "物料")]
-        public string Me006Label { get; set; }
     }
 
     /// <summary>
     /// 废弃部品
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:46:48
+    /// @Date: 2024/9/18 8:30:51
     /// </summary>
-    public class QmCostWasteImportTpl
+    public class QmCostDiscardImportTpl
     {
-        [Required(ErrorMessage = "ID不能为空")]
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
-        public long Id { get; set; }
+        [JsonConverter(typeof(ValueToStringConverter))]
+        public long? Id { get; set; }
 
         [Required(ErrorMessage = "工厂不能为空")]
         //[ExcelColumn(Name = "工厂")]
         [ExcelColumnName("工厂")]
         public string Me002 { get; set; }
 
-        [Required(ErrorMessage = "日期不能为空")]
         //[ExcelColumn(Name = "日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("日期")]
         public DateTime? Me003 { get; set; }
@@ -359,6 +353,9 @@ namespace Ams.Model.Logistics.Dto
         public string Me020 { get; set; }
 
         [ExcelIgnore]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
         public string Ref01 { get; set; }
 
         [ExcelIgnore]
@@ -416,9 +413,6 @@ namespace Ams.Model.Logistics.Dto
         public int? IsDeleted { get; set; }
 
         [ExcelIgnore]
-        public string Remark { get; set; }
-
-        [ExcelIgnore]
         public string CreateBy { get; set; }
 
         [ExcelIgnore]
@@ -435,12 +429,6 @@ namespace Ams.Model.Logistics.Dto
         [ExcelIgnore]
         [ExcelColumn(Name = "工厂")]
         public string Me002Label { get; set; }
-        [ExcelIgnore]
-        [ExcelColumn(Name = "机种")]
-        public string Me004Label { get; set; }
-        [ExcelIgnore]
-        [ExcelColumn(Name = "物料")]
-        public string Me006Label { get; set; }
     }
 
 }

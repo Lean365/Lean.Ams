@@ -11,24 +11,24 @@ namespace Ams.Service.Logistics
     /// 废弃部品
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:46:48
+    /// @Date: 2024/9/18 8:30:51
     /// </summary>
-    [AppService(ServiceType = typeof(IQmCostWasteService), ServiceLifetime = LifeTime.Transient)]
-    public class QmCostWasteService : BaseService<QmCostWaste>, IQmCostWasteService
+    [AppService(ServiceType = typeof(IQmCostDiscardService), ServiceLifetime = LifeTime.Transient)]
+    public class QmCostDiscardService : BaseService<QmCostDiscard>, IQmCostDiscardService
     {
         /// <summary>
         /// 查询废弃部品列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<QmCostWasteDto> GetList(QmCostWasteQueryDto parm)
+        public PagedInfo<QmCostDiscardDto> GetList(QmCostDiscardQueryDto parm)
         {
             var predicate = QueryExp(parm);
 
             var response = Queryable()
                 //.OrderBy("Me003 desc")
                 .Where(predicate.ToExpression())
-                .ToPage<QmCostWaste, QmCostWasteDto>(parm);
+                .ToPage<QmCostDiscard, QmCostDiscardDto>(parm);
 
             return response;
         }
@@ -55,7 +55,7 @@ namespace Ams.Service.Logistics
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public QmCostWaste GetInfo(int Id)
+        public QmCostDiscard GetInfo(long Id)
         {
             var response = Queryable()
                 .Where(x => x.Id == Id)
@@ -69,7 +69,7 @@ namespace Ams.Service.Logistics
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public QmCostWaste AddQmCostWaste(QmCostWaste model)
+        public QmCostDiscard AddQmCostDiscard(QmCostDiscard model)
         {
             Insertable(model).ExecuteReturnSnowflakeId();
             return model;
@@ -80,7 +80,7 @@ namespace Ams.Service.Logistics
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public int UpdateQmCostWaste(QmCostWaste model)
+        public int UpdateQmCostDiscard(QmCostDiscard model)
         {
             return Update(model, true, "修改废弃部品");
         }
@@ -89,13 +89,11 @@ namespace Ams.Service.Logistics
         /// 导入废弃部品
         /// </summary>
         /// <returns></returns>
-        public (string, object, object) ImportQmCostWaste(List<QmCostWaste> list)
+        public (string, object, object) ImportQmCostDiscard(List<QmCostDiscard> list)
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.Id.IsEmpty(), "ID不能为空")
                 .SplitError(x => x.Item.Me002.IsEmpty(), "工厂不能为空")
-                .SplitError(x => x.Item.Me003.IsEmpty(), "日期不能为空")
                 .SplitError(x => x.Item.Me005.IsEmpty(), "间接人员赁率不能为空")
                 .SplitError(x => x.Item.Me006.IsEmpty(), "物料不能为空")
                 .SplitError(x => x.Item.Me009.IsEmpty(), "废弃费用不能为空")
@@ -132,20 +130,16 @@ namespace Ams.Service.Logistics
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        public PagedInfo<QmCostWasteDto> ExportList(QmCostWasteQueryDto parm)
+        public PagedInfo<QmCostDiscardDto> ExportList(QmCostDiscardQueryDto parm)
         {
             var predicate = QueryExp(parm);
 
             var response = Queryable()
                 .Where(predicate.ToExpression())
-                .Select((it) => new QmCostWasteDto()
+                .Select((it) => new QmCostDiscardDto()
                 {
                     //查询字典: <工厂> 
                     Me002Label = it.Me002.GetConfigValue<SysDictData>("sql_plant_list"),
-                    //查询字典: <机种> 
-                    Me004Label = it.Me004.GetConfigValue<SysDictData>("sql_sap_model"),
-                    //查询字典: <物料> 
-                    Me006Label = it.Me006.GetConfigValue<SysDictData>("sql_mats_list"),
                 }, true)
                 .ToPage(parm);
 
@@ -157,9 +151,9 @@ namespace Ams.Service.Logistics
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        private static Expressionable<QmCostWaste> QueryExp(QmCostWasteQueryDto parm)
+        private static Expressionable<QmCostDiscard> QueryExp(QmCostDiscardQueryDto parm)
         {
-            var predicate = Expressionable.Create<QmCostWaste>();
+            var predicate = Expressionable.Create<QmCostDiscard>();
 
             //查询字段: <工厂> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Me002), it => it.Me002 == parm.Me002);
@@ -174,9 +168,9 @@ namespace Ams.Service.Logistics
             predicate = predicate.AndIF(parm.BeginMe003 != null, it => it.Me003 >= parm.BeginMe003);
             predicate = predicate.AndIF(parm.EndMe003 != null, it => it.Me003 <= parm.EndMe003);
             //查询字段: <机种> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Me004), it => it.Me004 == parm.Me004);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Me004), it => it.Me004.Contains(parm.Me004));
             //查询字段: <物料> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Me006), it => it.Me006 == parm.Me006);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Me006), it => it.Me006.Contains(parm.Me006));
             return predicate;
         }
     }

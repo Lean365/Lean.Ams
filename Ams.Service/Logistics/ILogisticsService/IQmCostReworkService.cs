@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 返工改修
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:47:36
+    /// @Date: 2024/9/18 9:05:09
     /// </summary>
     public interface IQmCostReworkService : IBaseService<QmCostRework>
     {
@@ -23,7 +23,7 @@ namespace Ams.Service.Logistics.ILogisticsService
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        QmCostRework GetInfo(int Id);
+        QmCostRework GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性

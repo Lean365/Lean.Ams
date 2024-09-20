@@ -6,7 +6,7 @@ namespace Ams.Model.Logistics.Dto
     /// 设变
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/14 8:48:00
+    /// @Date: 2024/9/18 8:51:20
     /// </summary>
     public class PpEcMasterQueryDto : PagerInfo 
     {
@@ -46,7 +46,7 @@ namespace Ams.Model.Logistics.Dto
     /// 设变
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/14 8:48:00
+    /// @Date: 2024/9/18 8:51:20
     /// </summary>
     public class PpEcMasterDto
     {
@@ -277,13 +277,15 @@ namespace Ams.Model.Logistics.Dto
         public string Mb008Label { get; set; }
         [ExcelColumn(Name = "管理区分")]
         public string Mb013Label { get; set; }
+        [ExcelColumn(Name = "输入部门")]
+        public string Mb022Label { get; set; }
     }
 
     /// <summary>
     /// 设变
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/14 8:48:00
+    /// @Date: 2024/9/18 8:51:20
     /// </summary>
     public class PpEcMasterImportTpl
     {
@@ -470,6 +472,9 @@ namespace Ams.Model.Logistics.Dto
         [ExcelIgnore]
         [ExcelColumn(Name = "管理区分")]
         public string Mb013Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "输入部门")]
+        public string Mb022Label { get; set; }
     }
 
 }

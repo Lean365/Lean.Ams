@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 返工改修
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:47:36
+    /// @Date: 2024/9/18 9:05:09
     /// </summary>
     [Verify]
     [Route("Logistics/QmCostRework")]
@@ -49,7 +49,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "qm:costrework:query")]
-        public IActionResult GetQmCostRework(int Id)
+        public IActionResult GetQmCostRework(long Id)
         {
             var response = _QmCostReworkService.GetInfo(Id);
             
@@ -103,7 +103,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [Log(Title = "返工改修", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteQmCostRework([FromRoute]string ids)
         {
-            var idArr = Tools.SplitAndConvert<int>(ids);
+            var idArr = Tools.SplitAndConvert<long>(ids);
 
             return ToResponse(_QmCostReworkService.Delete(idArr, "删除返工改修"));
         }

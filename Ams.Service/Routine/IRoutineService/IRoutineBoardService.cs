@@ -1,29 +1,29 @@
-using Ams.Model.Logistics.Dto;
-using Ams.Model.Logistics;
+using Ams.Model.Routine.Dto;
+using Ams.Model.Routine;
 
-namespace Ams.Service.Logistics.ILogisticsService
+namespace Ams.Service.Routine.IRoutineService
 {
     /// <summary>
-    /// 废弃部品
+    /// 看板
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:46:48
+    /// @Date: 2024/9/20 9:52:38
     /// </summary>
-    public interface IQmCostWasteService : IBaseService<QmCostWaste>
+    public interface IRoutineBoardService : IBaseService<RoutineBoard>
     {
         /// <summary>
-        /// 获取废弃部品列表
+        /// 获取看板列表
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        PagedInfo<QmCostWasteDto> GetList(QmCostWasteQueryDto parm);
+        PagedInfo<RoutineBoardDto> GetList(RoutineBoardQueryDto parm);
 
         /// <summary>
-        /// 获取废弃部品信息
+        /// 获取看板信息
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        QmCostWaste GetInfo(int Id);
+        RoutineBoard GetInfo(long Id);
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -33,35 +33,35 @@ namespace Ams.Service.Logistics.ILogisticsService
         public string CheckInputUnique(string enterString);
         /// <summary>
         /// 新增
-        /// 废弃部品
+        /// 看板
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        QmCostWaste AddQmCostWaste(QmCostWaste parm);
+        RoutineBoard AddRoutineBoard(RoutineBoard parm);
 
         /// <summary>
         /// 更新
-        /// 废弃部品
+        /// 看板
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        int UpdateQmCostWaste(QmCostWaste parm);
+        int UpdateRoutineBoard(RoutineBoard parm);
 
 
         /// <summary>
         /// 批量导入
-        /// 废弃部品
+        /// 看板
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        (string, object, object) ImportQmCostWaste(List<QmCostWaste> list);
+        (string, object, object) ImportRoutineBoard(List<RoutineBoard> list);
 
         /// <summary>
         /// 导出
-        /// 废弃部品
+        /// 看板
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        PagedInfo<QmCostWasteDto> ExportList(QmCostWasteQueryDto parm);
+        PagedInfo<RoutineBoardDto> ExportList(RoutineBoardQueryDto parm);
     }
 }

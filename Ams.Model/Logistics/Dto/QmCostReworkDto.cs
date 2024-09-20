@@ -5,7 +5,7 @@ namespace Ams.Model.Logistics.Dto
     /// 返工改修
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:47:36
+    /// @Date: 2024/9/18 9:05:09
     /// </summary>
     public class QmCostReworkQueryDto : PagerInfo 
     {
@@ -22,21 +22,29 @@ namespace Ams.Model.Logistics.Dto
         /// 机种 
         /// </summary>        
         public string Md004 { get; set; }
+        /// <summary>
+        /// 批次 
+        /// </summary>        
+        public string Md005 { get; set; }
+        /// <summary>
+        /// 顾客名 
+        /// </summary>        
+        public string Md031 { get; set; }
     }
 
     /// <summary>
     /// 返工改修
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:47:36
+    /// @Date: 2024/9/18 9:05:09
     /// </summary>
     public class QmCostReworkDto
     {
-        [Required(ErrorMessage = "ID不能为空")]
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
+        [JsonConverter(typeof(ValueToStringConverter))]
 
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [Required(ErrorMessage = "工厂不能为空")]
         //[ExcelColumn(Name = "工厂")]
@@ -231,8 +239,8 @@ namespace Ams.Model.Logistics.Dto
 
         public string Md035 { get; set; }
 
-        //[ExcelColumn(Name = "附件2")]
-        [ExcelColumnName("附件2")]
+        //[ExcelColumn(Name = "附件1")]
+        [ExcelColumnName("附件1")]
 
         public string Md036 { get; set; }
 
@@ -325,8 +333,8 @@ namespace Ams.Model.Logistics.Dto
 
         public string Md052 { get; set; }
 
-        //[ExcelColumn(Name = "附件1")]
-        [ExcelColumnName("附件1")]
+        //[ExcelColumn(Name = "附件2")]
+        [ExcelColumnName("附件2")]
 
         public string Md053 { get; set; }
 
@@ -431,6 +439,10 @@ namespace Ams.Model.Logistics.Dto
 
         [ExcelIgnore]
 
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+
         public string Ref01 { get; set; }
 
         [ExcelIgnore]
@@ -507,10 +519,6 @@ namespace Ams.Model.Logistics.Dto
 
         [ExcelIgnore]
 
-        public string Remark { get; set; }
-
-        [ExcelIgnore]
-
         public string CreateBy { get; set; }
 
         [ExcelIgnore]
@@ -529,22 +537,22 @@ namespace Ams.Model.Logistics.Dto
 
         [ExcelColumn(Name = "工厂")]
         public string Md002Label { get; set; }
-        [ExcelColumn(Name = "机种")]
-        public string Md004Label { get; set; }
+        [ExcelColumn(Name = "顾客名")]
+        public string Md031Label { get; set; }
     }
 
     /// <summary>
     /// 返工改修
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:47:36
+    /// @Date: 2024/9/18 9:05:09
     /// </summary>
     public class QmCostReworkImportTpl
     {
-        [Required(ErrorMessage = "ID不能为空")]
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
-        public long Id { get; set; }
+        [JsonConverter(typeof(ValueToStringConverter))]
+        public long? Id { get; set; }
 
         [Required(ErrorMessage = "工厂不能为空")]
         //[ExcelColumn(Name = "工厂")]
@@ -705,8 +713,8 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("备注")]
         public string Md035 { get; set; }
 
-        //[ExcelColumn(Name = "附件2")]
-        [ExcelColumnName("附件2")]
+        //[ExcelColumn(Name = "附件1")]
+        [ExcelColumnName("附件1")]
         public string Md036 { get; set; }
 
         //[ExcelColumn(Name = "生管品质问题対応记录者")]
@@ -782,8 +790,8 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("备注")]
         public string Md052 { get; set; }
 
-        //[ExcelColumn(Name = "附件1")]
-        [ExcelColumnName("附件1")]
+        //[ExcelColumn(Name = "附件2")]
+        [ExcelColumnName("附件2")]
         public string Md053 { get; set; }
 
         //[ExcelColumn(Name = "M/L不良改修対応记录者")]
@@ -868,6 +876,9 @@ namespace Ams.Model.Logistics.Dto
         public string Md071 { get; set; }
 
         [ExcelIgnore]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
         public string Ref01 { get; set; }
 
         [ExcelIgnore]
@@ -925,9 +936,6 @@ namespace Ams.Model.Logistics.Dto
         public int? IsDeleted { get; set; }
 
         [ExcelIgnore]
-        public string Remark { get; set; }
-
-        [ExcelIgnore]
         public string CreateBy { get; set; }
 
         [ExcelIgnore]
@@ -945,8 +953,8 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumn(Name = "工厂")]
         public string Md002Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "机种")]
-        public string Md004Label { get; set; }
+        [ExcelColumn(Name = "顾客名")]
+        public string Md031Label { get; set; }
     }
 
 }

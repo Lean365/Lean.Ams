@@ -34,9 +34,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MiniExcel" Version="1.34.1" />
+		<PackageReference Include="MiniExcel" Version="1.34.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="SqlSugarCoreNoDrive" Version="5.1.4.167" />
+		<PackageReference Include="SqlSugarCoreNoDrive" Version="5.1.4.169" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 	</ItemGroup>
 

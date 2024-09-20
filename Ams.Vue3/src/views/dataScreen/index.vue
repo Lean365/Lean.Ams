@@ -3,7 +3,7 @@
     <starBackground></starBackground>
     <div class="m-data-screen">
       <div class="header">
-        <div class="header-bg-title">大屏数据展示</div>
+        <div class="header-bg-title">生产看板</div>
         <div class="date">{{ timeDate }} {{ hourTime }}</div>
       </div>
       <div class="center">
@@ -11,11 +11,12 @@
           <div class="item-icon item-icon1">
             <img src="@/assets/images/charts/circle-bg.png" class="circle-bg" />
           </div>
+
           <div class="item-right">
             <div class="item-right-inner">
               <div class="text-title">{{ item.title }}</div>
               <div class="text-number">
-                <count-up :start-val="item.start" :loop="true" :end-val="item.value"></count-up>
+                <count-up :start-val="item.start" :loop="false" :end-val="item.value"></count-up>
               </div>
               <div class="text-der text-decenter-wrapr">
                 <div class="statistic-footer">
@@ -72,12 +73,71 @@
   import CountUp from 'vue-countup-v3'
   import FullScreenContainer from '@/views/components/dataScreen/full-screen-container.vue'
   import BarChart from '@/views/dashboard/BarChart'
-  import LineCharts from '@/views/components/dataScreen/lineEcharts'
+  //import LineCharts from '@/views/components/dataScreen/lineEcharts'
   import simpleGauge from '@/views/components/dataScreen/simpleGauge.vue'
   import doughnutCharts from '@/views/components/dataScreen/doughnutCharts.vue'
   import migrationCharts from '@/views/components/dataScreen/migrationCharts'
   import starBackground from '@/views/components/backGround/star.vue'
+  import { getMonthlyInventoryAmount } from '@/api/statistics/ficoinventorystati.js'
+  import { getMonthlySalesAmount } from '@/api/statistics/sdsalesstati.js'
+  import { getMonthlyOutputQty } from '@/api/statistics/ppoutputstati.js'
 
+
+  const gcia = ref()
+
+  function getInventoryAmount() {
+    return new Promise((resolve, reject) => {
+      getMonthlyInventoryAmount()
+        .then((res) => {
+          //
+          const { code, data } = res
+          if (code == 200) {
+            console.log('在库', data)
+            //const arr = data//.split(",");
+            gcia.value = data// (parseFloat(data) / 10000).toFixed(0)//(parseFloat(arr[1]) / 10000).toFixed(0)
+            //state.production = res.data
+
+            resolve(res)
+          }
+        })
+    })
+  }
+  const gcms = ref()
+  function getMonthlySales() {
+    return new Promise((resolve, reject) => {
+      getMonthlySalesAmount()
+        .then((res) => {
+          //
+          const { code, data } = res
+          if (code == 200) {
+
+            const arr = data//.split(",");
+            gcms.value = data//(parseFloat(arr) / 10000).toFixed(0)//(parseFloat(arr[1]) / 10000).toFixed(0)
+            //state.production = res.data
+            console.log('销售', gcms)
+            resolve(res)
+          }
+        })
+    })
+  }
+  const gmpq = ref()
+  function getProductionQty() {
+    return new Promise((resolve, reject) => {
+      getMonthlyOutputQty()
+        .then((res) => {
+          //
+          const { code, data } = res
+          if (code == 200) {
+            console.log('生产', data)
+            //const arr = data.split(",");
+            gmpq.value = data //(parseFloat(arr[1]) / 10000).toFixed(0)
+            //state.production = res.data
+
+            resolve(res)
+          }
+        })
+    })
+  }
   const timeDate = ref()
   const hourTime = ref()
   const time1 = ref()
@@ -90,7 +150,7 @@
     time1.value = setTimeout(() => {
       time1.value && clearTimeout(time1.value)
       getHour()
-      changeData()
+      //changeData()
     }, 1000)
   }
 
@@ -103,6 +163,9 @@
     getHour()
   }
   onMounted(() => {
+    getProductionQty()
+    getInventoryAmount()
+    getMonthlySales()
     getNowTime()
   })
 
@@ -111,18 +174,18 @@
   })
 
   const dataList = ref([
-    { title: '在线用户', value: 1000, percent: 78.21, start: 0 },
-    { title: '消息', value: 2000, percent: 78.21, start: 0 },
-    { title: '销量', value: 2550, percent: 18.21, start: 0 },
-    { title: '访问量', value: 700, percent: 18.21, start: 0 },
-    { title: '订单', value: 1700, percent: 18.21, start: 0 }
+    { title: '订单', value: 7740, percent: 1, start: 0 },
+    { title: '生产', value: gmpq, percent: 1, start: 0 },
+    { title: '销售', value: gcms, percent: 1, start: 0 },
+    { title: '在库', value: gcia, percent: 1000, start: 0 },
+    { title: '成本', value: 230, percent: 1, start: 0 }
   ])
-  function changeData() {
-    dataList.value.forEach((ele) => {
-      ele.start = ele.value
-      ele.value = ele.value += 3
-    })
-  }
+  // function changeData() {
+  //   dataList.value.forEach((ele) => {
+  //     ele.start = ele.value
+  //     ele.value = ele.value += 0
+  //   })
+  // }
 </script>
 <style lang="scss">
   @import url(./index.scss);

@@ -37,7 +37,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <PackageReference Include="NETCore.Encrypt" Version="2.1.1" />
-	  <PackageReference Include="NLog" Version="5.3.3" />
+	  <PackageReference Include="NLog" Version="5.3.4" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Ams.Common\Ams.Common.csproj" />
