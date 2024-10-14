@@ -35,24 +35,34 @@
         <el-button type="info" plain icon="sort" @click="toggleExpandAll">{{ $t('btn.expand') }}/{{ $t('btn.collapse')
           }}</el-button>
       </el-col>
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
+      <!-- <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar> -->
+
+      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
     <!-- 数据区域 -->
     <el-table v-if="refreshTable" v-loading="loading" :data="deptList" row-key="deptId"
       :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-      <el-table-column prop="deptName" :label="$t('pdept.deptName')" width="240"></el-table-column>
-      <el-table-column prop="deptId" label="Id"></el-table-column>
-      <el-table-column prop="leader" :label="$t('pdept.leader')" width="100"></el-table-column>
-      <el-table-column prop="phone" :label="$t('pdept.phone')" width="120"></el-table-column>
-      <el-table-column prop="email" :label="$t('pdept.email')" width="120"></el-table-column>
-      <el-table-column prop="userNum" :label="$t('pdept.deptMembership')" width="120"></el-table-column>
-      <el-table-column prop="sortingNum" :label="$t('pdept.sort')"></el-table-column>
-      <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStatus">
+      <el-table-column prop="deptName" :label="$t('pdept.deptName')" width="240"
+        v-if="columns.showColumn('deptName')"></el-table-column>
+      <el-table-column prop="deptId" label="Id" v-if="columns.showColumn('deptId')"></el-table-column>
+      <el-table-column prop="leader" :label="$t('pdept.leader')" width="140"
+        v-if="columns.showColumn('leader')"></el-table-column>
+      <el-table-column prop="phone" :label="$t('pdept.phone')" width="120" show-overflow-tooltip
+        v-if="columns.showColumn('phone')"></el-table-column>
+      <el-table-column prop="email" :label="$t('pdept.email')" width="120" show-overflow-tooltip
+        v-if="columns.showColumn('email')"></el-table-column>
+      <el-table-column prop="userNum" :label="$t('pdept.deptMembership')" width="80"
+        v-if="columns.showColumn('userNum')"></el-table-column>
+      <el-table-column prop="sortingNum" :label="$t('pdept.sort')" width="80"
+        v-if="columns.showColumn('sortingNum')"></el-table-column>
+      <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStatus"
+        v-if="columns.showColumn('isStatus')">
         <template #default="scope">
           <dict-tag :options="statusOptions" :value="scope.row.isStatus" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime" width="200">
+      <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime" width="200"
+        v-if="columns.showColumn('createTime')">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
@@ -180,6 +190,19 @@
     deptName: undefined,
     isStatus: undefined
   })
+  //字段显示控制
+  const columns = ref([
+    { visible: true, prop: 'deptName', label: proxy.$t('pdept.deptName') },
+    { visible: true, prop: 'deptId', label: 'ID' },
+    { visible: true, prop: 'leader', label: proxy.$t('pdept.leader') },
+    { visible: true, prop: 'phone', label: proxy.$t('pdept.phone') },
+    { visible: true, prop: 'email', label: proxy.$t('pdept.email') },
+    { visible: true, prop: 'userNum', label: proxy.$t('pdept.deptMembership') },
+    { visible: false, prop: 'sortingNum', label: proxy.$t('pdept.sort') },
+    { visible: true, prop: 'isStatus', label: proxy.$t('common.tipIsStated') },
+    { visible: false, prop: 'createTime', label: proxy.$t('common.tipCreateTime') },
+
+  ])
   const state = reactive({
     // 表单参数
     form: {},

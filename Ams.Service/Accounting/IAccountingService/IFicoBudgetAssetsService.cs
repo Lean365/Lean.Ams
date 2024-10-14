@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 资产预算
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 15:46:44
+    /// @Date: 2024/10/14 9:17:19
     /// </summary>
     public interface IFicoBudgetAssetsService : IBaseService<FicoBudgetAssets>
     {
@@ -31,12 +31,6 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <param name="enterString"></param>
         /// <returns></returns>
         public string CheckInputUnique(string enterString);
-        /// <summary>
-        /// 获取资产预算树信息
-        /// </summary>
-        /// <param name="parm"></param>
-        /// <returns></returns>
-        List<FicoBudgetAssets> GetTreeList(FicoBudgetAssetsQueryDto parm);
         /// <summary>
         /// 新增
         /// 资产预算

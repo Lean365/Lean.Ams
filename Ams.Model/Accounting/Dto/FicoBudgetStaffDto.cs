@@ -5,10 +5,14 @@ namespace Ams.Model.Accounting.Dto
     /// 人员预算
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:56:20
+    /// @Date: 2024/10/14 13:41:08
     /// </summary>
     public class FicoBudgetStaffQueryDto : PagerInfo 
     {
+        /// <summary>
+        /// 部门ID 
+        /// </summary>        
+        public long? DeptId { get; set; }
         /// <summary>
         /// 财年 
         /// </summary>        
@@ -25,22 +29,29 @@ namespace Ams.Model.Accounting.Dto
         /// 科目 
         /// </summary>        
         public string Mj007 { get; set; }
+        /// <summary>
+        /// 名称 
+        /// </summary>        
+        public string Mj008 { get; set; }
+        /// <summary>
+        /// 审核 
+        /// </summary>        
+        public int? Mj014 { get; set; }
     }
 
     /// <summary>
     /// 人员预算
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:56:20
+    /// @Date: 2024/10/14 13:41:08
     /// </summary>
     public class FicoBudgetStaffDto
     {
-        [Required(ErrorMessage = "ID不能为空")]
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
 
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         //[ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
@@ -138,6 +149,10 @@ namespace Ams.Model.Accounting.Dto
 
         [ExcelIgnore]
 
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+
         public string Ref01 { get; set; }
 
         [ExcelIgnore]
@@ -148,17 +163,14 @@ namespace Ams.Model.Accounting.Dto
 
         public string Ref03 { get; set; }
 
-        [Required(ErrorMessage = "预留1不能为空")]
         [ExcelIgnore]
 
         public decimal Ref04 { get; set; }
 
-        [Required(ErrorMessage = "预留2不能为空")]
         [ExcelIgnore]
 
         public decimal Ref05 { get; set; }
 
-        [Required(ErrorMessage = "预留3不能为空")]
         [ExcelIgnore]
 
         public decimal Ref06 { get; set; }
@@ -187,32 +199,26 @@ namespace Ams.Model.Accounting.Dto
 
         public string Udf06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
         [ExcelIgnore]
 
-        public int Udf51 { get; set; }
+        public int? Udf51 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
         [ExcelIgnore]
 
-        public int Udf52 { get; set; }
+        public int? Udf52 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
         [ExcelIgnore]
 
-        public int Udf53 { get; set; }
+        public int? Udf53 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
         [ExcelIgnore]
 
         public decimal Udf54 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
         [ExcelIgnore]
 
         public decimal Udf55 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
         [ExcelIgnore]
 
         public decimal Udf56 { get; set; }
@@ -220,10 +226,6 @@ namespace Ams.Model.Accounting.Dto
         [ExcelIgnore]
 
         public int? IsDeleted { get; set; }
-
-        [ExcelIgnore]
-
-        public string Remark { get; set; }
 
         [ExcelIgnore]
 
@@ -251,21 +253,26 @@ namespace Ams.Model.Accounting.Dto
         public string Mj005Label { get; set; }
         [ExcelColumn(Name = "公司")]
         public string Mj006Label { get; set; }
+        [ExcelColumn(Name = "科目")]
+        public string Mj007Label { get; set; }
+        [ExcelColumn(Name = "类别")]
+        public string Mj009Label { get; set; }
+        [ExcelColumn(Name = "启用")]
+        public string Mj013Label { get; set; }
     }
 
     /// <summary>
     /// 人员预算
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:56:20
+    /// @Date: 2024/10/14 13:41:08
     /// </summary>
     public class FicoBudgetStaffImportTpl
     {
-        [Required(ErrorMessage = "ID不能为空")]
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         //[ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
@@ -345,6 +352,9 @@ namespace Ams.Model.Accounting.Dto
         public DateTime? Mj018 { get; set; }
 
         [ExcelIgnore]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
         public string Ref01 { get; set; }
 
         [ExcelIgnore]
@@ -353,15 +363,12 @@ namespace Ams.Model.Accounting.Dto
         [ExcelIgnore]
         public string Ref03 { get; set; }
 
-        [Required(ErrorMessage = "预留1不能为空")]
         [ExcelIgnore]
         public decimal Ref04 { get; set; }
 
-        [Required(ErrorMessage = "预留2不能为空")]
         [ExcelIgnore]
         public decimal Ref05 { get; set; }
 
-        [Required(ErrorMessage = "预留3不能为空")]
         [ExcelIgnore]
         public decimal Ref06 { get; set; }
 
@@ -383,35 +390,26 @@ namespace Ams.Model.Accounting.Dto
         [ExcelIgnore]
         public string Udf06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
         [ExcelIgnore]
-        public int Udf51 { get; set; }
+        public int? Udf51 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
         [ExcelIgnore]
-        public int Udf52 { get; set; }
+        public int? Udf52 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
         [ExcelIgnore]
-        public int Udf53 { get; set; }
+        public int? Udf53 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
         [ExcelIgnore]
         public decimal Udf54 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
         [ExcelIgnore]
         public decimal Udf55 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
         [ExcelIgnore]
         public decimal Udf56 { get; set; }
 
         [ExcelIgnore]
         public int? IsDeleted { get; set; }
-
-        [ExcelIgnore]
-        public string Remark { get; set; }
 
         [ExcelIgnore]
         public string CreateBy { get; set; }
@@ -439,6 +437,15 @@ namespace Ams.Model.Accounting.Dto
         [ExcelIgnore]
         [ExcelColumn(Name = "公司")]
         public string Mj006Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "科目")]
+        public string Mj007Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "类别")]
+        public string Mj009Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "启用")]
+        public string Mj013Label { get; set; }
     }
 
 }

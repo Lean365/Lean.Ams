@@ -1,6 +1,4 @@
-﻿using Ams.Model.Admin;
-
-namespace Ams.Model.Vo
+﻿namespace Ams.Model.Vo
 {
     /// <summary>
     /// Treeselect树结构实体类
@@ -49,6 +47,21 @@ namespace Ams.Model.Vo
             //menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList()); java写法
             List<TreeSelectVo> child = new List<TreeSelectVo>();
             foreach (var item in dept.children)
+            {
+                child.Add(new TreeSelectVo(item));
+            }
+
+            Children = child;
+        }
+
+        public TreeSelectVo(FicoBudgetAccounting BudgetAccounting)
+        {
+            Id = long.Parse(BudgetAccounting.Md006);//BudgetAccounting.Id;//
+            Label = BudgetAccounting.Md009;
+
+            //menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList()); java写法
+            List<TreeSelectVo> child = new List<TreeSelectVo>();
+            foreach (var item in BudgetAccounting.Children)
             {
                 child.Add(new TreeSelectVo(item));
             }

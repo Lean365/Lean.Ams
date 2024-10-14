@@ -4,6 +4,7 @@ import createAutoImport from './auto-import'
 import createSvgIcon from './svg-icon'
 import createCompression from './compression'
 import createSetupExtend from './setup-extend'
+
 // import { createStyleImportPlugin, VxeTableResolve } from 'vite-plugin-style-import'
 import { lazyImport, VxeResolver } from 'vite-plugin-lazy-import'
 
@@ -21,6 +22,7 @@ export default function createVitePlugins(viteEnv, isBuild = false) {
   // )
 
   // Vxe 按需导入
+
   vitePlugins.push(
     lazyImport({
       resolvers: [

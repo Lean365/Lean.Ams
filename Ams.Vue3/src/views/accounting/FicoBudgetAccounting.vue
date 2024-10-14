@@ -1,8 +1,8 @@
 <!--
  * @Descripttion: 预算科目/fico_budget_accounting
- * @Version: 0.24.614.30403
+ * @Version: 0.24.651.29609
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/9/5 16:59:02
+ * @Date: 2024/10/12 16:36:02
  * @column：38
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
@@ -41,6 +41,12 @@
       </el-form-item>
       <el-form-item label="名称" prop="md009">
         <el-input v-model="queryParams.md009" :placeholder="$t('btn.enterSearchPrefix')+'名称'+$t('btn.enterSearchSuffix')" />
+      </el-form-item>
+      <el-form-item label="冻结" prop="md014">
+        <el-radio-group v-model="queryParams.md014">
+          <el-radio :value="-1">{{$t('common.all')}}</el-radio>
+          <el-radio v-for="item in  options.sys_is_status " :key="item.dictValue" :value="item.dictValue">{{item.dictLabel}}</el-radio>
+        </el-radio-group>
       </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
@@ -107,14 +113,22 @@
       <el-table-column prop="md009" label="名称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md009')"/>
       <el-table-column prop="md010" label="长文本" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md010')"/>
       <el-table-column prop="md011" label="附加文本" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md011')"/>
-      <el-table-column prop="md012" label="费用类型" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md012')"/>
-      <el-table-column prop="md013" label="统驭科目" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('md013')"/>
-      <el-table-column prop="md014" label="冻结" align="center" v-if="columns.showColumn('md014')">
+      <el-table-column prop="md012" label="费用类型" align="center" v-if="columns.showColumn('md012')">
         <template #default="scope">
-          <dict-tag :options=" options.sys_freeze_flag " :value="scope.row.md014" />
+          <dict-tag :options=" options.sys_exp_type " :value="scope.row.md012" />
         </template>
       </el-table-column>
-      <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
+      <el-table-column prop="md013" label="统驭科目" align="center" v-if="columns.showColumn('md013')">
+        <template #default="scope">
+          <dict-tag :options=" options.sql_mitkz_list " :value="scope.row.md013" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="md014" label="冻结" align="center" v-if="columns.showColumn('md014')">
+        <template #default="scope">
+          <dict-tag :options=" options.sys_is_status " :value="scope.row.md014" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
 
       <el-table-column :label="$t('btn.operation')" align="center" width="140">
         <template #default="scope">
@@ -224,27 +238,39 @@
 
           <el-col :lg="12">
             <el-form-item label="费用类型" prop="md012">
-              <el-input  v-model="form.md012" :placeholder="$t('btn.enterPrefix')+'费用类型'+$t('btn.enterSuffix')"  show-word-limit   maxlength="4" />
+              <el-select filterable clearable   v-model="form.md012"  :placeholder="$t('btn.selectPrefix')+'费用类型'+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sys_exp_type" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
             <el-form-item label="统驭科目" prop="md013">
-              <el-input  v-model="form.md013" :placeholder="$t('btn.enterPrefix')+'统驭科目'+$t('btn.enterSuffix')"  show-word-limit   maxlength="2" />
+              <el-select filterable clearable   v-model="form.md013"  :placeholder="$t('btn.selectPrefix')+'统驭科目'+$t('btn.selectSuffix')">
+                <el-option
+                  v-for="item in  options.sql_mitkz_list" 
+                  :key="item.dictValue" 
+                  :label="item.dictLabel" 
+                  :value="item.dictValue"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
     
           <el-col :lg="12">
             <el-form-item label="冻结" prop="md014">
               <el-radio-group v-model="form.md014">
-                <el-radio v-for="item in  options.sys_freeze_flag " :key="item.dictValue" :label="parseInt(item.dictValue)">{{item.dictLabel}}</el-radio>
+                <el-radio v-for="item in  options.sys_is_status " :key="item.dictValue" :label="parseInt(item.dictValue)">{{item.dictLabel}}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="备注说明" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
+            <el-form-item label="备注" prop="remark">
+              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
             </el-form-item>
           </el-col>
         </el-row>
@@ -294,7 +320,7 @@ const showSearch = ref(true)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 56,
-  sort: 'Md004',
+  sort: '',
   sortType: 'asc',
   //是否查询（1是）
   md004: undefined,
@@ -306,6 +332,8 @@ const queryParams = reactive({
   md008: undefined,
   //是否查询（1是）
   md009: undefined,
+   //是否查询（1是）
+  md014: -1,
 })
 //字段显示控制
 const columns = ref([
@@ -323,7 +351,7 @@ const columns = ref([
   { visible: false, prop: 'md012', label: '费用类型' },
   { visible: false, prop: 'md013', label: '统驭科目' },
   { visible: false, prop: 'md014', label: '冻结' },
-  { visible: false, prop: 'remark', label: '备注说明' },
+  { visible: false, prop: 'remark', label: '备注' },
 ])
 // 记录数
 const total = ref(0)
@@ -394,8 +422,9 @@ const addFilterOptions_sql_accounting_title =debounce((dictValue) => {
 var dictParams = [
   { dictType: "sql_corp_list" },
   { dictType: "sql_global_currency" },
-  { dictType: "sys_freeze_flag" },
-  { dictType: "sys_is_deleted" },
+  { dictType: "sys_exp_type" },
+  { dictType: "sql_mitkz_list" },
+  { dictType: "sys_is_status" },
 ]
 //字典加载
 proxy.getDicts(dictParams).then((response) => {
@@ -468,7 +497,6 @@ const state = reactive({
   form: {},
 //正则表达式
   rules: {
-    parentId: [{ required: true, message: "父ID不能为空", trigger: "blur", type: "number" }],
     md003: [{ required: true, message: "集团不能为空", trigger: "blur" }],
     md004: [{ required: true, message: "公司代码不能为空", trigger: "change" }],
     md006: [{ required: true, message: "预算科目不能为空", trigger: "blur" }],
@@ -483,10 +511,12 @@ const state = reactive({
 sql_corp_list: [],
     // 币种 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
 sql_global_currency: [],
+    // 费用类型 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sys_exp_type: [],
+    // 统驭科目 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+sql_mitkz_list: [],
     // 冻结 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_freeze_flag: [],
-    // 软删除 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_deleted: [],
+sys_is_status: [],
   }
 })
 //将响应式对象转换成普通对象
@@ -511,8 +541,8 @@ function reset() {
     md009: null,
     md010: null,
     md011: null,
-    md012: null,
-    md013: null,
+    md012: [],
+    md013: [],
     md014: 0,
     remark: null,
   };
@@ -528,6 +558,8 @@ function handleAdd() {
   form.value.md004= []
   form.value.md007= []
   form.value.md008= []
+  form.value.md012= []
+  form.value.md013= []
   form.value.md014= 0
 }
 

@@ -4,7 +4,6 @@ using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
 using Ams.Repository;
 using Ams.Service.Accounting.IAccountingService;
-using System.Collections.Generic;
 
 namespace Ams.Service.Accounting
 {
@@ -12,7 +11,7 @@ namespace Ams.Service.Accounting
     /// 人员预算
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:56:20
+    /// @Date: 2024/10/14 13:41:08
     /// </summary>
     [AppService(ServiceType = typeof(IFicoBudgetStaffService), ServiceLifetime = LifeTime.Transient)]
     public class FicoBudgetStaffService : BaseService<FicoBudgetStaff>, IFicoBudgetStaffService
@@ -50,26 +49,6 @@ namespace Ams.Service.Accounting
             return UserConstants.UNIQUE;
         }
 
-        /// <summary>
-        /// 查询人员预算树列表
-        /// </summary>
-        /// <param name="parm"></param>
-        /// <returns></returns>
-        public List<FicoBudgetStaff> GetTreeList(FicoBudgetStaffQueryDto parm)
-        {
-            var predicate = Expressionable.Create<FicoBudgetStaff>();
-
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mj004), it => it.Mj004 == parm.Mj004);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mj005), it => it.Mj005 == parm.Mj005);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mj006), it => it.Mj006 == parm.Mj006);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mj007), it => it.Mj007.Contains(parm.Mj007));
-
-            var response = Queryable()
-                .Where(predicate.ToExpression())
-                .ToTree(it => it.Children, it => it.ParentId, 0);
-
-            return response;
-        }
 
         /// <summary>
         /// 获取详情
@@ -114,7 +93,6 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.Id.IsEmpty(), "ID不能为空")
                 .SplitError(x => x.Item.Mj004.IsEmpty(), "财年不能为空")
                 .SplitError(x => x.Item.Mj005.IsEmpty(), "年月不能为空")
                 .SplitError(x => x.Item.Mj006.IsEmpty(), "公司不能为空")
@@ -124,15 +102,6 @@ namespace Ams.Service.Accounting
                 .SplitError(x => x.Item.Mj012.IsEmpty(), "预算不能为空")
                 .SplitError(x => x.Item.Mj013.IsEmpty(), "启用不能为空")
                 .SplitError(x => x.Item.Mj014.IsEmpty(), "审核不能为空")
-                .SplitError(x => x.Item.Ref04.IsEmpty(), "预留1不能为空")
-                .SplitError(x => x.Item.Ref05.IsEmpty(), "预留2不能为空")
-                .SplitError(x => x.Item.Ref06.IsEmpty(), "预留3不能为空")
-                .SplitError(x => x.Item.Udf51.IsEmpty(), "自定义1不能为空")
-                .SplitError(x => x.Item.Udf52.IsEmpty(), "自定义2不能为空")
-                .SplitError(x => x.Item.Udf53.IsEmpty(), "自定义3不能为空")
-                .SplitError(x => x.Item.Udf54.IsEmpty(), "自定义4不能为空")
-                .SplitError(x => x.Item.Udf55.IsEmpty(), "自定义5不能为空")
-                .SplitError(x => x.Item.Udf56.IsEmpty(), "自定义6不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -174,6 +143,12 @@ namespace Ams.Service.Accounting
                     Mj005Label = it.Mj005.GetConfigValue<SysDictData>("sql_ymdt_list"),
                     //查询字典: <公司> 
                     Mj006Label = it.Mj006.GetConfigValue<SysDictData>("sql_corp_list"),
+                    //查询字典: <科目> 
+                    Mj007Label = it.Mj007.GetConfigValue<SysDictData>("sql_budget_title"),
+                    //查询字典: <类别> 
+                    Mj009Label = it.Mj009.GetConfigValue<SysDictData>("sys_costs_type"),
+                    //查询字典: <启用> 
+                    Mj013Label = it.Mj013.GetConfigValue<SysDictData>("sys_is_status"),
                 }, true)
                 .ToPage(parm);
 
@@ -189,6 +164,8 @@ namespace Ams.Service.Accounting
         {
             var predicate = Expressionable.Create<FicoBudgetStaff>();
 
+            //查询字段: <部门ID> 
+            predicate = predicate.AndIF(parm.DeptId != -1, it => it.DeptId == parm.DeptId);
             //查询字段: <财年> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mj004), it => it.Mj004 == parm.Mj004);
             //查询字段: <年月> 
@@ -196,7 +173,11 @@ namespace Ams.Service.Accounting
             //查询字段: <公司> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mj006), it => it.Mj006 == parm.Mj006);
             //查询字段: <科目> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mj007), it => it.Mj007.Contains(parm.Mj007));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mj007), it => it.Mj007 == parm.Mj007);
+            //查询字段: <名称> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mj008), it => it.Mj008.Contains(parm.Mj008));
+            //查询字段: <审核> 
+            predicate = predicate.AndIF(parm.Mj014 != -1, it => it.Mj014 == parm.Mj014);
             return predicate;
         }
     }

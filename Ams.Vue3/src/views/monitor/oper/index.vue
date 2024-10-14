@@ -2,42 +2,55 @@
   <div class="app-container">
     <!-- 查询区域 -->
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="auto">
-      <el-form-item :label="$t('poperlog.title')" prop="title">
-        <el-input v-model="queryParams.title"
-          :placeholder="$t('btn.enterPrefix')+$t('poperlog.title')+$t('btn.enterSuffix')" clearable
-          @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item :label="$t('poperlog.operName')" prop="operName">
-        <el-input v-model="queryParams.operName"
-          :placeholder="$t('btn.enterPrefix')+$t('poperlog.operName')+$t('btn.enterSuffix')" clearable
-          @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item :label="$t('poperlog.businessType')" prop="businessType">
-        <el-select v-model="queryParams.businessType"
-          :placeholder="$t('btn.selectPrefix')+$t('poperlog.businessType')+$t('btn.selectSuffix')" clearable>
-          <el-option v-for="dict in options.sys_oper_type" :key="dict.dictValue" :label="dict.dictLabel"
-            :value="dict.dictValue" />
-        </el-select>
-      </el-form-item>
-      <el-form-item :label="$t('common.tipIsStated')" prop="isStated">
-        <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('common.tipIsStated')" clearable>
+      <el-row :gutter="10" class="mb8">
+        <el-col :lg="24">
+          <el-form-item :label="$t('poperlog.title')" prop="title">
+            <el-input v-model="queryParams.title"
+              :placeholder="$t('btn.enterPrefix')+$t('poperlog.title')+$t('btn.enterSuffix')" clearable
+              @keyup.enter="handleQuery" />
+          </el-form-item>
+          <el-form-item :label="$t('poperlog.operName')" prop="operName">
+            <el-input v-model="queryParams.operName"
+              :placeholder="$t('btn.enterPrefix')+$t('poperlog.operName')+$t('btn.enterSuffix')" clearable
+              @keyup.enter="handleQuery" />
+          </el-form-item>
+          <el-form-item :label="$t('poperlog.businessType')" prop="businessType">
+            <el-select v-model="queryParams.businessType"
+              :placeholder="$t('btn.selectPrefix')+$t('poperlog.businessType')+$t('btn.selectSuffix')" clearable>
+              <el-option v-for="dict in options.sys_oper_type" :key="dict.dictValue" :label="dict.dictLabel"
+                :value="dict.dictValue" />
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('common.tipIsStated')" prop="isStatus">
+            <el-radio-group v-model="queryParams.isStatus">
+              <el-radio :value="-1">{{$t('common.all')}}</el-radio>
+              <el-radio v-for="dict in options.sys_common_status" :key="dict.dictValue"
+                :value="parseInt(dict.dictValue)">{{
+                dict.dictLabel }}</el-radio>
+            </el-radio-group>
+            <!-- <el-select v-model="queryParams.isStated" :placeholder="$t('btn.select')+$t('common.tipIsStated')" clearable>
           <el-option v-for="dict in options.sys_common_status" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
-        </el-select>
-      </el-form-item>
-      <el-form-item :label="$t('poperlog.operParam')" prop="operParam">
-        <el-input v-model="queryParams.operParam" :placeholder="$t('btn.enter')+$t('poperlog.operParam')" clearable
-          @keyup.enter="handleQuery" />
-      </el-form-item>
-      <el-form-item :label="$t('poperlog.operTime')">
-        <el-date-picker v-model="dateRange" type="datetimerange" range-separator="-"
-          :start-placeholder="$t('btn.dateStart')" :end-placeholder="$t('btn.dateEnd')" :default-time="defaultTime"
-          value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="dateOptions"></el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="search" @click="handleQuery">{{$t('btn.search')}}</el-button>
-        <el-button icon="refresh" @click="resetQuery">{{$t('btn.reset')}}</el-button>
-      </el-form-item>
+        </el-select> -->
+          </el-form-item>
+          <el-form-item :label="$t('poperlog.operParam')" prop="operParam">
+            <el-input v-model="queryParams.operParam"
+              :placeholder="$t('btn.enterPrefix')+$t('poperlog.operParam')+$t('btn.enterSuffix')" clearable
+              @keyup.enter="handleQuery" />
+          </el-form-item>
+          <el-form-item :label="$t('poperlog.operTime')">
+            <el-date-picker v-model="dateRange" type="datetimerange" range-separator="-"
+              :start-placeholder="$t('btn.dateStart')" :end-placeholder="$t('btn.dateEnd')" :default-time="defaultTime"
+              value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="dateOptions"></el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :lg="24" :offset="12">
+          <el-form-item>
+            <el-button type="primary" icon="search" @click="handleQuery">{{$t('btn.search')}}</el-button>
+            <el-button icon="refresh" @click="resetQuery">{{$t('btn.reset')}}</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <!-- 工具区域 -->
     <el-row :gutter="10" class="mb8">
@@ -82,10 +95,10 @@
           <div>{{ row.operIp }}</div>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStated"
-        v-if="columns.showColumn('isStated')">
+      <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStatus"
+        v-if="columns.showColumn('isStatus')">
         <template #default="{ row }">
-          <dict-tag :options="options.sys_common_status" :value="row.isStated"></dict-tag>
+          <dict-tag :options="options.sys_common_status" :value="row.isStatus"></dict-tag>
         </template>
       </el-table-column>
       <el-table-column :label="$t('poperlog.elapsed')" align="center" prop="elapsed"
@@ -205,7 +218,7 @@
   const open = ref(false)
 
   // 日期范围
-  const dateRange = ref([dayjs().format('YYYY-MM-DD 00:00:00'), dayjs().format('YYYY-MM-DD 23:59:59')])
+  const dateRange = ref()
   const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
 
   const state = reactive({
@@ -216,7 +229,7 @@
       title: undefined,
       operName: undefined,
       businessType: undefined,
-      status: undefined,
+      isStatus: -1,
       operParam: undefined
     },
     options: {
@@ -245,7 +258,10 @@
     { visible: false, prop: 'elapsed', label: proxy.$t('poperlog.elapsed') }
   ])
   const { form, queryParams, options } = toRefs(state)
-  var dictParams = [{ dictType: 'sys_oper_type' }, { dictType: 'sys_common_status' }]
+  var dictParams = [
+    { dictType: 'sys_oper_type' },
+    { dictType: 'sys_common_status' }
+  ]
   proxy.getDicts(dictParams).then((response) => {
     response.data.forEach((element) => {
       state.options[element.dictType] = element.list

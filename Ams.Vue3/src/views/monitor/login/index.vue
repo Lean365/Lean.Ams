@@ -57,9 +57,9 @@
       <!-- <el-table-column label="登录地点" align="center" prop="loginLocation"  /> -->
       <el-table-column :label="$t('ploginlog.browser')" align="center" prop="browser" />
       <el-table-column :label="$t('ploginlog.os')" align="center" prop="os" />
-      <el-table-column :label="$t('ploginlog.isStated')" align="center" prop="isStated">
+      <el-table-column :label="$t('ploginlog.isStated')" align="center" prop="isStatus">
         <template #default="{ row }">
-          <dict-tag :options="statusOptions" :value="row.isStated"></dict-tag>
+          <dict-tag :options="statusOptions" :value="row.isStatus"></dict-tag>
         </template>
       </el-table-column>
       <el-table-column :label="$t('ploginlog.msg')" align="center" prop="msg" />

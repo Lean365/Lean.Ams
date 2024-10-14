@@ -1,9 +1,9 @@
 <!--
  * @Descripttion: 技联/pp_ec_liaison
- * @Version: 0.24.622.18534
+ * @Version: 0.24.650.28846
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/9/13 10:18:56
- * @column：39
+ * @Date: 2024/10/11 16:21:09
+ * @column：40
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
@@ -19,25 +19,23 @@
               :shortcuts="dateOptions">
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="机种明细" prop="ma003">
-            <el-select filterable clearable multiple collapse-tags collapse-tags-tooltip v-model="queryParams.ma003"
-              :placeholder="$t('btn.selectSearchPrefix')+'机种明细'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sql_sap_model " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
+          <el-form-item label="设变No." prop="ma003">
+            <el-select-v2 filterable clearable v-model="queryParams.ma003"
+              :options="options.sql_ec_list.map(item =>({label: item.dictLabel, value: item.dictValue}))"
+              :placeholder="$t('btn.selectSearchPrefix')+'设变No.'+$t('btn.selectSearchSuffix')">
+            </el-select-v2>
           </el-form-item>
-          <el-form-item label="担当" prop="ma004">
-            <el-select filterable clearable v-model="queryParams.ma004"
+          <el-form-item label="机种明细" prop="ma004">
+            <el-select-v2 filterable clearable v-model="queryParams.ma004"
+              :options="options.sql_sap_model.map(item =>({label: item.dictLabel, value: item.dictValue}))"
+              :placeholder="$t('btn.selectSearchPrefix')+'机种明细'+$t('btn.selectSearchSuffix')">
+            </el-select-v2>
+          </el-form-item>
+          <el-form-item label="担当" prop="ma005">
+            <el-select-v2 filterable clearable v-model="queryParams.ma005"
+              :options="options.sql_ec_group.map(item =>({label: item.dictLabel, value: item.dictValue}))"
               :placeholder="$t('btn.selectSearchPrefix')+'担当'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sql_ec_group " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
+            </el-select-v2>
           </el-form-item>
         </el-col>
         <el-col :lg="24" :offset="12">
@@ -96,65 +94,43 @@
       @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
       <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')" />
-      <el-table-column prop="ma002" label="发行日" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('ma002')">
-        <template #default="scope"> {{ parseTime(scope.row.ma002, 'YYYY-MM-DD') }} </template>
-      </el-table-column>
-      <el-table-column prop="ma003" label="机种明细" align="center" v-if="columns.showColumn('ma003')"
-        show-overflow-tooltip>
+      <el-table-column prop="ma002" label="发行日" :show-overflow-tooltip="true" v-if="columns.showColumn('ma002')" />
+      <el-table-column prop="ma003" label="设变No." align="center" v-if="columns.showColumn('ma003')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_sap_model " :value="scope.row.ma003" split="," />
+          <dict-tag :options=" options.sql_ec_list " :value="scope.row.ma003" />
         </template>
       </el-table-column>
-      <el-table-column prop="ma004" label="担当" align="center" v-if="columns.showColumn('ma004')">
+      <el-table-column prop="ma004" label="机种明细" align="center" v-if="columns.showColumn('ma004')">
         <template #default="scope">
-          <dict-tag :options=" options.sql_ec_group " :value="scope.row.ma004" />
+          <dict-tag :options=" options.sql_sap_model " :value="scope.row.ma004" split="," />
         </template>
       </el-table-column>
-      <el-table-column prop="ma005" label="输入日" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('ma005')">
-        <template #default="scope"> {{ parseTime(scope.row.ma005, 'YYYY-MM-DD') }} </template>
-      </el-table-column>
-      <el-table-column prop="ma006" label="技联NO." align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('ma006')" />
-      <el-table-column prop="ma007" label="技联文件" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('ma007')">
+      <el-table-column prop="ma005" label="担当" align="center" v-if="columns.showColumn('ma005')">
         <template #default="scope">
-          <el-link type="primary" :href="scope.row.ma007" target="_blank">{{ scope.row.ma006 }}</el-link>
+          <dict-tag :options=" options.sql_ec_group " :value="scope.row.ma005" />
         </template>
       </el-table-column>
-      <el-table-column prop="ma008" label="P番NO." align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="ma006" label="输入日" :show-overflow-tooltip="true" v-if="columns.showColumn('ma006')" />
+      <el-table-column prop="ma007" label="技联NO." align="center" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('ma007')" />
+      <el-table-column prop="ma008" label="技联文件" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('ma008')" />
-      <el-table-column prop="ma009" label="P番文件" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('ma009')">
-        <template #default="scope">
-          <el-link type="primary" :href="scope.row.ma009" target="_blank">{{ scope.row.ma008 }}</el-link>
-        </template>
-      </el-table-column>
-      <el-table-column prop="ma010" label="TCJ P番NO." align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="ma009" label="P番NO." align="center" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('ma009')" />
+      <el-table-column prop="ma010" label="P番文件" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('ma010')" />
-      <el-table-column prop="ma011" label="TCJ P番文件" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('ma011')">
-        <template #default="scope">
-          <el-link type="primary" :href="scope.row.ma011" target="_blank">{{ scope.row.ma010 }}</el-link>
-        </template>
-      </el-table-column>
-      <el-table-column prop="ma012" label="外联NO." align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="ma011" label="TCJ P番NO." align="center" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('ma011')" />
+      <el-table-column prop="ma012" label="TCJ P番文件" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('ma012')" />
-      <el-table-column prop="ma013" label="外联文件" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('ma013')">
-        <template #default="scope">
-          <el-link type="primary" :href="scope.row.ma013" target="_blank">{{ scope.row.ma012 }}</el-link>
-        </template>
-      </el-table-column>
-      <el-table-column prop="ma014" label="其它NO." align="center" :show-overflow-tooltip="true"
+      <el-table-column prop="ma013" label="外联NO." align="center" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('ma013')" />
+      <el-table-column prop="ma014" label="外联文件" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('ma014')" />
-      <el-table-column prop="ma015" label="附件" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('ma015')">
-        <template #default="scope">
-          <el-link type="primary" :href="scope.row.ma015" target="_blank">{{ scope.row.ma014 }}</el-link>
-        </template>
-      </el-table-column>
+      <el-table-column prop="ma015" label="其它NO." align="center" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('ma015')" />
+      <el-table-column prop="ma016" label="附件" align="center" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('ma016')" />
       <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true"
         v-if="columns.showColumn('remark')" />
       <el-table-column :label="$t('btn.operation')" width="160" align="center">
@@ -185,104 +161,107 @@
                 </el-form-item>
               </el-col>
 
-              <el-col :lg="24">
-                <el-form-item label="机种明细" prop="ma003">
-                  <el-select filterable clearable multiple collapse-tags collapse-tags-tooltip :max-collapse-tags="4"
-                    style="width: 600px;" v-model="form.ma003Checked"
-                    :placeholder="$t('btn.selectPrefix')+'机种明细'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sql_sap_model" :key="item.dictValue" :label="item.dictLabel"
-                      :value="item.dictValue"></el-option>
-                  </el-select>
+              <el-col :lg="12">
+                <el-form-item label="设变No." prop="ma003">
+                  <el-select-v2 filterable clearable v-model="form.ma003"
+                    :placeholder="$t('btn.selectPrefix')+'设变No.'+$t('btn.selectSuffix')"
+                    :options="options.sql_ec_list.map(item =>({label: item.dictLabel, value: item.dictValue}))">
+                  </el-select-v2>
                 </el-form-item>
               </el-col>
 
-
               <el-col :lg="12">
-                <el-form-item label="担当" prop="ma004">
-                  <el-select filterable clearable v-model="form.ma004"
-                    :placeholder="$t('btn.selectPrefix')+'担当'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sql_ec_group" :key="item.dictValue" :label="item.dictLabel"
-                      :value="item.dictValue"></el-option>
-                  </el-select>
+                <el-form-item label="机种明细" prop="ma004">
+                  <el-select-v2 filterable clearable multiple collapse-tags collapse-tags-tooltip
+                    v-model="form.ma004Checked" :placeholder="$t('btn.selectPrefix')+'机种明细'+$t('btn.selectSuffix')"
+                    :options="options.sql_sap_model.map(item =>({label: item.dictLabel, value: item.dictValue}))">
+                  </el-select-v2>
                 </el-form-item>
               </el-col>
 
+              <el-col :lg="12">
+                <el-form-item label="担当" prop="ma005">
+                  <el-select-v2 filterable clearable v-model="form.ma005"
+                    :placeholder="$t('btn.selectPrefix')+'担当'+$t('btn.selectSuffix')"
+                    :options="options.sql_ec_group.map(item =>({label: item.dictLabel, value: item.dictValue}))">
+                  </el-select-v2>
+                </el-form-item>
+              </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="输入日" prop="ma005">
-                  <el-date-picker v-model="form.ma005" type="datetime" :teleported="false"
+                <el-form-item label="输入日" prop="ma006">
+                  <el-date-picker v-model="form.ma006" type="datetime" :teleported="false"
                     :placeholder="$t('btn.dateselect')"></el-date-picker>
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="技联NO." prop="ma006">
-                  <el-input v-model="form.ma006" :placeholder="$t('btn.enterPrefix')+'技联NO.'+$t('btn.enterSuffix')"
+                <el-form-item label="技联NO." prop="ma007">
+                  <el-input v-model="form.ma007" :placeholder="$t('btn.enterPrefix')+'技联NO.'+$t('btn.enterSuffix')"
                     show-word-limit maxlength="10" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="技联文件" prop="ma007">
-                  <UploadFile v-model="form.ma007" fileSize="20" :fileType="['pdf']" limit="1"
-                    :data=" {fileNameType:1, fileDir: 'logistics/liaison' ,uploadType: 1}" />
-                  <!-- <UploadFile v-model="form.ma007" :data="{ uploadType: 1 }" /> -->
+                <el-form-item label="技联文件" prop="ma008">
+                  <UploadFile v-model="form.ma008" fileSize="20" :fileType="['pdf']" limit="1"
+                    :data=" {fileNameType:1, fileDir: 'logistics/ppecliaison' ,uploadType: 1}" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="P番NO." prop="ma008">
-                  <el-input v-model="form.ma008" :placeholder="$t('btn.enterPrefix')+'P番NO.'+$t('btn.enterSuffix')"
+                <el-form-item label="P番NO." prop="ma009">
+                  <el-input v-model="form.ma009" :placeholder="$t('btn.enterPrefix')+'P番NO.'+$t('btn.enterSuffix')"
                     show-word-limit maxlength="10" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="P番文件" prop="ma009">
-                  <UploadFile v-model="form.ma009" fileSize="20" :fileType="['pdf']" limit="1"
-                    :data=" {fileNameType:1, fileDir: 'logistics/liaison' ,uploadType: 1}" />
+                <el-form-item label="P番文件" prop="ma010">
+                  <UploadFile v-model="form.ma010" fileSize="20" :fileType="['pdf']" limit="1"
+                    :data=" {fileNameType:1, fileDir: 'logistics/ppecliaison' ,uploadType: 1}" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="TCJ P番NO." prop="ma010">
-                  <el-input v-model="form.ma010" :placeholder="$t('btn.enterPrefix')+'TCJ P番NO.'+$t('btn.enterSuffix')"
+                <el-form-item label="TCJ P番NO." prop="ma011">
+                  <el-input v-model="form.ma011" :placeholder="$t('btn.enterPrefix')+'TCJ P番NO.'+$t('btn.enterSuffix')"
                     show-word-limit maxlength="10" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="TCJ P番文件" prop="ma011">
-                  <UploadFile v-model="form.ma011" fileSize="20" :fileType="['pdf']" limit="1"
-                    :data=" {fileNameType:1, fileDir: 'logistics/liaison' ,uploadType: 1}" />
+                <el-form-item label="TCJ P番文件" prop="ma012">
+                  <UploadFile v-model="form.ma012" fileSize="20" :fileType="['pdf']" limit="1"
+                    :data=" {fileNameType:1, fileDir: 'logistics/ppecliaison' ,uploadType: 1}" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="外联NO." prop="ma012">
-                  <el-input v-model="form.ma012" :placeholder="$t('btn.enterPrefix')+'外联NO.'+$t('btn.enterSuffix')"
+                <el-form-item label="外联NO." prop="ma013">
+                  <el-input v-model="form.ma013" :placeholder="$t('btn.enterPrefix')+'外联NO.'+$t('btn.enterSuffix')"
                     show-word-limit maxlength="10" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="外联文件" prop="ma013">
-                  <UploadFile v-model="form.ma013" fileSize="20" :fileType="['pdf']" limit="1"
-                    :data=" {fileNameType:1, fileDir: 'logistics/liaison' ,uploadType: 1}" />
+                <el-form-item label="外联文件" prop="ma014">
+                  <UploadFile v-model="form.ma014" fileSize="20" :fileType="['pdf']" limit="1"
+                    :data=" {fileNameType:1, fileDir: 'logistics/ppecliaison' ,uploadType: 1}" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="其它NO." prop="ma014">
-                  <el-input v-model="form.ma014" :placeholder="$t('btn.enterPrefix')+'其它NO.'+$t('btn.enterSuffix')"
+                <el-form-item label="其它NO." prop="ma015">
+                  <el-input v-model="form.ma015" :placeholder="$t('btn.enterPrefix')+'其它NO.'+$t('btn.enterSuffix')"
                     show-word-limit maxlength="10" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="附件" prop="ma015">
-                  <UploadFile v-model="form.ma015" fileSize="20" :fileType="['pdf']" limit="1"
-                    :data=" {fileNameType:1, fileDir: 'logistics/liaison' ,uploadType: 1}" />
+                <el-form-item label="附件" prop="ma016">
+                  <UploadFile v-model="form.ma016" fileSize="20" :fileType="['pdf']" limit="1"
+                    :data=" {fileNameType:1, fileDir: 'logistics/ppecliaison' ,uploadType: 1}" />
                 </el-form-item>
               </el-col>
 
@@ -410,24 +389,27 @@
     ma003: undefined,
     //是否查询（1是）
     ma004: undefined,
+    //是否查询（1是）
+    ma005: undefined,
   })
   //字段显示控制
   const columns = ref([
-    { visible: false, prop: 'id', label: 'ID' },
+    { visible: true, prop: 'id', label: 'ID' },
     { visible: true, prop: 'ma002', label: '发行日' },
-    { visible: true, prop: 'ma003', label: '机种明细' },
-    { visible: true, prop: 'ma004', label: '担当' },
-    { visible: true, prop: 'ma005', label: '输入日' },
-    { visible: false, prop: 'ma006', label: '技联NO.' },
-    { visible: true, prop: 'ma007', label: '技联文件' },
-    { visible: false, prop: 'ma008', label: 'P番NO.' },
-    { visible: true, prop: 'ma009', label: 'P番文件' },
-    { visible: false, prop: 'ma010', label: 'TCJ P番NO.' },
-    { visible: true, prop: 'ma011', label: 'TCJ P番文件' },
-    { visible: false, prop: 'ma012', label: '外联NO.' },
-    { visible: true, prop: 'ma013', label: '外联文件' },
-    { visible: false, prop: 'ma014', label: '其它NO.' },
-    { visible: true, prop: 'ma015', label: '附件' },
+    { visible: true, prop: 'ma003', label: '设变No.' },
+    { visible: true, prop: 'ma004', label: '机种明细' },
+    { visible: true, prop: 'ma005', label: '担当' },
+    { visible: true, prop: 'ma006', label: '输入日' },
+    { visible: true, prop: 'ma007', label: '技联NO.' },
+    { visible: true, prop: 'ma008', label: '技联文件' },
+    { visible: false, prop: 'ma009', label: 'P番NO.' },
+    { visible: false, prop: 'ma010', label: 'P番文件' },
+    { visible: false, prop: 'ma011', label: 'TCJ P番NO.' },
+    { visible: false, prop: 'ma012', label: 'TCJ P番文件' },
+    { visible: false, prop: 'ma013', label: '外联NO.' },
+    { visible: false, prop: 'ma014', label: '外联文件' },
+    { visible: false, prop: 'ma015', label: '其它NO.' },
+    { visible: false, prop: 'ma016', label: '附件' },
     { visible: false, prop: 'remark', label: '备注' },
   ])
   // 记录数
@@ -443,6 +425,7 @@
 
   //字典参数
   var dictParams = [
+    { dictType: "sql_ec_list" },
     { dictType: "sql_sap_model" },
     { dictType: "sql_ec_group" },
   ]
@@ -520,9 +503,13 @@
     //正则表达式
     rules: {
       ma002: [{ required: true, message: "发行日" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      ma005: [{ required: true, message: "担当" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      ma006: [{ required: true, message: "输入日" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
     },
     //字典名称
     options: {
+      // 设变No. 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sql_ec_list: [],
       // 机种明细 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sql_sap_model: [],
       // 担当 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
@@ -544,7 +531,7 @@
       ma002: null,
       ma003: [],
       ma004: [],
-      ma005: null,
+      ma005: [],
       ma006: null,
       ma007: null,
       ma008: null,
@@ -555,6 +542,7 @@
       ma013: null,
       ma014: null,
       ma015: null,
+      ma016: null,
       remark: null,
     };
     proxy.resetForm("formRef")
@@ -570,7 +558,8 @@
     form.value.ma002 = new Date()
     form.value.ma003 = []
     form.value.ma004 = []
-    form.value.ma005 = new Date()
+    form.value.ma005 = []
+    form.value.ma006 = new Date()
   }
   // 修改按钮操作
   function handleUpdate(row) {
@@ -585,7 +574,7 @@
 
         form.value = {
           ...data,
-          ma003Checked: data.ma003 ? data.ma003.split(',') : [],
+          ma004Checked: data.ma004 ? data.ma004.split(',') : [],
         }
       }
     })
@@ -595,7 +584,7 @@
   function submitForm() {
     proxy.$refs["formRef"].validate((valid) => {
       if (valid) {
-        form.value.ma003 = form.value.ma003Checked.toString();
+        form.value.ma004 = form.value.ma004Checked.toString();
 
         if (form.value.id != undefined && opertype.value === 2) {
           updatePpEcLiaison(form.value).then((res) => {

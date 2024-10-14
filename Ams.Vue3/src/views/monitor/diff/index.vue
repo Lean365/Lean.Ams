@@ -175,7 +175,7 @@
   const showSearch = ref(true)
   const queryParams = reactive({
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 17,
     sort: 'PId',
     sortType: 'desc',
     tableName: undefined,
@@ -184,7 +184,7 @@
     createTime: undefined
   })
   const columns = ref([
-    { visible: true, prop: 'pId', label: 'ID' },
+    { visible: false, prop: 'pId', label: 'ID' },
     { visible: true, prop: 'tableName', label: proxy.$t('psqldiff.tableName') },
     { visible: true, prop: 'businessData', label: proxy.$t('psqldiff.businessData') },
     { visible: true, prop: 'diffType', label: proxy.$t('psqldiff.diffType') },

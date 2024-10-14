@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 资产预算
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 15:46:44
+    /// @Date: 2024/10/14 9:17:19
     /// </summary>
     [Verify]
     [Route("Accounting/FicoBudgetAssets")]
@@ -41,18 +41,6 @@ namespace Ams.WebApi.Controllers.Accounting
             return SUCCESS(response);
         }
 
-        /// <summary>
-        /// 查询资产预算列表树
-        /// </summary>
-        /// <param name="parm"></param>
-        /// <returns></returns>
-        [HttpGet("treeList")]
-        [ActionPermissionFilter(Permission = "fico:budgetassets:list")]
-        public IActionResult QueryTreeFicoBudgetAssets([FromQuery] FicoBudgetAssetsQueryDto parm)
-        {
-            var response = _FicoBudgetAssetsService.GetTreeList(parm);
-            return SUCCESS(response);
-        }
 
         /// <summary>
         /// 查询资产预算详情

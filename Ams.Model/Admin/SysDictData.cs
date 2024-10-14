@@ -40,6 +40,18 @@
         public string DictType { get; set; }
 
         /// <summary>
+        /// 标签扩展
+        /// </summary>
+        [SugarColumn(Length = 100)]
+        public string ExtLabel { get; set; }
+
+        /// <summary>
+        /// 键值扩展
+        /// </summary>
+        [SugarColumn(Length = 100)]
+        public string ExtValue { get; set; }
+
+        /// <summary>
         /// 样式属性（其他样式扩展）
         /// </summary>
         [SugarColumn(Length = 100)]
@@ -68,17 +80,5 @@
         /// </summary>
         [SugarColumn(Length = 100)]
         public string LangKey { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 标签扩展
-        /// </summary>
-        [SugarColumn(Length = 100)]
-        public string ExtLabel { get; set; }
-
-        /// <summary>
-        /// 键值扩展
-        /// </summary>
-        [SugarColumn(Length = 100)]
-        public string ExtValue { get; set; }
     }
 }

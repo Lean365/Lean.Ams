@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Model.Accounting.Dto;
 using Ams.Service.Accounting.IAccountingService;
-using MiniExcelLibs;
-
 
 namespace Ams.WebApi.Controllers.Accounting
 {
@@ -41,7 +38,6 @@ namespace Ams.WebApi.Controllers.Accounting
             return SUCCESS(response);
         }
 
-
         /// <summary>
         /// 查询公司科目详情
         /// </summary>
@@ -52,7 +48,7 @@ namespace Ams.WebApi.Controllers.Accounting
         public IActionResult GetFicoAccountingCorp(long Id)
         {
             var response = _FicoAccountingCorpService.GetInfo(Id);
-            
+
             var info = response.Adapt<FicoAccountingCorpDto>();
             return SUCCESS(info);
         }
@@ -66,7 +62,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [Log(Title = "公司科目", BusinessType = BusinessType.ADD)]
         public IActionResult AddFicoAccountingCorp([FromBody] FicoAccountingCorpDto parm)
         {
-           // 校验输入项目唯一性
+            // 校验输入项目唯一性
 
             if (UserConstants.NOT_UNIQUE.Equals(_FicoAccountingCorpService.CheckInputUnique(parm.Id.ToString())))
             {
@@ -101,7 +97,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "fico:accountingcorp:delete")]
         [Log(Title = "公司科目", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteFicoAccountingCorp([FromRoute]string ids)
+        public IActionResult DeleteFicoAccountingCorp([FromRoute] string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -133,7 +129,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-      [HttpPost("importData")]
+        [HttpPost("importData")]
         [Log(Title = "公司科目导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "fico:accountingcorp:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
@@ -160,6 +156,5 @@ namespace Ams.WebApi.Controllers.Accounting
             var result = DownloadImportTemplate(new List<FicoAccountingCorpImportTpl>() { }, "FicoAccountingCorp_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
-
     }
 }

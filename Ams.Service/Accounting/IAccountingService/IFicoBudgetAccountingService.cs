@@ -1,5 +1,6 @@
-using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Model.Accounting.Dto;
+using Ams.Model.Vo;
 
 namespace Ams.Service.Accounting.IAccountingService
 {
@@ -7,7 +8,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 预算科目
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/5 16:59:02
+    /// @Date: 2024/10/12 16:36:02
     /// </summary>
     public interface IFicoBudgetAccountingService : IBaseService<FicoBudgetAccounting>
     {
@@ -24,6 +25,7 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <param name="Id"></param>
         /// <returns></returns>
         FicoBudgetAccounting GetInfo(long Id);
+
         /// <summary>
         /// 校验
         /// 输入项目唯一性
@@ -31,12 +33,28 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <param name="enterString"></param>
         /// <returns></returns>
         public string CheckInputUnique(string enterString);
+
         /// <summary>
         /// 获取预算科目树信息
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         List<FicoBudgetAccounting> GetTreeList(FicoBudgetAccountingQueryDto parm);
+
+        /// <summary>
+        /// 获取预算科目列表
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        List<FicoBudgetAccounting> GetBudgetAccountings(FicoBudgetAccountingQueryDto parm);
+
+        /// <summary>
+        /// 构建预算科目树
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        List<TreeSelectVo> BuildBudgetAccountingTreeSelect(List<FicoBudgetAccounting> parm);
+
         /// <summary>
         /// 新增
         /// 预算科目
@@ -52,7 +70,6 @@ namespace Ams.Service.Accounting.IAccountingService
         /// <param name="parm"></param>
         /// <returns></returns>
         int UpdateFicoBudgetAccounting(FicoBudgetAccounting parm);
-
 
         /// <summary>
         /// 批量导入

@@ -54,22 +54,29 @@
       <!-- <el-col :span="1.5">
         <el-button type="danger" plain icon="refresh" @click="handleRefreshCache" v-hasPermi="['system:config:remove']">刷新缓存</el-button>
       </el-col> -->
-      <right-toolbar :showSearch="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="configList" @selection-change="handleSelectionChange">
+    <el-table border height="600px" v-loading="loading" :data="configList" ref="table"
+      header-cell-class-name="el-table-header-cell" highlight-current-row @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="configId" />
-      <el-table-column :label="$t('pconfig.configName')" align="center" prop="configName" />
-      <el-table-column :label="$t('pconfig.configKey')" align="center" prop="configKey" />
-      <el-table-column :label="$t('pconfig.configValue')" align="center" prop="configValue" />
-      <el-table-column :label="$t('pconfig.configType')" align="center" prop="configType">
+      <el-table-column label="ID" align="center" prop="configId" v-if="columns.showColumn('configId')" />
+      <el-table-column :label="$t('pconfig.configName')" align="center" prop="configName"
+        v-if="columns.showColumn('configName')" />
+      <el-table-column :label="$t('pconfig.configKey')" align="center" prop="configKey"
+        v-if="columns.showColumn('configKey')" />
+      <el-table-column :label="$t('pconfig.configValue')" align="center" prop="configValue"
+        v-if="columns.showColumn('configValue')" />
+      <el-table-column :label="$t('pconfig.configType')" align="center" prop="configType"
+        v-if="columns.showColumn('configType')">
         <template #default="scope">
           <dict-tag :options="sysYesNoOptions" :value="scope.row.configType" />
         </template>
       </el-table-column>
-      <el-table-column :label="$t('common.tipRemarks')" align="center" prop="remark" :show-overflow-tooltip="true" />
-      <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime" width="180">
+      <el-table-column :label="$t('common.tipRemarks')" align="center" prop="remark" :show-overflow-tooltip="true"
+        v-if="columns.showColumn('remark')" />
+      <el-table-column :label="$t('common.tipCreateTime')" align="center" prop="createTime" width="180"
+        v-if="columns.showColumn('createTime')">
         <template #default="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
@@ -163,6 +170,16 @@
     configKey: undefined,
     configType: undefined
   })
+  //字段显示控制
+  const columns = ref([
+    { visible: false, prop: 'configId', label: '主键' },
+    { visible: true, prop: 'configName', label: proxy.$t('pconfig.configName') },
+    { visible: true, prop: 'configKey', label: proxy.$t('pconfig.configKey') },
+    { visible: true, prop: 'configType', label: proxy.$t('pconfig.configType') },
+    { visible: true, prop: 'configValue', label: proxy.$t('pconfig.configValue') },
+    { visible: false, prop: 'remark', label: '备注' },
+    { visible: false, prop: 'createTime', label: proxy.$t('common.tipCreateTime') },
+  ])
   const state = reactive({
     form: {},
     rules: {

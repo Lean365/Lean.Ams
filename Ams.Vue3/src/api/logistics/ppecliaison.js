@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import QS from 'qs'
 import { downFile } from '@/utils/request'
 
 /**
@@ -11,9 +10,6 @@ export function listPpEcLiaison(query) {
     url: 'Logistics/PpEcLiaison/list',
     method: 'get',
     params: query,
-    paramsSerializer: function (params) {
-      return QS.stringify(params, { indices: false })
-    }
   })
 }
 

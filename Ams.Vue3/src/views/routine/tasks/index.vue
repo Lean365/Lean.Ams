@@ -260,7 +260,9 @@
           <el-col :lg="24" v-if="form.taskType == 3">
             <el-form-item :label="$t('ptask.SQLScript')" prop="sqlText">
               <el-input :rows="5" type="textarea" v-model="form.sqlText"
-                :placeholder="$t('btn.enter')+$t('ptask.SQLScript')"> </el-input>
+                :placeholder="$t('btn.enterPrefix')+$t('ptask.SQLScript')+$t('btn.enterSuffix')" show-word-limit
+                maxlength="4000">
+              </el-input>
             </el-form-item>
           </el-col>
           <template v-if="form.taskType == 1">

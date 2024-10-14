@@ -232,7 +232,7 @@ $end
 $foreach(column in genTable.Columns)
 $if(column.IsQuery)
             //查询字段: <${column.ColumnComment}> 
-$if(column.HtmlType == "selectMulti")
+$if(column.HtmlType == "selectMulti" || column.HtmlType == "selectVirtualMulti")
             predicate = predicate.AndIF(parm.${column.CsharpField} != null, it => it.${column.CsharpField}.Contains(parm.${column.CsharpField}.ToString()));
 $elseif(column.CsharpType == "string")
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.${column.CsharpField}), ${tool.QueryExp(column.CsharpField, column.QueryType)};

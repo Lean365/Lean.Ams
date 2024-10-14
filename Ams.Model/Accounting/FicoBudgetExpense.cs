@@ -4,7 +4,7 @@ namespace Ams.Model.Accounting
     /// 费用预算
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:57:41
+    /// @Date: 2024/10/14 13:28:21
     /// </summary>
     [SugarTable("fico_budget_expense", "费用预算")]
     public class FicoBudgetExpense : SysBase
@@ -19,7 +19,7 @@ namespace Ams.Model.Accounting
         /// <summary>
         /// 父ID
         /// </summary>
-        public long? ParentId { get; set; }
+        public long ParentId { get; set; }
 
         /// <summary>
         /// 部门ID

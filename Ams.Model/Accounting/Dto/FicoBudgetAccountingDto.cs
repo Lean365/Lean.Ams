@@ -5,7 +5,7 @@ namespace Ams.Model.Accounting.Dto
     /// 预算科目
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/5 16:59:02
+    /// @Date: 2024/10/12 16:36:02
     /// </summary>
     public class FicoBudgetAccountingQueryDto : PagerInfo 
     {
@@ -29,27 +29,30 @@ namespace Ams.Model.Accounting.Dto
         /// 名称 
         /// </summary>        
         public string Md009 { get; set; }
+        /// <summary>
+        /// 冻结 
+        /// </summary>        
+        public int? Md014 { get; set; }
     }
 
     /// <summary>
     /// 预算科目
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/5 16:59:02
+    /// @Date: 2024/10/12 16:36:02
     /// </summary>
     public class FicoBudgetAccountingDto
     {
-        [Required(ErrorMessage = "ID不能为空")]
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
+        [JsonConverter(typeof(ValueToStringConverter))]
 
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
-        [Required(ErrorMessage = "父ID不能为空")]
         //[ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
 
-        public long ParentId { get; set; }
+        public long? ParentId { get; set; }
 
         [Required(ErrorMessage = "集团不能为空")]
         //[ExcelColumn(Name = "集团")]
@@ -120,83 +123,83 @@ namespace Ams.Model.Accounting.Dto
 
         [ExcelIgnore]
 
-        public string REF01 { get; set; }
+        public string Remark { get; set; }
 
         [ExcelIgnore]
 
-        public string REF02 { get; set; }
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
 
-        public string REF03 { get; set; }
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
 
-        public decimal REF04 { get; set; }
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
 
-        public decimal REF05 { get; set; }
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
 
-        public decimal REF06 { get; set; }
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
 
-        public string UDF01 { get; set; }
+        public decimal Ref06 { get; set; }
 
         [ExcelIgnore]
 
-        public string UDF02 { get; set; }
+        public string Udf01 { get; set; }
 
         [ExcelIgnore]
 
-        public string UDF03 { get; set; }
+        public string Udf02 { get; set; }
 
         [ExcelIgnore]
 
-        public string UDF04 { get; set; }
+        public string Udf03 { get; set; }
 
         [ExcelIgnore]
 
-        public string UDF05 { get; set; }
+        public string Udf04 { get; set; }
 
         [ExcelIgnore]
 
-        public string UDF06 { get; set; }
+        public string Udf05 { get; set; }
 
         [ExcelIgnore]
 
-        public int? UDF51 { get; set; }
+        public string Udf06 { get; set; }
 
         [ExcelIgnore]
 
-        public int? UDF52 { get; set; }
+        public int? Udf51 { get; set; }
 
         [ExcelIgnore]
 
-        public int? UDF53 { get; set; }
+        public int? Udf52 { get; set; }
 
         [ExcelIgnore]
 
-        public decimal UDF54 { get; set; }
+        public int? Udf53 { get; set; }
 
         [ExcelIgnore]
 
-        public decimal UDF55 { get; set; }
+        public decimal Udf54 { get; set; }
 
         [ExcelIgnore]
 
-        public decimal UDF56 { get; set; }
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+
+        public decimal Udf56 { get; set; }
 
         [ExcelIgnore]
 
         public int? IsDeleted { get; set; }
-
-        [ExcelIgnore]
-
-        public string Remark { get; set; }
 
         [ExcelIgnore]
 
@@ -220,29 +223,32 @@ namespace Ams.Model.Accounting.Dto
         public string Md004Label { get; set; }
         [ExcelColumn(Name = "币种")]
         public string Md007Label { get; set; }
+        [ExcelColumn(Name = "会计科目")]
+        public string Md008Label { get; set; }
+        [ExcelColumn(Name = "费用类型")]
+        public string Md012Label { get; set; }
+        [ExcelColumn(Name = "统驭科目")]
+        public string Md013Label { get; set; }
         [ExcelColumn(Name = "冻结")]
         public string Md014Label { get; set; }
-        //[ExcelColumn(Name = "软删除")]
-        //public string IsDeletedLabel { get; set; }
     }
 
     /// <summary>
     /// 预算科目
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/5 16:59:02
+    /// @Date: 2024/10/12 16:36:02
     /// </summary>
     public class FicoBudgetAccountingImportTpl
     {
-        [Required(ErrorMessage = "ID不能为空")]
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
-        public long Id { get; set; }
+        [JsonConverter(typeof(ValueToStringConverter))]
+        public long? Id { get; set; }
 
-        [Required(ErrorMessage = "父ID不能为空")]
         //[ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
-        public long ParentId { get; set; }
+        public long? ParentId { get; set; }
 
         [Required(ErrorMessage = "集团不能为空")]
         //[ExcelColumn(Name = "集团")]
@@ -300,64 +306,64 @@ namespace Ams.Model.Accounting.Dto
         public int Md014 { get; set; }
 
         [ExcelIgnore]
-        public string REF01 { get; set; }
+        public string Remark { get; set; }
 
         [ExcelIgnore]
-        public string REF02 { get; set; }
+        public string Ref01 { get; set; }
 
         [ExcelIgnore]
-        public string REF03 { get; set; }
+        public string Ref02 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF04 { get; set; }
+        public string Ref03 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF05 { get; set; }
+        public decimal Ref04 { get; set; }
 
         [ExcelIgnore]
-        public decimal REF06 { get; set; }
+        public decimal Ref05 { get; set; }
 
         [ExcelIgnore]
-        public string UDF01 { get; set; }
+        public decimal Ref06 { get; set; }
 
         [ExcelIgnore]
-        public string UDF02 { get; set; }
+        public string Udf01 { get; set; }
 
         [ExcelIgnore]
-        public string UDF03 { get; set; }
+        public string Udf02 { get; set; }
 
         [ExcelIgnore]
-        public string UDF04 { get; set; }
+        public string Udf03 { get; set; }
 
         [ExcelIgnore]
-        public string UDF05 { get; set; }
+        public string Udf04 { get; set; }
 
         [ExcelIgnore]
-        public string UDF06 { get; set; }
+        public string Udf05 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF51 { get; set; }
+        public string Udf06 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF52 { get; set; }
+        public int? Udf51 { get; set; }
 
         [ExcelIgnore]
-        public int? UDF53 { get; set; }
+        public int? Udf52 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF54 { get; set; }
+        public int? Udf53 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF55 { get; set; }
+        public decimal Udf54 { get; set; }
 
         [ExcelIgnore]
-        public decimal UDF56 { get; set; }
+        public decimal Udf55 { get; set; }
+
+        [ExcelIgnore]
+        public decimal Udf56 { get; set; }
 
         [ExcelIgnore]
         public int? IsDeleted { get; set; }
-
-        [ExcelIgnore]
-        public string Remark { get; set; }
 
         [ExcelIgnore]
         public string CreateBy { get; set; }
@@ -379,6 +385,15 @@ namespace Ams.Model.Accounting.Dto
         [ExcelIgnore]
         [ExcelColumn(Name = "币种")]
         public string Md007Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "会计科目")]
+        public string Md008Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "费用类型")]
+        public string Md012Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "统驭科目")]
+        public string Md013Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "冻结")]
         public string Md014Label { get; set; }

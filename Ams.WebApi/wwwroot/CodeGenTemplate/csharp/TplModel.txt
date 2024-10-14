@@ -43,7 +43,7 @@ $end
 ${end}
 $if(genTable.TplCategory == "tree")
         [SugarColumn(IsIgnore = true)]
-        public List<${replaceDto.ModelTypeName}> Children { get; set; }
+        public List<${replaceDto.ModelTypeName}> Children { get; set; }= new();
 $end
 $if((genTable.TplCategory == "subNav" || genTable.TplCategory == "sub") && genTable.SubTable != null)
         [Navigate(NavigateType.OneToOne, nameof(${replaceDto.PKName}))] //自定义关系映射

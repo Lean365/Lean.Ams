@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 加班预算
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:57:03
+    /// @Date: 2024/10/14 12:09:13
     /// </summary>
     public interface IFicoBudgetOvertimeService : IBaseService<FicoBudgetOvertime>
     {

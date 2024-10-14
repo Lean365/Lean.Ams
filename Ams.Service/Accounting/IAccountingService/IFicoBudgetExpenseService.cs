@@ -7,7 +7,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 费用预算
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:57:41
+    /// @Date: 2024/10/14 13:28:21
     /// </summary>
     public interface IFicoBudgetExpenseService : IBaseService<FicoBudgetExpense>
     {

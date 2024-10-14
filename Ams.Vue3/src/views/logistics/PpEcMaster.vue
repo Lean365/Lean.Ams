@@ -13,6 +13,12 @@
       label-width="auto">
       <el-row :gutter="10" class="mb8">
         <el-col :lg="24">
+          <el-form-item label="发行人" prop="mb001">
+            <el-select-v2 v-model="queryParams.mb001" filterable clearable multiple
+              :options="options.sql_mats_list.map(item => ({label: item.dictLabel, value: item.dictValue}))"
+              placeholder="Please select" style="width: 240px">
+            </el-select-v2>
+          </el-form-item>
           <el-form-item label="发行日期">
             <el-date-picker v-model="dateRangeMb002" type="datetimerange" :start-placeholder="$t('btn.dateStart')"
               :end-placeholder="$t('btn.dateEnd')" value-format="YYYY-MM-DD HH:mm:ss" :default-time="defaultTime"
@@ -34,11 +40,11 @@
           <el-form-item label="担当" prop="mb008">
             <el-select filterable clearable v-model="queryParams.mb008"
               :placeholder="$t('btn.selectSearchPrefix')+'担当'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sql_ec_group " :key="item.dictValue" :label="item.dictLabel"
+              <!-- <el-option v-for="item in   options.sql_ec_group " :key="item.dictValue" :label="item.dictLabel"
                 :value="item.dictValue">
                 <span class="fl">{{ item.dictLabel }}</span>
                 <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
+              </el-option> -->
             </el-select>
           </el-form-item>
           <el-form-item label="管理区分" prop="mb013">
@@ -441,7 +447,7 @@
           <el-tab-pane :label="$t('ptabs.subMore')" name="17th">
             <el-row :gutter="20">
               <!-- 子表信息 -->
-              <el-divider content-position="center">设变明细</el-divider>
+              <!-- <el-divider content-position="center">设变明细</el-divider>
               <el-row :gutter="10" class="mb8">
                 <el-col :span="1.5">
                   <el-button class="btn-add" icon="Plus" @click="handleAddPpEcSlave">{{ $t('btn.add') }}</el-button>
@@ -455,7 +461,7 @@
                     $t('layout.headerExitfullscreen')
                     : $t('layout.headerFullscreen') }}</el-button>
                 </el-col>
-              </el-row>
+              </el-row> -->
               <el-table :data="myPagedData" :row-class-name="rowPpEcSlaveIndex"
                 @selection-change="handlePpEcSlaveSelectionChange" ref="PpEcSlaveRef">
                 <el-table-column type="selection" width="40" align="center" />
@@ -709,6 +715,7 @@
     { dictType: "sql_ec_group" },
     { dictType: "sys_ec_mgtype" },
     { dictType: "sql_dept_list" },
+    { dictType: "sql_mats_list" },
   ]
 
   //字典加载
@@ -802,6 +809,8 @@
       sys_ec_mgtype: [],
       // 输入部门 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sql_dept_list: [],
+
+      sql_mats_list: [],
     }
   })
   //将响应式对象转换成普通对象

@@ -15,6 +15,10 @@
   flex-direction: column;
 
   .login {
+    //display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中，可选 */
+    position: absolute;
     margin: 0 auto;
     background: #ffffff;
     border-radius: 6px;

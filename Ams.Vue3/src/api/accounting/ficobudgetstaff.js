@@ -14,17 +14,6 @@ export function listFicoBudgetStaff(query) {
 }
 
 /**
- * 人员预算tree查询
- * @param {查询条件} data
- */
-export function treelistFicoBudgetStaff(query) {
-  return request({
-    url: 'Accounting/FicoBudgetStaff/treelist',
-    method: 'get',
-    params: query,
-  })
-}
-/**
  * 新增人员预算
  * @param data
  */

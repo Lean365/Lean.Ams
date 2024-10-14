@@ -198,6 +198,16 @@
         public static string HTML_SELECT_VIRTUAL = "selectVirtual";
 
         /// <summary>
+        /// 多选虚拟化下拉框
+        /// </summary>
+        public static string HTML_SELECT_VIRTUAL_MULTI = "selectVirtualMulti";
+
+        /// <summary>
+        /// 远程虚拟化下拉框
+        /// </summary>
+        public static string HTML_SELECT_VIRTUAL_REMOTE = "selectVirtualRemote";
+
+        /// <summary>
         /// 单选框
         /// </summary>
         public static string HTML_RADIO = "radio";

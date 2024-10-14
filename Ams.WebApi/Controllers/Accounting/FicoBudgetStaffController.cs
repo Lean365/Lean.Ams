@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 人员预算
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:56:20
+    /// @Date: 2024/10/14 13:41:08
     /// </summary>
     [Verify]
     [Route("Accounting/FicoBudgetStaff")]
@@ -41,18 +41,6 @@ namespace Ams.WebApi.Controllers.Accounting
             return SUCCESS(response);
         }
 
-        /// <summary>
-        /// 查询人员预算列表树
-        /// </summary>
-        /// <param name="parm"></param>
-        /// <returns></returns>
-        [HttpGet("treeList")]
-        [ActionPermissionFilter(Permission = "fico:budgetstaff:list")]
-        public IActionResult QueryTreeFicoBudgetStaff([FromQuery] FicoBudgetStaffQueryDto parm)
-        {
-            var response = _FicoBudgetStaffService.GetTreeList(parm);
-            return SUCCESS(response);
-        }
 
         /// <summary>
         /// 查询人员预算详情

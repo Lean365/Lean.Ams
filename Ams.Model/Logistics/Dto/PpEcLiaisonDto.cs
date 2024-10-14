@@ -5,7 +5,7 @@ namespace Ams.Model.Logistics.Dto
     /// 技联
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/13 10:18:56
+    /// @Date: 2024/10/11 16:21:09
     /// </summary>
     public class PpEcLiaisonQueryDto : PagerInfo 
     {
@@ -15,20 +15,24 @@ namespace Ams.Model.Logistics.Dto
         public DateTime? BeginMa002 { get; set; }
         public DateTime? EndMa002 { get; set; }
         /// <summary>
+        /// 设变No. 
+        /// </summary>        
+        public string Ma003 { get; set; }
+        /// <summary>
         /// 机种明细 
         /// </summary>        
-        public string[] Ma003 { get; set; }
+        public string Ma004 { get; set; }
         /// <summary>
         /// 担当 
         /// </summary>        
-        public string Ma004 { get; set; }
+        public string Ma005 { get; set; }
     }
 
     /// <summary>
     /// 技联
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/13 10:18:56
+    /// @Date: 2024/10/11 16:21:09
     /// </summary>
     public class PpEcLiaisonDto
     {
@@ -44,70 +48,77 @@ namespace Ams.Model.Logistics.Dto
 
         public DateTime? Ma002 { get; set; }
 
-        //[ExcelColumn(Name = "机种明细")]
-        [ExcelColumnName("机种明细")]
+        //[ExcelColumn(Name = "设变No.")]
+        [ExcelColumnName("设变No.")]
 
         public string Ma003 { get; set; }
 
-        //[ExcelColumn(Name = "担当")]
-        [ExcelColumnName("担当")]
+        //[ExcelColumn(Name = "机种明细")]
+        [ExcelColumnName("机种明细")]
 
         public string Ma004 { get; set; }
 
+        [Required(ErrorMessage = "担当不能为空")]
+        //[ExcelColumn(Name = "担当")]
+        [ExcelColumnName("担当")]
+
+        public string Ma005 { get; set; }
+
+        [Required(ErrorMessage = "输入日不能为空")]
         //[ExcelColumn(Name = "输入日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("输入日")]
 
-        public DateTime? Ma005 { get; set; }
+        public DateTime? Ma006 { get; set; }
 
         //[ExcelColumn(Name = "技联NO.")]
         [ExcelColumnName("技联NO.")]
 
-        public string Ma006 { get; set; }
+        public string Ma007 { get; set; }
 
         //[ExcelColumn(Name = "技联文件")]
         [ExcelColumnName("技联文件")]
 
-        public string Ma007 { get; set; }
+        public string Ma008 { get; set; }
 
         //[ExcelColumn(Name = "P番NO.")]
         [ExcelColumnName("P番NO.")]
 
-        public string Ma008 { get; set; }
+        public string Ma009 { get; set; }
 
         //[ExcelColumn(Name = "P番文件")]
         [ExcelColumnName("P番文件")]
 
-        public string Ma009 { get; set; }
+        public string Ma010 { get; set; }
 
         //[ExcelColumn(Name = "TCJ P番NO.")]
         [ExcelColumnName("TCJ P番NO.")]
 
-        public string Ma010 { get; set; }
+        public string Ma011 { get; set; }
 
         //[ExcelColumn(Name = "TCJ P番文件")]
         [ExcelColumnName("TCJ P番文件")]
 
-        public string Ma011 { get; set; }
+        public string Ma012 { get; set; }
 
         //[ExcelColumn(Name = "外联NO.")]
         [ExcelColumnName("外联NO.")]
 
-        public string Ma012 { get; set; }
+        public string Ma013 { get; set; }
 
         //[ExcelColumn(Name = "外联文件")]
         [ExcelColumnName("外联文件")]
 
-        public string Ma013 { get; set; }
+        public string Ma014 { get; set; }
 
         //[ExcelColumn(Name = "其它NO.")]
         [ExcelColumnName("其它NO.")]
 
-        public string Ma014 { get; set; }
+        public string Ma015 { get; set; }
 
         //[ExcelColumn(Name = "附件")]
         [ExcelColumnName("附件")]
 
-        public string Ma015 { get; set; }
+        public string Ma016 { get; set; }
 
         [ExcelIgnore]
 
@@ -207,17 +218,19 @@ namespace Ams.Model.Logistics.Dto
 
 
 
-        [ExcelColumn(Name = "机种明细")]
+        [ExcelColumn(Name = "设变No.")]
         public string Ma003Label { get; set; }
-        [ExcelColumn(Name = "担当")]
+        [ExcelColumn(Name = "机种明细")]
         public string Ma004Label { get; set; }
+        [ExcelColumn(Name = "担当")]
+        public string Ma005Label { get; set; }
     }
 
     /// <summary>
     /// 技联
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/13 10:18:56
+    /// @Date: 2024/10/11 16:21:09
     /// </summary>
     public class PpEcLiaisonImportTpl
     {
@@ -231,57 +244,63 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("发行日")]
         public DateTime? Ma002 { get; set; }
 
-        //[ExcelColumn(Name = "机种明细")]
-        [ExcelColumnName("机种明细")]
+        //[ExcelColumn(Name = "设变No.")]
+        [ExcelColumnName("设变No.")]
         public string Ma003 { get; set; }
 
-        //[ExcelColumn(Name = "担当")]
-        [ExcelColumnName("担当")]
+        //[ExcelColumn(Name = "机种明细")]
+        [ExcelColumnName("机种明细")]
         public string Ma004 { get; set; }
 
+        [Required(ErrorMessage = "担当不能为空")]
+        //[ExcelColumn(Name = "担当")]
+        [ExcelColumnName("担当")]
+        public string Ma005 { get; set; }
+
+        [Required(ErrorMessage = "输入日不能为空")]
         //[ExcelColumn(Name = "输入日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("输入日")]
-        public DateTime? Ma005 { get; set; }
+        public DateTime? Ma006 { get; set; }
 
         //[ExcelColumn(Name = "技联NO.")]
         [ExcelColumnName("技联NO.")]
-        public string Ma006 { get; set; }
+        public string Ma007 { get; set; }
 
         //[ExcelColumn(Name = "技联文件")]
         [ExcelColumnName("技联文件")]
-        public string Ma007 { get; set; }
+        public string Ma008 { get; set; }
 
         //[ExcelColumn(Name = "P番NO.")]
         [ExcelColumnName("P番NO.")]
-        public string Ma008 { get; set; }
+        public string Ma009 { get; set; }
 
         //[ExcelColumn(Name = "P番文件")]
         [ExcelColumnName("P番文件")]
-        public string Ma009 { get; set; }
+        public string Ma010 { get; set; }
 
         //[ExcelColumn(Name = "TCJ P番NO.")]
         [ExcelColumnName("TCJ P番NO.")]
-        public string Ma010 { get; set; }
+        public string Ma011 { get; set; }
 
         //[ExcelColumn(Name = "TCJ P番文件")]
         [ExcelColumnName("TCJ P番文件")]
-        public string Ma011 { get; set; }
+        public string Ma012 { get; set; }
 
         //[ExcelColumn(Name = "外联NO.")]
         [ExcelColumnName("外联NO.")]
-        public string Ma012 { get; set; }
+        public string Ma013 { get; set; }
 
         //[ExcelColumn(Name = "外联文件")]
         [ExcelColumnName("外联文件")]
-        public string Ma013 { get; set; }
+        public string Ma014 { get; set; }
 
         //[ExcelColumn(Name = "其它NO.")]
         [ExcelColumnName("其它NO.")]
-        public string Ma014 { get; set; }
+        public string Ma015 { get; set; }
 
         //[ExcelColumn(Name = "附件")]
         [ExcelColumnName("附件")]
-        public string Ma015 { get; set; }
+        public string Ma016 { get; set; }
 
         [ExcelIgnore]
         public string Remark { get; set; }
@@ -358,11 +377,14 @@ namespace Ams.Model.Logistics.Dto
 
 
         [ExcelIgnore]
-        [ExcelColumn(Name = "机种明细")]
+        [ExcelColumn(Name = "设变No.")]
         public string Ma003Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "担当")]
+        [ExcelColumn(Name = "机种明细")]
         public string Ma004Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "担当")]
+        public string Ma005Label { get; set; }
     }
 
 }

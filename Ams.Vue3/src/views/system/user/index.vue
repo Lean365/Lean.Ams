@@ -3,24 +3,26 @@
     <el-row :gutter="20">
       <!--部门数据-->
       <el-col :span="4" :xs="24">
-        <div class="head-container">
-          <el-input v-model="deptName"
-            :placeholder="$t('btn.enterSearchPrefix')+$t('pdept.deptName')+$t('btn.enterSearchSuffix')" clearable
-            prefix-icon="search" style="margin-bottom: 20px" />
-        </div>
-        <div class="head-container">
-          <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false"
-            :filter-node-method="filterNode" ref="deptTreeRef" node-key="id" highlight-current default-expand-all
-            @node-click="handleNodeClick">
-            <template #default="{ node, data }">
-              <span class="custom-tree-node">
-                <span>
-                  <svg-icon name="index" v-if="data.children && data.children.length > 0"></svg-icon>
-                  {{ node.label }}
+        <div class="scroll-container">
+          <div class="head-container">
+            <el-input v-model="deptName"
+              :placeholder="$t('btn.enterSearchPrefix')+$t('pdept.deptName')+$t('btn.enterSearchSuffix')" clearable
+              prefix-icon="search" style="margin-bottom: 20px" />
+          </div>
+          <div class="head-container">
+            <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false"
+              :filter-node-method="filterNode" ref="deptTreeRef" node-key="id" highlight-current default-expand-all
+              @node-click="handleNodeClick">
+              <template #default="{ node, data }">
+                <span class="custom-tree-node">
+                  <span>
+                    <svg-icon name="m-house" v-if="data.children && data.children.length > 0"></svg-icon>
+                    {{ node.label }}
+                  </span>
                 </span>
-              </span>
-            </template>
-          </el-tree>
+              </template>
+            </el-tree>
+          </div>
         </div>
       </el-col>
       <!--用户数据-->
@@ -635,6 +637,16 @@
   getList()
 </script>
 <style scoped>
+  .scroll-container {
+    height: 80%;
+    /* 设置固定高度 */
+    overflow-y: auto;
+    /* 添加垂直滚动条 */
+    overflow-x: hidden;
+    /* 隐藏水平滚动条 */
+
+  }
+
   .avatar {
     width: 40px;
   }

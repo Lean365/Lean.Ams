@@ -14,17 +14,6 @@ export function listFicoBudgetAssets(query) {
 }
 
 /**
- * 资产预算tree查询
- * @param {查询条件} data
- */
-export function treelistFicoBudgetAssets(query) {
-  return request({
-    url: 'Accounting/FicoBudgetAssets/treelist',
-    method: 'get',
-    params: query,
-  })
-}
-/**
  * 新增资产预算
  * @param data
  */

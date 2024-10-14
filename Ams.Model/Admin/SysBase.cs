@@ -30,19 +30,19 @@
         /// <summary>
         /// 预留1
         /// </summary>
-        [SugarColumn(ColumnName = "Ref04", ColumnDescription = "预留1", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
+        [SugarColumn(ColumnName = "Ref04", ColumnDescription = "预留1", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public decimal Ref04 { get; set; }
 
         /// <summary>
         /// 预留2
         /// </summary>
-        [SugarColumn(ColumnName = "Ref05", ColumnDescription = "预留2", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
+        [SugarColumn(ColumnName = "Ref05", ColumnDescription = "预留2", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public decimal Ref05 { get; set; }
 
         /// <summary>
         /// 预留3
         /// </summary>
-        [SugarColumn(ColumnName = "Ref06", ColumnDescription = "预留3", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
+        [SugarColumn(ColumnName = "Ref06", ColumnDescription = "预留3", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public decimal Ref06 { get; set; }
 
         /// <summary>
@@ -84,37 +84,37 @@
         /// <summary>
         /// 自定义1
         /// </summary>
-        [SugarColumn(ColumnName = "Udf51", ColumnDescription = "自定义1", DefaultValue = "0")]
+        [SugarColumn(ColumnName = "Udf51", ColumnDescription = "自定义1", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public int Udf51 { get; set; }
 
         /// <summary>
         /// 自定义2
         /// </summary>
-        [SugarColumn(ColumnName = "Udf52", ColumnDescription = "自定义2", DefaultValue = "0")]
+        [SugarColumn(ColumnName = "Udf52", ColumnDescription = "自定义2", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public int Udf52 { get; set; }
 
         /// <summary>
         /// 自定义3
         /// </summary>
-        [SugarColumn(ColumnName = "Udf53", ColumnDescription = "自定义3", DefaultValue = "0")]
+        [SugarColumn(ColumnName = "Udf53", ColumnDescription = "自定义3", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public int Udf53 { get; set; }
 
         /// <summary>
         /// 自定义4
         /// </summary>
-        [SugarColumn(ColumnName = "Udf54", ColumnDescription = "自定义4", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
+        [SugarColumn(ColumnName = "Udf54", ColumnDescription = "自定义4", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public decimal Udf54 { get; set; }
 
         /// <summary>
         /// 自定义5
         /// </summary>
-        [SugarColumn(ColumnName = "Udf55", ColumnDescription = "自定义5", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
+        [SugarColumn(ColumnName = "Udf55", ColumnDescription = "自定义5", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public decimal Udf55 { get; set; }
 
         /// <summary>
         /// 自定义6
         /// </summary>
-        [SugarColumn(ColumnName = "Udf56", ColumnDescription = "自定义6", DefaultValue = "0", Length = 18, DecimalDigits = 5)]
+        [SugarColumn(ColumnName = "Udf56", ColumnDescription = "自定义6", DefaultValue = "0", Length = 18, DecimalDigits = 5, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public decimal Udf56 { get; set; }
 
         /// <summary>

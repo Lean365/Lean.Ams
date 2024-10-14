@@ -20,7 +20,7 @@ namespace Ams.Service.Monitor
 
             predicate = predicate.AndIF(parm.Userid != null, it => it.Userid == parm.Userid);
             predicate = predicate.AndIF(parm.PhoneNum != null, it => it.PhoneNum == parm.PhoneNum);
-            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.SendTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.SendTime >= new DateTime(DateTime.Now.Year, 1, 1));
             predicate = predicate.AndIF(parm.BeginAddTime != null, it => it.SendTime >= parm.BeginAddTime);
             predicate = predicate.AndIF(parm.EndAddTime != null, it => it.SendTime <= parm.EndAddTime);
             predicate = predicate.AndIF(parm.SendType != null, it => it.SendType == parm.SendType);

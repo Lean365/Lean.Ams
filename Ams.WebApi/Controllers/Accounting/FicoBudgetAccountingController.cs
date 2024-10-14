@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Model.Accounting.Dto;
 using Ams.Service.Accounting.IAccountingService;
-using MiniExcelLibs;
-
 
 namespace Ams.WebApi.Controllers.Accounting
 {
@@ -11,7 +8,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 预算科目
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/5 16:59:02
+    /// @Date: 2024/10/12 16:36:02
     /// </summary>
     [Verify]
     [Route("Accounting/FicoBudgetAccounting")]
@@ -64,9 +61,22 @@ namespace Ams.WebApi.Controllers.Accounting
         public IActionResult GetFicoBudgetAccounting(long Id)
         {
             var response = _FicoBudgetAccountingService.GetInfo(Id);
-            
+
             var info = response.Adapt<FicoBudgetAccountingDto>();
             return SUCCESS(info);
+        }
+
+        /// <summary>
+        /// 获取预算科目下拉树列表
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        [HttpGet("treeselect")]
+        public IActionResult TreeSelect(FicoBudgetAccountingQueryDto parm)
+        {
+            var BudgetAccountings = _FicoBudgetAccountingService.GetBudgetAccountings(parm);
+
+            return SUCCESS(_FicoBudgetAccountingService.BuildBudgetAccountingTreeSelect(BudgetAccountings), TIME_FORMAT_FULL);
         }
 
         /// <summary>
@@ -78,7 +88,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [Log(Title = "预算科目", BusinessType = BusinessType.ADD)]
         public IActionResult AddFicoBudgetAccounting([FromBody] FicoBudgetAccountingDto parm)
         {
-           // 校验输入项目唯一性
+            // 校验输入项目唯一性
 
             if (UserConstants.NOT_UNIQUE.Equals(_FicoBudgetAccountingService.CheckInputUnique(parm.Id.ToString())))
             {
@@ -113,7 +123,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "fico:budgetaccounting:delete")]
         [Log(Title = "预算科目", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteFicoBudgetAccounting([FromRoute]string ids)
+        public IActionResult DeleteFicoBudgetAccounting([FromRoute] string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -145,7 +155,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-      [HttpPost("importData")]
+        [HttpPost("importData")]
         [Log(Title = "预算科目导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "fico:budgetaccounting:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
@@ -172,6 +182,5 @@ namespace Ams.WebApi.Controllers.Accounting
             var result = DownloadImportTemplate(new List<FicoBudgetAccountingImportTpl>() { }, "FicoBudgetAccounting_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
-
     }
 }

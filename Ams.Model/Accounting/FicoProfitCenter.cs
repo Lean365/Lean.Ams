@@ -53,7 +53,7 @@ namespace Ams.Model.Accounting
         /// <summary>
         /// 负责人
         /// </summary>
-        [SugarColumn(ColumnName = "Mq008", ColumnDescription = "负责人", Length = 40)]
+        [SugarColumn(ColumnName = "Mq008", ColumnDescription = "负责人", Length = 40, ColumnDataType = "NVARCHAR")]
         public string Mq008 { get; set; }
 
         /// <summary>
@@ -65,37 +65,37 @@ namespace Ams.Model.Accounting
         /// <summary>
         /// 名称
         /// </summary>
-        [SugarColumn(ColumnName = "Mq010", ColumnDescription = "名称", Length = 40, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName = "Mq010", ColumnDescription = "名称", Length = 40, ColumnDataType = "NVARCHAR", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string Mq010 { get; set; }
 
         /// <summary>
         /// 长文本
         /// </summary>
-        [SugarColumn(ColumnName = "Mq011", ColumnDescription = "长文本", Length = 80)]
+        [SugarColumn(ColumnName = "Mq011", ColumnDescription = "长文本", Length = 80, ColumnDataType = "NVARCHAR")]
         public string Mq011 { get; set; }
 
         /// <summary>
         /// 利润中心说明
         /// </summary>
-        [SugarColumn(ColumnName = "Mq012", ColumnDescription = "利润中心说明", Length = 120)]
+        [SugarColumn(ColumnName = "Mq012", ColumnDescription = "利润中心说明", Length = 120, ColumnDataType = "NVARCHAR")]
         public string Mq012 { get; set; }
 
         /// <summary>
         /// 利润中心组
         /// </summary>
-        [SugarColumn(ColumnName = "Mq013", ColumnDescription = "利润中心组", Length = 12)]
+        [SugarColumn(ColumnName = "Mq013", ColumnDescription = "利润中心组", Length = 12, ColumnDataType = "NVARCHAR")]
         public string Mq013 { get; set; }
 
         /// <summary>
         /// 权益类型
         /// </summary>
-        [SugarColumn(ColumnName = "Mq014", ColumnDescription = "权益类型", Length = 3)]
+        [SugarColumn(ColumnName = "Mq014", ColumnDescription = "权益类型", Length = 3, ColumnDataType = "NVARCHAR")]
         public string Mq014 { get; set; }
 
         /// <summary>
         /// 地区税务代码
         /// </summary>
-        [SugarColumn(ColumnName = "Mq015", ColumnDescription = "地区税务代码", Length = 15)]
+        [SugarColumn(ColumnName = "Mq015", ColumnDescription = "地区税务代码", Length = 15, ColumnDataType = "NVARCHAR")]
         public string Mq015 { get; set; }
 
         /// <summary>

@@ -17,12 +17,20 @@ namespace Ams.Service.Monitor
         {
             var predicate = Expressionable.Create<DiffLog>();
 
+            //查询字段: <新建日>
+            //predicate = predicate.AndIF(parm.BeginTime == null, it => it.Ma002 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginTime != null, it => it.Ma002 >= parm.BeginTime);
+            //predicate = predicate.AndIF(parm.EndTime != null, it => it.Ma002 <= parm.EndTime);
+            //当日期条件为空时，默认查询大于今天的所有数据
+            //predicate = predicate.AndIF(parm.BeginTime == null, it => it.Ma002 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //当日期条件为空时，默认查询大于今年的所有数据
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.TableName), it => it.TableName == parm.TableName);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.DiffType), it => it.DiffType == parm.DiffType);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.UserName), it => it.UserName == parm.UserName);
-            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.Create_time >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            predicate = predicate.AndIF(parm.BeginAddTime != null, it => it.Create_time >= parm.BeginAddTime);
-            predicate = predicate.AndIF(parm.EndAddTime != null, it => it.Create_time <= parm.EndAddTime);
+
+            predicate = predicate.AndIF(parm.BeginTime == null, it => it.Create_time >= new DateTime(DateTime.Now.Year, 1, 1));
+            predicate = predicate.AndIF(parm.BeginTime != null, it => it.Create_time >= parm.BeginTime);
+            predicate = predicate.AndIF(parm.EndTime != null, it => it.Create_time <= parm.EndTime);
             var response = Queryable()
                 //.OrderBy("PId desc")
                 .Where(predicate.ToExpression())

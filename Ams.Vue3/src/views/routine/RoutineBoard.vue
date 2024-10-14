@@ -73,6 +73,12 @@
       header-cell-class-name="el-table-header-cell" highlight-current-row @sort-change="sortChange"
       @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
+      <el-table-column align="center" width="90">
+        <template #default="scope">
+          <el-button class="btn-view" plain icon="view" size="small" @click="openNewTab(scope.row)"
+            :title=" $t('btn.details') "></el-button>
+        </template>
+      </el-table-column>
       <el-table-column prop="id" label="主键" align="center" v-if="columns.showColumn('id')" />
       <el-table-column prop="mb002" label="起始日" :show-overflow-tooltip="true" v-if="columns.showColumn('mb002')" />
       <el-table-column prop="mb003" label="结束日" :show-overflow-tooltip="true" v-if="columns.showColumn('mb003')" />
@@ -148,6 +154,25 @@
         <el-button type="primary" @click="submitForm">{{ $t('btn.submit') }}</el-button>
       </template>
     </el-dialog>
+
+    <el-dialog :lock-scroll="false" v-model="openView" :style="{ backgroundColor: '#000' }" :fullscreen="true">
+      <div style="position: absolute;top:0;left:0;width:100%;height:100%;">
+        <el-container style="height: 90%;">
+          <el-header>熱烈歡迎</el-header>
+          <el-main>
+            <div class="el-main-corp">{{ formView.mb004 }}</div>
+            <el-form>
+              <el-form-item>
+                <pre class="el-main-guest">{{ formView.mb005.split(',').join(' \n') }}</pre>
+              </el-form-item>
+            </el-form>
+          </el-main>
+          <el-footer>
+            <marquee>蒞臨指導 </marquee>
+          </el-footer>
+        </el-container>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -163,6 +188,7 @@
   import importData from '@/components/ImportData'
   //防抖处理函数 import { debounce } from 'lodash';
   import { debounce } from 'lodash';
+  const dynamicTop = ref(0)
   //获取当前组件实例
   const { proxy } = getCurrentInstance()
   //标签页
@@ -174,6 +200,8 @@
   const ids = ref([])
   //是否加载动画
   const loading = ref(false)
+  const openView = ref(false)
+  const formView = ref({})
   //显示搜索条件
   const showSearch = ref(true)
   //使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
@@ -187,7 +215,7 @@
   })
   //字段显示控制
   const columns = ref([
-    { visible: true, prop: 'id', label: '主键' },
+    { visible: false, prop: 'id', label: '主键' },
     { visible: true, prop: 'mb002', label: '起始日' },
     { visible: true, prop: 'mb003', label: '结束日' },
     { visible: true, prop: 'mb004', label: '公司名称' },
@@ -380,7 +408,78 @@
         proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
       })
   }
+  /** 查看按钮操作 */
+  function handleView(row) {
+    const id = row.id || ids.value
+    getRoutineBoard(id).then((res) => {
+      const { code, data } = res
+      if (code == 200) {
+        openView.value = true
+        formView.value = data
 
+      }
+    })
+  }
+  const router = useRouter();
+  function openNewTab(row) {
+    // 打开新页签
+    const id = row.id || ids.value
+    getRoutineBoard(id).then((res) => {
+      const { code, data } = res
+      if (code == 200) {
+        const routeData = router.resolve({
+          path: "view",
+          query: { mb004: row.mb004, mb005: row.mb005 },
+
+        })
+        openFullScreenWindow(routeData.href);
+
+
+        // let _url = this.$router.resolve({
+        //   name: 'nextPage',
+        //   query: {
+        //     page: this.page,
+        //     pageSize: this.pageSize,
+        //     pageName: 'mainPage',
+        //     searchForm: JSON.stringify(this.dataForm)
+        //   }
+        // })
+        // window.open(_url.href, '_blank')
+        // 新页面的URL
+        // const url = router.push({ path: '/routine/board/view' });
+
+        // // router.push({
+        // //   path: '/gen/editTable',
+        // //   query: { tableId: row.tableId }
+        // // })
+        // // 参数
+        // const params = { mb004: row.mb004, mb005: row.mb005,  /* 其他需要传递的参数 */ };
+        // // 打开新标签页，并传递参数
+        // const queryString = new URLSearchParams(params).toString();
+        // console.log(queryString);
+        // window.open(`${url}?${queryString}`, '_blank', 'fullscreen=yes');
+
+      }
+    })
+
+  }
+  // 全屏打开窗口的函数
+  function openFullScreenWindow(urls) {
+    // 获取屏幕宽度和高度
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
+
+    // 新开窗口的URL
+    const url = urls;
+
+    // 打开新窗口，并设置全屏
+    const newWindow = window.open(url, '_blank');
+    if (newWindow) {
+      // 设置新窗口的外部宽度和高度为全屏
+      newWindow.outerWidth = screenWidth;
+      newWindow.outerHeight = screenHeight;
+    }
+  }
 
   // 导入数据成功处理
   const handleFileSuccess = (response) => {
@@ -473,3 +572,43 @@
   }
   handleQuery()
 </script>
+<style scoped>
+  .el-header,
+  .el-footer {
+    /* background-color: #B3C0D1; */
+    color: #ffd504;
+    text-align: center;
+    line-height: 80px;
+    font-size: 80px;
+    font-weight: bold;
+    letter-spacing: 80px;
+  }
+
+  .el-main-corp {
+    position: absolute;
+    left: 110px;
+    top: 80px;
+    /* text-align: center; */
+    /* background-color: #E9EEF3; */
+    font-family: 'Microsoft YaHei', '微软雅黑', sans-serif;
+    font-weight: bold;
+    color: #ffd504;
+    font-size: 60px;
+
+  }
+
+  .el-main-guest {
+    position: absolute;
+    top: 40px;
+    left: 160px;
+    font-family: 'Microsoft YaHei', '微软雅黑', sans-serif;
+    /* background-color: #E9EEF3; */
+    font-weight: bold;
+    color: #ffd504;
+    line-height: 50px;
+    letter-spacing: 5px;
+    font-size: 40px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+</style>

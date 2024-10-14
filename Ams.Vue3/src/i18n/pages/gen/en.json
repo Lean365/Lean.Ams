@@ -60,6 +60,8 @@
     "formselectRemote": "Remote Select",
     "formselectMulti": "Multi Select",
     "formselectVirtual": "Virtualized Select",
+    "formselectVirtualMulti": "Multi Virtualized Select",
+    "formselectVirtualRemote": "Remote Virtualized Select",
     "formradio": "Radio",
     "formcheckbox": "Checkbox",
     "formdatetime": "Datetime range",

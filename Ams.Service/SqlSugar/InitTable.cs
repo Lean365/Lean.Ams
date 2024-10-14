@@ -1,4 +1,5 @@
-﻿using SqlSugar.IOC;
+﻿using Ams.Model.Logistics;
+using SqlSugar.IOC;
 
 namespace Ams.Service.SqlSugar
 {
@@ -30,7 +31,7 @@ namespace Ams.Service.SqlSugar
             //db.CodeFirst.InitTables(typeof(EmailTpl));
             //db.CodeFirst.InitTables(typeof(FileStorage));
             //db.CodeFirst.InitTables(typeof(NoticeStorage));
-            db.CodeFirst.InitTables(typeof(RoutineBoard));
+            //db.CodeFirst.InitTables(typeof(RoutineBoard));
             //db.CodeFirst.InitTables(typeof(RoutineEhrAttendance));
             //db.CodeFirst.InitTables(typeof(RoutineEhrEmployee));
             //db.CodeFirst.InitTables(typeof(RoutineEhrFunds));
@@ -103,7 +104,7 @@ namespace Ams.Service.SqlSugar
             //db.CodeFirst.InitTables(typeof(MmSupplier));
             //db.CodeFirst.InitTables(typeof(MmVendor));
 
-            //db.CodeFirst.InitTables(typeof(PpEcLiaison));
+            db.CodeFirst.InitTables(typeof(PpEcLiaison));
             //db.CodeFirst.InitTables(typeof(PpEcMaster));
             //db.CodeFirst.InitTables(typeof(PpEcSlave));
 

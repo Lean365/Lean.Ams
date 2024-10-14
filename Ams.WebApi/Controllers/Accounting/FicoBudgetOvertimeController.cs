@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 加班预算
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:57:03
+    /// @Date: 2024/10/14 12:09:13
     /// </summary>
     [Verify]
     [Route("Accounting/FicoBudgetOvertime")]

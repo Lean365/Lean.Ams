@@ -95,6 +95,8 @@ namespace Ams.CodeGenerator
             replaceDto.SelectMulti = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_SELECT_MULTI)) ? 1 : 0;
             replaceDto.SelectRemote = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_SELECT_REMOTE)) ? 1 : 0;
             replaceDto.SelectVirtual = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_SELECT_VIRTUAL)) ? 1 : 0;
+            replaceDto.SelectVirtualMulti = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_SELECT_VIRTUAL_MULTI)) ? 1 : 0;
+            replaceDto.SelectVirtualRemote = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_SELECT_VIRTUAL_REMOTE)) ? 1 : 0;
             replaceDto.ShowEditor = columns.Any(f => f.HtmlType.Equals(GenConstants.HTML_EDITOR)) ? 1 : 0;
             replaceDto.FistLowerPk = replaceDto.PKName.FirstLowerCase();
             InitJntTemplate(dto, replaceDto);
@@ -701,7 +703,7 @@ namespace Ams.CodeGenerator
 
             #region 查询所有字典
 
-            var dictHtml = new string[] { GenConstants.HTML_CHECKBOX, GenConstants.HTML_RADIO, GenConstants.HTML_SELECT, GenConstants.HTML_SELECT_MULTI, GenConstants.HTML_SELECT_REMOTE, GenConstants.HTML_SELECT_VIRTUAL };
+            var dictHtml = new string[] { GenConstants.HTML_CHECKBOX, GenConstants.HTML_RADIO, GenConstants.HTML_SELECT, GenConstants.HTML_SELECT_MULTI, GenConstants.HTML_SELECT_REMOTE, GenConstants.HTML_SELECT_VIRTUAL, GenConstants.HTML_SELECT_VIRTUAL_MULTI, GenConstants.HTML_SELECT_VIRTUAL_REMOTE };
             var dicts = new List<GenTableColumn>();
             dicts.AddRange(dto.GenTable.Columns.FindAll(f => dictHtml.Contains(f.HtmlType)));
             if (dto.GenTable.SubTable != null && dto.GenTable.SubTableName.IsNotEmpty())

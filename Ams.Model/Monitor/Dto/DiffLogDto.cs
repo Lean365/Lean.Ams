@@ -1,5 +1,3 @@
-using Ams.Model;
-
 namespace Ams.Model.Monitor.Dto
 {
     /// <summary>
@@ -10,8 +8,8 @@ namespace Ams.Model.Monitor.Dto
         public string TableName { get; set; }
         public string DiffType { get; set; }
         public string UserName { get; set; }
-        public DateTime? BeginAddTime { get; set; }
-        public DateTime? EndAddTime { get; set; }
+        public DateTime? BeginTime { get; set; }
+        public DateTime? EndTime { get; set; }
     }
 
     /// <summary>

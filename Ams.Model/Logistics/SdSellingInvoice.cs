@@ -163,11 +163,5 @@ namespace Ams.Model.Logistics
         /// </summary>
         [SugarColumn(ColumnName = "Mc026", ColumnDescription = "凭证名称", Length = 255)]
         public string Mc026 { get; set; }
-
-        /// <summary>
-        /// 预留A
-        /// </summary>
-        [SugarColumn(ColumnName = "Ref01", ColumnDescription = "预留A", Length = 1)]
-        public string Ref01 { get; set; }
     }
 }

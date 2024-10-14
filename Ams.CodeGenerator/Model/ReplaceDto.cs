@@ -163,6 +163,16 @@ namespace Ams.CodeGenerator.Model
         public int SelectVirtual { get; set; }
 
         /// <summary>
+        /// 多选虚拟化下拉框
+        /// </summary>
+        public int SelectVirtualMulti { get; set; }
+
+        /// <summary>
+        /// 远程虚拟化下拉框
+        /// </summary>
+        public int SelectVirtualRemote { get; set; }
+
+        /// <summary>
         /// 作者
         /// </summary>
         public string Author { get; set; }

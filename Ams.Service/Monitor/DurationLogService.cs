@@ -74,7 +74,7 @@ namespace Ams.Service.Monitor
 
             predicate = predicate.AndIF(parm.UserId != null, it => it.UserId == parm.UserId);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.UserIP), it => it.UserIP == parm.UserIP);
-            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.Create_time >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            predicate = predicate.AndIF(parm.BeginAddTime == null, it => it.Create_time >= new DateTime(DateTime.Now.Year, 1, 1));// DateTime.Now.ToShortDateString().ParseToDateTime());
             predicate = predicate.AndIF(parm.BeginAddTime != null, it => it.Create_time >= parm.BeginAddTime);
             return predicate;
         }

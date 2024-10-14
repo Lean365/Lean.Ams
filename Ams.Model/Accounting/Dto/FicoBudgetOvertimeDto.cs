@@ -5,10 +5,14 @@ namespace Ams.Model.Accounting.Dto
     /// 加班预算
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:57:03
+    /// @Date: 2024/10/14 12:09:13
     /// </summary>
     public class FicoBudgetOvertimeQueryDto : PagerInfo 
     {
+        /// <summary>
+        /// 部门ID 
+        /// </summary>        
+        public long? DeptId { get; set; }
         /// <summary>
         /// 财年 
         /// </summary>        
@@ -25,22 +29,29 @@ namespace Ams.Model.Accounting.Dto
         /// 科目 
         /// </summary>        
         public string Mi007 { get; set; }
+        /// <summary>
+        /// 名称 
+        /// </summary>        
+        public string Mi008 { get; set; }
+        /// <summary>
+        /// 审核 
+        /// </summary>        
+        public int? Mi021 { get; set; }
     }
 
     /// <summary>
     /// 加班预算
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:57:03
+    /// @Date: 2024/10/14 12:09:13
     /// </summary>
     public class FicoBudgetOvertimeDto
     {
-        [Required(ErrorMessage = "ID不能为空")]
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
 
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         //[ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
@@ -81,6 +92,7 @@ namespace Ams.Model.Accounting.Dto
 
         public string Mi008 { get; set; }
 
+        [Required(ErrorMessage = "必要工数不能为空")]
         //[ExcelColumn(Name = "必要工数")]
         [ExcelColumnName("必要工数")]
 
@@ -109,31 +121,37 @@ namespace Ams.Model.Accounting.Dto
 
         public string Mi013 { get; set; }
 
+        [Required(ErrorMessage = "保有工数不能为空")]
         //[ExcelColumn(Name = "保有工数")]
         [ExcelColumnName("保有工数")]
 
         public decimal Mi014 { get; set; }
 
+        [Required(ErrorMessage = "工数差异不能为空")]
         //[ExcelColumn(Name = "工数差异")]
         [ExcelColumnName("工数差异")]
 
         public decimal Mi015 { get; set; }
 
+        [Required(ErrorMessage = "投入加班不能为空")]
         //[ExcelColumn(Name = "投入加班")]
         [ExcelColumnName("投入加班")]
 
         public decimal Mi016 { get; set; }
 
+        [Required(ErrorMessage = "平均投入加班不能为空")]
         //[ExcelColumn(Name = "平均投入加班")]
         [ExcelColumnName("平均投入加班")]
 
         public decimal Mi017 { get; set; }
 
+        [Required(ErrorMessage = "间接加班不能为空")]
         //[ExcelColumn(Name = "间接加班")]
         [ExcelColumnName("间接加班")]
 
         public decimal Mi018 { get; set; }
 
+        [Required(ErrorMessage = "投入总加班不能为空")]
         //[ExcelColumn(Name = "投入总加班")]
         [ExcelColumnName("投入总加班")]
 
@@ -173,6 +191,10 @@ namespace Ams.Model.Accounting.Dto
 
         [ExcelIgnore]
 
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+
         public string Ref01 { get; set; }
 
         [ExcelIgnore]
@@ -183,17 +205,14 @@ namespace Ams.Model.Accounting.Dto
 
         public string Ref03 { get; set; }
 
-        [Required(ErrorMessage = "预留1不能为空")]
         [ExcelIgnore]
 
         public decimal Ref04 { get; set; }
 
-        [Required(ErrorMessage = "预留2不能为空")]
         [ExcelIgnore]
 
         public decimal Ref05 { get; set; }
 
-        [Required(ErrorMessage = "预留3不能为空")]
         [ExcelIgnore]
 
         public decimal Ref06 { get; set; }
@@ -222,32 +241,26 @@ namespace Ams.Model.Accounting.Dto
 
         public string Udf06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
         [ExcelIgnore]
 
-        public int Udf51 { get; set; }
+        public int? Udf51 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
         [ExcelIgnore]
 
-        public int Udf52 { get; set; }
+        public int? Udf52 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
         [ExcelIgnore]
 
-        public int Udf53 { get; set; }
+        public int? Udf53 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
         [ExcelIgnore]
 
         public decimal Udf54 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
         [ExcelIgnore]
 
         public decimal Udf55 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
         [ExcelIgnore]
 
         public decimal Udf56 { get; set; }
@@ -255,10 +268,6 @@ namespace Ams.Model.Accounting.Dto
         [ExcelIgnore]
 
         public int? IsDeleted { get; set; }
-
-        [ExcelIgnore]
-
-        public string Remark { get; set; }
 
         [ExcelIgnore]
 
@@ -278,6 +287,8 @@ namespace Ams.Model.Accounting.Dto
 
 
 
+        [ExcelColumn(Name = "部门ID")]
+        public string DeptIdLabel { get; set; }
         [ExcelColumn(Name = "财年")]
         public string Mi004Label { get; set; }
         [ExcelColumn(Name = "年月")]
@@ -286,21 +297,22 @@ namespace Ams.Model.Accounting.Dto
         public string Mi006Label { get; set; }
         [ExcelColumn(Name = "科目")]
         public string Mi007Label { get; set; }
+        [ExcelColumn(Name = "启用标记")]
+        public string Mi020Label { get; set; }
     }
 
     /// <summary>
     /// 加班预算
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:57:03
+    /// @Date: 2024/10/14 12:09:13
     /// </summary>
     public class FicoBudgetOvertimeImportTpl
     {
-        [Required(ErrorMessage = "ID不能为空")]
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         //[ExcelColumn(Name = "父ID")]
         [ExcelColumnName("父ID")]
@@ -334,6 +346,7 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumnName("名称")]
         public string Mi008 { get; set; }
 
+        [Required(ErrorMessage = "必要工数不能为空")]
         //[ExcelColumn(Name = "必要工数")]
         [ExcelColumnName("必要工数")]
         public decimal Mi009 { get; set; }
@@ -357,26 +370,32 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumnName("加班事由")]
         public string Mi013 { get; set; }
 
+        [Required(ErrorMessage = "保有工数不能为空")]
         //[ExcelColumn(Name = "保有工数")]
         [ExcelColumnName("保有工数")]
         public decimal Mi014 { get; set; }
 
+        [Required(ErrorMessage = "工数差异不能为空")]
         //[ExcelColumn(Name = "工数差异")]
         [ExcelColumnName("工数差异")]
         public decimal Mi015 { get; set; }
 
+        [Required(ErrorMessage = "投入加班不能为空")]
         //[ExcelColumn(Name = "投入加班")]
         [ExcelColumnName("投入加班")]
         public decimal Mi016 { get; set; }
 
+        [Required(ErrorMessage = "平均投入加班不能为空")]
         //[ExcelColumn(Name = "平均投入加班")]
         [ExcelColumnName("平均投入加班")]
         public decimal Mi017 { get; set; }
 
+        [Required(ErrorMessage = "间接加班不能为空")]
         //[ExcelColumn(Name = "间接加班")]
         [ExcelColumnName("间接加班")]
         public decimal Mi018 { get; set; }
 
+        [Required(ErrorMessage = "投入总加班不能为空")]
         //[ExcelColumn(Name = "投入总加班")]
         [ExcelColumnName("投入总加班")]
         public decimal Mi019 { get; set; }
@@ -408,6 +427,9 @@ namespace Ams.Model.Accounting.Dto
         public DateTime? Mi025 { get; set; }
 
         [ExcelIgnore]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
         public string Ref01 { get; set; }
 
         [ExcelIgnore]
@@ -416,15 +438,12 @@ namespace Ams.Model.Accounting.Dto
         [ExcelIgnore]
         public string Ref03 { get; set; }
 
-        [Required(ErrorMessage = "预留1不能为空")]
         [ExcelIgnore]
         public decimal Ref04 { get; set; }
 
-        [Required(ErrorMessage = "预留2不能为空")]
         [ExcelIgnore]
         public decimal Ref05 { get; set; }
 
-        [Required(ErrorMessage = "预留3不能为空")]
         [ExcelIgnore]
         public decimal Ref06 { get; set; }
 
@@ -446,35 +465,26 @@ namespace Ams.Model.Accounting.Dto
         [ExcelIgnore]
         public string Udf06 { get; set; }
 
-        [Required(ErrorMessage = "自定义1不能为空")]
         [ExcelIgnore]
-        public int Udf51 { get; set; }
+        public int? Udf51 { get; set; }
 
-        [Required(ErrorMessage = "自定义2不能为空")]
         [ExcelIgnore]
-        public int Udf52 { get; set; }
+        public int? Udf52 { get; set; }
 
-        [Required(ErrorMessage = "自定义3不能为空")]
         [ExcelIgnore]
-        public int Udf53 { get; set; }
+        public int? Udf53 { get; set; }
 
-        [Required(ErrorMessage = "自定义4不能为空")]
         [ExcelIgnore]
         public decimal Udf54 { get; set; }
 
-        [Required(ErrorMessage = "自定义5不能为空")]
         [ExcelIgnore]
         public decimal Udf55 { get; set; }
 
-        [Required(ErrorMessage = "自定义6不能为空")]
         [ExcelIgnore]
         public decimal Udf56 { get; set; }
 
         [ExcelIgnore]
         public int? IsDeleted { get; set; }
-
-        [ExcelIgnore]
-        public string Remark { get; set; }
 
         [ExcelIgnore]
         public string CreateBy { get; set; }
@@ -491,6 +501,9 @@ namespace Ams.Model.Accounting.Dto
 
 
         [ExcelIgnore]
+        [ExcelColumn(Name = "部门ID")]
+        public string DeptIdLabel { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "财年")]
         public string Mi004Label { get; set; }
         [ExcelIgnore]
@@ -502,6 +515,9 @@ namespace Ams.Model.Accounting.Dto
         [ExcelIgnore]
         [ExcelColumn(Name = "科目")]
         public string Mi007Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "启用标记")]
+        public string Mi020Label { get; set; }
     }
 
 }

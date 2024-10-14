@@ -112,7 +112,7 @@ namespace Ams.Service.Admin
         {
             var exp = Expressionable.Create<LoginLog>();
 
-            exp.AndIF(logininfoDto.BeginTime == null, it => it.LoginTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            exp.AndIF(logininfoDto.BeginTime == null, it => it.LoginTime >= new DateTime(DateTime.Now.Year, 1, 1)); //DateTime.Now.ToShortDateString().ParseToDateTime());
             exp.AndIF(logininfoDto.BeginTime != null, it => it.LoginTime >= logininfoDto.BeginTime && it.LoginTime <= logininfoDto.EndTime);
             exp.AndIF(logininfoDto.UserId != null, it => it.UserId == logininfoDto.UserId);
             exp.AndIF(logininfoDto.IsStatus != -1, f => f.IsStatus == logininfoDto.IsStatus);

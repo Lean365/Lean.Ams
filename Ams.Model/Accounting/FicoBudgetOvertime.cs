@@ -4,7 +4,7 @@ namespace Ams.Model.Accounting
     /// 加班预算
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/10 16:57:03
+    /// @Date: 2024/10/14 12:09:13
     /// </summary>
     [SugarTable("fico_budget_overtime", "加班预算")]
     public class FicoBudgetOvertime : SysBase
@@ -14,7 +14,7 @@ namespace Ams.Model.Accounting
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// 父ID

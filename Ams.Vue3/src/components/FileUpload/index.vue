@@ -105,6 +105,7 @@
         // 然后将数组转为对象数组
         fileList.value = list.map((item) => {
           var fileName = item.slice(item.lastIndexOf('/') + 1)
+          //console.log(fileName)
           if (typeof item === 'string') {
             item = { name: fileName, url: item }
           }

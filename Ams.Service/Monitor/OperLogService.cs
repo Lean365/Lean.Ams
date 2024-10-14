@@ -30,8 +30,18 @@ namespace Ams.Service.Monitor
         public PagedInfo<OperLog> SelectOperLogList(OperLogQueryDto sysOper)
         {
             var exp = Expressionable.Create<OperLog>();
-            exp.AndIF(sysOper.BeginTime == null, it => it.OperTime >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            exp.AndIF(sysOper.BeginTime != null, it => it.OperTime >= sysOper.BeginTime && it.OperTime <= sysOper.EndTime);
+
+            //查询字段: <新建日>
+            //predicate = predicate.AndIF(parm.BeginTime == null, it => it.Ma002 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //predicate = predicate.AndIF(parm.BeginTime != null, it => it.Ma002 >= parm.BeginTime);
+            //predicate = predicate.AndIF(parm.EndTime != null, it => it.Ma002 <= parm.EndTime);
+            //当日期条件为空时，默认查询大于今天的所有数据
+            //predicate = predicate.AndIF(parm.BeginTime == null, it => it.Ma002 >= DateTime.Now.ToShortDateString().ParseToDateTime());
+            //当日期条件为空时，默认查询大于今年的所有数据
+            exp.AndIF(sysOper.BeginTime == null, it => it.OperTime >= new DateTime(DateTime.Now.Year, 1, 1));
+            //exp.AndIF(sysOper.BeginTime != null, it => it.OperTime >= sysOper.BeginTime && it.OperTime <= sysOper.EndTime);
+            exp.AndIF(sysOper.BeginTime != null, it => it.OperTime >= sysOper.BeginTime);
+            exp.AndIF(sysOper.EndTime != null, it => it.OperTime <= sysOper.EndTime);
             exp.AndIF(sysOper.Title.IfNotEmpty(), it => it.Title.Contains(sysOper.Title));
             exp.AndIF(sysOper.OperName.IfNotEmpty(), it => it.OperName.Contains(sysOper.OperName));
             exp.AndIF(sysOper.BusinessType != null, it => it.BusinessType == sysOper.BusinessType);

@@ -32,7 +32,11 @@ import zhCN from 'vxe-pc-ui/lib/language/zh-CN'
 
 VxeUI.setI18n('zh-CN', zhCN)
 VxeUI.setLanguage('zh-CN')
+// 切换为默认主题
+//VxeUI.setTheme('light')
 
+// 切换为暗黑主题
+//VxeUI.setTheme('dark')
 function LazyVxeTable(app) {
   app.use(VxeTable)
   app.use(VxeColumn)

@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 using Ams.Common;
 using Ams.Infrastructure;
 using Ams.Infrastructure.Enums;
@@ -78,13 +79,15 @@ namespace Ams.Service.Routine
             string uploadUrl = OptionsSetting.Upload.UploadUrl;
             string accessPath = string.Concat(filePath.Replace("\\", "/"), "/", fileName);
             Uri baseUri = new(uploadUrl);
+
             Uri fullUrl = new(baseUri, accessPath);
             FileStorage file = new(formFile.FileName, fileName, fileExt, fileSize + "kb", filePath, userName)
             {
                 StoreType = (int)StoreType.LOCAL,
                 FileType = formFile.ContentType,
                 FileUrl = finalFilePath.Replace("\\", "/"),
-                AccessUrl = fullUrl.AbsoluteUri
+                //HttpUtility.UrlDecode解码字符集格式,HttpUtility.UrlEncode编码字符集格式
+                AccessUrl = HttpUtility.UrlDecode(fullUrl.AbsoluteUri, System.Text.Encoding.UTF8)
             };
             file.Id = await InsertFile(file);
             return file;
@@ -127,7 +130,7 @@ namespace Ams.Service.Routine
             {
                 timeDir = Path.Combine(storePath, timeDir);
             }
-            return timeDir;
+            return timeDir.Replace("\\", "/");
         }
 
         public string HashFileName(string str = null)
