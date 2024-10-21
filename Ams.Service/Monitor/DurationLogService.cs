@@ -37,6 +37,8 @@ namespace Ams.Service.Monitor
         /// <returns></returns>
         public DurationLog AddUserOnlineLog(DurationLog model)
         {
+            model.Create_by = HttpContextExtension.GetName(App.HttpContext);
+            model.Create_time = DateTime.Now;
             if (model.OnlineTime >= 0.5)
             {
                 Insertable(model).ExecuteReturnSnowflakeId();

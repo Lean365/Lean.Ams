@@ -1,18 +1,18 @@
 <!--
  * @Descripttion: 费用预算/fico_budget_expense
- * @Version: 0.24.653.19532
+ * @Version: 0.24.654.30450
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/10/14 13:28:21
+ * @Date: 2024/10/16 8:05:21
  * @column：44
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
   <div>
-    <el-row :gutter="20">
+    <el-row :gutter="20" type="flex">
       <!--部门数据-->
       <el-col :span="4" :xs="24">
         <div class="scroll-container">
-          <div class="head-container">
+          <div class=" head-container">
             <el-input v-model="deptName"
               :placeholder="$t('btn.enterSearchPrefix')+$t('pdept.deptName')+$t('btn.enterSearchSuffix')" clearable
               prefix-icon="search" style="margin-bottom: 20px" />
@@ -39,20 +39,10 @@
           label-width="auto">
           <el-row :gutter="10" class="mb8">
             <el-col :lg="24">
-              <!-- {{budgetAccounting}} -->
-              <el-form-item label="部门ID" prop="deptId">
-                <el-select filterable clearable v-model="queryParams.deptId"
-                  :placeholder="$t('btn.selectSearchPrefix')+'部门ID'+$t('btn.selectSearchSuffix')">
-                  <el-option v-for="item in   options.sql_dept_list " :key="item.dictValue" :label="item.dictLabel"
-                    :value="item.dictValue">
-                    <span class="fl">{{ item.dictLabel }}</span>
-                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-                  </el-option>
-                </el-select>
-              </el-form-item>
               <el-form-item label="期间" prop="mh003">
                 <el-select filterable clearable v-model="queryParams.mh003"
-                  :placeholder="$t('btn.selectSearchPrefix')+'期间'+$t('btn.selectSearchSuffix')">
+                  :placeholder="$t('btn.selectSearchPrefix')+'期间'+$t('btn.selectSearchSuffix')"
+                  @change="handleLfgjaChange">
                   <el-option v-for="item in   options.sql_attr_list " :key="item.dictValue" :label="item.dictLabel"
                     :value="item.dictValue">
                     <span class="fl">{{ item.dictLabel }}</span>
@@ -63,46 +53,67 @@
               <el-form-item label="年月" prop="mh004">
                 <el-select filterable clearable v-model="queryParams.mh004"
                   :placeholder="$t('btn.selectSearchPrefix')+'年月'+$t('btn.selectSearchSuffix')">
-                  <el-option v-for="item in   options.sql_ymdt_list " :key="item.dictValue" :label="item.dictLabel"
+                  <el-option v-for="item in   filteredParamsLfmon " :key="item.dictValue" :label="item.dictLabel"
                     :value="item.dictValue">
                     <span class="fl">{{ item.dictLabel }}</span>
                     <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="公司" prop="mh005">
-                <!-- <el-select filterable clearable v-model="queryParams.mh005"
+              <!-- <el-form-item label="公司" prop="mh005">
+                <el-select filterable clearable v-model="queryParams.mh005"
                   :placeholder="$t('btn.selectSearchPrefix')+'公司'+$t('btn.selectSearchSuffix')">
                   <el-option v-for="item in   options.sql_corp_list " :key="item.dictValue" :label="item.dictLabel"
                     :value="item.dictValue">
                     <span class="fl">{{ item.dictLabel }}</span>
                     <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
                   </el-option>
-                </el-select> -->
-              </el-form-item>
-              <el-form-item label="科目" prop="mh006">
-                <el-tree-select v-model="queryParams.mh006" :data="budgetAccounting"
-                  :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id"
-                  :placeholder="$t('btn.selectSearchPrefix')+'科目'+$t('btn.selectSearchSuffix')" check-strictly
-                  :render-after-expand="false" />
-                <!-- <el-select filterable clearable v-model="queryParams.mh006"
-              :placeholder="$t('btn.selectSearchPrefix')+'科目'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sql_budget_title " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select> -->
-              </el-form-item>
-              <el-form-item label="审核" prop="mh015">
-                <el-select filterable clearable v-model="queryParams.mh015"
-                  :placeholder="$t('btn.selectSearchPrefix')+'审核'+$t('btn.selectSearchSuffix')">
-                  <el-option v-for="item in   options.sys_is_status " :key="item.dictValue" :label="item.dictLabel"
+                </el-select>
+              </el-form-item> -->
+              <!-- <el-form-item label="部门" prop="mh006">
+                <el-select filterable clearable v-model="queryParams.mh006"
+                  :placeholder="$t('btn.selectSearchPrefix')+'部门'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sql_dept_list " :key="item.dictValue" :label="item.dictLabel"
                     :value="item.dictValue">
                     <span class="fl">{{ item.dictLabel }}</span>
                     <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
                   </el-option>
                 </el-select>
+              </el-form-item> -->
+              <el-form-item label="科目" prop="mh007">
+                <el-tree-select v-model="queryParams.mh007" :data="budgetAccounting"
+                  :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id"
+                  :placeholder="$t('btn.selectSearchPrefix')+'科目'+$t('btn.selectSearchSuffix')" check-strictly
+                  :render-after-expand="false" />
+                <!-- <el-select filterable clearable v-model="queryParams.mh007"
+                  :placeholder="$t('btn.selectSearchPrefix')+'科目'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sql_budget_details " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select> -->
+              </el-form-item>
+              <el-form-item label="类别" prop="mh008">
+                <el-select filterable clearable v-model="queryParams.mh008"
+                  :placeholder="$t('btn.selectSearchPrefix')+'类别'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sys_costs_type " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="用途" prop="mh009">
+                <el-input v-model="queryParams.mh009"
+                  :placeholder="$t('btn.enterSearchPrefix')+'用途'+$t('btn.enterSearchSuffix')" />
+              </el-form-item>
+              <el-form-item label="审核" prop="mh016">
+                <el-radio-group v-model="queryParams.mh016">
+                  <el-radio :value="-1">{{$t('common.all')}}</el-radio>
+                  <el-radio v-for="item in  options.sys_is_status " :key="item.dictValue"
+                    :value="item.dictValue">{{item.dictLabel}}</el-radio>
+                </el-radio-group>
               </el-form-item>
             </el-col>
             <el-col :lg="24" :offset="12">
@@ -163,11 +174,6 @@
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')" />
           <el-table-column prop="parentId" label="父ID" align="center" v-if="columns.showColumn('parentId')" />
-          <el-table-column prop="deptId" label="部门ID" align="center" v-if="columns.showColumn('deptId')">
-            <template #default="scope">
-              <dict-tag :options=" options.sql_dept_list " :value="scope.row.deptId" />
-            </template>
-          </el-table-column>
           <el-table-column prop="mh003" label="期间" align="center" v-if="columns.showColumn('mh003')">
             <template #default="scope">
               <dict-tag :options=" options.sql_attr_list " :value="scope.row.mh003" />
@@ -183,41 +189,44 @@
               <dict-tag :options=" options.sql_corp_list " :value="scope.row.mh005" />
             </template>
           </el-table-column>
-          <el-table-column prop="mh006" label="科目" align="center" v-if="columns.showColumn('mh006')">
+          <el-table-column prop="mh006" label="部门" align="center" v-if="columns.showColumn('mh006')">
             <template #default="scope">
-              <dict-tag :options=" options.sql_budget_title " :value="scope.row.mh006" />
+              <dict-tag :options=" options.sql_dept_list " :value="scope.row.mh006" />
             </template>
           </el-table-column>
-          <el-table-column prop="mh007" label="名称" align="center" :show-overflow-tooltip="true"
-            v-if="columns.showColumn('mh007')" />
-          <el-table-column prop="mh008" label="明细科目" align="center" v-if="columns.showColumn('mh008')">
+          <el-table-column prop="mh007" label="科目" align="center" v-if="columns.showColumn('mh007')">
             <template #default="scope">
-              <dict-tag :options=" options.sql_budget_details " :value="scope.row.mh008" />
+              <dict-tag :options=" options.sql_budget_details " :value="scope.row.mh007" />
             </template>
           </el-table-column>
-          <el-table-column prop="mh009" label="明细名称" align="center" :show-overflow-tooltip="true"
+          <el-table-column prop="mh008" label="类别" align="center" v-if="columns.showColumn('mh008')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_costs_type " :value="scope.row.mh008" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh009" label="用途" align="center" :show-overflow-tooltip="true"
             v-if="columns.showColumn('mh009')" />
-          <el-table-column prop="mh010" label="说明" align="center" :show-overflow-tooltip="true"
-            v-if="columns.showColumn('mh010')" />
-          <el-table-column prop="mh011" label="预算金额" align="center" v-if="columns.showColumn('mh011')" />
-          <el-table-column prop="mh012" label="实际发生" align="center" v-if="columns.showColumn('mh012')" />
-          <el-table-column prop="mh013" label="差异" align="center" v-if="columns.showColumn('mh013')" />
-          <el-table-column prop="mh014" label="启用标记" align="center" v-if="columns.showColumn('mh014')">
-            <template #default="scope">
-              <dict-tag :options=" options.sys_is_status " :value="scope.row.mh014" />
-            </template>
-          </el-table-column>
-          <el-table-column prop="mh015" label="审核" align="center" v-if="columns.showColumn('mh015')">
+          <el-table-column prop="mh010" label="单价" align="center" v-if="columns.showColumn('mh010')" />
+          <el-table-column prop="mh011" label="数量" align="center" v-if="columns.showColumn('mh011')" />
+          <el-table-column prop="mh012" label="金额" align="center" v-if="columns.showColumn('mh012')" />
+          <el-table-column prop="mh013" label="实际" align="center" v-if="columns.showColumn('mh013')" />
+          <el-table-column prop="mh014" label="差异" align="center" v-if="columns.showColumn('mh014')" />
+          <el-table-column prop="mh015" label="启用" align="center" v-if="columns.showColumn('mh015')">
             <template #default="scope">
               <dict-tag :options=" options.sys_is_status " :value="scope.row.mh015" />
             </template>
           </el-table-column>
-          <el-table-column prop="mh016" label="审核人员" align="center" :show-overflow-tooltip="true"
-            v-if="columns.showColumn('mh016')" />
-          <el-table-column prop="mh017" label="审核日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mh017')" />
-          <el-table-column prop="mh018" label="撤消人员" align="center" :show-overflow-tooltip="true"
-            v-if="columns.showColumn('mh018')" />
-          <el-table-column prop="mh019" label="撤消日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mh019')" />
+          <el-table-column prop="mh016" label="审核" align="center" v-if="columns.showColumn('mh016')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_is_status " :value="scope.row.mh016" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh017" label="审核人" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh017')" />
+          <el-table-column prop="mh018" label="审核日" :show-overflow-tooltip="true" v-if="columns.showColumn('mh018')" />
+          <el-table-column prop="mh019" label="撤消人" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh019')" />
+          <el-table-column prop="mh020" label="撤消日" :show-overflow-tooltip="true" v-if="columns.showColumn('mh020')" />
           <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true"
             v-if="columns.showColumn('remark')" />
           <el-table-column :label="$t('btn.operation')" width="160" align="center">
@@ -235,15 +244,14 @@
           @pagination="getList" />
       </el-col>
     </el-row>
-
     <!-- 添加或修改费用预算对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane :label="$t('ptabs.basicInfo')" name="first">
             <el-row :gutter="20">
-
-              <!-- <el-col :lg="12">
+              <!-- 
+              <el-col :lg="12">
                 <el-form-item label="父ID" prop="parentId">
                   <el-input v-model.number="form.parentId"
                     :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')" show-word-limit maxlength="19" />
@@ -251,23 +259,9 @@
               </el-col> -->
 
               <el-col :lg="12">
-                <el-form-item label="部门ID" prop="deptId">
-                  <el-tree-select v-model="form.deptId" :data="deptOptions"
-                    :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id"
-                    :placeholder="$t('btn.selectPrefix')+$t('user.department')+$t('btn.selectSuffix')" check-strictly
-                    :render-after-expand="false" />
-                  <!-- <el-select filterable clearable v-model="form.deptId"
-                    :placeholder="$t('btn.selectPrefix')+'部门ID'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sql_dept_list" :key="item.dictValue" :label="item.dictLabel"
-                      :value="parseInt(item.dictValue)"></el-option>
-                  </el-select> -->
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
                 <el-form-item label="期间" prop="mh003">
                   <el-select filterable clearable v-model="form.mh003"
-                    :placeholder="$t('btn.selectPrefix')+'期间'+$t('btn.selectSuffix')">
+                    :placeholder="$t('btn.selectPrefix')+'期间'+$t('btn.selectSuffix')" @change="handleLfgjaChange">
                     <el-option v-for="item in  options.sql_attr_list" :key="item.dictValue" :label="item.dictLabel"
                       :value="item.dictValue"></el-option>
                   </el-select>
@@ -278,7 +272,7 @@
                 <el-form-item label="年月" prop="mh004">
                   <el-select filterable clearable v-model="form.mh004"
                     :placeholder="$t('btn.selectPrefix')+'年月'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sql_ymdt_list" :key="item.dictValue" :label="item.dictLabel"
+                    <el-option v-for="item in  filteredFormLfmon" :key="item.dictValue" :label="item.dictLabel"
                       :value="item.dictValue"></el-option>
                   </el-select>
                 </el-form-item>
@@ -295,75 +289,85 @@
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="科目" prop="mh006">
-                  <el-tree-select v-model="form.mh006" :data="budgetAccounting"
+                <el-form-item label="部门" prop="mh006">
+                  <el-select filterable clearable v-model="form.mh006"
+                    :placeholder="$t('btn.selectPrefix')+'部门'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sql_dept_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="科目" prop="mh007">
+                  <el-tree-select v-model="form.mh007" :data="budgetAccounting"
                     :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id"
-                    :placeholder="$t('btn.selectPrefix')+'科目'+$t('btn.selectSuffix')" check-strictly
+                    :placeholder="$t('btn.selectSearchPrefix')+'科目'+$t('btn.selectSearchSuffix')" check-strictly
                     :render-after-expand="false" />
-                  <!-- <el-select filterable clearable v-model="form.mh006"
+                  <!-- <el-select filterable clearable v-model="form.mh007"
                     :placeholder="$t('btn.selectPrefix')+'科目'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sql_budget_title" :key="item.dictValue" :label="item.dictLabel"
+                    <el-option v-for="item in  options.sql_budget_details" :key="item.dictValue" :label="item.dictLabel"
                       :value="item.dictValue"></el-option>
                   </el-select> -->
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="名称" prop="mh007">
-                  <el-input v-model="form.mh007" :placeholder="$t('btn.enterPrefix')+'名称'+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="100" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="明细科目" prop="mh008">
+                <el-form-item label="类别" prop="mh008">
                   <el-select filterable clearable v-model="form.mh008"
-                    :placeholder="$t('btn.selectPrefix')+'明细科目'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sql_budget_details" :key="item.dictValue" :label="item.dictLabel"
+                    :placeholder="$t('btn.selectPrefix')+'类别'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_costs_type" :key="item.dictValue" :label="item.dictLabel"
                       :value="item.dictValue"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="明细名称" prop="mh009">
-                  <el-input v-model="form.mh009" :placeholder="$t('btn.enterPrefix')+'明细名称'+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="100" />
+                <el-form-item label="用途" prop="mh009">
+                  <el-input type="textarea" v-model="form.mh009"
+                    :placeholder="$t('btn.enterPrefix')+'用途'+$t('btn.enterSuffix')" show-word-limit :rows="2"
+                    maxlength="500" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="说明" prop="mh010">
-                  <el-input type="textarea" v-model="form.mh010"
-                    :placeholder="$t('btn.enterPrefix')+'说明'+$t('btn.enterSuffix')" show-word-limit :rows="2"
-                    maxlength="255" />
+                <el-form-item label="单价" prop="mh010">
+                  <el-input-number v-model.number="form.mh010" :controls="true" controls-position="right"
+                    :placeholder="$t('btn.enterPrefix')+'单价'+$t('btn.enterSuffix')" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="预算金额" prop="mh011">
+                <el-form-item label="数量" prop="mh011">
                   <el-input-number v-model.number="form.mh011" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'预算金额'+$t('btn.enterSuffix')" />
+                    :placeholder="$t('btn.enterPrefix')+'数量'+$t('btn.enterSuffix')" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="实际发生" prop="mh012">
+                <el-form-item label="金额" prop="mh012">
                   <el-input-number v-model.number="form.mh012" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'实际发生'+$t('btn.enterSuffix')" />
+                    :placeholder="$t('btn.enterPrefix')+'金额'+$t('btn.enterSuffix')" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="差异" prop="mh013">
+                <el-form-item label="实际" prop="mh013">
                   <el-input-number v-model.number="form.mh013" :controls="true" controls-position="right"
+                    :placeholder="$t('btn.enterPrefix')+'实际'+$t('btn.enterSuffix')" />
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="差异" prop="mh014">
+                  <el-input-number v-model.number="form.mh014" :controls="true" controls-position="right"
                     :placeholder="$t('btn.enterPrefix')+'差异'+$t('btn.enterSuffix')" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="启用标记" prop="mh014">
-                  <el-radio-group v-model="form.mh014">
+                <el-form-item label="启用" prop="mh015">
+                  <el-radio-group v-model="form.mh015">
                     <el-radio v-for="item in options.sys_is_status" :key="item.dictValue"
                       :value="parseInt(item.dictValue)">
                       {{item.dictLabel}}
@@ -373,39 +377,40 @@
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="审核" prop="mh015">
-                  <el-select filterable clearable v-model="form.mh015"
-                    :placeholder="$t('btn.selectPrefix')+'审核'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sys_is_status" :key="item.dictValue" :label="item.dictLabel"
-                      :value="parseInt(item.dictValue)"></el-option>
-                  </el-select>
+                <el-form-item label="审核" prop="mh016">
+                  <el-radio-group v-model="form.mh016">
+                    <el-radio v-for="item in options.sys_is_status" :key="item.dictValue"
+                      :value="parseInt(item.dictValue)">
+                      {{item.dictLabel}}
+                    </el-radio>
+                  </el-radio-group>
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="审核人员" prop="mh016">
-                  <el-input v-model="form.mh016" :placeholder="$t('btn.enterPrefix')+'审核人员'+$t('btn.enterSuffix')"
+                <el-form-item label="审核人" prop="mh017">
+                  <el-input v-model="form.mh017" :placeholder="$t('btn.enterPrefix')+'审核人'+$t('btn.enterSuffix')"
                     show-word-limit maxlength="20" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="审核日期" prop="mh017">
-                  <el-date-picker v-model="form.mh017" type="datetime" :teleported="false"
+                <el-form-item label="审核日" prop="mh018">
+                  <el-date-picker v-model="form.mh018" type="datetime" :teleported="false"
                     :placeholder="$t('btn.dateselect')"></el-date-picker>
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="撤消人员" prop="mh018">
-                  <el-input v-model="form.mh018" :placeholder="$t('btn.enterPrefix')+'撤消人员'+$t('btn.enterSuffix')"
+                <el-form-item label="撤消人" prop="mh019">
+                  <el-input v-model="form.mh019" :placeholder="$t('btn.enterPrefix')+'撤消人'+$t('btn.enterSuffix')"
                     show-word-limit maxlength="20" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
-                <el-form-item label="撤消日期" prop="mh019">
-                  <el-date-picker v-model="form.mh019" type="datetime" :teleported="false"
+                <el-form-item label="撤消日" prop="mh020">
+                  <el-date-picker v-model="form.mh020" type="datetime" :teleported="false"
                     :placeholder="$t('btn.dateselect')"></el-date-picker>
                 </el-form-item>
               </el-col>
@@ -416,73 +421,6 @@
                     :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" show-word-limit maxlength="500" />
                 </el-form-item>
               </el-col>
-            </el-row>
-          </el-tab-pane>
-
-
-          <el-tab-pane :label="$t('ptabs.onboarding')" name="second">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.qualifications')" name="third">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.attachment')" name="fourth">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.content')" name="fifth">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.trade')" name="sixth">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.bank')" name="seventh">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.contact')" name="eighth">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-
-          <el-tab-pane :label="$t('ptabs.purchase')" name="ninth">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.sales')" name="tenth">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.production')" name="11th">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.warehouse')" name="12th">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.accounting')" name="13th">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.incoming')" name="14th">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.outgoing')" name="15th">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.customization')" name="16th">
-            <el-row :gutter="20">
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.oper')" name="17th">
-            <el-row :gutter="20">
             </el-row>
           </el-tab-pane>
         </el-tabs>
@@ -498,8 +436,6 @@
 </template>
 
 <script setup name="ficobudgetexpense">
-  import { treeselect } from '@/api/system/dept'
-  import { treeselectBudgetAccounting } from '@/api/accounting/ficobudgetaccounting.js'
   import '@/assets/styles/btn-custom.scss'
   //后台操作函数
   import {
@@ -508,6 +444,8 @@
     updateFicoBudgetExpense, getFicoBudgetExpense,
   }
     from '@/api/accounting/ficobudgetexpense.js'
+  import { treeselect } from '@/api/system/dept'
+  import { treeselectFicoBudgetAccounting } from '@/api/accounting/ficobudgetaccounting.js'
   import importData from '@/components/ImportData'
   //防抖处理函数 import { debounce } from 'lodash';
   import { debounce } from 'lodash';
@@ -518,6 +456,12 @@
   const handleClick = (tab, event) => {
     console.log(tab, event)
   }
+  //部门名称
+  const deptName = ref('')
+  //部门数据
+  const deptOptions = ref([])
+  //预算科目
+  const budgetAccounting = ref([])
   //选中refId数组数组
   const ids = ref([])
   //是否加载动画
@@ -531,8 +475,6 @@
     sort: 'Mh004',
     sortType: 'desc',
     //是否查询（1是）
-    deptId: undefined,
-    //是否查询（1是）
     mh003: undefined,
     //是否查询（1是）
     mh004: undefined,
@@ -541,30 +483,38 @@
     //是否查询（1是）
     mh006: undefined,
     //是否查询（1是）
-    mh015: undefined,
+    mh007: undefined,
+    //是否查询（1是）
+    mh008: undefined,
+    //是否查询（1是）
+    mh009: undefined,
+    //是否查询（1是）
+    md009: undefined,
+    //是否查询（1是）
+    mh016: -1,
   })
   //字段显示控制
   const columns = ref([
-    { visible: true, prop: 'id', label: 'ID' },
-    { visible: true, prop: 'parentId', label: '父ID' },
-    { visible: true, prop: 'deptId', label: '部门ID' },
-    { visible: true, prop: 'mh003', label: '期间' },
+    { visible: false, prop: 'id', label: 'ID' },
+    { visible: false, prop: 'parentId', label: '父ID' },
+    { visible: false, prop: 'mh003', label: '期间' },
     { visible: true, prop: 'mh004', label: '年月' },
     { visible: true, prop: 'mh005', label: '公司' },
-    { visible: true, prop: 'mh006', label: '科目' },
-    { visible: true, prop: 'mh007', label: '名称' },
-    { visible: false, prop: 'mh008', label: '明细科目' },
-    { visible: false, prop: 'mh009', label: '明细名称' },
-    { visible: false, prop: 'mh010', label: '说明' },
-    { visible: false, prop: 'mh011', label: '预算金额' },
-    { visible: false, prop: 'mh012', label: '实际发生' },
-    { visible: false, prop: 'mh013', label: '差异' },
-    { visible: false, prop: 'mh014', label: '启用标记' },
-    { visible: false, prop: 'mh015', label: '审核' },
-    { visible: false, prop: 'mh016', label: '审核人员' },
-    { visible: false, prop: 'mh017', label: '审核日期' },
-    { visible: false, prop: 'mh018', label: '撤消人员' },
-    { visible: false, prop: 'mh019', label: '撤消日期' },
+    { visible: true, prop: 'mh006', label: '部门' },
+    { visible: true, prop: 'mh007', label: '科目' },
+    { visible: true, prop: 'mh008', label: '类别' },
+    { visible: true, prop: 'mh009', label: '用途' },
+    { visible: true, prop: 'mh010', label: '单价' },
+    { visible: true, prop: 'mh011', label: '数量' },
+    { visible: true, prop: 'mh012', label: '金额' },
+    { visible: false, prop: 'mh013', label: '实际' },
+    { visible: false, prop: 'mh014', label: '差异' },
+    { visible: false, prop: 'mh015', label: '启用' },
+    { visible: true, prop: 'mh016', label: '审核' },
+    { visible: false, prop: 'mh017', label: '审核人' },
+    { visible: false, prop: 'mh018', label: '审核日' },
+    { visible: false, prop: 'mh019', label: '撤消人' },
+    { visible: false, prop: 'mh020', label: '撤消日' },
     { visible: false, prop: 'remark', label: '备注' },
   ])
   // 记录数
@@ -573,61 +523,20 @@
   const dataList = ref([])
   //查询参数
   const queryRef = ref()
-  const deptName = ref('')
-  const deptOptions = ref([])
   //定义起始时间
   const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-  const budgetAccounting = ref([])
+
   //字典参数
   var dictParams = [
-    { dictType: "sql_dept_list" },
     { dictType: "sql_attr_list" },
     { dictType: "sql_ymdt_list" },
     { dictType: "sql_corp_list" },
-    { dictType: "sql_budget_title" },
+    { dictType: "sql_dept_list" },
     { dictType: "sql_budget_details" },
+    { dictType: "sys_costs_type" },
     { dictType: "sys_is_status" },
   ]
-  /** 通过条件过滤节点  */
-  const filterNode = (value, data) => {
-    if (!value) return true
-    return data.label.indexOf(value) !== -1
-  }
-  /** 根据名称筛选部门树 */
-  watch(deptName, (val) => {
-    proxy.$refs['deptTreeRef'].filter(val)
-  })
-  /** 查询部门下拉树结构 */
-  function getDeptTreeselect() {
-    treeselect().then((response) => {
-      deptOptions.value = [{ id: 0, label: proxy.$t('common.unknow') + proxy.$t('puser.deptName'), children: [] }, ...response.data]
-    })
-  }
-  /** 初始化部门数据 */
-  function initDeptTreeData() {
-    // 判断部门的数据是否存在，存在不获取，不存在则获取
-    if (deptOptions.value === undefined) {
-      treeselect().then((response) => {
-        deptOptions.value = response.data
-      })
-    }
-  }
-  /** 查询部门下拉树结构 */
-  function getBaTreeselect() {
-    treeselectBudgetAccounting().then((response) => {
-      budgetAccounting.value = [{ id: 0, label: proxy.$t('common.unknow') + proxy.$t('puser.deptName'), children: [] }, ...response.data]
-    })
-  }
 
-  /** 初始化部门数据 */
-  function initBaTreeData() {
-    // 判断部门的数据是否存在，存在不获取，不存在则获取
-    if (budgetAccounting.value === undefined) {
-      treeselectBudgetAccounting().then((response) => {
-        budgetAccounting.value = response.data
-      })
-    }
-  }
   //字典加载
   proxy.getDicts(dictParams).then((response) => {
     response.data.forEach((element) => {
@@ -646,25 +555,52 @@
       }
     })
   }
+  /** 通过条件过滤节点  */
+  const filterNode = (value, data) => {
+    if (!value) return true
+    return data.label.indexOf(value) !== -1
+  }
+  /** 根据名称筛选部门树 */
+  watch(deptName, (val) => {
+    proxy.$refs['deptTreeRef'].filter(val)
+  })
+  /** 查询部门下拉树结构 */
+  function getDeptTreeSelect() {
+    treeselect().then((response) => {
+      deptOptions.value = [{ id: 0, label: proxy.$t('common.unknow') + proxy.$t('puser.deptName'), children: [] }, ...response.data]
+    })
+  }
+  //查询预算科目下拉树
 
+  function getBudgetAccountingTreeSelect() {
+    console.log(queryParams)
+    treeselectFicoBudgetAccounting(queryParams).then((response) => {
+      budgetAccounting.value = [{ id: 0, label: proxy.$t('common.unknow'), children: [] }, ...response.data]
+    })
+  }
+  /** 初始化部门数据 */
+  function initDeptTreeData() {
+    // 判断部门的数据是否存在，存在不获取，不存在则获取
+    if (deptOptions.value === undefined) {
+      treeselect().then((response) => {
+        deptOptions.value = response.data
+      })
+    }
+  }
+  const deptIdSelect = ref(0)
+  /** 节点单击事件 */
+  function handleNodeClick(data) {
+    console.log(data)
+    deptIdSelect.value = data.id
+    queryParams.mh006 = data.id
+    handleQuery()
+  }
   // 查询
   function handleQuery() {
     queryParams.pageNum = 1
     getList()
   }
-  /** 节点单击事件 */
-  function handleNodeClick(data) {
-    console.log(data)
-    // if (data.id == 1) {
-    //   queryParams.mh005 = '2300'
-    //   queryParams.DeptId = data.id
-    // } else {
-    //   queryParams.DeptId = data.id
-    // }
-    queryParams.DeptId = data.id
 
-    handleQuery()
-  }
   // 重置查询操作
   function resetQuery() {
     proxy.resetForm("queryRef")
@@ -712,28 +648,32 @@
       mh003: [{ required: true, message: "期间" + proxy.$t('btn.isEmpty'), trigger: "change" }],
       mh004: [{ required: true, message: "年月" + proxy.$t('btn.isEmpty'), trigger: "change" }],
       mh005: [{ required: true, message: "公司" + proxy.$t('btn.isEmpty'), trigger: "change" }],
-      mh006: [{ required: true, message: "科目" + proxy.$t('btn.isEmpty'), trigger: "change" }],
-      mh011: [{ required: true, message: "预算金额" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
-      mh012: [{ required: true, message: "实际发生" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
-      mh013: [{ required: true, message: "差异" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
-      mh014: [{ required: true, message: "启用标记" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
-      mh015: [{ required: true, message: "审核" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
+      mh006: [{ required: true, message: "部门" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
+      mh007: [{ required: true, message: "科目" + proxy.$t('btn.isEmpty'), trigger: "change" }],
+      mh008: [{ required: true, message: "类别" + proxy.$t('btn.isEmpty'), trigger: "change" }],
+      mh010: [{ required: true, message: "单价" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
+      mh011: [{ required: true, message: "数量" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
+      mh012: [{ required: true, message: "金额" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      mh013: [{ required: true, message: "实际" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      mh014: [{ required: true, message: "差异" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      mh015: [{ required: true, message: "启用" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
+      mh016: [{ required: true, message: "审核" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
     },
     //字典名称
     options: {
-      // 部门ID 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-      sql_dept_list: [],
       // 期间 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sql_attr_list: [],
       // 年月 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sql_ymdt_list: [],
       // 公司 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sql_corp_list: [],
+      // 部门 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sql_dept_list: [],
       // 科目 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-      sql_budget_title: [],
-      // 明细科目 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sql_budget_details: [],
-      // 启用标记 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      // 类别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sys_costs_type: [],
+      // 启用 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sys_is_status: [],
     }
   })
@@ -745,35 +685,60 @@
     open.value = false
     reset()
   }
+  // 使用 computed 属性来过滤数据: 过滤出选中的数据年月
+  const filteredFormLfmon = ref([])
+  const filteredParamsLfmon = ref([])
+  function handleLfgjaChange() {
+    //console.log(open.value === true)
+    //console.log(state.options.sql_ymdt_list)
+    if (open.value === true) {
+      form.value.mh004 = ''
+      filteredFormLfmon.value = state.options.sql_ymdt_list.filter(item => item.extLabel === form.value.mh003)
 
+    }
+    else {
+      queryParams.mh004 = ''
+      //console.log(queryParams.mp002)
+      filteredParamsLfmon.value = state.options.sql_ymdt_list.filter(item => item.extLabel === queryParams.mh003)
 
+    }
+  }
   // 重置表单
   function reset() {
     form.value = {
       parentId: 0,
-      deptId: [],
       mh003: [],
       mh004: [],
       mh005: [],
       mh006: [],
-      mh007: null,
+      mh007: [],
       mh008: [],
       mh009: null,
-      mh010: null,
+      mh010: 0,
       mh011: 0,
       mh012: 0,
       mh013: 0,
       mh014: 0,
-      mh015: [],
-      mh016: null,
+      mh015: 0,
+      mh016: 0,
       mh017: null,
       mh018: null,
       mh019: null,
+      mh020: null,
       remark: null,
     };
     proxy.resetForm("formRef")
   }
-
+  const cropDta = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22])
+  const cropTac = ref([23, 32, 33])
+  const cropTsz = ref([24, 34, 35])
+  const cropTcj = ref([25])
+  const cropTss = ref([26])
+  const cropTca = ref([27])
+  const cropTms = ref([285])
+  const cropTcs = ref([29])
+  const cropTe = ref([30])
+  const cropTuk = ref([31])
 
   // 添加按钮操作
   function handleAdd() {
@@ -781,19 +746,47 @@
     open.value = true
     title.value = proxy.$t('btn.add') + " " + '费用预算'
     opertype.value = 1
-    form.value.deptId = []
     form.value.mh003 = 'FY' + (new Date().getFullYear() + 1)
     form.value.mh004 = new Date().getFullYear().toString() + (new Date().getMonth() + 1).toString()
-    form.value.mh005 = '2300'
-    form.value.mh006 = []
+    if ((deptIdSelect.value) == 0) {
+      console.log(cropDta.value.includes(deptIdSelect.value))
+
+      form.value.mh005 = '2300'
+    } else if (cropDta.value.includes(deptIdSelect.value) == true) {
+      console.log(cropDta.value.includes(deptIdSelect.value))
+      form.value.mh005 = '2300'
+    } else if (cropTac.value.includes(deptIdSelect.value) == true) {
+      form.value.mh005 = '2400'
+    } else if (cropTsz.value.includes(deptIdSelect.value) == true) {
+      form.value.mh005 = '2500'
+    } else if (cropTcj.value.includes(deptIdSelect.value) == true) {
+      form.value.mh005 = '1000'
+    } else if (cropTss.value.includes(deptIdSelect.value) == true) {
+      form.value.mh005 = '1300'
+    } else if (cropTca.value.includes(deptIdSelect.value) == true) {
+      form.value.mh005 = '3000'
+    } else if (cropTms.value.includes(deptIdSelect.value) == true) {
+      form.value.mh005 = '1100'
+    } else if (cropTcs.value.includes(deptIdSelect.value) == true) {
+      form.value.mh005 = '1700'
+    } else if (cropTe.value.includes(deptIdSelect.value) == true) {
+      form.value.mh005 = '4000'
+    } else if (cropTuk.value.includes(deptIdSelect.value) == true) {
+      form.value.mh005 = '4100'
+    } else { form.value.mh005 = [] }
+    //form.value.mh005 = []
+    form.value.mh006 = deptIdSelect.value
+    form.value.mh007 = []
     form.value.mh008 = []
+    form.value.mh010 = 0
     form.value.mh011 = 0
     form.value.mh012 = 0
     form.value.mh013 = 0
     form.value.mh014 = 0
     form.value.mh015 = 0
-    form.value.mh017 = new Date()
-    form.value.mh019 = new Date()
+    form.value.mh016 = 0
+    form.value.mh018 = new Date()
+    form.value.mh020 = new Date()
   }
   // 修改按钮操作
   function handleUpdate(row) {
@@ -944,8 +937,8 @@
     }
     return wholePartFormat + decimalPart
   }
-  getBaTreeselect()
-  getDeptTreeselect()
+  getBudgetAccountingTreeSelect()
+  getDeptTreeSelect()
   handleQuery()
 </script>
 <style scoped>

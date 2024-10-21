@@ -8,7 +8,7 @@ namespace Ams.Service.Accounting.IAccountingService
     /// 预算科目
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/12 16:36:02
+    /// @Date: 2024/10/15 17:17:38
     /// </summary>
     public interface IFicoBudgetAccountingService : IBaseService<FicoBudgetAccounting>
     {
@@ -35,25 +35,27 @@ namespace Ams.Service.Accounting.IAccountingService
         public string CheckInputUnique(string enterString);
 
         /// <summary>
-        /// 获取预算科目树信息
-        /// </summary>
-        /// <param name="parm"></param>
-        /// <returns></returns>
-        List<FicoBudgetAccounting> GetTreeList(FicoBudgetAccountingQueryDto parm);
-
-        /// <summary>
-        /// 获取预算科目列表
+        /// 查询部门管理数据
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
         List<FicoBudgetAccounting> GetBudgetAccountings(FicoBudgetAccountingQueryDto parm);
 
+        List<FicoBudgetAccounting> BuildBudgetAccountingTree(List<FicoBudgetAccounting> parms);
+
         /// <summary>
         /// 构建预算科目树
         /// </summary>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        List<TreeSelectVo> BuildBudgetAccountingTreeSelect(List<FicoBudgetAccounting> parms);
+
+        /// <summary>
+        /// 获取预算科目树信息
+        /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        List<TreeSelectVo> BuildBudgetAccountingTreeSelect(List<FicoBudgetAccounting> parm);
+        List<FicoBudgetAccounting> GetTreeList(FicoBudgetAccountingQueryDto parm);
 
         /// <summary>
         /// 新增

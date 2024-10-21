@@ -11,7 +11,7 @@ namespace Ams.Service.Routine
     /// 招聘
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/12 15:16:55
+    /// @Date: 2024/10/18 15:46:34
     /// </summary>
     [AppService(ServiceType = typeof(IRoutineEhrRecruitmentService), ServiceLifetime = LifeTime.Transient)]
     public class RoutineEhrRecruitmentService : BaseService<RoutineEhrRecruitment>, IRoutineEhrRecruitmentService
@@ -26,7 +26,7 @@ namespace Ams.Service.Routine
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("Mn002 desc")
+                //.OrderBy("Mn003 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<RoutineEhrRecruitment, RoutineEhrRecruitmentDto>(parm);
 
@@ -93,16 +93,24 @@ namespace Ams.Service.Routine
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.Mn002.IsEmpty(), "招聘日期不能为空")
-                .SplitError(x => x.Item.Mn003.IsEmpty(), "姓名不能为空")
-                .SplitError(x => x.Item.Mn004.IsEmpty(), "部门不能为空")
-                .SplitError(x => x.Item.Mn005.IsEmpty(), "职称不能为空")
-                .SplitError(x => x.Item.Mn006.IsEmpty(), "岗位不能为空")
-                .SplitError(x => x.Item.Mn007.IsEmpty(), "等级不能为空")
-                .SplitError(x => x.Item.Mn008.IsEmpty(), "职务不能为空")
-                .SplitError(x => x.Item.Mn013.IsEmpty(), "试用工资不能为空")
-                .SplitError(x => x.Item.Mn015.IsEmpty(), "转正工资不能为空")
-                .SplitError(x => x.Item.Is_deleted.IsEmpty(), "软删除不能为空")
+                .SplitError(x => x.Item.Mn002.IsEmpty(), "招聘起始日不能为空")
+                .SplitError(x => x.Item.Mn003.IsEmpty(), "招聘截止日不能为空")
+                .SplitError(x => x.Item.Mn004.IsEmpty(), "招聘部门不能为空")
+                .SplitError(x => x.Item.Mn006.IsEmpty(), "薪资范围不能为空")
+                .SplitError(x => x.Item.Mn007.IsEmpty(), "紧急程度不能为空")
+                .SplitError(x => x.Item.Mn008.IsEmpty(), "工作城市不能为空")
+                .SplitError(x => x.Item.Mn009.IsEmpty(), "工作经验不能为空")
+                .SplitError(x => x.Item.Mn010.IsEmpty(), "学历要求不能为空")
+                .SplitError(x => x.Item.Mn011.IsEmpty(), "聘用形式不能为空")
+                .SplitError(x => x.Item.Mn012.IsEmpty(), "到岗日期不能为空")
+                .SplitError(x => x.Item.Mn013.IsEmpty(), "年龄要求不能为空")
+                .SplitError(x => x.Item.Mn014.IsEmpty(), "面试否不能为空")
+                .SplitError(x => x.Item.Mn015.IsEmpty(), "招聘人数不能为空")
+                .SplitError(x => x.Item.Mn016.IsEmpty(), "招聘原因不能为空")
+                .SplitError(x => x.Item.Mn017.IsEmpty(), "试用期限不能为空")
+                .SplitError(x => x.Item.Mn018.IsEmpty(), "招聘状态不能为空")
+                .SplitError(x => x.Item.Mn019.IsEmpty(), "相关资格证书不能为空")
+                .SplitError(x => x.Item.Mn020.IsEmpty(), "岗位描述不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -136,10 +144,30 @@ namespace Ams.Service.Routine
                 .Where(predicate.ToExpression())
                 .Select((it) => new RoutineEhrRecruitmentDto()
                 {
-                    //查询字典: <部门> 
+                    //查询字典: <招聘部门> 
                     Mn004Label = it.Mn004.GetConfigValue<SysDictData>("sql_dept_list"),
+                    //查询字典: <招聘职位> 
+                    Mn005Label = it.Mn005.GetConfigValue<SysDictData>("sql_posts_list"),
+                    //查询字典: <薪资范围> 
+                    Mn006Label = it.Mn006.GetConfigValue<SysDictData>("sys_salary_range"),
+                    //查询字典: <紧急程度> 
+                    Mn007Label = it.Mn007.GetConfigValue<SysDictData>("sys_urgently_state"),
+                    //查询字典: <工作城市> 
+                    Mn008Label = it.Mn008.GetConfigValue<SysDictData>("sql_global_city"),
+                    //查询字典: <工作经验> 
+                    Mn009Label = it.Mn009.GetConfigValue<SysDictData>("sys_work_expe"),
+                    //查询字典: <学历要求> 
+                    Mn010Label = it.Mn010.GetConfigValue<SysDictData>("sys_recru_qual"),
                     //查询字典: <聘用形式> 
-                    Mn009Label = it.Mn009.GetConfigValue<SysDictData>("sys_employ_term"),
+                    Mn011Label = it.Mn011.GetConfigValue<SysDictData>("sys_employ_term"),
+                    //查询字典: <年龄要求> 
+                    Mn013Label = it.Mn013.GetConfigValue<SysDictData>("sys_recru_age"),
+                    //查询字典: <面试否> 
+                    Mn014Label = it.Mn014.GetConfigValue<SysDictData>("sys_is_status"),
+                    //查询字典: <招聘原因> 
+                    Mn016Label = it.Mn016.GetConfigValue<SysDictData>("sys_recru_reason"),
+                    //查询字典: <招聘状态> 
+                    Mn018Label = it.Mn018.GetConfigValue<SysDictData>("sys_recru_state"),
                 }, true)
                 .ToPage(parm);
 
@@ -155,22 +183,16 @@ namespace Ams.Service.Routine
         {
             var predicate = Expressionable.Create<RoutineEhrRecruitment>();
 
-            //查询字段: <招聘日期> 
-            //predicate = predicate.AndIF(parm.BeginMn002 == null, it => it.Mn002 >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //predicate = predicate.AndIF(parm.BeginMn002 != null, it => it.Mn002 >= parm.BeginMn002);
-            //predicate = predicate.AndIF(parm.EndMn002 != null, it => it.Mn002 <= parm.EndMn002);
-            //当日期条件为空时，默认查询大于今天的所有数据
-            //predicate = predicate.AndIF(parm.BeginMn002 == null, it => it.Mn002 >= DateTime.Now.ToShortDateString().ParseToDateTime());
-            //当日期条件为空时，默认查询大于今年的所有数据
-            predicate = predicate.AndIF(parm.BeginMn002 == null, it => it.Mn002 >= new DateTime(DateTime.Now.Year, 1, 1));
-            predicate = predicate.AndIF(parm.BeginMn002 != null, it => it.Mn002 >= parm.BeginMn002);
-            predicate = predicate.AndIF(parm.EndMn002 != null, it => it.Mn002 <= parm.EndMn002);
-            //查询字段: <姓名> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mn003), it => it.Mn003.Contains(parm.Mn003));
-            //查询字段: <部门> 
+            //查询字段: <招聘部门> 
             predicate = predicate.AndIF(parm.Mn004 != -1, it => it.Mn004 == parm.Mn004);
-            //查询字段: <聘用形式> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mn009), it => it.Mn009 == parm.Mn009);
+            //查询字段: <招聘职位> 
+            predicate = predicate.AndIF(parm.Mn005 != -1, it => it.Mn005 == parm.Mn005);
+            //查询字段: <薪资范围> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mn006), it => it.Mn006 == parm.Mn006);
+            //查询字段: <紧急程度> 
+            predicate = predicate.AndIF(parm.Mn007 != -1, it => it.Mn007 == parm.Mn007);
+            //查询字段: <工作城市> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mn008), it => it.Mn008 == parm.Mn008);
             return predicate;
         }
     }

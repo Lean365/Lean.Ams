@@ -4,7 +4,7 @@ namespace Ams.Model.Accounting
     /// 预算科目
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/12 16:36:02
+    /// @Date: 2024/10/15 17:17:38
     /// </summary>
     [SugarTable("fico_budget_accounting", "预算科目")]
     public class FicoBudgetAccounting : SysBase
@@ -13,7 +13,7 @@ namespace Ams.Model.Accounting
         /// ID
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
-        [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
         public long Id { get; set; }
 
         /// <summary>
@@ -82,9 +82,9 @@ namespace Ams.Model.Accounting
         public string Md012 { get; set; }
 
         /// <summary>
-        /// 统驭科目
+        /// 统驭类别
         /// </summary>
-        [SugarColumn(ColumnName = "Md013", ColumnDescription = "统驭科目", Length = 2)]
+        [SugarColumn(ColumnName = "Md013", ColumnDescription = "统驭类别", Length = 2)]
         public string Md013 { get; set; }
 
         /// <summary>

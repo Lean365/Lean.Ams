@@ -14,6 +14,8 @@ namespace Ams.Service.Monitor
         /// <param name="operLog">日志对象</param>
         public void InsertOperlog(OperLog operLog)
         {
+            operLog.Create_by = HttpContextExtension.GetName(App.HttpContext);
+            operLog.Create_time = DateTime.Now;
             if (operLog.OperParam != null && operLog.OperParam.Length >= 1000)
             {
                 operLog.OperParam = operLog.OperParam[..1000];

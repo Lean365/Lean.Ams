@@ -21,10 +21,18 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item :label="$t('ppost.postLevel')" prop="postLevel">
-          <el-radio-group v-model="queryParams.postLevel">
-            <el-radio v-for="dict in levelOptions" :key="dict.dictValue" :value="dict.dictValue">{{
+          <el-select filterable clearable v-model="queryParams.postLevel"
+            :placeholder="$t('btn.selectSearchPrefix')+$t('ppost.postLevel')+$t('btn.selectSearchSuffix')">
+            <el-option v-for="item in   levelOptions " :key="item.dictValue" :label="item.dictLabel"
+              :value="parseInt(item.dictValue)">
+              <span class="fl">{{ item.dictLabel }}</span>
+              <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+            </el-option>
+          </el-select>
+          <!-- <el-radio-group v-model="queryParams.postLevel">
+            <el-radio v-for="dict in levelOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
               dict.dictLabel }}</el-radio>
-          </el-radio-group>
+          </el-radio-group> -->
         </el-form-item>
         <el-col :lg="24" :offset="12">
           <el-form-item>
@@ -65,7 +73,11 @@
       <el-table-column label="ID" align="center" prop="postId" sortable />
       <el-table-column :label="$t('ppost.postCode')" align="center" prop="postCode" />
       <el-table-column :label="$t('ppost.postName')" align="center" prop="postName" />
-      <el-table-column :label="$t('ppost.postLevel')" align="center" prop="postLevel" />
+      <el-table-column :label="$t('ppost.postLevel')" align="center" prop="postLevel">
+        <template #default="scope">
+          <dict-tag :options="levelOptions" :value="scope.row.postLevel" />
+        </template>
+      </el-table-column>
       <el-table-column :label="$t('ppost.postMembership')" align="center" prop="userNum" sortable />
       <el-table-column :label="$t('ppost.postSort')" align="center" prop="sortingNum" sortable />
       <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStatus">
@@ -103,7 +115,7 @@
         <el-form-item :label="$t('ppost.postName')" prop="postName">
           <el-input v-model="form.postName"
             :placeholder="$t('btn.enterPrefix')+$t('ppost.postName')+$t('btn.enterSuffix')" show-word-limit
-            maxlength="3" />
+            maxlength="20" />
         </el-form-item>
         <el-form-item :label="$t('ppost.postCode')" prop="postCode">
           <el-input v-model="form.postCode"
@@ -111,10 +123,18 @@
             maxlength="10" />
         </el-form-item>
         <el-form-item :label="$t('ppost.postLevel')" prop="postLevel">
-          <el-radio-group v-model="form.postLevel">
-            <el-radio v-for="dict in levelOptions" :key="dict.dictValue" :value="dict.dictValue">{{
+          <el-select filterable clearable v-model="form.postLevel"
+            :placeholder="$t('btn.selectSearchPrefix')+$t('ppost.postLevel')+$t('btn.selectSearchSuffix')">
+            <el-option v-for="item in   levelOptions " :key="item.dictValue" :label="item.dictLabel"
+              :value="parseInt(item.dictValue)">
+              <span class="fl">{{ item.dictLabel }}</span>
+              <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+            </el-option>
+          </el-select>
+          <!-- <el-radio-group v-model="form.postLevel">
+            <el-radio v-for="dict in levelOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
               dict.dictLabel }}</el-radio>
-          </el-radio-group>
+          </el-radio-group> -->
         </el-form-item>
         <el-form-item :label="$t('ppost.postSort')" prop="sortingNum">
           <el-input-number v-model="form.sortingNum" controls-position="right" :min="0" />
@@ -165,11 +185,11 @@
   // 查询参数
   let queryParams = reactive({
     pageNum: 1,
-    pageSize: 14,
+    pageSize: 56,
     postCode: undefined,
     postName: undefined,
-    postLevel: undefined,
-    isStatus: 0,
+    postLevel: -1,
+    isStatus: -1,
 
   })
   // 表单校验
@@ -204,9 +224,9 @@
       postId: undefined,
       postCode: undefined,
       postName: undefined,
-      postLevel: 'L4',
-      sortingNum: 1,
-      isStatus: 0,
+      postLevel: undefined,
+      sortingNum: undefined,
+      isStatus: undefined,
       remark: undefined
     }
     proxy.resetForm('formRef')
@@ -238,6 +258,9 @@
     reset()
     open.value = true
     title.value = proxy.$t('btn.add')
+    form.value.postLevel = 22
+    form.value.sortingNum = 99
+    form.value.isStatus = 0
   }
   /** 修改按钮操作 */
   function handleUpdate(row) {

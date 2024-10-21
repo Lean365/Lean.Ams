@@ -5,7 +5,7 @@ namespace Ams.Model.Accounting.Dto
     /// 预算科目
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/12 16:36:02
+    /// @Date: 2024/10/15 17:17:38
     /// </summary>
     public class FicoBudgetAccountingQueryDto : PagerInfo 
     {
@@ -29,17 +29,13 @@ namespace Ams.Model.Accounting.Dto
         /// 名称 
         /// </summary>        
         public string Md009 { get; set; }
-        /// <summary>
-        /// 冻结 
-        /// </summary>        
-        public int? Md014 { get; set; }
     }
 
     /// <summary>
     /// 预算科目
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/12 16:36:02
+    /// @Date: 2024/10/15 17:17:38
     /// </summary>
     public class FicoBudgetAccountingDto
     {
@@ -110,8 +106,8 @@ namespace Ams.Model.Accounting.Dto
 
         public string Md012 { get; set; }
 
-        //[ExcelColumn(Name = "统驭科目")]
-        [ExcelColumnName("统驭科目")]
+        //[ExcelColumn(Name = "统驭类别")]
+        [ExcelColumnName("统驭类别")]
 
         public string Md013 { get; set; }
 
@@ -227,7 +223,7 @@ namespace Ams.Model.Accounting.Dto
         public string Md008Label { get; set; }
         [ExcelColumn(Name = "费用类型")]
         public string Md012Label { get; set; }
-        [ExcelColumn(Name = "统驭科目")]
+        [ExcelColumn(Name = "统驭类别")]
         public string Md013Label { get; set; }
         [ExcelColumn(Name = "冻结")]
         public string Md014Label { get; set; }
@@ -237,7 +233,7 @@ namespace Ams.Model.Accounting.Dto
     /// 预算科目
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/12 16:36:02
+    /// @Date: 2024/10/15 17:17:38
     /// </summary>
     public class FicoBudgetAccountingImportTpl
     {
@@ -296,8 +292,8 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumnName("费用类型")]
         public string Md012 { get; set; }
 
-        //[ExcelColumn(Name = "统驭科目")]
-        [ExcelColumnName("统驭科目")]
+        //[ExcelColumn(Name = "统驭类别")]
+        [ExcelColumnName("统驭类别")]
         public string Md013 { get; set; }
 
         [Required(ErrorMessage = "冻结不能为空")]
@@ -392,7 +388,7 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumn(Name = "费用类型")]
         public string Md012Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "统驭科目")]
+        [ExcelColumn(Name = "统驭类别")]
         public string Md013Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "冻结")]

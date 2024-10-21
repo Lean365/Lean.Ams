@@ -41,6 +41,7 @@
     "nprogress": "0.2.0",
     "pinia": "^2.2.1",
     "pinia-plugin-persistedstate": "^3.2.1",
+    "pinyin-pro": "^3.25.0",
     "qrcodejs2-fixes": "^0.0.2",
     "qs": "^6.13.0",
     "sortablejs": "^1.15.2",

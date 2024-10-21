@@ -12,7 +12,7 @@ namespace Ams.Service.Accounting
     /// 预算科目
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/12 16:36:02
+    /// @Date: 2024/10/15 17:17:38
     /// </summary>
     [AppService(ServiceType = typeof(IFicoBudgetAccountingService), ServiceLifetime = LifeTime.Transient)]
     public class FicoBudgetAccountingService : BaseService<FicoBudgetAccounting>, IFicoBudgetAccountingService
@@ -61,27 +61,12 @@ namespace Ams.Service.Accounting
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md004), it => it.Md004 == parm.Md004);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md006), it => it.Md006.Contains(parm.Md006));
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md007), it => it.Md007 == parm.Md007);
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md008), it => it.Md008.Contains(parm.Md008));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md008), it => it.Md008 == parm.Md008);
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md009), it => it.Md009.Contains(parm.Md009));
-            predicate = predicate.AndIF(parm.Md014 != -1, it => it.Md014 == parm.Md014);
 
             var response = Queryable()
                 .Where(predicate.ToExpression())
                 .ToTree(it => it.Children, it => it.ParentId, 0);
-
-            return response;
-        }
-
-        /// <summary>
-        /// 获取详情
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        public FicoBudgetAccounting GetInfo(long Id)
-        {
-            var response = Queryable()
-                .Where(x => x.Id == Id)
-                .First();
 
             return response;
         }
@@ -95,8 +80,8 @@ namespace Ams.Service.Accounting
         {
             var predicate = Expressionable.Create<FicoBudgetAccounting>();
             predicate = predicate.And(it => it.Is_deleted == 0);
-            //predicate = predicate.AndIF(parm.DeptName.IfNotEmpty(), it => it.DeptName.Contains(parm.DeptName));
-            //predicate = predicate.AndIF(parm.IsStatus != null, it => it.IsStatus == parm.IsStatus);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md009), it => it.Md009.Contains(parm.Md009));
+            //predicate = predicate.AndIF(dept.IsStatus != null, it => it.IsStatus == dept.IsStatus);
 
             var response = Queryable().Where(predicate.ToExpression()).ToList();
 
@@ -104,45 +89,45 @@ namespace Ams.Service.Accounting
         }
 
         /// <summary>
+        /// 构建前端所需要树结构
+        /// </summary>
+        /// <param name="parms">部门列表</param>
+        /// <returns></returns>
+        public List<FicoBudgetAccounting> BuildBudgetAccountingTree(List<FicoBudgetAccounting> parms)
+        {
+            List<FicoBudgetAccounting> returnList = new List<FicoBudgetAccounting>();
+            List<long> tempList = parms.Select(f => f.Id).ToList();
+            foreach (var BudgetAccounting in parms)
+            {
+                // 如果是顶级节点, 遍历该父节点的所有子节点
+                if (!tempList.Contains(BudgetAccounting.ParentId))
+                {
+                    RecursionFn(parms, BudgetAccounting);
+                    returnList.Add(BudgetAccounting);
+                }
+            }
+
+            if (!returnList.Any())
+            {
+                returnList = parms;
+            }
+            return returnList;
+        }
+
+        /// <summary>
         /// 构建前端所需下拉树结构
         /// </summary>
-        /// <param name="parm"></param>
+        /// <param name="parms"></param>
         /// <returns></returns>
-        public List<TreeSelectVo> BuildBudgetAccountingTreeSelect(List<FicoBudgetAccounting> parm)
+        public List<TreeSelectVo> BuildBudgetAccountingTreeSelect(List<FicoBudgetAccounting> parms)
         {
-            List<FicoBudgetAccounting> menuTrees = BuildBudgetAccountingTree(parm);
+            List<FicoBudgetAccounting> menuTrees = BuildBudgetAccountingTree(parms);
             List<TreeSelectVo> treeMenuVos = new List<TreeSelectVo>();
             foreach (var item in menuTrees)
             {
                 treeMenuVos.Add(new TreeSelectVo(item));
             }
             return treeMenuVos;
-        }
-
-        /// <summary>
-        /// 构建前端所需要树结构
-        /// </summary>
-        /// <param name="parm">部门列表</param>
-        /// <returns></returns>
-        public List<FicoBudgetAccounting> BuildBudgetAccountingTree(List<FicoBudgetAccounting> parm)
-        {
-            List<FicoBudgetAccounting> returnList = new List<FicoBudgetAccounting>();
-            List<long> tempList = parm.Select(f => f.Id).ToList();
-            foreach (var dept in parm)
-            {
-                // 如果是顶级节点, 遍历该父节点的所有子节点
-                if (!tempList.Contains(dept.ParentId))
-                {
-                    RecursionFn(parm, dept);
-                    returnList.Add(dept);
-                }
-            }
-
-            if (!returnList.Any())
-            {
-                returnList = parm;
-            }
-            return returnList;
         }
 
         /// <summary>
@@ -168,11 +153,25 @@ namespace Ams.Service.Accounting
         /// 递归获取子菜单
         /// </summary>
         /// <param name="list">所有菜单</param>
-        /// <param name="parm"></param>
+        /// <param name="BudgetAccounting"></param>
         /// <returns></returns>
-        private List<FicoBudgetAccounting> GetChildList(List<FicoBudgetAccounting> list, FicoBudgetAccounting parm)
+        private List<FicoBudgetAccounting> GetChildList(List<FicoBudgetAccounting> list, FicoBudgetAccounting BudgetAccounting)
         {
-            return list.Where(p => p.ParentId == parm.Id).ToList();
+            return list.Where(p => p.ParentId == BudgetAccounting.Id).ToList();
+        }
+
+        /// <summary>
+        /// 获取详情
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public FicoBudgetAccounting GetInfo(long Id)
+        {
+            var response = Queryable()
+                .Where(x => x.Id == Id)
+                .First();
+
+            return response;
         }
 
         /// <summary>
@@ -251,11 +250,11 @@ namespace Ams.Service.Accounting
                     //查询字典: <会计科目>
                     Md008Label = it.Md008.GetConfigValue<SysDictData>("sql_accounting_title"),
                     //查询字典: <费用类型>
-                    Md012Label = it.Md012.GetConfigValue<SysDictData>("sys_exp_type"),
-                    //查询字典: <统驭科目>
-                    Md013Label = it.Md013.GetConfigValue<SysDictData>("sql_mitkz_list"),
+                    Md012Label = it.Md012.GetConfigValue<SysDictData>("sys_costs_type"),
+                    //查询字典: <统驭类别>
+                    Md013Label = it.Md013.GetConfigValue<SysDictData>("sys_conrol_title"),
                     //查询字典: <冻结>
-                    Md014Label = it.Md014.GetConfigValue<SysDictData>("sys_is_status"),
+                    Md014Label = it.Md014.GetConfigValue<SysDictData>("sys_freeze_flag"),
                 }, true)
                 .ToPage(parm);
 
@@ -278,11 +277,9 @@ namespace Ams.Service.Accounting
             //查询字段: <币种>
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md007), it => it.Md007 == parm.Md007);
             //查询字段: <会计科目>
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md008), it => it.Md008.Contains(parm.Md008));
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md008), it => it.Md008 == parm.Md008);
             //查询字段: <名称>
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md009), it => it.Md009.Contains(parm.Md009));
-            //查询字段: <冻结>
-            predicate = predicate.AndIF(parm.Md014 != -1, it => it.Md014 == parm.Md014);
             return predicate;
         }
     }

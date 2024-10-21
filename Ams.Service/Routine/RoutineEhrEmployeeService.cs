@@ -11,7 +11,7 @@ namespace Ams.Service.Routine
     /// 人事
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/12 15:25:31
+    /// @Date: 2024/10/18 8:40:20
     /// </summary>
     [AppService(ServiceType = typeof(IRoutineEhrEmployeeService), ServiceLifetime = LifeTime.Transient)]
     public class RoutineEhrEmployeeService : BaseService<RoutineEhrEmployee>, IRoutineEhrEmployeeService
@@ -26,7 +26,7 @@ namespace Ams.Service.Routine
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("Mh033 asc")
+                //.OrderBy("Mh034 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<RoutineEhrEmployee, RoutineEhrEmployeeDto>(parm);
 
@@ -154,8 +154,6 @@ namespace Ams.Service.Routine
                     Mh009Label = it.Mh009.GetConfigValue<SysDictData>("sys_wedlock_state"),
                     //查询字典: <民族> 
                     Mh010Label = it.Mh010.GetConfigValue<SysDictData>("sys_nation_list"),
-                    //查询字典: <籍贯> 
-                    Mh011Label = it.Mh011.GetConfigValue<SysDictData>("sql_origin_list"),
                     //查询字典: <政治面貌> 
                     Mh012Label = it.Mh012.GetConfigValue<SysDictData>("sys_politic_list"),
                     //查询字典: <国家/地区> 
@@ -221,8 +219,6 @@ namespace Ams.Service.Routine
             predicate = predicate.AndIF(parm.Mh009 != -1, it => it.Mh009 == parm.Mh009);
             //查询字段: <民族> 
             predicate = predicate.AndIF(parm.Mh010 != -1, it => it.Mh010 == parm.Mh010);
-            //查询字段: <籍贯> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mh011), it => it.Mh011 == parm.Mh011);
             //查询字段: <政治面貌> 
             predicate = predicate.AndIF(parm.Mh012 != -1, it => it.Mh012 == parm.Mh012);
             //查询字段: <国家/地区> 
@@ -231,6 +227,8 @@ namespace Ams.Service.Routine
             predicate = predicate.AndIF(parm.Mh023 != -1, it => it.Mh023 == parm.Mh023);
             //查询字段: <职称> 
             predicate = predicate.AndIF(parm.Mh024 != -1, it => it.Mh024 == parm.Mh024);
+            //查询字段: <职位> 
+            predicate = predicate.AndIF(parm.Mh025 != -1, it => it.Mh025 == parm.Mh025);
             //查询字段: <学历> 
             predicate = predicate.AndIF(parm.Mh030 != -1, it => it.Mh030 == parm.Mh030);
             //查询字段: <工号> 

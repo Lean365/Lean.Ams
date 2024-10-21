@@ -8,27 +8,29 @@
 -->
 <template>
   <div>
-    <el-row :gutter="20">
+    <el-row :gutter="20" type="flex">
       <!--部门数据-->
       <el-col :span="4" :xs="24">
-        <div class="head-container">
-          <el-input v-model="deptName"
-            :placeholder="$t('btn.enterSearchPrefix')+$t('pdept.deptName')+$t('btn.enterSearchSuffix')" clearable
-            prefix-icon="search" style="margin-bottom: 20px" />
-        </div>
-        <div class="head-container">
-          <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false"
-            :filter-node-method="filterNode" ref="deptTreeRef" node-key="id" highlight-current default-expand-all
-            @node-click="handleNodeClick">
-            <template #default="{ node, data }">
-              <span class="custom-tree-node">
-                <span>
-                  <svg-icon name="m-house" v-if="data.children && data.children.length > 0"></svg-icon>
-                  {{ node.label }}
+        <div class="scroll-container">
+          <div class=" head-container">
+            <el-input v-model="deptName"
+              :placeholder="$t('btn.enterSearchPrefix')+$t('pdept.deptName')+$t('btn.enterSearchSuffix')" clearable
+              prefix-icon="search" style="margin-bottom: 20px" />
+          </div>
+          <div class="head-container">
+            <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false"
+              :filter-node-method="filterNode" ref="deptTreeRef" node-key="id" highlight-current default-expand-all
+              @node-click="handleNodeClick">
+              <template #default="{ node, data }">
+                <span class="custom-tree-node">
+                  <span>
+                    <svg-icon name="m-house" v-if="data.children && data.children.length > 0"></svg-icon>
+                    {{ node.label }}
+                  </span>
                 </span>
-              </span>
-            </template>
-          </el-tree>
+              </template>
+            </el-tree>
+          </div>
         </div>
       </el-col>
       <!-- 查询区域 -->
@@ -37,7 +39,7 @@
           label-width="auto">
           <el-row :gutter="10" class="mb8">
             <el-col :lg="24">
-              <el-form-item label="公司" prop="mg003">
+              <!-- <el-form-item label="公司" prop="mg003">
                 <el-select filterable clearable v-model="queryParams.mg003"
                   :placeholder="$t('btn.selectSearchPrefix')+'公司'+$t('btn.selectSearchSuffix')">
                   <el-option v-for="item in   options.sql_corp_list " :key="item.dictValue" :label="item.dictLabel"
@@ -46,10 +48,11 @@
                     <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
                   </el-option>
                 </el-select>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item label="期间" prop="mg005">
                 <el-select filterable clearable v-model="queryParams.mg005"
-                  :placeholder="$t('btn.selectSearchPrefix')+'期间'+$t('btn.selectSearchSuffix')">
+                  :placeholder="$t('btn.selectSearchPrefix')+'期间'+$t('btn.selectSearchSuffix')"
+                  @change="handleLfgjaChange">
                   <el-option v-for="item in   options.sql_attr_list " :key="item.dictValue" :label="item.dictLabel"
                     :value="item.dictValue">
                     <span class="fl">{{ item.dictLabel }}</span>
@@ -60,7 +63,7 @@
               <el-form-item label="年月" prop="mg006">
                 <el-select filterable clearable v-model="queryParams.mg006"
                   :placeholder="$t('btn.selectSearchPrefix')+'年月'+$t('btn.selectSearchSuffix')">
-                  <el-option v-for="item in   options.sql_ymdt_list " :key="item.dictValue" :label="item.dictLabel"
+                  <el-option v-for="item in   filteredParamsLfmon " :key="item.dictValue" :label="item.dictLabel"
                     :value="item.dictValue">
                     <span class="fl">{{ item.dictLabel }}</span>
                     <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
@@ -188,10 +191,12 @@
               <dict-tag :options=" options.sys_costs_type " :value="scope.row.mg008" />
             </template>
           </el-table-column>
-          <el-table-column prop="mg009" label="资产名称" align="center" :show-overflow-tooltip="true"
-            v-if="columns.showColumn('mg009')" />
-          <el-table-column prop="mg010" label="用途说明" align="center" :show-overflow-tooltip="true"
-            v-if="columns.showColumn('mg010')" />
+          <el-table-column prop="mg009" label="资产名称" align="center"
+            show-overflow-tooltip></el-table-column>:show-overflow-tooltip="true"
+          v-if="columns.showColumn('mg009')" />
+          <el-table-column prop="mg010" label="用途说明" align="center" show-overflow-tooltip></el-table-column>
+          :show-overflow-tooltip="true"
+          v-if="columns.showColumn('mg010')" />
           <el-table-column prop="mg011" label="年限" align="center" v-if="columns.showColumn('mg011')">
             <template #default="scope">
               <dict-tag :options=" options.sys_assets_years " :value="scope.row.mg011" />
@@ -277,7 +282,7 @@
               <el-col :lg="12">
                 <el-form-item label="期间" prop="mg005">
                   <el-select filterable clearable v-model="form.mg005"
-                    :placeholder="$t('btn.selectPrefix')+'期间'+$t('btn.selectSuffix')">
+                    :placeholder="$t('btn.selectPrefix')+'期间'+$t('btn.selectSuffix')" @change="handleLfgjaChange">
                     <el-option v-for="item in  options.sql_attr_list" :key="item.dictValue" :label="item.dictLabel"
                       :value="item.dictValue"></el-option>
                   </el-select>
@@ -288,7 +293,7 @@
                 <el-form-item label="年月" prop="mg006">
                   <el-select filterable clearable v-model="form.mg006"
                     :placeholder="$t('btn.selectPrefix')+'年月'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sql_ymdt_list" :key="item.dictValue" :label="item.dictLabel"
+                    <el-option v-for="item in  filteredFormLfmon" :key="item.dictValue" :label="item.dictLabel"
                       :value="item.dictValue"></el-option>
                   </el-select>
                 </el-form-item>
@@ -635,6 +640,11 @@
       }
     })
   }
+  /** 通过条件过滤节点  */
+  const filterNode = (value, data) => {
+    if (!value) return true
+    return data.label.indexOf(value) !== -1
+  }
   /** 根据名称筛选部门树 */
   watch(deptName, (val) => {
     proxy.$refs['deptTreeRef'].filter(val)
@@ -659,9 +669,56 @@
     queryParams.pageNum = 1
     getList()
   }
+  const deptIdSelect = ref(0)
   /** 节点单击事件 */
   function handleNodeClick(data) {
     console.log(data)
+    deptIdSelect.value = data.id
+    // if (data.id === 1) {
+    //   form.value.mg003 = '2300'
+    // }
+    // if (data.id == 1) {
+    //   queryParams.mg003 = '2300'
+    //   queryParams.mg004 = 0
+    // } else {
+    //   queryParams.mg003 = null
+    //   queryParams.mg004 = data.id
+    // }
+    // if (data.id == 23) {
+    //   queryParams.mg003 = '2400'
+    //   queryParams.mg004 = 0
+    // } else {
+    //   queryParams.mg003 = null
+    //   queryParams.mg004 = data.id
+    // }
+    // if (data.id == 1) {
+    //   queryParams.mg003 = '2300'
+    //   queryParams.mg004 = 0
+    // } else {
+    //   queryParams.mg003 = null
+    //   queryParams.mg004 = data.id
+    // }
+    // if (data.id == 1) {
+    //   queryParams.mg003 = '2300'
+    //   queryParams.mg004 = 0
+    // } else {
+    //   queryParams.mg003 = null
+    //   queryParams.mg004 = data.id
+    // }
+    // if (data.id == 1) {
+    //   queryParams.mg003 = '2300'
+    //   queryParams.mg004 = 0
+    // } else {
+    //   queryParams.mg003 = null
+    //   queryParams.mg004 = data.id
+    // }
+    // if (data.id == 1) {
+    //   queryParams.mg003 = '2300'
+    //   queryParams.mg004 = 0
+    // } else {
+    //   queryParams.mg003 = null
+    //   queryParams.mg004 = data.id
+    // }
     queryParams.mg004 = data.id
     handleQuery()
   }
@@ -784,16 +841,68 @@
     };
     proxy.resetForm("formRef")
   }
+  // 使用 computed 属性来过滤数据: 过滤出选中的数据年月
+  const filteredFormLfmon = ref([])
+  const filteredParamsLfmon = ref([])
+  function handleLfgjaChange() {
+    //console.log(open.value === true)
+    //console.log(state.options.sql_ymdt_list)
+    if (open.value === true) {
+      form.value.mg006 = ''
+      filteredFormLfmon.value = state.options.sql_ymdt_list.filter(item => item.extLabel === form.value.mg005)
 
+    }
+    else {
+      queryParams.mg006 = ''
+      //console.log(queryParams.mp002)
+      filteredParamsLfmon.value = state.options.sql_ymdt_list.filter(item => item.extLabel === queryParams.mg005)
 
+    }
+  }
+  const cropDta = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22])
+  const cropTac = ref([23, 32, 33])
+  const cropTsz = ref([24, 34, 35])
+  const cropTcj = ref([25])
+  const cropTss = ref([26])
+  const cropTca = ref([27])
+  const cropTms = ref([285])
+  const cropTcs = ref([29])
+  const cropTe = ref([30])
+  const cropTuk = ref([31])
   // 添加按钮操作
   function handleAdd() {
     reset();
     open.value = true
     title.value = proxy.$t('btn.add') + " " + '资产预算'
     opertype.value = 1
-    form.value.mg003 = '2300'
-    form.value.mg004 = []
+    //form.value.mg003 = '2300'
+    if ((deptIdSelect.value) == 0) {
+      //console.log(cropDta.value.includes(deptIdSelect.value))
+
+      form.value.mg003 = '2300'
+    } else if (cropDta.value.includes(deptIdSelect.value) == true) {
+      console.log(cropDta.value.includes(deptIdSelect.value))
+      form.value.mg003 = '2300'
+    } else if (cropTac.value.includes(deptIdSelect.value) == true) {
+      form.value.mg003 = '2400'
+    } else if (cropTsz.value.includes(deptIdSelect.value) == true) {
+      form.value.mg003 = '2500'
+    } else if (cropTcj.value.includes(deptIdSelect.value) == true) {
+      form.value.mg003 = '1000'
+    } else if (cropTss.value.includes(deptIdSelect.value) == true) {
+      form.value.mg003 = '1300'
+    } else if (cropTca.value.includes(deptIdSelect.value) == true) {
+      form.value.mg003 = '3000'
+    } else if (cropTms.value.includes(deptIdSelect.value) == true) {
+      form.value.mg003 = '1100'
+    } else if (cropTcs.value.includes(deptIdSelect.value) == true) {
+      form.value.mg003 = '1700'
+    } else if (cropTe.value.includes(deptIdSelect.value) == true) {
+      form.value.mg003 = '4000'
+    } else if (cropTuk.value.includes(deptIdSelect.value) == true) {
+      form.value.mg003 = '4100'
+    } else { form.value.mg003 = [] }
+    form.value.mg004 = deptIdSelect
     form.value.mg005 = 'FY' + (new Date().getFullYear() + 1)
     form.value.mg006 = new Date().getFullYear().toString() + (new Date().getMonth() + 1).toString()
     form.value.mg007 = []
@@ -972,3 +1081,13 @@
   getTreeselect()
   handleQuery()
 </script>
+<style scoped>
+  .scroll-container {
+    height: 80%;
+    /* 设置固定高度 */
+    overflow-y: auto;
+    /* 添加垂直滚动条 */
+    overflow-x: hidden;
+    /* 隐藏水平滚动条 */
+  }
+</style>

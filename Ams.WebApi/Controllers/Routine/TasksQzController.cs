@@ -58,6 +58,7 @@ namespace Ams.WebApi.Controllers.Routine
         [Log(Title = "添加任务", BusinessType = BusinessType.ADD)]
         public IActionResult Create([FromBody] TasksQzCreateDto parm)
         {
+            //var modal = parm.Adapt<RoutineBoard>().ToCreate(HttpContext);
             //判断是否已经存在
             if (_tasksQzService.Any(m => m.Name == parm.Name))
             {
@@ -82,6 +83,7 @@ namespace Ams.WebApi.Controllers.Routine
             //从 Dto 映射到 实体
             var tasksQz = parm.Adapt<TasksQz>().ToCreate(HttpContext);
             tasksQz.Create_by = HttpContext.GetName();
+            tasksQz.Update_time = DateTime.Now;
             tasksQz.ID = SnowFlakeSingle.Instance.NextId().ToString();
 
             return SUCCESS(_tasksQzService.AddTasks(tasksQz));
@@ -121,6 +123,7 @@ namespace Ams.WebApi.Controllers.Routine
             }
             var model = parm.Adapt<TasksQz>();
             model.Update_by = HttpContext.GetName();
+            model.Update_time = DateTime.Now;
             int response = _tasksQzService.UpdateTasks(model);
             if (response > 0)
             {

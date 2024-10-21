@@ -1,7 +1,4 @@
-﻿using Ams.Model;
-using Ams.Model.Admin;
-
-namespace Ams.Model.Admin.Dto
+﻿namespace Ams.Model.Admin.Dto
 {
     public class SysPostDto : SysPost
     {
@@ -16,5 +13,6 @@ namespace Ams.Model.Admin.Dto
         public string PostName { get; set; }
         public int IsStatus { get; set; }
         public string PostCode { get; set; }
+        public int PostLevel { get; set; }
     }
 }

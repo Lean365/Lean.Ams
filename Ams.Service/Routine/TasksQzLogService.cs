@@ -23,6 +23,7 @@
                 logModel.JobId = jobId;
                 logModel.JobName = model.Name;
                 logModel.JobGroup = model.JobGroup;
+                logModel.Create_by = HttpContextExtension.GetName(App.HttpContext);
                 logModel.Create_time = DateTime.Now;
             }
 

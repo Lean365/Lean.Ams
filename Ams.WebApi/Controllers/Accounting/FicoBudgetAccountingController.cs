@@ -8,7 +8,7 @@ namespace Ams.WebApi.Controllers.Accounting
     /// 预算科目
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/12 16:36:02
+    /// @Date: 2024/10/15 17:17:38
     /// </summary>
     [Verify]
     [Route("Accounting/FicoBudgetAccounting")]
@@ -52,6 +52,19 @@ namespace Ams.WebApi.Controllers.Accounting
         }
 
         /// <summary>
+        /// 获取预算科目下拉树列表
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        [HttpGet("treeselect")]
+        public IActionResult BudgetAccountingTreeSelect(FicoBudgetAccountingQueryDto parm)
+        {
+            var parms = _FicoBudgetAccountingService.GetBudgetAccountings(parm);
+
+            return SUCCESS(_FicoBudgetAccountingService.BuildBudgetAccountingTreeSelect(parms), TIME_FORMAT_FULL);
+        }
+
+        /// <summary>
         /// 查询预算科目详情
         /// </summary>
         /// <param name="Id"></param>
@@ -64,19 +77,6 @@ namespace Ams.WebApi.Controllers.Accounting
 
             var info = response.Adapt<FicoBudgetAccountingDto>();
             return SUCCESS(info);
-        }
-
-        /// <summary>
-        /// 获取预算科目下拉树列表
-        /// </summary>
-        /// <param name="parm"></param>
-        /// <returns></returns>
-        [HttpGet("treeselect")]
-        public IActionResult TreeSelect(FicoBudgetAccountingQueryDto parm)
-        {
-            var BudgetAccountings = _FicoBudgetAccountingService.GetBudgetAccountings(parm);
-
-            return SUCCESS(_FicoBudgetAccountingService.BuildBudgetAccountingTreeSelect(BudgetAccountings), TIME_FORMAT_FULL);
         }
 
         /// <summary>

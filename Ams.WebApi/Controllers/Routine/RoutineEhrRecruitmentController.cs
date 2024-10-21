@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Routine
     /// 招聘
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/12 15:16:55
+    /// @Date: 2024/10/18 15:46:34
     /// </summary>
     [Verify]
     [Route("Routine/RoutineEhrRecruitment")]

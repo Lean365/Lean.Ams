@@ -53,7 +53,7 @@ namespace Ams.Model.Admin
         /// 名称
         /// </summary>
         [DisplayName("名称")]
-        [SugarColumn(ColumnName = "lang_name", Length = 2000, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName = "lang_name", Length = 2000, ColumnDataType = "NVARCHAR", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string LangName { get; set; }
     }
 }

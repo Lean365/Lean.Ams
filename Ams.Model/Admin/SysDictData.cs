@@ -24,31 +24,31 @@
         /// <summary>
         /// 字典标签
         /// </summary>
-        [SugarColumn(Length = 100, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(Length = 100, ColumnDataType = "NVARCHAR", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string DictLabel { get; set; }
 
         /// <summary>
         /// 字典键值
         /// </summary>
-        [SugarColumn(Length = 100, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(Length = 100, ColumnDataType = "NVARCHAR", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string DictValue { get; set; }
 
         /// <summary>
         /// 字典类型
         /// </summary>
-        [SugarColumn(Length = 100, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(Length = 100, ColumnDataType = "NVARCHAR", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string DictType { get; set; }
 
         /// <summary>
         /// 标签扩展
         /// </summary>
-        [SugarColumn(Length = 100)]
+        [SugarColumn(Length = 100, ColumnDataType = "NVARCHAR")]
         public string ExtLabel { get; set; }
 
         /// <summary>
         /// 键值扩展
         /// </summary>
-        [SugarColumn(Length = 100)]
+        [SugarColumn(Length = 100, ColumnDataType = "NVARCHAR")]
         public string ExtValue { get; set; }
 
         /// <summary>

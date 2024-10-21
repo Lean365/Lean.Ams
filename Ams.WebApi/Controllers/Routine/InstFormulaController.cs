@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Routine
     /// 计算公式
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/5 10:17:40
+    /// @Date: 2024/10/21 11:06:35
     /// </summary>
     [Verify]
     [Route("Routine/InstFormula")]

@@ -76,7 +76,7 @@ namespace Ams.Service.Signalr
                 Log.WriteLine(msg: $"{name},{Context.ConnectionId}连接服务端success，当前已连接{onlineClients.Count}个");
                 //Clients.All.SendAsync("welcome", $"欢迎您：{name},当前时间：{DateTime.Now}");
                 Clients.Caller.SendAsync(HubsConstant.MoreNotice, SendNotice());
-                Clients.Caller.SendAsync(HubsConstant.ConnId, onlineUser.ConnnectionId);
+                //Clients.Caller.SendAsync(HubsConstant.ConnId, onlineUser.ConnnectionId);
             }
             OnlineUsers userInfo = GetUserById(userid);
             if (userInfo == null)
@@ -137,6 +137,7 @@ namespace Ams.Service.Signalr
                     UserOnlineLogService.AddUserOnlineLog(new DurationLog()
                     {
                         UserId = user.Userid,
+                        Create_by = user.Name,
                         Create_time = DateTime.Now,
                         Location = user?.Location,
                         OnlineTime = user.OnlineTime,

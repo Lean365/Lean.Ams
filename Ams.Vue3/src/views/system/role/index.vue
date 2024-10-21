@@ -78,17 +78,19 @@
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item>
-                      <el-button class="btn-start" size="small" plain icon="circle-check"
-                        @click="handleDataScope(scope.row)" :title="$t('prole.droleMenuPermi')"
-                        v-hasPermi="['system:role:rolememu']"></el-button>
+                      <el-button class="btn-start" size="small" plain @click="handleDataScope(scope.row)"
+                        :title="$t('prole.droleMenuPermi')" v-hasPermi="['system:role:rolememu']"><svg-icon
+                          name="m-btn-auth" /></el-button>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                      <el-button class="btn-run" size="small" plain icon="user" @click="handleAuthUser(scope.row)"
-                        :title="$t('prole.drolePermi')" v-hasPermi="['system:userrole:add']"></el-button>
+                      <el-button class="btn-run" size="small" plain @click="handleAuthUser(scope.row)"
+                        :title="$t('prole.drolePermi')" v-hasPermi="['system:userrole:add']"><svg-icon
+                          name="m-btn-users" /></el-button>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                      <el-button class="btn-export" size="small" plain icon="download" @click="handleExportMenu"
-                        :title="$t('prole.exportMenu')" v-hasPermi="['system:role:export']"></el-button>
+                      <el-button class="btn-export" size="small" plain @click="handleExportMenu"
+                        :title="$t('prole.exportMenu')" v-hasPermi="['system:role:export']"><svg-icon
+                          name="m-btn-download" /></el-button>
                     </el-dropdown-item>
                   </el-dropdown-menu>
                 </template>

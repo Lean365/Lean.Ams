@@ -320,7 +320,7 @@ $elseif(column.HtmlType == "imageUpload")
           <el-col :lg="24">
             <el-form-item label="${labelName}" prop="${columnName}">
               <UploadImage v-model="form.${columnName}" fileSize="20" :fileType="['pdf']" limit="1"
-              :data=" {fileNameType:1, fileDir: '${tool.FirstLowerCase(genTable.ModuleName)}/${genTable.BusinessName.ToLower()}' ,uploadType: 1} />
+              :data=" {fileNameType:1, fileDir: '${tool.FirstLowerCase(genTable.ModuleName)}/${genTable.BusinessName.ToLower()}' ,uploadType: 1}" />
             </el-form-item>
           </el-col>
 $elseif(column.HtmlType == "fileUpload")

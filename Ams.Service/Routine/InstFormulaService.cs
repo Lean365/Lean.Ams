@@ -1,6 +1,9 @@
 //using Ams.Infrastructure.Attribute;
 //using Ams.Infrastructure.Extensions;
+using Ams.Model.Routine.Dto;
+using Ams.Model.Routine;
 using Ams.Repository;
+using Ams.Service.Routine.IRoutineService;
 
 namespace Ams.Service.Routine
 {
@@ -8,7 +11,7 @@ namespace Ams.Service.Routine
     /// 计算公式
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/5 10:17:40
+    /// @Date: 2024/10/21 11:06:35
     /// </summary>
     [AppService(ServiceType = typeof(IInstFormulaService), ServiceLifetime = LifeTime.Transient)]
     public class InstFormulaService : BaseService<InstFormula>, IInstFormulaService
@@ -23,7 +26,6 @@ namespace Ams.Service.Routine
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("Mb002 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<InstFormula, InstFormulaDto>(parm);
 
@@ -38,13 +40,14 @@ namespace Ams.Service.Routine
         /// <returns></returns>
         public string CheckInputUnique(string enterString)
         {
-            int count = Count(it => it.Id.ToString() == enterString);
+            int count = Count(it => it. Id.ToString() == enterString);
             if (count > 0)
             {
                 return UserConstants.NOT_UNIQUE;
             }
             return UserConstants.UNIQUE;
         }
+
 
         /// <summary>
         /// 获取详情
@@ -89,18 +92,15 @@ namespace Ams.Service.Routine
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.Id.IsEmpty(), "ID不能为空")
                 .SplitError(x => x.Item.Mb002.IsEmpty(), "类别不能为空")
-                .SplitError(x => x.Item.Mb003.IsEmpty(), "翻译键值不能为空")
-                .SplitError(x => x.Item.Mb004.IsEmpty(), "公式标识不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
 
-            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";
+            string msg = $"插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误数据{x.ErrorList.Count} 不计算数据{x.IgnoreList.Count} 删除数据{x.DeleteList.Count} 总共{x.TotalList.Count}";                    
             Console.WriteLine(msg);
 
-            //输出错误信息
+            //输出错误信息               
             foreach (var item in x.ErrorList)
             {
                 Console.WriteLine("错误" + item.StorageMessage);
@@ -126,10 +126,8 @@ namespace Ams.Service.Routine
                 .Where(predicate.ToExpression())
                 .Select((it) => new InstFormulaDto()
                 {
-                    //查询字典: <类别>
+                    //查询字典: <类别> 
                     Mb002Label = it.Mb002.GetConfigValue<SysDictData>("sys_calc_type"),
-                    //查询字典: <软删除>
-                    //IsDeletedLabel = it.IsDeleted.GetConfigValue<SysDictData>("sys_Is_deleted"),
                 }, true)
                 .ToPage(parm);
 
@@ -145,7 +143,7 @@ namespace Ams.Service.Routine
         {
             var predicate = Expressionable.Create<InstFormula>();
 
-            //查询字段: <类别>
+            //查询字段: <类别> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mb002), it => it.Mb002 == parm.Mb002);
             return predicate;
         }

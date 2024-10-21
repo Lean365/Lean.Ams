@@ -4,7 +4,7 @@ namespace Ams.Model.Accounting
     /// 加班预算
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/14 12:09:13
+    /// @Date: 2024/10/16 13:38:01
     /// </summary>
     [SugarTable("fico_budget_overtime", "加班预算")]
     public class FicoBudgetOvertime : SysBase
@@ -14,35 +14,36 @@ namespace Ams.Model.Accounting
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 父ID
         /// </summary>
-        public long? ParentId { get; set; }
-
-        /// <summary>
-        /// 部门ID
-        /// </summary>
-        public long? DeptId { get; set; }
+        public long ParentId { get; set; }
 
         /// <summary>
         /// 财年
         /// </summary>
-        [SugarColumn(ColumnName = "Mi004", ColumnDescription = "财年", Length = 6, ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public string Mi004 { get; set; }
+        [SugarColumn(ColumnName = "Mi003", ColumnDescription = "财年", Length = 6, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mi003 { get; set; }
 
         /// <summary>
         /// 年月
         /// </summary>
-        [SugarColumn(ColumnName = "Mi005", ColumnDescription = "年月", Length = 4, ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public string Mi005 { get; set; }
+        [SugarColumn(ColumnName = "Mi004", ColumnDescription = "年月", Length = 6, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mi004 { get; set; }
 
         /// <summary>
         /// 公司
         /// </summary>
-        [SugarColumn(ColumnName = "Mi006", ColumnDescription = "公司", Length = 4, ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public string Mi006 { get; set; }
+        [SugarColumn(ColumnName = "Mi005", ColumnDescription = "公司", Length = 4, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mi005 { get; set; }
+
+        /// <summary>
+        /// 部门
+        /// </summary>
+        [SugarColumn(ColumnName = "Mi006", ColumnDescription = "部门", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mi006 { get; set; }
 
         /// <summary>
         /// 科目
@@ -51,16 +52,16 @@ namespace Ams.Model.Accounting
         public string Mi007 { get; set; }
 
         /// <summary>
-        /// 名称
+        /// 费用类别
         /// </summary>
-        [SugarColumn(ColumnName = "Mi008", ColumnDescription = "名称", Length = 100)]
+        [SugarColumn(ColumnName = "Mi008", ColumnDescription = "费用类别", Length = 1, ColumnDataType = "NVARCHAR")]
         public string Mi008 { get; set; }
 
         /// <summary>
         /// 必要工数
         /// </summary>
-        [SugarColumn(ColumnName = "Mi009", ColumnDescription = "必要工数", DefaultValue = "0", Length = 18, DecimalDigits = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal Mi009 { get; set; }
+        [SugarColumn(ColumnName = "Mi009", ColumnDescription = "必要工数", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mi009 { get; set; }
 
         /// <summary>
         /// 保有人数
@@ -83,7 +84,7 @@ namespace Ams.Model.Accounting
         /// <summary>
         /// 加班事由
         /// </summary>
-        [SugarColumn(ColumnName = "Mi013", ColumnDescription = "加班事由", Length = 500)]
+        [SugarColumn(ColumnName = "Mi013", ColumnDescription = "加班事由", Length = 500, ColumnDataType = "NVARCHAR")]
         public string Mi013 { get; set; }
 
         /// <summary>
@@ -99,15 +100,15 @@ namespace Ams.Model.Accounting
         public decimal Mi015 { get; set; }
 
         /// <summary>
-        /// 投入加班
+        /// 加班类型
         /// </summary>
-        [SugarColumn(ColumnName = "Mi016", ColumnDescription = "投入加班", DefaultValue = "0", Length = 18, DecimalDigits = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public decimal Mi016 { get; set; }
+        [SugarColumn(ColumnName = "Mi016", ColumnDescription = "加班类型", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mi016 { get; set; }
 
         /// <summary>
-        /// 平均投入加班
+        /// 投入加班
         /// </summary>
-        [SugarColumn(ColumnName = "Mi017", ColumnDescription = "平均投入加班", DefaultValue = "0", Length = 18, DecimalDigits = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName = "Mi017", ColumnDescription = "投入加班", DefaultValue = "0", Length = 18, DecimalDigits = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public decimal Mi017 { get; set; }
 
         /// <summary>
@@ -117,43 +118,55 @@ namespace Ams.Model.Accounting
         public decimal Mi018 { get; set; }
 
         /// <summary>
-        /// 投入总加班
+        /// 总加班
         /// </summary>
-        [SugarColumn(ColumnName = "Mi019", ColumnDescription = "投入总加班", DefaultValue = "0", Length = 18, DecimalDigits = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName = "Mi019", ColumnDescription = "总加班", DefaultValue = "0", Length = 18, DecimalDigits = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public decimal Mi019 { get; set; }
 
         /// <summary>
-        /// 启用标记
+        /// 加班费
         /// </summary>
-        [SugarColumn(ColumnName = "Mi020", ColumnDescription = "启用标记", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public int Mi020 { get; set; }
+        [SugarColumn(ColumnName = "Mi020", ColumnDescription = "加班费", DefaultValue = "0", Length = 18, DecimalDigits = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Mi020 { get; set; }
+
+        /// <summary>
+        /// 金额
+        /// </summary>
+        [SugarColumn(ColumnName = "Mi021", ColumnDescription = "金额", DefaultValue = "0", Length = 18, DecimalDigits = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public decimal Mi021 { get; set; }
+
+        /// <summary>
+        /// 启用
+        /// </summary>
+        [SugarColumn(ColumnName = "Mi022", ColumnDescription = "启用", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mi022 { get; set; }
 
         /// <summary>
         /// 审核
         /// </summary>
-        [SugarColumn(ColumnName = "Mi021", ColumnDescription = "审核", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public int Mi021 { get; set; }
+        [SugarColumn(ColumnName = "Mi023", ColumnDescription = "审核", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mi023 { get; set; }
 
         /// <summary>
-        /// 审核人员
+        /// 审核人
         /// </summary>
-        [SugarColumn(ColumnName = "Mi022", ColumnDescription = "审核人员", Length = 20)]
-        public string Mi022 { get; set; }
-
-        /// <summary>
-        /// 审核日期
-        /// </summary>
-        public DateTime? Mi023 { get; set; }
-
-        /// <summary>
-        /// 撤消人员
-        /// </summary>
-        [SugarColumn(ColumnName = "Mi024", ColumnDescription = "撤消人员", Length = 20)]
+        [SugarColumn(ColumnName = "Mi024", ColumnDescription = "审核人", Length = 20)]
         public string Mi024 { get; set; }
 
         /// <summary>
-        /// 撤消日期
+        /// 审核日
         /// </summary>
         public DateTime? Mi025 { get; set; }
+
+        /// <summary>
+        /// 撤消人
+        /// </summary>
+        [SugarColumn(ColumnName = "Mi026", ColumnDescription = "撤消人", Length = 20)]
+        public string Mi026 { get; set; }
+
+        /// <summary>
+        /// 撤消日
+        /// </summary>
+        public DateTime? Mi027 { get; set; }
     }
 }

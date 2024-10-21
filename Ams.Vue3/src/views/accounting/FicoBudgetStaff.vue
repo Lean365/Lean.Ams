@@ -1,416 +1,459 @@
 <!--
  * @Descripttion: 人员预算/fico_budget_staff
- * @Version: 0.24.653.24610
+ * @Version: 0.24.655.24647
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/10/14 13:41:08
- * @column：42
+ * @Date: 2024/10/16 13:50:58
+ * @column：46
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
   <div>
-    <!-- 查询区域 -->
-    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent label-width="auto">
-      <el-row :gutter="10" class="mb8">
-        <el-col :lg="24">
-      <el-form-item label="部门ID" prop="deptId">
-        <el-select filterable clearable  v-model="queryParams.deptId" :placeholder="$t('btn.selectSearchPrefix')+'部门ID'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_dept_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="财年" prop="mj004">
-        <el-select filterable clearable  v-model="queryParams.mj004" :placeholder="$t('btn.selectSearchPrefix')+'财年'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_attr_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="年月" prop="mj005">
-        <el-select filterable clearable  v-model="queryParams.mj005" :placeholder="$t('btn.selectSearchPrefix')+'年月'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_ymdt_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="公司" prop="mj006">
-        <el-select filterable clearable  v-model="queryParams.mj006" :placeholder="$t('btn.selectSearchPrefix')+'公司'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_corp_list " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="科目" prop="mj007">
-        <el-select filterable clearable  v-model="queryParams.mj007" :placeholder="$t('btn.selectSearchPrefix')+'科目'+$t('btn.selectSearchSuffix')">
-          <el-option v-for="item in   options.sql_budget_title " :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
-            <span class="fl">{{ item.dictLabel }}</span>
-            <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>          
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="名称" prop="mj008">
-        <el-input v-model="queryParams.mj008" :placeholder="$t('btn.enterSearchPrefix')+'名称'+$t('btn.enterSearchSuffix')" />
-      </el-form-item>
-      <el-form-item label="审核" prop="mj014">
-        <el-radio-group v-model="queryParams.mj014">
-          <el-radio :value="-1">{{$t('common.all')}}</el-radio>
-          <el-radio v-for="item in  options.sys_is_status " :key="item.dictValue" :value="item.dictValue">{{item.dictLabel}}</el-radio>
-        </el-radio-group>
-      </el-form-item>
-        </el-col>
-        <el-col :lg="24" :offset="12">
-      <el-form-item>
-        <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
-        <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
-      </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <!-- 工具区域 -->
-    <el-row :gutter="15" class="mb10">
-      <el-col :span="1.5">
-        <el-button class="btn-add" v-hasPermi="['fico:budgetstaff:add']" plain icon="plus" @click="handleAdd">
-          {{ $t('btn.add') }}
-        </el-button>
+    <!-- {{flattenArray}}{{budgetAccounting}} -->
+    <el-row :gutter="20" type="flex">
+      <!--部门数据-->
+      <el-col :span="4" :xs="24">
+        <div class="scroll-container">
+          <div class=" head-container">
+            <el-input v-model="deptName"
+              :placeholder="$t('btn.enterSearchPrefix')+$t('pdept.deptName')+$t('btn.enterSearchSuffix')" clearable
+              prefix-icon="search" style="margin-bottom: 20px" />
+          </div>
+          <div class="head-container">
+            <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false"
+              :filter-node-method="filterNode" ref="deptTreeRef" node-key="id" highlight-current default-expand-all
+              @node-click="handleNodeClick">
+              <template #default="{ node, data }">
+                <span class="custom-tree-node">
+                  <span>
+                    <svg-icon name="m-house" v-if="data.children && data.children.length > 0"></svg-icon>
+                    {{ node.label }}
+                  </span>
+                </span>
+              </template>
+            </el-tree>
+          </div>
+        </div>
       </el-col>
-      <el-col :span="1.5">
-        <el-button class="btn-edit" :disabled="single" v-hasPermi="['fico:budgetstaff:edit']" plain icon="edit" @click="handleUpdate">
-          {{ $t('btn.edit') }}
-        </el-button>
+      <!-- 查询区域 -->
+      <el-col :span="20" :xs="24">
+        <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent
+          label-width="auto">
+          <el-row :gutter="10" class="mb8">
+            <el-col :lg="24">
+              <el-form-item label="财年" prop="mj003">
+                <el-select filterable clearable v-model="queryParams.mj003"
+                  :placeholder="$t('btn.selectSearchPrefix')+'财年'+$t('btn.selectSearchSuffix')"
+                  @change="handleLfgjaChange">
+                  <el-option v-for="item in   options.sql_attr_list " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="年月" prop="mj004">
+                <el-select filterable clearable v-model="queryParams.mj004"
+                  :placeholder="$t('btn.selectSearchPrefix')+'年月'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   filteredParamsLfmon " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <!-- <el-form-item label="公司" prop="mj005">
+                <el-select filterable clearable v-model="queryParams.mj005"
+                  :placeholder="$t('btn.selectSearchPrefix')+'公司'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sql_corp_list " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item> -->
+              <!-- <el-form-item label="部门" prop="mj006">
+                <el-select filterable clearable v-model="queryParams.mj006"
+                  :placeholder="$t('btn.selectSearchPrefix')+'部门'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sql_dept_list " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item> -->
+              <el-form-item label="科目" prop="mj007">
+                <el-tree-select v-model="queryParams.mj007" :data="budgetAccounting"
+                  :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id"
+                  :placeholder="$t('btn.selectSearchPrefix')+'科目'+$t('btn.selectSearchSuffix')" check-strictly
+                  :render-after-expand="false" />
+                <!-- <el-select filterable clearable v-model="queryParams.mj007"
+                  :placeholder="$t('btn.selectSearchPrefix')+'科目'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sql_budget_details " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select> -->
+              </el-form-item>
+              <el-form-item label="原因" prop="mj009">
+                <el-input v-model="queryParams.mj009"
+                  :placeholder="$t('btn.enterSearchPrefix')+'原因'+$t('btn.enterSearchSuffix')" />
+              </el-form-item>
+              <el-form-item label="职级" prop="mj014">
+                <el-select filterable clearable v-model="queryParams.mj014"
+                  :placeholder="$t('btn.selectSearchPrefix')+'职级'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sql_posts_list " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="审核" prop="mj018">
+                <el-radio-group v-model="queryParams.mj018">
+                  <el-radio :value="-1">{{$t('common.all')}}</el-radio>
+                  <el-radio v-for="item in  options.sys_is_status " :key="item.dictValue"
+                    :value="item.dictValue">{{item.dictLabel}}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :lg="24" :offset="12">
+              <el-form-item>
+                <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+                <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <!-- 工具区域 -->
+        <el-row :gutter="15" class="mb10">
+          <el-col :span="1.5">
+            <el-button class="btn-add" v-hasPermi="['fico:budgetstaff:add']" plain icon="plus" @click="handleAdd">
+              {{ $t('btn.add') }}
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button class="btn-edit" :disabled="single" v-hasPermi="['fico:budgetstaff:edit']" plain icon="edit"
+              @click="handleUpdate">
+              {{ $t('btn.edit') }}
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button class="btn-deletebatch" :disabled="multiple" v-hasPermi="['fico:budgetstaff:delete']" plain
+              icon="delete" @click="handleDelete">
+              {{ $t('btn.delete') }}
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-dropdown trigger="click" v-hasPermi="['fico:budgetstaff:import']">
+              <el-button class="btn-import" plain icon="Upload">
+                {{ $t('btn.import') }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item command="upload">
+                    <importData templateUrl="Accounting/FicoBudgetStaff/importTemplate"
+                      importUrl="/Accounting/FicoBudgetStaff/importData" @success="handleFileSuccess"></importData>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button class="btn-export" plain icon="download" @click="handleExport"
+              v-hasPermi="['fico:budgetstaff:export']">
+              {{ $t('btn.export') }}
+            </el-button>
+          </el-col>
+          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
+        </el-row>
+
+        <!-- 数据区域 -->
+        <el-table border height="600px" :data="dataList" v-loading="loading" ref="table"
+          header-cell-class-name="el-table-header-cell" highlight-current-row @sort-change="sortChange"
+          @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="50" align="center" />
+          <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')" />
+          <el-table-column prop="parentId" label="父ID" align="center" v-if="columns.showColumn('parentId')" />
+          <el-table-column prop="mj003" label="财年" align="center" v-if="columns.showColumn('mj003')">
+            <template #default="scope">
+              <dict-tag :options=" options.sql_attr_list " :value="scope.row.mj003" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mj004" label="年月" align="center" v-if="columns.showColumn('mj004')">
+            <template #default="scope">
+              <dict-tag :options=" options.sql_ymdt_list " :value="scope.row.mj004" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mj005" label="公司" align="center" v-if="columns.showColumn('mj005')">
+            <template #default="scope">
+              <dict-tag :options=" options.sql_corp_list " :value="scope.row.mj005" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mj006" label="部门" align="center" v-if="columns.showColumn('mj006')">
+            <template #default="scope">
+              <dict-tag :options=" options.sql_dept_list " :value="scope.row.mj006" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mj007" label="科目" align="center" v-if="columns.showColumn('mj007')">
+            <!-- <template #default="scope">
+              <dict-tag :options=" flattenArray " :value="scope.row.mj006" />
+            </template> -->
+          </el-table-column>
+          <el-table-column prop="mj008" label="费用类别" align="center" v-if="columns.showColumn('mj008')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_costs_type " :value="scope.row.mj008" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mj009" label="原因" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mj009')" />
+          <el-table-column prop="mj010" label="人员类别" align="center" v-if="columns.showColumn('mj010')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_pers_type " :value="scope.row.mj010" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mj011" label="保有" align="center" v-if="columns.showColumn('mj011')" />
+          <el-table-column prop="mj012" label="现有" align="center" v-if="columns.showColumn('mj012')" />
+          <el-table-column prop="mj013" label="预算" align="center" v-if="columns.showColumn('mj013')" />
+          <el-table-column prop="mj014" label="职级" align="center" v-if="columns.showColumn('mj014')">
+            <template #default="scope">
+              <dict-tag :options=" options.sql_posts_list " :value="scope.row.mj014" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mj015" label="月薪" align="center" v-if="columns.showColumn('mj015')" />
+          <el-table-column prop="mj016" label="金额" align="center" v-if="columns.showColumn('mj016')" />
+          <el-table-column prop="mj017" label="启用" align="center" v-if="columns.showColumn('mj017')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_is_status " :value="scope.row.mj017" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mj018" label="审核" align="center" v-if="columns.showColumn('mj018')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_is_status " :value="scope.row.mj018" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mj019" label="审核人" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mj019')" />
+          <el-table-column prop="mj020" label="审核日" :show-overflow-tooltip="true" v-if="columns.showColumn('mj020')" />
+          <el-table-column prop="mj021" label="撤消人" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mj021')" />
+          <el-table-column prop="mj022" label="撤消日" :show-overflow-tooltip="true" v-if="columns.showColumn('mj022')" />
+          <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('remark')" />
+          <el-table-column :label="$t('btn.operation')" width="160" align="center">
+            <template #default="scope">
+              <el-button-group>
+                <el-button class="btn-edit" plain size="small" icon="edit" :title="$t('btn.edit')"
+                  v-hasPermi="['fico:budgetstaff:edit']" @click="handleUpdate(scope.row)"></el-button>
+                <el-button class="btn-delete" plain size="small" icon="delete" :title="$t('btn.delete')"
+                  v-hasPermi="['fico:budgetstaff:delete']" @click="handleDelete(scope.row)"></el-button>
+              </el-button-group>
+            </template>
+          </el-table-column>
+        </el-table>
+        <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
+          @pagination="getList" />
       </el-col>
-      <el-col :span="1.5">
-        <el-button class="btn-deletebatch" :disabled="multiple" v-hasPermi="['fico:budgetstaff:delete']" plain icon="delete" @click="handleDelete">
-          {{ $t('btn.delete') }}
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-dropdown trigger="click" v-hasPermi="['fico:budgetstaff:import']">
-          <el-button class="btn-import" plain icon="Upload">
-            {{ $t('btn.import') }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="upload">
-                <importData
-                  templateUrl="Accounting/FicoBudgetStaff/importTemplate"
-                  importUrl="/Accounting/FicoBudgetStaff/importData"
-                  @success="handleFileSuccess"></importData>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button class="btn-export" plain icon="download" @click="handleExport" v-hasPermi="['fico:budgetstaff:export']">
-          {{ $t('btn.export') }}
-        </el-button>
-      </el-col>
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
-
-    <!-- 数据区域 -->
-    <el-table border height="600px"
-      :data="dataList"
-      v-loading="loading"
-      ref="table"
-      header-cell-class-name="el-table-header-cell"
-      highlight-current-row
-      @sort-change="sortChange"
-      @selection-change="handleSelectionChange"
-      >
-      <el-table-column type="selection" width="50" align="center"/>
-      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')"/>
-      <el-table-column prop="parentId" label="父ID" align="center" v-if="columns.showColumn('parentId')"/>
-      <el-table-column prop="deptId" label="部门ID" align="center" v-if="columns.showColumn('deptId')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_dept_list " :value="scope.row.deptId"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mj004" label="财年" align="center" v-if="columns.showColumn('mj004')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_attr_list " :value="scope.row.mj004"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mj005" label="年月" align="center" v-if="columns.showColumn('mj005')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_ymdt_list " :value="scope.row.mj005"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mj006" label="公司" align="center" v-if="columns.showColumn('mj006')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_corp_list " :value="scope.row.mj006"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mj007" label="科目" align="center" v-if="columns.showColumn('mj007')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_budget_title " :value="scope.row.mj007"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mj008" label="名称" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mj008')"/>
-      <el-table-column prop="mj009" label="类别" align="center" v-if="columns.showColumn('mj009')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_costs_type " :value="scope.row.mj009"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mj010" label="保有" align="center" v-if="columns.showColumn('mj010')"/>
-      <el-table-column prop="mj011" label="现有" align="center" v-if="columns.showColumn('mj011')"/>
-      <el-table-column prop="mj012" label="预算" align="center" v-if="columns.showColumn('mj012')"/>
-      <el-table-column prop="mj013" label="启用" align="center" v-if="columns.showColumn('mj013')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_is_status " :value="scope.row.mj013"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mj014" label="审核" align="center" v-if="columns.showColumn('mj014')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_is_status " :value="scope.row.mj014"  />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mj015" label="审核人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mj015')"/>
-      <el-table-column prop="mj016" label="审核日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('mj016')"/>
-      <el-table-column prop="mj017" label="撤消人员" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('mj017')"/>
-      <el-table-column prop="mj018" label="撤消日期" :show-overflow-tooltip="true"  v-if="columns.showColumn('mj018')"/>
-      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')"/>
-      <el-table-column :label="$t('btn.operation')" width="160" align="center">
-        <template #default="scope">
-          <el-button-group>
-          <el-button class="btn-edit" plain size="small" icon="edit" :title="$t('btn.edit')" v-hasPermi="['fico:budgetstaff:edit']" @click="handleUpdate(scope.row)"></el-button>
-          <el-button class="btn-delete" plain size="small" icon="delete" :title="$t('btn.delete')" v-hasPermi="['fico:budgetstaff:delete']" @click="handleDelete(scope.row)"></el-button>
-          </el-button-group>
-        </template>
-      </el-table-column>
-    </el-table>
-    <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
-
     <!-- 添加或修改人员预算对话框 -->
-    <el-dialog :title="title" :lock-scroll="false" v-model="open" >
+    <el-dialog :title="title" :lock-scroll="false" v-model="open">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
           <el-tab-pane :label="$t('ptabs.basicInfo')" name="first">
-        <el-row :gutter="20">
-            
-          <el-col :lg="12">
+            <el-row :gutter="20">
+
+              <!-- <el-col :lg="12">
             <el-form-item label="父ID" prop="parentId">
               <el-input   v-model.number="form.parentId" :placeholder="$t('btn.enterPrefix')+'父ID'+$t('btn.enterSuffix')"  show-word-limit  maxlength="19"/>
             </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="部门ID" prop="deptId">
-              <el-select filterable clearable   v-model="form.deptId"  :placeholder="$t('btn.selectPrefix')+'部门ID'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sql_dept_list" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="parseInt(item.dictValue)"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
+          </el-col> -->
 
-          <el-col :lg="12">
-            <el-form-item label="财年" prop="mj004">
-              <el-select filterable clearable   v-model="form.mj004"  :placeholder="$t('btn.selectPrefix')+'财年'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sql_attr_list" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
+              <el-col :lg="12">
+                <el-form-item label="财年" prop="mj003">
+                  <el-select filterable clearable v-model="form.mj003"
+                    :placeholder="$t('btn.selectPrefix')+'财年'+$t('btn.selectSuffix')" @change="handleLfgjaChange">
+                    <el-option v-for="item in  options.sql_attr_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="item.dictValue"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="年月" prop="mj005">
-              <el-select filterable clearable   v-model="form.mj005"  :placeholder="$t('btn.selectPrefix')+'年月'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sql_ymdt_list" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
+              <el-col :lg="12">
+                <el-form-item label="年月" prop="mj004">
+                  <el-select filterable clearable v-model="form.mj004"
+                    :placeholder="$t('btn.selectPrefix')+'年月'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  filteredFormLfmon" :key="item.dictValue" :label="item.dictLabel"
+                      :value="item.dictValue"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="公司" prop="mj006">
-              <el-select filterable clearable   v-model="form.mj006"  :placeholder="$t('btn.selectPrefix')+'公司'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sql_corp_list" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
+              <el-col :lg="12">
+                <el-form-item label="公司" prop="mj005">
+                  <el-select filterable clearable v-model="form.mj005"
+                    :placeholder="$t('btn.selectPrefix')+'公司'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sql_corp_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="item.dictValue"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="科目" prop="mj007">
-              <el-select filterable clearable   v-model="form.mj007"  :placeholder="$t('btn.selectPrefix')+'科目'+$t('btn.selectSuffix')">
+              <el-col :lg="12">
+                <el-form-item label="部门" prop="mj006">
+                  <el-select filterable clearable v-model="form.mj006"
+                    :placeholder="$t('btn.selectPrefix')+'部门'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sql_dept_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="科目" prop="mj007">
+                  <el-tree-select v-model="form.mj007" :data="budgetAccounting"
+                    :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id"
+                    :placeholder="$t('btn.selectSearchPrefix')+'科目'+$t('btn.selectSearchSuffix')" check-strictly
+                    :render-after-expand="false" />
+                  <!-- <el-select filterable clearable   v-model="form.mj007"  :placeholder="$t('btn.selectPrefix')+'科目'+$t('btn.selectSuffix')">
                 <el-option
-                  v-for="item in  options.sql_budget_title" 
+                  v-for="item in  options.sql_budget_details" 
                   :key="item.dictValue" 
                   :label="item.dictLabel" 
                   :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
+              </el-select> -->
+                </el-form-item>
+              </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="名称" prop="mj008">
-              <el-input   v-model="form.mj008" :placeholder="$t('btn.enterPrefix')+'名称'+$t('btn.enterSuffix')"  show-word-limit  maxlength="100"/>
-            </el-form-item>
-          </el-col>
+              <el-col :lg="12">
+                <el-form-item label="费用类别" prop="mj008">
+                  <el-select filterable clearable v-model="form.mj008"
+                    :placeholder="$t('btn.selectPrefix')+'费用类别'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_costs_type" :key="item.dictValue" :label="item.dictLabel"
+                      :value="item.dictValue"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="类别" prop="mj009">
-              <el-select filterable clearable   v-model="form.mj009"  :placeholder="$t('btn.selectPrefix')+'类别'+$t('btn.selectSuffix')">
-                <el-option
-                  v-for="item in  options.sys_costs_type" 
-                  :key="item.dictValue" 
-                  :label="item.dictLabel" 
-                  :value="item.dictValue"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="保有" prop="mj010">
-              <el-input-number v-model.number="form.mj010" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'保有'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="现有" prop="mj011">
-              <el-input-number v-model.number="form.mj011" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'现有'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="预算" prop="mj012">
-              <el-input-number v-model.number="form.mj012" :controls="true" controls-position="right" :placeholder="$t('btn.enterPrefix')+'预算'+$t('btn.enterSuffix')" />
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="启用" prop="mj013">
-              <el-radio-group v-model="form.mj013">
-                <el-radio v-for="item in options.sys_is_status" :key="item.dictValue" :value="parseInt(item.dictValue)">
-                  {{item.dictLabel}}
-                </el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-            
-          <el-col :lg="12">
-            <el-form-item label="审核" prop="mj014">
-              <el-radio-group v-model="form.mj014">
-                <el-radio v-for="item in options.sys_is_status" :key="item.dictValue" :value="parseInt(item.dictValue)">
-                  {{item.dictLabel}}
-                </el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
+              <el-col :lg="12">
+                <el-form-item label="原因" prop="mj009">
+                  <el-input type="textarea" v-model="form.mj009"
+                    :placeholder="$t('btn.enterPrefix')+'原因'+$t('btn.enterSuffix')" show-word-limit :rows="2"
+                    maxlength="500" />
+                </el-form-item>
+              </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="审核人员" prop="mj015">
-              <el-input   v-model="form.mj015" :placeholder="$t('btn.enterPrefix')+'审核人员'+$t('btn.enterSuffix')"  show-word-limit  maxlength="20"/>
-            </el-form-item>
-          </el-col>
+              <el-col :lg="12">
+                <el-form-item label="人员类别" prop="mj010">
+                  <el-select filterable clearable v-model="form.mj010"
+                    :placeholder="$t('btn.selectPrefix')+'人员类别'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_pers_type" :key="item.dictValue" :label="item.dictLabel"
+                      :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="审核日期" prop="mj016">
-              <el-date-picker v-model="form.mj016" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
+              <el-col :lg="12">
+                <el-form-item label="保有" prop="mj011">
+                  <el-input-number v-model.number="form.mj011" :controls="true" controls-position="right"
+                    :placeholder="$t('btn.enterPrefix')+'保有'+$t('btn.enterSuffix')" />
+                </el-form-item>
+              </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="撤消人员" prop="mj017">
-              <el-input   v-model="form.mj017" :placeholder="$t('btn.enterPrefix')+'撤消人员'+$t('btn.enterSuffix')"  show-word-limit  maxlength="20"/>
-            </el-form-item>
-          </el-col>
+              <el-col :lg="12">
+                <el-form-item label="现有" prop="mj012">
+                  <el-input-number v-model.number="form.mj012" :controls="true" controls-position="right"
+                    :placeholder="$t('btn.enterPrefix')+'现有'+$t('btn.enterSuffix')" />
+                </el-form-item>
+              </el-col>
 
-          <el-col :lg="12">
-            <el-form-item label="撤消日期" prop="mj018">
-              <el-date-picker v-model="form.mj018" type="datetime" :teleported="false" :placeholder="$t('btn.dateselect')"></el-date-picker>
-            </el-form-item>
-          </el-col>
+              <el-col :lg="12">
+                <el-form-item label="预算" prop="mj013">
+                  <el-input-number v-model.number="form.mj013" :controls="true" controls-position="right"
+                    :placeholder="$t('btn.enterPrefix')+'预算'+$t('btn.enterSuffix')" />
+                </el-form-item>
+              </el-col>
 
-          <el-col :lg="24">
-            <el-form-item label="备注" prop="remark">
-              <el-input type="textarea" v-model="form.remark" :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" show-word-limit maxlength="500"/>
-            </el-form-item>
-          </el-col>
-        </el-row>
-</el-tab-pane>
+              <el-col :lg="12">
+                <el-form-item label="职级" prop="mj014">
+                  <el-select filterable clearable v-model="form.mj014"
+                    :placeholder="$t('btn.selectPrefix')+'职级'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sql_posts_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="item.dictValue"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
 
+              <el-col :lg="12">
+                <el-form-item label="月薪" prop="mj015">
+                  <el-input-number v-model.number="form.mj015" :controls="true" controls-position="right"
+                    :placeholder="$t('btn.enterPrefix')+'月薪'+$t('btn.enterSuffix')" />
+                </el-form-item>
+              </el-col>
 
-          <el-tab-pane :label="$t('ptabs.onboarding')" name="second">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.qualifications')" name="third">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.attachment')" name="fourth">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.content')" name="fifth">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.trade')" name="sixth">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.bank')" name="seventh">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.contact')" name="eighth">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
+              <el-col :lg="12">
+                <el-form-item label="金额" prop="mj016">
+                  <el-input-number v-model.number="form.mj016" :controls="true" controls-position="right"
+                    :placeholder="$t('btn.enterPrefix')+'金额'+$t('btn.enterSuffix')" />
+                </el-form-item>
+              </el-col>
 
-          <el-tab-pane :label="$t('ptabs.purchase')" name="ninth">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.sales')" name="tenth">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.production')" name="11th">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.warehouse')" name="12th">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.accounting')" name="13th">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.incoming')" name="14th">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.outgoing')" name="15th">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.customization')" name="16th">
-        	<el-row :gutter="20">
-        	</el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.oper')" name="17th">
-        	<el-row :gutter="20">
-        	</el-row>
+              <el-col :lg="12">
+                <el-form-item label="启用" prop="mj017">
+                  <el-radio-group v-model="form.mj017">
+                    <el-radio v-for="item in options.sys_is_status" :key="item.dictValue"
+                      :value="parseInt(item.dictValue)">
+                      {{item.dictLabel}}
+                    </el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="审核" prop="mj018">
+                  <el-radio-group v-model="form.mj018">
+                    <el-radio v-for="item in options.sys_is_status" :key="item.dictValue"
+                      :value="parseInt(item.dictValue)">
+                      {{item.dictLabel}}
+                    </el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="审核人" prop="mj019">
+                  <el-input v-model="form.mj019" :placeholder="$t('btn.enterPrefix')+'审核人'+$t('btn.enterSuffix')"
+                    show-word-limit maxlength="20" />
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="审核日" prop="mj020">
+                  <el-date-picker v-model="form.mj020" type="datetime" :teleported="false"
+                    :placeholder="$t('btn.dateselect')"></el-date-picker>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="撤消人" prop="mj021">
+                  <el-input v-model="form.mj021" :placeholder="$t('btn.enterPrefix')+'撤消人'+$t('btn.enterSuffix')"
+                    show-word-limit maxlength="20" />
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="撤消日" prop="mj022">
+                  <el-date-picker v-model="form.mj022" type="datetime" :teleported="false"
+                    :placeholder="$t('btn.dateselect')"></el-date-picker>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="24">
+                <el-form-item label="备注" prop="remark">
+                  <el-input type="textarea" v-model="form.remark"
+                    :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" show-word-limit maxlength="500" />
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-tab-pane>
         </el-tabs>
 
@@ -426,332 +469,475 @@
 
 <script setup name="ficobudgetstaff">
   import '@/assets/styles/btn-custom.scss'
-//后台操作函数
-import { listFicoBudgetStaff,
- addFicoBudgetStaff, delFicoBudgetStaff, 
- updateFicoBudgetStaff,getFicoBudgetStaff, 
- } 
-from '@/api/accounting/ficobudgetstaff.js'
-import importData from '@/components/ImportData'
-//防抖处理函数 import { debounce } from 'lodash';
-import { debounce } from 'lodash';
-//获取当前组件实例
-const { proxy } = getCurrentInstance()
-//标签页
-const activeName = ref('first')
-const handleClick = (tab, event) => {
+  //后台操作函数
+  import {
+    listFicoBudgetStaff,
+    addFicoBudgetStaff, delFicoBudgetStaff,
+    updateFicoBudgetStaff, getFicoBudgetStaff,
+  }
+    from '@/api/accounting/ficobudgetstaff.js'
+  import { treeselect } from '@/api/system/dept'
+  import { treeselectFicoBudgetAccounting }
+    from '@/api/accounting/ficobudgetaccounting.js'
+  import importData from '@/components/ImportData'
+  //防抖处理函数 import { debounce } from 'lodash';
+  import { debounce } from 'lodash';
+  //获取当前组件实例
+  const { proxy } = getCurrentInstance()
+  //标签页
+  const activeName = ref('first')
+  const handleClick = (tab, event) => {
     console.log(tab, event)
   }
-//选中refId数组数组
-const ids = ref([])
-//是否加载动画
-const loading = ref(false)
-//显示搜索条件
-const showSearch = ref(true)
-//使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
-const queryParams = reactive({
-  pageNum: 1,
-  pageSize: 56,
-  sort: 'Mj005',
-  sortType: 'desc',
-  //是否查询（1是）
-  deptId: undefined,
-  //是否查询（1是）
-  mj004: undefined,
-  //是否查询（1是）
-  mj005: undefined,
-  //是否查询（1是）
-  mj006: undefined,
-  //是否查询（1是）
-  mj007: undefined,
-  //是否查询（1是）
-  mj008: undefined,
-   //是否查询（1是）
-  mj014: -1,
-})
-//字段显示控制
-const columns = ref([
-  { visible: true, prop: 'id', label: 'ID' },
-  { visible: true, prop: 'parentId', label: '父ID' },
-  { visible: true, prop: 'deptId', label: '部门ID' },
-  { visible: true, prop: 'mj004', label: '财年' },
-  { visible: true, prop: 'mj005', label: '年月' },
-  { visible: true, prop: 'mj006', label: '公司' },
-  { visible: true, prop: 'mj007', label: '科目' },
-  { visible: true, prop: 'mj008', label: '名称' },
-  { visible: false, prop: 'mj009', label: '类别' },
-  { visible: false, prop: 'mj010', label: '保有' },
-  { visible: false, prop: 'mj011', label: '现有' },
-  { visible: false, prop: 'mj012', label: '预算' },
-  { visible: false, prop: 'mj013', label: '启用' },
-  { visible: false, prop: 'mj014', label: '审核' },
-  { visible: false, prop: 'mj015', label: '审核人员' },
-  { visible: false, prop: 'mj016', label: '审核日期' },
-  { visible: false, prop: 'mj017', label: '撤消人员' },
-  { visible: false, prop: 'mj018', label: '撤消日期' },
-  { visible: false, prop: 'remark', label: '备注' },
-])
-// 记录数
-const total = ref(0)
-//定义数据变量
-const dataList = ref([])
-//查询参数
-const queryRef = ref()
-//定义起始时间
-const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
-
-//字典参数
-var dictParams = [
-  { dictType: "sql_dept_list" },
-  { dictType: "sql_attr_list" },
-  { dictType: "sql_ymdt_list" },
-  { dictType: "sql_corp_list" },
-  { dictType: "sql_budget_title" },
-  { dictType: "sys_costs_type" },
-  { dictType: "sys_is_status" },
-]
-
-//字典加载
-proxy.getDicts(dictParams).then((response) => {
-  response.data.forEach((element) => {
-    state.options[element.dictType] = element.list
+  //部门名称
+  const deptName = ref('')
+  //部门数据
+  const deptOptions = ref([])
+  //预算科目
+  const budgetAccounting = ref([])
+  //选中refId数组数组
+  const ids = ref([])
+  //是否加载动画
+  const loading = ref(false)
+  //显示搜索条件
+  const showSearch = ref(true)
+  //使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
+  const queryParams = reactive({
+    pageNum: 1,
+    pageSize: 56,
+    sort: 'Mj004',
+    sortType: 'desc',
+    //是否查询（1是）
+    mj003: undefined,
+    //是否查询（1是）
+    mj004: undefined,
+    //是否查询（1是）
+    mj005: undefined,
+    //是否查询（1是）
+    mj006: undefined,
+    //是否查询（1是）
+    mj007: undefined,
+    //是否查询（1是）
+    mj009: undefined,
+    //是否查询（1是）
+    mj014: undefined,
+    //是否查询（1是）
+    md009: '工资',
+    //是否查询（1是）
+    mj018: -1,
   })
-})
-//API获取从人员预算/fico_budget_staff表记录数据
-function getList(){
-  loading.value = true
-  listFicoBudgetStaff(queryParams).then(res => {
-    const { code, data } = res
-    if (code == 200) {
-      dataList.value = data.result
-      total.value = data.totalNum
-      loading.value = false
-    }
+  //字段显示控制
+  const columns = ref([
+    { visible: false, prop: 'id', label: 'ID' },
+    { visible: false, prop: 'parentId', label: '父ID' },
+    { visible: false, prop: 'mj003', label: '财年' },
+    { visible: true, prop: 'mj004', label: '年月' },
+    { visible: true, prop: 'mj005', label: '公司' },
+    { visible: true, prop: 'mj006', label: '部门' },
+    { visible: true, prop: 'mj007', label: '科目' },
+    { visible: true, prop: 'mj008', label: '费用类别' },
+    { visible: true, prop: 'mj009', label: '原因' },
+    { visible: true, prop: 'mj010', label: '人员类别' },
+    { visible: true, prop: 'mj011', label: '保有' },
+    { visible: true, prop: 'mj012', label: '现有' },
+    { visible: true, prop: 'mj013', label: '预算' },
+    { visible: true, prop: 'mj014', label: '职级' },
+    { visible: true, prop: 'mj015', label: '月薪' },
+    { visible: true, prop: 'mj016', label: '金额' },
+    { visible: false, prop: 'mj017', label: '启用' },
+    { visible: true, prop: 'mj018', label: '审核' },
+    { visible: false, prop: 'mj019', label: '审核人' },
+    { visible: false, prop: 'mj020', label: '审核日' },
+    { visible: false, prop: 'mj021', label: '撤消人' },
+    { visible: false, prop: 'mj022', label: '撤消日' },
+    { visible: false, prop: 'remark', label: '备注' },
+  ])
+  // 记录数
+  const total = ref(0)
+  //定义数据变量
+  const dataList = ref([])
+  //查询参数
+  const queryRef = ref()
+  //定义起始时间
+  const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)])
+
+  //字典参数
+  var dictParams = [
+    { dictType: "sql_attr_list" },
+    { dictType: "sql_ymdt_list" },
+    { dictType: "sql_corp_list" },
+    { dictType: "sql_dept_list" },
+    { dictType: "sql_budget_details" },
+    { dictType: "sys_costs_type" },
+    { dictType: "sys_pers_type" },
+    { dictType: "sql_posts_list" },
+    { dictType: "sys_is_status" },
+  ]
+
+  //字典加载
+  proxy.getDicts(dictParams).then((response) => {
+    response.data.forEach((element) => {
+      state.options[element.dictType] = element.list
+    })
   })
-}
-
-// 查询
-function handleQuery() {
-  queryParams.pageNum = 1
-  getList()
-}
-
-// 重置查询操作
-function resetQuery(){
-  proxy.resetForm("queryRef")
-  handleQuery()
-}
-// 多选框选中数据
-function handleSelectionChange(selection) {
-  ids.value = selection.map((item) => item.id);
-  single.value = selection.length != 1
-  multiple.value = !selection.length;
-}
-// 自定义排序
-function sortChange(column) {
-  var sort = undefined
-  var sortType = undefined
-
-  if (column.prop != null && column.order != null) {
-    sort = column.prop
-    sortType = column.order
-
+  //API获取从人员预算/fico_budget_staff表记录数据
+  function getList() {
+    loading.value = true
+    listFicoBudgetStaff(queryParams).then(res => {
+      const { code, data } = res
+      if (code == 200) {
+        dataList.value = data.result
+        total.value = data.totalNum
+        loading.value = false
+      }
+    })
   }
-  queryParams.sort = sort
-  queryParams.sortType = sortType
-  handleQuery()
-}
-
-/*************** form操作 ***************/
-//定义响应式变量
-const formRef = ref()
-//弹出层标题
-const title = ref('')
-
-// 操作类型 1、add 2、edit 3、view
-//定义响应式变量
-const opertype = ref(0)
-//定义对话框打开或关闭
-const open = ref(false)
-//reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
-const state = reactive({
-  single: true,
-  multiple: true,
-  form: {},
-//正则表达式
-  rules: {
-    mj004: [{ required: true, message: "财年"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    mj005: [{ required: true, message: "年月"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    mj006: [{ required: true, message: "公司"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    mj007: [{ required: true, message: "科目"+proxy.$t('btn.isEmpty'), trigger: "change"     }],
-    mj010: [{ required: true, message: "保有"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    mj011: [{ required: true, message: "现有"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    mj012: [{ required: true, message: "预算"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    mj013: [{ required: true, message: "启用"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-    mj014: [{ required: true, message: "审核"+proxy.$t('btn.isEmpty'), trigger: "blur"    , type: "number"  }],
-  },
-//字典名称
-  options: {
-    // 部门ID 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_dept_list: [],
-    // 财年 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_attr_list: [],
-    // 年月 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_ymdt_list: [],
-    // 公司 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_corp_list: [],
-    // 科目 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sql_budget_title: [],
-    // 类别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_costs_type: [],
-    // 启用 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-sys_is_status: [],
+  /** 通过条件过滤节点  */
+  const filterNode = (value, data) => {
+    if (!value) return true
+    return data.label.indexOf(value) !== -1
   }
-})
-//将响应式对象转换成普通对象
-const { form, rules, options, single, multiple } = toRefs(state)
+  /** 根据名称筛选部门树 */
+  watch(deptName, (val) => {
+    proxy.$refs['deptTreeRef'].filter(val)
+  })
+  /** 查询部门下拉树结构 */
+  function getDeptTreeSelect() {
+    treeselect().then((response) => {
+      deptOptions.value = [{ id: 0, label: proxy.$t('common.unknow') + proxy.$t('puser.deptName'), children: [] }, ...response.data]
+    })
+  }
+  //查询预算科目下拉树
 
-// 关闭dialog
-function cancel(){
-  open.value = false
-  reset()
-}
-
-// 重置表单
-function reset() {
-  form.value = {
-    parentId: 0,
-    deptId: [],
-    mj004: [],
-    mj005: [],
-    mj006: [],
-    mj007: [],
-    mj008: null,
-    mj009: [],
-    mj010: 0,
-    mj011: 0,
-    mj012: 0,
-    mj013: 0,
-    mj014: 0,
-    mj015: null,
-    mj016: null,
-    mj017: null,
-    mj018: null,
-    remark: null,
-  };
-  proxy.resetForm("formRef")
-}
-
-
-// 添加按钮操作
-function handleAdd() {
-  reset();
-  open.value = true
-  title.value = proxy.$t('btn.add')+" "+'人员预算'
-  opertype.value = 1
-  form.value.deptId= []
-  form.value.mj004= []
-  form.value.mj005= []
-  form.value.mj006= []
-  form.value.mj007= []
-  form.value.mj009= []
-  form.value.mj010= 0
-  form.value.mj011= 0
-  form.value.mj012= 0
-  form.value.mj013= 0
-  form.value.mj014= 0
-  form.value.mj016= new Date()
-  form.value.mj018= new Date()
-}
-// 修改按钮操作
-function handleUpdate(row) {
-  reset()
-  const id = row.id || ids.value
-  getFicoBudgetStaff(id).then((res) => {
-    const { code, data } = res
-    if (code == 200) {
-      open.value = true
-      title.value = proxy.$t('btn.edit')+" "+ '人员预算'
-      opertype.value = 2
-
-      form.value = {
-        ...data,
+  function getBudgetAccountingTreeSelect() {
+    console.log(queryParams)
+    treeselectFicoBudgetAccounting(queryParams).then((response) => {
+      budgetAccounting.value = [{ id: 0, label: proxy.$t('common.unknow'), children: [] }, ...response.data]
+    })
+  }
+  // 递归函数，用于将树形数据转换为一维数组
+  function flattenTreeData(treeData, result = []) {
+    for (let i = 0; i < treeData.length; i++) {
+      const node = treeData[i];
+      result.push(node); // 将当前节点添加到结果数组中
+      if (node.children && node.children.length > 0) {
+        flattenTreeData(node.children, result); // 递归处理子节点
       }
     }
+    return result;
+  }
+
+  const flattenArray = flattenTreeData(budgetAccounting)
+
+
+  /** 初始化部门数据 */
+  function initDeptTreeData() {
+    // 判断部门的数据是否存在，存在不获取，不存在则获取
+    if (deptOptions.value === undefined) {
+      treeselect().then((response) => {
+        deptOptions.value = response.data
+      })
+    }
+  }
+  const deptIdSelect = ref(0)
+  /** 节点单击事件 */
+  function handleNodeClick(data) {
+    console.log(data)
+    deptIdSelect.value = data.id
+    queryParams.mj006 = data.id
+    handleQuery()
+  }
+  // 查询
+  function handleQuery() {
+    queryParams.pageNum = 1
+    getList()
+  }
+
+  // 重置查询操作
+  function resetQuery() {
+    proxy.resetForm("queryRef")
+    handleQuery()
+  }
+  // 多选框选中数据
+  function handleSelectionChange(selection) {
+    ids.value = selection.map((item) => item.id);
+    single.value = selection.length != 1
+    multiple.value = !selection.length;
+  }
+  // 自定义排序
+  function sortChange(column) {
+    var sort = undefined
+    var sortType = undefined
+
+    if (column.prop != null && column.order != null) {
+      sort = column.prop
+      sortType = column.order
+
+    }
+    queryParams.sort = sort
+    queryParams.sortType = sortType
+    handleQuery()
+  }
+
+  /*************** form操作 ***************/
+  //定义响应式变量
+  const formRef = ref()
+  //弹出层标题
+  const title = ref('')
+
+  // 操作类型 1、add 2、edit 3、view
+  //定义响应式变量
+  const opertype = ref(0)
+  //定义对话框打开或关闭
+  const open = ref(false)
+  //reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
+  const state = reactive({
+    single: true,
+    multiple: true,
+    form: {},
+    //正则表达式
+    rules: {
+      mj003: [{ required: true, message: "财年" + proxy.$t('btn.isEmpty'), trigger: "change" }],
+      mj004: [{ required: true, message: "年月" + proxy.$t('btn.isEmpty'), trigger: "change" }],
+      mj005: [{ required: true, message: "公司" + proxy.$t('btn.isEmpty'), trigger: "change" }],
+      mj006: [{ required: true, message: "部门" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
+      mj007: [{ required: true, message: "科目" + proxy.$t('btn.isEmpty'), trigger: "change" }],
+      mj010: [{ required: true, message: "人员类别" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
+      mj011: [{ required: true, message: "保有" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
+      mj012: [{ required: true, message: "现有" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
+      mj013: [{ required: true, message: "预算" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
+      mj014: [{ required: true, message: "职级" + proxy.$t('btn.isEmpty'), trigger: "change" }],
+      mj015: [{ required: true, message: "月薪" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      mj016: [{ required: true, message: "金额" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
+      mj017: [{ required: true, message: "启用" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
+      mj018: [{ required: true, message: "审核" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
+    },
+    //字典名称
+    options: {
+      // 财年 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sql_attr_list: [],
+      // 年月 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sql_ymdt_list: [],
+      // 公司 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sql_corp_list: [],
+      // 部门 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sql_dept_list: [],
+      // 科目 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sql_budget_details: [],
+      // 费用类别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sys_costs_type: [],
+      // 人员类别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sys_pers_type: [],
+      // 职级 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sql_posts_list: [],
+      // 启用 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sys_is_status: [],
+    }
   })
-}
+  //将响应式对象转换成普通对象
+  const { form, rules, options, single, multiple } = toRefs(state)
 
-// 添加&修改 表单提交
-function submitForm() {
-  proxy.$refs["formRef"].validate((valid) => {
-    if (valid) {
+  // 关闭dialog
+  function cancel() {
+    open.value = false
+    reset()
+  }
+  // 使用 computed 属性来过滤数据: 过滤出选中的数据年月
+  const filteredFormLfmon = ref([])
+  const filteredParamsLfmon = ref([])
+  function handleLfgjaChange() {
+    //console.log(open.value === true)
+    //console.log(state.options.sql_ymdt_list)
+    if (open.value === true) {
+      form.value.mj004 = ''
+      filteredFormLfmon.value = state.options.sql_ymdt_list.filter(item => item.extLabel === form.value.mj003)
 
-      if (form.value.id != undefined && opertype.value === 2) {
-        updateFicoBudgetStaff(form.value).then((res) => {
-         proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
-          open.value = false
-          getList()
-        })
-      } else {
-        addFicoBudgetStaff(form.value).then((res) => {
-             proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
+    }
+    else {
+      queryParams.mj004 = ''
+      //console.log(queryParams.mp002)
+      filteredParamsLfmon.value = state.options.sql_ymdt_list.filter(item => item.extLabel === queryParams.mj003)
+
+    }
+  }
+  // 重置表单
+  function reset() {
+    form.value = {
+      parentId: 0,
+      mj003: [],
+      mj004: [],
+      mj005: [],
+      mj006: [],
+      mj007: [],
+      mj008: [],
+      mj009: null,
+      mj010: [],
+      mj011: 0,
+      mj012: 0,
+      mj013: 0,
+      mj014: [],
+      mj015: 0,
+      mj016: 0,
+      mj017: 0,
+      mj018: 0,
+      mj019: null,
+      mj020: null,
+      mj021: null,
+      mj022: null,
+      remark: null,
+    };
+    proxy.resetForm("formRef")
+  }
+  const cropDta = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22])
+  const cropTac = ref([23, 32, 33])
+  const cropTsz = ref([24, 34, 35])
+  const cropTcj = ref([25])
+  const cropTss = ref([26])
+  const cropTca = ref([27])
+  const cropTms = ref([285])
+  const cropTcs = ref([29])
+  const cropTe = ref([30])
+  const cropTuk = ref([31])
+
+  // 添加按钮操作
+  function handleAdd() {
+    reset();
+    open.value = true
+    title.value = proxy.$t('btn.add') + " " + '人员预算'
+    opertype.value = 1
+    form.value.mj003 = 'FY' + (new Date().getFullYear() + 1)
+    form.value.mj004 = new Date().getFullYear().toString() + (new Date().getMonth() + 1).toString()
+    if ((deptIdSelect.value) == 0) {
+      console.log(cropDta.value.includes(deptIdSelect.value))
+
+      form.value.mj005 = '2300'
+    } else if (cropDta.value.includes(deptIdSelect.value) == true) {
+      console.log(cropDta.value.includes(deptIdSelect.value))
+      form.value.mj005 = '2300'
+    } else if (cropTac.value.includes(deptIdSelect.value) == true) {
+      form.value.mj005 = '2400'
+    } else if (cropTsz.value.includes(deptIdSelect.value) == true) {
+      form.value.mj005 = '2500'
+    } else if (cropTcj.value.includes(deptIdSelect.value) == true) {
+      form.value.mj005 = '1000'
+    } else if (cropTss.value.includes(deptIdSelect.value) == true) {
+      form.value.mj005 = '1300'
+    } else if (cropTca.value.includes(deptIdSelect.value) == true) {
+      form.value.mj005 = '3000'
+    } else if (cropTms.value.includes(deptIdSelect.value) == true) {
+      form.value.mj005 = '1100'
+    } else if (cropTcs.value.includes(deptIdSelect.value) == true) {
+      form.value.mj005 = '1700'
+    } else if (cropTe.value.includes(deptIdSelect.value) == true) {
+      form.value.mj005 = '4000'
+    } else if (cropTuk.value.includes(deptIdSelect.value) == true) {
+      form.value.mj005 = '4100'
+    } else { form.value.mj005 = [] }
+    //form.value.mj005 = []
+    form.value.mj006 = deptIdSelect.value
+    form.value.mj007 = []
+    form.value.mj008 = []
+    form.value.mj010 = 0
+    form.value.mj011 = 0
+    form.value.mj012 = 0
+    form.value.mj013 = 0
+    form.value.mj014 = []
+    form.value.mj015 = 0
+    form.value.mj016 = 0
+    form.value.mj017 = 0
+    form.value.mj018 = 0
+    form.value.mj020 = new Date()
+    form.value.mj022 = new Date()
+  }
+  // 修改按钮操作
+  function handleUpdate(row) {
+    reset()
+    const id = row.id || ids.value
+    getFicoBudgetStaff(id).then((res) => {
+      const { code, data } = res
+      if (code == 200) {
+        open.value = true
+        title.value = proxy.$t('btn.edit') + " " + '人员预算'
+        opertype.value = 2
+
+        form.value = {
+          ...data,
+        }
+      }
+    })
+  }
+
+  // 添加&修改 表单提交
+  function submitForm() {
+    proxy.$refs["formRef"].validate((valid) => {
+      if (valid) {
+
+        if (form.value.id != undefined && opertype.value === 2) {
+          updateFicoBudgetStaff(form.value).then((res) => {
+            proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
             open.value = false
             getList()
           })
+        } else {
+          addFicoBudgetStaff(form.value).then((res) => {
+            proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
+            open.value = false
+            getList()
+          })
+        }
       }
-    }
-  })
-}
-
-// 删除按钮操作
-function handleDelete(row) {
-  const Ids = row.id || ids.value
-
-  proxy
-    .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete')+' '+proxy.$t('common.tip'), {
-      confirmButtonText: proxy.$t('btn.submit'),
-      cancelButtonText: proxy.$t('btn.cancel'),
-      type: "warning",
     })
-    .then(function () {
-      return delFicoBudgetStaff(Ids)
+  }
+
+  // 删除按钮操作
+  function handleDelete(row) {
+    const Ids = row.id || ids.value
+
+    proxy
+      .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
+      })
+      .then(function () {
+        return delFicoBudgetStaff(Ids)
+      })
+      .then(() => {
+        getList()
+        proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
+      })
+  }
+
+
+  // 导入数据成功处理
+  const handleFileSuccess = (response) => {
+    const { item1, item2 } = response.data
+    var error = ''
+    item2.forEach((item) => {
+      error += item.storageMessage + ','
     })
-    .then(() => {
-      getList()
-      proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
+    proxy.$alert(item1 + '<p>' + error + '</p>', proxy.$t('btn.importResults'), {
+      dangerouslyUseHTMLString: true
     })
-}
+    getList()
+  }
+
+  // 导出按钮操作
+  function handleExport() {
+    proxy
+      .$confirm(proxy.$t('common.tipConfirmExport') + "<人员预算.xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+        confirmButtonText: proxy.$t('btn.submit'),
+        cancelButtonText: proxy.$t('btn.cancel'),
+        type: "warning",
+      })
+      .then(async () => {
+        await proxy.downFile('/Accounting/FicoBudgetStaff/export', { ...queryParams })
+      })
+  }
 
 
-// 导入数据成功处理
-const handleFileSuccess = (response) => {
-  const { item1, item2 } = response.data
-  var error = ''
-  item2.forEach((item) => {
-    error += item.storageMessage + ','
-  })
-  proxy.$alert(item1 + '<p>' + error + '</p>', proxy.$t('btn.importResults'), {
-    dangerouslyUseHTMLString: true
-  })
-  getList()
-}
-
-// 导出按钮操作
-function handleExport() {
-  proxy
-    .$confirm(proxy.$t('common.tipConfirmExport')+"<人员预算.xlsx>", proxy.$t('btn.export')+' '+proxy.$t('common.tip'), {
-      confirmButtonText: proxy.$t('btn.submit'),
-      cancelButtonText: proxy.$t('btn.cancel'),
-      type: "warning",
-    })
-    .then(async () => {
-      await proxy.downFile('/Accounting/FicoBudgetStaff/export', { ...queryParams })
-    })
-}
-
-
-// @Descripttion: (自定义函数/CustomFunctions)
-// @Functions: (assignValue,calculateValue,statisticValue)
+  // @Descripttion: (自定义函数/CustomFunctions)
+  // @Functions: (assignValue,calculateValue,statisticValue)
 
 
   const getSummaries = (param) => {
@@ -812,5 +998,7 @@ function handleExport() {
     }
     return wholePartFormat + decimalPart
   }
-handleQuery()
+  getBudgetAccountingTreeSelect()
+  getDeptTreeSelect()
+  handleQuery()
 </script>

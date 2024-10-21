@@ -45,7 +45,7 @@ namespace Ams.Service.Admin
             logininfor.LoginTime = DateTime.Now;
             logininfor.Ipaddr = loginBody.LoginIP;
             logininfor.ClientId = loginBody.ClientId;
-
+            logininfor.Create_by = loginBody.Username;
             ClientInfo clientInfo = httpContextAccessor.HttpContext.GetClientInfo();
             logininfor.Browser = clientInfo.ToString();
             logininfor.Os = clientInfo.OS.ToString();

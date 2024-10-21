@@ -29,7 +29,7 @@ namespace Ams.WebApi.Controllers.System
             predicate = predicate.AndIF(dto.IsStatus != -1, it => it.IsStatus == dto.IsStatus);
             predicate = predicate.AndIF(dto.PostName.IfNotEmpty(), it => it.PostName.Contains(dto.PostName));
             predicate = predicate.AndIF(dto.PostCode.IfNotEmpty(), it => it.PostCode.Contains(dto.PostCode));
-
+            predicate = predicate.AndIF(dto.PostLevel != -1, it => it.PostLevel == dto.PostLevel);
             var list = PostService.Queryable()
              .Where(predicate.ToExpression())
                 .Select((it) => new SysPostDto

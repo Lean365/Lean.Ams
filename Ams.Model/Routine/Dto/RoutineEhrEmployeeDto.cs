@@ -5,7 +5,7 @@ namespace Ams.Model.Routine.Dto
     /// 人事
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/12 15:25:31
+    /// @Date: 2024/10/18 8:40:20
     /// </summary>
     public class RoutineEhrEmployeeQueryDto : PagerInfo 
     {
@@ -31,10 +31,6 @@ namespace Ams.Model.Routine.Dto
         /// </summary>        
         public int? Mh010 { get; set; }
         /// <summary>
-        /// 籍贯 
-        /// </summary>        
-        public string Mh011 { get; set; }
-        /// <summary>
         /// 政治面貌 
         /// </summary>        
         public int? Mh012 { get; set; }
@@ -50,6 +46,10 @@ namespace Ams.Model.Routine.Dto
         /// 职称 
         /// </summary>        
         public int? Mh024 { get; set; }
+        /// <summary>
+        /// 职位 
+        /// </summary>        
+        public int? Mh025 { get; set; }
         /// <summary>
         /// 学历 
         /// </summary>        
@@ -86,7 +86,7 @@ namespace Ams.Model.Routine.Dto
     /// 人事
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/12 15:25:31
+    /// @Date: 2024/10/18 8:40:20
     /// </summary>
     public class RoutineEhrEmployeeDto
     {
@@ -94,7 +94,7 @@ namespace Ams.Model.Routine.Dto
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
 
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [Required(ErrorMessage = "姓名不能为空")]
         //[ExcelColumn(Name = "姓名")]
@@ -353,6 +353,15 @@ namespace Ams.Model.Routine.Dto
 
         public string Mh048 { get; set; }
 
+        //[ExcelColumn(Name = "系统访问")]
+        [ExcelColumnName("系统访问")]
+
+        public int? Mh049 { get; set; }
+
+        [ExcelIgnore]
+
+        public string Remark { get; set; }
+
         [ExcelIgnore]
 
         public string Ref01 { get; set; }
@@ -431,10 +440,6 @@ namespace Ams.Model.Routine.Dto
 
         [ExcelIgnore]
 
-        public string Remark { get; set; }
-
-        [ExcelIgnore]
-
         public string CreateBy { get; set; }
 
         [ExcelIgnore]
@@ -457,8 +462,6 @@ namespace Ams.Model.Routine.Dto
         public string Mh009Label { get; set; }
         [ExcelColumn(Name = "民族")]
         public string Mh010Label { get; set; }
-        [ExcelColumn(Name = "籍贯")]
-        public string Mh011Label { get; set; }
         [ExcelColumn(Name = "政治面貌")]
         public string Mh012Label { get; set; }
         [ExcelColumn(Name = "国家/地区")]
@@ -497,14 +500,14 @@ namespace Ams.Model.Routine.Dto
     /// 人事
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/12 15:25:31
+    /// @Date: 2024/10/18 8:40:20
     /// </summary>
     public class RoutineEhrEmployeeImportTpl
     {
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [Required(ErrorMessage = "姓名不能为空")]
         //[ExcelColumn(Name = "姓名")]
@@ -716,6 +719,13 @@ namespace Ams.Model.Routine.Dto
         [ExcelColumnName("职称附件")]
         public string Mh048 { get; set; }
 
+        //[ExcelColumn(Name = "系统访问")]
+        [ExcelColumnName("系统访问")]
+        public int? Mh049 { get; set; }
+
+        [ExcelIgnore]
+        public string Remark { get; set; }
+
         [ExcelIgnore]
         public string Ref01 { get; set; }
 
@@ -774,9 +784,6 @@ namespace Ams.Model.Routine.Dto
         public int? IsDeleted { get; set; }
 
         [ExcelIgnore]
-        public string Remark { get; set; }
-
-        [ExcelIgnore]
         public string CreateBy { get; set; }
 
         [ExcelIgnore]
@@ -799,9 +806,6 @@ namespace Ams.Model.Routine.Dto
         [ExcelIgnore]
         [ExcelColumn(Name = "民族")]
         public string Mh010Label { get; set; }
-        [ExcelIgnore]
-        [ExcelColumn(Name = "籍贯")]
-        public string Mh011Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "政治面貌")]
         public string Mh012Label { get; set; }

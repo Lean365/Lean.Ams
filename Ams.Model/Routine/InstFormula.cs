@@ -4,7 +4,7 @@ namespace Ams.Model.Routine
     /// 计算公式
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/5 10:17:40
+    /// @Date: 2024/10/21 11:06:35
     /// </summary>
     [SugarTable("inst_formula", "计算公式")]
     public class InstFormula : SysBase
@@ -31,7 +31,7 @@ namespace Ams.Model.Routine
         /// <summary>
         /// 公式标识
         /// </summary>
-        [SugarColumn(ColumnName = "Mb004", ColumnDescription = "公式标识", Length = -1)]
+        [SugarColumn(ColumnName = "Mb004", ColumnDescription = "公式标识", Length = -1, ColumnDataType = "NVARCHAR")]
         public string Mb004 { get; set; }
     }
 }

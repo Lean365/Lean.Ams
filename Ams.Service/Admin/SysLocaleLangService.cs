@@ -68,10 +68,14 @@ namespace Ams.Service.Admin
             {
                 langs.Add(new SysLocaleLang()
                 {
+                    Create_by = HttpContextExtension.GetName(App.HttpContext),
                     Create_time = DateTime.Now,
                     LangKey = parm.LangKey,
                     LangCode = item.LangCode,
                     LangName = item.LangName,
+                    //Remark="",
+                    Update_by = HttpContextExtension.GetName(App.HttpContext),
+                    Update_time = DateTime.Now,
                 });
             }
             var storage = Context.Storageable(langs)
@@ -79,6 +83,7 @@ namespace Ams.Service.Admin
                 .ToStorage();
 
             storage.AsInsertable.ExecuteReturnSnowflakeIdList();//执行插入
+
             storage.AsUpdateable.UpdateColumns(it => new { it.LangName }).ExecuteCommand();//执行修改
         }
 

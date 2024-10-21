@@ -1,5 +1,4 @@
-﻿using Ams.Model.Logistics;
-using SqlSugar.IOC;
+﻿using SqlSugar.IOC;
 
 namespace Ams.Service.SqlSugar
 {
@@ -36,13 +35,11 @@ namespace Ams.Service.SqlSugar
             //db.CodeFirst.InitTables(typeof(RoutineEhrEmployee));
             //db.CodeFirst.InitTables(typeof(RoutineEhrFunds));
             //db.CodeFirst.InitTables(typeof(RoutineEhrPayroll));
-            //db.CodeFirst.InitTables(typeof(RoutineEhrPerformanceMa));
-            //db.CodeFirst.InitTables(typeof(RoutineEhrPerformanceSlv));
+            //db.CodeFirst.InitTables(typeof(RoutineEhrPerformance));
             //db.CodeFirst.InitTables(typeof(RoutineEhrRecruitment));
             //db.CodeFirst.InitTables(typeof(RoutineEhrRewardPenalties));
             //db.CodeFirst.InitTables(typeof(RoutineEhrSocialSecurity));
-            //db.CodeFirst.InitTables(typeof(RoutineEhrTrainingMa));
-            //db.CodeFirst.InitTables(typeof(RoutineEhrTrainingSlv));
+            //db.CodeFirst.InitTables(typeof(RoutineEhrTraining));
 
             //db.CodeFirst.InitTables(typeof(Banner));
 
@@ -76,7 +73,7 @@ namespace Ams.Service.SqlSugar
             //db.CodeFirst.InitTables(typeof(InstCorp));
             //db.CodeFirst.InitTables(typeof(InstFormula));
             //db.CodeFirst.InitTables(typeof(InstPlant));
-            //db.CodeFirst.InitTables(typeof(InstTarget));
+            //db.CodeFirst.InitTables(typeof(InstPerformance));
 
             //db.CodeFirst.InitTables(typeof(FicoAccountingCorp));
             //db.CodeFirst.InitTables(typeof(FicoAccountingTitle));
@@ -104,7 +101,7 @@ namespace Ams.Service.SqlSugar
             //db.CodeFirst.InitTables(typeof(MmSupplier));
             //db.CodeFirst.InitTables(typeof(MmVendor));
 
-            db.CodeFirst.InitTables(typeof(PpEcLiaison));
+            //db.CodeFirst.InitTables(typeof(PpEcLiaison));
             //db.CodeFirst.InitTables(typeof(PpEcMaster));
             //db.CodeFirst.InitTables(typeof(PpEcSlave));
 

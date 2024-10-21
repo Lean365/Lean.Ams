@@ -5,14 +5,10 @@ namespace Ams.Model.Accounting.Dto
     /// 费用预算
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/14 13:28:21
+    /// @Date: 2024/10/16 8:05:21
     /// </summary>
     public class FicoBudgetExpenseQueryDto : PagerInfo 
     {
-        /// <summary>
-        /// 部门ID 
-        /// </summary>        
-        public long? DeptId { get; set; }
         /// <summary>
         /// 期间 
         /// </summary>        
@@ -26,20 +22,32 @@ namespace Ams.Model.Accounting.Dto
         /// </summary>        
         public string Mh005 { get; set; }
         /// <summary>
+        /// 部门 
+        /// </summary>        
+        public int? Mh006 { get; set; }
+        /// <summary>
         /// 科目 
         /// </summary>        
-        public string Mh006 { get; set; }
+        public string Mh007 { get; set; }
+        /// <summary>
+        /// 类别 
+        /// </summary>        
+        public string Mh008 { get; set; }
+        /// <summary>
+        /// 用途 
+        /// </summary>        
+        public string Mh009 { get; set; }
         /// <summary>
         /// 审核 
         /// </summary>        
-        public int? Mh015 { get; set; }
+        public int? Mh016 { get; set; }
     }
 
     /// <summary>
     /// 费用预算
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/14 13:28:21
+    /// @Date: 2024/10/16 8:05:21
     /// </summary>
     public class FicoBudgetExpenseDto
     {
@@ -54,11 +62,6 @@ namespace Ams.Model.Accounting.Dto
 
         public long? ParentId { get; set; }
 
-        //[ExcelColumn(Name = "部门ID")]
-        [ExcelColumnName("部门ID")]
-
-        public long? DeptId { get; set; }
-
         [Required(ErrorMessage = "期间不能为空")]
         //[ExcelColumn(Name = "期间")]
         [ExcelColumnName("期间")]
@@ -77,81 +80,90 @@ namespace Ams.Model.Accounting.Dto
 
         public string Mh005 { get; set; }
 
+        [Required(ErrorMessage = "部门不能为空")]
+        //[ExcelColumn(Name = "部门")]
+        [ExcelColumnName("部门")]
+
+        public int Mh006 { get; set; }
+
         [Required(ErrorMessage = "科目不能为空")]
         //[ExcelColumn(Name = "科目")]
         [ExcelColumnName("科目")]
 
-        public string Mh006 { get; set; }
-
-        //[ExcelColumn(Name = "名称")]
-        [ExcelColumnName("名称")]
-
         public string Mh007 { get; set; }
 
-        //[ExcelColumn(Name = "明细科目")]
-        [ExcelColumnName("明细科目")]
+        [Required(ErrorMessage = "类别不能为空")]
+        //[ExcelColumn(Name = "类别")]
+        [ExcelColumnName("类别")]
 
         public string Mh008 { get; set; }
 
-        //[ExcelColumn(Name = "明细名称")]
-        [ExcelColumnName("明细名称")]
+        //[ExcelColumn(Name = "用途")]
+        [ExcelColumnName("用途")]
 
         public string Mh009 { get; set; }
 
-        //[ExcelColumn(Name = "说明")]
-        [ExcelColumnName("说明")]
+        [Required(ErrorMessage = "单价不能为空")]
+        //[ExcelColumn(Name = "单价")]
+        [ExcelColumnName("单价")]
 
-        public string Mh010 { get; set; }
+        public int Mh010 { get; set; }
 
-        [Required(ErrorMessage = "预算金额不能为空")]
-        //[ExcelColumn(Name = "预算金额")]
-        [ExcelColumnName("预算金额")]
+        [Required(ErrorMessage = "数量不能为空")]
+        //[ExcelColumn(Name = "数量")]
+        [ExcelColumnName("数量")]
 
-        public decimal Mh011 { get; set; }
+        public int Mh011 { get; set; }
 
-        [Required(ErrorMessage = "实际发生不能为空")]
-        //[ExcelColumn(Name = "实际发生")]
-        [ExcelColumnName("实际发生")]
+        [Required(ErrorMessage = "金额不能为空")]
+        //[ExcelColumn(Name = "金额")]
+        [ExcelColumnName("金额")]
 
         public decimal Mh012 { get; set; }
+
+        [Required(ErrorMessage = "实际不能为空")]
+        //[ExcelColumn(Name = "实际")]
+        [ExcelColumnName("实际")]
+
+        public decimal Mh013 { get; set; }
 
         [Required(ErrorMessage = "差异不能为空")]
         //[ExcelColumn(Name = "差异")]
         [ExcelColumnName("差异")]
 
-        public decimal Mh013 { get; set; }
+        public decimal Mh014 { get; set; }
 
-        [Required(ErrorMessage = "启用标记不能为空")]
-        //[ExcelColumn(Name = "启用标记")]
-        [ExcelColumnName("启用标记")]
+        [Required(ErrorMessage = "启用不能为空")]
+        //[ExcelColumn(Name = "启用")]
+        [ExcelColumnName("启用")]
 
-        public int Mh014 { get; set; }
+        public int Mh015 { get; set; }
 
         [Required(ErrorMessage = "审核不能为空")]
         //[ExcelColumn(Name = "审核")]
         [ExcelColumnName("审核")]
 
-        public int Mh015 { get; set; }
+        public int Mh016 { get; set; }
 
-        //[ExcelColumn(Name = "审核人员")]
-        [ExcelColumnName("审核人员")]
+        //[ExcelColumn(Name = "审核人")]
+        [ExcelColumnName("审核人")]
 
-        public string Mh016 { get; set; }
+        public string Mh017 { get; set; }
 
-        //[ExcelColumn(Name = "审核日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("审核日期")]
+        //[ExcelColumn(Name = "审核日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("审核日")]
 
-        public DateTime? Mh017 { get; set; }
+        public DateTime? Mh018 { get; set; }
 
-        //[ExcelColumn(Name = "撤消人员")]
-        [ExcelColumnName("撤消人员")]
+        //[ExcelColumn(Name = "撤消人")]
+        [ExcelColumnName("撤消人")]
 
-        public string Mh018 { get; set; }
+        public string Mh019 { get; set; }
 
-        //[ExcelColumn(Name = "撤消日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("撤消日期")]
+        //[ExcelColumn(Name = "撤消日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("撤消日")]
 
-        public DateTime? Mh019 { get; set; }
+        public DateTime? Mh020 { get; set; }
 
         [ExcelIgnore]
 
@@ -251,27 +263,27 @@ namespace Ams.Model.Accounting.Dto
 
 
 
-        [ExcelColumn(Name = "部门ID")]
-        public string DeptIdLabel { get; set; }
         [ExcelColumn(Name = "期间")]
         public string Mh003Label { get; set; }
         [ExcelColumn(Name = "年月")]
         public string Mh004Label { get; set; }
         [ExcelColumn(Name = "公司")]
         public string Mh005Label { get; set; }
-        [ExcelColumn(Name = "科目")]
+        [ExcelColumn(Name = "部门")]
         public string Mh006Label { get; set; }
-        [ExcelColumn(Name = "明细科目")]
+        [ExcelColumn(Name = "科目")]
+        public string Mh007Label { get; set; }
+        [ExcelColumn(Name = "类别")]
         public string Mh008Label { get; set; }
-        [ExcelColumn(Name = "启用标记")]
-        public string Mh014Label { get; set; }
+        [ExcelColumn(Name = "启用")]
+        public string Mh015Label { get; set; }
     }
 
     /// <summary>
     /// 费用预算
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/14 13:28:21
+    /// @Date: 2024/10/16 8:05:21
     /// </summary>
     public class FicoBudgetExpenseImportTpl
     {
@@ -284,10 +296,6 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumnName("父ID")]
         public long? ParentId { get; set; }
 
-        //[ExcelColumn(Name = "部门ID")]
-        [ExcelColumnName("部门ID")]
-        public long? DeptId { get; set; }
-
         [Required(ErrorMessage = "期间不能为空")]
         //[ExcelColumn(Name = "期间")]
         [ExcelColumnName("期间")]
@@ -303,67 +311,75 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumnName("公司")]
         public string Mh005 { get; set; }
 
+        [Required(ErrorMessage = "部门不能为空")]
+        //[ExcelColumn(Name = "部门")]
+        [ExcelColumnName("部门")]
+        public int Mh006 { get; set; }
+
         [Required(ErrorMessage = "科目不能为空")]
         //[ExcelColumn(Name = "科目")]
         [ExcelColumnName("科目")]
-        public string Mh006 { get; set; }
-
-        //[ExcelColumn(Name = "名称")]
-        [ExcelColumnName("名称")]
         public string Mh007 { get; set; }
 
-        //[ExcelColumn(Name = "明细科目")]
-        [ExcelColumnName("明细科目")]
+        [Required(ErrorMessage = "类别不能为空")]
+        //[ExcelColumn(Name = "类别")]
+        [ExcelColumnName("类别")]
         public string Mh008 { get; set; }
 
-        //[ExcelColumn(Name = "明细名称")]
-        [ExcelColumnName("明细名称")]
+        //[ExcelColumn(Name = "用途")]
+        [ExcelColumnName("用途")]
         public string Mh009 { get; set; }
 
-        //[ExcelColumn(Name = "说明")]
-        [ExcelColumnName("说明")]
-        public string Mh010 { get; set; }
+        [Required(ErrorMessage = "单价不能为空")]
+        //[ExcelColumn(Name = "单价")]
+        [ExcelColumnName("单价")]
+        public int Mh010 { get; set; }
 
-        [Required(ErrorMessage = "预算金额不能为空")]
-        //[ExcelColumn(Name = "预算金额")]
-        [ExcelColumnName("预算金额")]
-        public decimal Mh011 { get; set; }
+        [Required(ErrorMessage = "数量不能为空")]
+        //[ExcelColumn(Name = "数量")]
+        [ExcelColumnName("数量")]
+        public int Mh011 { get; set; }
 
-        [Required(ErrorMessage = "实际发生不能为空")]
-        //[ExcelColumn(Name = "实际发生")]
-        [ExcelColumnName("实际发生")]
+        [Required(ErrorMessage = "金额不能为空")]
+        //[ExcelColumn(Name = "金额")]
+        [ExcelColumnName("金额")]
         public decimal Mh012 { get; set; }
+
+        [Required(ErrorMessage = "实际不能为空")]
+        //[ExcelColumn(Name = "实际")]
+        [ExcelColumnName("实际")]
+        public decimal Mh013 { get; set; }
 
         [Required(ErrorMessage = "差异不能为空")]
         //[ExcelColumn(Name = "差异")]
         [ExcelColumnName("差异")]
-        public decimal Mh013 { get; set; }
+        public decimal Mh014 { get; set; }
 
-        [Required(ErrorMessage = "启用标记不能为空")]
-        //[ExcelColumn(Name = "启用标记")]
-        [ExcelColumnName("启用标记")]
-        public int Mh014 { get; set; }
+        [Required(ErrorMessage = "启用不能为空")]
+        //[ExcelColumn(Name = "启用")]
+        [ExcelColumnName("启用")]
+        public int Mh015 { get; set; }
 
         [Required(ErrorMessage = "审核不能为空")]
         //[ExcelColumn(Name = "审核")]
         [ExcelColumnName("审核")]
-        public int Mh015 { get; set; }
+        public int Mh016 { get; set; }
 
-        //[ExcelColumn(Name = "审核人员")]
-        [ExcelColumnName("审核人员")]
-        public string Mh016 { get; set; }
+        //[ExcelColumn(Name = "审核人")]
+        [ExcelColumnName("审核人")]
+        public string Mh017 { get; set; }
 
-        //[ExcelColumn(Name = "审核日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("审核日期")]
-        public DateTime? Mh017 { get; set; }
+        //[ExcelColumn(Name = "审核日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("审核日")]
+        public DateTime? Mh018 { get; set; }
 
-        //[ExcelColumn(Name = "撤消人员")]
-        [ExcelColumnName("撤消人员")]
-        public string Mh018 { get; set; }
+        //[ExcelColumn(Name = "撤消人")]
+        [ExcelColumnName("撤消人")]
+        public string Mh019 { get; set; }
 
-        //[ExcelColumn(Name = "撤消日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
-        [ExcelColumnName("撤消日期")]
-        public DateTime? Mh019 { get; set; }
+        //[ExcelColumn(Name = "撤消日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("撤消日")]
+        public DateTime? Mh020 { get; set; }
 
         [ExcelIgnore]
         public string Remark { get; set; }
@@ -440,9 +456,6 @@ namespace Ams.Model.Accounting.Dto
 
 
         [ExcelIgnore]
-        [ExcelColumn(Name = "部门ID")]
-        public string DeptIdLabel { get; set; }
-        [ExcelIgnore]
         [ExcelColumn(Name = "期间")]
         public string Mh003Label { get; set; }
         [ExcelIgnore]
@@ -452,14 +465,17 @@ namespace Ams.Model.Accounting.Dto
         [ExcelColumn(Name = "公司")]
         public string Mh005Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "科目")]
+        [ExcelColumn(Name = "部门")]
         public string Mh006Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "明细科目")]
+        [ExcelColumn(Name = "科目")]
+        public string Mh007Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "类别")]
         public string Mh008Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "启用标记")]
-        public string Mh014Label { get; set; }
+        [ExcelColumn(Name = "启用")]
+        public string Mh015Label { get; set; }
     }
 
 }

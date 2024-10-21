@@ -35,6 +35,8 @@ namespace Ams.Service.Monitor
         /// <returns></returns>
         public int AddTasks(TasksQz parm)
         {
+            parm.Create_by = HttpContextExtension.GetName(App.HttpContext);
+            parm.Create_time = DateTime.Now;
             parm.IsStart = 0;
 
             SetAssembleName(parm);

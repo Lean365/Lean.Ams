@@ -53,6 +53,8 @@ namespace Ams.Service.Monitor
         /// <returns></returns>
         public SmsLog AddSmsLog(SmsLog model)
         {
+            model.Create_by = HttpContextExtension.GetName(App.HttpContext);
+            model.Create_time = DateTime.Now;
             model.SendTime = Context.GetDate();
 
             var smsCode = RandomHelper.GenerateNum(6);

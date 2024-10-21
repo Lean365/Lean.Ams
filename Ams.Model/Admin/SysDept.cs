@@ -30,7 +30,7 @@
         /// <summary>
         /// 部门名称
         /// </summary>
-        [SugarColumn(Length = 30, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(Length = 40, ColumnDataType = "NVARCHAR", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string DeptName { get; set; }
 
         /// <summary>

@@ -60,6 +60,8 @@ namespace Ams.Service.Monitor
         /// <returns></returns>
         public DiffLog AddSqlDiffLog(DiffLog model)
         {
+            model.Create_by = HttpContextExtension.GetName(App.HttpContext);
+            model.Create_time = DateTime.Now;
             return Context.Insertable(model).ExecuteReturnEntity();
         }
 

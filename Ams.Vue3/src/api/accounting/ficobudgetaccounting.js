@@ -24,12 +24,12 @@ export function treelistFicoBudgetAccounting(query) {
     params: query,
   })
 }
-
 // 查询部门下拉树结构
-export function treeselectBudgetAccounting() {
+export function treeselectFicoBudgetAccounting(query) {
   return request({
     url: '/Accounting/FicoBudgetAccounting/treeselect',
-    method: 'get'
+    method: 'get',
+    params: query,
   })
 }
 /**

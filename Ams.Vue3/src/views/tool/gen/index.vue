@@ -57,19 +57,22 @@
                 <el-dropdown-menu>
                   <div v-hasPermi="['tool:gen:code']">
                     <el-dropdown-item command="generate">
-                      <el-button icon="Tools" class="btn-generator" plain size="small"
-                        :title="$t('btn.generator')"></el-button>
+                      <el-button class="btn-generator" plain size="small" :title="$t('btn.generator')">
+                        <svg-icon name="m-btn-code" />
+                      </el-button>
                     </el-dropdown-item>
                   </div>
                   <div v-hasPermi="['tool:gen:edit']">
                     <el-dropdown-item command="sync">
-                      <el-button icon="refresh" class="btn-start" plain size="small" :title="$t('btn.synchronize')">
+                      <el-button class="btn-start" plain size="small" :title="$t('btn.synchronize')">
+                        <svg-icon name="m-btn-sync" />
                       </el-button>
                     </el-dropdown-item>
                   </div>
                   <div v-hasPermi="['tool:gen:remove']">
                     <el-dropdown-item command="delete">
-                      <el-button icon="delete" type="danger" plain size="small" :title="$t('btn.delete')"> </el-button>
+                      <el-button type="danger" plain size="small" :title="$t('btn.delete')"> <svg-icon
+                          name="m-btn-trash" /></el-button>
                     </el-dropdown-item>
                   </div>
                 </el-dropdown-menu>

@@ -4,7 +4,7 @@ namespace Ams.Model.Accounting
     /// 资产预算
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/14 9:17:19
+    /// @Date: 2024/10/15 14:12:43
     /// </summary>
     [SugarTable("fico_budget_assets", "资产预算")]
     public class FicoBudgetAssets : SysBase
@@ -22,50 +22,51 @@ namespace Ams.Model.Accounting
         public long ParentId { get; set; }
 
         /// <summary>
-        /// 公司
-        /// </summary>
-        [SugarColumn(ColumnName = "Mg003", ColumnDescription = "公司", Length = 4, ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public string Mg003 { get; set; }
-
-        /// <summary>
-        /// 部门
-        /// </summary>
-        public int Mg004 { get; set; }
-
-        /// <summary>
         /// 期间
         /// </summary>
-        [SugarColumn(ColumnName = "Mg005", ColumnDescription = "期间", Length = 6, ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public string Mg005 { get; set; }
+        [SugarColumn(ColumnName = "Mg003", ColumnDescription = "期间", Length = 6, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mg003 { get; set; }
 
         /// <summary>
         /// 年月
         /// </summary>
-        [SugarColumn(ColumnName = "Mg006", ColumnDescription = "年月", Length = 6, ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public string Mg006 { get; set; }
+        [SugarColumn(ColumnName = "Mg004", ColumnDescription = "年月", Length = 6, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mg004 { get; set; }
 
         /// <summary>
-        /// 科目
+        /// 公司
         /// </summary>
-        [SugarColumn(ColumnName = "Mg007", ColumnDescription = "科目", Length = 40, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName = "Mg005", ColumnDescription = "公司", Length = 4, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mg005 { get; set; }
+
+        /// <summary>
+        /// 部门
+        /// </summary>
+        [SugarColumn(ColumnName = "Mg006", ColumnDescription = "部门", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int Mg006 { get; set; }
+
+        /// <summary>
+        /// 预算科目
+        /// </summary>
+        [SugarColumn(ColumnName = "Mg007", ColumnDescription = "预算科目", Length = 40, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string Mg007 { get; set; }
 
         /// <summary>
-        /// 类别
+        /// 费用类别
         /// </summary>
-        [SugarColumn(ColumnName = "Mg008", ColumnDescription = "类别", Length = 100, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName = "Mg008", ColumnDescription = "费用类别", Length = 100, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string Mg008 { get; set; }
 
         /// <summary>
         /// 资产名称
         /// </summary>
-        [SugarColumn(ColumnName = "Mg009", ColumnDescription = "资产名称", Length = 100, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName = "Mg009", ColumnDescription = "资产名称", Length = 100, ColumnDataType = "NVARCHAR", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public string Mg009 { get; set; }
 
         /// <summary>
         /// 用途说明
         /// </summary>
-        [SugarColumn(ColumnName = "Mg010", ColumnDescription = "用途说明", Length = 250)]
+        [SugarColumn(ColumnName = "Mg010", ColumnDescription = "用途说明", Length = 500, ColumnDataType = "NVARCHAR")]
         public string Mg010 { get; set; }
 
         /// <summary>
@@ -87,9 +88,9 @@ namespace Ams.Model.Accounting
         public decimal Mg013 { get; set; }
 
         /// <summary>
-        /// 预算金额
+        /// 金额
         /// </summary>
-        [SugarColumn(ColumnName = "Mg014", ColumnDescription = "预算金额", DefaultValue = "0", Length = 18, DecimalDigits = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName = "Mg014", ColumnDescription = "金额", DefaultValue = "0", Length = 18, DecimalDigits = 2, ExtendedAttribute = ProteryConstant.NOTNULL)]
         public decimal Mg014 { get; set; }
 
         /// <summary>
@@ -117,30 +118,30 @@ namespace Ams.Model.Accounting
         public int Mg018 { get; set; }
 
         /// <summary>
-        /// 审核标志
+        /// 审核
         /// </summary>
-        [SugarColumn(ColumnName = "Mg019", ColumnDescription = "审核标志", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        [SugarColumn(ColumnName = "Mg019", ColumnDescription = "审核", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public int Mg019 { get; set; }
 
         /// <summary>
-        /// 审核人员
+        /// 审核人
         /// </summary>
-        [SugarColumn(ColumnName = "Mg020", ColumnDescription = "审核人员", Length = 20)]
+        [SugarColumn(ColumnName = "Mg020", ColumnDescription = "审核人", Length = 20)]
         public string Mg020 { get; set; }
 
         /// <summary>
-        /// 审核日期
+        /// 审核日
         /// </summary>
         public DateTime? Mg021 { get; set; }
 
         /// <summary>
-        /// 撤消人员
+        /// 撤消人
         /// </summary>
-        [SugarColumn(ColumnName = "Mg022", ColumnDescription = "撤消人员", Length = 20)]
+        [SugarColumn(ColumnName = "Mg022", ColumnDescription = "撤消人", Length = 20)]
         public string Mg022 { get; set; }
 
         /// <summary>
-        /// 撤消日期
+        /// 撤消日
         /// </summary>
         public DateTime? Mg023 { get; set; }
     }

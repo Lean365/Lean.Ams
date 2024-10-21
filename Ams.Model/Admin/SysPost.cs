@@ -29,6 +29,12 @@
         public string PostName { get; set; }
 
         /// <summary>
+        /// 职级编码
+        /// </summary>
+        [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int PostLevel { get; set; }
+
+        /// <summary>
         /// 岗位排序
         /// </summary>
         [SugarColumn(ExtendedAttribute = ProteryConstant.NOTNULL)]

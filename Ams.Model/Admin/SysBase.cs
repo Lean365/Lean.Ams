@@ -6,7 +6,7 @@
         /// <summary>
         /// 备注
         /// </summary>
-        [SugarColumn(ColumnName = "Remark", ColumnDescription = "备注", Length = 500)]
+        [SugarColumn(ColumnName = "Remark", ColumnDescription = "备注", ColumnDataType = "NVARCHAR", Length = 500)]
         public string Remark { get; set; }
 
         /// <summary>
@@ -48,13 +48,13 @@
         /// <summary>
         /// 自定义A
         /// </summary>
-        [SugarColumn(ColumnName = "Udf01", ColumnDescription = "自定义A", Length = 200)]
+        [SugarColumn(ColumnName = "Udf01", ColumnDescription = "自定义A", ColumnDataType = "NVARCHAR", Length = 200)]
         public string Udf01 { get; set; }
 
         /// <summary>
         /// 自定义B
         /// </summary>
-        [SugarColumn(ColumnName = "Udf02", ColumnDescription = "自定义B", Length = 200)]
+        [SugarColumn(ColumnName = "Udf02", ColumnDescription = "自定义B", ColumnDataType = "NVARCHAR", Length = 200)]
         public string Udf02 { get; set; }
 
         /// <summary>

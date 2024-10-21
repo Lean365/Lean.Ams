@@ -11,7 +11,7 @@ namespace Ams.Service.Accounting
     /// 加班预算
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/14 12:09:13
+    /// @Date: 2024/10/16 13:38:01
     /// </summary>
     [AppService(ServiceType = typeof(IFicoBudgetOvertimeService), ServiceLifetime = LifeTime.Transient)]
     public class FicoBudgetOvertimeService : BaseService<FicoBudgetOvertime>, IFicoBudgetOvertimeService
@@ -26,7 +26,7 @@ namespace Ams.Service.Accounting
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("Mi005 desc")
+                //.OrderBy("Mi004 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<FicoBudgetOvertime, FicoBudgetOvertimeDto>(parm);
 
@@ -93,9 +93,10 @@ namespace Ams.Service.Accounting
         {
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.Mi004.IsEmpty(), "财年不能为空")
-                .SplitError(x => x.Item.Mi005.IsEmpty(), "年月不能为空")
-                .SplitError(x => x.Item.Mi006.IsEmpty(), "公司不能为空")
+                .SplitError(x => x.Item.Mi003.IsEmpty(), "财年不能为空")
+                .SplitError(x => x.Item.Mi004.IsEmpty(), "年月不能为空")
+                .SplitError(x => x.Item.Mi005.IsEmpty(), "公司不能为空")
+                .SplitError(x => x.Item.Mi006.IsEmpty(), "部门不能为空")
                 .SplitError(x => x.Item.Mi007.IsEmpty(), "科目不能为空")
                 .SplitError(x => x.Item.Mi009.IsEmpty(), "必要工数不能为空")
                 .SplitError(x => x.Item.Mi010.IsEmpty(), "保有人数不能为空")
@@ -103,12 +104,14 @@ namespace Ams.Service.Accounting
                 .SplitError(x => x.Item.Mi012.IsEmpty(), "上班天数不能为空")
                 .SplitError(x => x.Item.Mi014.IsEmpty(), "保有工数不能为空")
                 .SplitError(x => x.Item.Mi015.IsEmpty(), "工数差异不能为空")
-                .SplitError(x => x.Item.Mi016.IsEmpty(), "投入加班不能为空")
-                .SplitError(x => x.Item.Mi017.IsEmpty(), "平均投入加班不能为空")
+                .SplitError(x => x.Item.Mi016.IsEmpty(), "加班类型不能为空")
+                .SplitError(x => x.Item.Mi017.IsEmpty(), "投入加班不能为空")
                 .SplitError(x => x.Item.Mi018.IsEmpty(), "间接加班不能为空")
-                .SplitError(x => x.Item.Mi019.IsEmpty(), "投入总加班不能为空")
-                .SplitError(x => x.Item.Mi020.IsEmpty(), "启用标记不能为空")
-                .SplitError(x => x.Item.Mi021.IsEmpty(), "审核不能为空")
+                .SplitError(x => x.Item.Mi019.IsEmpty(), "总加班不能为空")
+                .SplitError(x => x.Item.Mi020.IsEmpty(), "加班费不能为空")
+                .SplitError(x => x.Item.Mi021.IsEmpty(), "金额不能为空")
+                .SplitError(x => x.Item.Mi022.IsEmpty(), "启用不能为空")
+                .SplitError(x => x.Item.Mi023.IsEmpty(), "审核不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -142,18 +145,22 @@ namespace Ams.Service.Accounting
                 .Where(predicate.ToExpression())
                 .Select((it) => new FicoBudgetOvertimeDto()
                 {
-                    //查询字典: <部门ID> 
-                    DeptIdLabel = it.DeptId.GetConfigValue<SysDictData>("sql_dept_list"),
                     //查询字典: <财年> 
-                    Mi004Label = it.Mi004.GetConfigValue<SysDictData>("sql_attr_list"),
+                    Mi003Label = it.Mi003.GetConfigValue<SysDictData>("sql_attr_list"),
                     //查询字典: <年月> 
-                    Mi005Label = it.Mi005.GetConfigValue<SysDictData>("sql_ymdt_list"),
+                    Mi004Label = it.Mi004.GetConfigValue<SysDictData>("sql_ymdt_list"),
                     //查询字典: <公司> 
-                    Mi006Label = it.Mi006.GetConfigValue<SysDictData>("sql_corp_list"),
+                    Mi005Label = it.Mi005.GetConfigValue<SysDictData>("sql_corp_list"),
+                    //查询字典: <部门> 
+                    Mi006Label = it.Mi006.GetConfigValue<SysDictData>("sql_dept_list"),
                     //查询字典: <科目> 
-                    Mi007Label = it.Mi007.GetConfigValue<SysDictData>("sql_budget_title"),
-                    //查询字典: <启用标记> 
-                    Mi020Label = it.Mi020.GetConfigValue<SysDictData>("sys_is_status"),
+                    Mi007Label = it.Mi007.GetConfigValue<SysDictData>("sql_budget_details"),
+                    //查询字典: <费用类别> 
+                    Mi008Label = it.Mi008.GetConfigValue<SysDictData>("sys_costs_type"),
+                    //查询字典: <加班类型> 
+                    Mi016Label = it.Mi016.GetConfigValue<SysDictData>("sys_overtime_type"),
+                    //查询字典: <审核> 
+                    Mi023Label = it.Mi023.GetConfigValue<SysDictData>("sys_is_status"),
                 }, true)
                 .ToPage(parm);
 
@@ -169,20 +176,22 @@ namespace Ams.Service.Accounting
         {
             var predicate = Expressionable.Create<FicoBudgetOvertime>();
 
-            //查询字段: <部门ID> 
-            predicate = predicate.AndIF(parm.DeptId != -1, it => it.DeptId == parm.DeptId);
             //查询字段: <财年> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mi004), it => it.Mi004 == parm.Mi004);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mi003), it => it.Mi003 == parm.Mi003);
             //查询字段: <年月> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mi005), it => it.Mi005 == parm.Mi005);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mi004), it => it.Mi004 == parm.Mi004);
             //查询字段: <公司> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mi006), it => it.Mi006 == parm.Mi006);
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mi005), it => it.Mi005 == parm.Mi005);
+            //查询字段: <部门> 
+            predicate = predicate.AndIF(parm.Mi006 != -1, it => it.Mi006 == parm.Mi006);
             //查询字段: <科目> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mi007), it => it.Mi007 == parm.Mi007);
-            //查询字段: <名称> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mi008), it => it.Mi008.Contains(parm.Mi008));
+            //查询字段: <费用类别> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mi008), it => it.Mi008 == parm.Mi008);
+            //查询字段: <加班类型> 
+            predicate = predicate.AndIF(parm.Mi016 != -1, it => it.Mi016 == parm.Mi016);
             //查询字段: <审核> 
-            predicate = predicate.AndIF(parm.Mi021 != -1, it => it.Mi021 == parm.Mi021);
+            predicate = predicate.AndIF(parm.Mi023 != -1, it => it.Mi023 == parm.Mi023);
             return predicate;
         }
     }

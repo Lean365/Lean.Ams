@@ -4,7 +4,7 @@ namespace Ams.Model.Routine
     /// 人事
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/12 15:25:31
+    /// @Date: 2024/10/18 8:40:20
     /// </summary>
     [SugarTable("routine_ehr_employee", "人事")]
     public class RoutineEhrEmployee : SysBase
@@ -14,7 +14,7 @@ namespace Ams.Model.Routine
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// 姓名
@@ -290,5 +290,11 @@ namespace Ams.Model.Routine
         /// </summary>
         [SugarColumn(ColumnName = "Mh048", ColumnDescription = "职称附件", Length = 255)]
         public string Mh048 { get; set; }
+
+        /// <summary>
+        /// 系统访问
+        /// </summary>
+        [SugarColumn(ColumnName = "Mh049", ColumnDescription = "系统访问", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int? Mh049 { get; set; }
     }
 }
