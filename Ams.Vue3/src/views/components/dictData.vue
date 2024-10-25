@@ -121,11 +121,9 @@
         <el-col :lg="24">
           <el-form-item :label="$t('common.tipIsStated')" prop="isStatus">
             <el-radio-group v-model="form.isStatus">
-              <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)"
-                :label="dict.dictLabel"> </el-radio>
-              <!-- <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
+              <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{
                 dict.dictLabel
-                }}</el-radio> -->
+                }}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>

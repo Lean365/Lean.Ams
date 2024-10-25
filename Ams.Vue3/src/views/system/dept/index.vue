@@ -42,10 +42,10 @@
     <!-- 数据区域 -->
     <el-table v-if="refreshTable" v-loading="loading" :data="deptList" row-key="deptId"
       :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-      <el-table-column prop="deptName" :label="$t('pdept.deptName')"
+      <el-table-column prop="deptName" :label="$t('pdept.deptName')" width="240"
         v-if="columns.showColumn('deptName')"></el-table-column>
       <el-table-column prop="deptId" label="Id" v-if="columns.showColumn('deptId')"></el-table-column>
-      <el-table-column prop="leader" :label="$t('pdept.leader')" width="240"
+      <el-table-column prop="leader" :label="$t('pdept.leader')" width="140"
         v-if="columns.showColumn('leader')"></el-table-column>
       <el-table-column prop="phone" :label="$t('pdept.phone')" width="120" show-overflow-tooltip
         v-if="columns.showColumn('phone')"></el-table-column>
@@ -55,7 +55,7 @@
         v-if="columns.showColumn('userNum')"></el-table-column>
       <el-table-column prop="sortingNum" :label="$t('pdept.sort')" width="80"
         v-if="columns.showColumn('sortingNum')"></el-table-column>
-      <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStatus" width="80"
+      <el-table-column :label="$t('common.tipIsStated')" align="center" prop="isStatus"
         v-if="columns.showColumn('isStatus')">
         <template #default="scope">
           <dict-tag :options="statusOptions" :value="scope.row.isStatus" />
@@ -116,7 +116,7 @@
             <el-form-item :label="$t('pdept.deptName')" prop="deptName">
               <el-input v-model="form.deptName"
                 :placeholder="$t('btn.enterPrefix')+$t('pdept.deptName')+$t('btn.enterSuffix')" show-word-limit
-                maxlength="40" />
+                maxlength="20" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">

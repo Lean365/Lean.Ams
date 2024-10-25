@@ -42,5 +42,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Logistics\Dto\" />
+	  <Folder Include="FlowCenter\" />
 	</ItemGroup>
 </Project>

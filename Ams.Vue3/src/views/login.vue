@@ -1,9 +1,10 @@
 <template>
-  <vanta></vanta>
+  <!-- <vanta></vanta> -->
+  <particles />
   <LangSelect :title="$t('layout.headerMultiLanguage') " class="langSet" />
   <el-image :src='imgsrc' class="logoSet" />
   <el-text class="sloganSet">{{ $t('layout.slogan') }}</el-text>
-  <div class="login-wrap-vanta">
+  <div class="login-wrap-particles">
     <div class="login">
       <h3 class="title">{{ defaultSettings.title }}</h3>
 
@@ -84,11 +85,9 @@
   import Cookies from 'js-cookie'
   import { encrypt, decrypt } from '@/utils/jsencrypt'
   import defaultSettings from '@/settings'
-  import vanta from '@/views/components/backGround/vanta.vue'
   import particles from '@/views/components/backGround/particles.vue'
   import star from '@/views/components/backGround/star.vue'
   import waterfall from '@/views/components/backGround/waterfall.vue'
-  import three from '@/views/components/backGround/three.vue'
   import LangSelect from '@/components/LocaleSelect/index.vue'
   import useUserStore from '@/store/modules/user'
   import oauthLogin from './components/Login/oauthLogin.vue'
