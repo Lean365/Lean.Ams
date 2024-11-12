@@ -14,11 +14,17 @@ namespace Ams.Statistics.Logistics.IService
         /// <returns></returns>
         int GetEcCount(PpEcSlaveQueryDto parm);
 
-        ///// <summary>
-        ///// ec点数统计
-        ///// </summary>
-        ///// <param name="parm"></param>
-        ///// <returns></returns>
-        //int GetEcCount(PpEcMasterQueryDto parm);
+        /// <summary>
+        /// 按月统计ec点数
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        List<Dictionary<string, object>> GetListMonthlyEc(PpEcSlaveQueryDto parm);
+
+        /// <summary>
+        /// 按月，按月统计ec--柱状图
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, object>> GetListMonthlyEcBar(PpEcSlaveQueryDto parm);
     }
 }

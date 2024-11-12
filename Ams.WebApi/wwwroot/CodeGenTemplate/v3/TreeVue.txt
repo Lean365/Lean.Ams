@@ -397,10 +397,10 @@ const queryParams = reactive({
 $foreach(item in genTable.Columns)
 $if(item.IsQuery == true)
 $if(item.HtmlType == "radio")
-   //是否查询（1是）
+  //${item.ColumnComment},是否查询（1是）
   ${item.CsharpFieldFl}: -1,
 $else
-  //是否查询（1是）
+  //${item.ColumnComment},是否查询（1是）
   ${item.CsharpFieldFl}: undefined,
 $end
 $end

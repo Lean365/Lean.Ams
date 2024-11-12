@@ -5,6 +5,7 @@ import ElementPlus from 'element-plus'
 import 'dayjs/locale/zh-cn'
 import '@/assets/styles/index.scss' // global css
 
+
 import App from './App'
 import router from './router'
 import directive from './directive' // directive
@@ -66,6 +67,7 @@ app.config.globalProperties.handleTree = handleTree
 app.config.globalProperties.addDateRange = addDateRange
 app.config.globalProperties.selectDictLabel = selectDictLabel
 app.config.globalProperties.dateOptions = dateOptions
+
 
 // 全局组件挂载
 app.component('DictTag', DictTag)

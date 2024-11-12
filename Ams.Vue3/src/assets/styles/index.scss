@@ -1,3 +1,4 @@
+
 @import './variables.module.scss';
 @import './mixin.scss';
 @import './transition.scss';
@@ -20,7 +21,6 @@ body,
   background-color: var(--base-bg-main);
   // overflow: hidden;
   position: relative;
-
 }
 
 *,
@@ -202,7 +202,7 @@ div:focus {
   float: right !important;
 }
 
-/* text color 样式属性*/
+/* text color */
 .text-navy {
   color: #1ab394;
 }

@@ -5,7 +5,7 @@ namespace Ams.Model.Logistics.Dto
     /// 销售价格
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 15:46:00
+    /// @Date: 2024/11/8 11:47:38
     /// </summary>
     public class SdSellingPriceQueryDto : PagerInfo 
     {
@@ -26,16 +26,20 @@ namespace Ams.Model.Logistics.Dto
         /// </summary>        
         public string Md005 { get; set; }
         /// <summary>
-        /// 原币利润中心 
+        /// 本币种 
         /// </summary>        
-        public string Md010 { get; set; }
+        public string Md012 { get; set; }
+        /// <summary>
+        /// 本币利润中心 
+        /// </summary>        
+        public string Md014 { get; set; }
     }
 
     /// <summary>
     /// 销售价格
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 15:46:00
+    /// @Date: 2024/11/8 11:47:38
     /// </summary>
     public class SdSellingPriceDto
     {
@@ -43,23 +47,27 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
 
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
+        [Required(ErrorMessage = "工厂不能为空")]
         //[ExcelColumn(Name = "工厂")]
         [ExcelColumnName("工厂")]
 
         public string Md002 { get; set; }
 
+        [Required(ErrorMessage = "期间不能为空")]
         //[ExcelColumn(Name = "期间")]
         [ExcelColumnName("期间")]
 
         public string Md003 { get; set; }
 
+        [Required(ErrorMessage = "年月不能为空")]
         //[ExcelColumn(Name = "年月")]
         [ExcelColumnName("年月")]
 
         public string Md004 { get; set; }
 
+        [Required(ErrorMessage = "物料不能为空")]
         //[ExcelColumn(Name = "物料")]
         [ExcelColumnName("物料")]
 
@@ -76,17 +84,19 @@ namespace Ams.Model.Logistics.Dto
 
         public decimal Md007 { get; set; }
 
+        [Required(ErrorMessage = "原币种不能为空")]
         //[ExcelColumn(Name = "原币种")]
         [ExcelColumnName("原币种")]
 
         public string Md008 { get; set; }
 
-        [Required(ErrorMessage = "原币Per单位不能为空")]
-        //[ExcelColumn(Name = "原币Per单位")]
-        [ExcelColumnName("原币Per单位")]
+        [Required(ErrorMessage = "原币定价单位不能为空")]
+        //[ExcelColumn(Name = "原币定价单位")]
+        [ExcelColumnName("原币定价单位")]
 
         public int Md009 { get; set; }
 
+        [Required(ErrorMessage = "原币利润中心不能为空")]
         //[ExcelColumn(Name = "原币利润中心")]
         [ExcelColumnName("原币利润中心")]
 
@@ -98,31 +108,45 @@ namespace Ams.Model.Logistics.Dto
 
         public decimal Md011 { get; set; }
 
+        [Required(ErrorMessage = "本币种不能为空")]
         //[ExcelColumn(Name = "本币种")]
         [ExcelColumnName("本币种")]
 
         public string Md012 { get; set; }
 
-        [Required(ErrorMessage = "本币Per单位不能为空")]
-        //[ExcelColumn(Name = "本币Per单位")]
-        [ExcelColumnName("本币Per单位")]
+        [Required(ErrorMessage = "本币定价单位不能为空")]
+        //[ExcelColumn(Name = "本币定价单位")]
+        [ExcelColumnName("本币定价单位")]
 
         public int Md013 { get; set; }
 
+        [Required(ErrorMessage = "本币利润中心不能为空")]
         //[ExcelColumn(Name = "本币利润中心")]
         [ExcelColumnName("本币利润中心")]
 
         public string Md014 { get; set; }
 
+        [Required(ErrorMessage = "汇率不能为空")]
+        //[ExcelColumn(Name = "汇率")]
+        [ExcelColumnName("汇率")]
+
+        public decimal Md015 { get; set; }
+
+        [Required(ErrorMessage = "生效日期不能为空")]
         //[ExcelColumn(Name = "生效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("生效日期")]
 
-        public DateTime? Md015 { get; set; }
+        public DateTime? Md016 { get; set; }
 
+        [Required(ErrorMessage = "失效日期不能为空")]
         //[ExcelColumn(Name = "失效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("失效日期")]
 
-        public DateTime? Md016 { get; set; }
+        public DateTime? Md017 { get; set; }
+
+        [ExcelIgnore]
+
+        public string Remark { get; set; }
 
         [ExcelIgnore]
 
@@ -199,10 +223,6 @@ namespace Ams.Model.Logistics.Dto
         [ExcelIgnore]
 
         public int? IsDeleted { get; set; }
-
-        [ExcelIgnore]
-
-        public string Remark { get; set; }
 
         [ExcelIgnore]
 
@@ -222,16 +242,22 @@ namespace Ams.Model.Logistics.Dto
 
 
 
+        [ExcelIgnore]
         [ExcelColumn(Name = "工厂")]
         public string Md002Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "期间")]
         public string Md003Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "年月")]
         public string Md004Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "物料")]
         public string Md005Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "原币种")]
         public string Md008Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "原币利润中心")]
         public string Md010Label { get; set; }
     }
@@ -240,27 +266,31 @@ namespace Ams.Model.Logistics.Dto
     /// 销售价格
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 15:46:00
+    /// @Date: 2024/11/8 11:47:38
     /// </summary>
     public class SdSellingPriceImportTpl
     {
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
+        [Required(ErrorMessage = "工厂不能为空")]
         //[ExcelColumn(Name = "工厂")]
         [ExcelColumnName("工厂")]
         public string Md002 { get; set; }
 
+        [Required(ErrorMessage = "期间不能为空")]
         //[ExcelColumn(Name = "期间")]
         [ExcelColumnName("期间")]
         public string Md003 { get; set; }
 
+        [Required(ErrorMessage = "年月不能为空")]
         //[ExcelColumn(Name = "年月")]
         [ExcelColumnName("年月")]
         public string Md004 { get; set; }
 
+        [Required(ErrorMessage = "物料不能为空")]
         //[ExcelColumn(Name = "物料")]
         [ExcelColumnName("物料")]
         public string Md005 { get; set; }
@@ -274,15 +304,17 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("原币价格")]
         public decimal Md007 { get; set; }
 
+        [Required(ErrorMessage = "原币种不能为空")]
         //[ExcelColumn(Name = "原币种")]
         [ExcelColumnName("原币种")]
         public string Md008 { get; set; }
 
-        [Required(ErrorMessage = "原币Per单位不能为空")]
-        //[ExcelColumn(Name = "原币Per单位")]
-        [ExcelColumnName("原币Per单位")]
+        [Required(ErrorMessage = "原币定价单位不能为空")]
+        //[ExcelColumn(Name = "原币定价单位")]
+        [ExcelColumnName("原币定价单位")]
         public int Md009 { get; set; }
 
+        [Required(ErrorMessage = "原币利润中心不能为空")]
         //[ExcelColumn(Name = "原币利润中心")]
         [ExcelColumnName("原币利润中心")]
         public string Md010 { get; set; }
@@ -292,26 +324,38 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("本币价格")]
         public decimal Md011 { get; set; }
 
+        [Required(ErrorMessage = "本币种不能为空")]
         //[ExcelColumn(Name = "本币种")]
         [ExcelColumnName("本币种")]
         public string Md012 { get; set; }
 
-        [Required(ErrorMessage = "本币Per单位不能为空")]
-        //[ExcelColumn(Name = "本币Per单位")]
-        [ExcelColumnName("本币Per单位")]
+        [Required(ErrorMessage = "本币定价单位不能为空")]
+        //[ExcelColumn(Name = "本币定价单位")]
+        [ExcelColumnName("本币定价单位")]
         public int Md013 { get; set; }
 
+        [Required(ErrorMessage = "本币利润中心不能为空")]
         //[ExcelColumn(Name = "本币利润中心")]
         [ExcelColumnName("本币利润中心")]
         public string Md014 { get; set; }
 
+        [Required(ErrorMessage = "汇率不能为空")]
+        //[ExcelColumn(Name = "汇率")]
+        [ExcelColumnName("汇率")]
+        public decimal Md015 { get; set; }
+
+        [Required(ErrorMessage = "生效日期不能为空")]
         //[ExcelColumn(Name = "生效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("生效日期")]
-        public DateTime? Md015 { get; set; }
+        public DateTime? Md016 { get; set; }
 
+        [Required(ErrorMessage = "失效日期不能为空")]
         //[ExcelColumn(Name = "失效日期", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
         [ExcelColumnName("失效日期")]
-        public DateTime? Md016 { get; set; }
+        public DateTime? Md017 { get; set; }
+
+        [ExcelIgnore]
+        public string Remark { get; set; }
 
         [ExcelIgnore]
         public string Ref01 { get; set; }
@@ -369,9 +413,6 @@ namespace Ams.Model.Logistics.Dto
 
         [ExcelIgnore]
         public int? IsDeleted { get; set; }
-
-        [ExcelIgnore]
-        public string Remark { get; set; }
 
         [ExcelIgnore]
         public string CreateBy { get; set; }

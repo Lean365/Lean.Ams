@@ -4,7 +4,7 @@ namespace Ams.Model.Logistics
     /// 顾客
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:25:01
+    /// @Date: 2024/11/7 16:05:11
     /// </summary>
     [SugarTable("sd_customer", "顾客")]
     public class SdCustomer : SysBase
@@ -14,7 +14,7 @@ namespace Ams.Model.Logistics
         /// </summary>
         [JsonConverter(typeof(ValueToStringConverter))]
         [SugarColumn(IsPrimaryKey = true, IsIdentity = false)]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// 集团

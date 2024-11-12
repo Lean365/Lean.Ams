@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 销售价格
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 15:46:00
+    /// @Date: 2024/11/8 11:47:38
     /// </summary>
     [Verify]
     [Route("Logistics/SdSellingPrice")]

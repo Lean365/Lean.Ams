@@ -8,151 +8,179 @@
 -->
 <template>
   <div>
-    <!-- 查询区域 -->
-    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent
-      label-width="auto">
-      <el-row :gutter="10" class="mb8">
-        <el-col :lg="24">
-          <el-form-item label="工号" prop="mq002">
-            <el-input v-model="queryParams.mq002"
-              :placeholder="$t('btn.enterSearchPrefix')+'工号'+$t('btn.enterSearchSuffix')" />
-          </el-form-item>
-          <el-form-item label="姓名" prop="mq003">
-            <el-input v-model="queryParams.mq003"
-              :placeholder="$t('btn.enterSearchPrefix')+'姓名'+$t('btn.enterSearchSuffix')" />
-          </el-form-item>
-          <el-form-item label="年度" prop="mq004">
-            <el-select filterable clearable v-model="queryParams.mq004"
-              :placeholder="$t('btn.selectSearchPrefix')+'年度'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sql_attr_list " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="项目" prop="mq005">
-            <el-select filterable clearable v-model="queryParams.mq005"
-              :placeholder="$t('btn.selectSearchPrefix')+'项目'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sys_training_items " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :lg="24" :offset="12">
-          <el-form-item>
-            <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
-            <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <!-- 工具区域 -->
-    <el-row :gutter="15" class="mb10">
-      <el-col :span="1.5">
-        <el-button class="btn-add" v-hasPermi="['routine:ehrtraining:add']" plain icon="plus" @click="handleAdd">
-          {{ $t('btn.add') }}
-        </el-button>
+    <el-row :gutter="20" type="flex">
+      <!--部门数据-->
+      <el-col :span="4" :xs="24">
+        <div class="scroll-container">
+          <div class=" head-container">
+            <el-input v-model="deptName"
+              :placeholder="$t('btn.enterSearchPrefix')+$t('pdept.deptName')+$t('btn.enterSearchSuffix')" clearable
+              prefix-icon="search" style="margin-bottom: 20px" />
+          </div>
+          <div class="head-container">
+            <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false"
+              :filter-node-method="filterNode" ref="deptTreeRef" node-key="id" highlight-current default-expand-all
+              @node-click="handleNodeClick">
+              <template #default="{ node, data }">
+                <span>
+                  <span>
+                    <svg-icon name="m-house" v-if="data.children && data.children.length > 0"></svg-icon>
+                    {{ node.label }}
+                  </span>
+                </span>
+              </template>
+            </el-tree>
+          </div>
+        </div>
       </el-col>
-      <el-col :span="1.5">
-        <el-button class="btn-edit" :disabled="single" v-hasPermi="['routine:ehrtraining:edit']" plain icon="edit"
-          @click="handleUpdate">
-          {{ $t('btn.edit') }}
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button class="btn-deletebatch" :disabled="multiple" v-hasPermi="['routine:ehrtraining:delete']" plain
-          icon="delete" @click="handleDelete">
-          {{ $t('btn.delete') }}
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-dropdown trigger="click" v-hasPermi="['routine:ehrtraining:import']">
-          <el-button class="btn-import" plain icon="Upload">
-            {{ $t('btn.import') }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="upload">
-                <importData templateUrl="Routine/RoutineEhrTraining/importTemplate"
-                  importUrl="/Routine/RoutineEhrTraining/importData" @success="handleFileSuccess"></importData>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button class="btn-export" plain icon="download" @click="handleExport"
-          v-hasPermi="['routine:ehrtraining:export']">
-          {{ $t('btn.export') }}
-        </el-button>
-      </el-col>
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
-    </el-row>
+      <!-- 查询区域 -->
+      <el-col :span="20" :xs="24">
+        <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent
+          label-width="auto">
+          <el-row :gutter="10" class="mb8">
+            <el-col :lg="24">
+              <el-form-item label="工号" prop="mq002">
+                <el-input v-model="queryParams.mq002"
+                  :placeholder="$t('btn.enterSearchPrefix')+'工号'+$t('btn.enterSearchSuffix')" />
+              </el-form-item>
+              <el-form-item label="姓名" prop="mq003">
+                <el-input v-model="queryParams.mq003"
+                  :placeholder="$t('btn.enterSearchPrefix')+'姓名'+$t('btn.enterSearchSuffix')" />
+              </el-form-item>
+              <el-form-item label="年度" prop="mq004">
+                <el-select filterable clearable v-model="queryParams.mq004"
+                  :placeholder="$t('btn.selectSearchPrefix')+'年度'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sql_attr_list " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="项目" prop="mq005">
+                <el-select filterable clearable v-model="queryParams.mq005"
+                  :placeholder="$t('btn.selectSearchPrefix')+'项目'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sys_training_items " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :lg="24" :offset="12">
+              <el-form-item>
+                <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+                <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <!-- 工具区域 -->
+        <el-row :gutter="15" class="mb10">
+          <el-col :span="1.5">
+            <el-button class="btn-add" v-hasPermi="['routine:ehrtraining:add']" plain icon="plus" @click="handleAdd">
+              {{ $t('btn.add') }}
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button class="btn-edit" :disabled="single" v-hasPermi="['routine:ehrtraining:edit']" plain icon="edit"
+              @click="handleUpdate">
+              {{ $t('btn.edit') }}
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button class="btn-deletebatch" :disabled="multiple" v-hasPermi="['routine:ehrtraining:delete']" plain
+              icon="delete" @click="handleDelete">
+              {{ $t('btn.delete') }}
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-dropdown trigger="click" v-hasPermi="['routine:ehrtraining:import']">
+              <el-button class="btn-import" plain icon="Upload">
+                {{ $t('btn.import') }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item command="upload">
+                    <importData templateUrl="Routine/RoutineEhrTraining/importTemplate"
+                      importUrl="/Routine/RoutineEhrTraining/importData" @success="handleFileSuccess"></importData>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button class="btn-export" plain icon="download" @click="handleExport"
+              v-hasPermi="['routine:ehrtraining:export']">
+              {{ $t('btn.export') }}
+            </el-button>
+          </el-col>
+          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
+        </el-row>
 
-    <!-- 数据区域 -->
-    <el-table border height="600px" :data="dataList" v-loading="loading" ref="table"
-      header-cell-class-name="el-table-header-cell" highlight-current-row @sort-change="sortChange"
-      @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="50" align="center" />
-      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')" />
-      <el-table-column prop="mq002" label="工号" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mq002')" />
-      <el-table-column prop="mq003" label="姓名" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mq003')" />
-      <el-table-column prop="mq004" label="年度" align="center" v-if="columns.showColumn('mq004')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_attr_list " :value="scope.row.mq004" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mq005" label="项目" align="center" v-if="columns.showColumn('mq005')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_training_items " :value="scope.row.mq005" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mq006" label="内容" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mq006')" />
-      <el-table-column prop="mq007" label="目的" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mq007')" />
-      <el-table-column prop="mq008" label="分数" align="center" v-if="columns.showColumn('mq008')" />
-      <el-table-column prop="mq009" label="结果" align="center" v-if="columns.showColumn('mq009')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_training_results " :value="scope.row.mq009" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mq010" label="日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mq010')" />
-      <el-table-column prop="mq011" label="指导老师" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mq011')" />
-      <el-table-column prop="mq012" label="确认" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mq012')" />
-      <el-table-column prop="mq013" label="确认" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mq013')" />
-      <el-table-column prop="mq014" label="确认" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mq014')" />
-      <el-table-column prop="mq015" label="承认" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mq015')" />
-      <el-table-column prop="mq016" label="承认" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mq016')" />
-      <el-table-column prop="mq017" label="承认" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mq017')" />
-      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('remark')" />
-      <el-table-column :label="$t('btn.operation')" width="160" align="center">
-        <template #default="scope">
-          <el-button-group>
-            <el-button class="btn-edit" plain size="small" icon="edit" :title="$t('btn.edit')"
-              v-hasPermi="['routine:ehrtraining:edit']" @click="handleUpdate(scope.row)"></el-button>
-            <el-button class="btn-delete" plain size="small" icon="delete" :title="$t('btn.delete')"
-              v-hasPermi="['routine:ehrtraining:delete']" @click="handleDelete(scope.row)"></el-button>
-          </el-button-group>
-        </template>
-      </el-table-column>
-    </el-table>
-    <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
-      @pagination="getList" />
+        <!-- 数据区域 -->
+        <el-table border height="600px" :data="dataList" v-loading="loading" ref="table"
+          header-cell-class-name="el-table-header-cell" highlight-current-row @sort-change="sortChange"
+          @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="50" align="center" />
+          <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')" />
+          <el-table-column prop="mq002" label="工号" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mq002')" />
+          <el-table-column prop="mq003" label="姓名" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mq003')" />
+          <el-table-column prop="mq004" label="年度" align="center" v-if="columns.showColumn('mq004')">
+            <template #default="scope">
+              <dict-tag :options=" options.sql_attr_list " :value="scope.row.mq004" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mq005" label="项目" align="center" v-if="columns.showColumn('mq005')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_training_items " :value="scope.row.mq005" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mq006" label="内容" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mq006')" />
+          <el-table-column prop="mq007" label="目的" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mq007')" />
+          <el-table-column prop="mq008" label="分数" align="center" v-if="columns.showColumn('mq008')" />
+          <el-table-column prop="mq009" label="结果" align="center" v-if="columns.showColumn('mq009')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_training_results " :value="scope.row.mq009" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mq010" label="日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mq010')" />
+          <el-table-column prop="mq011" label="指导老师" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mq011')" />
+          <el-table-column prop="mq012" label="确认" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mq012')" />
+          <el-table-column prop="mq013" label="确认" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mq013')" />
+          <el-table-column prop="mq014" label="确认" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mq014')" />
+          <el-table-column prop="mq015" label="承认" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mq015')" />
+          <el-table-column prop="mq016" label="承认" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mq016')" />
+          <el-table-column prop="mq017" label="承认" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mq017')" />
+          <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('remark')" />
+          <el-table-column :label="$t('btn.operation')" width="160" align="center">
+            <template #default="scope">
+              <el-button-group>
+                <el-button class="btn-edit" plain size="small" icon="edit" :title="$t('btn.edit')"
+                  v-hasPermi="['routine:ehrtraining:edit']" @click="handleUpdate(scope.row)"></el-button>
+                <el-button class="btn-delete" plain size="small" icon="delete" :title="$t('btn.delete')"
+                  v-hasPermi="['routine:ehrtraining:delete']" @click="handleDelete(scope.row)"></el-button>
+              </el-button-group>
+            </template>
+          </el-table-column>
+        </el-table>
+        <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
+          @pagination="getList" />
+      </el-col>
+    </el-row>
 
     <!-- 添加或修改培训对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open">
@@ -380,6 +408,7 @@
     updateRoutineEhrTraining, getRoutineEhrTraining,
   }
     from '@/api/routine/routineehrtraining.js'
+  import { treeselect } from '@/api/system/dept'
   import importData from '@/components/ImportData'
   //防抖处理函数 import { debounce } from 'lodash';
   import { debounce } from 'lodash';
@@ -390,6 +419,10 @@
   const handleClick = (tab, event) => {
     console.log(tab, event)
   }
+  //部门名称
+  const deptName = ref('')
+  //部门数据
+  const deptOptions = ref([])
   //选中refId数组数组
   const ids = ref([])
   //是否加载动画
@@ -466,7 +499,38 @@
       }
     })
   }
-
+  /** 通过条件过滤节点  */
+  const filterNode = (value, data) => {
+    if (!value) return true
+    return data.label.indexOf(value) !== -1
+  }
+  /** 根据名称筛选部门树 */
+  watch(deptName, (val) => {
+    proxy.$refs['deptTreeRef'].filter(val)
+  })
+  /** 查询部门下拉树结构 */
+  function getDeptTreeSelect() {
+    treeselect().then((response) => {
+      deptOptions.value = [{ id: 0, label: proxy.$t('common.unknow') + proxy.$t('puser.deptName'), children: [] }, ...response.data]
+    })
+  }
+  /** 初始化部门数据 */
+  function initDeptTreeData() {
+    // 判断部门的数据是否存在，存在不获取，不存在则获取
+    if (deptOptions.value === undefined) {
+      treeselect().then((response) => {
+        deptOptions.value = response.data
+      })
+    }
+  }
+  const deptIdSelect = ref(0)
+  /** 节点单击事件 */
+  function handleNodeClick(data) {
+    console.log(data)
+    deptIdSelect.value = data.id
+    queryParams.mn004 = data.id
+    handleQuery()
+  }
   // 查询
   function handleQuery() {
     queryParams.pageNum = 1
@@ -727,5 +791,16 @@
     }
     return wholePartFormat + decimalPart
   }
+  getDeptTreeSelect()
   handleQuery()
 </script>
+<style scoped>
+  .scroll-container {
+    height: 80%;
+    /* 设置固定高度 */
+    overflow-y: auto;
+    /* 添加垂直滚动条 */
+    overflow-x: hidden;
+    /* 隐藏水平滚动条 */
+  }
+</style>

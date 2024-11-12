@@ -5,7 +5,7 @@ namespace Ams.Model.Logistics.Dto
     /// 顾客
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:25:01
+    /// @Date: 2024/11/7 16:05:11
     /// </summary>
     public class SdCustomerQueryDto : PagerInfo 
     {
@@ -34,6 +34,10 @@ namespace Ams.Model.Logistics.Dto
         /// </summary>        
         public string Mb008 { get; set; }
         /// <summary>
+        /// 税别 
+        /// </summary>        
+        public string Mb012 { get; set; }
+        /// <summary>
         /// 交易币种 
         /// </summary>        
         public string Mb014 { get; set; }
@@ -41,6 +45,14 @@ namespace Ams.Model.Logistics.Dto
         /// 付款条件 
         /// </summary>        
         public string Mb015 { get; set; }
+        /// <summary>
+        /// 付款方式 
+        /// </summary>        
+        public string Mb016 { get; set; }
+        /// <summary>
+        /// 统驭科目 
+        /// </summary>        
+        public string Mb017 { get; set; }
         /// <summary>
         /// 客户等级 
         /// </summary>        
@@ -53,13 +65,17 @@ namespace Ams.Model.Logistics.Dto
         /// 国家地区 
         /// </summary>        
         public string Mb025 { get; set; }
+        /// <summary>
+        /// 冻结标记 
+        /// </summary>        
+        public int? Mb039 { get; set; }
     }
 
     /// <summary>
     /// 顾客
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:25:01
+    /// @Date: 2024/11/7 16:05:11
     /// </summary>
     public class SdCustomerDto
     {
@@ -67,7 +83,7 @@ namespace Ams.Model.Logistics.Dto
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
 
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [Required(ErrorMessage = "集团不能为空")]
         //[ExcelColumn(Name = "集团")]
@@ -277,6 +293,10 @@ namespace Ams.Model.Logistics.Dto
 
         [ExcelIgnore]
 
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
+
         public string Ref01 { get; set; }
 
         [ExcelIgnore]
@@ -346,10 +366,6 @@ namespace Ams.Model.Logistics.Dto
         [ExcelIgnore]
 
         public decimal Udf56 { get; set; }
-
-        [ExcelIgnore]
-
-        public string ReMark { get; set; }
 
         [ExcelIgnore]
 
@@ -373,36 +389,52 @@ namespace Ams.Model.Logistics.Dto
 
 
 
+        [ExcelIgnore]
         [ExcelColumn(Name = "销售组织")]
         public string Mb003Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "行业类别")]
         public string Mb004Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "企业性质")]
         public string Mb005Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "税别")]
         public string Mb012Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "交易币种")]
         public string Mb014Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "付款条件")]
         public string Mb015Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "付款方式")]
         public string Mb016Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "统驭科目")]
         public string Mb017Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "贸易条件")]
         public string Mb018Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "装运条件")]
         public string Mb019Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "客户等级")]
         public string Mb020Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "客户信用")]
         public string Mb021Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "国家地区")]
         public string Mb025Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "州省")]
         public string Mb026Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "市")]
         public string Mb027Label { get; set; }
+        [ExcelIgnore]
         [ExcelColumn(Name = "冻结标记")]
         public string Mb039Label { get; set; }
     }
@@ -411,14 +443,14 @@ namespace Ams.Model.Logistics.Dto
     /// 顾客
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:25:01
+    /// @Date: 2024/11/7 16:05:11
     /// </summary>
     public class SdCustomerImportTpl
     {
         //[ExcelColumn(Name = "ID")]
         [ExcelColumnName("ID")]
         [JsonConverter(typeof(ValueToStringConverter))]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [Required(ErrorMessage = "集团不能为空")]
         //[ExcelColumn(Name = "集团")]
@@ -587,6 +619,9 @@ namespace Ams.Model.Logistics.Dto
         public string Mb041 { get; set; }
 
         [ExcelIgnore]
+        public string Remark { get; set; }
+
+        [ExcelIgnore]
         public string Ref01 { get; set; }
 
         [ExcelIgnore]
@@ -639,9 +674,6 @@ namespace Ams.Model.Logistics.Dto
 
         [ExcelIgnore]
         public decimal Udf56 { get; set; }
-
-        [ExcelIgnore]
-        public string ReMark { get; set; }
 
         [ExcelIgnore]
         public int? IsDeleted { get; set; }

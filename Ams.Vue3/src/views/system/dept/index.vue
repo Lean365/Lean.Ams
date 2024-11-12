@@ -42,7 +42,7 @@
     <!-- 数据区域 -->
     <el-table v-if="refreshTable" v-loading="loading" :data="deptList" row-key="deptId"
       :default-expand-all="isExpandAll" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-      <el-table-column prop="deptName" :label="$t('pdept.deptName')" width="240"
+      <el-table-column prop="deptName" :label="$t('pdept.deptName')" width="500"
         v-if="columns.showColumn('deptName')"></el-table-column>
       <el-table-column prop="deptId" label="Id" v-if="columns.showColumn('deptId')"></el-table-column>
       <el-table-column prop="leader" :label="$t('pdept.leader')" width="140"
@@ -193,7 +193,7 @@
   //字段显示控制
   const columns = ref([
     { visible: true, prop: 'deptName', label: proxy.$t('pdept.deptName') },
-    { visible: true, prop: 'deptId', label: 'ID' },
+    { visible: false, prop: 'deptId', label: 'ID' },
     { visible: true, prop: 'leader', label: proxy.$t('pdept.leader') },
     { visible: true, prop: 'phone', label: proxy.$t('pdept.phone') },
     { visible: true, prop: 'email', label: proxy.$t('pdept.email') },

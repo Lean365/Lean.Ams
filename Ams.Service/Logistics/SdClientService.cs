@@ -11,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 客户
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 15:53:14
+    /// @Date: 2024/11/7 16:02:07
     /// </summary>
     [AppService(ServiceType = typeof(ISdClientService), ServiceLifetime = LifeTime.Transient)]
     public class SdClientService : BaseService<SdClient>, ISdClientService
@@ -26,7 +26,6 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("Ma003 asc")
                 .Where(predicate.ToExpression())
                 .ToPage<SdClient, SdClientDto>(parm);
 
@@ -55,7 +54,7 @@ namespace Ams.Service.Logistics
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public SdClient GetInfo(int Id)
+        public SdClient GetInfo(long Id)
         {
             var response = Queryable()
                 .Where(x => x.Id == Id)
@@ -91,9 +90,13 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public (string, object, object) ImportSdClient(List<SdClient> list)
         {
+            list.ForEach(it =>
+            {
+                it.Create_by = HttpContextExtension.GetName(App.HttpContext);
+                it.Remark = it.Remark.IsEmpty() ? HttpContextExtension.GetName(App.HttpContext)+"数据导入" : it.Remark;
+            });
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
-                .SplitError(x => x.Item.Id.IsEmpty(), "ID不能为空")
                 .SplitError(x => x.Item.Ma002.IsEmpty(), "集团不能为空")
                 .SplitError(x => x.Item.Ma003.IsEmpty(), "销售组织不能为空")
                 .SplitError(x => x.Item.Ma004.IsEmpty(), "行业类别不能为空")
@@ -192,16 +195,24 @@ namespace Ams.Service.Logistics
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ma007), it => it.Ma007.Contains(parm.Ma007));
             //查询字段: <客户名称> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ma008), it => it.Ma008.Contains(parm.Ma008));
+            //查询字段: <税别> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ma012), it => it.Ma012 == parm.Ma012);
             //查询字段: <交易币种> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ma014), it => it.Ma014 == parm.Ma014);
             //查询字段: <付款条件> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ma015), it => it.Ma015 == parm.Ma015);
+            //查询字段: <付款方式> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ma016), it => it.Ma016 == parm.Ma016);
+            //查询字段: <统驭科目> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ma017), it => it.Ma017 == parm.Ma017);
             //查询字段: <客户等级> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ma020), it => it.Ma020 == parm.Ma020);
             //查询字段: <供应商> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ma024), it => it.Ma024.Contains(parm.Ma024));
             //查询字段: <国家地区> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Ma025), it => it.Ma025 == parm.Ma025);
+            //查询字段: <冻结标记> 
+            predicate = predicate.AndIF(parm.Ma039 != -1, it => it.Ma039 == parm.Ma039);
             return predicate;
         }
     }

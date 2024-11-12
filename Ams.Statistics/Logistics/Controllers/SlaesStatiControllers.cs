@@ -26,13 +26,13 @@ namespace Ams.Statistics.Logistics.Controllers
         }
 
         /// <summary>
-        /// 查询当月生产台数
+        /// 查询当月销售台数
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        [HttpGet("MonthlySalesQty")]
+        [HttpGet("CurrentMonthSalesQty")]
         [ActionPermissionFilter(Permission = "pp:outputmaster:list")]
-        public IActionResult QueryMonthlySalesQty([FromQuery] SdSellingInvoiceQueryDto parm)
+        public IActionResult QueryCurrentMonthSalesQty([FromQuery] SdSellingInvoiceQueryDto parm)
         {
             //DateTime nowDate = DateTime.Now;
             ////parm.BeginPomMfgDate = new DateTime(nowDate.Year, nowDate.Month, 1);   //本月第一天
@@ -49,18 +49,18 @@ namespace Ams.Statistics.Logistics.Controllers
             //    parm.BeginMma009 = nowDate.AddDays(1 - nowDate.Day).AddMonths(-1);//上月第一天
             //    parm.EndMma009 = nowDate.AddDays(1 - nowDate.Day).AddDays(-1); ;//上月最后一天
             //}
-            var response = _SalesStatiService.GetMonthlySalesQty(parm);
+            var response = _SalesStatiService.GetCurrentMonthSalesQty(parm);
             return SUCCESS(response);
         }
 
         /// <summary>
-        /// 查询当月生产台数
+        /// 查询当月生产金额
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        [HttpGet("MonthlySalesAmount")]
+        [HttpGet("CurrentMonthSalesAmount")]
         [ActionPermissionFilter(Permission = "pp:outputmaster:list")]
-        public IActionResult QueryMonthlySalesAmount([FromQuery] SdSellingInvoiceQueryDto parm)
+        public IActionResult QueryCurrentMonthSalesAmount([FromQuery] SdSellingInvoiceQueryDto parm)
         {
             //DateTime nowDate = DateTime.Now;
             ////parm.BeginPomMfgDate = new DateTime(nowDate.Year, nowDate.Month, 1);   //本月第一天
@@ -77,7 +77,7 @@ namespace Ams.Statistics.Logistics.Controllers
             //    parm.BeginMma009 = nowDate.AddDays(1 - nowDate.Day).AddMonths(-1);//上月第一天
             //    parm.EndMma009 = nowDate.AddDays(1 - nowDate.Day).AddDays(-1); ;//上月最后一天
             //}
-            var response = _SalesStatiService.GetMonthlySalesAmount(parm);
+            var response = _SalesStatiService.GetCurrentMonthSalesAmount(parm);
             return SUCCESS(response);
         }
 
@@ -86,11 +86,11 @@ namespace Ams.Statistics.Logistics.Controllers
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        [HttpGet("ListMonthSales")]
+        [HttpGet("MonthlySales")]
         [ActionPermissionFilter(Permission = "pp:statistics:list")]
-        public IActionResult QueryListMonthSales([FromQuery] SdSellingInvoiceQueryDto parm)
+        public IActionResult QueryMonthlySales([FromQuery] SdSellingInvoiceQueryDto parm)
         {
-            var response = _SalesStatiService.GetListMonthSales(parm);
+            var response = _SalesStatiService.GetMonthlySales(parm);
             return SUCCESS(response);
         }
 
@@ -99,11 +99,11 @@ namespace Ams.Statistics.Logistics.Controllers
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        [HttpGet("ListMonthAreaSales")]
+        [HttpGet("MonthlyAreaSales")]
         [ActionPermissionFilter(Permission = "pp:statistics:list")]
-        public IActionResult QueryListMonthAreaSales([FromQuery] SdSellingInvoiceQueryDto parm)
+        public IActionResult QueryMonthlyAreaSales([FromQuery] SdSellingInvoiceQueryDto parm)
         {
-            var response = _SalesStatiService.GetListMonthAreaSales(parm);
+            var response = _SalesStatiService.GetMonthlyAreaSales(parm);
             return SUCCESS(response);
         }
 
@@ -112,11 +112,11 @@ namespace Ams.Statistics.Logistics.Controllers
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        [HttpGet("CountMonthRegionSales")]
+        [HttpGet("MonthlyRegionSales")]
         [ActionPermissionFilter(Permission = "pp:statistics:list")]
-        public IActionResult GetCountMonthRegionSales([FromQuery] SdSellingInvoiceQueryDto parm)
+        public IActionResult QueryMonthlyRegionSales([FromQuery] SdSellingInvoiceQueryDto parm)
         {
-            var response = _SalesStatiService.GetListMonthRegionSales(parm);
+            var response = _SalesStatiService.GetMonthlyRegionSales(parm);
             return SUCCESS(response);
         }
 
@@ -125,37 +125,50 @@ namespace Ams.Statistics.Logistics.Controllers
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        [HttpGet("ListYearSales")]
+        [HttpGet("YearSales")]
         [ActionPermissionFilter(Permission = "pp:statistics:list")]
-        public IActionResult QueryListYearSales([FromQuery] SdSellingInvoiceQueryDto parm)
+        public IActionResult QueryYearSales([FromQuery] SdSellingInvoiceQueryDto parm)
         {
-            var response = _SalesStatiService.GetListYearSales(parm);
+            var response = _SalesStatiService.GetYearSales(parm);
             return SUCCESS(response);
         }
 
         /// <summary>
-        /// 按年统计销售
+        /// 按年统计销售-国家
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        [HttpGet("ListYearAreaSales")]
+        [HttpGet("YearAreaSales")]
         [ActionPermissionFilter(Permission = "pp:statistics:list")]
-        public IActionResult QueryListYearAreaSales([FromQuery] SdSellingInvoiceQueryDto parm)
+        public IActionResult QueryYearAreaSales([FromQuery] SdSellingInvoiceQueryDto parm)
         {
-            var response = _SalesStatiService.GetListYearAreaSales(parm);
+            var response = _SalesStatiService.GetYearAreaSales(parm);
             return SUCCESS(response);
         }
 
         /// <summary>
-        /// 按年统计销售
+        /// 按年统计销售-仕向
         /// </summary>
         /// <param name="parm"></param>
         /// <returns></returns>
-        [HttpGet("ListYearRegionSales")]
+        [HttpGet("YearRegionSales")]
         [ActionPermissionFilter(Permission = "pp:statistics:list")]
-        public IActionResult QueryListYearRegionSales([FromQuery] SdSellingInvoiceQueryDto parm)
+        public IActionResult QueryYearRegionSales([FromQuery] SdSellingInvoiceQueryDto parm)
         {
-            var response = _SalesStatiService.GetListYearRegionSales(parm);
+            var response = _SalesStatiService.GetYearRegionSales(parm);
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 按月统计销售--柱状图
+        /// </summary>
+        /// <param name="parm"></param>
+        /// <returns></returns>
+        [HttpGet("ListMonthlySalesBar")]
+        [ActionPermissionFilter(Permission = "pp:statistics:list")]
+        public IActionResult QueryListMonthlySalesBar([FromQuery] SdSellingInvoiceQueryDto parm)
+        {
+            var response = _SalesStatiService.GetListMonthlySalesBar(parm);
             return SUCCESS(response);
         }
     }

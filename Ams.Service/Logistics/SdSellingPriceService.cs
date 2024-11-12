@@ -11,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 销售价格
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 15:46:00
+    /// @Date: 2024/11/8 11:47:38
     /// </summary>
     [AppService(ServiceType = typeof(ISdSellingPriceService), ServiceLifetime = LifeTime.Transient)]
     public class SdSellingPriceService : BaseService<SdSellingPrice>, ISdSellingPriceService
@@ -26,7 +26,7 @@ namespace Ams.Service.Logistics
             var predicate = QueryExp(parm);
 
             var response = Queryable()
-                //.OrderBy("Md003 desc")
+                //.OrderBy("Md004 desc")
                 .Where(predicate.ToExpression())
                 .ToPage<SdSellingPrice, SdSellingPriceDto>(parm);
 
@@ -91,12 +91,28 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public (string, object, object) ImportSdSellingPrice(List<SdSellingPrice> list)
         {
+            list.ForEach(it =>
+            {
+                it.Create_by = HttpContextExtension.GetName(App.HttpContext);
+                it.Remark = it.Remark.IsEmpty() ? "数据由<"+HttpContextExtension.GetName(App.HttpContext)+">用户,批量导入" : it.Remark;
+            });
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
+                .SplitError(x => x.Item.Md002.IsEmpty(), "工厂不能为空")
+                .SplitError(x => x.Item.Md003.IsEmpty(), "期间不能为空")
+                .SplitError(x => x.Item.Md004.IsEmpty(), "年月不能为空")
+                .SplitError(x => x.Item.Md005.IsEmpty(), "物料不能为空")
                 .SplitError(x => x.Item.Md007.IsEmpty(), "原币价格不能为空")
-                .SplitError(x => x.Item.Md009.IsEmpty(), "原币Per单位不能为空")
+                .SplitError(x => x.Item.Md008.IsEmpty(), "原币种不能为空")
+                .SplitError(x => x.Item.Md009.IsEmpty(), "原币定价单位不能为空")
+                .SplitError(x => x.Item.Md010.IsEmpty(), "原币利润中心不能为空")
                 .SplitError(x => x.Item.Md011.IsEmpty(), "本币价格不能为空")
-                .SplitError(x => x.Item.Md013.IsEmpty(), "本币Per单位不能为空")
+                .SplitError(x => x.Item.Md012.IsEmpty(), "本币种不能为空")
+                .SplitError(x => x.Item.Md013.IsEmpty(), "本币定价单位不能为空")
+                .SplitError(x => x.Item.Md014.IsEmpty(), "本币利润中心不能为空")
+                .SplitError(x => x.Item.Md015.IsEmpty(), "汇率不能为空")
+                .SplitError(x => x.Item.Md016.IsEmpty(), "生效日期不能为空")
+                .SplitError(x => x.Item.Md017.IsEmpty(), "失效日期不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -137,7 +153,7 @@ namespace Ams.Service.Logistics
                     //查询字典: <年月> 
                     Md004Label = it.Md004.GetConfigValue<SysDictData>("sql_ymdt_list"),
                     //查询字典: <物料> 
-                    Md005Label = it.Md005.GetConfigValue<SysDictData>("sql_mats_list"),
+                    Md005Label = it.Md005.GetConfigValue<SysDictData>("sql_marb_sales"),
                     //查询字典: <原币种> 
                     Md008Label = it.Md008.GetConfigValue<SysDictData>("sql_global_currency"),
                     //查询字典: <原币利润中心> 
@@ -165,8 +181,10 @@ namespace Ams.Service.Logistics
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md004), it => it.Md004 == parm.Md004);
             //查询字段: <物料> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md005), it => it.Md005 == parm.Md005);
-            //查询字段: <原币利润中心> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md010), it => it.Md010 == parm.Md010);
+            //查询字段: <本币种> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md012), it => it.Md012 == parm.Md012);
+            //查询字段: <本币利润中心> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Md014), it => it.Md014 == parm.Md014);
             return predicate;
         }
     }

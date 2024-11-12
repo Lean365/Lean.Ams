@@ -15,8 +15,8 @@
     <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('stockAmount')">
         <div class="card-panel-icon-wrapper icon-money">
-          <i class="fas fa-warehouse fa-beat"
-            style="--fa-animation-duration: 3s;font-size: 3em; color: rgb(23, 2, 82);"></i>
+          <i class="fa-solid fa-cubes-stacked fa-shake"
+            style="--fa-animation-duration: 3s;font-size: 3em; color: #626aef;"></i>
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text" v-waves>{{ $t('layout.echartCostTotal') }}</div>
@@ -38,7 +38,7 @@
     <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleSetLineChartData('salesAmount')">
         <div class="card-panel-icon-wrapper icon-shipment">
-          <i class="fas fa-shop fa-flip"
+          <i class="fa-solid fa-sack-dollar fa-flip"
             style="--fa-animation-duration: 3s;font-size: 3em; color: rgb(129, 6, 245);"></i>
         </div>
         <div class="card-panel-description">
@@ -59,7 +59,7 @@
       <div class="card-panel" @click="handleSetLineChartData('production')">
         <div class="card-panel-icon-wrapper icon-cubes">
           <i class="fas fa-microchip fa-bounce"
-            style="--fa-animation-duration: 3s;font-size: 3em; color: rgb(2, 65, 23);"></i>
+            style="--fa-animation-duration: 3s;font-size: 3em; color: rgb(121.3, 187.1, 255);"></i>
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text" v-waves>{{ $t('layout.echartPoorProduction') }}</div>
@@ -96,24 +96,28 @@
   import {
     getEcCount,
   }
-    from '@/api/statistics/ppecstati.js'
+    from '@/api/statistics/ec.js'
   import {
     getMonthlyOutputQty,
   }
-    from '@/api/statistics/ppoutputstati.js'
+    from '@/api/statistics/assyoutput.js'
   import {
-    getMonthlySalesQty,
-    getMonthlySalesAmount,
+    getMonthlyPoorQty,
   }
-    from '@/api/statistics/sdsalesstati.js'
+    from '@/api/statistics/assypoor.js'
+  import {
+    getCurrentMonthSalesQty,
+    getCurrentMonthSalesAmount,
+  }
+    from '@/api/statistics/sales.js'
   import {
     getMonthlyInventoryAmount,
   }
-    from '@/api/statistics/ficoinventorystati.js'
+    from '@/api/statistics/inventory.js'
   import {
     getMonthlyProdCost,
   }
-    from '@/api/statistics/ficocomparisonstati.js'
+    from '@/api/statistics/comparison.js'
   import { useTransition } from '@vueuse/core'
   const emit = defineEmits()
   const { proxy } = getCurrentInstance()
@@ -182,7 +186,7 @@
   })
   function getTotalMonthlySalesQty() {
     return new Promise((resolve, reject) => {
-      getMonthlySalesQty()
+      getCurrentMonthSalesQty()
         .then((res) => {
           //
           const { code, data } = res
@@ -204,7 +208,7 @@
   })
   function getTotalMonthlySalesAmount() {
     return new Promise((resolve, reject) => {
-      getMonthlySalesAmount()
+      getCurrentMonthSalesAmount()
         .then((res) => {
           //
           const { code, data } = res
@@ -325,15 +329,15 @@
         }
 
         .icon-shipment {
-          background: #339933;
+          background: #626aef;
         }
 
         .icon-money {
-          background: #f4516c;
+          background: rgb(121.3, 187.1, 255);
         }
 
         .icon-cubes {
-          background: #003366;
+          background: rgb(129, 6, 245);
         }
       }
 

@@ -7,7 +7,7 @@ namespace Ams.Service.Logistics.ILogisticsService
     /// 销售价格
     /// 业务层接口
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 15:46:00
+    /// @Date: 2024/11/8 11:47:38
     /// </summary>
     public interface ISdSellingPriceService : IBaseService<SdSellingPrice>
     {

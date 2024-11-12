@@ -11,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 销售凭证
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 15:47:09
+    /// @Date: 2024/11/7 16:16:45
     /// </summary>
     [AppService(ServiceType = typeof(ISdSellingInvoiceService), ServiceLifetime = LifeTime.Transient)]
     public class SdSellingInvoiceService : BaseService<SdSellingInvoice>, ISdSellingInvoiceService
@@ -91,17 +91,33 @@ namespace Ams.Service.Logistics
         /// <returns></returns>
         public (string, object, object) ImportSdSellingInvoice(List<SdSellingInvoice> list)
         {
+            list.ForEach(it =>
+            {
+                it.Create_by = HttpContextExtension.GetName(App.HttpContext);
+                it.Remark = it.Remark.IsEmpty() ? "数据由<"+HttpContextExtension.GetName(App.HttpContext)+">用户,批量导入" : it.Remark;
+            });
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
                 .SplitError(x => x.Item.Mc002.IsEmpty(), "工厂不能为空")
                 .SplitError(x => x.Item.Mc003.IsEmpty(), "期间不能为空")
                 .SplitError(x => x.Item.Mc004.IsEmpty(), "年月不能为空")
+                .SplitError(x => x.Item.Mc005.IsEmpty(), "销售凭证不能为空")
+                .SplitError(x => x.Item.Mc006.IsEmpty(), "凭证明细不能为空")
                 .SplitError(x => x.Item.Mc007.IsEmpty(), "客户不能为空")
-                .SplitError(x => x.Item.Mc008.IsEmpty(), "利润中心不能为空")
-                .SplitError(x => x.Item.Mc009.IsEmpty(), "物料不能为空")
-                .SplitError(x => x.Item.Mc011.IsEmpty(), "销售数量不能为空")
-                .SplitError(x => x.Item.Mc013.IsEmpty(), "原币销售额不能为空")
-                .SplitError(x => x.Item.Mc015.IsEmpty(), "本币销售额不能为空")
+                .SplitError(x => x.Item.Mc008.IsEmpty(), "机种名称不能为空")
+                .SplitError(x => x.Item.Mc009.IsEmpty(), "利润中心不能为空")
+                .SplitError(x => x.Item.Mc010.IsEmpty(), "销售物料不能为空")
+                .SplitError(x => x.Item.Mc011.IsEmpty(), "科目代码不能为空")
+                .SplitError(x => x.Item.Mc012.IsEmpty(), "销售数量不能为空")
+                .SplitError(x => x.Item.Mc013.IsEmpty(), "销售单位不能为空")
+                .SplitError(x => x.Item.Mc014.IsEmpty(), "原币销售额不能为空")
+                .SplitError(x => x.Item.Mc015.IsEmpty(), "原币币种不能为空")
+                .SplitError(x => x.Item.Mc016.IsEmpty(), "本币销售额不能为空")
+                .SplitError(x => x.Item.Mc017.IsEmpty(), "本币币种不能为空")
+                .SplitError(x => x.Item.Mc018.IsEmpty(), "参考凭证不能为空")
+                .SplitError(x => x.Item.Mc019.IsEmpty(), "参考明细不能为空")
+                .SplitError(x => x.Item.Mc020.IsEmpty(), "过账日期不能为空")
+                .SplitError(x => x.Item.Mc026.IsEmpty(), "物料类型不能为空")
                 //.WhereColumns(it => it.UserName)//如果不是主键可以这样实现（多字段it=>new{it.x1,it.x2}）
                 .ToStorage();
             var result = x.AsInsertable.ExecuteCommand();//插入可插入部分;
@@ -141,6 +157,12 @@ namespace Ams.Service.Logistics
                     Mc003Label = it.Mc003.GetConfigValue<SysDictData>("sql_attr_list"),
                     //查询字典: <年月> 
                     Mc004Label = it.Mc004.GetConfigValue<SysDictData>("sql_ymdt_list"),
+                    //查询字典: <客户> 
+                    Mc007Label = it.Mc007.GetConfigValue<SysDictData>("sql_cus_list"),
+                    //查询字典: <利润中心> 
+                    Mc009Label = it.Mc009.GetConfigValue<SysDictData>("sql_prctr_list"),
+                    //查询字典: <物料类型> 
+                    Mc026Label = it.Mc026.GetConfigValue<SysDictData>("sys_matl_category"),
                 }, true)
                 .ToPage(parm);
 
@@ -163,11 +185,15 @@ namespace Ams.Service.Logistics
             //查询字段: <年月> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc004), it => it.Mc004 == parm.Mc004);
             //查询字段: <客户> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc007), it => it.Mc007.Contains(parm.Mc007));
-            //查询字段: <利润中心> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc007), it => it.Mc007 == parm.Mc007);
+            //查询字段: <机种名称> 
             predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc008), it => it.Mc008.Contains(parm.Mc008));
-            //查询字段: <物料> 
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc009), it => it.Mc009.Contains(parm.Mc009));
+            //查询字段: <利润中心> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc009), it => it.Mc009 == parm.Mc009);
+            //查询字段: <销售物料> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc010), it => it.Mc010.Contains(parm.Mc010));
+            //查询字段: <物料类型> 
+            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mc026), it => it.Mc026 == parm.Mc026);
             return predicate;
         }
     }

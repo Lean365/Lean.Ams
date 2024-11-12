@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 客户
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 15:53:14
+    /// @Date: 2024/11/7 16:02:07
     /// </summary>
     [Verify]
     [Route("Logistics/SdClient")]
@@ -49,7 +49,7 @@ namespace Ams.WebApi.Controllers.Logistics
         /// <returns></returns>
         [HttpGet("{Id}")]
         [ActionPermissionFilter(Permission = "sd:client:query")]
-        public IActionResult GetSdClient(int Id)
+        public IActionResult GetSdClient(long Id)
         {
             var response = _SdClientService.GetInfo(Id);
             
@@ -103,7 +103,7 @@ namespace Ams.WebApi.Controllers.Logistics
         [Log(Title = "客户", BusinessType = BusinessType.DELETE)]
         public IActionResult DeleteSdClient([FromRoute]string ids)
         {
-            var idArr = Tools.SplitAndConvert<int>(ids);
+            var idArr = Tools.SplitAndConvert<long>(ids);
 
             return ToResponse(_SdClientService.Delete(idArr, "删除客户"));
         }

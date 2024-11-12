@@ -12,48 +12,54 @@ namespace Ams.Statistics.Logistics.IService
         /// 本月销售台数
         /// </summary>
         /// <returns></returns>
-        decimal GetMonthlySalesQty(SdSellingInvoiceQueryDto parm);
+        decimal GetCurrentMonthSalesQty(SdSellingInvoiceQueryDto parm);
 
         /// <summary>
         /// 本月销售金额
         /// </summary>
         /// <returns></returns>
-        decimal GetMonthlySalesAmount(SdSellingInvoiceQueryDto parm);
+        decimal GetCurrentMonthSalesAmount(SdSellingInvoiceQueryDto parm);
 
         /// <summary>
         /// 按月统计销售
         /// </summary>
         /// <returns></returns>
-        List<Dictionary<string, object>> GetListMonthSales(SdSellingInvoiceQueryDto parm);
+        List<Dictionary<string, object>> GetMonthlySales(SdSellingInvoiceQueryDto parm);
 
         /// <summary>
         /// 按月,国家统计销售
         /// </summary>
         /// <returns></returns>
-        List<Dictionary<string, object>> GetListMonthAreaSales(SdSellingInvoiceQueryDto parm);
+        List<Dictionary<string, object>> GetMonthlyAreaSales(SdSellingInvoiceQueryDto parm);
 
         /// <summary>
         /// 按月,仕向统计销售
         /// </summary>
         /// <returns></returns>
-        List<Dictionary<string, object>> GetListMonthRegionSales(SdSellingInvoiceQueryDto parm);
+        List<Dictionary<string, object>> GetMonthlyRegionSales(SdSellingInvoiceQueryDto parm);
 
         /// <summary>
         /// 按年统计销售
         /// </summary>
         /// <returns></returns>
-        List<Dictionary<string, object>> GetListYearSales(SdSellingInvoiceQueryDto parm);
+        List<Dictionary<string, object>> GetYearSales(SdSellingInvoiceQueryDto parm);
 
         /// <summary>
         /// 按年,国家统计销售
         /// </summary>
         /// <returns></returns>
-        List<Dictionary<string, object>> GetListYearAreaSales(SdSellingInvoiceQueryDto parm);
+        List<Dictionary<string, object>> GetYearAreaSales(SdSellingInvoiceQueryDto parm);
 
         /// <summary>
         /// 按年,仕向统计销售
         /// </summary>
         /// <returns></returns>
-        List<Dictionary<string, object>> GetListYearRegionSales(SdSellingInvoiceQueryDto parm);
+        List<Dictionary<string, object>> GetYearRegionSales(SdSellingInvoiceQueryDto parm);
+
+        /// <summary>
+        /// 按月统计销售--柱状图
+        /// </summary>
+        /// <returns></returns>
+        List<Dictionary<string, object>> GetListMonthlySalesBar(SdSellingInvoiceQueryDto parm);
     }
 }

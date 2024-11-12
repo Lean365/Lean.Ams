@@ -5,7 +5,7 @@ namespace Ams.Model.Routine.Dto
     /// 人事
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/18 8:40:20
+    /// @Date: 2024/10/31 17:15:08
     /// </summary>
     public class RoutineEhrEmployeeQueryDto : PagerInfo 
     {
@@ -13,6 +13,10 @@ namespace Ams.Model.Routine.Dto
         /// 姓名 
         /// </summary>        
         public string Mh002 { get; set; }
+        /// <summary>
+        /// 英文名 
+        /// </summary>        
+        public string Mh005 { get; set; }
         /// <summary>
         /// 性别 
         /// </summary>        
@@ -31,25 +35,29 @@ namespace Ams.Model.Routine.Dto
         /// </summary>        
         public int? Mh010 { get; set; }
         /// <summary>
-        /// 政治面貌 
-        /// </summary>        
-        public int? Mh012 { get; set; }
-        /// <summary>
         /// 国家/地区 
         /// </summary>        
         public string Mh015 { get; set; }
+        /// <summary>
+        /// 省区 
+        /// </summary>        
+        public string Mh016 { get; set; }
         /// <summary>
         /// 部门 
         /// </summary>        
         public int? Mh023 { get; set; }
         /// <summary>
-        /// 职称 
-        /// </summary>        
-        public int? Mh024 { get; set; }
-        /// <summary>
         /// 职位 
         /// </summary>        
-        public int? Mh025 { get; set; }
+        public string Mh025 { get; set; }
+        /// <summary>
+        /// 招聘来源 
+        /// </summary>        
+        public int? Mh028 { get; set; }
+        /// <summary>
+        /// 聘用形式 
+        /// </summary>        
+        public int? Mh029 { get; set; }
         /// <summary>
         /// 学历 
         /// </summary>        
@@ -68,25 +76,16 @@ namespace Ams.Model.Routine.Dto
         /// </summary>        
         public int? Mh035 { get; set; }
         /// <summary>
-        /// 离职日期 
-        /// </summary>        
-        public DateTime? BeginMh039 { get; set; }
-        public DateTime? EndMh039 { get; set; }
-        /// <summary>
         /// 打卡否 
         /// </summary>        
         public int? Mh044 { get; set; }
-        /// <summary>
-        /// 班别 
-        /// </summary>        
-        public int? Mh045 { get; set; }
     }
 
     /// <summary>
     /// 人事
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/18 8:40:20
+    /// @Date: 2024/10/31 17:15:08
     /// </summary>
     public class RoutineEhrEmployeeDto
     {
@@ -223,7 +222,7 @@ namespace Ams.Model.Routine.Dto
         //[ExcelColumn(Name = "职位")]
         [ExcelColumnName("职位")]
 
-        public int Mh025 { get; set; }
+        public string Mh025 { get; set; }
 
         [Required(ErrorMessage = "职级不能为空")]
         //[ExcelColumn(Name = "职级")]
@@ -235,7 +234,7 @@ namespace Ams.Model.Routine.Dto
         //[ExcelColumn(Name = "职务")]
         [ExcelColumnName("职务")]
 
-        public int Mh027 { get; set; }
+        public string Mh027 { get; set; }
 
         [Required(ErrorMessage = "招聘来源不能为空")]
         //[ExcelColumn(Name = "招聘来源")]
@@ -358,6 +357,21 @@ namespace Ams.Model.Routine.Dto
 
         public int? Mh049 { get; set; }
 
+        //[ExcelColumn(Name = "年龄")]
+        [ExcelColumnName("年龄")]
+
+        public int? Mh050 { get; set; }
+
+        //[ExcelColumn(Name = "有效日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("有效日")]
+
+        public DateTime? Mh051 { get; set; }
+
+        //[ExcelColumn(Name = "过期日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("过期日")]
+
+        public DateTime? Mh052 { get; set; }
+
         [ExcelIgnore]
 
         public string Remark { get; set; }
@@ -468,8 +482,6 @@ namespace Ams.Model.Routine.Dto
         public string Mh015Label { get; set; }
         [ExcelColumn(Name = "省区")]
         public string Mh016Label { get; set; }
-        [ExcelColumn(Name = "市区")]
-        public string Mh017Label { get; set; }
         [ExcelColumn(Name = "户口性质")]
         public string Mh021Label { get; set; }
         [ExcelColumn(Name = "部门")]
@@ -490,6 +502,10 @@ namespace Ams.Model.Routine.Dto
         public string Mh031Label { get; set; }
         [ExcelColumn(Name = "在职状态")]
         public string Mh035Label { get; set; }
+        [ExcelColumn(Name = "试用期")]
+        public string Mh036Label { get; set; }
+        [ExcelColumn(Name = "合同期限")]
+        public string Mh037Label { get; set; }
         [ExcelColumn(Name = "打卡否")]
         public string Mh044Label { get; set; }
         [ExcelColumn(Name = "班别")]
@@ -500,7 +516,7 @@ namespace Ams.Model.Routine.Dto
     /// 人事
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/18 8:40:20
+    /// @Date: 2024/10/31 17:15:08
     /// </summary>
     public class RoutineEhrEmployeeImportTpl
     {
@@ -612,7 +628,7 @@ namespace Ams.Model.Routine.Dto
         [Required(ErrorMessage = "职位不能为空")]
         //[ExcelColumn(Name = "职位")]
         [ExcelColumnName("职位")]
-        public int Mh025 { get; set; }
+        public string Mh025 { get; set; }
 
         [Required(ErrorMessage = "职级不能为空")]
         //[ExcelColumn(Name = "职级")]
@@ -622,7 +638,7 @@ namespace Ams.Model.Routine.Dto
         [Required(ErrorMessage = "职务不能为空")]
         //[ExcelColumn(Name = "职务")]
         [ExcelColumnName("职务")]
-        public int Mh027 { get; set; }
+        public string Mh027 { get; set; }
 
         [Required(ErrorMessage = "招聘来源不能为空")]
         //[ExcelColumn(Name = "招聘来源")]
@@ -723,6 +739,18 @@ namespace Ams.Model.Routine.Dto
         [ExcelColumnName("系统访问")]
         public int? Mh049 { get; set; }
 
+        //[ExcelColumn(Name = "年龄")]
+        [ExcelColumnName("年龄")]
+        public int? Mh050 { get; set; }
+
+        //[ExcelColumn(Name = "有效日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("有效日")]
+        public DateTime? Mh051 { get; set; }
+
+        //[ExcelColumn(Name = "过期日", Format = "yyyy-MM-dd HH:mm:ss", Width = 20)]
+        [ExcelColumnName("过期日")]
+        public DateTime? Mh052 { get; set; }
+
         [ExcelIgnore]
         public string Remark { get; set; }
 
@@ -816,9 +844,6 @@ namespace Ams.Model.Routine.Dto
         [ExcelColumn(Name = "省区")]
         public string Mh016Label { get; set; }
         [ExcelIgnore]
-        [ExcelColumn(Name = "市区")]
-        public string Mh017Label { get; set; }
-        [ExcelIgnore]
         [ExcelColumn(Name = "户口性质")]
         public string Mh021Label { get; set; }
         [ExcelIgnore]
@@ -848,6 +873,12 @@ namespace Ams.Model.Routine.Dto
         [ExcelIgnore]
         [ExcelColumn(Name = "在职状态")]
         public string Mh035Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "试用期")]
+        public string Mh036Label { get; set; }
+        [ExcelIgnore]
+        [ExcelColumn(Name = "合同期限")]
+        public string Mh037Label { get; set; }
         [ExcelIgnore]
         [ExcelColumn(Name = "打卡否")]
         public string Mh044Label { get; set; }

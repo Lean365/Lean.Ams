@@ -1,387 +1,422 @@
 <!--
  * @Descripttion: 人事/routine_ehr_employee
- * @Version: 0.24.657.14913
+ * @Version: 0.24.670.30433
  * @Author: Lean365(Davis.Ching)
- * @Date: 2024/10/18 8:40:20
- * @column：73
+ * @Date: 2024/10/31 17:15:08
+ * @column：76
  * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
 -->
 <template>
-  <div>
-    <!-- 查询区域 -->
-    <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent
-      label-width="auto">
-      <el-row :gutter="10" class="mb8">
-        <el-col :lg="24">
-          <el-form-item label="姓名" prop="mh002">
-            <el-input v-model="queryParams.mh002"
-              :placeholder="$t('btn.enterSearchPrefix')+'姓名'+$t('btn.enterSearchSuffix')" />
-          </el-form-item>
-          <el-form-item label="性别" prop="mh006">
-            <el-select filterable clearable v-model="queryParams.mh006"
-              :placeholder="$t('btn.selectSearchPrefix')+'性别'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sys_gender_type " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="出生日期">
-            <el-date-picker v-model="dateRangeMh007" type="datetimerange" :start-placeholder="$t('btn.dateStart')"
-              :end-placeholder="$t('btn.dateEnd')" value-format="YYYY-MM-DD HH:mm:ss" :default-time="defaultTime"
-              :shortcuts="dateOptions">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="婚姻状态" prop="mh009">
-            <el-select filterable clearable v-model="queryParams.mh009"
-              :placeholder="$t('btn.selectSearchPrefix')+'婚姻状态'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sys_wedlock_state " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="民族" prop="mh010">
-            <el-select filterable clearable v-model="queryParams.mh010"
-              :placeholder="$t('btn.selectSearchPrefix')+'民族'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sys_nation_list " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="政治面貌" prop="mh012">
-            <el-select filterable clearable v-model="queryParams.mh012"
-              :placeholder="$t('btn.selectSearchPrefix')+'政治面貌'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sys_politic_list " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="国家/地区" prop="mh015">
-            <el-select filterable clearable v-model="queryParams.mh015"
-              :placeholder="$t('btn.selectSearchPrefix')+'国家/地区'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sql_global_country " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="部门" prop="mh023">
-            <el-select filterable clearable v-model="queryParams.mh023"
+  <div class="app-container">
+    <el-row :gutter="20">
+      <!--部门数据-->
+      <el-col :span="4" :xs="24">
+        <div class="scroll-container">
+          <div class="head-container">
+            <el-input v-model="deptName"
+              :placeholder="$t('btn.enterSearchPrefix')+$t('pdept.deptName')+$t('btn.enterSearchSuffix')" clearable
+              prefix-icon="search" style="margin-bottom: 20px" />
+          </div>
+          <div class="head-container">
+            <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false"
+              :filter-node-method="filterNode" ref="deptTreeRef" node-key="id" highlight-current
+              @node-click="handleNodeClick">
+              <template #default="{ node, data }">
+                <span class="custom-tree-node">
+                  <span>
+                    <svg-icon name="m-house" v-if="data.children && data.children.length > 0"></svg-icon>
+                    {{ node.label }}
+                  </span>
+                </span>
+              </template>
+            </el-tree>
+          </div>
+        </div>
+      </el-col>
+      <!--用户数据-->
+      <el-col :lg="20" :xm="24">
+        <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent
+          label-width="auto">
+          <el-row :gutter="10" class="mb8">
+            <el-col :lg="24">
+              <el-form-item label="姓名" prop="mh002">
+                <el-input v-model="queryParams.mh002"
+                  :placeholder="$t('btn.enterSearchPrefix')+'姓名'+$t('btn.enterSearchSuffix')" />
+              </el-form-item>
+              <el-form-item label="英文名" prop="mh005">
+                <el-input v-model="queryParams.mh005"
+                  :placeholder="$t('btn.enterSearchPrefix')+'英文名'+$t('btn.enterSearchSuffix')" />
+              </el-form-item>
+              <el-form-item label="性别" prop="mh006">
+                <el-select filterable clearable v-model="queryParams.mh006"
+                  :placeholder="$t('btn.selectSearchPrefix')+'性别'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sys_gender_type " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="出生日期">
+                <el-date-picker v-model="dateRangeMh007" type="datetimerange" :start-placeholder="$t('btn.dateStart')"
+                  :end-placeholder="$t('btn.dateEnd')" value-format="YYYY-MM-DD HH:mm:ss" :default-time="defaultTime"
+                  :shortcuts="dateOptions">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="婚姻状态" prop="mh009">
+                <el-select filterable clearable v-model="queryParams.mh009"
+                  :placeholder="$t('btn.selectSearchPrefix')+'婚姻状态'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sys_wedlock_state " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="民族" prop="mh010">
+                <el-select filterable clearable v-model="queryParams.mh010"
+                  :placeholder="$t('btn.selectSearchPrefix')+'民族'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sys_nation_list " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="国家/地区" prop="mh015">
+                <el-select filterable clearable v-model="queryParams.mh015"
+                  :placeholder="$t('btn.selectSearchPrefix')+'国家/地区'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sql_global_country " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="省区" prop="mh016">
+                <el-select-v2 filterable clearable v-model="queryParams.mh016"
+                  :options="options.sql_global_state.map(item =>({label: item.dictLabel, value: item.dictValue}))"
+                  :placeholder="$t('btn.selectSearchPrefix')+'省区'+$t('btn.selectSearchSuffix')">
+                </el-select-v2>
+              </el-form-item>
+              <el-form-item label="部门" prop="mh023">
+                <el-tree-select v-model="form.mh023" :data="deptOptions" :disabled="true"
+                  :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id"
+                  :placeholder="$t('btn.selectPrefix')+$t('user.department')+$t('btn.selectSuffix')" check-strictly
+                  :render-after-expand="false" />
+                <!-- <el-select filterable clearable v-model="queryParams.mh023"
               :placeholder="$t('btn.selectSearchPrefix')+'部门'+$t('btn.selectSearchSuffix')">
               <el-option v-for="item in   options.sql_dept_list " :key="item.dictValue" :label="item.dictLabel"
                 :value="item.dictValue">
                 <span class="fl">{{ item.dictLabel }}</span>
                 <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
               </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="职称" prop="mh024">
-            <el-select filterable clearable v-model="queryParams.mh024"
-              :placeholder="$t('btn.selectSearchPrefix')+'职称'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sys_titles_list " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="职位" prop="mh025">
-            <el-select filterable clearable v-model="queryParams.mh025"
-              :placeholder="$t('btn.selectSearchPrefix')+'职位'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sql_posts_list " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="学历" prop="mh030">
-            <el-select filterable clearable v-model="queryParams.mh030"
-              :placeholder="$t('btn.selectSearchPrefix')+'学历'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sys_level_education " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="工号" prop="mh033">
-            <el-input v-model="queryParams.mh033"
-              :placeholder="$t('btn.enterSearchPrefix')+'工号'+$t('btn.enterSearchSuffix')" />
-          </el-form-item>
-          <el-form-item label="入职日期">
-            <el-date-picker v-model="dateRangeMh034" type="datetimerange" :start-placeholder="$t('btn.dateStart')"
-              :end-placeholder="$t('btn.dateEnd')" value-format="YYYY-MM-DD HH:mm:ss" :default-time="defaultTime"
-              :shortcuts="dateOptions">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="在职状态" prop="mh035">
-            <el-select filterable clearable v-model="queryParams.mh035"
-              :placeholder="$t('btn.selectSearchPrefix')+'在职状态'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sys_serve_state " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="离职日期">
-            <el-date-picker v-model="dateRangeMh039" type="datetimerange" :start-placeholder="$t('btn.dateStart')"
-              :end-placeholder="$t('btn.dateEnd')" value-format="YYYY-MM-DD HH:mm:ss" :default-time="defaultTime"
-              :shortcuts="dateOptions">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="打卡否" prop="mh044">
-            <el-radio-group v-model="queryParams.mh044">
-              <el-radio :value="-1">{{$t('common.all')}}</el-radio>
-              <el-radio v-for="item in  options.sys_is_status " :key="item.dictValue"
-                :value="item.dictValue">{{item.dictLabel}}</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="班别" prop="mh045">
-            <el-select filterable clearable v-model="queryParams.mh045"
-              :placeholder="$t('btn.selectSearchPrefix')+'班别'+$t('btn.selectSearchSuffix')">
-              <el-option v-for="item in   options.sys_shifts_list " :key="item.dictValue" :label="item.dictLabel"
-                :value="item.dictValue">
-                <span class="fl">{{ item.dictLabel }}</span>
-                <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :lg="24" :offset="12">
-          <el-form-item>
-            <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
-            <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <!-- 工具区域 -->
-    <el-row :gutter="15" class="mb10">
-      <el-col :span="1.5">
-        <el-button class="btn-add" v-hasPermi="['routine:ehremployee:add']" plain icon="plus" @click="handleAdd">
-          {{ $t('btn.add') }}
-        </el-button>
+            </el-select> -->
+              </el-form-item>
+              <el-form-item label="职位" prop="mh025">
+                <el-select filterable clearable v-model="queryParams.mh025"
+                  :placeholder="$t('btn.selectSearchPrefix')+'职位'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sql_posts_list " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="招聘来源" prop="mh028">
+                <el-select filterable clearable v-model="queryParams.mh028"
+                  :placeholder="$t('btn.selectSearchPrefix')+'招聘来源'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sys_recruited_list " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="聘用形式" prop="mh029">
+                <el-select filterable clearable v-model="queryParams.mh029"
+                  :placeholder="$t('btn.selectSearchPrefix')+'聘用形式'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sys_employ_term " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="学历" prop="mh030">
+                <el-select filterable clearable v-model="queryParams.mh030"
+                  :placeholder="$t('btn.selectSearchPrefix')+'学历'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sys_level_education " :key="item.dictValue"
+                    :label="item.dictLabel" :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="工号" prop="mh033">
+                <el-input v-model="queryParams.mh033"
+                  :placeholder="$t('btn.enterSearchPrefix')+'工号'+$t('btn.enterSearchSuffix')" />
+              </el-form-item>
+              <el-form-item label="入职日期">
+                <el-date-picker v-model="dateRangeMh034" type="datetimerange" :start-placeholder="$t('btn.dateStart')"
+                  :end-placeholder="$t('btn.dateEnd')" value-format="YYYY-MM-DD HH:mm:ss" :default-time="defaultTime"
+                  :shortcuts="dateOptions">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="在职状态" prop="mh035">
+                <el-select filterable clearable v-model="queryParams.mh035"
+                  :placeholder="$t('btn.selectSearchPrefix')+'在职状态'+$t('btn.selectSearchSuffix')">
+                  <el-option v-for="item in   options.sys_serve_state " :key="item.dictValue" :label="item.dictLabel"
+                    :value="item.dictValue">
+                    <span class="fl">{{ item.dictLabel }}</span>
+                    <span class="fr" style="color: var(--el-text-color-secondary);">{{ item.dictValue }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="打卡否" prop="mh044">
+                <el-radio-group v-model="queryParams.mh044">
+                  <el-radio :value="-1">{{$t('common.all')}}</el-radio>
+                  <el-radio v-for="item in  options.sys_is_status " :key="item.dictValue"
+                    :value="item.dictValue">{{item.dictLabel}}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col :lg="24" :offset="12">
+              <el-form-item>
+                <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+                <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <!-- 工具区域 -->
+        <el-row :gutter="15" class="mb10">
+          <el-col :span="1.5">
+            <el-button class="btn-add" v-hasPermi="['routine:ehremployee:add']" plain icon="plus" @click="handleAdd">
+              {{ $t('btn.add') }}
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button class="btn-edit" :disabled="single" v-hasPermi="['routine:ehremployee:edit']" plain icon="edit"
+              @click="handleUpdate">
+              {{ $t('btn.edit') }}
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button class="btn-deletebatch" :disabled="multiple" v-hasPermi="['routine:ehremployee:delete']" plain
+              icon="delete" @click="handleDelete">
+              {{ $t('btn.delete') }}
+            </el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-dropdown trigger="click" v-hasPermi="['routine:ehremployee:import']" popper-class="custom-popper">
+              <el-button class="btn-import" plain icon="Upload">
+                {{ $t('btn.import') }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item command="upload">
+                    <importData templateUrl="Routine/RoutineEhrEmployee/importTemplate"
+                      importUrl="/Routine/RoutineEhrEmployee/importData" @success="handleFileSuccess"></importData>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button class="btn-export" plain icon="download" @click="handleExport"
+              v-hasPermi="['routine:ehremployee:export']">
+              {{ $t('btn.export') }}
+            </el-button>
+          </el-col>
+          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
+        </el-row>
+
+        <!-- 数据区域 -->
+        <el-table border height="600px" :data="dataList" v-loading="loading" ref="table"
+          header-cell-class-name="el-table-header-cell" highlight-current-row @sort-change="sortChange"
+          @selection-change="handleSelectionChange">
+          <el-table-column type="selection" width="50" align="center" />
+          <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')" />
+          <el-table-column prop="mh002" label="姓名" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh002')" />
+          <el-table-column prop="mh003" label="曾用名" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh003')" />
+          <el-table-column prop="mh004" label="昵称" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh004')" />
+          <el-table-column prop="mh005" label="英文名" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh005')" />
+          <el-table-column prop="mh006" label="性别" align="center" v-if="columns.showColumn('mh006')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_gender_type " :value="scope.row.mh006" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh007" label="出生日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mh007')" />
+          <el-table-column prop="mh008" label="身份证号" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh008')" />
+          <el-table-column prop="mh009" label="婚姻状态" align="center" v-if="columns.showColumn('mh009')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_wedlock_state " :value="scope.row.mh009" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh010" label="民族" align="center" v-if="columns.showColumn('mh010')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_nation_list " :value="scope.row.mh010" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh011" label="籍贯" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh011')" />
+          <el-table-column prop="mh012" label="政治面貌" align="center" v-if="columns.showColumn('mh012')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_politic_list " :value="scope.row.mh012" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh013" label="邮件" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh013')" />
+          <el-table-column prop="mh014" label="电话" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh014')" />
+          <el-table-column prop="mh015" label="国家/地区" align="center" v-if="columns.showColumn('mh015')">
+            <template #default="scope">
+              <dict-tag :options=" options.sql_global_country " :value="scope.row.mh015" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh016" label="省区" align="center" v-if="columns.showColumn('mh016')">
+            <template #default="scope">
+              <dict-tag :options=" options.sql_global_state " :value="scope.row.mh016" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh017" label="市区" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh017')" />
+          <el-table-column prop="mh018" label="县区" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh018')" />
+          <el-table-column prop="mh019" label="家庭住址" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh019')" />
+          <el-table-column prop="mh020" label="邮编" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh020')" />
+          <el-table-column prop="mh021" label="户口性质" align="center" v-if="columns.showColumn('mh021')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_household_type " :value="scope.row.mh021" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh022" label="暂住地址" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh022')" />
+          <el-table-column prop="mh023" label="部门" align="center" v-if="columns.showColumn('mh023')">
+            <template #default="scope">
+              <dict-tag :options=" options.sql_dept_list " :value="scope.row.mh023" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh024" label="职称" align="center" v-if="columns.showColumn('mh024')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_titles_list " :value="scope.row.mh024" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh025" label="职位" align="center" v-if="columns.showColumn('mh025')">
+            <template #default="scope">
+              <dict-tag :options=" options.sql_posts_list " :value="scope.row.mh025" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh026" label="职级" align="center" v-if="columns.showColumn('mh026')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_post_level " :value="scope.row.mh026" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh027" label="职务" align="center" v-if="columns.showColumn('mh027')">
+            <template #default="scope">
+              <dict-tag :options=" options.sql_posts_list " :value="scope.row.mh027" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh028" label="招聘来源" align="center" v-if="columns.showColumn('mh028')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_recruited_list " :value="scope.row.mh028" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh029" label="聘用形式" align="center" v-if="columns.showColumn('mh029')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_employ_term " :value="scope.row.mh029" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh030" label="学历" align="center" v-if="columns.showColumn('mh030')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_level_education " :value="scope.row.mh030" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh031" label="专业" align="center" v-if="columns.showColumn('mh031')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_specialty_list " :value="scope.row.mh031" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh032" label="院校" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh032')" />
+          <el-table-column prop="mh033" label="工号" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh033')" />
+          <el-table-column prop="mh034" label="入职日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mh034')" />
+          <el-table-column prop="mh035" label="在职状态" align="center" v-if="columns.showColumn('mh035')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_serve_state " :value="scope.row.mh035" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh036" label="试用期" align="center" v-if="columns.showColumn('mh036')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_trialterm_list " :value="scope.row.mh036" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh037" label="合同期限" align="center" v-if="columns.showColumn('mh037')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_contractterm_list " :value="scope.row.mh037" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh038" label="转正日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mh038')" />
+          <el-table-column prop="mh039" label="离职日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mh039')" />
+          <el-table-column prop="mh040" label="合同起始日" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh040')" />
+          <el-table-column prop="mh041" label="合同终止日" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh041')" />
+          <el-table-column prop="mh042" label="工龄" align="center" v-if="columns.showColumn('mh042')" />
+          <el-table-column prop="mh043" label="退休日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mh043')" />
+          <el-table-column prop="mh044" label="打卡否" align="center" v-if="columns.showColumn('mh044')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_is_status " :value="scope.row.mh044" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh045" label="班别" align="center" v-if="columns.showColumn('mh045')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_shifts_list " :value="scope.row.mh045" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh046" label="头像" align="center" v-if="columns.showColumn('mh046')">
+            <template #default="scope">
+              <ImagePreview :src="scope.row.mh046"></ImagePreview>
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh047" label="学历附件" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh047')" />
+          <el-table-column prop="mh048" label="职称附件" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('mh048')" />
+          <el-table-column prop="mh049" label="系统访问" align="center" v-if="columns.showColumn('mh049')">
+            <template #default="scope">
+              <dict-tag :options=" options.sys_is_status " :value="scope.row.mh049" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="mh050" label="年龄" align="center" v-if="columns.showColumn('mh050')" />
+          <el-table-column prop="mh051" label="有效日" :show-overflow-tooltip="true" v-if="columns.showColumn('mh051')" />
+          <el-table-column prop="mh052" label="过期日" :show-overflow-tooltip="true" v-if="columns.showColumn('mh052')" />
+          <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true"
+            v-if="columns.showColumn('remark')" />
+          <el-table-column :label="$t('btn.operation')" width="160" align="center">
+            <template #default="scope">
+              <el-button-group>
+                <el-button class="btn-edit" plain size="small" icon="edit" :title="$t('btn.edit')"
+                  v-hasPermi="['routine:ehremployee:edit']" @click="handleUpdate(scope.row)"></el-button>
+                <el-button class="btn-delete" plain size="small" icon="delete" :title="$t('btn.delete')"
+                  v-hasPermi="['routine:ehremployee:delete']" @click="handleDelete(scope.row)"></el-button>
+              </el-button-group>
+            </template>
+          </el-table-column>
+        </el-table>
+        <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
+          @pagination="getList" />
       </el-col>
-      <el-col :span="1.5">
-        <el-button class="btn-edit" :disabled="single" v-hasPermi="['routine:ehremployee:edit']" plain icon="edit"
-          @click="handleUpdate">
-          {{ $t('btn.edit') }}
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button class="btn-deletebatch" :disabled="multiple" v-hasPermi="['routine:ehremployee:delete']" plain
-          icon="delete" @click="handleDelete">
-          {{ $t('btn.delete') }}
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-dropdown trigger="click" v-hasPermi="['routine:ehremployee:import']">
-          <el-button class="btn-import" plain icon="Upload">
-            {{ $t('btn.import') }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="upload">
-                <importData templateUrl="Routine/RoutineEhrEmployee/importTemplate"
-                  importUrl="/Routine/RoutineEhrEmployee/importData" @success="handleFileSuccess"></importData>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button class="btn-export" plain icon="download" @click="handleExport"
-          v-hasPermi="['routine:ehremployee:export']">
-          {{ $t('btn.export') }}
-        </el-button>
-      </el-col>
-      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
-
-    <!-- 数据区域 -->
-    <el-table border height="600px" :data="dataList" v-loading="loading" ref="table"
-      header-cell-class-name="el-table-header-cell" highlight-current-row @sort-change="sortChange"
-      @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="50" align="center" />
-      <el-table-column prop="id" label="ID" align="center" v-if="columns.showColumn('id')" />
-      <el-table-column prop="mh002" label="姓名" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh002')" />
-      <el-table-column prop="mh003" label="曾用名" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh003')" />
-      <el-table-column prop="mh004" label="昵称" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh004')" />
-      <el-table-column prop="mh005" label="英文名" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh005')" />
-      <el-table-column prop="mh006" label="性别" align="center" v-if="columns.showColumn('mh006')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_gender_type " :value="scope.row.mh006" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh007" label="出生日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mh007')" />
-      <el-table-column prop="mh008" label="身份证号" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh008')" />
-      <el-table-column prop="mh009" label="婚姻状态" align="center" v-if="columns.showColumn('mh009')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_wedlock_state " :value="scope.row.mh009" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh010" label="民族" align="center" v-if="columns.showColumn('mh010')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_nation_list " :value="scope.row.mh010" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh011" label="籍贯" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh011')" />
-      <el-table-column prop="mh012" label="政治面貌" align="center" v-if="columns.showColumn('mh012')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_politic_list " :value="scope.row.mh012" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh013" label="邮件" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh013')" />
-      <el-table-column prop="mh014" label="电话" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh014')" />
-      <el-table-column prop="mh015" label="国家/地区" align="center" v-if="columns.showColumn('mh015')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_global_country " :value="scope.row.mh015" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh016" label="省区" align="center" v-if="columns.showColumn('mh016')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_global_state " :value="scope.row.mh016" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh017" label="市区" align="center" v-if="columns.showColumn('mh017')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_global_city " :value="scope.row.mh017" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh018" label="县区" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh018')" />
-      <el-table-column prop="mh019" label="家庭住址" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh019')" />
-      <el-table-column prop="mh020" label="邮编" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh020')" />
-      <el-table-column prop="mh021" label="户口性质" align="center" v-if="columns.showColumn('mh021')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_household_type " :value="scope.row.mh021" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh022" label="暂住地址" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh022')" />
-      <el-table-column prop="mh023" label="部门" align="center" v-if="columns.showColumn('mh023')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_dept_list " :value="scope.row.mh023" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh024" label="职称" align="center" v-if="columns.showColumn('mh024')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_titles_list " :value="scope.row.mh024" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh025" label="职位" align="center" v-if="columns.showColumn('mh025')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_posts_list " :value="scope.row.mh025" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh026" label="职级" align="center" v-if="columns.showColumn('mh026')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_post_level " :value="scope.row.mh026" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh027" label="职务" align="center" v-if="columns.showColumn('mh027')">
-        <template #default="scope">
-          <dict-tag :options=" options.sql_posts_list " :value="scope.row.mh027" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh028" label="招聘来源" align="center" v-if="columns.showColumn('mh028')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_recruited_list " :value="scope.row.mh028" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh029" label="聘用形式" align="center" v-if="columns.showColumn('mh029')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_employ_term " :value="scope.row.mh029" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh030" label="学历" align="center" v-if="columns.showColumn('mh030')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_level_education " :value="scope.row.mh030" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh031" label="专业" align="center" v-if="columns.showColumn('mh031')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_specialty_list " :value="scope.row.mh031" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh032" label="院校" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh032')" />
-      <el-table-column prop="mh033" label="工号" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh033')" />
-      <el-table-column prop="mh034" label="入职日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mh034')" />
-      <el-table-column prop="mh035" label="在职状态" align="center" v-if="columns.showColumn('mh035')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_serve_state " :value="scope.row.mh035" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh036" label="试用期" align="center" v-if="columns.showColumn('mh036')" />
-      <el-table-column prop="mh037" label="合同期限" align="center" v-if="columns.showColumn('mh037')" />
-      <el-table-column prop="mh038" label="转正日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mh038')" />
-      <el-table-column prop="mh039" label="离职日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mh039')" />
-      <el-table-column prop="mh040" label="合同起始日" :show-overflow-tooltip="true" v-if="columns.showColumn('mh040')" />
-      <el-table-column prop="mh041" label="合同终止日" :show-overflow-tooltip="true" v-if="columns.showColumn('mh041')" />
-      <el-table-column prop="mh042" label="工龄" align="center" v-if="columns.showColumn('mh042')" />
-      <el-table-column prop="mh043" label="退休日期" :show-overflow-tooltip="true" v-if="columns.showColumn('mh043')" />
-      <el-table-column prop="mh044" label="打卡否" align="center" v-if="columns.showColumn('mh044')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_is_status " :value="scope.row.mh044" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh045" label="班别" align="center" v-if="columns.showColumn('mh045')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_shifts_list " :value="scope.row.mh045" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh046" label="头像" align="center" v-if="columns.showColumn('mh046')">
-        <template #default="scope">
-          <ImagePreview :src="scope.row.mh046"></ImagePreview>
-        </template>
-      </el-table-column>
-      <el-table-column prop="mh047" label="学历附件" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh047')" />
-      <el-table-column prop="mh048" label="职称附件" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('mh048')" />
-      <el-table-column prop="mh049" label="系统访问" align="center" v-if="columns.showColumn('mh049')">
-        <template #default="scope">
-          <dict-tag :options=" options.sys_is_status " :value="scope.row.mh049" />
-        </template>
-      </el-table-column>
-      <el-table-column prop="remark" label="备注说明" align="center" :show-overflow-tooltip="true"
-        v-if="columns.showColumn('remark')" />
-      <el-table-column :label="$t('btn.operation')" width="160" align="center">
-        <template #default="scope">
-          <el-button-group>
-            <el-button class="btn-edit" plain size="small" icon="edit" :title="$t('btn.edit')"
-              v-hasPermi="['routine:ehremployee:edit']" @click="handleUpdate(scope.row)"></el-button>
-            <el-button class="btn-delete" plain size="small" icon="delete" :title="$t('btn.delete')"
-              v-hasPermi="['routine:ehremployee:delete']" @click="handleDelete(scope.row)"></el-button>
-          </el-button-group>
-        </template>
-      </el-table-column>
-    </el-table>
-    <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
-      @pagination="getList" />
-
     <!-- 添加或修改人事对话框 -->
     <el-dialog :title="title" :lock-scroll="false" v-model="open">
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
@@ -392,7 +427,7 @@
               <el-col :lg="12">
                 <el-form-item label="姓名" prop="mh002">
                   <el-input v-model="form.mh002" :placeholder="$t('btn.enterPrefix')+'姓名'+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="40" @input="handleNameInput" @change="handleNameInput" />
+                    show-word-limit maxlength="40" />
                 </el-form-item>
               </el-col>
 
@@ -429,8 +464,8 @@
 
               <el-col :lg="12">
                 <el-form-item label="出生日期" prop="mh007">
-                  <el-date-picker v-model="form.mh007" type="date" :teleported="false"
-                    :placeholder="$t('btn.dateselect')" @change="handleBirthdayChange"></el-date-picker>
+                  <el-date-picker v-model="form.mh007" type="datetime" :teleported="false"
+                    :placeholder="$t('btn.dateselect')"></el-date-picker>
                 </el-form-item>
               </el-col>
 
@@ -478,279 +513,24 @@
                 </el-form-item>
               </el-col>
 
-
-
-
-
-              <el-col :lg="24">
-                <el-form-item label="备注说明" prop="remark">
-                  <el-input type="textarea" v-model="form.remark"
-                    :placeholder="$t('btn.enterPrefix')+'备注说明'+$t('btn.enterSuffix')" show-word-limit maxlength="500" />
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-tab-pane>
-
-
-          <el-tab-pane :label="$t('ptabs.onboarding')" name="second">
-            <el-row :gutter="20">
-              <el-col :lg="12">
-                <el-form-item label="部门" prop="mh023">
-                  <el-select filterable clearable v-model="form.mh023"
-                    :placeholder="$t('btn.selectPrefix')+'部门'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sql_dept_list" :key="item.dictValue" :label="item.dictLabel"
-                      :value="parseInt(item.dictValue)"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="职称" prop="mh024">
-                  <el-select filterable clearable v-model="form.mh024"
-                    :placeholder="$t('btn.selectPrefix')+'职称'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sys_titles_list" :key="item.dictValue" :label="item.dictLabel"
-                      :value="parseInt(item.dictValue)"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="职位" prop="mh025">
-                  <el-select filterable clearable v-model="form.mh025"
-                    :placeholder="$t('btn.selectPrefix')+'职位'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sql_posts_list" :key="item.dictValue" :label="item.dictLabel"
-                      :value="parseInt(item.dictValue)"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="职级" prop="mh026">
-                  <el-select filterable clearable v-model="form.mh026"
-                    :placeholder="$t('btn.selectPrefix')+'职级'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sys_post_level" :key="item.dictValue" :label="item.dictLabel"
-                      :value="parseInt(item.dictValue)"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="职务" prop="mh027">
-                  <el-select filterable clearable v-model="form.mh027"
-                    :placeholder="$t('btn.selectPrefix')+'职务'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sql_posts_list" :key="item.dictValue" :label="item.dictLabel"
-                      :value="parseInt(item.dictValue)"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="招聘来源" prop="mh028">
-                  <el-select filterable clearable v-model="form.mh028"
-                    :placeholder="$t('btn.selectPrefix')+'招聘来源'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sys_recruited_list" :key="item.dictValue" :label="item.dictLabel"
-                      :value="parseInt(item.dictValue)"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="聘用形式" prop="mh029">
-                  <el-select filterable clearable v-model="form.mh029"
-                    :placeholder="$t('btn.selectPrefix')+'聘用形式'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sys_employ_term" :key="item.dictValue" :label="item.dictLabel"
-                      :value="parseInt(item.dictValue)"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-
-
-
-              <el-col :lg="12">
-                <el-form-item label="工号" prop="mh033">
-                  <el-input v-model="form.mh033" :placeholder="$t('btn.enterPrefix')+'工号'+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="8" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="入职日期" prop="mh034">
-                  <el-date-picker v-model="form.mh034" type="date" :teleported="false"
-                    :placeholder="$t('btn.dateselect')"></el-date-picker>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="在职状态" prop="mh035">
-                  <el-select filterable clearable v-model="form.mh035"
-                    :placeholder="$t('btn.selectPrefix')+'在职状态'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sys_serve_state" :key="item.dictValue" :label="item.dictLabel"
-                      :value="parseInt(item.dictValue)"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="试用期" prop="mh036">
-                  <el-input-number v-model.number="form.mh036" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'试用期'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="合同期限" prop="mh037">
-                  <el-input-number v-model.number="form.mh037" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'合同期限'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="转正日期" prop="mh038">
-                  <el-date-picker v-model="form.mh038" type="date" :teleported="false"
-                    :placeholder="$t('btn.dateselect')"></el-date-picker>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="离职日期" prop="mh039">
-                  <el-date-picker v-model="form.mh039" type="date" :teleported="false"
-                    :placeholder="$t('btn.dateselect')"></el-date-picker>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="合同起始日" prop="mh040">
-                  <el-date-picker v-model="form.mh040" type="date" :teleported="false"
-                    :placeholder="$t('btn.dateselect')"></el-date-picker>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="合同终止日" prop="mh041">
-                  <el-date-picker v-model="form.mh041" type="date" :teleported="false"
-                    :placeholder="$t('btn.dateselect')"></el-date-picker>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="工龄" prop="mh042">
-                  <el-input-number v-model.number="form.mh042" :controls="true" controls-position="right"
-                    :placeholder="$t('btn.enterPrefix')+'工龄'+$t('btn.enterSuffix')" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="退休日期" prop="mh043">
-                  <el-date-picker v-model="form.mh043" type="date" :teleported="false"
-                    :placeholder="$t('btn.dateselect')"></el-date-picker>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="打卡否" prop="mh044">
-                  <el-radio-group v-model="form.mh044">
-                    <el-radio v-for="item in options.sys_is_status" :key="item.dictValue"
-                      :value="parseInt(item.dictValue)">
-                      {{item.dictLabel}}
-                    </el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="班别" prop="mh045">
-                  <el-select filterable clearable v-model="form.mh045"
-                    :placeholder="$t('btn.selectPrefix')+'班别'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sys_shifts_list" :key="item.dictValue" :label="item.dictLabel"
-                      :value="parseInt(item.dictValue)"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12">
-                <el-form-item label="系统访问" prop="mh049">
-                  <el-radio-group v-model="form.mh049">
-                    <el-radio v-for="item in options.sys_is_status" :key="item.dictValue"
-                      :value="parseInt(item.dictValue)">
-                      {{item.dictLabel}}
-                    </el-radio>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.qualifications')" name="third">
-            <el-row :gutter="20">
-              <el-col :lg="12">
-                <el-form-item label="学历" prop="mh030">
-                  <el-select filterable clearable v-model="form.mh030"
-                    :placeholder="$t('btn.selectPrefix')+'学历'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sys_level_education" :key="item.dictValue"
-                      :label="item.dictLabel" :value="parseInt(item.dictValue)"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="专业" prop="mh031">
-                  <el-select filterable clearable v-model="form.mh031"
-                    :placeholder="$t('btn.selectPrefix')+'专业'+$t('btn.selectSuffix')">
-                    <el-option v-for="item in  options.sys_specialty_list" :key="item.dictValue" :label="item.dictLabel"
-                      :value="parseInt(item.dictValue)"></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="24">
-                <el-form-item label="院校" prop="mh032">
-                  <el-input v-model="form.mh032" :placeholder="$t('btn.enterPrefix')+'院校'+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="100" />
-                </el-form-item>
-              </el-col>
-              <el-col :lg="12">
-                <el-form-item label="学历附件" prop="mh047">
-                  <UploadFile v-model="form.mh047" fileSize="20" :fileType="['pdf']" limit="1"
-                    :data=" {fileNameType:1, fileDir: 'routine/routineehremployee' ,uploadType: 1}" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :lg="12">
-                <el-form-item label="职称附件" prop="mh048">
-                  <UploadFile v-model="form.mh048" fileSize="20" :fileType="['pdf']" limit="1"
-                    :data=" {fileNameType:1, fileDir: 'routine/routineehremployee' ,uploadType: 1}" />
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.attachment')" name="fourth">
-            <el-row :gutter="20">
-              <el-col :lg="24">
-                <el-form-item label="头像" prop="mh046">
-                  <UploadImage v-model="form.mh046" fileSize="5" :fileType="['png,jpg']" limit="1"
-                    :data=" {fileNameType:1, fileDir: 'routine/routineehremployee' ,uploadType: 1}" />
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-tab-pane>
-          <el-tab-pane :label="$t('ptabs.contact')" name="eighth">
-            <el-row :gutter="20">
               <el-col :lg="12">
                 <el-form-item label="邮件" prop="mh013">
                   <el-input v-model="form.mh013" :placeholder="$t('btn.enterPrefix')+'邮件'+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="20" />
+                    show-word-limit maxlength="200" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
                 <el-form-item label="电话" prop="mh014">
                   <el-input v-model="form.mh014" :placeholder="$t('btn.enterPrefix')+'电话'+$t('btn.enterSuffix')"
-                    show-word-limit maxlength="11" />
+                    show-word-limit maxlength="40" />
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
                 <el-form-item label="国家/地区" prop="mh015">
                   <el-select filterable clearable v-model="form.mh015"
-                    :placeholder="$t('btn.selectPrefix')+'国家/地区'+$t('btn.selectSuffix')" @change="handleAlandChange">
+                    :placeholder="$t('btn.selectPrefix')+'国家/地区'+$t('btn.selectSuffix')">
                     <el-option v-for="item in  options.sql_global_country" :key="item.dictValue" :label="item.dictLabel"
                       :value="item.dictValue"></el-option>
                   </el-select>
@@ -760,17 +540,16 @@
               <el-col :lg="12">
                 <el-form-item label="省区" prop="mh016">
                   <el-select-v2 filterable clearable v-model="form.mh016"
-                    :placeholder="$t('btn.selectPrefix')+'省区'+$t('btn.selectSuffix')" :options="filteredFormState"
-                    @change="handleStateChange">
+                    :placeholder="$t('btn.selectPrefix')+'省区'+$t('btn.selectSuffix')"
+                    :options="options.sql_global_state.map(item =>({label: item.dictLabel, value: item.dictValue}))">
                   </el-select-v2>
                 </el-form-item>
               </el-col>
 
               <el-col :lg="12">
                 <el-form-item label="市区" prop="mh017">
-                  <el-select-v2 filterable clearable v-model="form.mh017"
-                    :placeholder="$t('btn.selectPrefix')+'市区'+$t('btn.selectSuffix')" :options="filteredFormCity">
-                  </el-select-v2>
+                  <el-input v-model="form.mh017" :placeholder="$t('btn.enterPrefix')+'市区'+$t('btn.enterSuffix')"
+                    show-word-limit maxlength="30" />
                 </el-form-item>
               </el-col>
 
@@ -811,6 +590,341 @@
                     show-word-limit maxlength="128" />
                 </el-form-item>
               </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="部门" prop="mh023">
+                  <el-tree-select v-model="form.mh023" :data="deptOptions"
+                    :props="{ value: 'id', label: 'label', children: 'children' }" value-key="id"
+                    :placeholder="$t('btn.selectPrefix')+$t('user.department')+$t('btn.selectSuffix')" check-strictly
+                    :render-after-expand="false" />
+                  <!-- <el-select filterable clearable v-model="form.mh023"
+                    :placeholder="$t('btn.selectPrefix')+'部门'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sql_dept_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="parseInt(item.dictValue)"></el-option>
+                  </el-select> -->
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="职称" prop="mh024">
+                  <el-select filterable clearable v-model="form.mh024"
+                    :placeholder="$t('btn.selectPrefix')+'职称'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_titles_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="职位" prop="mh025">
+                  <el-select filterable clearable v-model="form.mh025"
+                    :placeholder="$t('btn.selectPrefix')+'职位'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sql_posts_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="item.dictValue"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="职级" prop="mh026">
+                  <el-select filterable clearable v-model="form.mh026"
+                    :placeholder="$t('btn.selectPrefix')+'职级'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_post_level" :key="item.dictValue" :label="item.dictLabel"
+                      :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="职务" prop="mh027">
+                  <el-select filterable clearable v-model="form.mh027"
+                    :placeholder="$t('btn.selectPrefix')+'职务'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sql_posts_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="item.dictValue"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="招聘来源" prop="mh028">
+                  <el-select filterable clearable v-model="form.mh028"
+                    :placeholder="$t('btn.selectPrefix')+'招聘来源'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_recruited_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="聘用形式" prop="mh029">
+                  <el-select filterable clearable v-model="form.mh029"
+                    :placeholder="$t('btn.selectPrefix')+'聘用形式'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_employ_term" :key="item.dictValue" :label="item.dictLabel"
+                      :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="学历" prop="mh030">
+                  <el-select filterable clearable v-model="form.mh030"
+                    :placeholder="$t('btn.selectPrefix')+'学历'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_level_education" :key="item.dictValue"
+                      :label="item.dictLabel" :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="专业" prop="mh031">
+                  <el-select filterable clearable v-model="form.mh031"
+                    :placeholder="$t('btn.selectPrefix')+'专业'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_specialty_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="院校" prop="mh032">
+                  <el-input v-model="form.mh032" :placeholder="$t('btn.enterPrefix')+'院校'+$t('btn.enterSuffix')"
+                    show-word-limit maxlength="100" />
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="工号" prop="mh033">
+                  <el-input v-model="form.mh033" :placeholder="$t('btn.enterPrefix')+'工号'+$t('btn.enterSuffix')"
+                    show-word-limit maxlength="8" />
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="入职日期" prop="mh034">
+                  <el-date-picker v-model="form.mh034" type="datetime" :teleported="false"
+                    :placeholder="$t('btn.dateselect')"></el-date-picker>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="在职状态" prop="mh035">
+                  <el-select filterable clearable v-model="form.mh035"
+                    :placeholder="$t('btn.selectPrefix')+'在职状态'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_serve_state" :key="item.dictValue" :label="item.dictLabel"
+                      :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="试用期" prop="mh036">
+                  <el-select filterable clearable v-model="form.mh036"
+                    :placeholder="$t('btn.selectPrefix')+'试用期'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_trialterm_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="合同期限" prop="mh037">
+                  <el-select filterable clearable v-model="form.mh037"
+                    :placeholder="$t('btn.selectPrefix')+'合同期限'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_contractterm_list" :key="item.dictValue"
+                      :label="item.dictLabel" :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="转正日期" prop="mh038">
+                  <el-date-picker v-model="form.mh038" type="datetime" :teleported="false"
+                    :placeholder="$t('btn.dateselect')"></el-date-picker>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="离职日期" prop="mh039">
+                  <el-date-picker v-model="form.mh039" type="datetime" :teleported="false"
+                    :placeholder="$t('btn.dateselect')"></el-date-picker>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="合同起始日" prop="mh040">
+                  <el-date-picker v-model="form.mh040" type="datetime" :teleported="false"
+                    :placeholder="$t('btn.dateselect')"></el-date-picker>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="合同终止日" prop="mh041">
+                  <el-date-picker v-model="form.mh041" type="datetime" :teleported="false"
+                    :placeholder="$t('btn.dateselect')"></el-date-picker>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="工龄" prop="mh042">
+                  <el-input-number v-model.number="form.mh042" :controls="true" controls-position="right"
+                    :placeholder="$t('btn.enterPrefix')+'工龄'+$t('btn.enterSuffix')" />
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="退休日期" prop="mh043">
+                  <el-date-picker v-model="form.mh043" type="datetime" :teleported="false"
+                    :placeholder="$t('btn.dateselect')"></el-date-picker>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="打卡否" prop="mh044">
+                  <el-radio-group v-model="form.mh044">
+                    <el-radio v-for="item in options.sys_is_status" :key="item.dictValue"
+                      :value="parseInt(item.dictValue)">
+                      {{item.dictLabel}}
+                    </el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="班别" prop="mh045">
+                  <el-select filterable clearable v-model="form.mh045"
+                    :placeholder="$t('btn.selectPrefix')+'班别'+$t('btn.selectSuffix')">
+                    <el-option v-for="item in  options.sys_shifts_list" :key="item.dictValue" :label="item.dictLabel"
+                      :value="parseInt(item.dictValue)"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="24">
+                <el-form-item label="头像" prop="mh046">
+                  <UploadImage v-model="form.mh046" fileSize="20" :fileType="['pdf']" limit="1"
+                    :data=" {fileNameType:1, fileDir: 'routine/routineehremployee' ,uploadType: 1}" />
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="学历附件" prop="mh047">
+                  <UploadFile v-model="form.mh047" fileSize="20" :fileType="['pdf']" limit="1"
+                    :data=" {fileNameType:1, fileDir: 'routine/routineehremployee' ,uploadType: 1}" />
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="职称附件" prop="mh048">
+                  <UploadFile v-model="form.mh048" fileSize="20" :fileType="['pdf']" limit="1"
+                    :data=" {fileNameType:1, fileDir: 'routine/routineehremployee' ,uploadType: 1}" />
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="系统访问" prop="mh049">
+                  <el-radio-group v-model="form.mh049">
+                    <el-radio v-for="item in options.sys_is_status" :key="item.dictValue"
+                      :value="parseInt(item.dictValue)">
+                      {{item.dictLabel}}
+                    </el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="年龄" prop="mh050">
+                  <el-input-number v-model.number="form.mh050" :controls="true" controls-position="right"
+                    :placeholder="$t('btn.enterPrefix')+'年龄'+$t('btn.enterSuffix')" />
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="有效日" prop="mh051">
+                  <el-date-picker v-model="form.mh051" type="datetime" :teleported="false"
+                    :placeholder="$t('btn.dateselect')"></el-date-picker>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="12">
+                <el-form-item label="过期日" prop="mh052">
+                  <el-date-picker v-model="form.mh052" type="datetime" :teleported="false"
+                    :placeholder="$t('btn.dateselect')"></el-date-picker>
+                </el-form-item>
+              </el-col>
+
+              <el-col :lg="24">
+                <el-form-item label="备注" prop="remark">
+                  <el-input type="textarea" v-model="form.remark"
+                    :placeholder="$t('btn.enterPrefix')+'备注'+$t('btn.enterSuffix')" show-word-limit maxlength="500" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+
+
+          <el-tab-pane :label="$t('ptabs.onboarding')" name="second">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.qualifications')" name="third">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.attachment')" name="fourth">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.content')" name="fifth">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.trade')" name="sixth">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.bank')" name="seventh">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.contact')" name="eighth">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+
+          <el-tab-pane :label="$t('ptabs.purchase')" name="ninth">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.sales')" name="tenth">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.production')" name="11th">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.warehouse')" name="12th">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.accounting')" name="13th">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.incoming')" name="14th">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.outgoing')" name="15th">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.customization')" name="16th">
+            <el-row :gutter="20">
+            </el-row>
+          </el-tab-pane>
+          <el-tab-pane :label="$t('ptabs.oper')" name="17th">
+            <el-row :gutter="20">
             </el-row>
           </el-tab-pane>
         </el-tabs>
@@ -827,7 +941,6 @@
 
 <script setup name="routineehremployee">
   import '@/assets/styles/btn-custom.scss'
-  import { pinyin } from "pinyin-pro"
   //后台操作函数
   import {
     listRoutineEhrEmployee,
@@ -835,9 +948,11 @@
     updateRoutineEhrEmployee, getRoutineEhrEmployee,
   }
     from '@/api/routine/routineehremployee.js'
+  import { treeselect } from '@/api/system/dept'
   import importData from '@/components/ImportData'
   //防抖处理函数 import { debounce } from 'lodash';
   import { debounce } from 'lodash';
+
   //获取当前组件实例
   const { proxy } = getCurrentInstance()
   //标签页
@@ -845,6 +960,10 @@
   const handleClick = (tab, event) => {
     console.log(tab, event)
   }
+  //部门名称
+  const deptName = ref('')
+  //部门数据
+  const deptOptions = ref([])
   //选中refId数组数组
   const ids = ref([])
   //是否加载动画
@@ -857,40 +976,40 @@
     pageSize: 56,
     sort: 'Mh034',
     sortType: 'desc',
-    //是否查询（1是）
+    //姓名,是否查询（1是）
     mh002: undefined,
-    //是否查询（1是）
+    //英文名,是否查询（1是）
+    mh005: undefined,
+    //性别,是否查询（1是）
     mh006: undefined,
-    //是否查询（1是）
+    //出生日期,是否查询（1是）
     mh007: undefined,
-    //是否查询（1是）
+    //婚姻状态,是否查询（1是）
     mh009: undefined,
-    //是否查询（1是）
+    //民族,是否查询（1是）
     mh010: undefined,
-    //是否查询（1是）
-    mh012: undefined,
-    //是否查询（1是）
+    //国家/地区,是否查询（1是）
     mh015: undefined,
-    //是否查询（1是）
+    //省区,是否查询（1是）
+    mh016: undefined,
+    //部门,是否查询（1是）
     mh023: undefined,
-    //是否查询（1是）
-    mh024: undefined,
-    //是否查询（1是）
+    //职位,是否查询（1是）
     mh025: undefined,
-    //是否查询（1是）
+    //招聘来源,是否查询（1是）
+    mh028: undefined,
+    //聘用形式,是否查询（1是）
+    mh029: undefined,
+    //学历,是否查询（1是）
     mh030: undefined,
-    //是否查询（1是）
+    //工号,是否查询（1是）
     mh033: undefined,
-    //是否查询（1是）
+    //入职日期,是否查询（1是）
     mh034: undefined,
-    //是否查询（1是）
-    mh035: undefined,
-    //是否查询（1是）
-    mh039: undefined,
-    //是否查询（1是）
+    //在职状态,是否查询（1是）
+    mh035: "2",
+    //打卡否,是否查询（1是）
     mh044: -1,
-    //是否查询（1是）
-    mh045: undefined,
   })
   //字段显示控制
   const columns = ref([
@@ -943,7 +1062,10 @@
     { visible: false, prop: 'mh047', label: '学历附件' },
     { visible: false, prop: 'mh048', label: '职称附件' },
     { visible: false, prop: 'mh049', label: '系统访问' },
-    { visible: false, prop: 'remark', label: '备注说明' },
+    { visible: false, prop: 'mh050', label: '年龄' },
+    { visible: false, prop: 'mh051', label: '有效日' },
+    { visible: false, prop: 'mh052', label: '过期日' },
+    { visible: false, prop: 'remark', label: '备注' },
   ])
   // 记录数
   const total = ref(0)
@@ -957,8 +1079,6 @@
   const dateRangeMh007 = ref([])
   // 入职日期时间范围
   const dateRangeMh034 = ref([])
-  // 离职日期时间范围
-  const dateRangeMh039 = ref([])
 
   //字典参数
   var dictParams = [
@@ -968,7 +1088,6 @@
     { dictType: "sys_politic_list" },
     { dictType: "sql_global_country" },
     { dictType: "sql_global_state" },
-    { dictType: "sql_global_city" },
     { dictType: "sys_household_type" },
     { dictType: "sql_dept_list" },
     { dictType: "sys_titles_list" },
@@ -979,6 +1098,8 @@
     { dictType: "sys_level_education" },
     { dictType: "sys_specialty_list" },
     { dictType: "sys_serve_state" },
+    { dictType: "sys_trialterm_list" },
+    { dictType: "sys_contractterm_list" },
     { dictType: "sys_is_status" },
     { dictType: "sys_shifts_list" },
   ]
@@ -993,7 +1114,6 @@
   function getList() {
     proxy.addDateRange(queryParams, dateRangeMh007.value, 'Mh007');
     proxy.addDateRange(queryParams, dateRangeMh034.value, 'Mh034');
-    proxy.addDateRange(queryParams, dateRangeMh039.value, 'Mh039');
     loading.value = true
     listRoutineEhrEmployee(queryParams).then(res => {
       const { code, data } = res
@@ -1004,7 +1124,39 @@
       }
     })
   }
-
+  /** 通过条件过滤节点  */
+  const filterNode = (value, data) => {
+    if (!value) return true
+    return data.label.indexOf(value) !== -1
+  }
+  /** 根据名称筛选部门树 */
+  watch(deptName, (val) => {
+    proxy.$refs['deptTreeRef'].filter(val)
+  })
+  /** 查询部门下拉树结构 */
+  function getDeptTreeSelect() {
+    treeselect().then((response) => {
+      deptOptions.value = [{ id: 0, label: proxy.$t('common.unknow') + proxy.$t('puser.deptName'), children: [] }, ...response.data]
+    })
+  }
+  /** 初始化部门数据 */
+  function initDeptTreeData() {
+    // 判断部门的数据是否存在，存在不获取，不存在则获取
+    if (deptOptions.value === undefined) {
+      treeselect().then((response) => {
+        deptOptions.value = response.data
+      })
+    }
+  }
+  const deptIdSelect = ref(0)
+  /** 节点单击事件 */
+  function handleNodeClick(data) {
+    console.log(data)
+    deptIdSelect.value = data.id
+    form.value.mh023 = data.id
+    queryParams.mh023 = data.id
+    handleQuery()
+  }
   // 查询
   function handleQuery() {
     queryParams.pageNum = 1
@@ -1017,8 +1169,6 @@
     dateRangeMh007.value = []
     // 入职日期时间范围
     dateRangeMh034.value = []
-    // 离职日期时间范围
-    dateRangeMh039.value = []
     proxy.resetForm("queryRef")
     handleQuery()
   }
@@ -1069,17 +1219,17 @@
       mh021: [{ required: true, message: "户口性质" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
       mh023: [{ required: true, message: "部门" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
       mh024: [{ required: true, message: "职称" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
-      mh025: [{ required: true, message: "职位" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
+      mh025: [{ required: true, message: "职位" + proxy.$t('btn.isEmpty'), trigger: "change" }],
       mh026: [{ required: true, message: "职级" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
-      mh027: [{ required: true, message: "职务" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
+      mh027: [{ required: true, message: "职务" + proxy.$t('btn.isEmpty'), trigger: "change" }],
       mh028: [{ required: true, message: "招聘来源" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
       mh029: [{ required: true, message: "聘用形式" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
       mh030: [{ required: true, message: "学历" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
       mh031: [{ required: true, message: "专业" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
       mh033: [{ required: true, message: "工号" + proxy.$t('btn.isEmpty'), trigger: "blur" }],
       mh035: [{ required: true, message: "在职状态" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
-      mh036: [{ required: true, message: "试用期" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
-      mh037: [{ required: true, message: "合同期限" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
+      mh036: [{ required: true, message: "试用期" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
+      mh037: [{ required: true, message: "合同期限" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
       mh042: [{ required: true, message: "工龄" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
       mh044: [{ required: true, message: "打卡否" + proxy.$t('btn.isEmpty'), trigger: "blur", type: "number" }],
       mh045: [{ required: true, message: "班别" + proxy.$t('btn.isEmpty'), trigger: "change", type: "number" }],
@@ -1098,8 +1248,6 @@
       sql_global_country: [],
       // 省区 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sql_global_state: [],
-      // 市区 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
-      sql_global_city: [],
       // 户口性质 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sys_household_type: [],
       // 部门 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
@@ -1120,6 +1268,10 @@
       sys_specialty_list: [],
       // 在职状态 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sys_serve_state: [],
+      // 试用期 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sys_trialterm_list: [],
+      // 合同期限 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
+      sys_contractterm_list: [],
       // 打卡否 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
       sys_is_status: [],
       // 班别 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
@@ -1153,7 +1305,7 @@
       mh014: null,
       mh015: [],
       mh016: [],
-      mh017: [],
+      mh017: null,
       mh018: null,
       mh019: null,
       mh020: null,
@@ -1172,8 +1324,8 @@
       mh033: null,
       mh034: null,
       mh035: [],
-      mh036: 0,
-      mh037: 0,
+      mh036: [],
+      mh037: [],
       mh038: null,
       mh039: null,
       mh040: null,
@@ -1186,6 +1338,9 @@
       mh047: null,
       mh048: null,
       mh049: 0,
+      mh050: 0,
+      mh051: null,
+      mh052: null,
       remark: null,
     };
     proxy.resetForm("formRef")
@@ -1199,22 +1354,21 @@
     title.value = proxy.$t('btn.add') + " " + '人事'
     opertype.value = 1
     form.value.mh006 = 0
-    form.value.mh007 = new Date('2006')
+    form.value.mh007 = new Date()
     form.value.mh009 = 0
     form.value.mh010 = 0
     form.value.mh012 = 0
-    form.value.mh015 = 'CN'
+    form.value.mh015 = []
     form.value.mh016 = []
-    form.value.mh017 = []
     form.value.mh021 = 0
     form.value.mh023 = 0
     form.value.mh024 = 0
-    form.value.mh025 = 0
+    form.value.mh025 = []
     form.value.mh026 = 0
-    form.value.mh027 = 0
+    form.value.mh027 = []
     form.value.mh028 = 0
-    form.value.mh029 = 0
-    form.value.mh030 = 0
+    form.value.mh029 = 1
+    form.value.mh030 = 2
     form.value.mh031 = 0
     form.value.mh034 = new Date()
     form.value.mh035 = 0
@@ -1229,41 +1383,9 @@
     form.value.mh044 = 0
     form.value.mh045 = 0
     form.value.mh049 = 0
-  }
-  const filteredFormState = ref([])
-  const filteredFormCity = ref([])
-
-  function handleAlandChange() {
-    console.log(form.value.mh015)
-    form.value.mh016 = ''
-    form.value.mh017 = ''
-    filteredFormState.value = state.options.sql_global_state.filter(item => item.extLabel === form.value.mh015).map(item => ({ label: item.dictLabel, value: item.dictValue }))
-    //console.log(form.value.Mh015, filteredFormState.value)
-  }
-  function handleStateChange() {
-    console.log(form.value.mh016)
-    form.value.mh017 = ''
-    filteredFormCity.value = state.options.sql_global_city.filter(item => item.extLabel === form.value.mh016).map(item => ({ label: item.dictLabel, value: item.dictValue }))
-
-
-  }
-  function handleBirthdayChange() {
-    //计算年龄
-    let d = new Date()
-    let age = d.getFullYear() - form.value.mh007.getFullYear() - (d.getMonth() < form.value.mh007.getMonth() || (d.getMonth() == form.value.mh007.getMonth() && d.getDate() < form.value.mh007.getDate()) ? 1 : 0);
-    console.log('年龄', age)
-  }
-
-  function handleNameInput() {
-    //console.log(form.value.mh002)
-    if (form.value.mh002 != null && form.value.mh002 != '') {
-      form.value.mh004 = (pinyin(form.value.mh002, { toneType: "none" })[0].toUpperCase() + pinyin(form.value.mh002, { toneType: "none" }).slice(1)).replace(/[^\w\u4e00-\u9fa5]/g, '')
-      form.value.mh005 = (pinyin(form.value.mh002, { toneType: "none" })[0].toUpperCase() + pinyin(form.value.mh002, { toneType: "none" }).slice(1)).replace(/[^\w\u4e00-\u9fa5]/g, '')
-    }
-    else {
-      form.value.mh004 = ''
-      form.value.mh005 = ''
-    }
+    form.value.mh050 = 0
+    form.value.mh051 = new Date()
+    form.value.mh052 = new Date()
   }
   // 修改按钮操作
   function handleUpdate(row) {
@@ -1414,5 +1536,17 @@
     }
     return wholePartFormat + decimalPart
   }
+  getDeptTreeSelect()
   handleQuery()
 </script>
+
+<style scoped>
+  .scroll-container {
+    height: 80%;
+    /* 设置固定高度 */
+    overflow-y: auto;
+    /* 添加垂直滚动条 */
+    overflow-x: hidden;
+    /* 隐藏水平滚动条 */
+  }
+</style>

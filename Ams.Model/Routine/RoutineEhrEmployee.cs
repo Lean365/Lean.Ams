@@ -4,7 +4,7 @@ namespace Ams.Model.Routine
     /// 人事
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/10/18 8:40:20
+    /// @Date: 2024/10/31 17:15:08
     /// </summary>
     [SugarTable("routine_ehr_employee", "人事")]
     public class RoutineEhrEmployee : SysBase
@@ -84,13 +84,13 @@ namespace Ams.Model.Routine
         /// <summary>
         /// 邮件
         /// </summary>
-        [SugarColumn(ColumnName = "Mh013", ColumnDescription = "邮件", Length = 20)]
+        [SugarColumn(ColumnName = "Mh013", ColumnDescription = "邮件", Length = 200)]
         public string Mh013 { get; set; }
 
         /// <summary>
         /// 电话
         /// </summary>
-        [SugarColumn(ColumnName = "Mh014", ColumnDescription = "电话", Length = 11)]
+        [SugarColumn(ColumnName = "Mh014", ColumnDescription = "电话", Length = 40)]
         public string Mh014 { get; set; }
 
         /// <summary>
@@ -156,8 +156,8 @@ namespace Ams.Model.Routine
         /// <summary>
         /// 职位
         /// </summary>
-        [SugarColumn(ColumnName = "Mh025", ColumnDescription = "职位", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public int Mh025 { get; set; }
+        [SugarColumn(ColumnName = "Mh025", ColumnDescription = "职位", Length = 3, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mh025 { get; set; }
 
         /// <summary>
         /// 职级
@@ -168,8 +168,8 @@ namespace Ams.Model.Routine
         /// <summary>
         /// 职务
         /// </summary>
-        [SugarColumn(ColumnName = "Mh027", ColumnDescription = "职务", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
-        public int Mh027 { get; set; }
+        [SugarColumn(ColumnName = "Mh027", ColumnDescription = "职务", Length = 3, ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public string Mh027 { get; set; }
 
         /// <summary>
         /// 招聘来源
@@ -296,5 +296,21 @@ namespace Ams.Model.Routine
         /// </summary>
         [SugarColumn(ColumnName = "Mh049", ColumnDescription = "系统访问", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
         public int? Mh049 { get; set; }
+
+        /// <summary>
+        /// 年龄
+        /// </summary>
+        [SugarColumn(ColumnName = "Mh050", ColumnDescription = "年龄", DefaultValue = "0", ExtendedAttribute = ProteryConstant.NOTNULL)]
+        public int? Mh050 { get; set; }
+
+        /// <summary>
+        /// 有效日
+        /// </summary>
+        public DateTime? Mh051 { get; set; }
+
+        /// <summary>
+        /// 过期日
+        /// </summary>
+        public DateTime? Mh052 { get; set; }
     }
 }

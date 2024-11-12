@@ -35,6 +35,11 @@ export default defineConfig(({ mode, command }) => {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue']
     },
     css: {
+      // preprocessorOptions: {
+      //   scss: {
+      //     api: 'modern-compiler'
+      //   }
+      // },
       devSourcemap: true //开发模式时启用
     },
     base: env.VITE_APP_ROUTER_PREFIX,

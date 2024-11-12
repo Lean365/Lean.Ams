@@ -162,6 +162,11 @@ $if(replaceDto.ShowBtnImport)
         /// <returns></returns>
         public (string, object, object) Import${replaceDto.ModelTypeName}(List<${replaceDto.ModelTypeName}> list)
         {
+            list.ForEach(it =>
+            {
+                it.Create_by = HttpContextExtension.GetName(App.HttpContext);
+                it.Remark = it.Remark.IsEmpty() ? "数据由<"+HttpContextExtension.GetName(App.HttpContext)+">用户,批量导入" : it.Remark;
+            });
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())
 $foreach(column in genTable.Columns)

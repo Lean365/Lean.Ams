@@ -4,27 +4,28 @@
     <panel-group @handleSetLineChartData="handleSetLineChartData" />
 
     <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="24">
+      <el-col :xs="24" :sm="24" :lg="12">
         <div class="chart-wrapper">
           <line-chart :chart-data="lineChartData" :key="dataType" />
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="12">
+        <div class="chart-wrapper">
+          <ecChat />
         </div>
       </el-col>
     </el-row>
 
     <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
+
+      <el-col :xs="24" :sm="24" :lg="12">
         <div class="chart-wrapper">
-          <raddar-chart />
+          <poorChat />
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
+      <el-col :xs="24" :sm="24" :lg="12">
         <div class="chart-wrapper">
-          <pie-chart />
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <bar-chart />
+          <salesChat />
         </div>
       </el-col>
     </el-row>
@@ -34,10 +35,10 @@
 <script setup name="index">
   import noticeBar from '@/components/NoticeBar/index'
   import PanelGroup from './dashboard/PanelGroup'
-  import LineChart from './dashboard/LineChart'
-  import RaddarChart from './dashboard/RaddarChart'
-  import PieChart from './dashboard/PieChart'
-  import BarChart from './dashboard/BarChart'
+  import LineChart from './dashboard/CurrentMonthFertChart'
+  import ecChat from './dashboard/MonthlyEcChat'
+  import poorChat from './dashboard/MonthlyPoorChat'
+  import salesChat from './dashboard/LastMonthSalesChat'
   const noticeList = ref(['Lean365.Ams', '生产管理系统'])
 
   import defaultSettings from '@/settings'

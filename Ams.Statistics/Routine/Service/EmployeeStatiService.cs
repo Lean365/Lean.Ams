@@ -41,7 +41,7 @@ namespace Ams.Statistics.Routine
             //DateTime firstDayOfYear = new DateTime(DateTime.Now.Year + 1, 1, 1); // 获取当前年份的第一天
             //DateTime lastDayOfYear = new DateTime(DateTime.Now.Year + 2, 1, 1).AddDays(-1); // 获取当前年份的最后一天（下一年的第一天再减去一天）
             var predicate = Expressionable.Create<RoutineEhrEmployee>();
-            predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mh006.ToString()), it => it.Mh006 == parm.Mh006);
+            //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.Mh006.ToString()), it => it.Mh006 == parm.Mh006);
             //predicate = predicate.AndIF(parm.BeginMoOrderDate == null, it => it.CreateTime >= firstDayOfYear);
             //predicate = predicate.AndIF(parm.EndMoOrderDate == null, it => it.CreateTime <= lastDayOfYear);
             //predicate = predicate.AndIF(!string.IsNullOrEmpty(parm.MmMatItem), it => it.MmMatItem == parm.MmMatItem);

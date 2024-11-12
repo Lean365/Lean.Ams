@@ -11,7 +11,7 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 顾客
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/9/11 16:25:01
+    /// @Date: 2024/11/7 16:05:11
     /// </summary>
     [Verify]
     [Route("Logistics/SdCustomer")]

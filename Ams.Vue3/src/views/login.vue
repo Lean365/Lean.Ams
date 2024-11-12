@@ -1,13 +1,11 @@
 <template>
-  <!-- <vanta></vanta> -->
-  <particles />
+  <!-- <particles /> -->
   <LangSelect :title="$t('layout.headerMultiLanguage') " class="langSet" />
   <el-image :src='imgsrc' class="logoSet" />
   <el-text class="sloganSet">{{ $t('layout.slogan') }}</el-text>
   <div class="login-wrap-particles">
     <div class="login">
       <h3 class="title">{{ defaultSettings.title }}</h3>
-
       <div style="padding: 0 25px 5px 25px">
         <el-tabs v-model="loginType" @tab-click="handleLoginType">
           <el-tab-pane :label="$t('plogin.methodaccount')" :name="1"></el-tab-pane>
@@ -73,11 +71,11 @@
       <phoneLogin v-if="loginType == 2"></phoneLogin>
       <oauthLogin v-if="defaultSettings.showOtherLogin"></oauthLogin>
     </div>
-
     <div class="el-login-footer">
       <div v-html="defaultSettings.copyright"></div>
     </div>
   </div>
+
 </template>
 
 <script setup name="login">
@@ -88,13 +86,14 @@
   import particles from '@/views/components/backGround/particles.vue'
   import star from '@/views/components/backGround/star.vue'
   import waterfall from '@/views/components/backGround/waterfall.vue'
+  import three from '@/views/components/backGround/three.vue'
   import LangSelect from '@/components/LocaleSelect/index.vue'
   import useUserStore from '@/store/modules/user'
   import oauthLogin from './components/Login/oauthLogin.vue'
   import phoneLogin from './components/Login/phoneLogin.vue'
   import qrLogin from './components/Login/qrLogin.vue'
   import '@fortawesome/fontawesome-free/css/all.min.css';
-  const imgsrc = 'src/assets/logo/Agile_w.png'
+  const imgsrc = 'src/assets/logo/Agile.png'
   var visitorId = ''
   const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3').then((FingerprintJS) => FingerprintJS.load())
 

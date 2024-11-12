@@ -78,6 +78,7 @@ $end
 $end
 $foreach(column in dicts)
 $if(column.DictType != null && column.DictType!="sys_Is_deleted")
+        [ExcelIgnore]
         [ExcelColumn(Name = "$if(column.ColumnComment == "")${column.CsharpField}${else}${column.ColumnComment}${end}")]
         public string ${column.CsharpField}Label { get; set; }
 $else

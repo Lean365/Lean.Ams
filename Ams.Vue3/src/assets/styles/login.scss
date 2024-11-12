@@ -1,63 +1,115 @@
-.login-wrap-vanta {
-  //background: radial-gradient(220% 105% at top center, #1b2947 10%, #4b76a7 40%, #81acae 65%, #f7f7b6);
-  background-attachment: fixed;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  //视频背景时启用margin
-  margin: -1000px auto 3000px auto;
-  //particles动画粒子启用时使用height.
-  height: 100%;
-  // background-image: url('@/assets/images/login-bg.jpg');
-  //margin: 10px auto 15px auto;
-  background-size: cover;
-  flex-direction: column;
-
-  .login {
-    //display: flex;
-    align-items: center; /* 垂直居中 */
-    justify-content: center; /* 水平居中，可选 */
-    position: absolute;
-    margin: 0 auto;
-    background: #ffffff;
-    border-radius: 6px;
-    width: var(--base-login-width);
-    position: relative;
-     //height: 600px;
-  }
-}
-
 .login-wrap-particles {
-  //background: radial-gradient(220% 105% at top center, #1b2947 10%, #4b76a7 40%, #81acae 65%, #f7f7b6);
+
+  /* 定义关键帧 */
+  @keyframes backgroundChange {
+    0% {
+      background-color: red;
+    }
+
+    50% {
+      background-color: yellow;
+    }
+
+    100% {
+      background-color: blue;
+    }
+  }
+
+  /* 应用动画到元素 */
+  .login-wrap-particles {
+    animation: backgroundChange 5s infinite;
+  }
+
   background-attachment: fixed;
   overflow: hidden;
+  /* 父级添加flex属性 */
   display: flex;
+  /* x轴居中 */
   justify-content: center;
+  /* y轴居中 */
   align-items: center;
-  //视频背景时启用margin
-  //margin: -1000px auto 3000px auto;
-  //particles动画粒子启用时使用height.
   height: 100%;
   // background-image: url('@/assets/images/login-bg.jpg');
   //margin: 10px auto 15px auto;
   background-size: cover;
   flex-direction: column;
+}
 
-  .login {
-    margin: 0 auto;
-    background: #ffffff;
-    border-radius: 6px;
-    width: var(--base-login-width);
-    position: relative;
-     //height: 600px;
+.login {
+  position: relative;
+  width: var(--base-login-width);
+  background: repeating-conic-gradient(from var(--a), #b1c6ec 0%, #b1c6ec 5%, transparent 5%, transparent 40%, #b1c6ec 50%);
+  animation: animate 4s linear infinite;
+  border-radius: 20px;
+  z-index: 1;
+}
+
+@property --a {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes animate {
+  0% {
+    --a: 0deg;
+  }
+
+  100% {
+    --a: 360deg;
   }
 }
+
+.login::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: repeating-conic-gradient(from var(--a), #f5f6f7 0%, #45f3ff 5%, transparent 5%, transparent 40%, #45f3ff 50%);
+  animation: animate 4s linear infinite;
+  animation-delay: -1s;
+  border-radius: 20px;
+  z-index: -2;
+}
+
+.login::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  background-color: #fff;
+  border-radius: 15px;
+  border: 2px solid transparent;
+  z-index: -1;
+}
+
 
 .title {
   margin: 10px auto 15px auto;
   text-align: center;
-  // color: #fff;
+  // color: #009966;
+  color: #E6A23C;
+  font-family: "Century Gothic", Consolas, "Liberation Mono", Courier, Verdana;
+  //font-size: 30px;
+  animation: spread 10s ease-in-out infinite alternate;
+
+  @keyframes spread {
+    to {
+      color: #E6A23C;
+      text-shadow: 0 0 100px #E6A23C;
+    }
+  }
+
+  span:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
 }
 
 .login-form {
@@ -97,7 +149,7 @@
   bottom: 0;
   width: 100%;
   text-align: center;
-  color: #fff;
+  color: #009966;
   font-family: Arial;
   font-size: 12px;
   letter-spacing: 1px;
@@ -109,12 +161,14 @@
 }
 
 .langSet {
+  margin: 10px auto 15px auto;
   position: absolute;
   right: 2%;
   top: 2%;
 }
 
 .logoSet {
+  margin: 10px auto 15px auto;
   position: absolute;
   left: 2%;
   top: 2%;
@@ -127,7 +181,37 @@
   left: 8%;
   top: 3%;
   font-size: 1.3em;
-  color: #fff;
+  font-family: "Century Gothic", Consolas, "Liberation Mono", Courier, Verdana;
+  color: #5BA6DF;
+  text-shadow: 1px 1px 10px #5BA6DF;
+  background-image: -webkit-linear-gradient(left, #2EC7C9, #E6D205 25%, #2EC7C9 50%, #E6D205 75%, #2EC7C9 100%);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-background-size: 200% 100%;
+  -webkit-animation: masked-animation 4s infinite linear;
+  font-family: Chaparral Pro Light;
+  letter-spacing: 2px;
+
+  //font-size: 56px;
+  @keyframes spread {
+    to {
+      color: #33FFCC;
+      text-shadow: 0 0 100px #33FFCC;
+    }
+  }
+
+  span:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
 }
 
 .scan-wrap {

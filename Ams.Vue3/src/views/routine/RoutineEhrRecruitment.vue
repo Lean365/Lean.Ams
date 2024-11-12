@@ -22,7 +22,7 @@
               :filter-node-method="filterNode" ref="deptTreeRef" node-key="id" highlight-current default-expand-all
               @node-click="handleNodeClick">
               <template #default="{ node, data }">
-                <span class="custom-tree-node">
+                <span>
                   <span>
                     <svg-icon name="m-house" v-if="data.children && data.children.length > 0"></svg-icon>
                     {{ node.label }}

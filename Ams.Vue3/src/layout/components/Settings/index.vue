@@ -122,6 +122,7 @@
   import useSettingsStore from '@/store/modules/settings'
   import usePermissionStore from '@/store/modules/permission'
   import useUserStore from '@/store/modules/user'
+  import defaultSettings from '@/settings'
   const { proxy } = getCurrentInstance()
   const appStore = useAppStore()
   const settingsStore = useSettingsStore()
@@ -224,7 +225,7 @@
     }
   })
   const changeWatermark = () => {
-    storeSettings.value.showWatermark ? setWatermark(useUserStore().userInfo.userName) : removeWatermark()
+    storeSettings.value.showWatermark ? setWatermark(defaultSettings.watermarkText) : removeWatermark()
   }
   // 开启水印
   changeWatermark()
@@ -352,7 +353,7 @@
     }
   }
 
-  // 导航模式
+  /* // 导航模式 */
   .nav-wrap {
     display: flex;
     justify-content: flex-start;
@@ -373,7 +374,7 @@
       border-radius: 4px;
       background: #f0f2f5;
       border: 2px solid transparent;
-      // box-shadow: 0 1px 2.5px #0000002e;
+      /* // box-shadow: 0 1px 2.5px #0000002e; */
     }
 
     .left {

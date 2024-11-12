@@ -43,13 +43,13 @@
         /// <summary>
         /// 异常
         /// </summary>
-        [SugarColumn(Length = 200)]
+        [SugarColumn(ColumnDataType = "NVARCHAR(MAX)")]
         public string Exception { get; set; }
 
         /// <summary>
         /// 任务消息
         /// </summary>
-        [SugarColumn(Length = 200)]
+        [SugarColumn(ColumnDataType = "NVARCHAR(MAX)")]
         public string JobMessage { get; set; }
 
         /// <summary>
