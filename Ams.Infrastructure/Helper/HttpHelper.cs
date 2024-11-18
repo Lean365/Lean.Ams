@@ -14,10 +14,11 @@ namespace Ams.Infrastructure.Helper
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <param name="contentType">application/xml、application/json、application/text、application/x-www-form-urlencoded</param>
-        /// <param name="headers">填充消息头</param>        
+        /// <param name="headers">填充消息头</param>
         /// <returns></returns>
         public static string HttpPost(string url, string postData = null, string contentType = null, int timeOut = 30, Dictionary<string, string> headers = null)
         {
+            Console.WriteLine($"【{DateTime.Now}】Post请求{url}");
             postData ??= "";
             using HttpClient client = new HttpClient();
             client.Timeout = new TimeSpan(0, 0, timeOut);
@@ -40,10 +41,11 @@ namespace Ams.Infrastructure.Helper
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <param name="contentType">application/xml、application/json、application/text、application/x-www-form-urlencoded</param>
-        /// <param name="headers">填充消息头</param>        
+        /// <param name="headers">填充消息头</param>
         /// <returns></returns>
         public static async Task<string> HttpPostAsync(string url, string postData = null, string contentType = null, int timeOut = 30, Dictionary<string, string> headers = null)
         {
+            Console.WriteLine($"【{DateTime.Now}】Get请求{url}");
             postData ??= "";
             using HttpClient client = new HttpClient();
             client.Timeout = new TimeSpan(0, 0, timeOut);
@@ -117,7 +119,7 @@ namespace Ams.Infrastructure.Helper
         /// <param name="url"></param>
         /// <param name="postData"></param>
         /// <param name="contentType">application/xml、application/json、application/text、application/x-www-form-urlencoded</param>
-        /// <param name="headers">填充消息头</param>        
+        /// <param name="headers">填充消息头</param>
         /// <returns></returns>
         public static string HttpPut(string url, string postData = null, string contentType = null, int timeOut = 30, Dictionary<string, string> headers = null)
         {

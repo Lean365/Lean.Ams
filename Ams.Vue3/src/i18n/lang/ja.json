@@ -100,6 +100,7 @@
     "tool": "ツール",
     "toolCodeGen": "コード生成",
     "toolCodeGenEdit": "コード変更",
+    "toolDataBase": "データベース",
     "toolInterface": "APIs"
   },
   "tagsView": {

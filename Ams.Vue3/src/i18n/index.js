@@ -67,6 +67,12 @@ import pageGenCn from './pages/gen/zh-cn.json'
 import pageGenTw from './pages/gen/zh-tw.json'
 import pageGenJa from './pages/gen/ja.json'
 import pageGenEn from './pages/gen/en.json'
+
+//数据库表管理页面
+import pageDatabaseCn from './pages/database/zh-cn.json'
+import pageDatabaseTw from './pages/database/zh-tw.json'
+import pageDatabaseJa from './pages/database/ja.json'
+import pageDatabaseEn from './pages/database/en.json'
 //任务页面
 import pageTaskCn from './pages/task/zh-cn.json'
 import pageTaskTw from './pages/task/zh-tw.json'
@@ -163,6 +169,7 @@ const i18n = createI18n({
       ...pageComponentsCn,
       ...pageAboutCn,
       ...pageConfigCn,
+      ...pageDatabaseCn,
       ...pageDeptCn,
       ...pageDictCn,
       ...pageErrorCn,
@@ -192,6 +199,7 @@ const i18n = createI18n({
       ...pageComponentsTw,
       ...pageAboutTw,
       ...pageConfigTw,
+      ...pageDatabaseTw,
       ...pageDeptTw,
       ...pageDictTw,
       ...pageErrorTw,
@@ -220,6 +228,7 @@ const i18n = createI18n({
       ...pageComponentsJa,
       ...pageAboutJa,
       ...pageConfigJa,
+      ...pageDatabaseJa,
       ...pageDeptJa,
       ...pageDictJa,
       ...pageErrorJa,
@@ -248,6 +257,7 @@ const i18n = createI18n({
       ...pageComponentsEn,
       ...pageAboutEn,
       ...pageConfigEn,
+      ...pageDatabaseEn,
       ...pageDeptEn,
       ...pageDictEn,
       ...pageTaskEn,

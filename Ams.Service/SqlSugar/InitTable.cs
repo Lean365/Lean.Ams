@@ -117,8 +117,11 @@ namespace Ams.Service.SqlSugar
             db.CodeFirst.InitTables(typeof(PpOutputAssySlv));
             db.CodeFirst.InitTables(typeof(PpOutputPcbaMa));
             db.CodeFirst.InitTables(typeof(PpOutputPcbaSlv));
-            db.CodeFirst.InitTables(typeof(PpRepairAssyMa));
-            db.CodeFirst.InitTables(typeof(PpRepairAssySlv));
+            db.CodeFirst.InitTables(typeof(PpDefectAssyMa));
+            db.CodeFirst.InitTables(typeof(PpDefectAssySlv));
+            //db.CodeFirst.InitTables(typeof(PpDefectAssyModifyMa));
+            //db.CodeFirst.InitTables(typeof(PpDefectAssyModifySlv));
+            db.CodeFirst.InitTables(typeof(PpDefectTotal));
             db.CodeFirst.InitTables(typeof(PpRepairPcbaMa));
             db.CodeFirst.InitTables(typeof(PpRepairPcbaSlv));
             db.CodeFirst.InitTables(typeof(PpSourceEcMa));

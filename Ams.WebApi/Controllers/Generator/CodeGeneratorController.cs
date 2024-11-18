@@ -12,7 +12,7 @@ namespace Ams.WebApi.Controllers.Generator
     /// </summary>
     [Verify]
     [Route("tool/gen")]
-    [ApiExplorerSettings(GroupName = "system")]
+    [ApiExplorerSettings(GroupName = "tool")]
     public class CodeGeneratorController : BaseController
     {
         private readonly CodeGeneratorService _CodeGeneraterService = new CodeGeneratorService();

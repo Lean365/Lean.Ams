@@ -100,6 +100,7 @@
     "tool": "系统工具",
     "toolCodeGen": "代码生成",
     "toolCodeGenEdit": "代码修改",
+    "toolDataBase": "数据库",
     "toolInterface": "APIs接口"
   },
   "tagsView": {
