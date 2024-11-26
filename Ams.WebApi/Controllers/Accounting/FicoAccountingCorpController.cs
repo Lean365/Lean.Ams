@@ -13,17 +13,17 @@ namespace Ams.WebApi.Controllers.Accounting
     [Verify]
     [Route("Accounting/FicoAccountingCorp")]
     [ApiExplorerSettings(GroupName = "accounting")]
-    public class FicoAccountingCorpController : BaseController
+    public class FicoAccountingCorpController(IFicoAccountingCorpService FicoAccountingCorpService) : BaseController
     {
         /// <summary>
         /// 公司科目接口
         /// </summary>
-        private readonly IFicoAccountingCorpService _FicoAccountingCorpService;
+        private readonly IFicoAccountingCorpService _FicoAccountingCorpService = FicoAccountingCorpService;
 
-        public FicoAccountingCorpController(IFicoAccountingCorpService FicoAccountingCorpService)
-        {
-            _FicoAccountingCorpService = FicoAccountingCorpService;
-        }
+        //public FicoAccountingCorpController(IFicoAccountingCorpService FicoAccountingCorpService)
+        //{
+        //    _FicoAccountingCorpService = FicoAccountingCorpService;
+        //}
 
         /// <summary>
         /// 查询公司科目列表
@@ -134,7 +134,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [ActionPermissionFilter(Permission = "fico:accountingcorp:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
-            List<FicoAccountingCorpDto> list = new();
+            List<FicoAccountingCorpDto> list = [];
             using (var stream = formFile.OpenReadStream())
             {
                 list = stream.Query<FicoAccountingCorpDto>(startCell: "A1").ToList();

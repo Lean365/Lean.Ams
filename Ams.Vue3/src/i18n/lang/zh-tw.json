@@ -101,6 +101,9 @@
     "toolCodeGen": "程式碼生成",
     "toolCodeGenEdit": "程式碼修改",
     "toolDataBase": "數據庫",
+    "toolViewDataTable": "查看表",
+    "toolNewDataTable": "新建表",
+    "toolEditDataTable": "編輯表",
     "toolInterface": "APIs介面"
   },
   "tagsView": {

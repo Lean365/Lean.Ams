@@ -5,7 +5,7 @@ namespace Ams.Model.Logistics.Dto
     /// 客户
     /// 查询对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/11/7 16:02:07
+    /// @Date: 2024/11/26 15:01:09
     /// </summary>
     public class SdClientQueryDto : PagerInfo 
     {
@@ -75,7 +75,7 @@ namespace Ams.Model.Logistics.Dto
     /// 客户
     /// 输入输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/11/7 16:02:07
+    /// @Date: 2024/11/26 15:01:09
     /// </summary>
     public class SdClientDto
     {
@@ -443,7 +443,7 @@ namespace Ams.Model.Logistics.Dto
     /// 客户
     /// 导入模板输出对象
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/11/7 16:02:07
+    /// @Date: 2024/11/26 15:01:09
     /// </summary>
     public class SdClientImportTpl
     {

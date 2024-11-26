@@ -5,6 +5,9 @@ import ElementPlus from 'element-plus'
 import 'dayjs/locale/zh-cn'
 import '@/assets/styles/index.scss' // global css
 
+import 'highlight.js/styles/stackoverflow-light.css'
+import 'highlight.js/lib/common'
+import hljsVuePlugin from '@highlightjs/vue-plugin'
 
 import App from './App'
 import router from './router'
@@ -68,7 +71,6 @@ app.config.globalProperties.addDateRange = addDateRange
 app.config.globalProperties.selectDictLabel = selectDictLabel
 app.config.globalProperties.dateOptions = dateOptions
 
-
 // 全局组件挂载
 app.component('DictTag', DictTag)
 app.component('Pagination', Pagination)
@@ -82,4 +84,4 @@ app.component('MyTable', MyTable)
 
 directive(app)
 vxetb(app)
-app.use(pinia).use(router).use(plugins).use(ElementPlus, {}).use(elementIcons).use(vueI18n).mount('#app')
+app.use(pinia).use(router).use(plugins).use(ElementPlus, {}).use(elementIcons).use(vueI18n).use(hljsVuePlugin).mount('#app')

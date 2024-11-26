@@ -1,341 +1,377 @@
+<!--
+ * @Descripttion: 数据表/viewTable
+ * @Version: 0.24.682.31110
+ * @Author: Lean365(Davis.Ching)
+ * @Date: 2024/11/12 17:19:12
+ * @column：36
+ * 日期显示格式：<template #default="scope"> {{ parseTime(scope.row.xxxDate, 'YYYY-MM-DD') }} </template>
+-->
 <template>
   <div>
-    <el-tabs v-model="activeName" tab-position="top">
-      <el-tab-pane :label="$t('gencode.basic')" name="basic">
-        <basic-info-form ref="basicInfo" :info="info" />
-      </el-tab-pane>
-      <el-tab-pane :label="$t('gencode.genInfo')" name="genInfo">
-        <gen-info-form ref="genInfo" :info="info" :tables="tables" :columns="columns" />
-      </el-tab-pane>
-      <el-tab-pane :label="$t('gencode.cloum')" name="cloum">
-        <el-table ref="dragTableRef" v-loading="loading" :data="columns" row-key="columnId" min-height="80px"
-          :max-height="tableHeight">
-          <el-table-column label="#" type="index" class-name="allowDrag" width="60" fixed />
-          <el-table-column :label="$t('gencode.columnName')" prop="columnName" :show-overflow-tooltip="true" width="90"
-            fixed />
-          <el-table-column :label="$t('gencode.columnComment')" fixed width="120">
-            <template #default="scope">
-              <el-input v-model="scope.row.columnComment" :ref="setColumnsRef"
-                @keydown="nextFocus(scope.row, scope.$index, $event)"> </el-input>
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('gencode.columnType')" prop="columnType" :show-overflow-tooltip="true"
-            width="90" />
-          <el-table-column :label="$t('gencode.csharpType')" width="140">
-            <template #default="scope">
-              <el-select v-model="scope.row.csharpType" style="width:120px">
-                <el-option label="int" value="int" />
-                <el-option label="long" value="long" />
-                <el-option label="string" value="string" />
-                <el-option label="double" value="double" />
-                <el-option label="decimal" value="decimal" />
-                <el-option label="DateTime" value="DateTime" />
-                <el-option label="bool" value="bool" />
-              </el-select>
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('gencode.csharpField')" width="100">
-            <template #default="scope">
-              <el-input v-model="scope.row.csharpField"></el-input>
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('gencode.isRequired')" width="60" align="center">
-            <template #default="scope">
-              <!-- <el-checkbox v-model="scope.row.isRequired"></el-checkbox> -->
-              <el-switch v-model="scope.row.isRequired" />
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('gencode.front')" align="center" label-class-name="text-info">
-            <template #header>
-              <span>
-                <el-tooltip :content="$t('gencode.frontMemo')" placement="top">
-                  <el-icon :size="15">
-                    <questionFilled />
-                  </el-icon>
-                </el-tooltip>
-                {{$t('gencode.front')}}
-              </span>
-            </template>
-            <el-table-column :label="$t('gencode.isList')" width="60" align="center">
-              <template #default="scope">
-                <el-checkbox v-model="scope.row.isList"></el-checkbox>
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('gencode.isSort')" width="60" align="center">
-              <template #default="scope">
-                <el-checkbox v-model="scope.row.isSort"
-                  :disabled="scope.row.htmlType == 'imageUpload' || scope.row.htmlType == 'fileUpload'"></el-checkbox>
-              </template>
-            </el-table-column>
-          </el-table-column>
-          <el-table-column :label="$t('gencode.back')" align="center" label-class-name="text-hotpink">
-            <!-- <el-table-column label="插入" width="60" align="center" v-if="info.tplCategory != 'select'">
-              <template #default="scope">
-                <el-checkbox v-model="scope.row.isInsert" :disabled="scope.row.isIncrement"></el-checkbox>
-              </template>
-            </el-table-column> -->
-            <el-table-column :label="$t('gencode.isEdit')" width="60" align="center"
-              v-if="info.tplCategory != 'select'">
-              <template #default="scope">
-                <el-checkbox v-model="scope.row.isEdit"
-                  :disabled="scope.row.isPk || scope.row.isIncrement"></el-checkbox>
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('gencode.autoFillType')" align="center">
-              <template #header>
-                <span>
-                  <el-tooltip :content="$t('gencode.autoFillMemo')" placement="top">
-                    <el-icon :size="15">
-                      <questionFilled />
-                    </el-icon>
-                  </el-tooltip>
-                  {{$t('gencode.autoFillType')}}
-                </span>
-              </template>
-              <template #default="scope">
-                <el-select v-model="scope.row.autoFillType" style="width:100px" clearable filterable>
-                  <el-option label=" " :value="0" />
-                  <el-option :label="$t('gencode.autoFillInsert')" :value="1" />
-                  <el-option :label="$t('gencode.isEdit')" :value="2" />
-                  <el-option :label="$t('gencode.autoFillInsertEdit')" :value="3" />
-                </el-select>
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('gencode.isExport')" width="60" align="center">
-              <template #default="scope">
-                <el-checkbox v-model="scope.row.isExport"> </el-checkbox>
-              </template>
-            </el-table-column>
-          </el-table-column>
-          <el-table-column :label="$t('gencode.query')" align="center" label-class-name="text-green">
-            <el-table-column :label="$t('gencode.isQuery')" width="60" align="center">
-              <template #default="scope">
-                <el-checkbox v-model="scope.row.isQuery"
-                  :disabled="scope.row.htmlType == 'imageUpload' || scope.row.htmlType == 'fileUpload'">
-                </el-checkbox>
-              </template>
-            </el-table-column>
-            <el-table-column :label="$t('gencode.queryType')" align="center">
-              <template #default="scope">
-                <el-select v-model="scope.row.queryType" :disabled="scope.row.htmlType == 'datetime'" clearable
-                  filterable v-if="scope.row.isQuery" style="width:100px">
-                  <el-option label="=" value="EQ" />
-                  <el-option label="!=" value="NE" />
-                  <el-option label=">" value="GT" />
-                  <el-option label=">=" value="GTE" />
-                  <el-option label="<" value="LT" />
-                  <el-option label="<=" value="LTE" />
-                  <el-option label="LIKE" value="LIKE" />
-                  <el-option label="BETWEEN" value="BETWEEN" />
-                </el-select>
-              </template>
-            </el-table-column>
-          </el-table-column>
+    <!-- 查询区域 -->
 
-          <el-table-column :label="$t('gencode.htmlType')" width='160px'>
-            <template #default="scope">
-              <el-select v-model="scope.row.htmlType" clearable filterable style="width:140px">
-                <el-option :label="$t('gencode.forminput')" value="input" />
-                <el-option :label="$t('gencode.forminputNumber')" value="inputNumber" />
-                <el-option :label="$t('gencode.formtextarea')" value="textarea" />
-                <el-option :label="$t('gencode.formselect')" value="select" />
-                <el-option :label="$t('gencode.formselectRemote')" value="selectRemote" />
-                <el-option :label="$t('gencode.formselectMulti')" value="selectMulti" />
-                <el-option :label="$t('gencode.formselectVirtual')" value="selectVirtual" />
-                <el-option :label="$t('gencode.formselectVirtualMulti')" value="selectVirtualMulti" />
-                <el-option :label="$t('gencode.formselectVirtualRemote')" value="SelectVirtualRemote" />
-                <el-option :label="$t('gencode.formradio')" value="radio" />
-                <el-option :label="$t('gencode.formcheckbox')" value="checkbox" />
-                <el-option :label="$t('gencode.formdatetime')" value="datetime" />
-                <el-option :label="$t('gencode.formdatePicker')" value="datePicker" />
-                <el-option :label="$t('gencode.formimageUpload')" value="imageUpload" />
-                <el-option :label="$t('gencode.formfileUpload')" value="fileUpload" />
-                <el-option :label="$t('gencode.formeditor')" value="editor" />
-                <el-option :label="$t('gencode.formcustomInput')" value="customInput" />
-                <el-option :label="$t('gencode.formselectRadio')" value="selectRadio" />
-                <el-option :label="$t('gencode.formcolorPicker')" value="colorPicker" />
-                <el-option :label="$t('gencode.formmonth')" value="month" />
-                <el-option :label="$t('gencode.formswitch')" value="switch" />
-                <el-option :label="$t('gencode.formslider')" value="slider" />
-              </el-select>
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('gencode.dictType')" width='160px'>
-            <template #default="scope">
-              <el-select v-model="scope.row.dictType" clearable filterable style="width:140px"
-                :placeholder="$t('btn.selectPrefix')+$t('gencode.dictType')+$t('btn.selectSuffix')" v-if="
-                  scope.row.htmlType == 'selectMulti' ||
-                  scope.row.htmlType == 'selectRemote' ||
-                  scope.row.htmlType == 'selectVirtual' ||
-                  scope.row.htmlType == 'selectVirtualMulti' ||
-                  scope.row.htmlType == 'SelectVirtualRemote' ||
-                  scope.row.htmlType == 'select' ||
-                  scope.row.htmlType == 'radio' ||
-                  scope.row.htmlType == 'checkbox' ||
-                  scope.row.htmlType == 'selectRadio'
-                ">
-                <el-option v-for="dict in dictOptions" :key="dict.dictType" :label="dict.dictName"
-                  :value="dict.dictType">
-                  <span style="float: left">{{ dict.dictName }}</span>
-                  <span style="float: right; color: #8492a6; font-size: 13px">{{ dict.dictType }}</span>
-                </el-option>
-              </el-select>
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('common.tipRemarks')" align="center">
-            <template #default="scope">
-              <el-input v-model="scope.row.remark"> </el-input>
-            </template>
-          </el-table-column>
-        </el-table>
-        <div style="font-size: 12px; color: #f57004">{{$t('gencode.sortMemo')}}</div>
-      </el-tab-pane>
-    </el-tabs>
-    <footer class="mt20" style="text-align: center">
-      <el-button type="primary" icon="check" :loading="submitLoading"
-        @click="submitForm()">{{$t('btn.submit')}}</el-button>
-      <el-button type="success" icon="refresh" @click="handleQuery()">{{$t('btn.refresh')}}</el-button>
-      <el-button icon="back" @click="close()">{{$t('btn.return')}}</el-button>
-    </footer>
+    <!-- 工具区域 -->
+    <el-row :gutter="15" class="mb10">
+      <el-col :lg="24" :offset="12">
+        <el-button type="primary" @click="submitForm">{{ $t('btn.submit') }}</el-button>
+      </el-col>
+      <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
+    </el-row>
+
+    <!-- 数据区域 -->
+    <el-table border height="750px" :data="dataList" v-loading="loading" ref="table"
+      header-cell-class-name="el-table-header-cell" highlight-current-row @sort-change="sortChange"
+      @selection-change="handleSelectionChange">
+      <!-- <el-table-column type="selection" width="50" align="center" /> -->
+      <el-table-column prop="tableId" :label="$t('database.tableId')" align="center"
+        v-if="columns.showColumn('tableId')">
+      </el-table-column>
+      <el-table-column prop="tableName" :label="$t('database.tableName')" align="center" width="200"
+        v-if="columns.showColumn('tableName')">
+      </el-table-column>
+      <el-table-column prop="dbColumnName" :label="$t('database.columnName')" align="center"
+        v-if="columns.showColumn('dbColumnName')">
+        <template #default="scope">
+          <el-input v-model="scope.row.dbColumnName" v-show="scope.row.isEdit" show-word-limit
+            maxlength="40"></el-input>
+          <span v-show="!scope.row.isEdit">{{ scope.row.dbColumnName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="columnDescription" :label="$t('database.columnDescription')" align="center"
+        v-if="columns.showColumn('columnDescription')">
+        <template #default="scope">
+          <el-input v-model="scope.row.columnDescription" v-show="scope.row.isEdit" show-word-limit
+            maxlength="40"></el-input>
+          <span v-show="!scope.row.isEdit">{{ scope.row.columnDescription }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="dataType" :label="$t('database.dataType')" align="center"
+        v-if="columns.showColumn('dataType')">
+        <template #default="scope">
+          <el-select v-model="scope.row.dataType" v-show="scope.row.isEdit" style="width: 100px;"
+            @change="checkDataType">
+            <el-option label="bigint" value="bigint" />
+            <el-option label="bigint" value="bigint" />
+            <el-option label="char" value="char" />
+            <el-option label="datetime" value="datetime" />
+            <el-option label="decimal" value="decimal" />
+            <el-option label="int" value="int" />
+            <el-option label="nvarchar" value="nvarchar" />
+            <el-option label="nvarchar(max)" value="nvarchar(max)" />
+            <el-option label="text" value="text" />
+            <el-option label="uniqueidentifier" value="uniqueidentifier" />
+            <el-option label="varchar" value="varchar" />
+            <el-option label="varchar(max)" value="varchar(max)" />
+          </el-select>
+          <span v-show="!scope.row.isEdit">{{ scope.row.dataType }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="isPrimarykey" :label="$t('database.isPrimarykey')" align="center"
+        v-if="columns.showColumn('isPrimarykey')">
+        <template #default="scope">
+          <el-select v-model="scope.row.isPrimarykey" v-show="scope.row.isEdit" style="width: 100px;"
+            @change="checkDataType">
+            <el-option label="false" value="false" />
+            <el-option label="true" value="true" />
+          </el-select>
+          <span v-show="!scope.row.isEdit">{{ scope.row.isPrimarykey }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="isIdentity" :label="$t('database.isIdentity')" align="center"
+        v-if="columns.showColumn('isIdentity')">
+        <template #default="scope">
+          <el-select v-model="scope.row.isIdentity" v-show="scope.row.isEdit" style="width: 100px;"
+            @change="checkDataType">
+            <el-option label="false" value="false" />
+            <el-option label="true" value="true" />
+          </el-select>
+          <span v-show="!scope.row.isEdit">{{ scope.row.isIdentity }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="defaultValue" :label="$t('database.defaultValue')" align="center"
+        v-if="columns.showColumn('defaultValue')">
+        <template #default="scope">
+          <el-input v-model="scope.row.defaultValue" v-show="scope.row.isEdit" show-word-limit
+            maxlength="40"></el-input>
+          <span v-show="!scope.row.isEdit">{{ scope.row.defaultValue }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="length" :label="$t('database.length')" align="center" v-if="columns.showColumn('length')">
+        <template #default="scope">
+          <el-input-number v-model="scope.row.length" v-show="scope.row.isEdit" :step="1" :style="{ width: '120px' }"
+            :max="5000" :min="0"></el-input-number>
+          <span v-show="!scope.row.isEdit">{{ scope.row.length }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="decimalDigits" :label="$t('database.decimalDigits')" align="center"
+        v-if="columns.showColumn('decimalDigits')">
+        <template #default="scope">
+          <el-input-number v-model="scope.row.decimalDigits" v-show="scope.row.isEdit" :step="1"
+            :style="{ width: '120px' }" :max="5" :min="0"></el-input-number>
+          <span v-show="!scope.row.isEdit">{{ scope.row.decimalDigits }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="isNullable" :label="$t('database.isNullable')" align="center"
+        v-if="columns.showColumn('isNullable')">
+        <template #default="scope">
+          <el-select v-model="scope.row.isNullable" v-show="scope.row.isEdit" style="width: 100px;"
+            @change="checkDataType">
+            <el-option label="false" value="false" />
+            <el-option label="true" value="true" />
+          </el-select>
+          <span v-show="!scope.row.isEdit">{{ scope.row.isNullable }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('btn.operation')" width="160" align="center">
+        <template #default="scope">
+          <el-button-group>
+            <el-button v-show="!scope.row.isEdit" class="btn-edit" plain size="small" icon="edit"
+              :title="$t('btn.edit')" v-hasPermi="['fico:profitcenter:edit']"
+              @click="handleUpdate(scope.row)"></el-button>
+            <el-button v-show="scope.row.isEdit" class="btn-add" plain size="small" icon="check" :title="$t('btn.save')"
+              v-hasPermi="['fico:profitcenter:edit']" @click="handleSave(scope.row)"></el-button>
+            <el-button class="btn-delete" plain size="small" icon="delete" :title="$t('btn.save')"
+              v-hasPermi="['fico:profitcenter:delete']" @click="handleDelete(scope.row)"></el-button>
+          </el-button-group>
+        </template>
+      </el-table-column>
+    </el-table>
+    <pagination :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize"
+      @pagination="getList" />
+
+    <!-- 添加或修改不良统计对话框 -->
+
   </div>
 </template>
-<script setup name="genedit">
-  import { updateGenTable, getGenTable } from '@/api/tool/gen'
-  import { listType } from '@/api/system/dict/type'
-  import basicInfoForm from './basicInfoForm'
-  import genInfoForm from './genInfoForm'
-  import { useRoute } from 'vue-router'
-  import Sortable from 'sortablejs'
 
-  // 选中选项卡的 name
-  const activeName = ref('basic')
-  // 表格的高度
-  const tableHeight = ref(document.documentElement.scrollHeight - 275 + 'px')
-  // 表信息
-  const tables = ref([])
-  // 表列信息
-  const columns = ref([])
-  // 字典信息
-  const dictOptions = ref([])
-  // 表详细信息
-  const info = ref({})
-  const loading = ref(true)
-  const dragTableRef = ref()
-  const route = useRoute()
+<script setup name="viewTable">
+  import '@/assets/styles/btn-custom.scss'
+  //后台操作函数
+  import { listDataBases, listDataTables, listDataColumns } from '@/api/tool/database'
+
+  //防抖处理函数 import { debounce } from 'lodash';
+  import { debounce } from 'lodash';
+  //获取当前组件实例
   const { proxy } = getCurrentInstance()
-  const submitLoading = ref(false)
-  function handleQuery() {
-    const tableId = route.query && route.query.tableId
+  //定义路由
+  const route = useRoute();
+  //标签页
+  const activeName = ref('first')
+  const handleClick = (tab, event) => {
+    console.log(tab, event)
+  }
+  // 数据库数据
+  const dbList = ref([])
+  //选中refId数组数组
+  const ids = ref([])
+  //是否加载动画
+  const loading = ref(false)
+  //显示搜索条件
+  const showSearch = ref(true)
+  //使用reactive()定义响应式变量,仅支持对象、数组、Map、Set等集合类型有效
+  const queryParams = reactive({
+    pageNum: 1,
+    pageSize: 56,
+    sort: 'tableName',
+    sortType: 'desc',
+    //数据库名称,是否查询（1是）
+    dbName: route.query.dbName,//undefined,
+    //数据表名称,是否查询（1是）
+    tableName: route.query.tableName//undefined,
 
-    if (tableId) {
-      // 获取表详细信息
-      getGenTable(tableId).then((res) => {
+  })
+  //字段显示控制
+  const columns = ref([
+    { visible: false, prop: "tableId", label: proxy.$t('database.tableId') },
+    { visible: true, prop: "tableName", label: proxy.$t('database.tableName') },
+    { visible: true, prop: "dbColumnName", label: proxy.$t('database.columnName') },
+    { visible: true, prop: "columnDescription", label: proxy.$t('database.columnDescription') },
+    { visible: true, prop: "dataType", label: proxy.$t('database.dataType') },
+    { visible: true, prop: "isPrimarykey", label: proxy.$t('database.isPrimarykey') },
+    { visible: true, prop: "isIdentity", label: proxy.$t('database.isIdentity') },
+    { visible: true, prop: "defaultValue", label: proxy.$t('database.defaultValue') },
+    { visible: true, prop: "length", label: proxy.$t('database.length') },
+    { visible: true, prop: "decimalDigits", label: proxy.$t('database.decimalDigits') },
+    { visible: true, prop: "isNullable", label: proxy.$t('database.isNullable') },
+  ])
+  // 记录数
+  const total = ref(0)
+  //定义数据变量
+  const dataList = ref([])
+  //查询参数
+  const queryRef = ref()
+
+  // const dbName = route.query.dbName
+  // const tableName = route.query.tableName
+  // queryParams.dbName = route.query.dbName
+  // queryParams.tableName = route.query.tableName
+
+
+  //API获取从不良统计/pp_defect_total表记录数据
+  function getList() {
+    //console.log(queryParams)
+
+    loading.value = true
+    // listDataColumns(queryParams.dbName, queryParams.tableName).then((res) => {
+    //   dataList.value = res.data.result
+    //   total.value = res.data.totalNum
+    // })
+    listDataColumns(queryParams.dbName, queryParams.tableName).then(res => {
+      const { code, data } = res
+      if (code == 200) {
+        dataList.value = data
+        total.value = data.length
         loading.value = false
-        columns.value = res.data.info.columns
-        info.value = { ...res.data.info, ...res.data.info.options }
-        tables.value = res.data.tables // 子表
-      })
-    }
+      }
+      //console.log(queryParams)
+    })
+
+    //if (queryParams.dbName !== undefined && queryParams.dbName !== '') {} else { proxy.$modal.msgError(proxy.$t('database.selectDatabaseName') + ',' + proxy.$t('btn.select')) + '!' }
   }
-  /** 提交按钮 */
+
+  // 查询
+  function handleQuery() {
+    queryParams.pageNum = 1
+    getList()
+  }
+
+  // 重置查询操作
+  function resetQuery() {
+    proxy.resetForm("queryRef")
+    handleQuery()
+  }
+  // 多选框选中数据
+  function handleSelectionChange(selection) {
+    ids.value = selection.map((item) => item.id);
+    single.value = selection.length != 1
+    multiple.value = !selection.length;
+  }
+  // 自定义排序
+  function sortChange(column) {
+    var sort = undefined
+    var sortType = undefined
+
+    if (column.prop != null && column.order != null) {
+      sort = column.prop
+      sortType = column.order
+
+    }
+    queryParams.sort = sort
+    queryParams.sortType = sortType
+    handleQuery()
+  }
+
+  /*************** form操作 ***************/
+  //定义响应式变量
+  const formRef = ref()
+  //弹出层标题
+  const title = ref('')
+
+  // 操作类型 1、add 2、edit 3、view
+  //定义响应式变量
+  const opertype = ref(0)
+  //定义对话框打开或关闭
+  const open = ref(false)
+
+
+  // 关闭dialog
+  function cancel() {
+    open.value = false
+    reset()
+  }
+
+  // 重置表单
+  function reset() {
+
+  }
+
+
+  // 添加按钮操作
+  function handleAdd() {
+
+  }
+
+
+  // 修改按钮操作
+  function handleUpdate(row) {
+    row.isEdit = true
+    // getPpDefectTotal(id).then((res) => {
+    //   const { code, data } = res
+    //   if (code == 200) {
+    //     open.value = true
+    //     title.value = proxy.$t('btn.edit') + " " + '不良统计'
+    //     opertype.value = 2
+
+    //     form.value = {
+    //       ...data,
+    //     }
+    //   }
+    // })
+  }
+  function handleSave(row) {
+    row.isEdit = false
+  }
+  // 添加&修改 表单提交
   function submitForm() {
-    submitLoading.value = true
-    const basicForm = proxy.$refs.basicInfo.$refs.basicInfoForm
-    const genForm = proxy.$refs.genInfo.$refs.genInfoForm
+    proxy.$refs["formRef"].validate((valid) => {
+      if (valid) {
 
-    Promise.all([basicForm, genForm].map(getFormPromise)).then((res) => {
-      const validateResult = res.every((item) => !!item)
-
-      if (validateResult) {
-        const genTable = Object.assign({}, info.value)
-        genTable.columns = columns.value
-        genTable.params = info.value //单独赋值给额外参数
-
-        updateGenTable(genTable)
-          .then((res) => {
-            proxy.$modal.msgSuccess(res.msg)
-            if (res.code === 200) {
-              close()
-            }
-          })
-          .catch(() => {
-            submitLoading.value = false
-          })
-      } else {
-        submitLoading.value = false
-        proxy.$modal.msgError('表单校验未通过，请重新检查提交内容')
+        // if (form.value.id != undefined && opertype.value === 2) {
+        //   updatePpDefectTotal(form.value).then((res) => {
+        //     proxy.$modal.msgSuccess(proxy.$t('common.tipEditSucceed'))
+        //     open.value = false
+        //     getList()
+        //   })
+        // } else {
+        //   addPpDefectTotal(form.value).then((res) => {
+        //     proxy.$modal.msgSuccess(proxy.$t('common.tipAddSucceed'))
+        //     open.value = false
+        //     getList()
+        //   })
+        // }
       }
     })
   }
 
-  function getFormPromise(form) {
-    return new Promise((resolve) => {
-      form.validate((res) => {
-        resolve(res)
-      })
-    })
+  // 删除按钮操作
+  function handleDelete(row) {
+    const Ids = row.id || ids.value
+
+    // proxy
+    //   .$confirm(proxy.$t('common.tipConfirmDel') + Ids + proxy.$t('common.tipConfirmDelDataitems'), proxy.$t('btn.delete') + ' ' + proxy.$t('common.tip'), {
+    //     confirmButtonText: proxy.$t('btn.submit'),
+    //     cancelButtonText: proxy.$t('btn.cancel'),
+    //     type: "warning",
+    //   })
+    //   .then(function () {
+    //     return delPpDefectTotal(Ids)
+    //   })
+    //   .then(() => {
+    //     getList()
+    //     proxy.$modal.msgSuccess(proxy.$t('common.tipDeleteSucceed'))
+    //   })
   }
 
-  /** 查询字典下拉列表 */
-  //查询参数传入DictCategory: -1,pageSize: 100000  全部字典 默认查询参数传入DictCategory:0,pageSize: 1
-  listType({ DictCategory: -1, pageSize: 100000 }).then((response) => {
-    dictOptions.value = response.data.result
-  })
-  /** 关闭按钮 */
-  function close() {
-    const obj = {
-      path: '/tool/gen',
-      query: { t: Date.now(), pageNum: route.query.pageNum }
-    }
-    proxy.$tab.closeOpenPage(obj)
+
+
+
+  // 导出按钮操作
+  function handleExport() {
+    // proxy
+    //   .$confirm(proxy.$t('common.tipConfirmExport') + "<不良统计.xlsx>", proxy.$t('btn.export') + ' ' + proxy.$t('common.tip'), {
+    //     confirmButtonText: proxy.$t('btn.submit'),
+    //     cancelButtonText: proxy.$t('btn.cancel'),
+    //     type: "warning",
+    //   })
+    //   .then(async () => {
+    //     await proxy.downFile('/Logistics/PpDefectTotal/export', { ...queryParams })
+    //   })
   }
 
-  /*************** table column  回车代码 start*************/
-  // 动态ref设置值
-  const columnRefs = ref([])
-  const setColumnsRef = (el) => {
-    if (el) {
-      columnRefs.value.push(el)
-    }
-  }
 
-  // 回车到下一行
-  function nextFocus(row, index, e) {
-    var length = columnRefs.value.length
-    var keyCode = e.keyCode || e.which || e.charCode
-    if (keyCode === 13) {
-      if (length - 1 == index) {
-        console.log('到最后一行了')
-      } else {
-        columnRefs.value[index + 1].focus()
-      }
-    }
-  }
-  /*************** table column  回车代码 end *************/
-  // 拖动排序
-  const tableSort = () => {
-    const tbody = document.querySelector('.el-table__body > tbody')
+  // @Descripttion: (自定义函数/CustomFunctions)
+  // @Functions: (assignValue,calculateValue,statisticValue)
 
-    Sortable.create(tbody, {
-      dragClass: 'sortable-ghost',
-      onEnd: (evt) => {
-        const targetRow = columns.value.splice(evt.oldIndex, 1)[0]
-        columns.value.splice(evt.newIndex, 0, targetRow)
-        for (const index in columns.value) {
-          columns.value[index].sort = parseInt(index) + 1
-        }
-      }
-    })
-  }
-
-  onMounted(() => {
-    tableSort()
-  })
 
   handleQuery()
 </script>
-<style>
-  .sortable-ghost {
-    background: burlywood;
-  }
-</style>

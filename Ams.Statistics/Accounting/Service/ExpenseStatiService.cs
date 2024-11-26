@@ -2,13 +2,13 @@
 using Ams.Model.Accounting.Dto;
 using SqlSugar;
 
-namespace Ams.Statistics.Accounting
+namespace Ams.Statistics.Accounting.Service
 {
     /// <summary>
     /// Service业务层处理
     /// </summary>
-    [AppService(ServiceType = typeof(IContStatiService), ServiceLifetime = LifeTime.Transient)]
-    public class ContStatiService : BaseService<FicoBudgetActualCont>, IContStatiService
+    [AppService(ServiceType = typeof(IExpenseStatiService), ServiceLifetime = LifeTime.Transient)]
+    public class ExpenseStatiService : BaseService<FicoBudgetActualCont>, IExpenseStatiService
     {
         /// <summary>
         /// 查询月度生产成本

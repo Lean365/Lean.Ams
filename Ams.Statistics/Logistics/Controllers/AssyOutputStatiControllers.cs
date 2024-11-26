@@ -14,17 +14,17 @@ namespace Ams.Statistics.Logistics.Controllers
     [Verify]
     [Route("stat/output/assy")]
     [ApiExplorerSettings(GroupName = "statistics")]
-    public class AssyOutputStatiControllers : BaseController
+    public class AssyOutputStatiControllers(IAssyOutputStatiService OutputStatiService) : BaseController
     {
-        private readonly IAssyOutputStatiService _OutputStatiService;
-
         /// <summary>
         /// OPH统计接口
         /// </summary>
-        public AssyOutputStatiControllers(IAssyOutputStatiService OutputStatiService)
-        {
-            _OutputStatiService = OutputStatiService;
-        }
+        private readonly IAssyOutputStatiService _OutputStatiService = OutputStatiService;
+
+        //public AssyOutputStatiControllers(IAssyOutputStatiService OutputStatiService)
+        //{
+        //    _OutputStatiService = OutputStatiService;
+        //}
 
         /// <summary>
         /// 查询最大ID

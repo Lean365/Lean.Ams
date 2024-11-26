@@ -100,7 +100,10 @@
     "tool": "Tools",
     "toolCodeGen": "Generator",
     "toolCodeGenEdit": "Gen Edit",
-    "toolDataBase": "DataBase",
+    "toolDataBase": "database",
+    "toolViewDataTable": "View Table",
+    "toolNewDataTable": "New table",
+    "toolEditDataTable": "Edit Table",
     "toolInterface": "APIs"
   },
   "tagsView": {

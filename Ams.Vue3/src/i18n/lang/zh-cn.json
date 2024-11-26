@@ -101,6 +101,9 @@
     "toolCodeGen": "代码生成",
     "toolCodeGenEdit": "代码修改",
     "toolDataBase": "数据库",
+    "toolViewDataTable": "查看表",
+    "toolNewDataTable": "新建表",
+    "toolEditDataTable": "编辑表",
     "toolInterface": "APIs接口"
   },
   "tagsView": {
@@ -367,6 +370,8 @@
     "log": "日志",
     "login": "登录",
     "more": "更多",
+    "prevStep": "上一步",
+    "nextStep": "下一步",
     "batch": "批量",
     "new": "新建",
     "newCol": "新建列",

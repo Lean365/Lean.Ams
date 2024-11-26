@@ -1,7 +1,7 @@
 ﻿using Ams.Model.Accounting.Dto;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ams.Statistics.Accounting
+namespace Ams.Statistics.Accounting.Controllers
 {
     /// <summary>
     /// 月度存货
@@ -12,17 +12,12 @@ namespace Ams.Statistics.Accounting
     [Verify]
     [Route("stat/inventory")]
     [ApiExplorerSettings(GroupName = "statistics")]
-    public class InventoryStatiControllers : BaseController
+    public class InventoryStatiControllers(IInventoryStatiService InventoryStatiService) : BaseController
     {
-        private readonly IInventoryStatiService _InventoryStatiService;
-
         /// <summary>
         /// 月度存货接口
         /// </summary>
-        public InventoryStatiControllers(IInventoryStatiService InventoryStatiService)
-        {
-            _InventoryStatiService = InventoryStatiService;
-        }
+        private readonly IInventoryStatiService _InventoryStatiService = InventoryStatiService;
 
         /// <summary>
         /// 查询月度存货

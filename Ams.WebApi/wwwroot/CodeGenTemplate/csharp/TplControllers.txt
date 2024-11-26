@@ -18,17 +18,17 @@ namespace ${options.ApiControllerNamespace}.Controllers.${options.SubNamespace}
     [Verify]
     [Route("${genTable.ModuleName}/${genTable.BusinessName}")]
     [ApiExplorerSettings(GroupName = "${tool.FirstLowerCase(genTable.ModuleName)}")]
-    public class ${replaceDto.ModelTypeName}Controller : BaseController
+    public class ${replaceDto.ModelTypeName}Controller(I${replaceDto.ModelTypeName}Service ${replaceDto.ModelTypeName}Service) : BaseController
     {
         /// <summary>
         /// ${genTable.FunctionName}接口
         /// </summary>
-        private readonly I${replaceDto.ModelTypeName}Service _${replaceDto.ModelTypeName}Service;
+        private readonly I${replaceDto.ModelTypeName}Service _${replaceDto.ModelTypeName}Service = ${replaceDto.ModelTypeName}Service;
 
-        public ${replaceDto.ModelTypeName}Controller(I${replaceDto.ModelTypeName}Service ${replaceDto.ModelTypeName}Service)
-        {
-            _${replaceDto.ModelTypeName}Service = ${replaceDto.ModelTypeName}Service;
-        }
+        //public ${replaceDto.ModelTypeName}Controller(I${replaceDto.ModelTypeName}Service ${replaceDto.ModelTypeName}Service)
+        //{
+        //    _${replaceDto.ModelTypeName}Service = ${replaceDto.ModelTypeName}Service;
+        //}
 
         /// <summary>
         /// 查询${genTable.FunctionName}列表
@@ -181,7 +181,8 @@ $if(replaceDto.ShowBtnImport)
         [ActionPermissionFilter(Permission = "${replaceDto.PermissionPrefix}:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
-            List<${replaceDto.ModelTypeName}Dto> list = new();
+            //List<${replaceDto.ModelTypeName}Dto> list = new();
+            List<${replaceDto.ModelTypeName}Dto> list = [];
             using (var stream = formFile.OpenReadStream())
             {
                 list = stream.Query<${replaceDto.ModelTypeName}Dto>(startCell: "A1").ToList();

@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Model.Accounting.Dto;
 using Ams.Service.Accounting.IAccountingService;
-using MiniExcelLibs;
-
 
 namespace Ams.WebApi.Controllers.Accounting
 {
@@ -16,17 +13,17 @@ namespace Ams.WebApi.Controllers.Accounting
     [Verify]
     [Route("Accounting/FicoBank")]
     [ApiExplorerSettings(GroupName = "accounting")]
-    public class FicoBankController : BaseController
+    public class FicoBankController(IFicoBankService FicoBankService) : BaseController
     {
         /// <summary>
         /// 银行接口
         /// </summary>
-        private readonly IFicoBankService _FicoBankService;
+        private readonly IFicoBankService _FicoBankService = FicoBankService;
 
-        public FicoBankController(IFicoBankService FicoBankService)
-        {
-            _FicoBankService = FicoBankService;
-        }
+        //public FicoBankController(IFicoBankService FicoBankService)
+        //{
+        //    _FicoBankService = FicoBankService;
+        //}
 
         /// <summary>
         /// 查询银行列表
@@ -41,7 +38,6 @@ namespace Ams.WebApi.Controllers.Accounting
             return SUCCESS(response);
         }
 
-
         /// <summary>
         /// 查询银行详情
         /// </summary>
@@ -52,7 +48,7 @@ namespace Ams.WebApi.Controllers.Accounting
         public IActionResult GetFicoBank(long Id)
         {
             var response = _FicoBankService.GetInfo(Id);
-            
+
             var info = response.Adapt<FicoBankDto>();
             return SUCCESS(info);
         }
@@ -66,7 +62,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [Log(Title = "银行", BusinessType = BusinessType.ADD)]
         public IActionResult AddFicoBank([FromBody] FicoBankDto parm)
         {
-           // 校验输入项目唯一性
+            // 校验输入项目唯一性
 
             if (UserConstants.NOT_UNIQUE.Equals(_FicoBankService.CheckInputUnique(parm.Id.ToString())))
             {
@@ -101,7 +97,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "fico:bank:delete")]
         [Log(Title = "银行", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteFicoBank([FromRoute]string ids)
+        public IActionResult DeleteFicoBank([FromRoute] string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -133,7 +129,7 @@ namespace Ams.WebApi.Controllers.Accounting
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-      [HttpPost("importData")]
+        [HttpPost("importData")]
         [Log(Title = "银行导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "fico:bank:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
@@ -160,6 +156,5 @@ namespace Ams.WebApi.Controllers.Accounting
             var result = DownloadImportTemplate(new List<FicoBankImportTpl>() { }, "FicoBank_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
-
     }
 }

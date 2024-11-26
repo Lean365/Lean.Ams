@@ -11,22 +11,22 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 顾客
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/11/7 16:05:11
+    /// @Date: 2024/11/26 15:20:13
     /// </summary>
     [Verify]
     [Route("Logistics/SdCustomer")]
     [ApiExplorerSettings(GroupName = "logistics")]
-    public class SdCustomerController : BaseController
+    public class SdCustomerController(ISdCustomerService SdCustomerService) : BaseController
     {
         /// <summary>
         /// 顾客接口
         /// </summary>
-        private readonly ISdCustomerService _SdCustomerService;
+        private readonly ISdCustomerService _SdCustomerService = SdCustomerService;
 
-        public SdCustomerController(ISdCustomerService SdCustomerService)
-        {
-            _SdCustomerService = SdCustomerService;
-        }
+        //public SdCustomerController(ISdCustomerService SdCustomerService)
+        //{
+        //    _SdCustomerService = SdCustomerService;
+        //}
 
         /// <summary>
         /// 查询顾客列表
@@ -138,7 +138,8 @@ namespace Ams.WebApi.Controllers.Logistics
         [ActionPermissionFilter(Permission = "sd:customer:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
-            List<SdCustomerDto> list = new();
+            //List<SdCustomerDto> list = new();
+            List<SdCustomerDto> list = [];
             using (var stream = formFile.OpenReadStream())
             {
                 list = stream.Query<SdCustomerDto>(startCell: "A1").ToList();

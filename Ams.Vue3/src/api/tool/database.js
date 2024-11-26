@@ -1,75 +1,106 @@
 import request from '@/utils/request'
 
-
-export function getColumnInfoList(parameter) {
+/**
+ * 获取数据库
+ */
+export function listDataBases() {
   return request({
-    url: '/dataBase/columnInfoList',
+    url: 'tool/gen/getDbList',
+    method: 'get'
+  })
+}
+/**
+ * 获取数据库表
+ */
+export function listDataTables(data) {
+  return request({
+    url: 'tool/gen/getTableList',
     method: 'get',
-    params: parameter
+    params: data
   })
 }
 
-export function getTableInfoList() {
+/**
+ * 获取表格列信息
+ * @param {*} data
+ * @returns
+ */
+export function queryColumnInfo(tableId) {
   return request({
-    url: '/dataBase/tableInfoList',
+    url: 'tool/gen/Column/' + tableId,
+    method: 'GET'
+  })
+}
+
+/**
+ * 获取表格列信息
+ * @param {*} data
+ * @returns
+ */
+export function listDataColumns(dbName, tableName) {
+  return request({
+    url: 'tool/gen/Column/',
+    method: 'GET',
+    params: { dbName, tableName } // 添加 DbName 和 TableName 参数
+  })
+}
+
+// 查询生成表数据
+export function listTable(params) {
+  return request({
+    url: 'tool/gen/list',
+    method: 'get',
+    params: params
+  })
+}
+
+// 查询表详细信息
+export function getGenTable(tableId) {
+  return request({
+    url: '/tool/gen/' + tableId,
     method: 'get'
   })
 }
 
-export function tableAdd(parameter) {
+// 导入表
+export function importTable(data) {
   return request({
-    url: '/table/add',
+    url: '/tool/gen/importTable',
     method: 'post',
-    data: parameter
+    data: data
+  })
+}
+// 删除表数据
+export function delTable(tableId) {
+  return request({
+    url: '/tool/gen/' + tableId,
+    method: 'delete'
   })
 }
 
-export function tableEdit(parameter) {
+// 修改代码生成表信息
+export function updateGenTable(data) {
   return request({
-    url: '/table/edit',
-    method: 'post',
-    data: parameter
+    url: '/tool/gen/',
+    method: 'put',
+    data: data
   })
 }
 
-export function tableDelete(parameter) {
+// 预览生成代码
+export function previewTable(tableId, data) {
   return request({
-    url: '/table/delete',
+    url: '/tool/gen/preview/' + tableId,
     method: 'post',
-    data: parameter
+    params: data
   })
 }
 
-export function columnAdd(parameter) {
+// 同步数据库
+export function synchDb(tableId, data) {
   return request({
-    url: '/column/add',
-    method: 'post',
-    data: parameter
+    url: '/tool/gen/synchDb/' + tableId,
+    method: 'get',
+    params: data
   })
 }
-
-export function columnEdit(parameter) {
-  return request({
-    url: '/column/edit',
-    method: 'post',
-    data: parameter
-  })
-}
-
-export function columnDelete(parameter) {
-  return request({
-    url: '/column/delete',
-    method: 'post',
-    data: parameter
-  })
-}
-
-export function createEntity(parameter) {
-  return request({
-    url: '/table/createEntity',
-    method: 'post',
-    data: parameter
-  })
-}
-
-

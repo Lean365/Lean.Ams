@@ -32,14 +32,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Ams.Infrastructure\Ams.Infrastructure.csproj" />
-		<ProjectReference Include="..\Ams.Model\Ams.Model.csproj" />
+		<PackageReference Include="Mapster" Version="7.4.0" />
+		<PackageReference Include="MySqlConnector" Version="2.4.0" />
+		<PackageReference Include="SqlSugar.IOC" Version="2.0.0" />
+		<PackageReference Include="SqlSugarCoreNoDrive" Version="5.1.4.170" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Mapster" Version="7.4.0" />
-		<PackageReference Include="MySqlConnector" Version="2.3.7" />
-		<PackageReference Include="SqlSugar.IOC" Version="2.0.0" />
-		<PackageReference Include="SqlSugarCoreNoDrive" Version="5.1.4.169" />
+	  <ProjectReference Include="..\Ams.Infrastructure\Ams.Infrastructure.csproj" />
+	  <ProjectReference Include="..\Ams.Model\Ams.Model.csproj" />
 	</ItemGroup>
 </Project>

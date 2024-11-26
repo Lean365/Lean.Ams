@@ -4,7 +4,7 @@ namespace Ams.Model.Logistics
     /// 客户
     /// 数据实体
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/11/7 16:02:07
+    /// @Date: 2024/11/26 15:01:09
     /// </summary>
     [SugarTable("sd_client", "客户")]
     public class SdClient : SysBase

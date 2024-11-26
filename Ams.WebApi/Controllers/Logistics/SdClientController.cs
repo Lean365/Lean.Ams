@@ -11,22 +11,22 @@ namespace Ams.WebApi.Controllers.Logistics
     /// 客户
     /// API控制器
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/11/7 16:02:07
+    /// @Date: 2024/11/26 15:01:09
     /// </summary>
     [Verify]
     [Route("Logistics/SdClient")]
     [ApiExplorerSettings(GroupName = "logistics")]
-    public class SdClientController : BaseController
+    public class SdClientController(ISdClientService SdClientService) : BaseController
     {
         /// <summary>
         /// 客户接口
         /// </summary>
-        private readonly ISdClientService _SdClientService;
+        private readonly ISdClientService _SdClientService = SdClientService;
 
-        public SdClientController(ISdClientService SdClientService)
-        {
-            _SdClientService = SdClientService;
-        }
+        //public SdClientController(ISdClientService SdClientService)
+        //{
+        //    _SdClientService = SdClientService;
+        //}
 
         /// <summary>
         /// 查询客户列表

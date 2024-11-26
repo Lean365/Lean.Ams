@@ -1,4 +1,5 @@
 **中文** | [English](./README.en.md)
+
 <h2 align="center">💥Lean.Ams通用中小制造企业的生产看板💥</h2>
 <h4 align="center">👉.Net7+Vue3.x+Element plus前后端分离的快速发开框架👈</h4>  
 <div align=center>
@@ -22,40 +23,39 @@
 - 整合[ZR.Admin](https://gitee.com/izory)框架技术高效快速开发，前后端分离模式，开箱即用。
 - 专注您的业务，轻松开发从现在开始！
 
-
 ## 📢 适合人群
 
 - 熟悉中小制造企业的业务流程。
 - 正在以及想使用 element-ui/element-plus 开发，前端开发经验 1 年+。
 - 熟悉 Vue.js 技术栈，使用它开发过几个实际项目。
 - 对原理技术感兴趣，想进阶和提升的同学。
-- 零基础，请移步到izory：[ZR.Admin](https://gitee.com/izory)。
-
-
+- 零基础，请移步到 izory：[ZR.Admin](https://gitee.com/izory)。
 
 ## 🌏 在线体验
-- 😭计划中...
 
-
+- 😭 计划中...
 
 ```
 由于是个人项目，资金有限！！！
 ```
+
 ## 🧰 代码仓库
 
-| 仓库        | Gitee                                             | Github                                         |
-| ----------- | ------------------------------------------------- | ---------------------------------------------- |
-| Laplace.Net | [下载](https://gitee.com/leansoft365/Lean.Ams)  | [下载](https://github.com/Lean365/Lean.Ams)  |
-| Lean.Ams | [克隆](https://gitee.com/leansoft365/Lean.Ams) | [克隆](https://github.com/Lean365/Lean.Ams) |
-
+| 仓库        | Gitee                                          | Github                                      |
+| ----------- | ---------------------------------------------- | ------------------------------------------- |
+| Laplace.Net | [下载](https://gitee.com/leansoft365/Lean.Ams) | [下载](https://github.com/Lean365/Lean.Ams) |
+| Lean.Ams    | [克隆](https://gitee.com/leansoft365/Lean.Ams) | [克隆](https://github.com/Lean365/Lean.Ams) |
 
 ## 🍅 前端
-- 核心框架 ：vue3.x、vuex、vue-router 、vue-cli 、axios、 element-plus、echats、i18n国际化等，前端采用vscode工具开发
+
+- 核心框架 ：vue3.x、vuex、vue-router 、vue-cli 、axios、 element-plus、echats、i18n 国际化等，前端采用 vscode 工具开发
 
 ## 🍆 后端
-- 核心框架：C#、Net7.0 、 Web API 、 sqlsugar 、 swagger 、 signalR 、 IpRateLimit 、 Quartz.net 、 Redis，后端采用vs2022工具开发
+
+- 核心框架：C#、Net7.0 、 Web API 、 sqlsugar 、 swagger 、 signalR 、 IpRateLimit 、 Quartz.net 、 Redis，后端采用 vs2022 工具开发
 
 ## 🐼 生产管理
+
 1. 预算管理
    - 人员
    - 设备
@@ -67,31 +67,34 @@
    - BOM
    - 人工
    - 生产
-4.  销售管理
-    - 客诉
-    - 序列号
-5.  物料管理
-    - MRP
-    - FC
-6.  生产管理
-    - **设变**
-    - **OPH(每小时产量)**
-    - 不良
-    - 工数
-7.  品质管理
-    - 成本(业务,返工,报废)
-    - 来料
-    - 成品
+4. 销售管理
+   - 客诉
+   - 序列号
+5. 物料管理
+   - MRP
+   - FC
+6. 生产管理
+   - **设变**
+   - **OPH(每小时产量)**
+   - 不良
+   - 工数
+7. 品质管理
+   - 成本(业务,返工,报废)
+   - 来料
+   - 成品
 
 ## 🐬 OA
+
 - 计划中...
 
 ## 🐾 ChatGPT
+
 - 计划中...
 
+## 🔰 项目结构
 
-## 🔰项目结构
 ### Agile Manufacturing
+
 ```
 ├─Ams.Common                         ->[公共层类库]：包括数据、正则、字符串等的Helper
 ├─Ams.Generator                      ->[代码生成功能]：包含模板、方法、代码、下载
@@ -105,7 +108,9 @@
 ├─Ams.Vue                            ->[前端UI]：vue2.0版本UI层(弃用)
 ├─Ams.Vue3                           ->[前端UI]：vue3.0版本UI层
 ```
+
 ### Flexible Manufacturing
+
 ```
 ├─Fms.Common                         ->[公共层类库]：包括数据、正则、字符串等的Helper
 ├─Fms.Generator                      ->[代码生成功能]：包含模板、方法、代码、下载
@@ -119,7 +124,9 @@
 ├─Fms.Vue                            ->[前端UI]：vue2.0版本UI层(弃用)
 ├─Fms.Vue3                           ->[前端UI]：vue3.0版本UI层
 ```
+
 ### Jit Manufacturing
+
 ```
 ├─Jms.Common                         ->[公共层类库]：包括数据、正则、字符串等的Helper
 ├─Jms.Generator                      ->[代码生成功能]：包含模板、方法、代码、下载
@@ -133,7 +140,9 @@
 ├─Jms.Vue                            ->[前端UI]：vue2.0版本UI层(弃用)
 ├─Jms.Vue3                           ->[前端UI]：vue3.0版本UI层
 ```
+
 ### Lean Manufacturing
+
 ```
 ├─La.Common                         ->[公共层类库]：包括数据、正则、字符串等的Helper
 ├─La.Generator                      ->[代码生成功能]：包含模板、方法、代码、下载
@@ -147,7 +156,9 @@
 ├─La.Vue                            ->[前端UI]：vue2.0版本UI层(弃用)
 ├─La.Vue3                           ->[前端UI]：vue3.0版本UI层
 ```
+
 ### Lean Production
+
 ```
 ├─Lps.Common                         ->[公共层类库]：包括数据、正则、字符串等的Helper
 ├─Lps.Generator                      ->[代码生成功能]：包含模板、方法、代码、下载
@@ -161,7 +172,9 @@
 ├─Lps.Vue                            ->[前端UI]：vue2.0版本UI层(弃用)
 ├─Lps.Vue3                           ->[前端UI]：vue3.0版本UI层
 ```
+
 ### 前端总体结构
+
 ```
 ├─bat			              	->命令行
 ├─dist			            	->项目打包
@@ -231,7 +244,7 @@
 	</tr>
 </table>
 
-## 🎉优势
+## 🎉 优势
 
 1. 前台系统不用编写登录、授权、认证模块；只负责编写业务模块即可
 2. 后台系统无需任何二次开发，直接发布即可使用
@@ -240,6 +253,7 @@
 5. 自定义的代码生成功能
 
 ## 💐 特别鸣谢
+
 - 👉Ruoyi.vue：[Ruoyi](http://www.ruoyi.vip/)
 - 👉SqlSugar：[SqlSugar](https://www.donet5.com/Home/Doc)
 - 👉element-plus：[element-plus](https://github.com/element-plus/element-plus)
@@ -250,10 +264,10 @@
 - 👉cq-panda：[Vue.NetCore](https://github.com/cq-panda/Vue.NetCore)
 - 👉zuohuaijun：[Admin.NET](https://toscode.gitee.com/zuohuaijun/Admin.NET)
 
-## 🎀捐赠
-如果你觉得这个项目帮助到了你，你可以帮作者买一杯果汁表示鼓励 🍹 
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/logo/pay.jpg"/>
+## 🎀 捐赠
 
+如果你觉得这个项目帮助到了你，你可以帮作者买一杯果汁表示鼓励 🍹
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/pay.jpg"/>
 
 ## 💡Browsers support
 
@@ -263,61 +277,81 @@ Modern browsers and Internet Explorer 10+.
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | IE10, IE11, Edge                                                                                                                                                                                                 | last 2 versions                                                                                                                                                                                                    | last 2 versions                                                                                                                                                                                                | last 2 versions                                                                                                                                                                                                |
 
-## 🔧使用说明
-如果部署iis访问不了情况可以有以下两种办法：
-1. 后端打包：在VS2022菜单<生成>\<发布>
-2. 直接打开La.WebApi.exe文件然后看控制台的错误日志
-3. web.config里面有个false 改为 true，iis重启项目后运行网站后，跟目录下面 有个文件夹 log 里面有错误日志文件
-4. 有环境的请使用Laplace_deb.sql,sql2019版本直接导入，没有环境的可以使用SQLite版本，laplace.net.db，并在<font color=#ff0000>appsettings.json</font>配置
+## 🔧 使用说明
+
+如果部署 iis 访问不了情况可以有以下两种办法：
+
+1. 后端打包：在 VS2022 菜单<生成>\<发布>
+2. 直接打开 La.WebApi.exe 文件然后看控制台的错误日志
+3. web.config 里面有个 false 改为 true，iis 重启项目后运行网站后，跟目录下面 有个文件夹 log 里面有错误日志文件
+4. 有环境的请使用 Laplace_deb.sql,sql2019 版本直接导入，没有环境的可以使用 SQLite 版本，laplace.net.db，并在<font color=#ff0000>appsettings.json</font>配置
 5. 前端打包：npm run build:prod
- ```
+
+```
 ✓ built in 2m 20s
 ```
-### 🔧溢出解决方案
- ```
+
+### 🔧 溢出解决方案
+
+```
 FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory
 ```
-   1. 删除命令
-   ```
-   rimraf node_modules
-   ```
-   2. 重新构建
-   ```
-   npm i
-   ```
-   3. 增加内存机制
-   ```
-   npm install -g increase-memory-limit
-   ```
-   4. 执行
-   ```
-    increase-memory-limit
-   ```
-   5. 修改node_modules\.bin\webpack.cmd文件，全局搜索 “%_prog%” 替换为 %_prog%即可
-   6. 修改package.js
-   ```
-     "scripts": {
-    "dev": "vite",
-    "build:prod": "vite build",
-    "build:stage": "vite build --mode staging",
-    "preview": "vite preview"
-  },
-   ```
-   改成
-   ```
-     "scripts": {
-    "dev": "node.exe --max-old-space-size=10240 node_modules/vite/bin/vite.js",
-    "build:prod": "node.exe --max-old-space-size=10240 node_modules/vite/bin/vite.js build",
-    "build:stage": "vite build --mode staging",
-    "preview": "vite preview"
-  },
-   ```
-   7. 重新打包
-   ```
-   npm run build:prod
-   ```
-6. IIS部署前端
-   下载URL重写模块[urlrewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
+
+1.  删除命令
+
+```
+rimraf node_modules
+```
+
+2.  重新构建
+
+```
+npm i
+```
+
+3.  增加内存机制
+
+```
+npm install -g increase-memory-limit
+```
+
+4.  执行
+
+```
+ increase-memory-limit
+```
+
+5.  修改 node_modules\.bin\webpack.cmd 文件，全局搜索 “%\_prog%” 替换为 %\_prog%即可
+6.  修改 package.js
+
+```
+  "scripts": {
+ "dev": "vite",
+ "build:prod": "vite build",
+ "build:stage": "vite build --mode staging",
+ "preview": "vite preview"
+},
+```
+
+改成
+
+```
+  "scripts": {
+ "dev": "node.exe --max-old-space-size=10240 node_modules/vite/bin/vite.js",
+ "build:prod": "node.exe --max-old-space-size=10240 node_modules/vite/bin/vite.js build",
+ "build:stage": "vite build --mode staging",
+ "preview": "vite preview"
+},
+```
+
+7.  重新打包
+
+```
+npm run build:prod
+```
+
+6. IIS 部署前端
+   下载 URL 重写模块[urlrewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
    下载代理模块[Application Request Routing](https://www.iis.net/downloads/microsoft/application-request-routing)
    配置示例
    <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis1.png"/>
@@ -331,5 +365,5 @@ FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memor
    <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis9.png"/>
 
 ## 🔑License
-[MIT](https://github.com/Lean365/Lean.Ams/blob/master/LICENSE)
 
+[MIT](https://github.com/Lean365/Lean.Ams/blob/master/LICENSE)

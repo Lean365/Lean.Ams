@@ -101,6 +101,9 @@
     "toolCodeGen": "コード生成",
     "toolCodeGenEdit": "コード変更",
     "toolDataBase": "データベース",
+    "toolViewDataTable": "テーブル表示",
+    "toolNewDataTable": "テーブル新規",
+    "toolEditDataTable": "テーブル編集",
     "toolInterface": "APIs"
   },
   "tagsView": {

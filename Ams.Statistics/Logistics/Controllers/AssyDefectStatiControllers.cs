@@ -14,17 +14,17 @@ namespace Ams.Statistics.Logistics.Controllers
     [Verify]
     [Route("stat/poor/assy")]
     [ApiExplorerSettings(GroupName = "statistics")]
-    public class AssyDefectStatiControllers : BaseController
+    public class AssyDefectStatiControllers(IAssyDefectStatiService AsmPoorStatiService) : BaseController
     {
-        private readonly IAssyDefectStatiService _IAsmPoorStatiService;
-
         /// <summary>
         /// OPH统计接口
         /// </summary>
-        public AssyDefectStatiControllers(IAssyDefectStatiService AsmPoorStatiService)
-        {
-            _IAsmPoorStatiService = AsmPoorStatiService;
-        }
+        private readonly IAssyDefectStatiService _IAsmPoorStatiService = AsmPoorStatiService;
+
+        //public AssyDefectStatiControllers(IAssyDefectStatiService AsmPoorStatiService)
+        //{
+        //    _IAsmPoorStatiService = AsmPoorStatiService;
+        //}
 
         /// <summary>
         /// 本月组立不良台数
@@ -35,7 +35,7 @@ namespace Ams.Statistics.Logistics.Controllers
         [ActionPermissionFilter(Permission = "pp:outputmaster:list")]
         public IActionResult QueryMonthlyPoorQty([FromQuery] PpDefectAssyMaQueryDto parm)
         {
-            DateTime nowDate = DateTime.Now;
+            //DateTime nowDate = DateTime.Now;
             //parm.BeginPomMfgDate = new DateTime(nowDate.Year, nowDate.Month, 1);   //本月第一天
             //parm.EndPomMfgDate= nowDate.AddDays(1 - nowDate.Day).AddMonths(1).AddDays(-1);  //本月最后一天
 

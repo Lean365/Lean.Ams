@@ -2,7 +2,7 @@
 using Ams.Model.Accounting.Dto;
 using SqlSugar;
 
-namespace Ams.Statistics.Accounting
+namespace Ams.Statistics.Accounting.Service
 {
     /// <summary>
     /// Service业务层处理

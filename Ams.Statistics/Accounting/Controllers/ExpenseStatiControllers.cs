@@ -1,8 +1,7 @@
 ﻿using Ams.Model.Accounting.Dto;
-using Ams.Statistics.Accounting;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ams.Statistics
+namespace Ams.Statistics.Accounting.Controllers
 {
     /// <summary>
     /// 月度存货
@@ -13,17 +12,17 @@ namespace Ams.Statistics
     [Verify]
     [Route("stat/cost")]
     [ApiExplorerSettings(GroupName = "statistics")]
-    public class ContStatiControllers : BaseController
+    public class ExpenseStatiControllers(IExpenseStatiService ExpenseStatiService) : BaseController
     {
-        private readonly IContStatiService _CostStatiService;
-
         /// <summary>
-        /// 月度存货接口
+        /// 费用比较接口
         /// </summary>
-        public ContStatiControllers(IContStatiService CostStatiService)
-        {
-            _CostStatiService = CostStatiService;
-        }
+        private readonly IExpenseStatiService _ExpenseStatiService = ExpenseStatiService;
+
+        //public ExpenseStatiControllers(IExpenseStatiService ExpenseStatiService)
+        //{
+        //    _ExpenseStatiService = ExpenseStatiService;
+        //}
 
         /// <summary>
         /// 查询月度成本
@@ -49,7 +48,7 @@ namespace Ams.Statistics
             //    parm.BeginMma009 = nowDate.AddDays(1 - nowDate.Day).AddMonths(-1);//上月第一天
             //    parm.EndMma009 = nowDate.AddDays(1 - nowDate.Day).AddDays(-1); ;//上月最后一天
             //}
-            var response = _CostStatiService.GetMonthlyProductionCost(parm);
+            var response = _ExpenseStatiService.GetMonthlyProductionCost(parm);
             return SUCCESS(response);
         }
     }

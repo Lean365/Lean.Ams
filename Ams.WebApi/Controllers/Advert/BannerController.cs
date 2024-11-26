@@ -6,6 +6,7 @@ namespace Ams.WebApi.Controllers.Advert
     /// </summary>
     [Verify]
     [Route("advert/banner")]
+    [ApiExplorerSettings(GroupName = "advertising")]
     public class BannerController : BaseController
     {
         /// <summary>

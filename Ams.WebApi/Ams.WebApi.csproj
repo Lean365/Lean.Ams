@@ -45,13 +45,14 @@
 		<ProjectReference Include="..\Ams.Tasks\Ams.Tasks.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Lazy.Captcha.Core" Version="2.0.8" />
+		<PackageReference Include="Lazy.Captcha.Core" Version="2.0.9" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.10" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
-		<PackageReference Include="NLog.Web.AspNetCore" Version="5.3.14" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.12" />
+		<PackageReference Include="NLog.Web.AspNetCore" Version="5.3.15" />
 		<PackageReference Include="Mapster" Version="7.4.0" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.8" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.9" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>

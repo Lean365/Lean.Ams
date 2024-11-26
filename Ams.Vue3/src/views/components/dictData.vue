@@ -316,9 +316,11 @@
     loading.value = true
     listData(queryParams).then((response) => {
       dataList.value = response.data.result
+      //console.log(response.data.result, response.data.totalNum)
       total.value = response.data.totalNum
       loading.value = false
     })
+
   }
 
   // 取消按钮

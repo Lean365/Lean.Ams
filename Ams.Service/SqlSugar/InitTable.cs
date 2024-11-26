@@ -53,8 +53,6 @@ namespace Ams.Service.SqlSugar
             db.CodeFirst.InitTables(typeof(SysRoleDept));
             db.CodeFirst.InitTables(typeof(SysRoleMenu));
             db.CodeFirst.InitTables(typeof(SysUser));
-            db.CodeFirst.InitTables(typeof(SysTable));
-            db.CodeFirst.InitTables(typeof(SysTableFields));
             db.CodeFirst.InitTables(typeof(SysUserMsg));
             db.CodeFirst.InitTables(typeof(SysUserRole));
             db.CodeFirst.InitTables(typeof(SysUserPost));

@@ -197,19 +197,19 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 地址
         /// </summary>
-        [SugarColumn(ColumnName = "Mg035", ColumnDescription = "地址", Length = 400, ColumnDataType = "NVARCHAR")]
+        [SugarColumn(ColumnName = "Mg035", ColumnDescription = "地址", Length = 200, ColumnDataType = "NVARCHAR")]
         public string Mg035 { get; set; }
 
         /// <summary>
         /// 地址1
         /// </summary>
-        [SugarColumn(ColumnName = "Mg037", ColumnDescription = "地址1", Length = 800, ColumnDataType = "NVARCHAR")]
+        [SugarColumn(ColumnName = "Mg037", ColumnDescription = "地址1", Length = 400, ColumnDataType = "NVARCHAR")]
         public string Mg037 { get; set; }
 
         /// <summary>
         /// 地址2
         /// </summary>
-        [SugarColumn(ColumnName = "Mg039", ColumnDescription = "地址2", Length = 1200, ColumnDataType = "NVARCHAR")]
+        [SugarColumn(ColumnName = "Mg039", ColumnDescription = "地址2", Length = 600, ColumnDataType = "NVARCHAR")]
         public string Mg039 { get; set; }
 
         /// <summary>

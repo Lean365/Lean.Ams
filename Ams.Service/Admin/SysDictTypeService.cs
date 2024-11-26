@@ -31,7 +31,7 @@
             exp.AndIF(dictType.IsStatus != -1, it => it.IsStatus == dictType.IsStatus);
             exp.AndIF(!string.IsNullOrEmpty(dictType.DictType), it => it.DictType.Contains(dictType.DictType));
             exp.AndIF(!string.IsNullOrEmpty(dictType.Type), it => it.Type.Equals(dictType.Type));
-
+            exp.AndIF(dictType.DictCategory != -1, it => it.DictCategory == dictType.DictCategory);
             return GetPages(exp.ToExpression(), pager, f => f.DictId, OrderByType.Desc);
         }
 

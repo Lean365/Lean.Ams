@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
-using Ams.Model.Accounting.Dto;
 using Ams.Model.Accounting;
+using Ams.Model.Accounting.Dto;
 using Ams.Service.Accounting.IAccountingService;
-using MiniExcelLibs;
-
 
 namespace Ams.WebApi.Controllers.Accounting
 {
@@ -16,17 +13,17 @@ namespace Ams.WebApi.Controllers.Accounting
     [Verify]
     [Route("Accounting/FicoAssetsCategory")]
     [ApiExplorerSettings(GroupName = "accounting")]
-    public class FicoAssetsCategoryController : BaseController
+    public class FicoAssetsCategoryController(IFicoAssetsCategoryService FicoAssetsCategoryService) : BaseController
     {
         /// <summary>
         /// 资产类别接口
         /// </summary>
-        private readonly IFicoAssetsCategoryService _FicoAssetsCategoryService;
+        private readonly IFicoAssetsCategoryService _FicoAssetsCategoryService = FicoAssetsCategoryService;
 
-        public FicoAssetsCategoryController(IFicoAssetsCategoryService FicoAssetsCategoryService)
-        {
-            _FicoAssetsCategoryService = FicoAssetsCategoryService;
-        }
+        //public FicoAssetsCategoryController(IFicoAssetsCategoryService FicoAssetsCategoryService)
+        //{
+        //    _FicoAssetsCategoryService = FicoAssetsCategoryService;
+        //}
 
         /// <summary>
         /// 查询资产类别列表
@@ -41,7 +38,6 @@ namespace Ams.WebApi.Controllers.Accounting
             return SUCCESS(response);
         }
 
-
         /// <summary>
         /// 查询资产类别详情
         /// </summary>
@@ -52,7 +48,7 @@ namespace Ams.WebApi.Controllers.Accounting
         public IActionResult GetFicoAssetsCategory(long Id)
         {
             var response = _FicoAssetsCategoryService.GetInfo(Id);
-            
+
             var info = response.Adapt<FicoAssetsCategoryDto>();
             return SUCCESS(info);
         }
@@ -66,7 +62,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [Log(Title = "资产类别", BusinessType = BusinessType.ADD)]
         public IActionResult AddFicoAssetsCategory([FromBody] FicoAssetsCategoryDto parm)
         {
-           // 校验输入项目唯一性
+            // 校验输入项目唯一性
 
             if (UserConstants.NOT_UNIQUE.Equals(_FicoAssetsCategoryService.CheckInputUnique(parm.Id.ToString())))
             {
@@ -101,7 +97,7 @@ namespace Ams.WebApi.Controllers.Accounting
         [HttpDelete("delete/{ids}")]
         [ActionPermissionFilter(Permission = "fico:assetscategory:delete")]
         [Log(Title = "资产类别", BusinessType = BusinessType.DELETE)]
-        public IActionResult DeleteFicoAssetsCategory([FromRoute]string ids)
+        public IActionResult DeleteFicoAssetsCategory([FromRoute] string ids)
         {
             var idArr = Tools.SplitAndConvert<long>(ids);
 
@@ -133,12 +129,12 @@ namespace Ams.WebApi.Controllers.Accounting
         /// </summary>
         /// <param name="formFile"></param>
         /// <returns></returns>
-      [HttpPost("importData")]
+        [HttpPost("importData")]
         [Log(Title = "资产类别导入", BusinessType = BusinessType.IMPORT, IsSaveRequestData = false)]
         [ActionPermissionFilter(Permission = "fico:assetscategory:import")]
         public IActionResult ImportData([FromForm(Name = "file")] IFormFile formFile)//[FromForm(Name = "file")]
         {
-            List<FicoAssetsCategoryDto> list = new();
+            List<FicoAssetsCategoryDto> list = [];
             using (var stream = formFile.OpenReadStream())
             {
                 list = stream.Query<FicoAssetsCategoryDto>(startCell: "A1").ToList();
@@ -160,6 +156,5 @@ namespace Ams.WebApi.Controllers.Accounting
             var result = DownloadImportTemplate(new List<FicoAssetsCategoryImportTpl>() { }, "FicoAssetsCategory_tpl");
             return ExportExcel(result.Item2, result.Item1);
         }
-
     }
 }

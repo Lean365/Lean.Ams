@@ -1,7 +1,7 @@
 ﻿using Ams.Model.Accounting;
 using Ams.Model.Accounting.Dto;
 
-namespace Ams.Statistics.Accounting
+namespace Ams.Statistics.Accounting.IService
 {
     /// <summary>
     /// 物料

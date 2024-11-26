@@ -1,4 +1,5 @@
 **English** | [中文](./README.md)
+
 <h2 align="center">🏬Laplace.NET General management platform🏬</h2>
 <h4 align="center">👉.Net7+Vue3.x+Element plus Fast development framework with front and rear separation👈</h4>  
 <div align=center>
@@ -22,7 +23,6 @@
 - Integration of [ZR.Admin](https://gitee.com/izory) framework technology efficient and rapid development.
 - Focus on your business, easy development starts now!
 
-
 ## 💚 Crowd
 
 - Familiar with the business processes of a manufacturing company.
@@ -31,29 +31,31 @@
 - Students who want to advance and improve.
 - Zero-based, please move to izory: [ZR.Admin](https://gitee.com/izory).
 
-
-
 ## 🌐Online
-- 😭pending... 
 
-
+- 😭pending...
 
 ```
 Due to being a personal project, funds are limited!!!
 ```
+
 ## 💎Repositories
-| Repositories | Gitee | Github                                                                           |
-| ------------ | ----- | -------------------------------------------------------------------------------- |
+
+| Repositories | Gitee | Github                                                                         |
+| ------------ | ----- | ------------------------------------------------------------------------------ |
 | Vue3         |       | [Clone/Download already included in Net7](https://github.com/Lean365/Lean.Ams) |
 | Net7         |       | [Clone/Download](https://github.com/Lean365/Lean.Ams)                          |
 
 ## 🍅Front-end
+
 - Core:vue3.x、vite、vuex、vue-router 、vue-cli 、axios、 element-plus、echats、i18n etc,using vscode tools.
 
-## 🍆Back-end 
+## 🍆Back-end
+
 - Core:C#、.Net7.0、Web API、sqlsugar、swagger、signalR、IpRateLimit、Quartz.net、Redis,using vs2022 tools.
 
 ## ✨ Manufacturing Management
+
 1. Budget management
    - Personnel
    - Equipment
@@ -68,28 +70,31 @@ Due to being a personal project, funds are limited!!!
 4. Sales Management
    - Customer Complaints
    - Serial number
-5.  Material Management
-    - MRP
-    - FC
-6.  Production Management 
-    - **EC**
-    - **OPH(Output per hour)**
-    - Defects
-    - Manhour
-7.  Quality Control
-    - Cost
-    - Incoming material
-    - finished product
+5. Material Management
+   - MRP
+   - FC
+6. Production Management
+   - **EC**
+   - **OPH(Output per hour)**
+   - Defects
+   - Manhour
+7. Quality Control
+   - Cost
+   - Incoming material
+   - finished product
 
 ## 🐬 OA
+
 - pending...
 
 ## 🐾 ChatGPT
+
 - pending...
 
-
 ## 🔰Project Structure
+
 ### Agile Manufacturing
+
 ```
 ├─Ams.Common                         ->[public layer class library]: Helper including data, regular, strings, etc;
 ├─Ams.Generator                      ->[code generation function]: contains templates, methods, code, downloads.
@@ -103,7 +108,9 @@ Due to being a personal project, funds are limited!!!
 ├─Ams.Vue                            ->[front-end UI]: vue2.0 version UI layer
 ├─Ams.Vue3                           ->[front-end UI]: vue3.0 version UI layer
 ```
+
 ### Flexible Manufacturing
+
 ```
 ├─Fms.Common                         ->[public layer class library]: Helper including data, regular, strings, etc;
 ├─Fms.Generator                      ->[code generation function]: contains templates, methods, code, downloads.
@@ -117,7 +124,9 @@ Due to being a personal project, funds are limited!!!
 ├─Fms.Vue                            ->[front-end UI]: vue2.0 version UI layer(Disposal)
 ├─Fms.Vue3                           ->[front-end UI]: vue3.0 version UI layer
 ```
+
 ### Jit Manufacturing
+
 ```
 ├─Jms.Common                         ->[public layer class library]: Helper including data, regular, strings, etc;
 ├─Jms.Generator                      ->[code generation function]: contains templates, methods, code, downloads.
@@ -131,7 +140,9 @@ Due to being a personal project, funds are limited!!!
 ├─Jms.Vue                            ->[front-end UI]: vue2.0 version UI layer(Disposal)
 ├─Jms.Vue3                           ->[front-end UI]: vue3.0 version UI layer
 ```
+
 ### Lean Manufacturing
+
 ```
 ├─La.Common                         ->[public layer class library]: Helper including data, regular, strings, etc;
 ├─La.Generator                      ->[code generation function]: contains templates, methods, code, downloads.
@@ -145,7 +156,9 @@ Due to being a personal project, funds are limited!!!
 ├─La.Vue                            ->[front-end UI]: vue2.0 version UI layer(Disposal)
 ├─La.Vue3                           ->[front-end UI]: vue3.0 version UI layer
 ```
+
 ### Lean Production
+
 ```
 ├─Lps.Common                         ->[public layer class library]: Helper including data, regular, strings, etc;
 ├─Lps.Generator                      ->[code generation function]: contains templates, methods, code, downloads.
@@ -159,7 +172,9 @@ Due to being a personal project, funds are limited!!!
 ├─Lps.Vue                            ->[front-end UI]: vue2.0 version UI layer(Disposal)
 ├─Lps.Vue3                           ->[front-end UI]: vue3.0 version UI layer
 ```
+
 ### front-end overall structure
+
 ```
 ├-bat           -> Command line
 ├-dist          ->Project Packaging
@@ -179,6 +194,7 @@ Due to being a personal project, funds are limited!!!
 │ └-views     ->Page
 └-vite        ->Building Tools
 ```
+
 ## 📌Demo Images
 
 <table>
@@ -237,6 +253,7 @@ Due to being a personal project, funds are limited!!!
 5. custom code generation function
 
 ## 💐 Special Acknowledgements
+
 - 👉Ruoyi.vue：[Ruoyi](http://www.ruoyi.vip/)
 - 👉SqlSugar：[SqlSugar](https://www.donet5.com/Home/Doc)
 - 👉element-plus：[element-plus](https://github.com/element-plus/element-plus)
@@ -248,9 +265,9 @@ Due to being a personal project, funds are limited!!!
 - 👉zuohuaijun：[Admin.NET](https://toscode.gitee.com/zuohuaijun/Admin.NET)
 
 ## 🎀Donate
-If you think this project has helped you, you can help the author buy a glass of juice to show your encouragement 🍹 
-<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/logo/pay.jpg"/>
 
+If you think this project has helped you, you can help the author buy a glass of juice to show your encouragement 🍹
+<img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/pay.jpg"/>
 
 ## 💡Browsers support
 
@@ -261,38 +278,52 @@ Modern browsers and Internet Explorer 10+.
 | IE10, IE11, Edge                                                                                                                                                                                                 | last 2 versions                                                                                                                                                                                                    | last 2 versions                                                                                                                                                                                                | last 2 versions                                                                                                                                                                                                |
 
 ## 🔧 Instructions for use
+
 If the deployment of iis cannot access the situation, there are two methods:
+
 1. Backend packaging: In the VS2022 menu<Generate><Publish>
 2. Open the La.WebApi.exe file directly and check the error log on the console
 3. Change false to true in webconfig. After restarting the project and running the website, there is an error log file in the folder log under the directory
-4. If there is an environment, please use Laplace_ Deb.sql, sql2019 version can be directly imported. If there is no environment, SQLite version, place.net.db can be used, and configured in<font color=# ff0000>appsettings. json</font>
+4. If there is an environment, please use Laplace\_ Deb.sql, sql2019 version can be directly imported. If there is no environment, SQLite version, place.net.db can be used, and configured in<font color=# ff0000>appsettings. json</font>
 5. Front end packaging: npm run build: prod
+
 ```
 ✓ build in 2m 20s
 ```
+
 ### 🔧 Overflow Solution
+
 ```
 FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory
 ```
+
 1. Delete Command
+
 ```
    rimraf node_modules
 ```
+
 2. Reinstall
+
 ```
    npm i
 ```
 
 3. Increase memory mechanism
+
 ```
    npm install -g increase-memory-limit
 ```
+
 4. Execution
+
 ```
     increase-memory-limit
 ```
-5. Modify node_modules\.bin\webpack.cmd, "%_prog%" replace % _prog% 
+
+5. Modify node_modules\.bin\webpack.cmd, "%\_prog%" replace % \_prog%
 6. Modify package.js
+
 ```
      "scripts": {
     "dev": "vite",
@@ -302,7 +333,9 @@ FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memor
   },
 
 ```
+
 Change to
+
 ```
      "scripts": {
     "dev": "node.exe --max-old-space-size=10240 node_modules/vite/bin/vite.js",
@@ -311,11 +344,14 @@ Change to
     "preview": "vite preview"
   },
 ```
+
 7. Rebuild
+
 ```
    npm run build:prod
 
 ```
+
 6. IIS Deployment Vue
    Download[urlrewrite](https://www.iis.net/downloads/microsoft/url-rewrite)
    Download[Application Request Routing](https://www.iis.net/downloads/microsoft/application-request-routing)
@@ -331,5 +367,5 @@ Change to
    <img src="https://github.com/Lean365/Lean.Ams/blob/master/Ams.Document/images/iis9.png"/>
 
 ## 🔑License
-[MIT](https://github.com/Lean365/Lean.Ams/blob/master/LICENSE)
 
+[MIT](https://github.com/Lean365/Lean.Ams/blob/master/LICENSE)

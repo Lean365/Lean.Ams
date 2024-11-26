@@ -11,7 +11,7 @@ namespace Ams.Service.Logistics
     /// 顾客
     /// 业务层处理
     /// @Author: Lean365(Davis.Ching)
-    /// @Date: 2024/11/7 16:05:11
+    /// @Date: 2024/11/26 15:20:13
     /// </summary>
     [AppService(ServiceType = typeof(ISdCustomerService), ServiceLifetime = LifeTime.Transient)]
     public class SdCustomerService : BaseService<SdCustomer>, ISdCustomerService
@@ -93,7 +93,7 @@ namespace Ams.Service.Logistics
             list.ForEach(it =>
             {
                 it.Create_by = HttpContextExtension.GetName(App.HttpContext);
-                it.Remark = it.Remark.IsEmpty() ? HttpContextExtension.GetName(App.HttpContext)+"数据导入" : it.Remark;
+                it.Remark = it.Remark.IsEmpty() ? "数据由<"+HttpContextExtension.GetName(App.HttpContext)+">用户,批量导入" : it.Remark;
             });
             var x = Context.Storageable(list)
                 .SplitInsert(it => !it.Any())

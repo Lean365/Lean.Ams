@@ -61,7 +61,7 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 供应商名称
         /// </summary>
-        [SugarColumn(ColumnName = "Mf009", ColumnDescription = "供应商名称", Length = 1, ColumnDataType = "NVARCHAR")]
+        [SugarColumn(ColumnName = "Mf009", ColumnDescription = "供应商名称", Length = 200, ColumnDataType = "NVARCHAR")]
         public string Mf009 { get; set; }
 
         /// <summary>
@@ -173,13 +173,13 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 国家地区
         /// </summary>
-        [SugarColumn(ColumnName = "Mf028", ColumnDescription = "国家地区", Length = 1)]
+        [SugarColumn(ColumnName = "Mf028", ColumnDescription = "国家地区", Length = 2)]
         public string Mf028 { get; set; }
 
         /// <summary>
         /// 州省
         /// </summary>
-        [SugarColumn(ColumnName = "Mf029", ColumnDescription = "州省", Length = 1)]
+        [SugarColumn(ColumnName = "Mf029", ColumnDescription = "州省", Length = 40)]
         public string Mf029 { get; set; }
 
         /// <summary>
@@ -197,19 +197,19 @@ namespace Ams.Model.Logistics
         /// <summary>
         /// 地址
         /// </summary>
-        [SugarColumn(ColumnName = "Mf032", ColumnDescription = "地址", Length = 400, ColumnDataType = "NVARCHAR")]
+        [SugarColumn(ColumnName = "Mf032", ColumnDescription = "地址", Length = 200, ColumnDataType = "NVARCHAR")]
         public string Mf032 { get; set; }
 
         /// <summary>
         /// 地址1
         /// </summary>
-        [SugarColumn(ColumnName = "Mf033", ColumnDescription = "地址1", Length = 800, ColumnDataType = "NVARCHAR")]
+        [SugarColumn(ColumnName = "Mf033", ColumnDescription = "地址1", Length = 400, ColumnDataType = "NVARCHAR")]
         public string Mf033 { get; set; }
 
         /// <summary>
         /// 地址2
         /// </summary>
-        [SugarColumn(ColumnName = "Mf034", ColumnDescription = "地址2", Length = 1200, ColumnDataType = "NVARCHAR")]
+        [SugarColumn(ColumnName = "Mf034", ColumnDescription = "地址2", Length = 600, ColumnDataType = "NVARCHAR")]
         public string Mf034 { get; set; }
 
         /// <summary>

@@ -116,6 +116,21 @@ namespace Ams.WebApi.Controllers.Generator
         }
 
         /// <summary>
+        /// 根据表查询表列
+        /// </summary>
+        /// <param name="dbName">库名</param>
+        /// <param name="tableName">表名</param>
+        /// <returns></returns>
+        [HttpGet("column")]
+        [ActionPermissionFilter(Permission = "tool:gen:query")]
+        public IActionResult GetTableColumnInfo(string dbName, string tableName)
+        {
+            var tableColumns = _CodeGeneraterService.GetColumnInfo(dbName, tableName);
+
+            return SUCCESS(tableColumns);
+        }
+
+        /// <summary>
         /// 删除代码生成
         /// </summary>
         /// <param name="tableIds"></param>
