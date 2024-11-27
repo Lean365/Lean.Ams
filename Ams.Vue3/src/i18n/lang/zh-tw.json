@@ -371,6 +371,8 @@
     "log": "日誌",
     "login": "登錄",
     "more": "更多",
+    "prevStep": "上一步",
+    "nextStep": "下一步",
     "new": "新建",
     "newCol": "新建列",
     "newRow": "新建行",

@@ -370,6 +370,8 @@
     "isEmpty": " is required.",
     "log": "Log",
     "more": "More",
+    "prevStep": "Précédant",
+    "nextStep": "Suivant",
     "new": "New",
     "newCol": "New Col",
     "newRow": "New Row",

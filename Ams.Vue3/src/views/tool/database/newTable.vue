@@ -4,7 +4,7 @@
       <el-step :title="$t('database.databaseInfo')" icon="files"></el-step>
       <el-step :title="$t('database.tableInfo')" icon="memo"></el-step>
       <el-step :title="$t('database.fieldInfo')" icon="list"></el-step>
-      <el-step :title="$t('btn.preview')" icon="DocumentCopy"></el-step>
+      <el-step :title="$t('database.visualization')" icon="DocumentCopy"></el-step>
     </el-steps>
 
     <div v-if="activeStep === 0">
@@ -62,18 +62,20 @@
         </el-col>
         <el-col :lg="8" :offset="8">
           <span>
-            即将在数据库<strong
+            {{ $t('database.memoCreateDatabaseA')
+            }}<strong
               ><span :style="{ fontWeight: 'bold', color: 'red', fontStyle: 'italic' }">{{ form.dbName }}</span></strong
-            >中新建名为<strong
+            >{{ $t('database.memoCreateDatabaseB')
+            }}<strong
               ><span style="color: rgb(49, 4, 212)">{{ form.tableName }}</span></strong
-            >的表, 表的属性名称为
+            >{{ $t('database.memoCreateDatabaseC') }}
             <span :style="{ fontWeight: 'bold', color: 'green', fontStyle: 'italic', textDecoration: 'underline' }">{{
               form.tableDescription
             }}</span
             >。
           </span>
           <el-divider />
-          <span> 下一步将确认数据库表的字段信息。 </span>
+          <span> {{ $t('database.memoCreateDatabaseD') }} </span>
         </el-col>
       </el-row>
       <el-col :lg="8" :offset="12">
@@ -115,85 +117,89 @@
 
         <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
       </el-row>
-      <el-table
-        :data="tableData"
-        ref="createTable"
-        border
-        height="650"
-        header-cell-class-name="el-table-header-cell"
-        draggable
-        highlight-current-row>
+      <el-table :data="tableData" ref="createTableRef" border height="650" header-cell-class-name="el-table-header-cell" highlight-current-row>
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="ID" prop="id" width="50"></el-table-column>
-        <el-table-column label="字段名称" prop="columnName" width="300" align="center">
+        <el-table-column :label="$t('database.columnName')" prop="columnName" width="300" align="center">
           <template #default="scope">
             <el-input v-model="scope.row.columnName" v-show="scope.row.editing" show-word-limit maxlength="40"></el-input>
             <span v-show="!scope.row.editing">{{ scope.row.columnName }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="类型" prop="type" align="center">
+        <el-table-column :label="$t('database.dataType')" prop="type" align="center">
           <template #default="scope">
             <el-select
               v-model="scope.row.type"
               v-show="scope.row.editing"
-              style="width: 180px"
+              style="width: 140px"
               @change="checkDataType(scope.row.type, scope.$index)">
               <el-option v-for="item in dateTypeList" :key="item.value" :label="item.label" :value="item.value">
                 <span class="fl">{{ item.label }}</span>
                 <span class="fr" style="color: var(--el-text-color-secondary)">{{ item.value }}</span>
               </el-option>
-
-              <!-- <el-option label="bigint" value="bigint" />
-              <el-option label="char" value="char" />
-              <el-option label="datetime" value="datetime" />
-              <el-option label="decimal" value="decimal" />
-              <el-option label="int" value="int" />
-              <el-option label="nvarchar" value="nvarchar" />
-              <el-option label="nvarchar(max)" value="nvarchar(max)" />
-              <el-option label="text" value="text" />
-              <el-option label="uniqueidentifier" value="uniqueidentifier" />
-              <el-option label="varchar" value="varchar" />
-              <el-option label="varchar(max)" value="varchar(max)" /> -->
             </el-select>
             <span v-show="!scope.row.editing">{{ scope.row.type }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="长度" prop="length" align="center">
+        <el-table-column :label="$t('database.length')" prop="length" align="center">
           <template #default="scope">
-            <el-input-number v-model="scope.row.length" :min="0" v-show="scope.row.editing" style="width: 180px"></el-input-number>
+            <el-input-number
+              lazy
+              v-model="scope.row.length"
+              :min="0"
+              :max="9999"
+              v-show="scope.row.editing"
+              style="width: 120px"
+              :disabled="isLength(scope.row.type)"
+              @input="checkRange(scope.$index)"
+              @change="checkRange(scope.$index)"></el-input-number>
             <span v-show="!scope.row.editing">{{ scope.row.length }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="精度" prop="precision" align="center">
+        <el-table-column :label="$t('database.decimalDigits')" prop="precision" align="center">
           <template #default="scope">
-            <el-input-number v-model="scope.row.precision" :min="0" v-show="scope.row.editing" style="width: 180px"></el-input-number>
+            <el-input-number
+              lazy
+              v-model="scope.row.precision"
+              :min="0"
+              :max="5"
+              v-show="scope.row.editing"
+              style="width: 120px"
+              :disabled="!isPrecision(scope.row.type)"
+              @input="checkRange(scope.$index)"
+              @change="checkRange(scope.$index)"></el-input-number>
             <span v-show="!scope.row.editing">{{ scope.row.precision }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column label="主键" prop="primaryKey" width="80" align="center">
+        <el-table-column :label="$t('database.isPrimarykey')" prop="primaryKey" width="120" align="center">
           <template #default="scope">
-            <el-checkbox v-model="scope.row.primaryKey"></el-checkbox>
+            <el-checkbox v-model="scope.row.primaryKey" :disabled="!isBigInt(scope.row.type)"></el-checkbox>
           </template>
         </el-table-column>
-        <el-table-column label="自增" prop="autoIncrement" width="80" align="center">
+        <el-table-column :label="$t('database.isIdentity')" prop="autoIncrement" width="180" align="center">
           <template #default="scope">
-            <el-checkbox v-model="scope.row.autoIncrement"></el-checkbox>
+            <el-checkbox v-model="scope.row.autoIncrement" :disabled="!isBigInt(scope.row.type)"></el-checkbox>
           </template>
         </el-table-column>
 
-        <el-table-column label="必填" prop="required" width="80" align="center">
+        <el-table-column :label="$t('database.isNullable')" prop="required" width="120" align="center">
           <template #default="scope">
-            <el-checkbox v-model="scope.row.required"></el-checkbox>
+            <el-checkbox v-model="scope.row.required" :disabled="isNullable(scope.row.type)"></el-checkbox>
           </template>
         </el-table-column>
-        <el-table-column label="描述" prop="description" align="center">
+        <el-table-column :label="$t('database.columnDescription')" prop="description" align="center">
           <template #default="scope">
-            <el-input v-model="scope.row.description" v-show="scope.row.editing" show-word-limit maxlength="40"></el-input>
+            <el-input
+              v-model="scope.row.description"
+              v-show="scope.row.editing"
+              show-word-limit
+              maxlength="40"
+              :disabled="scope.row.columnName === 'Id'"></el-input>
             <span v-show="!scope.row.editing">{{ scope.row.description }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="100" prop="editing" align="center">
+        <el-table-column :label="$t('btn.operation')" width="160" prop="editing" align="center">
           <template #default="scope">
             <el-button-group>
               <el-button
@@ -209,12 +215,16 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <!-- {{ tableData }} -->
       <el-row :gutter="15" class="mb10">
         <el-col :lg="24" :offset="2">
           <span>
-            请确认字段信息完全正确后,<span :style="{ fontWeight: 'bold', color: 'green', fontStyle: 'italic', textDecoration: 'underline' }"
-              >提交</span
-            >信息。
+            {{ $t('database.memoCreateDatabaseE')
+            }}<span :style="{ fontWeight: 'bold', color: 'green', fontStyle: 'italic', textDecoration: 'underline' }">{{
+              $t('database.memoCreateDatabaseF')
+            }}</span
+            >{{ $t('database.memoCreateDatabaseG') }}
           </span>
         </el-col>
         <el-col :lg="24" :offset="12">
@@ -226,9 +236,11 @@
     </div>
 
     <div v-if="activeStep === 3">
-      <el-row :gutter="20">
+      <el-row :gutter="2">
         <el-col :lg="24">
-          <highlightjs language="sql" :code="form.createTableSql"></highlightjs>
+          <div class="scrollable-div">
+            <highlightjs language="sql" :code="form.createTableSql"></highlightjs>
+          </div>
           <!-- <pre v-highlight>          
           <code >            
             {{ form.createTableSql }}            
@@ -245,25 +257,14 @@
     </div>
   </el-form>
   <!-- 添加或修改资产类别对话框 -->
-  <el-dialog :title="title" :lock-scroll="false" v-model="open">
-    <el-row :gutter="20">
-      <el-col :lg="24">
-        <highlightjs language="sql" :code="form.createTableSql"></highlightjs>
-      </el-col>
-      <el-col :lg="24" :offset="12">
-        <el-button type="primary" @click="copyForm" :disabled="isCopied" v-if="tableData.length > 1">{{ $t('btn.copy') }}</el-button>
-      </el-col>
-    </el-row>
-  </el-dialog>
 </template>
 
 <script setup>
-import '@/assets/styles/btn-custom.scss'
-//后台操作函数
-import { listDataBases, listDataTables, listDataColumns } from '@/api/tool/database'
-
+// 引入我们封装的 表单拖拽函数
+import '@/assets/styles/btn-custom.scss' //后台操作函数
+import { listDataBases } from '@/api/tool/database'
+//引入剪贴板插件
 import useClipboard from 'vue-clipboard3'
-
 const { toClipboard } = useClipboard()
 //获取当前组件实例
 const { proxy } = getCurrentInstance()
@@ -305,7 +306,26 @@ const dateTypeList = ref([
   { value: 'varchar(max)', label: 'varchar(max)' },
   { value: 'uniqueidentifier', label: 'uniqueidentifier' }
 ])
-
+const isBigInt = (type) => {
+  return type === 'bigint'
+}
+const isNullable = (type) => {
+  return type === 'bigint' || type === 'int' || type === 'decimal' || type === 'uniqueidentifier'
+}
+const isPrecision = (type) => {
+  return type === 'decimal'
+}
+const isLength = (type) => {
+  return (
+    type === 'bigint' ||
+    type === 'int' ||
+    type === 'datetime' ||
+    type === 'text' ||
+    type === 'nvarchar(max)' ||
+    type === 'varchar(max)' ||
+    type === 'uniqueidentifier'
+  )
+}
 // 使用 computed 属性来避免重复创建规则
 const rules = computed(() => ({
   tableName: [
@@ -352,12 +372,7 @@ const changeModuleName = () => {
   }
 }
 const activeStep = ref(0)
-//const dbName = ref(null)
-//const tableName = ref('')
-
 const formRef = ref(null)
-//const tableDescription = ref('')
-//const databases = ref([]); // Populate this with your database list
 const tableData = reactive([
   {
     id: 1,
@@ -366,7 +381,7 @@ const tableData = reactive([
     length: 0,
     precision: 0,
     primaryKey: true,
-    autoIncrement: false,
+    autoIncrement: true,
     required: true,
     description: 'ID',
     editing: true
@@ -387,7 +402,7 @@ function updateRowIds() {
   })
 }
 const nextStep = () => {
-  //console.log(form.value.dbName)
+  console.log(tableData)
   formRef.value.validate((valid) => {
     if (valid) {
       if (activeStep.value < 3) {
@@ -408,14 +423,15 @@ const prevStep = () => {
     activeStep.value--
   }
 }
+const checkRange = ($index) => {
+  if (tableData[$index].length + tableData[$index].precision > 38) {
+    tableData[$index].length = 38 - tableData[$index].precision
+    proxy.$modal.msgError(proxy.$t('database.dataRange'))
+  }
+}
 
-//弹出层标题
-const title = ref('')
-//定义响应式变量
-const opertype = ref(0)
-//定义对话框打开或关闭
-const open = ref(false)
 const createTable = ref('')
+const createTableRef = ref()
 const msDescription = ref('')
 const defaultValue = ref('')
 const copyText = ref('')
@@ -425,6 +441,7 @@ const submitForm = () => {
   msDescription.value = ''
   defaultValue.value = ''
   // 遍历并处理数据
+
   tableData.forEach((item) => {
     if (item.type === 'bigint') {
       createTable.value = `${'[' + item.columnName + '] [' + item.type + '] NOT NULL,\n'}` //'[' + item.columnName + '] [' + item.type + '] NOT NULL,'
@@ -672,12 +689,19 @@ const handleNewColumn = () => {
 }
 const checkDataType = (type, $index) => {
   console.log(type, $index)
-  if (type === 'bigint' || type === 'int') {
+  if (type === 'bigint') {
     ;(tableData[$index].length = 0),
       (tableData[$index].precision = 0),
       (tableData[$index].required = true),
       (tableData[$index].primaryKey = true),
       (tableData[$index].autoIncrement = true)
+  }
+  if (type === 'int') {
+    ;(tableData[$index].length = 0),
+      (tableData[$index].precision = 0),
+      (tableData[$index].required = true),
+      (tableData[$index].primaryKey = false),
+      (tableData[$index].autoIncrement = false)
   }
   if (type === 'decimal') {
     ;(tableData[$index].length = 18),
@@ -1066,22 +1090,8 @@ const handleDelete = (row) => {
   }
   updateRowIds()
 }
+/*************** table column  回车代码 end *************/
+// 拖动排序
 </script>
 
-<style scoped>
-/* 可以添加一些样式来美化代码块 */
-pre {
-  background-color: #f8f8f8;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 10px;
-  overflow-x: auto;
-}
-
-code {
-  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-  font-size: 12px;
-  color: #333;
-  word-break: break-all;
-}
-</style>
+<style scoped></style>
