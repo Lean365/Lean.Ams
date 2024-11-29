@@ -47,7 +47,8 @@
               :placeholder="$t('btn.enterPrefix') + $t('database.tableName') + $t('btn.enterSuffix')"
               show-word-limit
               maxlength="40"
-              :minlength="6"></el-input>
+              :minlength="6"
+              @change="handleCheckTable"></el-input>
           </el-form-item>
         </el-col>
         <el-col :lg="8" :offset="8">
@@ -62,17 +63,19 @@
         </el-col>
         <el-col :lg="8" :offset="8">
           <span>
-            {{ $t('database.memoCreateDatabaseA')
-            }}<strong
+            {{ $t('database.memoCreateDatabaseA') }}
+            <strong
               ><span :style="{ fontWeight: 'bold', color: 'red', fontStyle: 'italic' }">{{ form.dbName }}</span></strong
-            >{{ $t('database.memoCreateDatabaseB')
-            }}<strong
+            >{{ $t('database.memoCreateDatabaseB') }}
+            <strong
               ><span style="color: rgb(49, 4, 212)">{{ form.tableName }}</span></strong
             >{{ $t('database.memoCreateDatabaseC') }}
-            <span :style="{ fontWeight: 'bold', color: 'green', fontStyle: 'italic', textDecoration: 'underline' }">{{
+            <span :style="{ whiteSpace: 'pre-wrap', fontWeight: 'bold', color: 'green', fontStyle: 'italic', textDecoration: 'underline' }">{{
               form.tableDescription
-            }}</span
-            >。
+            }}</span>
+            <span :style="{ whiteSpace: 'pre-wrap', fontWeight: 'bold', color: 'red', fontStyle: 'italic', textDecoration: 'none' }">{{
+              tipsTable
+            }}</span>
           </span>
           <el-divider />
           <span> {{ $t('database.memoCreateDatabaseD') }} </span>
@@ -80,7 +83,9 @@
       </el-row>
       <el-col :lg="8" :offset="12">
         <el-button type="warning" plain @click="prevStep">{{ $t('btn.prevStep') }}</el-button>
-        <el-button class="btn-add" @click="nextStep" :disabled="!form.tableName || !form.tableDescription">{{ $t('btn.nextStep') }}</el-button>
+        <el-button class="btn-add" @click="nextStep" :disabled="!form.tableName || !form.tableDescription || tableCheck == 1">{{
+          $t('btn.nextStep')
+        }}</el-button>
       </el-col>
     </div>
 
@@ -117,7 +122,15 @@
 
         <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
       </el-row>
-      <el-table :data="tableData" ref="createTableRef" border height="650" header-cell-class-name="el-table-header-cell" highlight-current-row>
+      <el-table
+        :data="tableData"
+        ref="createTableRef"
+        border
+        height="650"
+        row-key="id"
+        v-drag-drop
+        header-cell-class-name="el-table-header-cell"
+        highlight-current-row>
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="ID" prop="id" width="50"></el-table-column>
         <el-table-column :label="$t('database.columnName')" prop="columnName" width="300" align="center">
@@ -250,26 +263,42 @@
         </el-col>
         <el-col :lg="24" :offset="12">
           <el-button type="warning" plain @click="prevStep">{{ $t('btn.prevStep') }}</el-button>
+          <el-button type="primary" @click="handleCopyForm" :disabled="isCopied" v-if="tableData.length > 1">{{ $t('btn.copy') }}</el-button>
 
-          <el-button type="primary" @click="copyForm" :disabled="isCopied" v-if="tableData.length > 1">{{ $t('btn.copy') }}</el-button>
+          <el-button type="primary" @click="handleCreateTable" :disabled="isCreate" v-if="tableData.length > 1">{{
+            $t('database.newTable')
+          }}</el-button>
         </el-col>
       </el-row>
     </div>
   </el-form>
   <!-- 添加或修改资产类别对话框 -->
+  <el-dialog :title="title" :lock-scroll="false" v-model="open">
+    <el-row :gutter="20">
+      <el-col :lg="24">
+        <highlightjs language="sql" :code="form.createTableSql"></highlightjs>
+      </el-col>
+      <el-col :lg="24" :offset="12">
+        <el-button type="primary" @click="handleCopyForm" :disabled="isCopied" v-if="tableData.length > 1">{{ $t('btn.copy') }}</el-button>
+      </el-col>
+    </el-row>
+  </el-dialog>
 </template>
 
 <script setup>
 // 引入我们封装的 表单拖拽函数
-import '@/assets/styles/btn-custom.scss' //后台操作函数
-import { listDataBases } from '@/api/tool/database'
-//引入剪贴板插件
+import '@/assets/styles/btn-custom.scss'
+//后台操作函数
+import { listDataBases, queryTableExists, addDataTable } from '@/api/tool/database'
+
 import useClipboard from 'vue-clipboard3'
+
 const { toClipboard } = useClipboard()
 //获取当前组件实例
 const { proxy } = getCurrentInstance()
 // 数据库数据
 const dbList = ref([])
+const tableCheck = ref(0)
 const moduleList = ref([
   { value: 'am', label: '资产' },
   { value: 'fi', label: '管理会计' },
@@ -335,7 +364,12 @@ const rules = computed(() => ({
   ],
   tableDescription: [
     { required: true, message: `${proxy.$t('btn.enterPrefix')}${proxy.$t('database.tableDescription')}`, trigger: 'blur' },
-    { pattern: /^[\u4e00-\u9fa5][\u4e00-\u9fa5A-Z]*$/, message: proxy.$t('database.patternTableDescription'), trigger: 'blur' },
+    {
+      pattern:
+        /^[\u2E80-\u2FDF\u3040-\u318F\u31A0-\u31BF\u31F0-\u31FF\u3400-\u4DB5\u4E00-\u9FFF\uA960-\uA97F\uAC00-\uD7FF][\u2E80-\u2FDF\u3040-\u318F\u31A0-\u31BF\u31F0-\u31FF\u3400-\u4DB5\u4E00-\u9FFF\uA960-\uA97F\uAC00-\uD7FFA-Z]*$/,
+      message: proxy.$t('database.patternTableDescription'),
+      trigger: 'blur'
+    },
     { min: 3, message: proxy.$t('database.validTableDescription'), trigger: 'blur' }
   ]
 }))
@@ -364,6 +398,36 @@ function getDbList() {
       // 可以加入错误处理逻辑，比如提示用户
     })
 }
+const tipsTable = ref('')
+const getTableExists = () => {
+  //console.log(form.value.dbName, form.value.tableName)
+  queryTableExists(form.value.tableName)
+    .then((res) => {
+      //console.log(data === true)
+
+      tableCheck.value = res.data
+
+      //console.log(tableCheck.value)
+    })
+    .catch((err) => {
+      console.error('获取数据库列表失败:', err)
+      // 可以加入错误处理逻辑，比如提示用户
+    })
+}
+
+const handleCheckTable = () => {
+  //console.log(tableExists.value)
+  getTableExists()
+
+  if (tableCheck.value === 1) {
+    isCreate.value = true
+    tipsTable.value = proxy.$t('database.tableExists')
+  } else {
+    isCreate.value = false
+    tipsTable.value = proxy.$t('database.tableAvailable')
+  }
+  //console.log(tableCheck.value)
+}
 const changeModuleName = () => {
   if (form.value.moduleName) {
     form.value.tableName = `${form.value.moduleName}_`
@@ -372,7 +436,13 @@ const changeModuleName = () => {
   }
 }
 const activeStep = ref(0)
+//const dbName = ref(null)
+//const tableName = ref('')
+
 const formRef = ref(null)
+
+//const tableDescription = ref('')
+//const databases = ref([]); // Populate this with your database list
 const tableData = reactive([
   {
     id: 1,
@@ -402,7 +472,7 @@ function updateRowIds() {
   })
 }
 const nextStep = () => {
-  console.log(tableData)
+  //console.log(tableData)
   formRef.value.validate((valid) => {
     if (valid) {
       if (activeStep.value < 3) {
@@ -429,7 +499,10 @@ const checkRange = ($index) => {
     proxy.$modal.msgError(proxy.$t('database.dataRange'))
   }
 }
-
+//弹出层标题
+const title = ref('')
+//定义对话框打开或关闭
+const open = ref(false)
 const createTable = ref('')
 const createTableRef = ref()
 const msDescription = ref('')
@@ -631,9 +704,22 @@ const submitForm = () => {
       }` +
       defaultValue.value
     copyText.value = form.value.createTableSql
-    //open.value = true
-    //title.value = '预览数据表信息'
-    //opertype.value = 1
+    //console.log('数据库创建成功:' + copyText.value.replace(/\nGO\n/g, '\n'))
+  })
+}
+const createDataTable = () => {
+  //console.log(form.value.createTableSql)
+  addDataTable(form.value.createTableSql.replace(/\nGO\n/g, '\n'), form.value.tableName).then((res) => {
+    //console.log(res)
+    if (res.data === -1) {
+      proxy.$modal.msgSuccess(proxy.$t('database.tableSuccess'))
+    }
+    if (res.data === -2) {
+      proxy.$modal.msgError(proxy.$t('database.tableNotFound'))
+    }
+    if (res.data === 0) {
+      proxy.$modal.msgError(proxy.$t('database.tableExists'))
+    }
   })
 }
 
@@ -642,7 +728,9 @@ const submitForm = () => {
 //   return result.value || '&nbsp;'
 // }
 const isCopied = ref(false)
-const copyForm = async () => {
+const isCreate = ref(false)
+
+const handleCopyForm = async () => {
   try {
     //console.log(caches)
     await toClipboard(copyText.value)
@@ -661,10 +749,15 @@ const copyForm = async () => {
 watch(copyText, (newText) => {
   if (newText) {
     isCopied.value = true
-    copyForm(newText) // 当 copyText 更新时复制到剪贴板
+    handleCopyForm(newText) // 当 copyText 更新时复制到剪贴板
   }
 })
-// const copyForm = async () => {
+
+const handleCreateTable = () => {
+  createDataTable()
+  isCreate.value = true
+}
+// const handleCopyForm = async () => {
 //   try {
 //     await navigator.clipboard.writeText(from.value.createTable)
 //     proxy.$modal.msgSuccess(proxy.$t('common.tipCopySucceed'))
@@ -1094,4 +1187,15 @@ const handleDelete = (row) => {
 // 拖动排序
 </script>
 
-<style scoped></style>
+<style scoped>
+.draggable {
+  background: burlywood;
+}
+/* 可以添加一些样式来美化代码块 */
+.scrollable-div {
+  width: 100%; /* 固定宽度 */
+  height: 650px; /* 固定高度 */
+  overflow: auto; /* 启用滚动条 */
+  border: 1px solid #ccc; /* 可选：边框样式 */
+}
+</style>

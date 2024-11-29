@@ -31,7 +31,31 @@ export function queryColumnInfo(tableId) {
     method: 'GET'
   })
 }
+/**
+ * 查询数据库表是否存在
+ * @param {*} data
+ * @returns
+ */
+export function queryTableExists(tableName) {
+  return request({
+    url: 'tool/gen/getTableExists/',
+    method: 'GET',
+    params: { tableName } // 添加  TableName 参数
+  })
+}
 
+/**
+ * 创建表
+ * @param {*} data
+ * @returns
+ */
+export function addDataTable(createTableSql, tableName) {
+  return request({
+    url: 'tool/gen/createTable/',
+    method: 'GET',
+    params: { createTableSql, tableName } // 添加 tableName 和 createTableSql 参数
+  })
+}
 /**
  * 获取表格列信息
  * @param {*} data

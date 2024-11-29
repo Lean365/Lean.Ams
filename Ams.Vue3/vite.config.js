@@ -1,12 +1,13 @@
 import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
-import pkg from "./package.json"
-import dayjs from "dayjs"
+import pkg from './package.json'
+import dayjs from 'dayjs'
 import createVitePlugins from './vite/plugins'
+//import { lazyImport, VxeResolver } from 'vite-plugin-lazy-import'
 const { dependencies, devDependencies, name, version } = pkg
 const __APP_INFO__ = {
   pkg: { dependencies, devDependencies, name, version },
-  lastBuildTime: dayjs().format("YYYY-MM-DD HH:mm:ss")
+  lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
 }
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
@@ -26,7 +27,22 @@ export default defineConfig(({ mode, command }) => {
     define: {
       __APP_INFO__: JSON.stringify(__APP_INFO__)
     },
-    plugins: createVitePlugins(env, command === 'build'),
+    plugins: [
+      createVitePlugins(env, command === 'build')
+      // ...,
+      // lazyImport({
+      //   resolvers: [
+      //     VxeResolver({
+      //       libraryName: 'vxe-table'
+      //     }),
+      //     VxeResolver({
+      //       libraryName: 'vxe-pc-ui'
+      //     })
+      //   ]
+      // })
+      // ...
+    ],
+    //plugins: createVitePlugins(env, command === 'build'),
     resolve: {
       // https://cn.vitejs.dev/config/#resolve-alias
       alias: alias,

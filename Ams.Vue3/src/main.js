@@ -5,10 +5,10 @@ import ElementPlus from 'element-plus'
 import 'dayjs/locale/zh-cn'
 import '@/assets/styles/index.scss' // global css
 
-import 'highlight.js/styles/stackoverflow-light.css'
+//使用 highlight 实现代码高亮
+import 'highlight.js/styles/atom-one-dark.css'
 import 'highlight.js/lib/common'
 import hljsVuePlugin from '@highlightjs/vue-plugin'
-
 import App from './App'
 import router from './router'
 import directive from './directive' // directive
@@ -81,7 +81,7 @@ app.component('RightToolbar', RightToolbar)
 app.component('svg-icon', SvgIcon)
 app.component('ZrDialog', Dialog)
 app.component('MyTable', MyTable)
-
+//hljs.registerLanguage('javascript', javascript)
 directive(app)
 vxetb(app)
 app.use(pinia).use(router).use(plugins).use(ElementPlus, {}).use(elementIcons).use(vueI18n).use(hljsVuePlugin).mount('#app')

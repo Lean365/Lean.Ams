@@ -72,6 +72,35 @@ namespace Ams.WebApi.Controllers.Generator
         }
 
         /// <summary>
+        /// 查询表是否存在
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        /// <returns></returns>
+        [HttpGet("getTableExists")]
+        [ActionPermissionFilter(Permission = "tool:gen:list")]
+        public IActionResult TableExists(string? tableName)
+        {
+            int response = _CodeGeneraterService.GetTableExists(tableName);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
+        /// 创建表
+        /// </summary>
+        /// <param name="createTableSql">创建表的sql语句</param>
+        /// <param name="tableName">表名</param>
+        /// <returns></returns>
+        [HttpGet("createTable")]
+        [ActionPermissionFilter(Permission = "tool:gen:list")]
+        public IActionResult CreateDataTable(string createTableSql, string tableName)
+        {
+            int response = _CodeGeneraterService.CreateTable(createTableSql, tableName);
+
+            return SUCCESS(response);
+        }
+
+        /// <summary>
         /// 查询生成表数据
         /// </summary>
         /// <param name="tableName">表名</param>

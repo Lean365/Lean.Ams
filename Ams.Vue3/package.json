@@ -56,7 +56,8 @@
     "vue-i18n": "9.13.1",
     "vue-router": "^4.4.3",
     "vuedraggable": "^4.1.0",
-    "vxe-table": "^4.7.36",
+    "vxe-pc-ui": "^4.3.6",
+    "vxe-table": "^4.9.9",
     "xe-utils": "^3.5.30"
   },
   "devDependencies": {

@@ -44,8 +44,6 @@
 	  <ProjectReference Include="..\Ams.Repository\Ams.Repository.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="DataBase\Dto\" />
-	  <Folder Include="DataBase\Extension\" />
 	  <Folder Include="Logistics\ILogisticsService\" />
 	</ItemGroup>
 
